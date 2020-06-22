@@ -1,0 +1,14 @@
+release/main.o
+release/mainwindow.o
+release/prestupmpv.o
+release/sqlprace.o
+release/myhttpserver.o
+release/seznamzastavek.o
+release/xmlgenerator.o
+release/cestaudaje.o
+release/xmlmpvparser.o
+release/moc_mainwindow.o
+release/moc_myhttpserver.o
+release/moc_xmlgenerator.o
+release/moc_cestaudaje.o
+release/moc_xmlmpvparser.o

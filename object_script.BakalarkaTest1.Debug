@@ -1,0 +1,14 @@
+debug/main.o
+debug/mainwindow.o
+debug/prestupmpv.o
+debug/sqlprace.o
+debug/myhttpserver.o
+debug/seznamzastavek.o
+debug/xmlgenerator.o
+debug/cestaudaje.o
+debug/xmlmpvparser.o
+debug/moc_mainwindow.o
+debug/moc_myhttpserver.o
+debug/moc_xmlgenerator.o
+debug/moc_cestaudaje.o
+debug/moc_xmlmpvparser.o
