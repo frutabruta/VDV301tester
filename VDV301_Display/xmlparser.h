@@ -1,6 +1,6 @@
 #ifndef XMLPARSER_H
 #define XMLPARSER_H
-#define MAX_ZAST 10
+#define MAX_ZAST2 10
 
 #include <QMainWindow>
 #include <QObject>
@@ -10,12 +10,15 @@ class XmlParser
 {
 public:
     XmlParser();
+    void nactiXML(QByteArray vstup);
     int linka=0;
     QString cil="";
    // SeznamZastavek docasnySeznamZastavek[] ;
-    SeznamZastavek* docasnySeznamZastavek = new SeznamZastavek[MAX_ZAST];
+    SeznamZastavek* docasnySeznamZastavek = new SeznamZastavek[MAX_ZAST2];
+    void VytvorSeznamZastavek(SeznamZastavek *docasnySeznamZst, int* docasnyIndexZastavky, int* docasnyPocetZastavek);
     QDomDocument dokument;
     void Test();
+
 };
 
 

@@ -11,7 +11,7 @@ class myHTTPserver : public QObject
 {
     Q_OBJECT
 public:
-    explicit myHTTPserver(const int port=47474,QObject *parent = 0 );
+    explicit myHTTPserver(QObject *parent = nullptr );
     ~myHTTPserver();
     QTcpSocket *socket ;
     void zapisDoPromenne(QByteArray vstup);

@@ -7,6 +7,8 @@
 QT       += core gui
 QT += sql
 QTPLUGIN += QSQLMYSQL
+QT += xml
+#include <QtXml>
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -41,17 +43,24 @@ QT += network
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    blabla.cpp \
+    prestupmpv.cpp \
     sqlprace.cpp \
     httpserver/myhttpserver.cpp \
-    xmlgenerator.cpp
+    VDV301_Display/seznamzastavek.cpp\
+    xmlgenerator.cpp \
+    cestaudaje.cpp \
+    xmlmpvparser.cpp
+
 
 HEADERS += \
         mainwindow.h \
-    blabla.h \
+    prestupmpv.h \
     sqlprace.h \
     httpserver/myhttpserver.h \
-    xmlgenerator.h
+    VDV301_Display/seznamzastavek.h\
+    xmlgenerator.h \
+    cestaudaje.h \
+    xmlmpvparser.h
 
 FORMS += \
         mainwindow.ui

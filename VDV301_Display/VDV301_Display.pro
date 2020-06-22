@@ -6,6 +6,9 @@
 
 QT       += core gui
 QT += xml
+QT       += core gui network
+QT += svg
+QT += webenginewidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,12 +28,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    httpserver2/myhttpserver.cpp \
         main.cpp \
         mainwindow.cpp \
     xmlparser.cpp \
     seznamzastavek.cpp
 
 HEADERS += \
+    httpserver2/myhttpserver.h \
         mainwindow.h \
     xmlparser.h \
     seznamzastavek.h

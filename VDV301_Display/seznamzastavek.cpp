@@ -2,5 +2,4 @@
 
 SeznamZastavek::SeznamZastavek()
 {
-
 }
