@@ -8,7 +8,7 @@
 #include "VDV301_Display/seznamzastavek.h"
 
 
-//koment
+//koment oo
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
