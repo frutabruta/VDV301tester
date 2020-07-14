@@ -326,7 +326,24 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
        novatrida.prestupy= ui->checkBox->checkState();
 }
 
-void MainWindow::on_pushButton_clicked()
+
+
+void MainWindow::on_tlacitkoNactiXMLropid_clicked()
+{
+    xmlRopidParser.otevriSoubor();
+}
+
+void MainWindow::on_tlacitkoZpet_clicked()
 {
     ui->prepinadloStran->setCurrentIndex(0);
+}
+
+void MainWindow::on_tlacitkoNastaveni_clicked()
+{
+    ui->prepinadloStran->setCurrentIndex(1);
+}
+
+void MainWindow::on_tlacitkoSQL_clicked()
+{
+    xmlRopidParser.databazeStart();
 }

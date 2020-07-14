@@ -5,10 +5,14 @@
 #include "httpserver/myhttpserver.h"
 #include "xmlgenerator.h"
 #include "xmlmpvparser.h"
+#include "xmlropidparser.h"
+
+#include "sqlpraceropid.h"
 #include <QNetworkAccessManager>
 #include <QMainWindow>
 #define MAX_ZAST 100
 #include "VDV301_Display/seznamzastavek.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -25,6 +29,8 @@ public:
     //int vytvor();
     CestaUdaje novatrida;
     SQLprace mojesql;
+
+
     int cisloPortu=12;
     myHTTPserver HHserver;
     xmlGenerator TestXmlGenerator;
@@ -33,6 +39,8 @@ public:
     void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument);    
     void xmlHromadnyUpdate();    
     void ObnoveniServeru(QByteArray dataDoServeru);
+    XmlRopidParser xmlRopidParser;
+
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);
 private slots:
@@ -56,7 +64,15 @@ private slots:
 
     void on_checkBox_stateChanged(int arg1);
 
-    void on_pushButton_clicked();
+    //void on_pushButton_clicked();
+
+    void on_tlacitkoNactiXMLropid_clicked();
+
+    void on_tlacitkoZpet_clicked();
+
+    void on_tlacitkoNastaveni_clicked();
+
+    void on_tlacitkoSQL_clicked();
 
 private:
     Ui::MainWindow *ui;

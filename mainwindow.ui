@@ -908,7 +908,7 @@ color: rgb(238, 238, 236);</string>
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="tlacitkoZpet">
          <property name="text">
           <string>zpet</string>
          </property>
