@@ -20,7 +20,6 @@ void SQLprace::Pripoj()
     this->mojeDatabaze.setPassword("GcVPUZeLg3u7fuV");
     bool ok = this->mojeDatabaze.open();
     vysledek=ok;
-
 }
 
 void SQLprace::TestDotaz (QString &textPoleObsah, int cisloporadi, int cislolinky, int cislospoje)
@@ -121,9 +120,12 @@ void SQLprace::zjistiPocet (int &pocetvysledku, int cisloporadi, int cislolinky,
     queryString+=("WHERE d.licencenumber="+ QString::number(cislolinky)+" AND c.route_id ="+ QString::number(cislospoje) +" AND a.stop_order>="+ QString::number(cisloporadi));
     queryString+=("  ORDER BY a.stop_order ");
     QSqlQuery query(queryString,this->mojeDatabaze);
+    int i=0;
     while (query.next())
     {
         pocetvysledku = query.value(0).toInt();
+        qInfo()<<"vysledekSQLdotazu cislo  "<<QString::number(i);
+        i++;
     }
 
 

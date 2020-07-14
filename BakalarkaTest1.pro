@@ -49,7 +49,9 @@ SOURCES += \
     VDV301_Display/seznamzastavek.cpp\
     xmlgenerator.cpp \
     cestaudaje.cpp \
-    xmlmpvparser.cpp
+    xmlmpvparser.cpp \
+    sqlpraceropid.cpp \
+    xmlropidparser.cpp
 
 
 HEADERS += \
@@ -60,7 +62,9 @@ HEADERS += \
     VDV301_Display/seznamzastavek.h\
     xmlgenerator.h \
     cestaudaje.h \
-    xmlmpvparser.h
+    xmlmpvparser.h \
+    sqlpraceropid.h \
+    xmlropidparser.h
 
 FORMS += \
         mainwindow.ui

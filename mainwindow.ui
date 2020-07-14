@@ -188,15 +188,6 @@
          </color>
         </brush>
        </colorrole>
-       <colorrole role="PlaceholderText">
-        <brush brushstyle="NoBrush">
-         <color alpha="128">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </brush>
-       </colorrole>
       </active>
       <inactive>
        <colorrole role="WindowText">
@@ -331,15 +322,6 @@
           <red>0</red>
           <green>0</green>
           <blue>0</blue>
-         </color>
-        </brush>
-       </colorrole>
-       <colorrole role="PlaceholderText">
-        <brush brushstyle="NoBrush">
-         <color alpha="128">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
          </color>
         </brush>
        </colorrole>
@@ -480,15 +462,6 @@
          </color>
         </brush>
        </colorrole>
-       <colorrole role="PlaceholderText">
-        <brush brushstyle="NoBrush">
-         <color alpha="128">
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </brush>
-       </colorrole>
       </disabled>
      </palette>
     </property>
@@ -496,7 +469,7 @@
      <string notr="true">background-color:rgb(52, 101, 164);</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QWidget" name="horizontalLayoutWidget_2">
@@ -706,10 +679,10 @@ color: rgb(238, 238, 236);</string>
      <widget class="QWidget" name="horizontalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>600</x>
+        <x>580</x>
         <y>10</y>
-        <width>191</width>
-        <height>291</height>
+        <width>211</width>
+        <height>281</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -757,7 +730,7 @@ color: rgb(238, 238, 236);</string>
          <item>
           <widget class="QPushButton" name="tlacitkoNavic">
            <property name="text">
-            <string>Debug</string>
+            <string>Fullscreen</string>
            </property>
           </widget>
          </item>
@@ -824,6 +797,13 @@ color: rgb(238, 238, 236);</string>
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="tlacitkoNastaveni">
+           <property name="text">
+            <string>nastaveni</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>
@@ -834,7 +814,7 @@ color: rgb(238, 238, 236);</string>
         <x>490</x>
         <y>300</y>
         <width>160</width>
-        <height>112</height>
+        <height>128</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -899,31 +879,38 @@ color: rgb(238, 238, 236);</string>
      <widget class="QWidget" name="gridLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>490</x>
-        <y>70</y>
-        <width>299</width>
+        <x>280</x>
+        <y>110</y>
+        <width>311</width>
         <height>80</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton">
+       <item row="0" column="2">
+        <widget class="QPushButton" name="tlacitkoUlozDoSQL">
          <property name="text">
-          <string>PushButton</string>
+          <string>ulozDoSQL</string>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="tlacitkoNactiXMLropid">
          <property name="text">
-          <string>PushButton</string>
+          <string>nactiXML</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton_3">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="tlacitkoSQL">
          <property name="text">
-          <string>PushButton</string>
+          <string>pripojSQL</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>zpet</string>
          </property>
         </widget>
        </item>
@@ -941,7 +928,7 @@ color: rgb(238, 238, 236);</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>28</height>
     </rect>
    </property>
   </widget>
