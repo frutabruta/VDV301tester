@@ -85,6 +85,7 @@ public:
     QPushButton *tlacitkoNactiXMLropid;
     QPushButton *tlacitkoSQL;
     QPushButton *tlacitkoZpet;
+    QPushButton *tlacitkoTruncate;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -475,6 +476,11 @@ public:
 
         gridLayout->addWidget(tlacitkoZpet, 1, 0, 1, 1);
 
+        tlacitkoTruncate = new QPushButton(gridLayoutWidget);
+        tlacitkoTruncate->setObjectName(QStringLiteral("tlacitkoTruncate"));
+
+        gridLayout->addWidget(tlacitkoTruncate, 1, 1, 1, 1);
+
         prepinadloStran->addWidget(page_2);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -537,6 +543,7 @@ public:
         tlacitkoNactiXMLropid->setText(QApplication::translate("MainWindow", "nactiXML", nullptr));
         tlacitkoSQL->setText(QApplication::translate("MainWindow", "pripojSQL", nullptr));
         tlacitkoZpet->setText(QApplication::translate("MainWindow", "zpet", nullptr));
+        tlacitkoTruncate->setText(QApplication::translate("MainWindow", "TRUNCATE", nullptr));
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 

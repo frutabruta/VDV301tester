@@ -43,10 +43,104 @@ void XmlRopidParser::otevriSoubor()
     file.close();
     qDebug()<<"uspech";
     QDomElement koren=doc.firstChildElement();
+    vlozDd(koren);
+    vlozTv(koren);
     vlozM(koren);
     vlozD(koren);
+    vlozP(koren);
     vlozZ(koren);
+    vlozL(koren);
+    vlozS(koren);
 
+}
+
+int XmlRopidParser::vlozTv(QDomElement koren)
+{
+    QDomNodeList m=koren.elementsByTagName("tv");
+    for (int i=0;i<m.count();i++)
+    {
+        qDebug()<<m.at(i).toElement().attribute("n");
+        QString queryString("INSERT INTO tv(c,z,n,dd,np) VALUES( ");
+        queryString+=(m.at(i).toElement().attribute("c"));
+        queryString+=(" ,\"");
+        queryString+=(m.at(i).toElement().attribute("z"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("n"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("dd"));
+        queryString+=("\" ,");
+        if(m.at(i).toElement().attribute("np")=="")
+        {
+          queryString+="false";
+        }
+        else
+        {
+            queryString+=(m.at(i).toElement().attribute("np"));
+
+
+        }
+
+
+        queryString+=("  );");
+        qDebug()<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+
+    return 1;
+}
+
+
+int XmlRopidParser::vlozL(QDomElement koren)
+{
+    QDomNodeList m=koren.elementsByTagName("l");
+    for (int i=0;i<m.count();i++)
+    {
+        //qDebug()<<m.at(i).toElement().attribute("n");
+        QString queryString("INSERT INTO l(c,d,lc,tl,n,kup,ids,noc) VALUES( ");
+        queryString+=(m.at(i).toElement().attribute("c"));
+        queryString+=(" ,\"");
+        queryString+=(m.at(i).toElement().attribute("d"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("lc"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("tl"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("n"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("kup"));
+        queryString+=("\" ,");
+        if(m.at(i).toElement().attribute("ids")=="")
+        {
+          queryString+="NULL";
+        }
+        else
+        {
+            queryString+=(m.at(i).toElement().attribute("ids"));
+
+
+        }
+        queryString+=( ",");
+        if(m.at(i).toElement().attribute("noc")=="")
+        {
+          queryString+="NULL";
+        }
+        else
+        {
+            queryString+=(m.at(i).toElement().attribute("noc"));
+
+
+        }
+
+        /*
+        queryString+=(m.at(i).toElement().attribute(""));
+        queryString+=("\" ,\"");
+        */
+        queryString+=("  );");
+        qDebug()<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+
+    return 1;
 }
 
 int XmlRopidParser::vlozD(QDomElement koren)
@@ -83,6 +177,55 @@ int XmlRopidParser::vlozD(QDomElement koren)
 
     return 1;
 }
+int XmlRopidParser::vlozDd(QDomElement koren)
+{
+
+    QDomNodeList m=koren.elementsByTagName("dd");
+    for (int i=0;i<m.count();i++)
+    {
+        //qDebug()<<m.at(i).toElement().attribute("n");
+        QString queryString("INSERT INTO dd(c,z,n)  VALUES( ");
+        queryString+=(m.at(i).toElement().attribute("c"));
+        queryString+=(" ,\"");
+        queryString+=(m.at(i).toElement().attribute("z"));
+        queryString+=(" \",\"");
+        queryString+=(m.at(i).toElement().attribute("n"));
+        queryString+=("\");");
+        qDebug()<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+    return 1;
+}
+
+
+int XmlRopidParser::vlozP(QDomElement koren)
+{
+    qDebug()<<"vlozP";
+
+    QDomNodeList m=koren.elementsByTagName("p");
+    for (int i=0;i<m.count();i++)
+    {
+        //qDebug()<<m.at(i).toElement().attribute("n");
+        QString queryString("INSERT INTO p(c,z,n,d,dd,u,mail)  VALUES( ");
+        queryString+=(m.at(i).toElement().attribute("c"));
+        queryString+=(" ,\"");
+        queryString+=(m.at(i).toElement().attribute("z"));
+        queryString+=(" \",\"");
+        queryString+=(m.at(i).toElement().attribute("n"));
+        queryString+=(" \",\"");
+        queryString+=(m.at(i).toElement().attribute("d"));
+        queryString+=(" \",\"");
+        queryString+=(m.at(i).toElement().attribute("dd"));
+        queryString+=(" \",\"");
+        queryString+=(m.at(i).toElement().attribute("u"));
+        queryString+=(" \",\"");
+        queryString+=(m.at(i).toElement().attribute("mail"));
+        queryString+=("\"  );");
+        qDebug()<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+    return 1;
+}
 
 int XmlRopidParser::vlozM(QDomElement koren)
 {
@@ -90,7 +233,7 @@ int XmlRopidParser::vlozM(QDomElement koren)
     QDomNodeList m=koren.elementsByTagName("m");
     for (int i=0;i<m.count();i++)
     {
-        qDebug()<<m.at(i).toElement().attribute("n");
+        //qDebug()<<m.at(i).toElement().attribute("n");
         QString queryString("INSERT INTO m(c,n) VALUES( ");
         queryString+=(m.at(i).toElement().attribute("c"));
         queryString+=(" ,\"");
@@ -158,9 +301,84 @@ int XmlRopidParser::vlozZ(QDomElement koren)
     return 1;
 }
 
+int XmlRopidParser::vlozS(QDomElement koren)
+{
+    QDomNodeList m=koren.elementsByTagName("s");
+    for (int i=0;i<m.count();i++)
+    {
+        //qDebug()<<m.at(i).toElement().attribute("n");
+        QString queryString("INSERT INTO s(s,id,l,p,dd,pr,d,tv,ty,ch,ids,vy,man,c,neve) VALUES( ");
+        queryString+=(m.at(i).toElement().attribute("s"));
+        queryString+=(" ,\"");
+        queryString+=(m.at(i).toElement().attribute("id"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("l"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("p"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("dd"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("pr"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("d"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("tv"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("ty"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("ch"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("ids"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("vy"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("man"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("c"));
+        queryString+=("\" ,\"");
+        queryString+=(m.at(i).toElement().attribute("neve"));
+        //queryString+=("\" ,\"");
 
 
 
+        queryString+=("\"  );");
+        qDebug()<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+
+    return 1;
+}
+
+int XmlRopidParser::truncateTable(QString tabulka)
+{
+
+    QString queryString = ("DELETE FROM ");
+    queryString+=tabulka;
+    qDebug()<<queryString;
+    QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    return 1;
+}
+
+int XmlRopidParser::truncateAll()
+{
+    /*
+     * vlozM(koren);
+    vlozD(koren);
+    vlozZ(koren);
+     * */
+    truncateTable("`s`");
+    truncateTable("`l`");
+    truncateTable("`z`");
+    truncateTable("`m`");
+    truncateTable("`p`");
+    truncateTable("`d`");
+    truncateTable("`tv`");
+    truncateTable("`dd`");
+    //truncateTable("");
+    return 1;
+
+
+}
 /*
 int XmlMpvParser::parsujDomDokument()
 {

@@ -17,6 +17,13 @@ public:
     int vlozM(QDomElement koren);
     int vlozD(QDomElement koren);
     int vlozZ(QDomElement koren);
+    int truncateTable(QString tabulka);
+    int truncateAll();
+    int vlozS(QDomElement koren);
+    int vlozL(QDomElement koren);
+    int vlozP(QDomElement koren);
+    int vlozDd(QDomElement koren);
+    int vlozTv(QDomElement koren);
 };
 
 #endif // XMLROPIDPARSER_H

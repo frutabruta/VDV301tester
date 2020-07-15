@@ -347,3 +347,8 @@ void MainWindow::on_tlacitkoSQL_clicked()
 {
     xmlRopidParser.databazeStart();
 }
+
+void MainWindow::on_tlacitkoTruncate_clicked()
+{
+    xmlRopidParser.truncateAll();
+}

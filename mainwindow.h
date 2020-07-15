@@ -74,6 +74,8 @@ private slots:
 
     void on_tlacitkoSQL_clicked();
 
+    void on_tlacitkoTruncate_clicked();
+
 private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);
