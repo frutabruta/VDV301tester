@@ -502,7 +502,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(1);
+        prepinadloStran->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -515,9 +515,9 @@ public:
         NazevVysledku->setText(QApplication::translate("MainWindow", "stav pripojeni", nullptr));
         pripojeniTlacitko->setText(QApplication::translate("MainWindow", "SQL Connect", nullptr));
         label->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Linka</span></p></body></html>", nullptr));
-        polelinky->setText(QApplication::translate("MainWindow", "820741", nullptr));
+        polelinky->setText(QApplication::translate("MainWindow", "100358", nullptr));
         label_2->setText(QApplication::translate("MainWindow", "Spoj", nullptr));
-        polespoje->setText(QApplication::translate("MainWindow", "12", nullptr));
+        polespoje->setText(QApplication::translate("MainWindow", "1006", nullptr));
         prikaztlacitko->setText(QApplication::translate("MainWindow", "POTVRDIT", nullptr));
         popisek->setText(QApplication::translate("MainWindow", "0", nullptr));
         pridatTlacitko->setText(QApplication::translate("MainWindow", "P\305\231idat", nullptr));

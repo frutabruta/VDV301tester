@@ -28,8 +28,8 @@ public:
     SeznamZastavek* globalniSeznamZastavek = new SeznamZastavek[MAX_ZAST]; //new SeznamZastavek[MAX_ZAST];
     //int vytvor();
     CestaUdaje novatrida;
-    SQLprace mojesql;
-
+    //SQLprace mojesql;
+    SqlPraceRopid mojesql;
 
     int cisloPortu=12;
     myHTTPserver HHserver;

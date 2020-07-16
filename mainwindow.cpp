@@ -139,11 +139,12 @@ void MainWindow::on_prikaztlacitko_clicked()
     novatrida.aktlinka=ui->polelinky->text().toInt();
     novatrida.aktspoj=ui->polespoje->text().toInt();
     novatrida.cislo=1;
-    mojesql.zjistiPocet(novatrida.pocetZastavek,novatrida.cislo, novatrida.aktlinka,novatrida.aktspoj);
+    //mojesql.zjistiPocet(novatrida.pocetZastavek,novatrida.cislo, novatrida.aktlinka,novatrida.aktspoj);
     QString textDoPole="";
-    mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj);
-    ui->prikazovyvysledek->setText(textDoPole);
     mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek);
+    mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
+    ui->prikazovyvysledek->setText(textDoPole);
+
     xmlHromadnyUpdate();
 }
 
@@ -173,7 +174,7 @@ void MainWindow::on_sipkaNahoru_clicked()
         }
     }
     QString textDoPole="";
-    mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj);
+    mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
     ui->prikazovyvysledek->setText(textDoPole);
     novatrida.doorState="AllDoorsClosed";
     //novatrida.locationState="BetweenStop";
@@ -207,11 +208,11 @@ void MainWindow::on_sipkaDolu_clicked()
                 {novatrida.locationState="BeforeStop";}
             }
             QString textDoPole="";
-            mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj);
+            mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
             ui->prikazovyvysledek->setText(textDoPole);
         }
         QString textDoPole="";
-        mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj);
+        mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
         ui->prikazovyvysledek->setText(textDoPole);
     }
     //novatrida.doorState="AllDoorsClosed";
@@ -237,7 +238,7 @@ void MainWindow::on_pripojeniTlacitko_clicked()
 void MainWindow::AktualizaceDispleje()
 {
     QString textDoPole="";
-    mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj);
+    mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
     ui->prikazovyvysledek->setText(textDoPole);
 }
 

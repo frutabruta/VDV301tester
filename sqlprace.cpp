@@ -22,23 +22,23 @@ void SQLprace::Pripoj()
     vysledek=ok;
 }
 
-void SQLprace::TestDotaz (QString &textPoleObsah, int cisloporadi, int cislolinky, int cislospoje)
+void SQLprace::TestDotaz (QString &textPoleObsah, int cisloporadi, int cislolinky, int cislospoje, SeznamZastavek *docasnySeznamZastavek,int pocetZastavek)
 {
-    /*
-    int i=index;
-    for (i;i<pocet;i++)
+
+    int i=0;
+
+    for (i=cisloporadi;i<pocetZastavek;i++)
     {
-        while (query.next())
-        {
+
             QString blabla = QString::number(i);
-            QString blabla2 = SeznamZastavek[i].name;
-            QString necum = SeznamZastavek[i].cas;
+            QString blabla2 = docasnySeznamZastavek[i].StopName;
+            QString necum =  docasnySeznamZastavek[i].DepartureTime;
             textPoleObsah+=blabla+" "+blabla2+" "+necum+"\n";
-        }
+
 
     }
-*/
 
+    /*
     qDebug()<< "SQLprace::TestDotaz";
     QString queryString("SELECT a.stop_order, b.name, a.time  FROM lineroutestoptime a");
     queryString+=(" LEFT JOIN  stop b ON b.id = a.stop_id ");
@@ -59,6 +59,7 @@ void SQLprace::TestDotaz (QString &textPoleObsah, int cisloporadi, int cislolink
         QString necum = query.value(2).toString();
         textPoleObsah+=blabla+" "+blabla2+" "+necum+"\n";
     }
+    */
 
 
 }
@@ -101,6 +102,7 @@ void SQLprace::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, 
             QString jmenoZastavky = query.value(1).toString();
             docasnySeznamZastavek[cisloZast].StopName= jmenoZastavky;
             QString casPrijezdu = query.value(2).toString();
+            docasnySeznamZastavek[cisloZast].DepartureTime=casPrijezdu;
             docasnySeznamZastavek[cisloZast].cisloCis=query.value(3).toInt();
             docasnySeznamZastavek[cisloZast].ids =query.value(4).toString();
             qInfo()<<"DebugPointC";

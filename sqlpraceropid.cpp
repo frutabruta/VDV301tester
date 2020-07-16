@@ -41,7 +41,7 @@ void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSp
     queryString2+=(" AND s.c=");
     //6003");
     queryString2+=( QString::number(cisloSpoje));
-    queryString2+=(" WHERE  s.kj LIKE '1%' ORDER BY x.o");
+    queryString2+=(" AND  s.kj LIKE '1%' ORDER BY x.o");
 
     /*
     QString queryString("SELECT a.stop_order, b.name, a.time, b.cis_id,f.mpvalias FROM lineroutestoptime a ");
@@ -65,6 +65,7 @@ void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSp
     //queryString+=("  ASC LIMIT 5");
     QSqlQuery query(queryString2,this->mojeDatabaze);
     int counter=0;
+    qDebug()<<queryString2;
     qDebug()<<"DebugPointB";
     int citacMaximum=0;
     while (query.next())
@@ -83,6 +84,7 @@ void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSp
             QString jmenoZastavky = query.value(0).toString();
             docasnySeznamZastavek[cisloZast].StopName= jmenoZastavky;
             QString casPrijezdu = query.value(1).toString();
+            docasnySeznamZastavek[cisloZast].DepartureTime=casPrijezdu;
             docasnySeznamZastavek[cisloZast].cisloCis=query.value(2).toInt();
             docasnySeznamZastavek[cisloZast].ids ="PID";//query.value(4).toString();
             qInfo()<<"DebugPointC";
@@ -112,6 +114,27 @@ void SqlPraceRopid::VypisPole(SeznamZastavek *docasnySeznamZastavek, int &pocetZ
     {
         qInfo()<<QString::number(docasnySeznamZastavek[i].StopIndex)+"  "+docasnySeznamZastavek[i].StopName+" cil:  "+docasnySeznamZastavek[i].DestinationName+"\n";
     }
+}
+
+
+void SqlPraceRopid::TestDotaz (QString &textPoleObsah, int cisloporadi, int cislolinky, int cislospoje, SeznamZastavek *docasnySeznamZastavek,int pocetZastavek)
+{
+
+    int i=0;
+
+    for (i=cisloporadi;i<pocetZastavek;i++)
+    {
+
+            QString blabla = QString::number(i);
+            QString blabla2 = docasnySeznamZastavek[i].StopName;
+            QString necum =  docasnySeznamZastavek[i].DepartureTime;
+            textPoleObsah+=blabla+" "+blabla2+" "+necum+"\n";
+
+
+    }
+
+
+
 }
 
 

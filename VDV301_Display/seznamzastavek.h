@@ -14,6 +14,7 @@ public:
     QString StopName="";
     QString LineName="";
     QString DestinationName="";
+    QString DepartureTime="";
     SeznamZastavek();
 
 };
