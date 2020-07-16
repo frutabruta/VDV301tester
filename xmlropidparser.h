@@ -24,6 +24,9 @@ public:
     int vlozP(QDomElement koren);
     int vlozDd(QDomElement koren);
     int vlozTv(QDomElement koren);
+    QString overBoolean(QString vstup);
+    int vlozT(QDomElement koren);
+    int vlozX(QDomElement koren);
 };
 
 #endif // XMLROPIDPARSER_H

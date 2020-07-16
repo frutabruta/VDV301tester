@@ -24,6 +24,21 @@ void SQLprace::Pripoj()
 
 void SQLprace::TestDotaz (QString &textPoleObsah, int cisloporadi, int cislolinky, int cislospoje)
 {
+    /*
+    int i=index;
+    for (i;i<pocet;i++)
+    {
+        while (query.next())
+        {
+            QString blabla = QString::number(i);
+            QString blabla2 = SeznamZastavek[i].name;
+            QString necum = SeznamZastavek[i].cas;
+            textPoleObsah+=blabla+" "+blabla2+" "+necum+"\n";
+        }
+
+    }
+*/
+
     qDebug()<< "SQLprace::TestDotaz";
     QString queryString("SELECT a.stop_order, b.name, a.time  FROM lineroutestoptime a");
     queryString+=(" LEFT JOIN  stop b ON b.id = a.stop_id ");
