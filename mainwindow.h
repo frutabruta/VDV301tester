@@ -12,6 +12,7 @@
 #include <QMainWindow>
 #define MAX_ZAST 100
 #include "VDV301_Display/seznamzastavek.h"
+#include <QVector>
 
 namespace Ui {
 class MainWindow;
@@ -24,8 +25,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    //SeznamZastavek  *globalniSeznamZastavek = new SeznamZastavek[MAX_ZAST];
-    SeznamZastavek* globalniSeznamZastavek = new SeznamZastavek[MAX_ZAST]; //new SeznamZastavek[MAX_ZAST];
+
+    //SeznamZastavek* globalniSeznamZastavek = new SeznamZastavek[MAX_ZAST]; //new SeznamZastavek[MAX_ZAST];
+    QVector<SeznamZastavek>  globalniSeznamZastavek ;
     //int vytvor();
     CestaUdaje novatrida;
     //SQLprace mojesql;

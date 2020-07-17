@@ -64,7 +64,7 @@ void SQLprace::TestDotaz (QString &textPoleObsah, int cisloporadi, int cislolink
 
 }
 
-void SQLprace::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, SeznamZastavek *docasnySeznamZastavek )
+void SQLprace::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje,QVector <SeznamZastavek> docasnySeznamZastavek )
 {
     qDebug()<< "SQLprace::StahniSeznam";
     qInfo()<<"DebugPointA";
@@ -86,8 +86,10 @@ void SQLprace::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, 
     int counter=0;
     qDebug()<<"DebugPointB";
     int citacMaximum=0;
+
     while (query.next())
     {
+        SeznamZastavek aktZastavka;
         if (query.value(1).toString()!="")
         {
 
@@ -96,19 +98,21 @@ void SQLprace::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, 
             {
                 citacMaximum=cisloZast;
             }
-            docasnySeznamZastavek[cisloZast].StopIndex=cisloZast;
+            aktZastavka.StopIndex=cisloZast;
             QString cisloZastString = QString::number(cisloZast);
             qDebug()<<query.value(0).toString();
             QString jmenoZastavky = query.value(1).toString();
-            docasnySeznamZastavek[cisloZast].StopName= jmenoZastavky;
+            aktZastavka.StopName= jmenoZastavky;
             QString casPrijezdu = query.value(2).toString();
-            docasnySeznamZastavek[cisloZast].DepartureTime=casPrijezdu;
-            docasnySeznamZastavek[cisloZast].cisloCis=query.value(3).toInt();
-            docasnySeznamZastavek[cisloZast].ids =query.value(4).toString();
+            aktZastavka.DepartureTime=casPrijezdu;
+            aktZastavka.cisloCis=query.value(3).toInt();
+            aktZastavka.ids =query.value(4).toString();
             qInfo()<<"DebugPointC";
             counter++;
             qDebug()<<"citac: "<<citacMaximum ;
+            docasnySeznamZastavek.push_back(aktZastavka);
         }
+
     }
     counter=citacMaximum;
     qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(counter);
@@ -149,10 +153,10 @@ void SQLprace::zjistiPocet (int &pocetvysledku, int cisloporadi, int cislolinky,
 
 }
 
-void SQLprace::VypisPole(SeznamZastavek *docasnySeznamZastavek, int &pocetZastavek)
+void SQLprace::VypisPole(QVector<SeznamZastavek> docasnySeznamZastavek, int &pocetZastavek)
 {
     qDebug()<< "SQLprace::VypisPole";
-    for (int i=1;i<=pocetZastavek;i++)
+    for (int i=1;i<=docasnySeznamZastavek.length();i++)
     {
         qInfo()<<QString::number(docasnySeznamZastavek[i].StopIndex)+"  "+docasnySeznamZastavek[i].StopName+" cil:  "+docasnySeznamZastavek[i].DestinationName+"\n";
     }

@@ -12,10 +12,11 @@ public:
     QSqlDatabase mojeDatabaze;
     void Pripoj();
     //void TestDotaz(QString &textPoleObsah, int cisloporadi, int cislolinky, int cislospoje);
-    void StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, SeznamZastavek *docasnySeznamZastavek);
+    void StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> docasnySeznamZastavek);
     void zjistiPocet (int &pocetvysledku, int cisloporadi, int cislolinky, int cislospoje);
-    void VypisPole(SeznamZastavek *docasnySeznamZastavek, int &pocetZastavek);
+    //void VypisPole(SeznamZastavek *docasnySeznamZastavek, int &pocetZastavek);
     void TestDotaz(QString &textPoleObsah, int cisloporadi, int cislolinky, int cislospoje, SeznamZastavek *docasnySeznamZastavek, int pocetZastavek);
+    void VypisPole(QVector<SeznamZastavek> docasnySeznamZastavek, int &pocetZastavek);
 };
 
 #endif // SQLPRACE_H

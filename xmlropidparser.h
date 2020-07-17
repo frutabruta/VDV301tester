@@ -27,6 +27,8 @@ public:
     QString overBoolean(QString vstup);
     int vlozT(QDomElement koren);
     int vlozX(QDomElement koren);
+    QString overInteger(QString vstup);
+    QString vytvorCas(QString vstup);
 };
 
 #endif // XMLROPIDPARSER_H

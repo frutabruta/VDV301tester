@@ -431,51 +431,52 @@ int XmlRopidParser::vlozX(QDomElement koren)
     QDomNodeList m=koren.elementsByTagName("x");
     for (int i=0;i<m.count();i++)
     {
+        QDomElement prvek=m.at(i).toElement();
         //qDebug()<<m.at(i).toElement().attribute("n");
         QString queryString("INSERT INTO x(s_id,u,z,p,o,t,ty,ces,zn,na,vyst,nast,xA,xB,xC,xD,xVla,xLod,xLet) VALUES( ");
         queryString+=(koren.attribute("s"));
         queryString+=(" ,\"");
-        queryString+=(m.at(i).toElement().attribute("u"));
+        queryString+=(prvek.attribute("u"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("z"));
+        queryString+=(prvek.attribute("z"));
         queryString+=("\" ,");
-        queryString+=(m.at(i).toElement().attribute("p"));
+        queryString+=(overInteger( prvek.attribute("p")));
         queryString+=(" ,");
-        queryString+=(m.at(i).toElement().attribute("o"));
+        queryString+=(overInteger(prvek.attribute("o")));
         queryString+=(" ,\"");
-        queryString+=(m.at(i).toElement().attribute("t"));
+        queryString+=(prvek.attribute("t"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("ty"));
+        queryString+=(prvek.attribute("ty"));
         queryString+=("\" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("ces")));
+        queryString+=(overBoolean( prvek.attribute("ces")));
         queryString+=(" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("zn")));
+        queryString+=(overBoolean( prvek.attribute("zn")));
         queryString+=(" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("na")));
+        queryString+=(overBoolean( prvek.attribute("na")));
         queryString+=(" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("vyst")));
+        queryString+=(overBoolean( prvek.attribute("vyst")));
         queryString+=(" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("nast")));
+        queryString+=(overBoolean( prvek.attribute("nast")));
         queryString+=(" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("xA")));
+        queryString+=(overBoolean( prvek.attribute("xA")));
         queryString+=(" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("xB")));
+        queryString+=(overBoolean( prvek.attribute("xB")));
         queryString+=(" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("xC")));
+        queryString+=(overBoolean( prvek.attribute("xC")));
         queryString+=(" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("xD")));
+        queryString+=(overBoolean( prvek.attribute("xD")));
         queryString+=(" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("xVla")));
+        queryString+=(overBoolean( prvek.attribute("xVla")));
         queryString+=(" ,");
-        queryString+=(overBoolean( m.at(i).toElement().attribute("xLod")));
+        queryString+=(overBoolean( prvek.attribute("xLod")));
         queryString+=(" ,");
-        queryString+=(overBoolean(  m.at(i).toElement().attribute("xLet")));
+        queryString+=(overBoolean(  prvek.attribute("xLet")));
         //queryString+=("\" ,\"");
 
 
 
         queryString+=(" );");
-        //qDebug()<<queryString;
+        qDebug()<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
     qDebug()<<"konecImportuX";
@@ -552,5 +553,27 @@ QString XmlRopidParser::overBoolean(QString vstup)
         vstup="false";
     }
 
+    return vstup;
+}
+
+
+QString XmlRopidParser::overInteger(QString vstup)
+{
+    if (vstup=="")
+    {
+        vstup="NULL";
+    }
+
+    return vstup;
+}
+
+QString XmlRopidParser::vytvorCas(QString vstup)
+{
+    int cislo=vstup.toInt();
+    int hodiny=cislo/3600;
+    int minuty=(cislo%3600)/60;
+    int sekundy=(cislo%3600)%60;
+    vstup="";
+    vstup=QString::number(hodiny)+""+QString::number(minuty)+""+QString::number(sekundy);
     return vstup;
 }
