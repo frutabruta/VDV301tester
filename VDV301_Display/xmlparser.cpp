@@ -25,7 +25,7 @@ void XmlParser::nactiXML(QByteArray vstup)
 
 }
 
-void XmlParser::VytvorSeznamZastavek(SeznamZastavek *docasnySeznamZst, int *docasnyIndexZastavky, int *docasnyPocetZastavek)
+void XmlParser::VytvorSeznamZastavek(QVector<SeznamZastavek> &docasnySeznamZst, int *docasnyIndexZastavky, int *docasnyPocetZastavek)
 {
     QDomElement root = dokument.firstChildElement();
     QDomNodeList nodes = root.elementsByTagName("StopPoint");
@@ -34,12 +34,14 @@ void XmlParser::VytvorSeznamZastavek(SeznamZastavek *docasnySeznamZst, int *doca
     *docasnyIndexZastavky=root.elementsByTagName("CurrentStopIndex").at(0).firstChildElement().text().toInt();
     for (int i=0; i<nodes.count();i++)
     {
-        int poradiZastavky=root.elementsByTagName("StopPoint").at(i).toElement().elementsByTagName("StopIndex").at(0).firstChildElement().text().toInt();
-        docasnySeznamZst[poradiZastavky].StopName=root.elementsByTagName("StopPoint").at(i).toElement().elementsByTagName("StopName").at(0).firstChildElement().text();
-        docasnySeznamZst[poradiZastavky].LineName=root.elementsByTagName("DisplayContent").at(0).toElement().elementsByTagName("LineInformation").at(0).toElement().elementsByTagName("LineName").at(0).firstChildElement().text();
-        docasnySeznamZst->StopIndex=poradiZastavky;
-        docasnySeznamZst[poradiZastavky].DestinationName=root.elementsByTagName("DisplayContent").at(0).toElement().elementsByTagName("Destination").at(0).toElement().elementsByTagName("DestinationName").at(0).firstChildElement().text();
-        qInfo()<< "22" << docasnySeznamZst[i].StopName;
+        SeznamZastavek docasnaZastavka;
+        int poradiZastavky=root.elementsByTagName("StopPoint").at(i).toElement().elementsByTagName("StopIndex").at(0).firstChildElement().text().toInt()-1;
+        docasnaZastavka.StopName=root.elementsByTagName("StopPoint").at(i).toElement().elementsByTagName("StopName").at(0).firstChildElement().text();
+        docasnaZastavka.LineName=root.elementsByTagName("DisplayContent").at(0).toElement().elementsByTagName("LineInformation").at(0).toElement().elementsByTagName("LineName").at(0).firstChildElement().text();
+        docasnaZastavka.StopIndex=i;
+        docasnaZastavka.DestinationName=root.elementsByTagName("DisplayContent").at(0).toElement().elementsByTagName("Destination").at(0).toElement().elementsByTagName("DestinationName").at(0).firstChildElement().text();
+        qInfo()<< "22" << docasnaZastavka.StopName;
+        docasnySeznamZst.push_back(docasnaZastavka);
     }
 }
 

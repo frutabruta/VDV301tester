@@ -6,6 +6,7 @@
 #include "xmlgenerator.h"
 #include "xmlmpvparser.h"
 #include "xmlropidparser.h"
+#include "ibisovladani.h"
 
 #include "sqlpraceropid.h"
 #include <QNetworkAccessManager>
@@ -13,6 +14,7 @@
 #define MAX_ZAST 100
 #include "VDV301_Display/seznamzastavek.h"
 #include <QVector>
+#include <QtSerialPort/QSerialPort>
 
 namespace Ui {
 class MainWindow;
@@ -42,6 +44,7 @@ public:
     void xmlHromadnyUpdate();    
     void ObnoveniServeru(QByteArray dataDoServeru);
     XmlRopidParser xmlRopidParser;
+    IbisOvladani ibisOvladani;
 
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);
@@ -77,6 +80,10 @@ private slots:
     void on_tlacitkoSQL_clicked();
 
     void on_tlacitkoTruncate_clicked();
+
+    void on_tlacitkoOdesliPrikaz_clicked();
+
+    void on_tlacitkoNastavPort_clicked();
 
 private:
     Ui::MainWindow *ui;

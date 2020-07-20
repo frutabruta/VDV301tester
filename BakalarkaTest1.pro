@@ -8,6 +8,7 @@ QT       += core gui
 QT += sql
 QTPLUGIN += QSQLMYSQL
 QT += xml
+QT += serialport
 #include <QtXml>
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -51,7 +52,8 @@ SOURCES += \
     cestaudaje.cpp \
     xmlmpvparser.cpp \
     sqlpraceropid.cpp \
-    xmlropidparser.cpp
+    xmlropidparser.cpp \
+    ibisovladani.cpp
 
 
 HEADERS += \
@@ -64,7 +66,8 @@ HEADERS += \
     cestaudaje.h \
     xmlmpvparser.h \
     sqlpraceropid.h \
-    xmlropidparser.h
+    xmlropidparser.h \
+    ibisovladani.h
 
 FORMS += \
         mainwindow.ui

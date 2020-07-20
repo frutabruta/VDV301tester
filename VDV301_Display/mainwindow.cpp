@@ -66,8 +66,8 @@ int MainWindow::VykresleniPrijatychDat()
 int MainWindow::DoplneniPromennych()
 {
     qInfo()<<"\n DoplneniPromennych";
-    nazevCile=globalniSeznamZastavek[indexZastavky].DestinationName;
-    nazevLinky=globalniSeznamZastavek[indexZastavky].LineName;
+    nazevCile=globalniSeznamZastavek.at(indexZastavky).DestinationName;
+    nazevLinky=globalniSeznamZastavek.at(indexZastavky).LineName;
     qInfo()<<"nazevCile "<<nazevCile;
     return 1;
 }
@@ -103,7 +103,7 @@ void MainWindow::on_actiontestPolozka_triggered()
     qInfo()<<"\n on_actiontestPolozka_triggered";
 
     instanceXMLparser.VytvorSeznamZastavek(globalniSeznamZastavek, &indexZastavky, &pocetZastavek);
-    qInfo()<<globalniSeznamZastavek[4].StopName;
+    //qInfo()<<globalniSeznamZastavek[4].StopName;
     qInfo()<<indexZastavky;
     qInfo()<<"CIl:"<<nazevCile;
     DoplneniPromennych();
@@ -233,7 +233,7 @@ void MainWindow::refreshujZobrazeni(int vstup)
     /* konec obracena archtitektura*/
     instanceXMLparser.VytvorSeznamZastavek(globalniSeznamZastavek, &indexZastavky, &pocetZastavek);
     //instanceXMLparser.nactiXML(globalniSeznamZastavek, &indexZastavky, &pocetZastavek);
-    qInfo()<<globalniSeznamZastavek[4].StopName;
+    //qInfo()<<globalniSeznamZastavek[4].StopName;
     qInfo()<<indexZastavky;
     qInfo()<<"CIl:"<<nazevCile;
     DoplneniPromennych();

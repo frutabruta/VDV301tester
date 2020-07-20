@@ -86,6 +86,11 @@ public:
     QPushButton *tlacitkoSQL;
     QPushButton *tlacitkoZpet;
     QPushButton *tlacitkoTruncate;
+    QWidget *gridLayoutWidget_2;
+    QGridLayout *gridLayout_2;
+    QPushButton *tlacitkoNastavPort;
+    QPushButton *tlacitkoOdesliPrikaz;
+    QLineEdit *lineEdit_jmenoPortu;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -176,7 +181,7 @@ public:
         palette.setBrush(QPalette::Disabled, QPalette::ToolTipBase, brush7);
         palette.setBrush(QPalette::Disabled, QPalette::ToolTipText, brush6);
         prepinadloStran->setPalette(palette);
-        prepinadloStran->setStyleSheet(QStringLiteral("background-color:rgb(52, 101, 164);"));
+        prepinadloStran->setStyleSheet(QStringLiteral("/*background-color:rgb(52, 101, 164); */"));
         page = new QWidget();
         page->setObjectName(QStringLiteral("page"));
         horizontalLayoutWidget_2 = new QWidget(page);
@@ -227,6 +232,58 @@ public:
 
         polelinky = new QLineEdit(horizontalLayoutWidget_2);
         polelinky->setObjectName(QStringLiteral("polelinky"));
+        QPalette palette1;
+        palette1.setBrush(QPalette::Active, QPalette::WindowText, brush6);
+        palette1.setBrush(QPalette::Active, QPalette::Button, brush);
+        palette1.setBrush(QPalette::Active, QPalette::Light, brush);
+        palette1.setBrush(QPalette::Active, QPalette::Midlight, brush);
+        QBrush brush9(QColor(127, 127, 127, 255));
+        brush9.setStyle(Qt::SolidPattern);
+        palette1.setBrush(QPalette::Active, QPalette::Dark, brush9);
+        QBrush brush10(QColor(170, 170, 170, 255));
+        brush10.setStyle(Qt::SolidPattern);
+        palette1.setBrush(QPalette::Active, QPalette::Mid, brush10);
+        palette1.setBrush(QPalette::Active, QPalette::Text, brush6);
+        palette1.setBrush(QPalette::Active, QPalette::BrightText, brush);
+        palette1.setBrush(QPalette::Active, QPalette::ButtonText, brush6);
+        palette1.setBrush(QPalette::Active, QPalette::Base, brush);
+        palette1.setBrush(QPalette::Active, QPalette::Window, brush);
+        palette1.setBrush(QPalette::Active, QPalette::Shadow, brush6);
+        palette1.setBrush(QPalette::Active, QPalette::AlternateBase, brush);
+        palette1.setBrush(QPalette::Active, QPalette::ToolTipBase, brush7);
+        palette1.setBrush(QPalette::Active, QPalette::ToolTipText, brush6);
+        palette1.setBrush(QPalette::Inactive, QPalette::WindowText, brush6);
+        palette1.setBrush(QPalette::Inactive, QPalette::Button, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::Light, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::Midlight, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::Dark, brush9);
+        palette1.setBrush(QPalette::Inactive, QPalette::Mid, brush10);
+        palette1.setBrush(QPalette::Inactive, QPalette::Text, brush6);
+        palette1.setBrush(QPalette::Inactive, QPalette::BrightText, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::ButtonText, brush6);
+        palette1.setBrush(QPalette::Inactive, QPalette::Base, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::Window, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::Shadow, brush6);
+        palette1.setBrush(QPalette::Inactive, QPalette::AlternateBase, brush);
+        palette1.setBrush(QPalette::Inactive, QPalette::ToolTipBase, brush7);
+        palette1.setBrush(QPalette::Inactive, QPalette::ToolTipText, brush6);
+        palette1.setBrush(QPalette::Disabled, QPalette::WindowText, brush9);
+        palette1.setBrush(QPalette::Disabled, QPalette::Button, brush);
+        palette1.setBrush(QPalette::Disabled, QPalette::Light, brush);
+        palette1.setBrush(QPalette::Disabled, QPalette::Midlight, brush);
+        palette1.setBrush(QPalette::Disabled, QPalette::Dark, brush9);
+        palette1.setBrush(QPalette::Disabled, QPalette::Mid, brush10);
+        palette1.setBrush(QPalette::Disabled, QPalette::Text, brush9);
+        palette1.setBrush(QPalette::Disabled, QPalette::BrightText, brush);
+        palette1.setBrush(QPalette::Disabled, QPalette::ButtonText, brush9);
+        palette1.setBrush(QPalette::Disabled, QPalette::Base, brush);
+        palette1.setBrush(QPalette::Disabled, QPalette::Window, brush);
+        palette1.setBrush(QPalette::Disabled, QPalette::Shadow, brush6);
+        palette1.setBrush(QPalette::Disabled, QPalette::AlternateBase, brush);
+        palette1.setBrush(QPalette::Disabled, QPalette::ToolTipBase, brush7);
+        palette1.setBrush(QPalette::Disabled, QPalette::ToolTipText, brush6);
+        polelinky->setPalette(palette1);
+        polelinky->setAutoFillBackground(false);
 
         horizontalLayout_2->addWidget(polelinky);
 
@@ -481,6 +538,40 @@ public:
 
         gridLayout->addWidget(tlacitkoTruncate, 1, 1, 1, 1);
 
+        gridLayoutWidget_2 = new QWidget(page_2);
+        gridLayoutWidget_2->setObjectName(QStringLiteral("gridLayoutWidget_2"));
+        gridLayoutWidget_2->setGeometry(QRect(160, 250, 401, 80));
+        gridLayout_2 = new QGridLayout(gridLayoutWidget_2);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setContentsMargins(0, 0, 0, 0);
+        tlacitkoNastavPort = new QPushButton(gridLayoutWidget_2);
+        tlacitkoNastavPort->setObjectName(QStringLiteral("tlacitkoNastavPort"));
+
+        gridLayout_2->addWidget(tlacitkoNastavPort, 0, 0, 1, 1);
+
+        tlacitkoOdesliPrikaz = new QPushButton(gridLayoutWidget_2);
+        tlacitkoOdesliPrikaz->setObjectName(QStringLiteral("tlacitkoOdesliPrikaz"));
+
+        gridLayout_2->addWidget(tlacitkoOdesliPrikaz, 1, 0, 1, 1);
+
+        lineEdit_jmenoPortu = new QLineEdit(gridLayoutWidget_2);
+        lineEdit_jmenoPortu->setObjectName(QStringLiteral("lineEdit_jmenoPortu"));
+        QPalette palette2;
+        palette2.setBrush(QPalette::Active, QPalette::Button, brush);
+        palette2.setBrush(QPalette::Active, QPalette::Base, brush);
+        palette2.setBrush(QPalette::Active, QPalette::Window, brush1);
+        palette2.setBrush(QPalette::Inactive, QPalette::Button, brush);
+        palette2.setBrush(QPalette::Inactive, QPalette::Base, brush);
+        palette2.setBrush(QPalette::Inactive, QPalette::Window, brush1);
+        palette2.setBrush(QPalette::Disabled, QPalette::Button, brush);
+        palette2.setBrush(QPalette::Disabled, QPalette::Base, brush1);
+        palette2.setBrush(QPalette::Disabled, QPalette::Window, brush1);
+        lineEdit_jmenoPortu->setPalette(palette2);
+
+        gridLayout_2->addWidget(lineEdit_jmenoPortu, 0, 1, 1, 1);
+
         prepinadloStran->addWidget(page_2);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -502,7 +593,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(0);
+        prepinadloStran->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -544,6 +635,9 @@ public:
         tlacitkoSQL->setText(QApplication::translate("MainWindow", "pripojSQL", nullptr));
         tlacitkoZpet->setText(QApplication::translate("MainWindow", "zpet", nullptr));
         tlacitkoTruncate->setText(QApplication::translate("MainWindow", "TRUNCATE", nullptr));
+        tlacitkoNastavPort->setText(QApplication::translate("MainWindow", "nastav \304\215\303\255slo portu", nullptr));
+        tlacitkoOdesliPrikaz->setText(QApplication::translate("MainWindow", "odesliPrikaz", nullptr));
+        lineEdit_jmenoPortu->setText(QApplication::translate("MainWindow", "ttyUSB0", nullptr));
         toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 

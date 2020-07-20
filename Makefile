@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_XML_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_XML_LIB -DQT_SERIALPORT_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -I. -I. -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++
+INCPATH       = -I. -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -I. -I. -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -38,7 +38,7 @@ DISTNAME      = BakalarkaTest11.0.0
 DISTDIR = /home/pi/github/VDV301tester/.tmp/BakalarkaTest11.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
-LIBS          = $(SUBLIBS) -L/usr/lib/arm-linux-gnueabihf -lQt5Widgets -lQt5Gui -lQt5Sql -lQt5Xml -lQt5Network -lQt5Core -lGLESv2 -lpthread -latomic 
+LIBS          = $(SUBLIBS) -L/usr/lib/arm-linux-gnueabihf -lQt5Widgets -lQt5Gui -lQt5Sql -lQt5Xml -lQt5SerialPort -lQt5Network -lQt5Core -lGLESv2 -lpthread -latomic 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -60,7 +60,8 @@ SOURCES       = main.cpp \
 		cestaudaje.cpp \
 		xmlmpvparser.cpp \
 		sqlpraceropid.cpp \
-		xmlropidparser.cpp moc_mainwindow.cpp \
+		xmlropidparser.cpp \
+		ibisovladani.cpp moc_mainwindow.cpp \
 		moc_myhttpserver.cpp \
 		moc_xmlgenerator.cpp \
 		moc_cestaudaje.cpp \
@@ -76,6 +77,7 @@ OBJECTS       = main.o \
 		xmlmpvparser.o \
 		sqlpraceropid.o \
 		xmlropidparser.o \
+		ibisovladani.o \
 		moc_mainwindow.o \
 		moc_myhttpserver.o \
 		moc_xmlgenerator.o \
@@ -120,6 +122,7 @@ DIST          = /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_printsupport.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_printsupport_private.pri \
+		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_serialport.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_service_support_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_sql.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_sql_private.pri \
@@ -164,7 +167,8 @@ DIST          = /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/spec_pre.prf \
 		cestaudaje.h \
 		xmlmpvparser.h \
 		sqlpraceropid.h \
-		xmlropidparser.h main.cpp \
+		xmlropidparser.h \
+		ibisovladani.h main.cpp \
 		mainwindow.cpp \
 		prestupmpv.cpp \
 		sqlprace.cpp \
@@ -174,7 +178,8 @@ DIST          = /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/spec_pre.prf \
 		cestaudaje.cpp \
 		xmlmpvparser.cpp \
 		sqlpraceropid.cpp \
-		xmlropidparser.cpp
+		xmlropidparser.cpp \
+		ibisovladani.cpp
 QMAKE_TARGET  = BakalarkaTest1
 DESTDIR       = 
 TARGET        = BakalarkaTest1
@@ -225,6 +230,7 @@ Makefile: BakalarkaTest1.pro /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++/
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_printsupport.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_printsupport_private.pri \
+		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_serialport.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_service_support_private.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_sql.pri \
 		/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_sql_private.pri \
@@ -265,6 +271,7 @@ Makefile: BakalarkaTest1.pro /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++/
 		/usr/lib/arm-linux-gnueabihf/libQt5Gui.prl \
 		/usr/lib/arm-linux-gnueabihf/libQt5Sql.prl \
 		/usr/lib/arm-linux-gnueabihf/libQt5Xml.prl \
+		/usr/lib/arm-linux-gnueabihf/libQt5SerialPort.prl \
 		/usr/lib/arm-linux-gnueabihf/libQt5Network.prl \
 		/usr/lib/arm-linux-gnueabihf/libQt5Core.prl
 	$(QMAKE) -o Makefile BakalarkaTest1.pro -spec linux-g++
@@ -307,6 +314,7 @@ Makefile: BakalarkaTest1.pro /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++/
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_printsupport.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_printsupport_private.pri:
+/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_serialport.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_service_support_private.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_sql.pri:
 /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/modules/qt_lib_sql_private.pri:
@@ -347,6 +355,7 @@ BakalarkaTest1.pro:
 /usr/lib/arm-linux-gnueabihf/libQt5Gui.prl:
 /usr/lib/arm-linux-gnueabihf/libQt5Sql.prl:
 /usr/lib/arm-linux-gnueabihf/libQt5Xml.prl:
+/usr/lib/arm-linux-gnueabihf/libQt5SerialPort.prl:
 /usr/lib/arm-linux-gnueabihf/libQt5Network.prl:
 /usr/lib/arm-linux-gnueabihf/libQt5Core.prl:
 qmake: FORCE
@@ -364,8 +373,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/arm-linux-gnueabihf/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h prestupmpv.h sqlprace.h httpserver/myhttpserver.h VDV301_Display/seznamzastavek.h xmlgenerator.h cestaudaje.h xmlmpvparser.h sqlpraceropid.h xmlropidparser.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp prestupmpv.cpp sqlprace.cpp httpserver/myhttpserver.cpp VDV301_Display/seznamzastavek.cpp xmlgenerator.cpp cestaudaje.cpp xmlmpvparser.cpp sqlpraceropid.cpp xmlropidparser.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h prestupmpv.h sqlprace.h httpserver/myhttpserver.h VDV301_Display/seznamzastavek.h xmlgenerator.h cestaudaje.h xmlmpvparser.h sqlpraceropid.h xmlropidparser.h ibisovladani.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp prestupmpv.cpp sqlprace.cpp httpserver/myhttpserver.cpp VDV301_Display/seznamzastavek.cpp xmlgenerator.cpp cestaudaje.cpp xmlmpvparser.cpp sqlpraceropid.cpp xmlropidparser.cpp ibisovladani.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -702,10 +711,14 @@ moc_mainwindow.cpp: cestaudaje.h \
 		prestupmpv.h \
 		xmlropidparser.h \
 		sqlpraceropid.h \
+		ibisovladani.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/QSerialPort \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/qserialport.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/qserialportglobal.h \
 		mainwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/github/VDV301tester/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/github/VDV301tester -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/github/VDV301tester/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/github/VDV301tester -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include mainwindow.h -o moc_mainwindow.cpp
 
 moc_myhttpserver.cpp: /usr/include/arm-linux-gnueabihf/qt5/QtCore/QCoreApplication \
 		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qcoreapplication.h \
@@ -786,7 +799,7 @@ moc_myhttpserver.cpp: /usr/include/arm-linux-gnueabihf/qt5/QtCore/QCoreApplicati
 		httpserver/myhttpserver.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/github/VDV301tester/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/github/VDV301tester -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include httpserver/myhttpserver.h -o moc_myhttpserver.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/github/VDV301tester/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/github/VDV301tester -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include httpserver/myhttpserver.h -o moc_myhttpserver.cpp
 
 moc_xmlgenerator.cpp: /usr/include/arm-linux-gnueabihf/qt5/QtWidgets/QMainWindow \
 		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qmainwindow.h \
@@ -906,7 +919,7 @@ moc_xmlgenerator.cpp: /usr/include/arm-linux-gnueabihf/qt5/QtWidgets/QMainWindow
 		xmlgenerator.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/github/VDV301tester/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/github/VDV301tester -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlgenerator.h -o moc_xmlgenerator.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/github/VDV301tester/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/github/VDV301tester -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlgenerator.h -o moc_xmlgenerator.cpp
 
 moc_cestaudaje.cpp: /usr/include/arm-linux-gnueabihf/qt5/QtWidgets/QMainWindow \
 		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qmainwindow.h \
@@ -1019,7 +1032,7 @@ moc_cestaudaje.cpp: /usr/include/arm-linux-gnueabihf/qt5/QtWidgets/QMainWindow \
 		cestaudaje.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/github/VDV301tester/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/github/VDV301tester -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include cestaudaje.h -o moc_cestaudaje.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/github/VDV301tester/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/github/VDV301tester -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include cestaudaje.h -o moc_cestaudaje.cpp
 
 moc_xmlmpvparser.cpp: /usr/include/arm-linux-gnueabihf/qt5/QtWidgets/QMainWindow \
 		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qmainwindow.h \
@@ -1278,7 +1291,7 @@ moc_xmlmpvparser.cpp: /usr/include/arm-linux-gnueabihf/qt5/QtWidgets/QMainWindow
 		xmlmpvparser.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/github/VDV301tester/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/github/VDV301tester -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlmpvparser.h -o moc_xmlmpvparser.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pi/github/VDV301tester/moc_predefs.h -I/usr/lib/arm-linux-gnueabihf/qt5/mkspecs/linux-g++ -I/home/pi/github/VDV301tester -I/usr/include/arm-linux-gnueabihf/qt5 -I/usr/include/arm-linux-gnueabihf/qt5/QtWidgets -I/usr/include/arm-linux-gnueabihf/qt5/QtGui -I/usr/include/arm-linux-gnueabihf/qt5/QtSql -I/usr/include/arm-linux-gnueabihf/qt5/QtXml -I/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort -I/usr/include/arm-linux-gnueabihf/qt5/QtNetwork -I/usr/include/arm-linux-gnueabihf/qt5/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlmpvparser.h -o moc_xmlmpvparser.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1603,6 +1616,10 @@ main.o: main.cpp mainwindow.h \
 		prestupmpv.h \
 		xmlropidparser.h \
 		sqlpraceropid.h \
+		ibisovladani.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/QSerialPort \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/qserialport.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/qserialportglobal.h \
 		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/QApplication \
 		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qapplication.h \
 		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qdesktopwidget.h \
@@ -1913,6 +1930,10 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		prestupmpv.h \
 		xmlropidparser.h \
 		sqlpraceropid.h \
+		ibisovladani.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/QSerialPort \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/qserialport.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/qserialportglobal.h \
 		ui_mainwindow.h \
 		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/QApplication \
 		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qapplication.h \
@@ -3402,7 +3423,8 @@ sqlpraceropid.o: sqlpraceropid.cpp sqlpraceropid.h \
 		/usr/include/arm-linux-gnueabihf/qt5/QtSql/qsqlrelationaltablemodel.h \
 		/usr/include/arm-linux-gnueabihf/qt5/QtSql/qsqltablemodel.h \
 		/usr/include/arm-linux-gnueabihf/qt5/QtSql/qsqlresult.h \
-		/usr/include/arm-linux-gnueabihf/qt5/QtSql/qtsqlversion.h
+		/usr/include/arm-linux-gnueabihf/qt5/QtSql/qtsqlversion.h \
+		VDV301_Display/seznamzastavek.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sqlpraceropid.o sqlpraceropid.cpp
 
 xmlropidparser.o: xmlropidparser.cpp /usr/include/arm-linux-gnueabihf/qt5/QtSql/QtSql \
@@ -3667,9 +3689,128 @@ xmlropidparser.o: xmlropidparser.cpp /usr/include/arm-linux-gnueabihf/qt5/QtSql/
 		/usr/include/arm-linux-gnueabihf/qt5/QtXml/qxml.h \
 		/usr/include/arm-linux-gnueabihf/qt5/QtXml/qtxmlversion.h \
 		sqlpraceropid.h \
+		VDV301_Display/seznamzastavek.h \
 		/usr/include/arm-linux-gnueabihf/qt5/QtCore/QDebug \
 		/usr/include/arm-linux-gnueabihf/qt5/QtCore/QCoreApplication
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o xmlropidparser.o xmlropidparser.cpp
+
+ibisovladani.o: ibisovladani.cpp ibisovladani.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/QMainWindow \
+		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qmainwindow.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qtwidgetsglobal.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qtguiglobal.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qglobal.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qconfig-bootstrapped.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qconfig.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qtcore-config.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qsystemdetection.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qprocessordetection.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qcompilerdetection.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qtypeinfo.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qsysinfo.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qlogging.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qflags.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qatomic.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qbasicatomic.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qatomic_bootstrap.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qgenericatomic.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qatomic_cxx11.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qatomic_msvc.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qglobalstatic.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qmutex.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qnumeric.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qversiontagging.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qtgui-config.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qtwidgets-config.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qwidget.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qwindowdefs.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qobjectdefs.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qnamespace.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qobjectdefs_impl.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qwindowdefs_win.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qobject.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qstring.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qchar.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qbytearray.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qrefcount.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qarraydata.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qstringliteral.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qstringalgorithms.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qstringview.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qstringbuilder.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qlist.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qalgorithms.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qiterator.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qhashfunctions.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qpair.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qbytearraylist.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qstringlist.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qregexp.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qstringmatcher.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qcoreevent.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qscopedpointer.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qmetatype.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qvarlengtharray.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qcontainerfwd.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qobject_impl.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qmargins.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qpaintdevice.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qrect.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qsize.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qpoint.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qpalette.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qcolor.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qrgb.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qrgba64.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qbrush.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qvector.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qmatrix.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qpolygon.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qregion.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qdatastream.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qiodevice.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qline.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qtransform.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qpainterpath.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qimage.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qpixelformat.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qpixmap.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qsharedpointer.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qshareddata.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qhash.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qsharedpointer_impl.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qfont.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qfontmetrics.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qfontinfo.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qsizepolicy.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qcursor.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qkeysequence.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qevent.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qvariant.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qmap.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qdebug.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qtextstream.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qlocale.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qset.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qcontiguouscache.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qurl.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qurlquery.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qfile.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qfiledevice.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qvector2d.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qtouchdevice.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/qtabwidget.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtGui/qicon.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/QObject \
+		/usr/include/arm-linux-gnueabihf/qt5/QtWidgets/QWidget \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/QSerialPort \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/qserialport.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtSerialPort/qserialportglobal.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/QDebug \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/QCoreApplication \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qcoreapplication.h \
+		/usr/include/arm-linux-gnueabihf/qt5/QtCore/qeventloop.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ibisovladani.o ibisovladani.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

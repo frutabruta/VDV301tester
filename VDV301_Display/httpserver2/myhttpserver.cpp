@@ -43,8 +43,8 @@ void myHTTPserver::myConnection()
 void myHTTPserver::txRx()
 {
     qDebug()<<"myHTTPserver::txRx";
-    char webBrowerRXData[30000];
-    qint64 pocetPrijatychBytu=socket->read(webBrowerRXData,30000);
+    char webBrowerRXData[20000];
+    qint64 pocetPrijatychBytu=socket->read(webBrowerRXData,20000);
     cout<<"\nreading web browser data\n";
     QString prijato="";
     for(int i=0;i<pocetPrijatychBytu;i++)

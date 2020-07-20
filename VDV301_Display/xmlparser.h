@@ -15,7 +15,7 @@ public:
     QString cil="";
    // SeznamZastavek docasnySeznamZastavek[] ;
     SeznamZastavek* docasnySeznamZastavek = new SeznamZastavek[MAX_ZAST2];
-    void VytvorSeznamZastavek(SeznamZastavek *docasnySeznamZst, int* docasnyIndexZastavky, int* docasnyPocetZastavek);
+    void VytvorSeznamZastavek(QVector<SeznamZastavek> &docasnySeznamZst, int* docasnyIndexZastavky, int* docasnyPocetZastavek);
     QDomDocument dokument;
     void Test();
 

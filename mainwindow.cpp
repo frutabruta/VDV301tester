@@ -353,3 +353,13 @@ void MainWindow::on_tlacitkoTruncate_clicked()
 {
     xmlRopidParser.truncateAll();
 }
+
+void MainWindow::on_tlacitkoOdesliPrikaz_clicked()
+{
+    ibisOvladani.dopocetCelni("l006");
+}
+
+void MainWindow::on_tlacitkoNastavPort_clicked()
+{
+    ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
+}

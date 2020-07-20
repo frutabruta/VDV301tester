@@ -24,7 +24,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     XmlParser instanceXMLparser;
-    SeznamZastavek* globalniSeznamZastavek = new SeznamZastavek[MAX_ZAST];
+    //SeznamZastavek* globalniSeznamZastavek = new SeznamZastavek[MAX_ZAST];
+    QVector <SeznamZastavek> globalniSeznamZastavek;
     QString nazevLinky = "";
     QString nazevCile="";
     myHTTPserver instanceHttpServeru;
