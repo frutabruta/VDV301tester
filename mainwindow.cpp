@@ -357,10 +357,12 @@ void MainWindow::on_tlacitkoTruncate_clicked()
 
 void MainWindow::on_tlacitkoOdesliPrikaz_clicked()
 {
-    ibisOvladani.dopocetCelni("l006");
+   // ibisOvladani.dopocetCelni("l006");
 }
 
 void MainWindow::on_tlacitkoNastavPort_clicked()
 {
     ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
+    ibisOvladani.dopocetCelni("l006");
+
 }

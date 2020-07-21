@@ -95,41 +95,14 @@ QString IbisOvladani::nahradDiakritiku(QString vstup)
 }
 
 
-void IbisOvladani::dopocetCelni (QString puvodniPrikaz)
+QString IbisOvladani::dopocetCelni (QString puvodniPrikaz)
 {
-    inicializujSeriovyPort(globalniSeriovyPort);
-    if (serial.isOpen() && serial.isWritable())
-    {
-        qDebug() << "Serial is open";
-        //  qDebug()<< obsah;
-
-        //    QByteArray output;
-        //      QByteArray input;
-
-
-        //        output = obsah.toLatin1();
-        //output="50 0 0";
-
-        // serial.write(output);
-        //serial.write("\n");
-        // serial.waitForBytesWritten();
-
-        //   return 1;
-
-
-    }
-    else
-    {
-        qDebug() << "Nepovedlo se otevrit seriovy port";
-
-    }
     qDebug()<<"IbisOvladani::dopocetCelni";
     qDebug()<<puvodniPrikaz;
 
     QString prikaz = "";
     QString output="";
     char zacatecniByte=0x7F;
-    //QString ridiciZnak ="";
     char ridiciZnak=0;
     char jeZnak=5;
 
@@ -161,55 +134,32 @@ void IbisOvladani::dopocetCelni (QString puvodniPrikaz)
         case 2:
             hexridiciznak[1]=prikaz[k].toLatin1();
             jeZnak++;
-            //zacatecniByte=zacatecniByte^atoi(hexridiciznak);
             break;
 
         case 3:
-            //hexridiciznak[2]=prikaz[k].toLatin1();
             jeZnak++;
             break;
         case 4:
             ridiciZnak=int(strtol(hexridiciznak,NULL,16));
             zacatecniByte=zacatecniByte^ridiciZnak;
-
-            // zacatecniByte=zacatecniByte^int(strtol(hexridiciznak,0,16) );
             output+=ridiciZnak;
-
-            //  char(strtol(hexridiciznak,NULL,16)));
-
-            //qDebug()<<int(strtol(hexridiciznak,NULL,16));
-
             hexridiciznak[0]=0;
             hexridiciznak[1]=0;
-            //hexridiciznak[2]=0;
             jeZnak++;
             break;
         case 5:
             zacatecniByte=zacatecniByte^prikaz[k].toLatin1();
             output+=prikaz[k];
-            //qDebug()<<QString::number(prikaz[k].toLatin1(),16);
-            //swSer.print(prikaz[k]);
-
             break;
         }
 
     }
-    //swSer.print(zacatecniByte);
 
-    // qDebug()<<QString::number(zacatecniByte,16);
     output+=zacatecniByte;
-    serial.write(output.toLatin1());
-    qDebug()<<serial.error();
-    serial.waitForBytesWritten();
-    qDebug()<<output;
-    qDebug()<<"hexdump";
-    for (int i=0;i<output.length();i++)
-    {
-        qDebug()<<QString::number(output[i].toLatin1(),16)<<" "<<output[i];
+     odesliDoPortu(output);
 
-    }
-    qDebug()<<output.toLatin1();
-    serial.close();
+    return output;
+
 }
 
 
@@ -230,62 +180,72 @@ void IbisOvladani::smazPanely ()
     dopocetCelni(prikaz);
 }
 
-void IbisOvladani::nastavPort(QString nazev)
+void IbisOvladani::odesliDoPortu(QString vstup)
 {
-
-}
-
-
-
-
-int IbisOvladani::inicializujSeriovyPort(QString port)
-{
-    qDebug()<<"IbisOvladani::inicializujSeriovyPort";
-    //serial.close();
-    serial.close();
-    serial.setPortName(port);
-
-    serial.setBaudRate(QSerialPort::Baud1200 );
-    serial.setDataBits(QSerialPort::Data7);
-    serial.setParity(QSerialPort::EvenParity);
-    serial.setStopBits(QSerialPort::TwoStop);
-    serial.setFlowControl(QSerialPort::NoFlowControl);
-    serial.open(QIODevice::ReadWrite);
-
-    qDebug()<<"konecInicializace";
-    return 1;
-
-}
-
-
-int IbisOvladani::zapisDoSeriovehoPortu(QString obsah, QString port)
-{
-
-
-    if (serial.isOpen() && serial.isWritable())
-    {
-        qDebug() << "Serial is open";
-        qDebug()<< obsah;
-
-        QByteArray output;
-        QByteArray input;
-
-
-        output = obsah.toLatin1();
-        //output="50 0 0";
-
-        serial.write(output);
-        serial.write("\n");
-        serial.waitForBytesWritten();
-
-        return 1;
-
-
+    bool currentPortNameChanged = false;
+    QString portName="ttyUSB0";
+    QString currentPortName;
+    if (currentPortName != portName) {
+        currentPortName = portName;
+        currentPortNameChanged = true;
     }
-    else
-    {
-        qDebug() << "Nepovedlo se otevrit seriovy port";
 
+    int waitTimeout=1000;
+    int currentWaitTimeout = waitTimeout;
+    QString request=vstup;
+    QString currentRequest = request;
+    QSerialPort serial;
+
+    if (currentPortName.isEmpty()) {
+        //emit error(tr("No port name specified"));
+        return;
     }
-    return 0;
+    int quit=0;
+    while (!quit) {
+        //![6] //! [7]
+        if (currentPortNameChanged) {
+            serial.close();
+            serial.setPortName(currentPortName);
+            serial.setBaudRate(1200);
+            serial.setDataBits(QSerialPort::Data7);
+            serial.setParity(QSerialPort::EvenParity);
+            serial.setStopBits(QSerialPort::TwoStop);
+            serial.setFlowControl(QSerialPort::NoFlowControl);
+            serial.open(QIODevice::ReadWrite);
+
+
+        }
+        //! [7] //! [8]
+        // write request
+        QByteArray requestData = currentRequest.toLocal8Bit();
+        serial.write(requestData);
+        if (serial.waitForBytesWritten(waitTimeout)) {
+            //! [8] //! [10]
+            // read response
+            if (serial.waitForReadyRead(currentWaitTimeout)) {
+                QByteArray responseData = serial.readAll();
+                while (serial.waitForReadyRead(10))
+                    responseData += serial.readAll();
+
+                QString response(responseData);
+                //! [12]
+                //emit this->response(response);
+                //! [10] //! [11] //! [12]
+            } else {
+                //emit timeout(tr("Wait read response timeout %1")    .arg(QTime::currentTime().toString()));
+            }
+            //! [9] //! [11]
+        } else {
+           // emit timeout(tr("Wait write request timeout %1")                        .arg(QTime::currentTime().toString()));
+        }
+        if (currentPortName != portName) {
+            currentPortName = portName;
+            currentPortNameChanged = true;
+        } else {
+            currentPortNameChanged = false;
+        }
+        currentWaitTimeout = waitTimeout;
+        currentRequest = request;
+        quit=1;
+    }
 }

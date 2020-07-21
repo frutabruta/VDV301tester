@@ -7,20 +7,22 @@
 #include <QtSerialPort/QSerialPort>
 
 
+
 class IbisOvladani
 {
 public:
     IbisOvladani();
     int kontrolniZnak(QString);
     void smazPanely();
-    void dopocetCelni(QString puvodniPrikaz);
-    void nastavPort(QString nazev);
+    QString dopocetCelni(QString puvodniPrikaz);
+    void odesliDoPortu(QString vstup);
     int inicializujSeriovyPort(QString port);
     int zapisDoSeriovehoPortu(QString obsah, QString port);
     QString globalniSeriovyPort="ttyUSB0";
     QString nahradDiakritiku(QString vstup);
+   // QSerialPort serial;
 private:
-    QSerialPort serial;
+
 };
 
 #endif // IBISOVLADANI_H
