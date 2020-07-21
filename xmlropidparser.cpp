@@ -51,7 +51,7 @@ void XmlRopidParser::otevriSoubor()
     vlozZ(koren);
     vlozL(koren);
     vlozS(koren);
-    //vlozT(koren);
+    vlozT(koren);
 
 }
 
@@ -382,35 +382,36 @@ int XmlRopidParser::vlozT(QDomElement koren)
     {
         //qDebug()<<m.at(i).toElement().attribute("n");
         QString queryString("INSERT INTO t(u,z,ois,cis,nza,ri,ji,vtm,vtn,btm,btn,ctm,ctn,lcdm,lcdn) VALUES( ");
-        queryString+=(m.at(i).toElement().attribute("u"));
+        QDomElement prvek=m.at(i).toElement();
+        queryString+=(prvek.attribute("u"));
         queryString+=(" ,\"");
-        queryString+=(m.at(i).toElement().attribute("z"));
+        queryString+=(prvek.attribute("z"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("ois"));
+        queryString+=(prvek.attribute("ois"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("cis"));
+        queryString+=(prvek.attribute("cis"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("nza"));
+        queryString+=(prvek.attribute("nza"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("ri"));
+        queryString+=(prvek.attribute("ri"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("ji"));
+        queryString+=(prvek.attribute("ji"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("vtm"));
+        queryString+=(prvek.attribute("vtm"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("vtn"));
+        queryString+=(prvek.attribute("vtn"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("btm"));
+        queryString+=(prvek.attribute("btm"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("btn"));
+        queryString+=(prvek.attribute("btn"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("ctm"));
+        queryString+=(prvek.attribute("ctm"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("ctn"));
+        queryString+=(prvek.attribute("ctn"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("lcdm"));
+        queryString+=(prvek.attribute("lcdm"));
         queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("lcdn"));
+        queryString+=(prvek.attribute("lcdn"));
         //queryString+=("\" ,\"");
 
 

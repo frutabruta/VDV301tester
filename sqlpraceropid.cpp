@@ -32,10 +32,11 @@ void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSp
     qInfo()<<"DebugPointA";
     //QString queryString("SELECT a.stop_order, b.name, a.time, b.cis_id,f.mpvalias FROM lineroutestoptime a ");
 
-    QString queryString2("SELECT z.n, x.o,z.cis FROM x ");
+    QString queryString2("SELECT DISTINCT z.n, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("LEFT JOIN t ON t.u=x.u AND t.z=x.z " );
     queryString2+=("WHERE l.lc=");
     queryString2+=( QString::number(cisloLinky));
     //290664
@@ -70,6 +71,10 @@ void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSp
             aktZast.DepartureTime=casPrijezdu;
             aktZast.cisloCis=query.value(2).toInt();
             aktZast.ids ="PID";//query.value(4).toString();
+            aktZast.StopName=query.value(3).toString();
+            aktZast.NameFront=query.value(4).toString();
+            aktZast.NameSide=query.value(5).toString();
+            aktZast.NameLcd=query.value(6).toString();
             qInfo()<<"DebugPointC";
             counter++;
             qDebug()<<"citac: "<<citacMaximum ;
@@ -142,7 +147,7 @@ QString SqlPraceRopid::doplnNulu(int cislo,int pocetMist)
         konverze="0"+konverze;
     }
 
-            return konverze;
+    return konverze;
 }
 
 

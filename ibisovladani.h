@@ -17,7 +17,8 @@ public:
     void nastavPort(QString nazev);
     int inicializujSeriovyPort(QString port);
     int zapisDoSeriovehoPortu(QString obsah, QString port);
-    QString globalniSeriovyPort;
+    QString globalniSeriovyPort="ttyUSB0";
+    QString nahradDiakritiku(QString vstup);
 private:
     QSerialPort serial;
 };

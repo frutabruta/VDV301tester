@@ -240,6 +240,7 @@ void MainWindow::AktualizaceDispleje()
     QString textDoPole="";
     mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
     ui->prikazovyvysledek->setText(textDoPole);
+    ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("aA1 "+globalniSeznamZastavek[novatrida.cislo].NameFront));
 }
 
 void MainWindow::on_pridatTlacitko_clicked()

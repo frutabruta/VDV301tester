@@ -15,6 +15,10 @@ public:
     QString LineName="";
     QString DestinationName="";
     QString DepartureTime="";
+    QString NameFront="";
+    QString NameSide="";
+    QString NameLcd="";
+    QString NameRear="";
     SeznamZastavek();
 
 };
