@@ -240,7 +240,11 @@ void MainWindow::AktualizaceDispleje()
     QString textDoPole="";
     mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
     ui->prikazovyvysledek->setText(textDoPole);
-    ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("aA1 "+globalniSeznamZastavek[novatrida.cislo].NameFront));
+    ibisOvladani.dopocetCelni("xC2");
+    ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("l "+globalniSeznamZastavek[novatrida.cislo].LineName));
+    ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("v "+globalniSeznamZastavek[novatrida.cislo].NameLcd));
+    ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("zN "+globalniSeznamZastavek[novatrida.cislo+1].NameLcd+"-"+globalniSeznamZastavek[novatrida.cislo+2].NameLcd+"-"+globalniSeznamZastavek[novatrida.cislo+3].NameLcd));
+    ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("zI "+globalniSeznamZastavek[globalniSeznamZastavek.length()-1].NameLcd));
 }
 
 void MainWindow::on_pridatTlacitko_clicked()
@@ -364,5 +368,9 @@ void MainWindow::on_tlacitkoNastavPort_clicked()
 {
     ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
     ibisOvladani.dopocetCelni("l006");
-
+    ibisOvladani.dopocetCelni("aA1 ahoj");
+       ibisOvladani.dopocetCelni("v povel v\\");
+       ibisOvladani.dopocetCelni("zA povel zA");
+       ibisOvladani.dopocetCelni("zN povel zN");
+       ibisOvladani.dopocetCelni("xC2");
 }

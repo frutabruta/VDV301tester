@@ -206,12 +206,13 @@ void IbisOvladani::odesliDoPortu(QString vstup)
         if (currentPortNameChanged) {
             serial.close();
             serial.setPortName(currentPortName);
+            serial.open(QIODevice::ReadWrite);
+
             serial.setBaudRate(1200);
             serial.setDataBits(QSerialPort::Data7);
             serial.setParity(QSerialPort::EvenParity);
             serial.setStopBits(QSerialPort::TwoStop);
             serial.setFlowControl(QSerialPort::NoFlowControl);
-            serial.open(QIODevice::ReadWrite);
 
 
         }
