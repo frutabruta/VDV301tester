@@ -238,7 +238,7 @@ void MainWindow::on_sipkaDolu_clicked()
 void MainWindow::on_pripojeniTlacitko_clicked()
 {
     qDebug()<<"\n on_pripojeniTlacitko_clicked \n";
-    mojesql.Pripoj();
+    mojesql.Pripoj(ui->lineEditSqlServer->text() );
     if (mojesql.vysledek==0)
     {
         ui->NazevVysledku->setText("nepovedlo se");
@@ -372,7 +372,7 @@ void MainWindow::on_tlacitkoNastaveni_clicked()
 
 void MainWindow::on_tlacitkoSQL_clicked()
 {
-    xmlRopidParser.databazeStart();
+    xmlRopidParser.databazeStart(ui->lineEditSqlServer->text());
 }
 
 void MainWindow::on_tlacitkoTruncate_clicked()

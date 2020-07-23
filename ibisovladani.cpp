@@ -325,8 +325,8 @@ int IbisOvladani::odesliSideKomplet(QVector <SeznamZastavek> zastavky,int index)
 int IbisOvladani::odesliInnerKomplet(QVector <SeznamZastavek> zastavky,int index)
 {
     QString LineName=zastavky[index].LineName;
-    QString DestinationName=zastavky.last().NameInner;
-    this->dopocetCelni( slozeniTextuInnerL(LineName));
+    QString DestinationName=zastavky[zastavky.count()].NameInner;
+    this->dopocetCelni(slozeniTextuInnerL(LineName));
     this->dopocetCelni(slozeniTextuInnerV(zastavky[index].NameInner));
     this->dopocetCelni(slozeniTextuInnerZA(DestinationName));
     this->dopocetCelni(slozeniTextuInnerZN(vytvorNacestne(zastavky,index)));
@@ -354,7 +354,7 @@ QString IbisOvladani::slozeniTextuInnerZN(QVector<SeznamZastavek> nacestne)
     {
         vystup+=nacestne[i].NameInner;
         vystup+="-";
-        if (i>4) return vystup;
+        if (i>3) return vystup;
     }
 
     return vystup;

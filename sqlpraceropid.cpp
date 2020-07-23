@@ -7,11 +7,12 @@ SqlPraceRopid::SqlPraceRopid()
 }
 
 
-void SqlPraceRopid::Pripoj()
+void SqlPraceRopid::Pripoj(QString adresa)
 {
     qDebug()<< "SQLprace::Pripoj";
     this->mojeDatabaze = QSqlDatabase::addDatabase("QMYSQL","my_sql_db");
-    this->mojeDatabaze.setHostName("127.0.0.1");
+    this->mojeDatabaze.setHostName(adresa);
+    //this->mojeDatabaze.setHostName("127.0.0.1");
     this->mojeDatabaze.setDatabaseName("ropidXMLimport");
     this->mojeDatabaze.setUserName("uzivatel2");
     this->mojeDatabaze.setPassword("iOrXsX4FQZdbcSTf");

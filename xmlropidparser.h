@@ -13,7 +13,7 @@ public:
     XmlRopidParser();
     SqlPraceRopid ropidSQL;
     void otevriSoubor();
-    void databazeStart();
+    //void databazeStart();
     int vlozM(QDomElement koren);
     int vlozD(QDomElement koren);
     int vlozZ(QDomElement koren);
@@ -29,6 +29,7 @@ public:
     int vlozX(QDomElement koren);
     QString overInteger(QString vstup);
     QString vytvorCas(QString vstup);
+    void databazeStart(QString adresaServeru);
 };
 
 #endif // XMLROPIDPARSER_H
