@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QMainWindow>
 #include <QCoreApplication>
+#include "VDV301_Display/seznamzastavek.h"
 
 IbisOvladani::IbisOvladani()
 {
@@ -11,12 +12,7 @@ IbisOvladani::IbisOvladani()
 
 
 
-int IbisOvladani::kontrolniZnak(QString)
-{
-    int kontrolniZnak=0;
 
-    return kontrolniZnak;
-}
 
 
 
@@ -97,6 +93,7 @@ QString IbisOvladani::nahradDiakritiku(QString vstup)
 
 QString IbisOvladani::dopocetCelni (QString puvodniPrikaz)
 {
+    puvodniPrikaz=nahradDiakritiku(puvodniPrikaz);
     qDebug()<<"IbisOvladani::dopocetCelni";
     qDebug()<<puvodniPrikaz;
 
@@ -180,7 +177,7 @@ void IbisOvladani::smazPanely ()
     dopocetCelni(prikaz);
 }
 
-void IbisOvladani::odesliDoPortu(QString vstup)
+int IbisOvladani::odesliDoPortu(QString vstup)
 {
     bool currentPortNameChanged = false;
     QString portName="ttyUSB0";
@@ -198,7 +195,7 @@ void IbisOvladani::odesliDoPortu(QString vstup)
 
     if (currentPortName.isEmpty()) {
         //emit error(tr("No port name specified"));
-        return;
+        return 0;
     }
     int quit=0;
     while (!quit) {
@@ -249,4 +246,124 @@ void IbisOvladani::odesliDoPortu(QString vstup)
         currentRequest = request;
         quit=1;
     }
+    return 1;
 }
+
+
+QVector<SeznamZastavek> IbisOvladani::vytvorNacestne(QVector<SeznamZastavek> vstup, int index)
+{
+    QVector <SeznamZastavek> vystup;
+    vystup.clear();
+    if (index>vstup.count())
+    {
+        index=vstup.count();
+    }
+
+
+    for (int i = index;i< vstup.count() ; i++)
+    {
+        if(vstup[i].nacestna==1)
+        {
+         vystup.push_back(vstup[i]);
+        }
+    }
+
+
+    return vystup;
+
+}
+
+QString IbisOvladani::slozeniTextuFront(QString LineName,QString DestinationName)
+{
+    QString vystup="";
+    vystup+="aA1 ";
+    vystup+="<1B><5A><1B>p<2D><0C>";
+    vystup+=LineName;
+    vystup+="<1B>c<1B><55><1B>l<2E>";
+    vystup+=DestinationName;
+    //vystup+="";
+    return vystup;
+}
+int IbisOvladani::odesliFrontKomplet(QVector<SeznamZastavek>zastavky,int index)
+{
+    QString LineName=zastavky[index].LineName;
+    QString DestinationName=zastavky.last().NameLcd;
+    dopocetCelni(slozeniTextuFront(LineName,DestinationName));
+    return 1;
+}
+
+
+QString IbisOvladani::slozeniTextuSide(QVector<SeznamZastavek> nacestne,QString LineName,QString DestinationName)
+{
+    QString vystup="";
+    vystup+="aA2 ";
+    vystup+="<1B><5A><1B>p<2D><0C>";
+    vystup+=LineName;
+    vystup+="<1B>c<1B><53><1B>l<2E>"; //y0
+    vystup+=DestinationName;
+    for (int i =0;i<nacestne.count();i++)
+    {
+        vystup+="<1B><F0>"; //y10
+        vystup+=nacestne[i].NameSide;
+        vystup+="<0A>";
+    }
+
+    return vystup;
+}
+
+int IbisOvladani::odesliSideKomplet(QVector <SeznamZastavek> zastavky,int index)
+{
+
+    QString LineName=zastavky[index].LineName;
+    QString DestinationName=zastavky.last().NameLcd;
+    this->dopocetCelni(slozeniTextuSide(vytvorNacestne(zastavky,index),LineName,DestinationName));
+
+    return 1;
+}
+
+
+int IbisOvladani::odesliInnerKomplet(QVector <SeznamZastavek> zastavky,int index)
+{
+    QString LineName=zastavky[index].LineName;
+    QString DestinationName=zastavky.last().NameLcd;
+    this->dopocetCelni( slozeniTextuInnerL(LineName));
+    this->dopocetCelni(slozeniTextuInnerV(zastavky[index].NameLcd));
+    this->dopocetCelni(slozeniTextuInnerZA(DestinationName));
+    this->dopocetCelni(slozeniTextuInnerZN(vytvorNacestne(zastavky,index)));
+    return 1;
+}
+
+QString IbisOvladani::slozeniTextuInnerL(QString LineName)
+{
+    QString vystup="";
+    vystup+="l";
+    vystup+=LineName;
+    return vystup;
+}
+QString IbisOvladani::slozeniTextuInnerZA(QString DestinationName)
+{
+    QString vystup="";
+    vystup+="zA ";
+    vystup+=DestinationName;
+    return vystup;
+}
+QString IbisOvladani::slozeniTextuInnerZN(QVector<SeznamZastavek> nacestne)
+{
+    QString vystup="zN ";
+    for (int i=0;i<nacestne.count();i++)
+    {
+        vystup+=nacestne[i].NameLcd;
+        vystup+="-";
+    }
+
+    return vystup;
+}
+QString IbisOvladani::slozeniTextuInnerV(QString StopName)
+{
+    QString vystup="";
+    vystup+="v ";
+    vystup+=StopName;
+    return vystup;
+}
+
+

@@ -132,9 +132,8 @@ QByteArray MainWindow::requestReceived(QNetworkReply* replyoo)
 }
 
 */
-void MainWindow::on_prikaztlacitko_clicked()
+int MainWindow::on_prikaztlacitko_clicked()
 {
-    qDebug()<<"\n on_prikaztlacitko_clicked \n";
     novatrida.doorState="AllDoorsClosed";
     novatrida.aktlinka=ui->polelinky->text().toInt();
     novatrida.aktspoj=ui->polespoje->text().toInt();
@@ -142,10 +141,25 @@ void MainWindow::on_prikaztlacitko_clicked()
     //mojesql.zjistiPocet(novatrida.pocetZastavek,novatrida.cislo, novatrida.aktlinka,novatrida.aktspoj);
     QString textDoPole="";
     mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek);
-    mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
-    ui->prikazovyvysledek->setText(textDoPole);
+
 
     xmlHromadnyUpdate();
+
+    qDebug()<<"\n on_prikaztlacitko_clicked \n";
+    if(globalniSeznamZastavek.empty()==1)
+    {
+        qDebug()<<"seznam zastavek  je prazdny";
+        return 0;
+    }
+    else
+    {
+        mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
+        ui->prikazovyvysledek->setText(textDoPole);
+
+
+
+    }
+    return 1;
 }
 
 void MainWindow::on_sipkaNahoru_clicked()
@@ -241,10 +255,17 @@ void MainWindow::AktualizaceDispleje()
     mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
     ui->prikazovyvysledek->setText(textDoPole);
     ibisOvladani.dopocetCelni("xC2");
-    ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("l "+globalniSeznamZastavek[novatrida.cislo].LineName));
+    ibisOvladani.odesliFrontKomplet(globalniSeznamZastavek,novatrida.cislo);
+    ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,novatrida.cislo);
+    ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
+    /*
+     ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("l "+globalniSeznamZastavek[novatrida.cislo].LineName));
     ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("v "+globalniSeznamZastavek[novatrida.cislo].NameLcd));
     ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("zN "+globalniSeznamZastavek[novatrida.cislo+1].NameLcd+"-"+globalniSeznamZastavek[novatrida.cislo+2].NameLcd+"-"+globalniSeznamZastavek[novatrida.cislo+3].NameLcd));
     ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("zI "+globalniSeznamZastavek[globalniSeznamZastavek.length()-1].NameLcd));
+    ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("aA1 <1B><56>"+globalniSeznamZastavek[novatrida.cislo].NameFront));
+    ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("aA1 <1B><56>"+globalniSeznamZastavek[novatrida.cislo].NameFront));
+    */
 }
 
 void MainWindow::on_pridatTlacitko_clicked()

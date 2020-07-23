@@ -50,7 +50,7 @@ public:
     //QByteArray requestReceived(QNetworkReply *replyoo);
 private slots:
   // QByteArray requestReceived(QNetworkReply *replyoo);
-    void on_prikaztlacitko_clicked();
+    int on_prikaztlacitko_clicked();
     void on_sipkaNahoru_clicked();
     void on_sipkaDolu_clicked();
     void on_ubratTlacitko_clicked();

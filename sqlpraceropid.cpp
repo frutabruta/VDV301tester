@@ -32,7 +32,7 @@ void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSp
     qInfo()<<"DebugPointA";
     //QString queryString("SELECT a.stop_order, b.name, a.time, b.cis_id,f.mpvalias FROM lineroutestoptime a ");
 
-    QString queryString2("SELECT DISTINCT z.n, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn FROM x ");
+    QString queryString2("SELECT DISTINCT z.n, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c, x.na FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
@@ -75,6 +75,8 @@ void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSp
             aktZast.NameFront=query.value(4).toString();
             aktZast.NameSide=query.value(5).toString();
             aktZast.NameLcd=query.value(6).toString();
+            aktZast.LineName=query.value(7).toString();
+            aktZast.nacestna=query.value(7).toInt();
             qInfo()<<"DebugPointC";
             counter++;
             qDebug()<<"citac: "<<citacMaximum ;

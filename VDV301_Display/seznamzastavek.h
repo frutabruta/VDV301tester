@@ -19,6 +19,7 @@ public:
     QString NameSide="";
     QString NameLcd="";
     QString NameRear="";
+    int nacestna=0;
     SeznamZastavek();
 
 };

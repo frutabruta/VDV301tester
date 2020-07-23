@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'xmlmpvparser.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.3)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.9.3)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'xmlmpvparser.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.3. It"
+#error "This file was generated using the moc from 5.9.3. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -97,7 +97,7 @@ void XmlMpvParser::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (XmlMpvParser::*)();
+            typedef void (XmlMpvParser::*_t)();
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&XmlMpvParser::stazeniHotovo)) {
                 *result = 0;
                 return;
@@ -106,7 +106,7 @@ void XmlMpvParser::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
     }
 }
 
-QT_INIT_METAOBJECT const QMetaObject XmlMpvParser::staticMetaObject = {
+const QMetaObject XmlMpvParser::staticMetaObject = {
     { &QObject::staticMetaObject, qt_meta_stringdata_XmlMpvParser.data,
       qt_meta_data_XmlMpvParser,  qt_static_metacall, nullptr, nullptr}
 };
