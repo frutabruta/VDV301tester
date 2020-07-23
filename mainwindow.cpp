@@ -255,8 +255,8 @@ void MainWindow::AktualizaceDispleje()
     mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
     ui->prikazovyvysledek->setText(textDoPole);
     ibisOvladani.dopocetCelni("xC2");
-    ibisOvladani.odesliFrontKomplet(globalniSeznamZastavek,novatrida.cislo);
-    ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,novatrida.cislo);
+    //ibisOvladani.odesliFrontKomplet(globalniSeznamZastavek,novatrida.cislo);
+    //ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,novatrida.cislo);
     ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
     /*
      ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("l "+globalniSeznamZastavek[novatrida.cislo].LineName));

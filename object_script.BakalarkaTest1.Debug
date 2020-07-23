@@ -7,6 +7,9 @@ debug/seznamzastavek.o
 debug/xmlgenerator.o
 debug/cestaudaje.o
 debug/xmlmpvparser.o
+debug/sqlpraceropid.o
+debug/xmlropidparser.o
+debug/ibisovladani.o
 debug/moc_mainwindow.o
 debug/moc_myhttpserver.o
 debug/moc_xmlgenerator.o

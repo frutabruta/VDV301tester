@@ -7,6 +7,9 @@ release/seznamzastavek.o
 release/xmlgenerator.o
 release/cestaudaje.o
 release/xmlmpvparser.o
+release/sqlpraceropid.o
+release/xmlropidparser.o
+release/ibisovladani.o
 release/moc_mainwindow.o
 release/moc_myhttpserver.o
 release/moc_xmlgenerator.o
