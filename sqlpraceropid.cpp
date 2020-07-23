@@ -77,8 +77,8 @@ void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSp
             aktZast.NameSide=query.value(5).toString();
             aktZast.NameLcd=query.value(6).toString();
             aktZast.LineName=query.value(7).toString();
-            aktZast.nacestna=query.value(7).toInt();
-            aktZast.NameInner=query.value(8).toString();
+            aktZast.nacestna=query.value(8).toInt();
+            aktZast.NameInner=query.value(9).toString();
             qInfo()<<"DebugPointC";
             counter++;
             qDebug()<<"citac: "<<citacMaximum ;

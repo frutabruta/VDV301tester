@@ -25,6 +25,7 @@ public:
     int odesliInnerKomplet(QVector<SeznamZastavek> zastavky, int index);
     int odesliFrontKomplet(QVector<SeznamZastavek> zastavky, int index);
     int odesliSideKomplet(QVector<SeznamZastavek> zastavky, int index);
+    QString nahradZobacek(QString vstup);
 private:
     QString nahradDiakritiku(QString vstup);
     QString slozeniTextuSide(QVector<SeznamZastavek> nacestne, QString LineName, QString DestinationName);

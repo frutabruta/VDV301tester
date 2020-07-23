@@ -260,8 +260,10 @@ void MainWindow::AktualizaceDispleje()
     ui->prikazovyvysledek->setText(textDoPole);
     ibisOvladani.dopocetCelni("xC2");
     //ibisOvladani.odesliFrontKomplet(globalniSeznamZastavek,novatrida.cislo);
-    //ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,novatrida.cislo);
-    ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
+    ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,novatrida.cislo);
+    //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
+
+
     /*
      ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("l "+globalniSeznamZastavek[novatrida.cislo].LineName));
     ibisOvladani.dopocetCelni(ibisOvladani.nahradDiakritiku("v "+globalniSeznamZastavek[novatrida.cislo].NameLcd));

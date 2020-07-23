@@ -264,8 +264,10 @@ QVector<SeznamZastavek> IbisOvladani::vytvorNacestne(QVector<SeznamZastavek> vst
 
     for (int i = index;i< vstup.count() ; i++)
     {
+        qDebug()<<vstup[i].NameInner<<" "<<vstup[i].nacestna;
         if(vstup[i].nacestna==1)
         {
+         qDebug()<<"nacestna "<<vstup[i].NameInner;
          vystup.push_back(vstup[i]);
         }
     }
@@ -279,19 +281,20 @@ QString IbisOvladani::slozeniTextuFront(QString LineName,QString DestinationName
 {
     qDebug()<<"IbisOvladani::slozeniTextuFront";
     QString vystup="";
-    vystup+="aA1 ";
-    vystup+="<1B><5A><1B>p<2D><0C>";
+    vystup+="aA1 <1B>b<1B>l<12><0A><1B><22><1B>l<12><1B>p<2D><1B><58>";
+ //vystup+="aA1 <1B>b<1B>l<12><1B><22><1B><1B>p<2D><1B><58>";
     vystup+=LineName;
-    vystup+="<1B>c<1B><55><1B>l<2E>";
+    //vystup+="<0C><1B>c<1B><55><1B>l<2E>";
+    vystup+="<0A><1B><21><1B>c<1B>l<2F><1B><55>";
     vystup+=DestinationName;
-    //vystup+="";
+    vystup+="<0C>";
     return vystup;
 }
 int IbisOvladani::odesliFrontKomplet(QVector<SeznamZastavek>zastavky,int index)
 {
     qDebug()<<"IbisOvladani::odesliFrontKomplet";
     QString LineName=zastavky[index].LineName;
-    QString DestinationName=zastavky.last().NameFront;
+    QString DestinationName=nahradZobacek( zastavky.last().NameFront);
     dopocetCelni(slozeniTextuFront(LineName,DestinationName));
     return 1;
 }
@@ -301,17 +304,19 @@ QString IbisOvladani::slozeniTextuSide(QVector<SeznamZastavek> nacestne,QString 
 {
     qDebug()<<"IbisOvladani::slozeniTextuSide";
     QString vystup="";
-    vystup+="aA2 ";
-    vystup+="<1B><5A><1B>p<2D><0C>";
+    vystup+="aA1 ";
+    vystup+="<1B>b<1B>c<1B>l<11><1B>p<2D><1B><58>";
     vystup+=LineName;
-    vystup+="<1B>c<1B><53><1B>l<2E>"; //y0
-    vystup+=DestinationName;
+    vystup+="<0A><1B>c<1B>l<2E><1B><53>"; //y0
+    vystup+=nahradZobacek( DestinationName);
+    vystup+="<0A>";
     for (int i =0;i<nacestne.count();i++)
     {
-        vystup+="<1B><F0>"; //y10
+        vystup+="<1B><3A>"; //y10
         vystup+=nacestne[i].NameSide;
-        vystup+="<0A>";
+
     }
+    vystup+="<0B>";
 
     return vystup;
 }
@@ -377,4 +382,8 @@ QString IbisOvladani::slozeniTextuInnerV(QString StopName)
     return vystup;
 }
 
-
+QString IbisOvladani::nahradZobacek(QString vstup)
+{
+        vstup.replace("<","<3C>");
+        return vstup;
+}
