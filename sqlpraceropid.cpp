@@ -134,6 +134,7 @@ void SqlPraceRopid::TestDotaz (QString &textPoleObsah, int cisloporadi, int cisl
 
 QString SqlPraceRopid::vytvorCas(QString vstup)
 {
+    qDebug()<<"SqlPraceRopid::vytvorCas";
     int cislo=vstup.toInt();
     int hodiny=cislo/3600;
     int minuty=(cislo%3600)/60;
@@ -145,6 +146,7 @@ QString SqlPraceRopid::vytvorCas(QString vstup)
 
 QString SqlPraceRopid::doplnNulu(int cislo,int pocetMist)
 {
+    qDebug()<<"SqlPraceRopid::doplnNulu";
     QString konverze= QString::number(cislo);
     while (konverze.length()<pocetMist)
     {

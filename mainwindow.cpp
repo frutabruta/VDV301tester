@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    qDebug()<<"";
+    qDebug()<<"MainWindow::MainWindow";
     ui->setupUi(this);
     ui->prepinadloStran->setCurrentIndex(0);
     ui->prepinadloStran->setWindowState(Qt::WindowFullScreen);
@@ -47,6 +47,7 @@ void MainWindow::xmlHromadnyUpdate()
 
 void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument) //novy
 {
+    qDebug()<<"MainWindow::OdeslatDataDoDispleju";
     QByteArray zpracovanoMPV="";
     QByteArray vysledek2=TestXmlGenerator.AllData2( novatrida.cislo,novatrida.pocetZastavek,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
     ObnoveniServeru(vysledek2);
@@ -77,6 +78,7 @@ void MainWindow::MpvNetReady()
 
 void MainWindow::ObnoveniServeru(QByteArray dataDoServeru)
 {
+    qDebug()<<"MainWindow::ObnoveniServeru";
     QByteArray hlavicka="";
     QByteArray argumentXMLserveru = "";
     hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
@@ -91,6 +93,7 @@ void MainWindow::ObnoveniServeru(QByteArray dataDoServeru)
 }
 void MainWindow::PostDoDispleje(QUrl adresaDispleje, QByteArray dataDoPostu)
 {
+    qDebug()<<"MainWindow::PostDoDispleje";
     QByteArray postDataSize = QByteArray::number(dataDoPostu.size());
     QNetworkRequest pozadavekPOST(adresaDispleje);
     pozadavekPOST.setRawHeader("Connection", "Keep-Alive");
@@ -134,6 +137,7 @@ QByteArray MainWindow::requestReceived(QNetworkReply* replyoo)
 */
 int MainWindow::on_prikaztlacitko_clicked()
 {
+    qDebug()<<"MainWindow::on_prikaztlacitko_clicked";
     novatrida.doorState="AllDoorsClosed";
     novatrida.aktlinka=ui->polelinky->text().toInt();
     novatrida.aktspoj=ui->polespoje->text().toInt();
@@ -321,6 +325,7 @@ void MainWindow::replyFinished(QNetworkReply*)
 
 void MainWindow::on_BeforeStop_clicked()
 {
+
     novatrida.locationState="BeforeStop";
     xmlHromadnyUpdate();
 }
