@@ -331,7 +331,7 @@ int IbisOvladani::odesliInnerKomplet(QVector <SeznamZastavek> zastavky,int index
 {
     qDebug()<<"IbisOvladani::odesliInnerKomplet";
     QString LineName=zastavky[index].LineName;
-    QString DestinationName=zastavky[zastavky.count()].NameInner;
+    QString DestinationName=zastavky[zastavky.count()-1].NameInner;
     this->dopocetCelni(slozeniTextuInnerL(LineName));
     this->dopocetCelni(slozeniTextuInnerV(zastavky[index].NameInner));
     this->dopocetCelni(slozeniTextuInnerZA(DestinationName));
