@@ -153,7 +153,7 @@ QString IbisOvladani::dopocetCelni (QString puvodniPrikaz)
     }
 
     output+=zacatecniByte;
-     odesliDoPortu(output);
+    odesliDoPortu(output);
 
     return output;
 
@@ -235,7 +235,7 @@ int IbisOvladani::odesliDoPortu(QString vstup)
             }
             //! [9] //! [11]
         } else {
-           // emit timeout(tr("Wait write request timeout %1")                        .arg(QTime::currentTime().toString()));
+            // emit timeout(tr("Wait write request timeout %1")                        .arg(QTime::currentTime().toString()));
         }
         if (currentPortName != portName) {
             currentPortName = portName;
@@ -267,8 +267,8 @@ QVector<SeznamZastavek> IbisOvladani::vytvorNacestne(QVector<SeznamZastavek> vst
         qDebug()<<vstup[i].NameInner<<" "<<vstup[i].nacestna;
         if(vstup[i].nacestna==1)
         {
-         qDebug()<<"nacestna "<<vstup[i].NameInner;
-         vystup.push_back(vstup[i]);
+            qDebug()<<"nacestna "<<vstup[i].NameInner;
+            vystup.push_back(vstup[i]);
         }
     }
 
@@ -281,39 +281,60 @@ QString IbisOvladani::slozeniTextuFront(QString LineName,QString DestinationName
 {
     qDebug()<<"IbisOvladani::slozeniTextuFront";
     QString vystup="";
-    vystup+="aA1 <1B>b<1B>l<12><0A><1B><22><1B>l<12><1B>p<2D><1B><58>";
- //vystup+="aA1 <1B>b<1B>l<12><1B><22><1B><1B>p<2D><1B><58>";
+    // funkcni vystup+="aA1 <1B>b<1B>l<12><0A><1B><22><1B>l<12><1B>p<2D><1B><58>";
+    vystup+="aA1 <1B>b<1B>p<2C><1B><58><1B><22>"; //ME kopie
+    //vystup+="aA1 <1B>b<1B>l<12><1B><22><1B><1B>p<2D><1B><58>";
     vystup+=LineName;
     //vystup+="<0C><1B>c<1B><55><1B>l<2E>";
-    vystup+="<0A><1B><21><1B>c<1B>l<2F><1B><55>";
-    vystup+=DestinationName;
-    vystup+="<0C>";
+    // funkcni vystup+="<0A><1B><21><1B>c<1B>l<2F><1B><55>";
+    vystup+="<0C><1B>c<1B>l<2F><1B><55><1B><21>"; //ME kopie
+    vystup+=nahradZobacek( DestinationName);
+    vystup+="<0C><1B>c";
     return vystup;
 }
 int IbisOvladani::odesliFrontKomplet(QVector<SeznamZastavek>zastavky,int index)
 {
     qDebug()<<"IbisOvladani::odesliFrontKomplet";
     QString LineName=zastavky[index].LineName;
-    QString DestinationName=nahradZobacek( zastavky.last().NameFront);
+    QString DestinationName= zastavky.last().NameFront;
     dopocetCelni(slozeniTextuFront(LineName,DestinationName));
     return 1;
 }
 
 
-QString IbisOvladani::slozeniTextuSide(QVector<SeznamZastavek> nacestne,QString LineName,QString DestinationName)
+QString IbisOvladani::slozeniTextuSideAA(QVector<SeznamZastavek> nacestne,QString LineName,QString DestinationName)
 {
     qDebug()<<"IbisOvladani::slozeniTextuSide";
     QString vystup="";
-    vystup+="aA1 ";
-    vystup+="<1B>b<1B>c<1B>l<11><1B>p<2D><1B><58>";
+    vystup+="aA2 ";
+    vystup+="<1B>p<2C><1B><58><1B><22>"; //ME kopie
     vystup+=LineName;
-    vystup+="<0A><1B>c<1B>l<2E><1B><53>"; //y0
+    vystup+="<0C><1B>c<1B>l<2F><1B><52><1B><21>"; //y0
     vystup+=nahradZobacek( DestinationName);
-    vystup+="<0A>";
-    for (int i =0;i<nacestne.count();i++)
+    vystup+="<0C><1B>c";
+    /*for (int i =0;i<nacestne.count();i++)
     {
         vystup+="<1B><3A>"; //y10
         vystup+=nacestne[i].NameSide;
+
+    }
+    vystup+="<0B>";
+    */
+
+    return vystup;
+}
+QString IbisOvladani::slozeniTextuSideZN(QVector<SeznamZastavek> nacestne)
+{
+    qDebug()<<"IbisOvladani::slozeniTextuSide";
+    QString vystup="";
+    vystup+="zN ";
+    vystup+="<1B>z<1A><1B>l<2F><1B><52><1B><21>"; //ME kopie
+
+    for (int i =0;i<nacestne.count();i++)
+    {
+        vystup+="<0A>";
+        vystup+=nahradZobacek(nacestne[i].NameSide);
+
 
     }
     vystup+="<0B>";
@@ -326,7 +347,8 @@ int IbisOvladani::odesliSideKomplet(QVector <SeznamZastavek> zastavky,int index)
     qDebug()<<"IbisOvladani::odesliSideKomplet";
     QString LineName=zastavky[index].LineName;
     QString DestinationName=zastavky.last().NameSide;
-    this->dopocetCelni(slozeniTextuSide(vytvorNacestne(zastavky,index),LineName,DestinationName));
+    this->dopocetCelni(slozeniTextuSideAA(vytvorNacestne(zastavky,index),LineName,DestinationName));
+    this->dopocetCelni(slozeniTextuSideZN(vytvorNacestne(zastavky,index)));
 
     return 1;
 }
@@ -352,6 +374,7 @@ QString IbisOvladani::slozeniTextuInnerL(QString LineName)
     vystup+=LineName;
     return vystup;
 }
+
 QString IbisOvladani::slozeniTextuInnerZA(QString DestinationName)
 {
     qDebug()<<"IbisOvladani::slozeniTextuInnerZA";
@@ -373,6 +396,9 @@ QString IbisOvladani::slozeniTextuInnerZN(QVector<SeznamZastavek> nacestne)
 
     return vystup;
 }
+
+
+
 QString IbisOvladani::slozeniTextuInnerV(QString StopName)
 {
     qDebug()<<"IbisOvladani::slozeniTextuInnerV";
@@ -382,8 +408,74 @@ QString IbisOvladani::slozeniTextuInnerV(QString StopName)
     return vystup;
 }
 
+
+QString IbisOvladani::slozeniTextuJKZr1(QVector<SeznamZastavek> nacestne,QString LineName)
+{
+    qDebug()<<"IbisOvladani::slozeniTextuJKZr1";
+    QString vystup="aA<3A>3";
+    //vystup+="<1B>p<26><1B><53><1B><22>"; BUSE?
+    vystup+="<1B>t<11>";
+   // vystup+=LineName;
+   // vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>"; BUSE?
+    //vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>";
+    vystup+="přes:";
+    for (int i=0;i<nacestne.count();i++)
+    {
+        vystup+= nahradZobacek( nacestne[i].NameInner);
+        vystup+="-";
+        if (i>3)
+        {
+            vystup+="<0B>";
+            return vystup;
+        }
+    }
+    vystup+="<0B>";
+
+    return vystup;
+}
+
+QString IbisOvladani::slozeniTextuJKZr2(QString DestinationName,QString LineName)
+{
+    qDebug()<<"IbisOvladani::slozeniTextuJKZr2";
+    QString vystup="aA<3A>2";
+    //vystup+="<1B>p<26><1B><53><1B><22>"; BUSE?
+    //vystup+="<1B>t<11>";
+   // vystup+=LineName;
+   // vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>"; BUSE?
+    //vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>";
+    vystup+=nahradZobacek(DestinationName);
+
+
+
+    return vystup;
+}
+
+
+int IbisOvladani::odesliJKZKomplet(QVector <SeznamZastavek> zastavky,int index)
+{
+    qDebug()<<"IbisOvladani::odesliInnerKomplet";
+    QString LineName=zastavky[index].LineName;
+    QString DestinationName=zastavky[zastavky.count()-1].NameInner;
+
+    this->dopocetCelni(slozeniTextuJKZr1(vytvorNacestne( zastavky,index),LineName));
+    this->dopocetCelni(slozeniTextuJKZr2(DestinationName,LineName));
+    this->dopocetCelni("l"+LineName);
+    /*
+    this->dopocetCelni(slozeniTextuInnerL(LineName));
+    this->dopocetCelni(slozeniTextuInnerV(zastavky[index].NameInner));
+    this->dopocetCelni(slozeniTextuInnerZA(DestinationName));
+    this->dopocetCelni(slozeniTextuInnerZN(vytvorNacestne(zastavky,index)));
+    */
+    return 1;
+}
+
+
 QString IbisOvladani::nahradZobacek(QString vstup)
 {
-        vstup.replace("<","<3C>");
-        return vstup;
+    vstup.replace("<","?");
+    //vstup.replace("<","<3C>");
+    vstup.replace(">","<3E>");
+    vstup.replace("?","<3C>");
+
+    return vstup;
 }

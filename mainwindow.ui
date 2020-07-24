@@ -496,7 +496,7 @@
      <string notr="true">/*background-color:rgb(52, 101, 164); */</string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QWidget" name="horizontalLayoutWidget_2">
@@ -1008,7 +1008,7 @@
               <bool>false</bool>
              </property>
              <property name="text">
-              <string>100358</string>
+              <string>100952</string>
              </property>
             </widget>
            </item>
@@ -1026,7 +1026,7 @@
            <item>
             <widget class="QLineEdit" name="polespoje">
              <property name="text">
-              <string>1006</string>
+              <string>1001</string>
              </property>
             </widget>
            </item>
@@ -1203,6 +1203,13 @@ color: rgb(238, 238, 236);</string>
           <widget class="QPushButton" name="tlacitkoNavic">
            <property name="text">
             <string>Fullscreen</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="tlacitkoIBIS">
+           <property name="text">
+            <string>IBIS</string>
            </property>
           </widget>
          </item>
@@ -1557,7 +1564,7 @@ color: rgb(238, 238, 236);</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

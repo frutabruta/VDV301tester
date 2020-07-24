@@ -258,10 +258,6 @@ void MainWindow::AktualizaceDispleje()
     QString textDoPole="";
     mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
     ui->prikazovyvysledek->setText(textDoPole);
-    ibisOvladani.dopocetCelni("xC2");
-    //ibisOvladani.odesliFrontKomplet(globalniSeznamZastavek,novatrida.cislo);
-    ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,novatrida.cislo);
-    //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
 
 
     /*
@@ -401,4 +397,14 @@ void MainWindow::on_tlacitkoNastavPort_clicked()
        ibisOvladani.dopocetCelni("zA povel zA");
        ibisOvladani.dopocetCelni("zN povel zN");
        ibisOvladani.dopocetCelni("xC2");
+}
+
+void MainWindow::on_tlacitkoIBIS_clicked()
+{
+    ibisOvladani.dopocetCelni("xC2");
+    ibisOvladani.odesliFrontKomplet(globalniSeznamZastavek,novatrida.cislo);
+    ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,novatrida.cislo);
+    //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
+    ibisOvladani.odesliJKZKomplet(globalniSeznamZastavek,novatrida.cislo);
+
 }

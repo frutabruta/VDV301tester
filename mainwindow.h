@@ -85,6 +85,8 @@ private slots:
 
     void on_tlacitkoNastavPort_clicked();
 
+    void on_tlacitkoIBIS_clicked();
+
 private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);

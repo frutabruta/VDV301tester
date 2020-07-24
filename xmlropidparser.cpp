@@ -503,7 +503,7 @@ int XmlRopidParser::truncateAll()
     vlozD(koren);
     vlozZ(koren);
      * */
-    //truncateTable("`t`");
+    truncateTable("`t`");
     truncateTable("`x`");
     truncateTable("`s`");
     truncateTable("`l`");
