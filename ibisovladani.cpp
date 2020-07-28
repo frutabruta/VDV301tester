@@ -412,7 +412,7 @@ QString IbisOvladani::slozeniTextuInnerV(QString StopName)
 QString IbisOvladani::slozeniTextuJKZr1(QVector<SeznamZastavek> nacestne,QString LineName)
 {
     qDebug()<<"IbisOvladani::slozeniTextuJKZr1";
-    QString vystup="aA<3A>3";
+    QString vystup="aA<3B>3";
     //vystup+="<1B>p<26><1B><53><1B><22>"; BUSE?
     vystup+="<1B>t<11>";
    // vystup+=LineName;
@@ -478,4 +478,9 @@ QString IbisOvladani::nahradZobacek(QString vstup)
     vstup.replace("?","<3C>");
 
     return vstup;
+}
+
+QString IbisOvladani::odesliBUSEjednoradekAA(QVector<SeznamZastavek> nacestne,QString DestinationName)
+{
+
 }

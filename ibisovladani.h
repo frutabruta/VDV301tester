@@ -29,6 +29,7 @@ public:
     QString slozeniTextuSideZN(QVector<SeznamZastavek> nacestne);
     int odesliJKZKomplet(QVector<SeznamZastavek> zastavky, int index);
 
+    QString odesliBUSEjednoradekAA(QVector<SeznamZastavek> nacestne, QString DestinationName);
 private:
     QString nahradDiakritiku(QString vstup);
     QString slozeniTextuSideAA(QVector<SeznamZastavek> nacestne, QString LineName, QString DestinationName);
