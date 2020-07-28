@@ -331,7 +331,7 @@ QString IbisOvladani::slozeniTextuSideAA(QVector<SeznamZastavek> nacestne,QStrin
     vystup+="aA2 ";
     vystup+="<1B>p<2C><1B><58><1B><22>"; //ME kopie
     vystup+=LineName;
-    vystup+="<0C><1B>c<1B>l<2F><1B><53><1B><21>"; //y0
+    vystup+="<0C><1B>c<1B>l<2F><1B><51><1B><21>"; //y0
     vystup+=nahradZobacek( DestinationName);
     vystup+="<0C><1B>c";
     /*for (int i =0;i<nacestne.count();i++)
@@ -440,17 +440,21 @@ QString IbisOvladani::slozeniTextuJKZr1(QVector<SeznamZastavek> nacestne,QString
    // vystup+=LineName;
    // vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>"; BUSE?
     //vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>";
-    vystup+="přes:";
-    for (int i=0;i<nacestne.count();i++)
+    vystup+="přes zastávky/via: ";
+    int i=0;
+    for (i=0;i<(nacestne.count()-1);i++)
     {
         vystup+= nahradZobacek( nacestne[i].NameInner);
-        vystup+="-";
-        if (i>3)
+
+        vystup+=" - ";
+        /*if (i>3)
         {
             vystup+="<0B>";
             return vystup;
-        }
+        } */
     }
+    vystup+= nahradZobacek( nacestne[i].NameInner);
+
     vystup+="<0B>";
 
     return vystup;
@@ -504,7 +508,7 @@ QString IbisOvladani::nahradZobacek(QString vstup)
 
 QString IbisOvladani::slozBUSEjednoradekAA(QVector<SeznamZastavek> nacestne,QString DestinationName,QString LineName)
 {
-    QString vystup="aA<3B>2";
+    QString vystup="aA<3B>2 <3E>";
     //vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>";
     vystup+=this->nahradZobacek( DestinationName);
     return vystup;
