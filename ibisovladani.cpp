@@ -447,13 +447,14 @@ QString IbisOvladani::slozeniTextuJKZr1(QVector<SeznamZastavek> nacestne,QString
         vystup+= nahradZobacek( nacestne[i].NameInner);
 
         vystup+=" - ";
-        /*if (i>3)
+        if (i>6)
         {
+             vystup+= nahradZobacek( nacestne[i+1].NameInner);
             vystup+="<0B>";
             return vystup;
-        } */
+        }
     }
-    vystup+= nahradZobacek( nacestne[i].NameInner);
+    vystup+= nahradZobacek( nacestne[i+1].NameInner);
 
     vystup+="<0B>";
 
