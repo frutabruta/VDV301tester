@@ -406,5 +406,5 @@ void MainWindow::on_tlacitkoIBIS_clicked()
     ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,novatrida.cislo);
     //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
     ibisOvladani.odesliJKZKomplet(globalniSeznamZastavek,novatrida.cislo);
-
+    ibisOvladani.odeslikompletBUSEjednoradekAA(globalniSeznamZastavek,novatrida.cislo);
 }

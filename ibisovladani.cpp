@@ -309,7 +309,7 @@ QString IbisOvladani::slozeniTextuSideAA(QVector<SeznamZastavek> nacestne,QStrin
     vystup+="aA2 ";
     vystup+="<1B>p<2C><1B><58><1B><22>"; //ME kopie
     vystup+=LineName;
-    vystup+="<0C><1B>c<1B>l<2F><1B><52><1B><21>"; //y0
+    vystup+="<0C><1B>c<1B>l<2F><1B><53><1B><21>"; //y0
     vystup+=nahradZobacek( DestinationName);
     vystup+="<0C><1B>c";
     /*for (int i =0;i<nacestne.count();i++)
@@ -328,7 +328,7 @@ QString IbisOvladani::slozeniTextuSideZN(QVector<SeznamZastavek> nacestne)
     qDebug()<<"IbisOvladani::slozeniTextuSide";
     QString vystup="";
     vystup+="zN ";
-    vystup+="<1B>z<1A><1B>l<2F><1B><52><1B><21>"; //ME kopie
+    vystup+="<1B>z<1A><1B>l<2F><1B><51><1B><21>"; //ME kopie
 
     for (int i =0;i<nacestne.count();i++)
     {
@@ -480,7 +480,19 @@ QString IbisOvladani::nahradZobacek(QString vstup)
     return vstup;
 }
 
-QString IbisOvladani::odesliBUSEjednoradekAA(QVector<SeznamZastavek> nacestne,QString DestinationName)
+QString IbisOvladani::slozBUSEjednoradekAA(QVector<SeznamZastavek> nacestne,QString DestinationName,QString LineName)
 {
+    QString vystup="aA<3B>3";
+    vystup+=LineName;
+    vystup+="<1B>p<26><1B><53><1B><22>";
+    vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>";
+    vystup+=this->nahradZobacek( DestinationName);
+}
 
+int IbisOvladani::odeslikompletBUSEjednoradekAA(QVector<SeznamZastavek> zastavky,int index)
+{
+    QString LineName=zastavky[index].LineName;
+    QString DestinationName=zastavky[zastavky.count()-1].NameInner;
+    this->dopocetCelni(nahradDiakritiku(this->slozBUSEjednoradekAA(zastavky,DestinationName,LineName)));
+    return 1;
 }
