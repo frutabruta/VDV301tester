@@ -33,6 +33,7 @@ public:
     //QString odeslikompletBUSEjednoradekAA(QVector<SeznamZastavek> nacestne, QString DestinationName, QString LineName);
     //QString odeslikompletBUSEjednoradekAA(QVector<SeznamZastavek> zastavky, int index);
     int odeslikompletBUSEjednoradekAA(QVector<SeznamZastavek> zastavky, int index);
+    int odesliRearKomplet(QVector<SeznamZastavek> zastavky, int index);
 private:
     QString nahradDiakritiku(QString vstup);
     QString slozeniTextuSideAA(QVector<SeznamZastavek> nacestne, QString LineName, QString DestinationName);
@@ -43,6 +44,7 @@ private:
     QString slozeniTextuInnerL(QString LineName);
     QString slozeniTextuJKZr1(QVector<SeznamZastavek> nacestne, QString LineName);
     QString slozeniTextuJKZr2(QString DestinationName, QString LineName);
+    QString slozeniTextuRear(QString LineName);
 };
 
 #endif // IBISOVLADANI_H
