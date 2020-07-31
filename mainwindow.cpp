@@ -33,12 +33,12 @@ void MainWindow::xmlHromadnyUpdate()
     qDebug()<<"MainWindow::xmlHromadnyUpdate()";
 
     ui->locationStateIndicator->setText(novatrida.locationState);
-     QDomDocument vstupniDomXml;
+    QDomDocument vstupniDomXml;
     if (novatrida.prestupy==true)
     {
 
-    mpvParser.StahniMpvXml(globalniSeznamZastavek[novatrida.cislo].cisloCis,globalniSeznamZastavek[novatrida.cislo].ids);
-    connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
+        mpvParser.StahniMpvXml(globalniSeznamZastavek[novatrida.cislo].cisloCis,globalniSeznamZastavek[novatrida.cislo].ids);
+        connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     }
 
     OdeslatDataDoDispleju(vstupniDomXml);
@@ -54,7 +54,7 @@ void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument) //novy
     QUrl seznamAdres[]={QUrl("http://192.168.12.128:60011"),QUrl("http://127.0.0.1:47475")};
     int pocetAdres=2;
     for(int i=0;i<pocetAdres;i++ )
-    {        
+    {
         PostDoDispleje(seznamAdres[i],vysledek2);
     }
     qDebug()<<"\n MainWindow::xmlUpdate";
@@ -144,8 +144,14 @@ int MainWindow::on_prikaztlacitko_clicked()
     novatrida.cislo=1;
     //mojesql.zjistiPocet(novatrida.pocetZastavek,novatrida.cislo, novatrida.aktlinka,novatrida.aktspoj);
     QString textDoPole="";
-    mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek);
+    int vysledek=mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek);
+    if (vysledek==0)
+    {
+        textDoPole="spoj neexistuje";
+        ui->prikazovyvysledek->setText(textDoPole);
+        return 0;
 
+    }
 
     xmlHromadnyUpdate();
 
@@ -153,6 +159,7 @@ int MainWindow::on_prikaztlacitko_clicked()
     if(globalniSeznamZastavek.empty()==1)
     {
         qDebug()<<"seznam zastavek  je prazdny";
+
         return 0;
     }
     else
@@ -197,9 +204,14 @@ void MainWindow::on_sipkaNahoru_clicked()
     novatrida.doorState="AllDoorsClosed";
     //novatrida.locationState="BetweenStop";
     ui->popisek->setText(QString::number(novatrida.cislo));
-    mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek);
+    int vysledek=mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek);
     //xmlUpdate(QUrl("http://192.168.1.128:60011"));
-    xmlHromadnyUpdate();
+    if (vysledek==1)
+    {
+        xmlHromadnyUpdate();
+    }
+
+
 }
 
 void MainWindow::on_sipkaDolu_clicked()
@@ -353,7 +365,7 @@ void MainWindow::on_prestupyCheckbox_stateChanged(int arg1)
 
 void MainWindow::on_checkBox_stateChanged(int arg1)
 {
-       novatrida.prestupy= ui->checkBox->checkState();
+    novatrida.prestupy= ui->checkBox->checkState();
 }
 
 
@@ -385,7 +397,7 @@ void MainWindow::on_tlacitkoTruncate_clicked()
 
 void MainWindow::on_tlacitkoOdesliPrikaz_clicked()
 {
-   // ibisOvladani.dopocetCelni("l006");
+    // ibisOvladani.dopocetCelni("l006");
 }
 
 void MainWindow::on_tlacitkoNastavPort_clicked()
@@ -393,10 +405,10 @@ void MainWindow::on_tlacitkoNastavPort_clicked()
     ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
     ibisOvladani.dopocetCelni("l006");
     ibisOvladani.dopocetCelni("aA1 ahoj");
-       ibisOvladani.dopocetCelni("v povel v\\");
-       ibisOvladani.dopocetCelni("zA povel zA");
-       ibisOvladani.dopocetCelni("zN povel zN");
-       ibisOvladani.dopocetCelni("xC2");
+    ibisOvladani.dopocetCelni("v povel v\\");
+    ibisOvladani.dopocetCelni("zA povel zA");
+    ibisOvladani.dopocetCelni("zN povel zN");
+    ibisOvladani.dopocetCelni("xC2");
 }
 
 void MainWindow::on_tlacitkoIBIS_clicked()

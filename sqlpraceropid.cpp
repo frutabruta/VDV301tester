@@ -26,7 +26,7 @@ void SqlPraceRopid::Pripoj(QString adresa)
 
 
 
-void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek )
+int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek )
 {
     docasnySeznamZastavek.clear();
     qDebug()<< "SQLprace::StahniSeznam";
@@ -87,6 +87,10 @@ void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSp
         }
     }
     counter=docasnySeznamZastavek.length();
+    if (counter ==0)
+    {
+        return 0;
+    }
     qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(counter);
     QString cil=docasnySeznamZastavek.at(docasnySeznamZastavek.length()-1).StopName;
     qInfo()<<"DebugPointD5";
@@ -98,6 +102,7 @@ void SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSp
     VypisPole(docasnySeznamZastavek,counter);
     pocetVysledku=counter;
     qInfo()<<"pocetzastavek je"<<QString::number(pocetVysledku);
+    return 1;
 }
 
 

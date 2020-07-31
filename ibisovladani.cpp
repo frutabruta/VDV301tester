@@ -454,7 +454,7 @@ QString IbisOvladani::slozeniTextuJKZr1(QVector<SeznamZastavek> nacestne,QString
             return vystup;
         }
     }
-    vystup+= nahradZobacek( nacestne[i+1].NameInner);
+    vystup+= nahradZobacek( nacestne[i].NameInner);
 
     vystup+="<0B>";
 
