@@ -4,6 +4,7 @@
 #include "sqlprace.h"
 #include "httpserver/myhttpserver.h"
 #include "xmlgenerator.h"
+
 #include <QNetworkReply>
 #include "VDV301_Display/seznamzastavek.h"
 
@@ -321,10 +322,12 @@ void MainWindow::on_tlacitkoNavic_clicked()
 
 void MainWindow::on_prijezd_clicked()
 {
+
     qDebug()<<"\n on_prijezd_clicked \n";
     novatrida.doorState="DoorsOpen";
     novatrida.locationState="AtStop";
     xmlHromadnyUpdate();
+
 }
 
 /*
@@ -342,8 +345,11 @@ void MainWindow::on_BeforeStop_clicked()
 
 void MainWindow::on_AtStop_2_clicked()
 {
+ //   hlasic.gong();
+    hlasic.vyhlasZastavku(globalniSeznamZastavek[novatrida.cislo].cisloOis,globalniSeznamZastavek[novatrida.cislo].cisloCis);
     novatrida.locationState="AtStop";
     xmlHromadnyUpdate();
+
 }
 
 void MainWindow::on_AfterStop_clicked()
@@ -402,6 +408,9 @@ void MainWindow::on_tlacitkoOdesliPrikaz_clicked()
 
 void MainWindow::on_tlacitkoNastavPort_clicked()
 {
+
+
+
     ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
     ibisOvladani.dopocetCelni("l006");
     ibisOvladani.dopocetCelni("aA1 ahoj");

@@ -7,6 +7,7 @@
 #include "xmlmpvparser.h"
 #include "xmlropidparser.h"
 #include "ibisovladani.h"
+#include "hlasic.h"
 
 #include "sqlpraceropid.h"
 #include <QNetworkAccessManager>
@@ -14,6 +15,7 @@
 #define MAX_ZAST 100
 #include "VDV301_Display/seznamzastavek.h"
 #include <QVector>
+
 #include <QtSerialPort/QSerialPort>
 
 namespace Ui {
@@ -45,6 +47,7 @@ public:
     void ObnoveniServeru(QByteArray dataDoServeru);
     XmlRopidParser xmlRopidParser;
     IbisOvladani ibisOvladani;
+    Hlasic hlasic;
 
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);

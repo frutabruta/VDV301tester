@@ -20,6 +20,8 @@ public:
     QString NameLcd="";
     QString NameRear="";
     QString NameInner="";
+
+    int cisloOis=0;
     int nacestna=0;
     SeznamZastavek();
 

@@ -108,9 +108,9 @@ int XmlRopidParser::vlozL(QDomElement koren)
         queryString+=(m.at(i).toElement().attribute("tl"));
         queryString+=("\" ,\"");
         queryString+=(m.at(i).toElement().attribute("n"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("kup"));
         queryString+=("\" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("kup"));
+        queryString+=(" ,");
         if(m.at(i).toElement().attribute("ids")=="")
         {
           queryString+="NULL";
@@ -138,7 +138,7 @@ int XmlRopidParser::vlozL(QDomElement koren)
         queryString+=("\" ,\"");
         */
         queryString+=("  );");
-        //qDebug()<<queryString;
+        qDebug()<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
     qDebug()<<"konecImportuL";
@@ -174,7 +174,7 @@ int XmlRopidParser::vlozD(QDomElement koren)
         queryString+=(m.at(i).toElement().attribute("em"));
 
         queryString+=("\"  );");
-        //qDebug()<<queryString;
+        qDebug()<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
     qDebug()<<"konecImportuD";
@@ -295,9 +295,9 @@ int XmlRopidParser::vlozZ(QDomElement koren)
         queryString+=(m.at(i).toElement().attribute("sta"));
         queryString+=("\" ,\"");
         queryString+=(m.at(i).toElement().attribute("m"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("bbn"));
-        queryString+=("\" ,\"");
+        queryString+=("\" ,");
+        queryString+=overBoolean(m.at(i).toElement().attribute("bbn"));
+        queryString+=(" ,\"");
         queryString+=(m.at(i).toElement().attribute("kidos"));
         queryString+=("\" ,\"");
         queryString+=(m.at(i).toElement().attribute("st"));
@@ -314,7 +314,7 @@ int XmlRopidParser::vlozZ(QDomElement koren)
         queryString+=(" ,");
         queryString+=overBoolean(m.at(i).toElement().attribute("xLet"));
         queryString+=("  );");
-        //qDebug()<<queryString;
+        qDebug()<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
     qDebug()<<"konecImportuZ";
@@ -330,42 +330,42 @@ int XmlRopidParser::vlozS(QDomElement koren)
         //qDebug()<<m.at(i).toElement().attribute("n");
         QString queryString("INSERT INTO s(s,id,l,p,dd,pr,d,tv,kj,ty,ch,ids,vy,man,c,neve) VALUES( ");
         queryString+=(m.at(i).toElement().attribute("s"));
+        queryString+=(" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("id"));
+        queryString+=(" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("l"));
+        queryString+=(" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("p"));
+        queryString+=(" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("dd"));
+        queryString+=(" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("pr"));
+        queryString+=(" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("d"));
+        queryString+=(" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("tv"));
         queryString+=(" ,\"");
-        queryString+=(m.at(i).toElement().attribute("id"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("l"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("p"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("dd"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("pr"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("d"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("tv"));
-        queryString+=("\" ,\"");
         queryString+=(m.at(i).toElement().attribute("kj"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("ty"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("ch"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("ids"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("vy"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("man"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("c"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("neve"));
+        queryString+=("\" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("ty"));
+        queryString+=(" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("ch"));
+        queryString+=(" ,");
+        queryString+=overBoolean(m.at(i).toElement().attribute("ids"));
+        queryString+=(" ,");
+        queryString+=overBoolean(m.at(i).toElement().attribute("vy"));
+        queryString+=(" ,");
+        queryString+=overBoolean(m.at(i).toElement().attribute("man"));
+        queryString+=(" ,");
+        queryString+=overInteger(m.at(i).toElement().attribute("c"));
+        queryString+=(" ,");
+        queryString+=overBoolean(m.at(i).toElement().attribute("neve"));
         //queryString+=("\" ,\"");
 
 
 
-        queryString+=("\"  );");
-        //qDebug()<<queryString;
+        queryString+=("  );");
+        qDebug()<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
         vlozX(m.at(i).toElement());
     }

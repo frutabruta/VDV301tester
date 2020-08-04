@@ -5,10 +5,11 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT += sql
+QT += network sql
 QTPLUGIN += QSQLMYSQL
 QT += xml
 QT += serialport
+QT += multimedia
 #include <QtXml>
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -42,6 +43,7 @@ QT += network
 //LIBS += -lqhttpserver
 
 SOURCES += \
+    hlasic.cpp \
         main.cpp \
         mainwindow.cpp \
     prestupmpv.cpp \
@@ -57,6 +59,7 @@ SOURCES += \
 
 
 HEADERS += \
+    hlasic.h \
         mainwindow.h \
     prestupmpv.h \
     sqlprace.h \

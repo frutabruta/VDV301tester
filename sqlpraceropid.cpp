@@ -12,14 +12,19 @@ void SqlPraceRopid::Pripoj(QString adresa)
     qDebug()<< "SQLprace::Pripoj";
     this->mojeDatabaze = QSqlDatabase::addDatabase("QMYSQL","my_sql_db");
     this->mojeDatabaze.setHostName(adresa);
+    //this->mojeDatabaze.setPort(3306);
     //this->mojeDatabaze.setHostName("127.0.0.1");
-    this->mojeDatabaze.setDatabaseName("ropidXMLimport");
+    this->mojeDatabaze.setDatabaseName("ropidxmlimport");
     this->mojeDatabaze.setUserName("uzivatel2");
     this->mojeDatabaze.setPassword("iOrXsX4FQZdbcSTf");
     bool ok = this->mojeDatabaze.open();
     if (ok==true)
     {
         qDebug()<<"podarilo se pripojit k databazi ROPID";
+    }
+    else
+    {
+        qDebug()<<"nepovedlo se";
     }
     //vysledek=ok;
 }
@@ -33,7 +38,7 @@ int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpo
     qInfo()<<"DebugPointA";
     //QString queryString("SELECT a.stop_order, b.name, a.time, b.cis_id,f.mpvalias FROM lineroutestoptime a ");
 
-    QString queryString2("SELECT DISTINCT z.n, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c,x.na,t.vtn FROM x ");
+    QString queryString2("SELECT DISTINCT z.n, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c,x.na,t.vtn,z.ois FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
@@ -79,6 +84,7 @@ int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpo
             aktZast.LineName=query.value(7).toString();
             aktZast.nacestna=query.value(8).toInt();
             aktZast.NameInner=query.value(9).toString();
+            aktZast.cisloOis=query.value(10).toUInt();
             qInfo()<<"DebugPointC";
             counter++;
             qDebug()<<"citac: "<<citacMaximum ;
