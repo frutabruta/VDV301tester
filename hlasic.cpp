@@ -86,9 +86,11 @@ int Hlasic::vyhlasZastavku2(int kodOis, int kodCis)
         qDebug()<<"soubor  cis "<<QString::number(kodCis)<<" nexistuje, pouzivam cislo OIS:"<<QString::number(kodOis);
         QMediaPlayer * player = new QMediaPlayer;
 
+        /*
+
         player->setMedia(QUrl::fromLocalFile(testOis));
-        //player->
         player->play();
+        */
 
     }
 
