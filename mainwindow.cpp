@@ -187,7 +187,10 @@ void MainWindow::on_sipkaNahoru_clicked()
         else
         {
             if(novatrida.locationState=="BeforeStop")
-            {novatrida.locationState="AtStop";}
+            {
+                novatrida.locationState="AtStop";
+                priPrijezdu();
+            }
 
             if(novatrida.locationState=="BetweenStop")
             {novatrida.locationState="BeforeStop";}
@@ -226,6 +229,7 @@ void MainWindow::on_sipkaDolu_clicked()
             {
                 novatrida.locationState="AtStop";
                 novatrida.cislo--;
+                priPrijezdu();
             }
             else
             {
@@ -286,7 +290,11 @@ void MainWindow::AktualizaceDispleje()
 void MainWindow::on_pridatTlacitko_clicked()
 {
     qDebug()<<"\n on_pridatTlacitko_clicked \n";
-    novatrida.cislo++;
+    if (novatrida.cislo<(novatrida.pocetZastavek-1))
+    {
+        novatrida.cislo++;
+    }
+
     ui->popisek->setText(QString::number(novatrida.cislo));
     AktualizaceDispleje();
     xmlHromadnyUpdate();
@@ -295,7 +303,10 @@ void MainWindow::on_pridatTlacitko_clicked()
 void MainWindow::on_ubratTlacitko_clicked()
 {
     qDebug()<<"\n on_ubratTlacitko_clicked \n";
-    novatrida.cislo--;
+    if (novatrida.cislo>=2)
+    {
+        novatrida.cislo--;
+    }
     ui->popisek->setText(QString::number(novatrida.cislo));
     AktualizaceDispleje();
     xmlHromadnyUpdate();
@@ -323,10 +334,10 @@ void MainWindow::on_tlacitkoNavic_clicked()
 void MainWindow::on_prijezd_clicked()
 {
 
-    qDebug()<<"\n on_prijezd_clicked \n";
-    novatrida.doorState="DoorsOpen";
-    novatrida.locationState="AtStop";
-    xmlHromadnyUpdate();
+
+    qDebug()<<"\n MainWindow::on_prijezd_clicked() \n";
+    this->priPrijezdu();
+
 
 }
 
@@ -345,32 +356,35 @@ void MainWindow::on_BeforeStop_clicked()
 
 void MainWindow::on_AtStop_2_clicked()
 {
- //   hlasic.gong();
-    hlasic.vyhlasZastavku(globalniSeznamZastavek[novatrida.cislo].cisloOis,globalniSeznamZastavek[novatrida.cislo].cisloCis);
-    novatrida.locationState="AtStop";
-    xmlHromadnyUpdate();
+    qDebug()<<"";
+    //   hlasic.gong();
+    // hlasic.vyhlasZastavku2(globalniSeznamZastavek[novatrida.cislo].cisloOis,globalniSeznamZastavek[novatrida.cislo].cisloCis);
+    priPrijezdu();
 
 }
 
 void MainWindow::on_AfterStop_clicked()
 {
+    qDebug()<<"";
     novatrida.locationState="AfterStop";
     xmlHromadnyUpdate();
 }
 
 void MainWindow::on_BetweenStop_clicked()
 {
+    qDebug()<<"";
     novatrida.locationState="BetweenStop";
     xmlHromadnyUpdate();
 }
 
 void MainWindow::on_prestupyCheckbox_stateChanged(int arg1)
 {
-
+qDebug()<<"";
 }
 
 void MainWindow::on_checkBox_stateChanged(int arg1)
 {
+    qDebug()<<"";
     novatrida.prestupy= ui->checkBox->checkState();
 }
 
@@ -378,37 +392,43 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 
 void MainWindow::on_tlacitkoNactiXMLropid_clicked()
 {
+    qDebug()<<"";
     xmlRopidParser.otevriSoubor();
 }
 
 void MainWindow::on_tlacitkoZpet_clicked()
 {
+    qDebug()<<"";
     ui->prepinadloStran->setCurrentIndex(0);
 }
 
 void MainWindow::on_tlacitkoNastaveni_clicked()
 {
+    qDebug()<<"";
     ui->prepinadloStran->setCurrentIndex(1);
 }
 
 void MainWindow::on_tlacitkoSQL_clicked()
 {
+    qDebug()<<"";
     xmlRopidParser.databazeStart(ui->lineEditSqlServer->text());
 }
 
 void MainWindow::on_tlacitkoTruncate_clicked()
 {
+    qDebug()<<"";
     xmlRopidParser.truncateAll();
 }
 
 void MainWindow::on_tlacitkoOdesliPrikaz_clicked()
 {
+    qDebug()<<"";
     // ibisOvladani.dopocetCelni("l006");
 }
 
 void MainWindow::on_tlacitkoNastavPort_clicked()
 {
-
+qDebug()<<"";
 
 
     ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
@@ -422,6 +442,7 @@ void MainWindow::on_tlacitkoNastavPort_clicked()
 
 void MainWindow::on_tlacitkoIBIS_clicked()
 {
+    qDebug()<<"";
     ibisOvladani.dopocetCelni("xC2");
     ibisOvladani.odesliFrontKomplet(globalniSeznamZastavek,novatrida.cislo);
     ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,novatrida.cislo);
@@ -429,4 +450,32 @@ void MainWindow::on_tlacitkoIBIS_clicked()
     ibisOvladani.odesliJKZKomplet(globalniSeznamZastavek,novatrida.cislo);
     ibisOvladani.odeslikompletBUSEjednoradekAA(globalniSeznamZastavek,novatrida.cislo);
     ibisOvladani.odesliRearKomplet(globalniSeznamZastavek,novatrida.cislo);
+}
+
+
+int MainWindow::priPrijezdu()
+{
+    qDebug()<<"";
+    qDebug()<<"";
+    novatrida.doorState="DoorsOpen";
+
+
+    if (novatrida.cislo<(novatrida.pocetZastavek-1))
+    {
+        hlasic.kompletZastavka(globalniSeznamZastavek[novatrida.cislo-1].cisloCis,globalniSeznamZastavek[novatrida.cislo-1].cisloOis,globalniSeznamZastavek[novatrida.cislo].cisloCis,globalniSeznamZastavek[novatrida.cislo].cisloOis);
+    }
+    else
+    {
+        hlasic.kompletKonecna(globalniSeznamZastavek[novatrida.cislo-1].cisloCis,globalniSeznamZastavek[novatrida.cislo-1].cisloOis );
+    }
+    novatrida.locationState="AtStop";
+    xmlHromadnyUpdate();
+
+    return 1;
+}
+
+int MainWindow::priOdjezdu()
+{
+    qDebug()<<"";
+    return 1;
 }

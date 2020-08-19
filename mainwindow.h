@@ -51,6 +51,8 @@ public:
 
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);
+    int priPrijezdu();
+    int priOdjezdu();
 private slots:
   // QByteArray requestReceived(QNetworkReply *replyoo);
     int on_prikaztlacitko_clicked();
