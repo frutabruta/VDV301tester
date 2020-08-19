@@ -10,6 +10,7 @@ QTPLUGIN += QSQLMYSQL
 QT += xml
 QT += serialport
 QT += multimedia
+
 #include <QtXml>
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

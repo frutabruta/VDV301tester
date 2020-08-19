@@ -137,6 +137,8 @@ Makefile: BakalarkaTest1.pro ../../../../Qt/5.15.0/mingw81_32/mkspecs/win32-g++/
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_gui_private.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_help.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_help_private.pri \
+		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_httpserver.pri \
+		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_httpserver_private.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_location.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_location_private.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_multimedia.pri \
@@ -196,6 +198,8 @@ Makefile: BakalarkaTest1.pro ../../../../Qt/5.15.0/mingw81_32/mkspecs/win32-g++/
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_serialport_private.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sql.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sql_private.pri \
+		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sslserver.pri \
+		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sslserver_private.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_svg.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_svg_private.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_testlib.pri \
@@ -327,6 +331,8 @@ Makefile: BakalarkaTest1.pro ../../../../Qt/5.15.0/mingw81_32/mkspecs/win32-g++/
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_gui_private.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_help.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_help_private.pri:
+../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_httpserver.pri:
+../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_httpserver_private.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_location.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_location_private.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_multimedia.pri:
@@ -386,6 +392,8 @@ Makefile: BakalarkaTest1.pro ../../../../Qt/5.15.0/mingw81_32/mkspecs/win32-g++/
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_serialport_private.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sql.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sql_private.pri:
+../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sslserver.pri:
+../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sslserver_private.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_svg.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_svg_private.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_testlib.pri:

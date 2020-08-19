@@ -20,6 +20,13 @@ public:
     QString NameLcd="";
     QString NameRear="";
     QString NameInner="";
+    bool prestupVlak=0;
+    bool prestupMetroA=0;
+    bool prestupMetroB=0;
+    bool prestupMetroC=0;
+    bool prestupMetroD=0;
+    bool naZnameni=0;
+
 
     int cisloOis=0;
     int nacestna=0;
