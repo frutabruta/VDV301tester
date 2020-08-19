@@ -16,6 +16,7 @@ public:
     QByteArray devStatus();
     QByteArray createTimestamp();
     QByteArray AllData2(int poradi, int pocetZastavek, QVector<SeznamZastavek> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, bool poslatHlavicku);
+    QByteArray AllDataRopid(int poradi, int pocetZastavek, QVector<SeznamZastavek> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, bool poslatHlavicku);
 signals:
 
 public slots:

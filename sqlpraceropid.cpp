@@ -38,7 +38,7 @@ int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpo
     qInfo()<<"DebugPointA";
     //QString queryString("SELECT a.stop_order, b.name, a.time, b.cis_id,f.mpvalias FROM lineroutestoptime a ");
 
-    QString queryString2("SELECT DISTINCT z.n, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c,x.na,t.vtn,z.ois FROM x ");
+    QString queryString2("SELECT DISTINCT z.n, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c,x.na,t.vtn,z.ois,x.xA,x.xB,x.xC,x.xVla FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
@@ -85,6 +85,11 @@ int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpo
             aktZast.nacestna=query.value(8).toInt();
             aktZast.NameInner=query.value(9).toString();
             aktZast.cisloOis=query.value(10).toUInt();
+            aktZast.prestupMetroA =query.value(11).toBool();
+            aktZast.prestupMetroB =query.value(12).toBool();
+            aktZast.prestupMetroC =query.value(13).toBool();
+            aktZast.prestupVlak =query.value(14).toBool();
+
             qInfo()<<"DebugPointC";
             counter++;
             qDebug()<<"citac: "<<citacMaximum ;
