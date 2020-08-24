@@ -77,18 +77,20 @@ int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpo
             aktZast.DepartureTime=casPrijezdu;
             aktZast.cisloCis=query.value(2).toInt();
             aktZast.ids ="PID";//query.value(4).toString();
-            aktZast.StopName=query.value(3).toString();
-            aktZast.NameFront=query.value(4).toString();
-            aktZast.NameSide=query.value(5).toString();
-            aktZast.NameLcd=query.value(6).toString();
-            aktZast.LineName=query.value(7).toString();
-            aktZast.nacestna=query.value(8).toInt();
-            aktZast.NameInner=query.value(9).toString();
-            aktZast.cisloOis=query.value(10).toUInt();
-            aktZast.prestupMetroA =query.value(11).toBool();
-            aktZast.prestupMetroB =query.value(12).toBool();
-            aktZast.prestupMetroC =query.value(13).toBool();
-            aktZast.prestupVlak =query.value(14).toBool();
+            //aktZast.StopName=query.value(3).toString();
+            aktZast.StopName=query.value(query.record().indexOf("t.ri")).toString();
+
+            aktZast.NameFront=query.value(query.record().indexOf("t.ctn")).toString();
+            aktZast.NameSide=query.value(query.record().indexOf("t.btn")).toString();
+            aktZast.NameLcd=query.value(query.record().indexOf("t.lcdn")).toString();
+            aktZast.LineName=query.value(query.record().indexOf("l.c")).toString();
+            aktZast.nacestna=query.value(query.record().indexOf("t.btn")).toInt();
+            aktZast.NameInner=query.value(query.record().indexOf("t.vtn")).toString();
+            aktZast.cisloOis=query.value(query.record().indexOf("z.ois")).toUInt();
+            aktZast.prestupMetroA =query.value(query.record().indexOf("x.xA")).toBool();
+            aktZast.prestupMetroB =query.value(query.record().indexOf("x.xB")).toBool();
+            aktZast.prestupMetroC =query.value(query.record().indexOf("x.xC")).toBool();
+            aktZast.prestupVlak =query.value(query.record().indexOf("x.xVla")).toBool();
 
             qInfo()<<"DebugPointC";
             counter++;

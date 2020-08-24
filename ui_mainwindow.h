@@ -698,7 +698,7 @@ public:
         tlacitkoOdesliPrikaz->setText(QCoreApplication::translate("MainWindow", "odesliPrikaz", nullptr));
         lineEdit_jmenoPortu->setText(QCoreApplication::translate("MainWindow", "ttyUSB0", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "Adresa SQL serveru", nullptr));
-        lineEditSqlServer->setText(QCoreApplication::translate("MainWindow", "192.168.10.207", nullptr));
+        lineEditSqlServer->setText(QCoreApplication::translate("MainWindow", "192.168.10.210", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 
