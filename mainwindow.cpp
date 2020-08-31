@@ -13,13 +13,16 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    HHserver(47475),
+    HHserver2(47478)
 {
     qDebug()<<"MainWindow::MainWindow";
     ui->setupUi(this);
     ui->prepinadloStran->setCurrentIndex(0);
     ui->prepinadloStran->setWindowState(Qt::WindowFullScreen);
     //MainWindow::setWindowState(Qt::WindowFullScreen);
+
 }
 /*
 int MainWindow::vytvor()
@@ -42,15 +45,24 @@ void MainWindow::xmlHromadnyUpdate()
         connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     }
 
-    OdeslatDataDoDispleju(vstupniDomXml);
+    OdeslatDataDoDispleju(vstupniDomXml,VDV301verze);
 
 }
 
-void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument) //novy
+void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301) //novy
 {
     qDebug()<<"MainWindow::OdeslatDataDoDispleju";
     QByteArray zpracovanoMPV="";
-    QByteArray vysledek2=TestXmlGenerator.AllData2( novatrida.cislo,novatrida.pocetZastavek,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
+    QByteArray vysledek2="";
+    if (verzeVDV301==0)
+    {
+     vysledek2=TestXmlGenerator.AllData2( novatrida.cislo,novatrida.pocetZastavek,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
+    }
+    else
+    {
+     vysledek2=TestXmlGenerator.AllDataRopid( novatrida.cislo,novatrida.pocetZastavek,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
+    }
+
     ObnoveniServeru(vysledek2);
     QUrl seznamAdres[]={QUrl("http://192.168.12.128:60011"),QUrl("http://127.0.0.1:47475")};
     int pocetAdres=2;
@@ -74,7 +86,7 @@ void MainWindow::MpvNetReady()
     qDebug()<<"MainWindow::MpvNetReady";
     mpvParser.naplnVstupDokument(mpvParser.stazenaData);
     mpvParser.prestupyXmlDokumentVystup=mpvParser.VytvorVystupniDokument(mpvParser.parsujDomDokument(),mpvParser.prestupyXmlDokumentVystup);
-    OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup);
+    OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup,VDV301verze);
 }
 
 void MainWindow::ObnoveniServeru(QByteArray dataDoServeru)
@@ -91,6 +103,7 @@ void MainWindow::ObnoveniServeru(QByteArray dataDoServeru)
     argumentXMLserveru.append(hlavicka);
     argumentXMLserveru.append(dataDoServeru);
     HHserver.zapisDoPromenne(argumentXMLserveru);
+    HHserver2.zapisDoPromenne(argumentXMLserveru);
 }
 void MainWindow::PostDoDispleje(QUrl adresaDispleje, QByteArray dataDoPostu)
 {
@@ -145,7 +158,7 @@ int MainWindow::on_prikaztlacitko_clicked()
     novatrida.cislo=1;
     //mojesql.zjistiPocet(novatrida.pocetZastavek,novatrida.cislo, novatrida.aktlinka,novatrida.aktspoj);
     QString textDoPole="";
-    int vysledek=mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek);
+    int vysledek=mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,platnostSpoje);
     if (vysledek==0)
     {
         textDoPole="spoj neexistuje";
@@ -208,7 +221,7 @@ void MainWindow::on_sipkaNahoru_clicked()
     novatrida.doorState="AllDoorsClosed";
     //novatrida.locationState="BetweenStop";
     ui->popisek->setText(QString::number(novatrida.cislo));
-    int vysledek=mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek);
+    int vysledek=mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,platnostSpoje);
     //xmlUpdate(QUrl("http://192.168.1.128:60011"));
     if (vysledek==1)
     {
@@ -268,7 +281,45 @@ void MainWindow::on_pripojeniTlacitko_clicked()
     {
         ui->NazevVysledku->setText("povedlo se");
     }
+    mojesql.VytvorSeznamLinek(seznamLinek);
+    NaplnVyberLinky(seznamLinek);
+
+
+
+
+
+
 }
+
+void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
+{
+   ui->listLinek->clear();
+    for (int i = 0; i < docasnySeznamLinek.length(); ++i)
+    {
+
+        QListWidgetItem *newItem = new QListWidgetItem;
+            newItem->setText(QString::number(docasnySeznamLinek.at(i).c));
+            newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).lc));
+            ui->listLinek->addItem( newItem);
+    }
+
+}
+
+void MainWindow::NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
+{
+    qDebug()<<"MainWindow::NaplnVyberSpoje";
+    ui->listSpoje->clear();
+    for (int i = 0; i < docasnySeznamSpoju.length(); ++i)
+    {
+
+        QListWidgetItem *newItem = new QListWidgetItem;
+            newItem->setText(QString::number(docasnySeznamSpoju.at(i).cisloRopid));
+            newItem->setData(Qt::UserRole, QString::number(docasnySeznamSpoju.at(i).cisloRopid ));
+             ui->listSpoje->addItem( newItem);
+    }
+
+}
+
 
 void MainWindow::AktualizaceDispleje()
 {
@@ -322,7 +373,7 @@ void MainWindow::on_tlacitkoNavic_clicked()
 {
 
     qDebug()<< "on_tlacitkoNavic_clicked";
-    mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek);
+    mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,platnostSpoje);
     QByteArray vysledekMpvnetu = "<TBL cas=\"2019-08-08T13:22:47\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"B\" lin=\"9\" alias=\"9\" spoj=\"46\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"A\" lin=\"18\" alias=\"18\" spoj=\"95\" smer=\"Praha,Vozovna Pankrác\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"59386\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"158\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"M2\" lin=\"B\" alias=\"B\" spoj=\"9\" smer=\"Praha,Černý Most\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"47090\"/><o stan=\"A\" lin=\"16\" alias=\"16\" spoj=\"83\" smer=\"Praha,Lehovec\" odj=\"2019-08-08T13:24:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27872\"/><o stan=\"A\" lin=\"23\" alias=\"23\" spoj=\"22\" smer=\"Praha,Zvonařka\" odj=\"2019-08-08T13:24:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"62902\"/><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"139\" smer=\"Praha,Spojovací\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"10\" alias=\"10\" spoj=\"102\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"133\" smer=\"Praha,Vypich\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"51451\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"197\" smer=\"Praha,Zličín\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"99\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-08T13:26:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"B\" lin=\"2\" alias=\"2\" spoj=\"35\" smer=\"Praha,Sídliště Petřiny\" odj=\"2019-08-08T13:27:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63906\"/><o stan=\"M2\" lin=\"B\" alias=\"B\" spoj=\"79\" smer=\"Praha,Černý Most\" odj=\"2019-08-08T13:28:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"47090\"/><o stan=\"B\" lin=\"9\" alias=\"9\" spoj=\"54\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:29:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"A\" lin=\"10\" alias=\"10\" spoj=\"47\" smer=\"Praha,Sídliště Ďáblice\" odj=\"2019-08-08T13:29:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27916\"/></t></TBL>";
     mpvParser.naplnVstupDokument(vysledekMpvnetu);
     mpvParser.VytvorVystupniDokument(mpvParser.parsujDomDokument(),mpvParser.prestupyXmlDokumentVystup);
@@ -479,3 +530,23 @@ int MainWindow::priOdjezdu()
     qDebug()<<"";
     return 1;
 }
+
+
+
+
+void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    ui->polelinky->setText(ui->listLinek->currentItem()->data(Qt::UserRole ).toString() );
+    novatrida.aktlinka=ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
+    mojesql.VytvorSeznamSpoju(seznamSpoju,novatrida.aktlinka);
+    NaplnVyberSpoje(seznamSpoju);
+}
+
+void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
+    novatrida.aktspoj=ui->listSpoje->currentItem()->data(Qt::UserRole).toInt() ;
+
+}
+
+

@@ -1,7 +1,9 @@
+debug/linka.o
 debug/hlasic.o
 debug/main.o
 debug/mainwindow.o
 debug/prestupmpv.o
+debug/spoj.o
 debug/sqlprace.o
 debug/myhttpserver.o
 debug/seznamzastavek.o

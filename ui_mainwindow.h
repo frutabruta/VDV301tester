@@ -16,6 +16,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -77,8 +78,10 @@ public:
     QRadioButton *radioButton_4;
     QWidget *verticalLayoutWidget_3;
     QVBoxLayout *verticalLayout_7;
+    QListWidget *listSpoje;
     QCheckBox *checkBox;
     QCheckBox *checkBox_2;
+    QListWidget *listLinek;
     QWidget *page_2;
     QWidget *gridLayoutWidget;
     QGridLayout *gridLayout;
@@ -526,12 +529,17 @@ public:
 
         verticalLayoutWidget_3 = new QWidget(page);
         verticalLayoutWidget_3->setObjectName(QString::fromUtf8("verticalLayoutWidget_3"));
-        verticalLayoutWidget_3->setGeometry(QRect(650, 330, 160, 80));
+        verticalLayoutWidget_3->setGeometry(QRect(650, 330, 160, 124));
         verticalLayout_7 = new QVBoxLayout(verticalLayoutWidget_3);
         verticalLayout_7->setSpacing(6);
         verticalLayout_7->setContentsMargins(11, 11, 11, 11);
         verticalLayout_7->setObjectName(QString::fromUtf8("verticalLayout_7"));
         verticalLayout_7->setContentsMargins(0, 0, 0, 0);
+        listSpoje = new QListWidget(verticalLayoutWidget_3);
+        listSpoje->setObjectName(QString::fromUtf8("listSpoje"));
+
+        verticalLayout_7->addWidget(listSpoje);
+
         checkBox = new QCheckBox(verticalLayoutWidget_3);
         checkBox->setObjectName(QString::fromUtf8("checkBox"));
 
@@ -542,6 +550,9 @@ public:
 
         verticalLayout_7->addWidget(checkBox_2);
 
+        listLinek = new QListWidget(page);
+        listLinek->setObjectName(QString::fromUtf8("listLinek"));
+        listLinek->setGeometry(QRect(657, 298, 141, 31));
         prepinadloStran->addWidget(page);
         page_2 = new QWidget();
         page_2->setObjectName(QString::fromUtf8("page_2"));
@@ -651,7 +662,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(0);
+        prepinadloStran->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);

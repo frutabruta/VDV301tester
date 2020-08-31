@@ -3,8 +3,27 @@
 #include <QTime>
 using namespace std;
 
-myHTTPserver::myHTTPserver(QObject *parent) : QObject(parent)
+
+myHTTPserver::myHTTPserver(quint16 ppp)
 {
+
+    qDebug()<<"myHTTPserver::myHTTPserver";
+    server = new QTcpServer(this);
+    connect(server, SIGNAL(newConnection()),this, SLOT(myConnection()));
+    QHostAddress adresaHttpServeru;
+
+    quint16 cisloPortu=47474;
+    cisloPortu=ppp;
+    adresaHttpServeru.setAddress("127.0.0.1/CustomerInformationService/GetAllData"); ///DeviceManagementService/GetDeviceStatus
+    // if(!server->listen(ahoj,47474))cout<< "\nWeb server     could not start";
+    //if(!server->listen(adresaHttpServeru,47474))cout<< "\nWeb server     could not start";
+    if(!server->listen(adresaHttpServeru,cisloPortu))cout<< "\nWeb server     could not start";
+    else cout<<"\nWeb server is waiting for a connection on port "<<cisloPortu ;
+    //this->obsah="xx";
+}
+myHTTPserver::myHTTPserver()
+{
+
     qDebug()<<"myHTTPserver::myHTTPserver";
     server = new QTcpServer(this);
     connect(server, SIGNAL(newConnection()),this, SLOT(myConnection()));
@@ -17,6 +36,21 @@ myHTTPserver::myHTTPserver(QObject *parent) : QObject(parent)
     else cout<<"\nWeb server is waiting for a connection on port "<<cisloPortu ;
     //this->obsah="xx";
 }
+/*myHTTPserver::myHTTPserver(QObject *parent) : QObject(parent)
+{
+    qDebug()<<"myHTTPserver::myHTTPserver";
+    server = new QTcpServer(this);
+    connect(server, SIGNAL(newConnection()),this, SLOT(myConnection()));
+    QHostAddress adresaHttpServeru;
+    quint16 cisloPortu=47474;
+    adresaHttpServeru.setAddress("127.0.0.1/CustomerInformationService/GetAllData"); ///DeviceManagementService/GetDeviceStatus
+    // if(!server->listen(ahoj,47474))cout<< "\nWeb server     could not start";
+    //if(!server->listen(adresaHttpServeru,47474))cout<< "\nWeb server     could not start";
+    if(!server->listen(adresaHttpServeru,cisloPortu))cout<< "\nWeb server     could not start";
+    else cout<<"\nWeb server is waiting for a connection on port "<<cisloPortu ;
+    //this->obsah="xx";
+}*/
+
 
 void myHTTPserver::zapisDoPromenne(QByteArray vstup)
 {

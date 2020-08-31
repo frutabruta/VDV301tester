@@ -496,7 +496,7 @@
      <string notr="true">/*background-color:rgb(52, 101, 164); */</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QWidget" name="horizontalLayoutWidget_2">
@@ -1333,10 +1333,13 @@ color: rgb(238, 238, 236);</string>
         <x>650</x>
         <y>330</y>
         <width>160</width>
-        <height>80</height>
+        <height>124</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QListWidget" name="listSpoje"/>
+       </item>
        <item>
         <widget class="QCheckBox" name="checkBox">
          <property name="text">
@@ -1352,6 +1355,16 @@ color: rgb(238, 238, 236);</string>
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QListWidget" name="listLinek">
+      <property name="geometry">
+       <rect>
+        <x>657</x>
+        <y>298</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="page_2">

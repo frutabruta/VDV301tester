@@ -11,10 +11,13 @@ class myHTTPserver : public QObject
 {
     Q_OBJECT
 public:
-    explicit myHTTPserver(QObject *parent = nullptr );
+    myHTTPserver(quint16 ppp);
+   // explicit myHTTPserver(QObject *parent = nullptr);
     ~myHTTPserver();
     QTcpSocket *socket ;
     void zapisDoPromenne(QByteArray vstup);
+
+    myHTTPserver();
 public slots:
     void myConnection();
     void txRx();

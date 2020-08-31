@@ -1,7 +1,9 @@
+release/linka.o
 release/hlasic.o
 release/main.o
 release/mainwindow.o
 release/prestupmpv.o
+release/spoj.o
 release/sqlprace.o
 release/myhttpserver.o
 release/seznamzastavek.o

@@ -31,7 +31,7 @@ void SqlPraceRopid::Pripoj(QString adresa)
 
 
 
-int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek )
+int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek, bool platnost )
 {
     docasnySeznamZastavek.clear();
     qDebug()<< "SQLprace::StahniSeznam";
@@ -49,7 +49,9 @@ int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpo
     queryString2+=(" AND s.c=");
     //6003");
     queryString2+=( QString::number(cisloSpoje));
-    queryString2+=(" AND  s.kj LIKE '1%' ");
+    queryString2+=(" AND  s.kj LIKE '");
+    queryString2+=QString::number(platnost);
+    queryString2+=("%' ");
     //queryString2+=(" AND  s.kj LIKE '1%' ORDER BY x.o");
 
     //queryString+=("  ASC LIMIT 5");
@@ -148,6 +150,104 @@ void SqlPraceRopid::TestDotaz (QString &textPoleObsah, int cisloporadi, int cisl
 
 
 
+}
+
+
+int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek)
+{
+    docasnySeznamLinek.clear();
+    qDebug()<< "SqlPraceRopid::VytvorSeznamLinek";
+    qInfo()<<"DebugPointA";
+    //QString queryString("SELECT a.stop_order, b.name, a.time, b.cis_id,f.mpvalias FROM lineroutestoptime a ");
+
+    QString queryString2("SELECT DISTINCT l.c,l.lc,l.n FROM l ");
+    queryString2+=("ORDER BY l.c");
+
+    //queryString2+=(" WHERE l.kj LIKE '1%' ");
+    //queryString2+=(" AND  s.kj LIKE '1%' ORDER BY x.o");
+
+    //queryString+=("  ASC LIMIT 5");
+    QSqlQuery query(queryString2,this->mojeDatabaze);
+    int counter=0;
+    qDebug()<<queryString2;
+    qDebug()<<"DebugPointB";
+    int citacMaximum=0;
+    while (query.next())
+    {
+        if (query.value(0).toString()!="")
+        {
+
+            Linka docasnaLinka;
+            docasnaLinka.c=query.value(0).toInt();
+            docasnaLinka.lc=query.value(1).toInt();
+            docasnaLinka.n=query.value(2).toString();
+
+            docasnySeznamLinek.push_back(docasnaLinka);
+            citacMaximum++;
+
+        }
+    }
+
+    if (citacMaximum==0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+
+int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisloLinky)
+{
+    docasnySeznamSpoju.clear();
+    qDebug()<< "SqlPraceRopid::VytvorSeznamSpoju";
+    qInfo()<<"DebugPointA";
+    //QString queryString("SELECT a.stop_order, b.name, a.time, b.cis_id,f.mpvalias FROM lineroutestoptime a ");
+
+    QString queryString2("SELECT DISTINCT s.s, s.c FROM s ");
+    queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("WHERE l.lc=");
+    queryString2+=( QString::number(cisloLinky));
+    queryString2+=(" ORDER BY s.c");
+
+
+
+    //queryString2+=(" AND  s.kj LIKE '1%' ORDER BY x.o");
+
+    //queryString+=("  ASC LIMIT 5");
+    QSqlQuery query(queryString2,this->mojeDatabaze);
+    int counter=0;
+    qDebug()<<queryString2;
+    qDebug()<<"DebugPointB";
+    int citacMaximum=0;
+    while (query.next())
+    {
+        if (query.value(0).toString()!="")
+        {
+
+            Spoj docasnySpoj;
+            docasnySpoj.cislo=query.value(0).toInt();
+            docasnySpoj.cisloRopid=query.value(1).toInt();
+
+
+
+            docasnySeznamSpoju.push_back(docasnySpoj);
+            citacMaximum++;
+            qDebug()<<docasnySpoj.cisloRopid;
+
+        }
+    }
+
+    if (citacMaximum==0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 QString SqlPraceRopid::vytvorCas(QString vstup)

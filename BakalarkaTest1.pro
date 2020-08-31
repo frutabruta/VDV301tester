@@ -44,10 +44,12 @@ QT += network
 //LIBS += -lqhttpserver
 
 SOURCES += \
+    VDV301_Display/linka.cpp \
     hlasic.cpp \
         main.cpp \
         mainwindow.cpp \
     prestupmpv.cpp \
+    spoj.cpp \
     sqlprace.cpp \
     httpserver/myhttpserver.cpp \
     VDV301_Display/seznamzastavek.cpp\
@@ -60,9 +62,11 @@ SOURCES += \
 
 
 HEADERS += \
+    VDV301_Display/linka.h \
     hlasic.h \
         mainwindow.h \
     prestupmpv.h \
+    spoj.h \
     sqlprace.h \
     httpserver/myhttpserver.h \
     VDV301_Display/seznamzastavek.h\

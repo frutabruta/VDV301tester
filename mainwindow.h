@@ -14,7 +14,9 @@
 #include <QMainWindow>
 #define MAX_ZAST 100
 #include "VDV301_Display/seznamzastavek.h"
+#include "VDV301_Display/linka.h"
 #include <QVector>
+#include <QListWidget>
 
 #include <QtSerialPort/QSerialPort>
 
@@ -38,21 +40,30 @@ public:
     SqlPraceRopid mojesql;
 
     int cisloPortu=12;
-    myHTTPserver HHserver;
+
+
     xmlGenerator TestXmlGenerator;
     XmlMpvParser mpvParser;
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument);    
+    void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301);
     void xmlHromadnyUpdate();    
     void ObnoveniServeru(QByteArray dataDoServeru);
     XmlRopidParser xmlRopidParser;
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
+    QVector <Linka> seznamLinek;
+    QVector <Spoj> seznamSpoju;
+    bool platnostSpoje=1;
+    int VDV301verze=0;
+    myHTTPserver HHserver;
+    myHTTPserver HHserver2;
 
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);
     int priPrijezdu();
     int priOdjezdu();
+    void NaplnVyberLinky(QVector<Linka> docasnySeznamLinek);
+    void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
 private slots:
   // QByteArray requestReceived(QNetworkReply *replyoo);
     int on_prikaztlacitko_clicked();
@@ -91,6 +102,10 @@ private slots:
     void on_tlacitkoNastavPort_clicked();
 
     void on_tlacitkoIBIS_clicked();
+
+    void on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+
+    void on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
 private:
     Ui::MainWindow *ui;
