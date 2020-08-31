@@ -1,3 +1,8 @@
+debug/bonjour.o
+debug/dnssd_clientlib.o
+debug/dnssd_clientstub.o
+debug/dnssd_ipc.o
+debug/qzeroconfservice.o
 debug/linka.o
 debug/hlasic.o
 debug/main.o
@@ -13,6 +18,9 @@ debug/xmlmpvparser.o
 debug/sqlpraceropid.o
 debug/xmlropidparser.o
 debug/ibisovladani.o
+debug/moc_qzeroconf.o
+debug/moc_bonjour_p.o
+debug/moc_qzeroconfservice.o
 debug/moc_mainwindow.o
 debug/moc_myhttpserver.o
 debug/moc_xmlgenerator.o

@@ -11,6 +11,12 @@ QT += xml
 QT += serialport
 QT += multimedia
 
+DEFINES= QZEROCONF_STATIC
+
+include(qtzeroconf/qtzeroconf.pri)
+
+
+
 #include <QtXml>
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

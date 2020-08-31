@@ -20,6 +20,8 @@
 
 #include <QtSerialPort/QSerialPort>
 
+#include "qzeroconf.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -58,12 +60,17 @@ public:
     myHTTPserver HHserver;
     myHTTPserver HHserver2;
 
+
+    //bonjour
+    QZeroConf zeroConf;
+
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);
     int priPrijezdu();
     int priOdjezdu();
     void NaplnVyberLinky(QVector<Linka> docasnySeznamLinek);
     void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
+    void bonjourStartPublish();
 private slots:
   // QByteArray requestReceived(QNetworkReply *replyoo);
     int on_prikaztlacitko_clicked();

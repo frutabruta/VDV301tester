@@ -196,6 +196,7 @@ void MainWindow::on_sipkaNahoru_clicked()
         {
             novatrida.locationState="AfterStop";
             novatrida.cislo++;
+            priOdjezdu();
         }
         else
         {
@@ -506,8 +507,8 @@ void MainWindow::on_tlacitkoIBIS_clicked()
 
 int MainWindow::priPrijezdu()
 {
-    qDebug()<<"";
-    qDebug()<<"";
+    qDebug()<<"MainWindow::priPrijezdu";
+
     novatrida.doorState="DoorsOpen";
 
 
@@ -527,7 +528,9 @@ int MainWindow::priPrijezdu()
 
 int MainWindow::priOdjezdu()
 {
-    qDebug()<<"";
+    qDebug()<<"MainWindow::priOdjezdu()";
+    bonjourStartPublish();
+
     return 1;
 }
 
@@ -549,4 +552,14 @@ void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QList
 
 }
 
+
+void MainWindow::bonjourStartPublish()
+{
+    qDebug()<<"MainWindow::bonjourStartPublish";
+    zeroConf.clearServiceTxtRecords();
+    zeroConf.addServiceTxtRecord("ver", "1.0");
+    //zeroConf.addServiceTxtRecord("ZeroConf is nice too");
+    zeroConf.startServicePublish("CustomerInformationService2", "_ibisip_http._tcp", "local", 47474);
+
+}
 

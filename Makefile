@@ -233,6 +233,7 @@ Makefile: BakalarkaTest1.pro ../../../../Qt/5.15.0/mingw81_32/mkspecs/win32-g++/
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/features/toolchain.prf \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/features/default_pre.prf \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/features/win32/default_pre.prf \
+		qtzeroconf/qtzeroconf.pri \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/features/resolve_config.prf \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/features/exclusive_builds_post.prf \
 		../../../../Qt/5.15.0/mingw81_32/mkspecs/features/default_post.prf \
@@ -427,6 +428,7 @@ Makefile: BakalarkaTest1.pro ../../../../Qt/5.15.0/mingw81_32/mkspecs/win32-g++/
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/features/toolchain.prf:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/features/default_pre.prf:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/features/win32/default_pre.prf:
+qtzeroconf/qtzeroconf.pri:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/features/resolve_config.prf:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/features/exclusive_builds_post.prf:
 ../../../../Qt/5.15.0/mingw81_32/mkspecs/features/default_post.prf:

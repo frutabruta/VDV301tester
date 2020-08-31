@@ -1,3 +1,8 @@
+release/bonjour.o
+release/dnssd_clientlib.o
+release/dnssd_clientstub.o
+release/dnssd_ipc.o
+release/qzeroconfservice.o
 release/linka.o
 release/hlasic.o
 release/main.o
@@ -13,6 +18,9 @@ release/xmlmpvparser.o
 release/sqlpraceropid.o
 release/xmlropidparser.o
 release/ibisovladani.o
+release/moc_qzeroconf.o
+release/moc_bonjour_p.o
+release/moc_qzeroconfservice.o
 release/moc_mainwindow.o
 release/moc_myhttpserver.o
 release/moc_xmlgenerator.o
