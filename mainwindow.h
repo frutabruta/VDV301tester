@@ -21,6 +21,7 @@
 #include <QtSerialPort/QSerialPort>
 
 #include "qzeroconf.h"
+#include "httpsluzba.h"
 
 namespace Ui {
 class MainWindow;
@@ -57,8 +58,13 @@ public:
     QVector <Spoj> seznamSpoju;
     bool platnostSpoje=1;
     int VDV301verze=0;
-    myHTTPserver HHserver;
-    myHTTPserver HHserver2;
+
+    HttpSluzba DeviceManagementService;
+    HttpSluzba CustomerInformationService;
+
+
+
+
 
 
     //bonjour

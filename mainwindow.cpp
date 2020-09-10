@@ -14,8 +14,8 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    HHserver(47475),
-    HHserver2(47478)
+    DeviceManagementService("DeviceManagementService","_ibisip_http._tcp",47477),
+    CustomerInformationService("CustomerInformationService","_ibisip_http._tcp",47479)
 {
     qDebug()<<"MainWindow::MainWindow";
     ui->setupUi(this);
@@ -92,18 +92,29 @@ void MainWindow::MpvNetReady()
 void MainWindow::ObnoveniServeru(QByteArray dataDoServeru)
 {
     qDebug()<<"MainWindow::ObnoveniServeru";
-    QByteArray hlavicka="";
+
+
+
+
+    //CustomerInformationService.nastavHlavicku(hlavicka);
+    CustomerInformationService.nastavObsah(dataDoServeru);
+    CustomerInformationService.aktualizuj();
+    /*
+     *
     QByteArray argumentXMLserveru = "";
+    argumentXMLserveru.append(hlavicka);
+    argumentXMLserveru.append(dataDoServeru);
+    QByteArray hlavicka="";
+
     hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
     hlavicka+=("Content-Type: application/xml\r\n");
     hlavicka+=("Connection: close\r\n");
     hlavicka+=("Pragma: no-cache\r\n");
     hlavicka+=("\r\n");
 
-    argumentXMLserveru.append(hlavicka);
-    argumentXMLserveru.append(dataDoServeru);
     HHserver.zapisDoPromenne(argumentXMLserveru);
-    HHserver2.zapisDoPromenne(argumentXMLserveru);
+    HHserver2.zapisDoPromenne(argumentXMLserveru)
+;*/
 }
 void MainWindow::PostDoDispleje(QUrl adresaDispleje, QByteArray dataDoPostu)
 {
@@ -532,7 +543,7 @@ int MainWindow::priPrijezdu()
 int MainWindow::priOdjezdu()
 {
     qDebug()<<"MainWindow::priOdjezdu()";
-    this->bonjourStartKomplet();
+    //this->bonjourStartKomplet();
 
     //bonjourStartPublish();
 

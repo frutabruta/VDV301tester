@@ -52,6 +52,7 @@ QT += network
 SOURCES += \
     VDV301_Display/linka.cpp \
     hlasic.cpp \
+    httpsluzba.cpp \
         main.cpp \
         mainwindow.cpp \
     prestupmpv.cpp \
@@ -70,6 +71,7 @@ SOURCES += \
 HEADERS += \
     VDV301_Display/linka.h \
     hlasic.h \
+    httpsluzba.h \
         mainwindow.h \
     prestupmpv.h \
     spoj.h \

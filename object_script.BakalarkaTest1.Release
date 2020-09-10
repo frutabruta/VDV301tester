@@ -5,6 +5,7 @@ release/dnssd_ipc.o
 release/qzeroconfservice.o
 release/linka.o
 release/hlasic.o
+release/httpsluzba.o
 release/main.o
 release/mainwindow.o
 release/prestupmpv.o
