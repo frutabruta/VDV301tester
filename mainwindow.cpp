@@ -56,11 +56,11 @@ void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
     QByteArray vysledek2="";
     if (verzeVDV301==0)
     {
-     vysledek2=TestXmlGenerator.AllData2( novatrida.cislo,novatrida.pocetZastavek,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
+        vysledek2=TestXmlGenerator.AllData2( novatrida.cislo,novatrida.pocetZastavek,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
     }
     else
     {
-     vysledek2=TestXmlGenerator.AllDataRopid( novatrida.cislo,novatrida.pocetZastavek,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
+        vysledek2=TestXmlGenerator.AllDataRopid( novatrida.cislo,novatrida.pocetZastavek,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
     }
 
     ObnoveniServeru(vysledek2);
@@ -294,14 +294,14 @@ void MainWindow::on_pripojeniTlacitko_clicked()
 
 void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
 {
-   ui->listLinek->clear();
+    ui->listLinek->clear();
     for (int i = 0; i < docasnySeznamLinek.length(); ++i)
     {
 
         QListWidgetItem *newItem = new QListWidgetItem;
-            newItem->setText(QString::number(docasnySeznamLinek.at(i).c));
-            newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).lc));
-            ui->listLinek->addItem( newItem);
+        newItem->setText(QString::number(docasnySeznamLinek.at(i).c));
+        newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).lc));
+        ui->listLinek->addItem( newItem);
     }
 
 }
@@ -310,14 +310,17 @@ void MainWindow::NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
 {
     qDebug()<<"MainWindow::NaplnVyberSpoje";
     ui->listSpoje->clear();
+    qDebug()<<"MainWindow::NaplnVyberSpoje_dp1";
     for (int i = 0; i < docasnySeznamSpoju.length(); ++i)
     {
 
         QListWidgetItem *newItem = new QListWidgetItem;
-            newItem->setText(QString::number(docasnySeznamSpoju.at(i).cisloRopid));
-            newItem->setData(Qt::UserRole, QString::number(docasnySeznamSpoju.at(i).cisloRopid ));
-             ui->listSpoje->addItem( newItem);
+        newItem->setText(QString::number(docasnySeznamSpoju.at(i).cisloRopid));
+        newItem->setData(Qt::UserRole, QString::number(docasnySeznamSpoju.at(i).cisloRopid ));
+        ui->listSpoje->addItem( newItem);
+        qDebug()<<"MainWindow::NaplnVyberSpoje_"<<QString::number(i);
     }
+    qDebug()<<"MainWindow::NaplnVyberSpoje_konec";
 
 }
 
@@ -431,7 +434,7 @@ void MainWindow::on_BetweenStop_clicked()
 
 void MainWindow::on_prestupyCheckbox_stateChanged(int arg1)
 {
-qDebug()<<"";
+    qDebug()<<"";
 }
 
 void MainWindow::on_checkBox_stateChanged(int arg1)
@@ -480,7 +483,7 @@ void MainWindow::on_tlacitkoOdesliPrikaz_clicked()
 
 void MainWindow::on_tlacitkoNastavPort_clicked()
 {
-qDebug()<<"";
+    qDebug()<<"";
 
 
     ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
@@ -529,7 +532,9 @@ int MainWindow::priPrijezdu()
 int MainWindow::priOdjezdu()
 {
     qDebug()<<"MainWindow::priOdjezdu()";
-    bonjourStartPublish();
+    this->bonjourStartKomplet();
+
+    //bonjourStartPublish();
 
     return 1;
 }
@@ -541,25 +546,43 @@ void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QList
 {
     ui->polelinky->setText(ui->listLinek->currentItem()->data(Qt::UserRole ).toString() );
     novatrida.aktlinka=ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
-    mojesql.VytvorSeznamSpoju(seznamSpoju,novatrida.aktlinka);
-    NaplnVyberSpoje(seznamSpoju);
+    if (mojesql.VytvorSeznamSpoju(seznamSpoju,novatrida.aktlinka)==1)
+    {
+        NaplnVyberSpoje(seznamSpoju);
+    }
 }
 
 void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
-    ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
-    novatrida.aktspoj=ui->listSpoje->currentItem()->data(Qt::UserRole).toInt() ;
+    qDebug()<<"MainWindow::on_listSpoje_currentItemChanged";
+    if (ui->listSpoje->count()!=0)
+    {
+        ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
+        novatrida.aktspoj=ui->listSpoje->currentItem()->data(Qt::UserRole).toInt() ;
+    }
+
 
 }
 
 
-void MainWindow::bonjourStartPublish()
+
+
+void MainWindow::bonjourStartKomplet()
 {
-    qDebug()<<"MainWindow::bonjourStartPublish";
     zeroConf.clearServiceTxtRecords();
-    zeroConf.addServiceTxtRecord("ver", "1.0");
-    //zeroConf.addServiceTxtRecord("ZeroConf is nice too");
-    zeroConf.startServicePublish("CustomerInformationService2", "_ibisip_http._tcp", "local", 47474);
-
+    zeroConf2.clearServiceTxtRecords();
+    this->bonjourStartPublish2("CustomerInformationService","_ibisip_http._tcp",47474,zeroConf);
+    this->bonjourStartPublish2("DeviceManagementService","_ibisip_http._tcp",47475,zeroConf2);
 }
 
+
+
+void MainWindow::bonjourStartPublish2(QString nazevSluzby, QString typSluzby,int port, QZeroConf &instanceZeroConf)
+{
+    qDebug()<<"MainWindow::bonjourStartPublish"<<nazevSluzby;
+
+    instanceZeroConf.addServiceTxtRecord("ver", "1.0");
+    //zeroConf.addServiceTxtRecord("ZeroConf is nice too");
+    instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
+
+}

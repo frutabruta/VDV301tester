@@ -40,15 +40,15 @@ public:
     CestaUdaje novatrida;
     //SQLprace mojesql;
     SqlPraceRopid mojesql;
-
     int cisloPortu=12;
-
 
     xmlGenerator TestXmlGenerator;
     XmlMpvParser mpvParser;
+    void xmlHromadnyUpdate();
+
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301);
-    void xmlHromadnyUpdate();    
+
     void ObnoveniServeru(QByteArray dataDoServeru);
     XmlRopidParser xmlRopidParser;
     IbisOvladani ibisOvladani;
@@ -63,6 +63,7 @@ public:
 
     //bonjour
     QZeroConf zeroConf;
+    QZeroConf zeroConf2;
 
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);
@@ -70,7 +71,7 @@ public:
     int priOdjezdu();
     void NaplnVyberLinky(QVector<Linka> docasnySeznamLinek);
     void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
-    void bonjourStartPublish();
+
 private slots:
   // QByteArray requestReceived(QNetworkReply *replyoo);
     int on_prikaztlacitko_clicked();
@@ -118,6 +119,9 @@ private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);
     void AktualizaceDispleje();
+    void bonjourStartKomplet();
+
+    void bonjourStartPublish2(QString nazevSluzby, QString typSluzby, int port, QZeroConf &instanceZeroConf);
 };
 
 #endif // MAINWINDOW_H

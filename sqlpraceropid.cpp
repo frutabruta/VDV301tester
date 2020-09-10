@@ -201,8 +201,9 @@ int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek)
 
 int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisloLinky)
 {
-    docasnySeznamSpoju.clear();
     qDebug()<< "SqlPraceRopid::VytvorSeznamSpoju";
+    docasnySeznamSpoju.clear();
+
     qInfo()<<"DebugPointA";
     //QString queryString("SELECT a.stop_order, b.name, a.time, b.cis_id,f.mpvalias FROM lineroutestoptime a ");
 

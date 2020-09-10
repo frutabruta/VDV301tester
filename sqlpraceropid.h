@@ -20,15 +20,19 @@ public:
     bool vysledek;
     //void Pripoj();
     //void StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, SeznamZastavek *docasnySeznamZastavek);
-    void VypisPole(QVector<SeznamZastavek> docasnySeznamZastavek, int &pocetZastavek);
+
     void TestDotaz(QString &textPoleObsah, int cisloporadi, int cislolinky, int cislospoje,QVector <SeznamZastavek> docasnySeznamZastavek, int pocetZastavek);
     int StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek, bool platnost);
-    QString vytvorCas(QString vstup);
-    QString doplnNulu(int cislo, int pocetMist = 2);
+
+
     void Pripoj(QString adresa);
     //QVector<Linka> seznamLinek;
     int VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek);
     int VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisloLinky);
+private:
+    void VypisPole(QVector<SeznamZastavek> docasnySeznamZastavek, int &pocetZastavek);
+    QString vytvorCas(QString vstup);
+    QString doplnNulu(int cislo, int pocetMist = 2);
 };
 
 #endif // SQLPRACEROPID_H

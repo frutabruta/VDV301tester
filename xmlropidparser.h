@@ -26,12 +26,12 @@ public:
     int truncateAll();
 
 
-    QString vytvorCas(QString vstup);
+
     void databazeStart(QString adresaServeru);
 
 
     QVector<navrat> polozkyKeVlozeni;
-    QString slozInsert(QString nazevTabulky, QVector<navrat>);
+
 
     navrat inicializujPolozku(QString nazevSloupce, QString obsah, QString typ);
 private:
@@ -48,6 +48,8 @@ private:
     QString overBoolean(QString vstup);
     QString overInteger(QString vstup);
     QString overString(QString vstup);
+    QString slozInsert(QString nazevTabulky, QVector<navrat>);
+    QString vytvorCas(QString vstup);
     int vlozTv2(QDomElement koren);
 };
 

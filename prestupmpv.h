@@ -9,6 +9,8 @@ class prestupMPV
 {
 public:
     prestupMPV();
+
+    void setLin(int pLin);
     QString stan="";
     QString lin="";
     QString alias="";
@@ -22,6 +24,8 @@ public:
     int dd=0;
     int smer_c=0;
     bool sled=false;
+private:
+
 };
 
 #endif // PRESTUPMPV_H

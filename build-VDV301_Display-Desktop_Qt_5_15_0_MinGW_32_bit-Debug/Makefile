@@ -137,6 +137,8 @@ Makefile: ../VDV301_Display/VDV301_Display.pro C:/Qt/5.15.0/mingw81_32/mkspecs/w
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_gui_private.pri \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_help.pri \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_help_private.pri \
+		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_httpserver.pri \
+		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_httpserver_private.pri \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_location.pri \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_location_private.pri \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_multimedia.pri \
@@ -196,6 +198,8 @@ Makefile: ../VDV301_Display/VDV301_Display.pro C:/Qt/5.15.0/mingw81_32/mkspecs/w
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_serialport_private.pri \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sql.pri \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sql_private.pri \
+		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sslserver.pri \
+		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sslserver_private.pri \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_svg.pri \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_svg_private.pri \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_testlib.pri \
@@ -249,7 +253,6 @@ Makefile: ../VDV301_Display/VDV301_Display.pro C:/Qt/5.15.0/mingw81_32/mkspecs/w
 		C:/Qt/5.15.0/mingw81_32/mkspecs/features/yacc.prf \
 		C:/Qt/5.15.0/mingw81_32/mkspecs/features/lex.prf \
 		../VDV301_Display/VDV301_Display.pro \
-		C:/Qt/5.15.0/mingw81_32/lib/Qt5Svg.prl \
 		C:/Qt/5.15.0/mingw81_32/lib/Qt5Widgets.prl \
 		C:/Qt/5.15.0/mingw81_32/lib/Qt5Gui.prl \
 		C:/Qt/5.15.0/mingw81_32/lib/Qt5Xml.prl \
@@ -325,6 +328,8 @@ C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_gui.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_gui_private.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_help.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_help_private.pri:
+C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_httpserver.pri:
+C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_httpserver_private.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_location.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_location_private.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_multimedia.pri:
@@ -384,6 +389,8 @@ C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_serialport.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_serialport_private.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sql.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sql_private.pri:
+C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sslserver.pri:
+C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_sslserver_private.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_svg.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_svg_private.pri:
 C:/Qt/5.15.0/mingw81_32/mkspecs/modules/qt_lib_testlib.pri:
@@ -437,7 +444,6 @@ C:/Qt/5.15.0/mingw81_32/mkspecs/features/exceptions.prf:
 C:/Qt/5.15.0/mingw81_32/mkspecs/features/yacc.prf:
 C:/Qt/5.15.0/mingw81_32/mkspecs/features/lex.prf:
 ../VDV301_Display/VDV301_Display.pro:
-C:/Qt/5.15.0/mingw81_32/lib/Qt5Svg.prl:
 C:/Qt/5.15.0/mingw81_32/lib/Qt5Widgets.prl:
 C:/Qt/5.15.0/mingw81_32/lib/Qt5Gui.prl:
 C:/Qt/5.15.0/mingw81_32/lib/Qt5Xml.prl:
