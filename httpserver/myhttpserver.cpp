@@ -52,10 +52,16 @@ myHTTPserver::myHTTPserver()
 }*/
 
 
-void myHTTPserver::zapisDoPromenne(QByteArray vstup)
+void myHTTPserver::zapisDoPromenneGet(QByteArray vstup)
 {
-    this->obsahStrankyDoServeru=vstup;
+    this->obsahGet=vstup;
     qInfo() << "myHTTPserver::zapisDoPromenne";
+}
+
+void myHTTPserver::zapisDoSubscribe(QByteArray vstup)
+{
+    this->obsahSubscribe=vstup;
+    qInfo() << "myHTTPserver::zapisDoSubscribe";
 }
 
 void myHTTPserver::myConnection()
@@ -77,9 +83,25 @@ void myHTTPserver::txRx()
     {
         prijataData+=webBrowerRXData[i];
     }
+
+
+    if ( prijataData.contains("Get"))
+    {
+        socket->write(obsahGet);
+        qDebug()<<"ano, obsahuje Get";
+    }
+    else
+    {
+        if ( prijataData.contains("Subscribe"))
+        {
+            socket->write(obsahSubscribe);
+            qDebug()<<"ano, obsahuje Subscribe";
+        }
+    }
+
     qDebug()<< prijataData;
     //cout<<"\n";
-    socket->write(obsahStrankyDoServeru);
+
     socket->disconnectFromHost();
 }
 

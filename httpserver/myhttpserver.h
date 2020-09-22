@@ -15,7 +15,8 @@ public:
    // explicit myHTTPserver(QObject *parent = nullptr);
     ~myHTTPserver();
     QTcpSocket *socket ;
-    void zapisDoPromenne(QByteArray vstup);
+    void zapisDoPromenneGet(QByteArray vstup);
+    void zapisDoSubscribe(QByteArray vstup);
 
     myHTTPserver();
 public slots:
@@ -25,6 +26,8 @@ public slots:
 private:
     qint64 bytesAvailable() const;
     QTcpServer *server;
-    QByteArray obsahStrankyDoServeru;
+    QByteArray obsahGet="";
+    QByteArray obsahSubscribe="";
+
 };
 #endif // MYHTTPSERVER

@@ -1,6 +1,8 @@
 #include "httpsluzba.h"
 
 
+
+
 HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu):HHserver(cisloPortu)
 {
     qDebug()<<"HttpSluzba::HttpSluzba";
@@ -30,11 +32,11 @@ int HttpSluzba::nastavHlavicku(QByteArray vstup)
 int HttpSluzba::nastavHttpObsah(QByteArray argumentXMLserveru)
 {
     qDebug()<<"HttpSluzba::nastavHttpObsah";
-    HHserver.zapisDoPromenne(argumentXMLserveru);
+    HHserver.zapisDoPromenneGet(argumentXMLserveru);
     return 1;
 }
 
-int HttpSluzba::zkombinujHlavickaTelo(QByteArray hlavicka,QByteArray telo)
+int HttpSluzba::zkombinujHlavickaTeloGet(QByteArray hlavicka,QByteArray telo)
 {
     qDebug()<<"HttpSluzba::zkombinujHlavickaTelo()";
     QByteArray argumentXMLserveru="";
@@ -42,14 +44,27 @@ int HttpSluzba::zkombinujHlavickaTelo(QByteArray hlavicka,QByteArray telo)
     argumentXMLserveru.append(hlavicka);
     argumentXMLserveru.append(telo);
 
-    HHserver.zapisDoPromenne(argumentXMLserveru);
+    HHserver.zapisDoPromenneGet(argumentXMLserveru);
 
+    return 1;
+}
+
+int HttpSluzba::zkombinujHlavickaTeloSubscribe(QByteArray hlavicka, QByteArray telo)
+{
+    qDebug()<<"HttpSluzba::zkombinujHlavickaTeloSubscribe()";
+    QByteArray argumentXMLserveru="";
+
+    argumentXMLserveru.append(hlavicka);
+    argumentXMLserveru.append(telo);
+
+    HHserver.zapisDoSubscribe(argumentXMLserveru);
     return 1;
 }
 
 int HttpSluzba::aktualizuj()
 {
-    zkombinujHlavickaTelo(hlavickaInterni,obsahInterni);
+    zkombinujHlavickaTeloGet(hlavickaInterni,vyrobGetResponseBody());
+    zkombinujHlavickaTeloSubscribe(vyrobHlavicku(),vyrobSubscribeResponseBody(1));
     return 1;
 }
 
@@ -85,5 +100,29 @@ void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int 
     instanceZeroConf.addServiceTxtRecord("ver", "1.0");
     //zeroConf.addServiceTxtRecord("ZeroConf is nice too");
     instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
+
+}
+
+QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
+{
+    QByteArray textVysledek="true";
+    if (vysledek!=1)
+    {
+        textVysledek="false";
+    }
+    QByteArray odpoved ="";
+    odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
+    odpoved+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
+    //odpoved+="<Active><Value>true</Value></Active>";
+    odpoved+="<Active><Value>";
+    odpoved+=textVysledek;
+    odpoved+="</Value></Active>";
+    odpoved+="</SubscribeResponse>";
+    return odpoved;
+}
+
+QByteArray HttpSluzba::vyrobGetResponseBody()
+{
+    return obsahInterni;
 
 }

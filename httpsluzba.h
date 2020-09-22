@@ -13,6 +13,7 @@ public:
     int nastavHlavicku(QByteArray vstup);
     void bonjourStartKomplet();
     int aktualizuj();
+    QByteArray vyrobSubscribeResponseBody(int vysledek);
 private:
     QZeroConf zeroConf;
     myHTTPserver HHserver;
@@ -25,7 +26,10 @@ private:
     QString typSluzbyInterni="_ibisip_http._tcp";
     int nastavHttpObsah(QByteArray argumentXMLserveru);
     QByteArray vyrobHlavicku();
-    int zkombinujHlavickaTelo(QByteArray hlavicka, QByteArray telo);
+    int zkombinujHlavickaTeloGet(QByteArray hlavicka, QByteArray telo);
+
+    int zkombinujHlavickaTeloSubscribe(QByteArray hlavicka, QByteArray telo);
+    QByteArray vyrobGetResponseBody();
 };
 
 #endif // HTTPSLUZBA_H
