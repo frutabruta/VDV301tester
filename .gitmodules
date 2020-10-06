@@ -1,0 +1,3 @@
+[submodule "qtzeroconf"]
+	url = https://github.com/jbagg/QtZeroConf
+	branch = master
