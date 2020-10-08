@@ -378,3 +378,5 @@ QByteArray xmlGenerator::AllDataRopid(int poradi, int pocetZastavek, QVector <Se
 
 
 
+
+
