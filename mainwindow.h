@@ -103,7 +103,7 @@ private slots:
 
     void on_tlacitkoNactiXMLropid_clicked();
 
-    void on_tlacitkoZpet_clicked();
+
 
     void on_tlacitkoNastaveni_clicked();
 
@@ -121,6 +121,10 @@ private slots:
 
     void on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
+    void on_tlacitkoZpetVydej_clicked();
+
+    void on_tlacitkoLinkospoj_clicked();
+
 private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);
@@ -128,6 +132,8 @@ private:
     void bonjourStartKomplet();
 
     void bonjourStartPublish2(QString nazevSluzby, QString typSluzby, int port, QZeroConf &instanceZeroConf);
+    void startDatabaze();
+    void inicializacePoli();
 };
 
 #endif // MAINWINDOW_H

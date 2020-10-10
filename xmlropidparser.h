@@ -27,7 +27,7 @@ public:
 
 
 
-    void databazeStart(QString adresaServeru);
+    int databazeStart(QString adresaServeru);
 
 
     QVector<navrat> polozkyKeVlozeni;

@@ -19,9 +19,9 @@ XmlRopidParser::XmlRopidParser()
 
 }
 
-void XmlRopidParser::databazeStart(QString adresaServeru)
+int XmlRopidParser::databazeStart(QString adresaServeru)
 {
-    ropidSQL.Pripoj(adresaServeru );
+    return   ropidSQL.Pripoj(adresaServeru );
 }
 
 

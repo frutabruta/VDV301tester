@@ -19,8 +19,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     qDebug()<<"MainWindow::MainWindow";
     ui->setupUi(this);
-    ui->prepinadloStran->setCurrentIndex(0);
+    ui->prepinadloStran->setCurrentIndex(3);
     ui->prepinadloStran->setWindowState(Qt::WindowFullScreen);
+    startDatabaze();
     //MainWindow::setWindowState(Qt::WindowFullScreen);
 
 }
@@ -189,8 +190,12 @@ int MainWindow::on_prikaztlacitko_clicked()
     }
     else
     {
-        mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
+        AktualizaceDispleje();
+        ui->prepinadloStran->setCurrentIndex(0);
+        /*
+        mojesql.vytvorHlavniText(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
         ui->prikazovyvysledek->setText(textDoPole);
+        */
 
 
 
@@ -228,8 +233,11 @@ void MainWindow::on_sipkaNahoru_clicked()
         }
     }
     QString textDoPole="";
-    mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
+    AktualizaceDispleje();
+    /*
+    mojesql.vytvorHlavniText(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
     ui->prikazovyvysledek->setText(textDoPole);
+    */
     novatrida.doorState="AllDoorsClosed";
     //novatrida.locationState="BetweenStop";
     ui->popisek->setText(QString::number(novatrida.cislo));
@@ -268,12 +276,18 @@ void MainWindow::on_sipkaDolu_clicked()
                 {novatrida.locationState="BeforeStop";}
             }
             QString textDoPole="";
-            mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
+            AktualizaceDispleje();
+            /*
+            mojesql.vytvorHlavniText(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
             ui->prikazovyvysledek->setText(textDoPole);
+            */
         }
         QString textDoPole="";
-        mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
+        AktualizaceDispleje();
+        /*
+        mojesql.vytvorHlavniText(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
         ui->prikazovyvysledek->setText(textDoPole);
+        */
     }
     //novatrida.doorState="AllDoorsClosed";
     ui->popisek->setText(QString::number(novatrida.cislo));
@@ -284,23 +298,25 @@ void MainWindow::on_sipkaDolu_clicked()
 void MainWindow::on_pripojeniTlacitko_clicked()
 {
     qDebug()<<"\n on_pripojeniTlacitko_clicked \n";
+   startDatabaze();
+}
+
+void MainWindow::startDatabaze()
+{
+    qDebug()<<"MainWindow::startDatabaze()";
+
     mojesql.Pripoj(ui->lineEditSqlServer->text() );
-    if (mojesql.vysledek==0)
+
+    if (mojesql.VytvorSeznamLinek(seznamLinek)==1)
     {
-        ui->NazevVysledku->setText("nepovedlo se");
+    NaplnVyberLinky(seznamLinek);
+    ui->NazevVysledku->setText("OK2");
     }
     else
     {
-        ui->NazevVysledku->setText("povedlo se");
+        ui->NazevVysledku->setText("FAIL2");
+        qDebug()<<"chyba nacitani linek";
     }
-    mojesql.VytvorSeznamLinek(seznamLinek);
-    NaplnVyberLinky(seznamLinek);
-
-
-
-
-
-
 }
 
 void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
@@ -320,7 +336,10 @@ void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
 void MainWindow::NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
 {
     qDebug()<<"MainWindow::NaplnVyberSpoje";
+    if (ui->listSpoje->count()!=0)
+    {
     ui->listSpoje->clear();
+    }
     qDebug()<<"MainWindow::NaplnVyberSpoje_dp1";
     for (int i = 0; i < docasnySeznamSpoju.length(); ++i)
     {
@@ -339,8 +358,11 @@ void MainWindow::NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
 void MainWindow::AktualizaceDispleje()
 {
     QString textDoPole="";
-    mojesql.TestDotaz(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
+    QString textPoleCasu="";
+    mojesql.vytvorHlavniText(textDoPole,textPoleCasu,novatrida.cislo,globalniSeznamZastavek,novatrida.pocetZastavek);
     ui->prikazovyvysledek->setText(textDoPole);
+    ui->prikazovyvysledek_cas->setText(textPoleCasu);
+
 
 
     /*
@@ -394,7 +416,14 @@ void MainWindow::on_tlacitkoNavic_clicked()
     mpvParser.VytvorVystupniDokument(mpvParser.parsujDomDokument(),mpvParser.prestupyXmlDokumentVystup);
 
 
-    MainWindow::setWindowState(Qt::WindowFullScreen);
+    if (MainWindow::windowState()==Qt::WindowFullScreen )
+    {
+        MainWindow::setWindowState(Qt::WindowMaximized);
+    }
+    else
+    {
+        MainWindow::setWindowState(Qt::WindowFullScreen);
+    }
 }
 
 void MainWindow::on_prijezd_clicked()
@@ -462,22 +491,25 @@ void MainWindow::on_tlacitkoNactiXMLropid_clicked()
     xmlRopidParser.otevriSoubor();
 }
 
-void MainWindow::on_tlacitkoZpet_clicked()
-{
-    qDebug()<<"";
-    ui->prepinadloStran->setCurrentIndex(0);
-}
+
 
 void MainWindow::on_tlacitkoNastaveni_clicked()
 {
     qDebug()<<"";
-    ui->prepinadloStran->setCurrentIndex(1);
+    ui->prepinadloStran->setCurrentIndex(2);
 }
 
 void MainWindow::on_tlacitkoSQL_clicked()
 {
     qDebug()<<"";
-    xmlRopidParser.databazeStart(ui->lineEditSqlServer->text());
+    if (    xmlRopidParser.databazeStart(ui->lineEditSqlServer->text()) )
+    {
+      ui->NazevVysledku->setText("OK");
+    }
+    else
+    {
+        ui->NazevVysledku->setText("DB fail");
+    }
 }
 
 void MainWindow::on_tlacitkoTruncate_clicked()
@@ -568,6 +600,7 @@ void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QList
     qDebug()<<"MainWindow::on_listSpoje_currentItemChanged";
     if (ui->listSpoje->count()!=0)
     {
+        qDebug()<<"pocetNeniNula";
         ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
         novatrida.aktspoj=ui->listSpoje->currentItem()->data(Qt::UserRole).toInt() ;
     }
@@ -596,4 +629,24 @@ void MainWindow::bonjourStartPublish2(QString nazevSluzby, QString typSluzby,int
     //zeroConf.addServiceTxtRecord("ZeroConf is nice too");
     instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
 
+}
+
+void MainWindow::on_tlacitkoZpetVydej_clicked()
+{
+    ui->prepinadloStran->setCurrentIndex(0);
+}
+
+void MainWindow::on_tlacitkoLinkospoj_clicked()
+{
+    ui->prepinadloStran->setCurrentIndex(1);
+}
+
+
+
+void MainWindow::inicializacePoli()
+{
+    globalniSeznamZastavek.clear();
+    seznamLinek.clear();
+    seznamSpoju.clear();
+    novatrida.vymaz();
 }

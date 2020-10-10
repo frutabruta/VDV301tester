@@ -7,7 +7,7 @@ SqlPraceRopid::SqlPraceRopid()
 }
 
 
-void SqlPraceRopid::Pripoj(QString adresa)
+int SqlPraceRopid::Pripoj(QString adresa)
 {
     qDebug()<< "SQLprace::Pripoj";
     this->mojeDatabaze = QSqlDatabase::addDatabase("QMYSQL","my_sql_db");
@@ -21,10 +21,12 @@ void SqlPraceRopid::Pripoj(QString adresa)
     if (ok==true)
     {
         qDebug()<<"podarilo se pripojit k databazi ROPID";
+        return 1;
     }
     else
     {
         qDebug()<<"nepovedlo se";
+        return 0;
     }
     //vysledek=ok;
 }
@@ -131,7 +133,7 @@ void SqlPraceRopid::VypisPole(QVector<SeznamZastavek> docasnySeznamZastavek, int
 }
 
 
-void SqlPraceRopid::TestDotaz (QString &textPoleObsah, int cisloporadi, int cislolinky, int cislospoje, QVector<SeznamZastavek> docasnySeznamZastavek,int pocetZastavek)
+void SqlPraceRopid::vytvorHlavniText (QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<SeznamZastavek> docasnySeznamZastavek,int pocetZastavek)
 {
     qDebug()<< "SQLpraceRopid::TestDotaz";
     int i=0;
@@ -141,9 +143,10 @@ void SqlPraceRopid::TestDotaz (QString &textPoleObsah, int cisloporadi, int cisl
 
         QString blabla = QString::number(i);
         QString blabla2 = docasnySeznamZastavek.at(i).StopName;
-        QString necum =  vytvorCas(docasnySeznamZastavek.at(i).DepartureTime);
-        textPoleObsah+=blabla+" "+blabla2+" "+necum+"\n";
+        QString necum =  vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).DepartureTime);
+        textPoleObsah+=blabla+" "+blabla2+"\n";
         qDebug()<<blabla<<" "<<blabla2<<" "<<necum<<"\n";
+        textPoleCasu+=necum+"\n";
 
     }
     qDebug()<< "SQLpraceRopid::TestDotaz konec";
@@ -219,7 +222,7 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisl
 
     //queryString+=("  ASC LIMIT 5");
     QSqlQuery query(queryString2,this->mojeDatabaze);
-    int counter=0;
+
     qDebug()<<queryString2;
     qDebug()<<"DebugPointB";
     int citacMaximum=0;
@@ -251,7 +254,19 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisl
     }
 }
 
-QString SqlPraceRopid::vytvorCas(QString vstup)
+QString SqlPraceRopid::vytvorCasHodinyMinuty(QString vstup)
+{
+    qDebug()<<"SqlPraceRopid::vytvorCas";
+    int cislo=vstup.toInt();
+    int hodiny=cislo/3600;
+    int minuty=(cislo%3600)/60;
+    vstup="";
+    vstup=QString::number(hodiny)+":"+doplnNulu( minuty,2);
+
+    return vstup;
+}
+
+QString SqlPraceRopid::vytvorCasHodinyMinutySekundy(QString vstup)
 {
     qDebug()<<"SqlPraceRopid::vytvorCas";
     int cislo=vstup.toInt();
@@ -259,6 +274,7 @@ QString SqlPraceRopid::vytvorCas(QString vstup)
     int minuty=(cislo%3600)/60;
     int sekundy=(cislo%3600)%60;
     vstup="";
+
     vstup=QString::number(hodiny)+":"+doplnNulu( minuty,2)+":"+doplnNulu(sekundy,2);
     return vstup;
 }

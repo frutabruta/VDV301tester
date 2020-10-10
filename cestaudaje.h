@@ -21,6 +21,7 @@ public:
     int cisloVozu;
     int otevreneDvere;
     int vystupniStrana;
+    int vymaz();
 signals:
 
 public slots:
