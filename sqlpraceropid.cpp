@@ -14,7 +14,7 @@ void SqlPraceRopid::Pripoj(QString adresa)
     this->mojeDatabaze.setHostName(adresa);
     //this->mojeDatabaze.setPort(3306);
     //this->mojeDatabaze.setHostName("127.0.0.1");
-    this->mojeDatabaze.setDatabaseName("ropidxmlimport");
+    this->mojeDatabaze.setDatabaseName("ropidXMLimport");
     this->mojeDatabaze.setUserName("uzivatel2");
     this->mojeDatabaze.setPassword("iOrXsX4FQZdbcSTf");
     bool ok = this->mojeDatabaze.open();

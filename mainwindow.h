@@ -20,7 +20,7 @@
 
 #include <QtSerialPort/QSerialPort>
 
-#include "qzeroconf.h"
+#include "qtzeroconf/qzeroconf.h"
 #include "httpsluzba.h"
 
 namespace Ui {

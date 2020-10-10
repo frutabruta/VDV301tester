@@ -1,6 +1,6 @@
 #include "httpsluzba.h"
 
-
+#include "qtzeroconf/qzeroconf.h"
 
 
 HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu):HHserver(cisloPortu)
@@ -85,9 +85,9 @@ QByteArray HttpSluzba::vyrobHlavicku()
 void HttpSluzba::bonjourStartKomplet()
 {
     qDebug()<<"HttpSluzba::bonjourStartKomplet";
-    zeroConf.clearServiceTxtRecords();
+    //zeroConf.clearServiceTxtRecords();
 
-    this->bonjourStartPublish(this->nazevSluzbyInterni,this->typSluzbyInterni,this->cisloPortuInterni,zeroConf);
+    //this->bonjourStartPublish(this->nazevSluzbyInterni,this->typSluzbyInterni,this->cisloPortuInterni,zeroConf);
     //this->bonjourStartPublish2("DeviceManagementService","_ibisip_http._tcp",47475,zeroConf2);
 }
 
@@ -97,9 +97,9 @@ void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int 
 {
     qDebug()<<"HttpSluzba::bonjourStartPublish"<<nazevSluzby;
 
-    instanceZeroConf.addServiceTxtRecord("ver", "1.0");
+    //instanceZeroConf.addServiceTxtRecord("ver", "1.0");
     //zeroConf.addServiceTxtRecord("ZeroConf is nice too");
-    instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
+    //instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
 
 }
 

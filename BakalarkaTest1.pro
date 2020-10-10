@@ -11,7 +11,7 @@ QT += xml
 QT += serialport
 QT += multimedia
 
-DEFINES= QZEROCONF_STATIC
+#DEFINES= QZEROCONF_STATIC
 
 include(qtzeroconf/qtzeroconf.pri)
 
