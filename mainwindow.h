@@ -142,6 +142,7 @@ private:
     void bonjourStartPublish2(QString nazevSluzby, QString typSluzby, int port, QZeroConf &instanceZeroConf);
     void startDatabaze();
     void inicializacePoli();
+    void vypisSubscribery(QVector<QUrl> adresy);
 };
 
 #endif // MAINWINDOW_H

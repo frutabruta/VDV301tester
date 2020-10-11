@@ -126,7 +126,7 @@ public:
     QWidget *verticalLayoutWidget_10;
     QVBoxLayout *verticalLayout_11;
     QLabel *label_11;
-    QListWidget *pocetOdberatelu;
+    QListWidget *seznamOdberatelu;
     QPushButton *tlacitkoRemoveSubscriber;
     QPushButton *tlacitkoAddsubscriber;
     QLineEdit *lineEdit_ipadresaOdberatele;
@@ -866,10 +866,10 @@ public:
 
         verticalLayout_11->addWidget(label_11);
 
-        pocetOdberatelu = new QListWidget(verticalLayoutWidget_10);
-        pocetOdberatelu->setObjectName(QString::fromUtf8("pocetOdberatelu"));
+        seznamOdberatelu = new QListWidget(verticalLayoutWidget_10);
+        seznamOdberatelu->setObjectName(QString::fromUtf8("seznamOdberatelu"));
 
-        verticalLayout_11->addWidget(pocetOdberatelu);
+        verticalLayout_11->addWidget(seznamOdberatelu);
 
         tlacitkoRemoveSubscriber = new QPushButton(page_customXML);
         tlacitkoRemoveSubscriber->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber"));
@@ -907,7 +907,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(0);
+        prepinadloStran->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);

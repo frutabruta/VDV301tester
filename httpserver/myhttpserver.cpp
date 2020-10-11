@@ -3,7 +3,7 @@
 #include <QTime>
 using namespace std;
 
-
+// zdroj https://stackoverflow.com/questions/3122508/qt-http-server/5015614#5015614
 myHTTPserver::myHTTPserver(quint16 ppp)
 {
 
@@ -89,6 +89,7 @@ void myHTTPserver::txRx()
     {
         socket->write(obsahGet);
         qDebug()<<"ano, obsahuje Get";
+        qDebug()<<"obsah get: "<<obsahGet;
     }
     else
     {
@@ -96,6 +97,7 @@ void myHTTPserver::txRx()
         {
             socket->write(obsahSubscribe);
             qDebug()<<"ano, obsahuje Subscribe";
+            qDebug()<<"obsah Subscribe: "<<obsahSubscribe;
         }
     }
 

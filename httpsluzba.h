@@ -25,11 +25,12 @@ private:
     void bonjourStartPublish(QString nazevSluzby, QString typSluzby, int port, QZeroConf &instanceZeroConf);
     QString typSluzbyInterni="_ibisip_http._tcp";
     int nastavHttpObsah(QByteArray argumentXMLserveru);
-    QByteArray vyrobHlavicku();
+    QByteArray vyrobHlavickuGet();
     int zkombinujHlavickaTeloGet(QByteArray hlavicka, QByteArray telo);
 
     int zkombinujHlavickaTeloSubscribe(QByteArray hlavicka, QByteArray telo);
     QByteArray vyrobGetResponseBody();
+    QByteArray vyrobHlavickuSubscribe();
 };
 
 #endif // HTTPSLUZBA_H

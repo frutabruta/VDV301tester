@@ -10,7 +10,7 @@ cisloPortuInterni=cisloPortu;
 nazevSluzbyInterni=nazevSluzby;
 typSluzbyInterni=typSluzby;
 bonjourStartKomplet();
-hlavickaInterni=vyrobHlavicku();
+hlavickaInterni=vyrobHlavickuGet();
 }
 
 int HttpSluzba::nastavObsah(QByteArray vstup)
@@ -63,19 +63,35 @@ int HttpSluzba::zkombinujHlavickaTeloSubscribe(QByteArray hlavicka, QByteArray t
 
 int HttpSluzba::aktualizuj()
 {
+    qDebug()<<"HttpSluzba::aktualizuj()";
     //zkombinujHlavickaTeloGet(hlavickaInterni,vyrobGetResponseBody());
-    zkombinujHlavickaTeloGet(vyrobHlavicku(),vyrobGetResponseBody());
-    zkombinujHlavickaTeloSubscribe(vyrobHlavicku(),vyrobSubscribeResponseBody(1));
+    zkombinujHlavickaTeloGet(vyrobHlavickuGet(),vyrobGetResponseBody());
+    zkombinujHlavickaTeloSubscribe(vyrobHlavickuSubscribe(),vyrobSubscribeResponseBody(1));
     return 1;
 }
 
-QByteArray HttpSluzba::vyrobHlavicku()
+QByteArray HttpSluzba::vyrobHlavickuGet()
 {
+    qDebug()<<"HttpSluzba::vyrobHlavicku()";
     QByteArray hlavicka;
     this->hlavickaInterni="";
     QByteArray argumentXMLserveru = "";
     hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
     hlavicka+=("Content-Type: application/xml\r\n");
+    hlavicka+=("Connection: close\r\n");
+    hlavicka+=("Pragma: no-cache\r\n");
+    hlavicka+=("\r\n");
+    return hlavicka;
+}
+
+QByteArray HttpSluzba::vyrobHlavickuSubscribe()
+{
+    qDebug()<<"HttpSluzba::vyrobHlavicku()";
+    QByteArray hlavicka;
+    this->hlavickaInterni="";
+    QByteArray argumentXMLserveru = "";
+    hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
+    hlavicka+=("Content-Type: text/xml\r\n");
     hlavicka+=("Connection: close\r\n");
     hlavicka+=("Pragma: no-cache\r\n");
     hlavicka+=("\r\n");
@@ -88,7 +104,7 @@ void HttpSluzba::bonjourStartKomplet()
     qDebug()<<"HttpSluzba::bonjourStartKomplet";
     //zeroConf.clearServiceTxtRecords();
 
-    //this->bonjourStartPublish(this->nazevSluzbyInterni,this->typSluzbyInterni,this->cisloPortuInterni,zeroConf);
+    this->bonjourStartPublish(this->nazevSluzbyInterni,this->typSluzbyInterni,this->cisloPortuInterni,zeroConf);
     //this->bonjourStartPublish2("DeviceManagementService","_ibisip_http._tcp",47475,zeroConf2);
 }
 
@@ -98,14 +114,15 @@ void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int 
 {
     qDebug()<<"HttpSluzba::bonjourStartPublish"<<nazevSluzby;
 
-    //instanceZeroConf.addServiceTxtRecord("ver", "1.0");
+    instanceZeroConf.addServiceTxtRecord("ver", "1.0");
     //zeroConf.addServiceTxtRecord("ZeroConf is nice too");
-    //instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
+    instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
 
 }
 
 QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
 {
+    qDebug()<<"HttpSluzba::vyrobSubscribeResponseBody";
     QByteArray textVysledek="true";
     if (vysledek!=1)
     {
@@ -124,6 +141,7 @@ QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
 
 QByteArray HttpSluzba::vyrobGetResponseBody()
 {
+    qDebug()<<"HttpSluzba::vyrobGetResponseBody()";
     return obsahInterni;
 
 }

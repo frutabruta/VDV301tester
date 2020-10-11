@@ -67,12 +67,23 @@ void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
         vysledek2=TestXmlGenerator.AllDataRopid( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
     }
 
+
     ObnoveniServeru(vysledek2);
+      /*
     QUrl seznamAdres[]={QUrl("http://192.168.12.128:60011"),QUrl("http://127.0.0.1:47475")};
+
     int pocetAdres=2;
     for(int i=0;i<pocetAdres;i++ )
     {
         PostDoDispleje(seznamAdres[i],vysledek2);
+    }
+    */
+
+
+
+    for(int i=0;i<seznamSubscriberu.count();i++ )
+    {
+        PostDoDispleje(seznamSubscriberu[i],vysledek2);
     }
     qDebug()<<"\n MainWindow::xmlUpdate";
 
@@ -685,4 +696,15 @@ void MainWindow::on_tlacitkoOdesliXml_clicked()
         //PostDoDispleje(seznamAdres[i],vysledek2);
     }
     qDebug()<<"\n MainWindow::xmlUpdate";
+}
+
+
+void MainWindow::vypisSubscribery(QVector<QUrl> adresy)
+{
+
+    for (int i = 0;  i < adresy.count(); i++)
+    {
+      ui->seznamOdberatelu->addItem(adresy[i].toString() );
+    }
+
 }
