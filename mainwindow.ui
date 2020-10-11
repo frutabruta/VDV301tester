@@ -57,7 +57,7 @@
        <number>0</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_10">
+       <layout class="QVBoxLayout" name="bocniMenu">
         <item>
          <widget class="QPushButton" name="tlacitkoLinkospoj">
           <property name="minimumSize">
@@ -118,6 +118,25 @@
           </property>
           <property name="text">
            <string>nastaveni</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="tlacitkoManual">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>80</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>200</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Manual</string>
           </property>
          </widget>
         </item>
@@ -631,9 +650,9 @@
          <string notr="true">/*background-color:rgb(52, 101, 164); */</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
-        <widget class="QWidget" name="page">
+        <widget class="QWidget" name="page_vydej">
          <layout class="QGridLayout" name="gridLayout_3">
           <item row="0" column="0">
            <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -908,7 +927,7 @@ color: rgb(238, 238, 236);</string>
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="page_3">
+        <widget class="QWidget" name="page_linkaspoj">
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="0" column="0" colspan="2">
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1499,7 +1518,7 @@ color: rgb(238, 238, 236);</string>
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="page_2">
+        <widget class="QWidget" name="page_nastaveni">
          <widget class="QWidget" name="horizontalLayoutWidget_3">
           <property name="geometry">
            <rect>
@@ -1797,6 +1816,114 @@ color: rgb(238, 238, 236);</string>
             </widget>
            </item>
           </layout>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="page_customXML">
+         <widget class="QWidget" name="verticalLayoutWidget_9">
+          <property name="geometry">
+           <rect>
+            <x>110</x>
+            <y>100</y>
+            <width>160</width>
+            <height>92</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+           <item>
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>CustomXML</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="plainTextEditCustomXml"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QPushButton" name="tlacitkoSmazOkno">
+          <property name="geometry">
+           <rect>
+            <x>400</x>
+            <y>80</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Vymaž okno</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="tlacitkoOdesliXml">
+          <property name="geometry">
+           <rect>
+            <x>354</x>
+            <y>160</y>
+            <width>111</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>odešli na panely</string>
+          </property>
+         </widget>
+         <widget class="QWidget" name="verticalLayoutWidget_10">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>260</y>
+            <width>160</width>
+            <height>94</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <item>
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>Odberatele</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QListWidget" name="pocetOdberatelu"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QPushButton" name="tlacitkoRemoveSubscriber">
+          <property name="geometry">
+           <rect>
+            <x>300</x>
+            <y>270</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Zrusit odber</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="tlacitkoAddsubscriber">
+          <property name="geometry">
+           <rect>
+            <x>310</x>
+            <y>360</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Přidat odběratele</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_ipadresaOdberatele">
+          <property name="geometry">
+           <rect>
+            <x>110</x>
+            <y>370</y>
+            <width>113</width>
+            <height>20</height>
+           </rect>
+          </property>
          </widget>
         </widget>
        </widget>

@@ -62,6 +62,8 @@ public:
     HttpSluzba DeviceManagementService;
     HttpSluzba CustomerInformationService;
 
+    QVector<QUrl> seznamSubscriberu;
+
 
 
 
@@ -124,6 +126,12 @@ private slots:
     void on_tlacitkoZpetVydej_clicked();
 
     void on_tlacitkoLinkospoj_clicked();
+
+    void on_tlacitkoSmazOkno_clicked();
+
+    void on_tlacitkoManual_clicked();
+
+    void on_tlacitkoOdesliXml_clicked();
 
 private:
     Ui::MainWindow *ui;

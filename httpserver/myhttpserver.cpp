@@ -74,7 +74,7 @@ void myHTTPserver::myConnection()
 void myHTTPserver::txRx()
 {
     qDebug()<<"myHTTPserver::txRx";
-    const int maxPocetBytu=1000;
+    const int maxPocetBytu=3000;
     char webBrowerRXData[maxPocetBytu];
     qint64 pocetPrijatychBytu=socket->read(webBrowerRXData,maxPocetBytu);
     cout<<"\nreading web browser data\n";

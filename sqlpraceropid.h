@@ -21,8 +21,8 @@ public:
     //void Pripoj();
     //void StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, SeznamZastavek *docasnySeznamZastavek);
 
-    void vytvorHlavniText(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector <SeznamZastavek> docasnySeznamZastavek, int pocetZastavek);
-    int StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek, bool platnost);
+    void vytvorHlavniText(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector <SeznamZastavek> docasnySeznamZastavek);
+    int StahniSeznam(int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek, bool platnost);
 
 
     int Pripoj(QString adresa);

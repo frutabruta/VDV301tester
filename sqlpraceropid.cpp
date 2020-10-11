@@ -33,7 +33,7 @@ int SqlPraceRopid::Pripoj(QString adresa)
 
 
 
-int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek, bool platnost )
+int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek, bool platnost )
 {
     docasnySeznamZastavek.clear();
     qDebug()<< "SQLprace::StahniSeznam";
@@ -67,7 +67,8 @@ int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpo
         if (query.value(0).toString()!="")
         {
             SeznamZastavek aktZast;
-            int cisloZast = counter+1; //query.value(0).toInt();
+            //int cisloZast = counter+1;
+            int cisloZast = counter; //query.value(0).toInt();
             if (cisloZast>=citacMaximum)
             {
                 citacMaximum=cisloZast;
@@ -117,8 +118,8 @@ int SqlPraceRopid::StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpo
     }
     qInfo()<<"DebugPointF";
     VypisPole(docasnySeznamZastavek,counter);
-    pocetVysledku=counter;
-    qInfo()<<"pocetzastavek je"<<QString::number(pocetVysledku);
+    //pocetVysledku=counter;
+    qInfo()<<"pocetzastavek je"<<QString::number(docasnySeznamZastavek.length());
     return 1;
 }
 
@@ -133,12 +134,12 @@ void SqlPraceRopid::VypisPole(QVector<SeznamZastavek> docasnySeznamZastavek, int
 }
 
 
-void SqlPraceRopid::vytvorHlavniText (QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<SeznamZastavek> docasnySeznamZastavek,int pocetZastavek)
+void SqlPraceRopid::vytvorHlavniText (QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<SeznamZastavek> docasnySeznamZastavek)
 {
-    qDebug()<< "SQLpraceRopid::TestDotaz";
+    qDebug()<< "SqlPraceRopid::vytvorHlavniText";
     int i=0;
 
-    for (i=cisloporadi-1;i<(pocetZastavek-1);i++)
+    for (i=cisloporadi;i<(docasnySeznamZastavek.count());i++)
     {
 
         QString blabla = QString::number(i);

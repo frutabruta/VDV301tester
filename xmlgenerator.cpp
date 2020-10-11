@@ -18,7 +18,7 @@ xmlGenerator::xmlGenerator(QWidget *parent) : QMainWindow(parent)
 
 
 
-QByteArray xmlGenerator::AllData2(int poradi, int pocetZastavek, QVector <SeznamZastavek> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, bool poslatHlavicku )
+QByteArray xmlGenerator::AllData2(int poradi,  QVector <SeznamZastavek> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, bool poslatHlavicku )
 {
     qDebug()<<" xmlGenerator::AllData2 ";
 
@@ -78,7 +78,7 @@ QByteArray xmlGenerator::AllData2(int poradi, int pocetZastavek, QVector <Seznam
 
     QDomElement dStopSequence=xmlko.createElement("StopSequence");
     dTripInformation.appendChild(dStopSequence);
-    for (int i=0 ; i<pocetZastavek;i++)
+    for (int i=0 ; i<docasnySeznamZastavek.count();i++)
     {
         QByteArray cCurrentStopIndex=QByteArray::number(docasnySeznamZastavek[i].StopIndex);
         QByteArray cStopName="";
@@ -216,9 +216,9 @@ QByteArray xmlGenerator::createTimestamp()
 
 
 
-QByteArray xmlGenerator::AllDataRopid(int poradi, int pocetZastavek, QVector <SeznamZastavek> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, bool poslatHlavicku )
+QByteArray xmlGenerator::AllDataRopid(int poradi, QVector <SeznamZastavek> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, bool poslatHlavicku )
 {
-    qDebug()<<" xmlGenerator::AllData2 ";
+    qDebug()<<" xmlGenerator::AllDataRopid ";
 
     QByteArray vysledekMpvnetu ="";
     QString testVysledek="<TBL cas=\"2019-08-10T23:12:41\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"77\" smer=\"Praha,Spojovací\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"15\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"273\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"32\" smer=\"Praha,Zličín\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"161\" smer=\"Praha,Bílá Hora\" odj=\"2019-08-10T23:17:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27908\"/></t></TBL>";
@@ -276,7 +276,7 @@ QByteArray xmlGenerator::AllDataRopid(int poradi, int pocetZastavek, QVector <Se
 
     QDomElement dStopSequence=xmlko.createElement("StopSequence");
     dTripInformation.appendChild(dStopSequence);
-    for (int i=0 ; i<pocetZastavek;i++)
+    for (int i=0 ; i<docasnySeznamZastavek.count();i++)
     {
         QByteArray cCurrentStopIndex=QByteArray::number(docasnySeznamZastavek[i].StopIndex);
         QByteArray cStopName="";

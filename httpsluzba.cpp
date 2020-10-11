@@ -63,7 +63,8 @@ int HttpSluzba::zkombinujHlavickaTeloSubscribe(QByteArray hlavicka, QByteArray t
 
 int HttpSluzba::aktualizuj()
 {
-    zkombinujHlavickaTeloGet(hlavickaInterni,vyrobGetResponseBody());
+    //zkombinujHlavickaTeloGet(hlavickaInterni,vyrobGetResponseBody());
+    zkombinujHlavickaTeloGet(vyrobHlavicku(),vyrobGetResponseBody());
     zkombinujHlavickaTeloSubscribe(vyrobHlavicku(),vyrobSubscribeResponseBody(1));
     return 1;
 }
