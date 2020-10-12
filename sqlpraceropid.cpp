@@ -207,7 +207,7 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisl
 {
     qDebug()<< "SqlPraceRopid::VytvorSeznamSpoju";
     docasnySeznamSpoju.clear();
-
+    bool platnost = true;
     qInfo()<<"DebugPointA";
     //QString queryString("SELECT a.stop_order, b.name, a.time, b.cis_id,f.mpvalias FROM lineroutestoptime a ");
 
@@ -215,6 +215,10 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisl
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
     queryString2+=("WHERE l.lc=");
     queryString2+=( QString::number(cisloLinky));
+    queryString2+=(" AND  s.c !=1000 ");
+    queryString2+=(" AND  s.kj LIKE '");
+    queryString2+=QString::number(platnost);
+    queryString2+=("%' ");
     queryString2+=(" ORDER BY s.c");
 
 
