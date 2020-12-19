@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.15.0
+** Created by: Qt User Interface Compiler version 5.15.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -327,7 +327,7 @@ public:
         prikazovyvysledek->setObjectName(QString::fromUtf8("prikazovyvysledek"));
         sizePolicy1.setHeightForWidth(prikazovyvysledek->sizePolicy().hasHeightForWidth());
         prikazovyvysledek->setSizePolicy(sizePolicy1);
-        prikazovyvysledek->setMinimumSize(QSize(0, 300));
+        prikazovyvysledek->setMinimumSize(QSize(350, 270));
         QFont font;
         font.setPointSize(33);
         prikazovyvysledek->setFont(font);
@@ -340,11 +340,12 @@ public:
 
         prikazovyvysledek_cas = new QLabel(page_vydej);
         prikazovyvysledek_cas->setObjectName(QString::fromUtf8("prikazovyvysledek_cas"));
+        prikazovyvysledek_cas->setMinimumSize(QSize(112, 270));
         prikazovyvysledek_cas->setFont(font);
         prikazovyvysledek_cas->setAutoFillBackground(false);
         prikazovyvysledek_cas->setStyleSheet(QString::fromUtf8("background-color:rgb(32, 74, 135);\n"
 "color: rgb(238, 238, 236);"));
-        prikazovyvysledek_cas->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        prikazovyvysledek_cas->setAlignment(Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing);
 
         horizontalLayout_8->addWidget(prikazovyvysledek_cas);
 
@@ -697,7 +698,7 @@ public:
         page_nastaveni->setObjectName(QString::fromUtf8("page_nastaveni"));
         horizontalLayoutWidget_3 = new QWidget(page_nastaveni);
         horizontalLayoutWidget_3->setObjectName(QString::fromUtf8("horizontalLayoutWidget_3"));
-        horizontalLayoutWidget_3->setGeometry(QRect(100, 0, 431, 295));
+        horizontalLayoutWidget_3->setGeometry(QRect(100, 0, 436, 295));
         horizontalLayout_6 = new QHBoxLayout(horizontalLayoutWidget_3);
         horizontalLayout_6->setSpacing(6);
         horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
@@ -803,7 +804,7 @@ public:
 
         layoutWidget_2 = new QWidget(page_nastaveni);
         layoutWidget_2->setObjectName(QString::fromUtf8("layoutWidget_2"));
-        layoutWidget_2->setGeometry(QRect(590, 130, 115, 119));
+        layoutWidget_2->setGeometry(QRect(590, 130, 120, 119));
         verticalLayout_2 = new QVBoxLayout(layoutWidget_2);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -831,7 +832,7 @@ public:
         page_customXML->setObjectName(QString::fromUtf8("page_customXML"));
         verticalLayoutWidget_9 = new QWidget(page_customXML);
         verticalLayoutWidget_9->setObjectName(QString::fromUtf8("verticalLayoutWidget_9"));
-        verticalLayoutWidget_9->setGeometry(QRect(110, 100, 160, 92));
+        verticalLayoutWidget_9->setGeometry(QRect(80, 100, 160, 92));
         verticalLayout_10 = new QVBoxLayout(verticalLayoutWidget_9);
         verticalLayout_10->setSpacing(6);
         verticalLayout_10->setContentsMargins(11, 11, 11, 11);
@@ -849,10 +850,10 @@ public:
 
         tlacitkoSmazOkno = new QPushButton(page_customXML);
         tlacitkoSmazOkno->setObjectName(QString::fromUtf8("tlacitkoSmazOkno"));
-        tlacitkoSmazOkno->setGeometry(QRect(400, 80, 75, 23));
+        tlacitkoSmazOkno->setGeometry(QRect(400, 80, 151, 31));
         tlacitkoOdesliXml = new QPushButton(page_customXML);
         tlacitkoOdesliXml->setObjectName(QString::fromUtf8("tlacitkoOdesliXml"));
-        tlacitkoOdesliXml->setGeometry(QRect(354, 160, 111, 23));
+        tlacitkoOdesliXml->setGeometry(QRect(354, 160, 181, 31));
         verticalLayoutWidget_10 = new QWidget(page_customXML);
         verticalLayoutWidget_10->setObjectName(QString::fromUtf8("verticalLayoutWidget_10"));
         verticalLayoutWidget_10->setGeometry(QRect(80, 260, 160, 94));
@@ -873,10 +874,10 @@ public:
 
         tlacitkoRemoveSubscriber = new QPushButton(page_customXML);
         tlacitkoRemoveSubscriber->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber"));
-        tlacitkoRemoveSubscriber->setGeometry(QRect(300, 270, 75, 23));
+        tlacitkoRemoveSubscriber->setGeometry(QRect(300, 270, 141, 21));
         tlacitkoAddsubscriber = new QPushButton(page_customXML);
         tlacitkoAddsubscriber->setObjectName(QString::fromUtf8("tlacitkoAddsubscriber"));
-        tlacitkoAddsubscriber->setGeometry(QRect(310, 360, 75, 23));
+        tlacitkoAddsubscriber->setGeometry(QRect(300, 310, 151, 21));
         lineEdit_ipadresaOdberatele = new QLineEdit(page_customXML);
         lineEdit_ipadresaOdberatele->setObjectName(QString::fromUtf8("lineEdit_ipadresaOdberatele"));
         lineEdit_ipadresaOdberatele->setGeometry(QRect(110, 370, 113, 20));
@@ -907,7 +908,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(3);
+        prepinadloStran->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -922,8 +923,8 @@ public:
         tlacitkoManual->setText(QCoreApplication::translate("MainWindow", "Manual", nullptr));
         tlacitkoNavic->setText(QCoreApplication::translate("MainWindow", "Fullscreen", nullptr));
         quitTlacitko->setText(QCoreApplication::translate("MainWindow", "QUIT", nullptr));
-        prikazovyvysledek->setText(QCoreApplication::translate("MainWindow", "seznam zastavekpppp", nullptr));
-        prikazovyvysledek_cas->setText(QCoreApplication::translate("MainWindow", "casy", nullptr));
+        prikazovyvysledek->setText(QCoreApplication::translate("MainWindow", "seznam zastavek", nullptr));
+        prikazovyvysledek_cas->setText(QCoreApplication::translate("MainWindow", "12:01", nullptr));
         sipkaNahoru->setText(QCoreApplication::translate("MainWindow", "\342\226\262", nullptr));
         sipkaDolu->setText(QCoreApplication::translate("MainWindow", "\342\226\274", nullptr));
         BeforeStop->setText(QCoreApplication::translate("MainWindow", "BeforeStop", nullptr));

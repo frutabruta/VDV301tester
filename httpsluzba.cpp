@@ -9,7 +9,7 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu):HH
 cisloPortuInterni=cisloPortu;
 nazevSluzbyInterni=nazevSluzby;
 typSluzbyInterni=typSluzby;
-bonjourStartKomplet();
+//bonjourStartKomplet();
 hlavickaInterni=vyrobHlavickuGet();
 }
 

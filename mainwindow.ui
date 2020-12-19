@@ -650,7 +650,7 @@
          <string notr="true">/*background-color:rgb(52, 101, 164); */</string>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="page_vydej">
          <layout class="QGridLayout" name="gridLayout_3">
@@ -666,8 +666,8 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>0</width>
-                <height>300</height>
+                <width>350</width>
+                <height>270</height>
                </size>
               </property>
               <property name="font">
@@ -683,7 +683,7 @@
 color: rgb(238, 238, 236);</string>
               </property>
               <property name="text">
-               <string>seznam zastavekpppp</string>
+               <string>seznam zastavek</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -692,6 +692,12 @@ color: rgb(238, 238, 236);</string>
             </item>
             <item>
              <widget class="QLabel" name="prikazovyvysledek_cas">
+              <property name="minimumSize">
+               <size>
+                <width>112</width>
+                <height>270</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <pointsize>33</pointsize>
@@ -705,10 +711,10 @@ color: rgb(238, 238, 236);</string>
 color: rgb(238, 238, 236);</string>
               </property>
               <property name="text">
-               <string>casy</string>
+               <string>12:01</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+               <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
               </property>
              </widget>
             </item>
@@ -1524,7 +1530,7 @@ color: rgb(238, 238, 236);</string>
            <rect>
             <x>100</x>
             <y>0</y>
-            <width>431</width>
+            <width>436</width>
             <height>295</height>
            </rect>
           </property>
@@ -1774,7 +1780,7 @@ color: rgb(238, 238, 236);</string>
            <rect>
             <x>590</x>
             <y>130</y>
-            <width>115</width>
+            <width>120</width>
             <height>119</height>
            </rect>
           </property>
@@ -1822,7 +1828,7 @@ color: rgb(238, 238, 236);</string>
          <widget class="QWidget" name="verticalLayoutWidget_9">
           <property name="geometry">
            <rect>
-            <x>110</x>
+            <x>80</x>
             <y>100</y>
             <width>160</width>
             <height>92</height>
@@ -1846,8 +1852,8 @@ color: rgb(238, 238, 236);</string>
            <rect>
             <x>400</x>
             <y>80</y>
-            <width>75</width>
-            <height>23</height>
+            <width>151</width>
+            <height>31</height>
            </rect>
           </property>
           <property name="text">
@@ -1859,8 +1865,8 @@ color: rgb(238, 238, 236);</string>
            <rect>
             <x>354</x>
             <y>160</y>
-            <width>111</width>
-            <height>23</height>
+            <width>181</width>
+            <height>31</height>
            </rect>
           </property>
           <property name="text">
@@ -1894,8 +1900,8 @@ color: rgb(238, 238, 236);</string>
            <rect>
             <x>300</x>
             <y>270</y>
-            <width>75</width>
-            <height>23</height>
+            <width>141</width>
+            <height>21</height>
            </rect>
           </property>
           <property name="text">
@@ -1905,10 +1911,10 @@ color: rgb(238, 238, 236);</string>
          <widget class="QPushButton" name="tlacitkoAddsubscriber">
           <property name="geometry">
            <rect>
-            <x>310</x>
-            <y>360</y>
-            <width>75</width>
-            <height>23</height>
+            <x>300</x>
+            <y>310</y>
+            <width>151</width>
+            <height>21</height>
            </rect>
           </property>
           <property name="text">
