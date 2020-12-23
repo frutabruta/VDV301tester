@@ -23,6 +23,8 @@
 #include "qtzeroconf/qzeroconf.h"
 #include "httpsluzba.h"
 
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -143,6 +145,7 @@ private:
     void startDatabaze();
     void inicializacePoli();
     void vypisSubscribery(QVector<QUrl> adresy);
+
 };
 
 #endif // MAINWINDOW_H

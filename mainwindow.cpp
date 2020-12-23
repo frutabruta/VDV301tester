@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     startDatabaze();
     seznamSubscriberu.push_back(QUrl("http://192.168.12.128:60011"));
     seznamSubscriberu.push_back(QUrl("http://127.0.0.1:47475"));
-    this->bonjourStartPublish2("CustomerInformationService","_ibisip_http._tcp",47450,zeroConf);
+    //this->bonjourStartPublish2("CustomerInformationService","_ibisip_http._tcp",47450,zeroConf);
 
 
     //MainWindow::setWindowState(Qt::WindowFullScreen);

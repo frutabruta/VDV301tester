@@ -3,13 +3,14 @@
 # Project created by QtCreator 2017-10-03T20:55:15
 # blabla
 #-------------------------------------------------
-
+#requires(qtHaveModule(httpserver))
 QT       += core gui
 QT += network sql
 QTPLUGIN += QSQLMYSQL
 QT += xml
 QT += serialport
 QT += multimedia
+QT+= httpserver
 
 DEFINES+= QZEROCONF_STATIC
 
@@ -55,6 +56,7 @@ SOURCES += \
     httpsluzba.cpp \
         main.cpp \
         mainwindow.cpp \
+    newhttpserver.cpp \
     prestupmpv.cpp \
     spoj.cpp \
     sqlprace.cpp \
@@ -73,6 +75,7 @@ HEADERS += \
     hlasic.h \
     httpsluzba.h \
         mainwindow.h \
+    newhttpserver.h \
     prestupmpv.h \
     spoj.h \
     sqlprace.h \

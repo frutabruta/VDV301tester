@@ -3,14 +3,17 @@
 #include "qtzeroconf/qzeroconf.h"
 
 
-HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu):HHserver(cisloPortu)
+
+
+HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu):InstanceNovehoServeru(cisloPortu)
 {
     qDebug()<<"HttpSluzba::HttpSluzba";
-cisloPortuInterni=cisloPortu;
-nazevSluzbyInterni=nazevSluzby;
-typSluzbyInterni=typSluzby;
-//bonjourStartKomplet();
-hlavickaInterni=vyrobHlavickuGet();
+    cisloPortuInterni=cisloPortu;
+    nazevSluzbyInterni=nazevSluzby;
+    typSluzbyInterni=typSluzby;
+    bonjourStartKomplet();
+    hlavickaInterni=vyrobHlavickuGet();
+    connect(&InstanceNovehoServeru,SIGNAL(zmenaObsahu()),this,SLOT(vypisObsahRequestu()));
 }
 
 int HttpSluzba::nastavObsah(QByteArray vstup)
@@ -32,7 +35,8 @@ int HttpSluzba::nastavHlavicku(QByteArray vstup)
 int HttpSluzba::nastavHttpObsah(QByteArray argumentXMLserveru)
 {
     qDebug()<<"HttpSluzba::nastavHttpObsah";
-    HHserver.zapisDoPromenneGet(argumentXMLserveru);
+    //HHserver.zapisDoPromenneGet(argumentXMLserveru);
+    InstanceNovehoServeru.zapisDoPromenneGet(argumentXMLserveru);
     return 1;
 }
 
@@ -41,10 +45,12 @@ int HttpSluzba::zkombinujHlavickaTeloGet(QByteArray hlavicka,QByteArray telo)
     qDebug()<<"HttpSluzba::zkombinujHlavickaTelo()";
     QByteArray argumentXMLserveru="";
 
-    argumentXMLserveru.append(hlavicka);
+    //argumentXMLserveru.append(hlavicka);
     argumentXMLserveru.append(telo);
 
-    HHserver.zapisDoPromenneGet(argumentXMLserveru);
+    InstanceNovehoServeru.zapisDoPromenneGet(argumentXMLserveru);
+    //HHserver.zapisDoPromenneGet(argumentXMLserveru);
+
 
     return 1;
 }
@@ -54,10 +60,11 @@ int HttpSluzba::zkombinujHlavickaTeloSubscribe(QByteArray hlavicka, QByteArray t
     qDebug()<<"HttpSluzba::zkombinujHlavickaTeloSubscribe()";
     QByteArray argumentXMLserveru="";
 
-    argumentXMLserveru.append(hlavicka);
+    //argumentXMLserveru.append(hlavicka);
     argumentXMLserveru.append(telo);
 
-    HHserver.zapisDoSubscribe(argumentXMLserveru);
+    //HHserver.zapisDoSubscribe(argumentXMLserveru);
+    InstanceNovehoServeru.zapisDoSubscribe(argumentXMLserveru);
     return 1;
 }
 
@@ -97,6 +104,8 @@ QByteArray HttpSluzba::vyrobHlavickuSubscribe()
     hlavicka+=("\r\n");
     return hlavicka;
 }
+
+
 
 
 void HttpSluzba::bonjourStartKomplet()
@@ -144,4 +153,12 @@ QByteArray HttpSluzba::vyrobGetResponseBody()
     qDebug()<<"HttpSluzba::vyrobGetResponseBody()";
     return obsahInterni;
 
+}
+
+void HttpSluzba::vypisObsahRequestu()
+{
+    QByteArray posledniRequest=InstanceNovehoServeru.bodyPozadavku;
+    qDebug()<<"toto je vypis slotu";
+    qDebug()<<"body pozadavku"<<posledniRequest;
+    //qDebug()<<obsahBody;
 }

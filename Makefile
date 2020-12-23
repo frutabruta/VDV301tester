@@ -246,11 +246,6 @@ Makefile: BakalarkaTest1.pro C:/Qt/5.15.1/mingw81_64/mkspecs/win32-g++/qmake.con
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/precompile_header.prf \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/warn_on.prf \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/qt.prf \
-		C:/Qt/5.15.1/mingw81_64/mkspecs/features/resources_functions.prf \
-		C:/Qt/5.15.1/mingw81_64/mkspecs/features/resources.prf \
-		C:/Qt/5.15.1/mingw81_64/mkspecs/features/moc.prf \
-		C:/Qt/5.15.1/mingw81_64/mkspecs/features/win32/opengl.prf \
-		C:/Qt/5.15.1/mingw81_64/mkspecs/features/uic.prf \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/qmake_use.prf \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/file_copies.prf \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/win32/windows.prf \
@@ -259,14 +254,6 @@ Makefile: BakalarkaTest1.pro C:/Qt/5.15.1/mingw81_64/mkspecs/win32-g++/qmake.con
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/yacc.prf \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/lex.prf \
 		BakalarkaTest1.pro \
-		C:/Qt/5.15.1/mingw81_64/lib/Qt5Multimedia.prl \
-		C:/Qt/5.15.1/mingw81_64/lib/Qt5Widgets.prl \
-		C:/Qt/5.15.1/mingw81_64/lib/Qt5Gui.prl \
-		C:/Qt/5.15.1/mingw81_64/lib/Qt5Network.prl \
-		C:/Qt/5.15.1/mingw81_64/lib/Qt5Sql.prl \
-		C:/Qt/5.15.1/mingw81_64/lib/Qt5Xml.prl \
-		C:/Qt/5.15.1/mingw81_64/lib/Qt5SerialPort.prl \
-		C:/Qt/5.15.1/mingw81_64/lib/Qt5Core.prl \
 		C:/Qt/5.15.1/mingw81_64/lib/qtmain.prl \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/build_pass.prf
 	$(QMAKE) -o Makefile BakalarkaTest1.pro -spec win32-g++ "CONFIG+=qtquickcompiler"
@@ -446,11 +433,6 @@ C:/Qt/5.15.1/mingw81_64/mkspecs/features/qtquickcompiler.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/precompile_header.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/warn_on.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/qt.prf:
-C:/Qt/5.15.1/mingw81_64/mkspecs/features/resources_functions.prf:
-C:/Qt/5.15.1/mingw81_64/mkspecs/features/resources.prf:
-C:/Qt/5.15.1/mingw81_64/mkspecs/features/moc.prf:
-C:/Qt/5.15.1/mingw81_64/mkspecs/features/win32/opengl.prf:
-C:/Qt/5.15.1/mingw81_64/mkspecs/features/uic.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/qmake_use.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/file_copies.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/win32/windows.prf:
@@ -459,14 +441,6 @@ C:/Qt/5.15.1/mingw81_64/mkspecs/features/exceptions.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/yacc.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/lex.prf:
 BakalarkaTest1.pro:
-C:/Qt/5.15.1/mingw81_64/lib/Qt5Multimedia.prl:
-C:/Qt/5.15.1/mingw81_64/lib/Qt5Widgets.prl:
-C:/Qt/5.15.1/mingw81_64/lib/Qt5Gui.prl:
-C:/Qt/5.15.1/mingw81_64/lib/Qt5Network.prl:
-C:/Qt/5.15.1/mingw81_64/lib/Qt5Sql.prl:
-C:/Qt/5.15.1/mingw81_64/lib/Qt5Xml.prl:
-C:/Qt/5.15.1/mingw81_64/lib/Qt5SerialPort.prl:
-C:/Qt/5.15.1/mingw81_64/lib/Qt5Core.prl:
 C:/Qt/5.15.1/mingw81_64/lib/qtmain.prl:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/build_pass.prf:
 qmake: FORCE
@@ -480,18 +454,6 @@ clean: release-clean debug-clean  FORCE
 distclean: release-distclean debug-distclean  FORCE
 	-$(DEL_FILE) Makefile
 	-$(DEL_FILE) .qmake.stash
-
-release-mocclean:
-	$(MAKE) -f $(MAKEFILE).Release mocclean
-debug-mocclean:
-	$(MAKE) -f $(MAKEFILE).Debug mocclean
-mocclean: release-mocclean debug-mocclean
-
-release-mocables:
-	$(MAKE) -f $(MAKEFILE).Release mocables
-debug-mocables:
-	$(MAKE) -f $(MAKEFILE).Debug mocables
-mocables: release-mocables debug-mocables
 
 check: first
 
