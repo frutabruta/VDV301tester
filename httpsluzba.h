@@ -40,7 +40,8 @@ private:
     QByteArray vyrobHlavickuSubscribe();
 
 public slots:
-    void vypisObsahRequestu();
+    //void vypisObsahRequestu();
+    void vypisObsahRequestu(QByteArray vysledek);
 
 };
 

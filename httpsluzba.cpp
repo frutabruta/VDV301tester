@@ -13,7 +13,8 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu):In
     typSluzbyInterni=typSluzby;
     bonjourStartKomplet();
     hlavickaInterni=vyrobHlavickuGet();
-    connect(&InstanceNovehoServeru,SIGNAL(zmenaObsahu()),this,SLOT(vypisObsahRequestu()));
+    //connect(&InstanceNovehoServeru,SIGNAL(zmenaObsahu()),this,SLOT(vypisObsahRequestu()));
+    connect(&InstanceNovehoServeru,&NewHttpServer::zmenaObsahu,this,&HttpSluzba::vypisObsahRequestu);
 }
 
 int HttpSluzba::nastavObsah(QByteArray vstup)
@@ -155,10 +156,11 @@ QByteArray HttpSluzba::vyrobGetResponseBody()
 
 }
 
-void HttpSluzba::vypisObsahRequestu()
+void HttpSluzba::vypisObsahRequestu(QByteArray vysledek)
 {
     QByteArray posledniRequest=InstanceNovehoServeru.bodyPozadavku;
     qDebug()<<"toto je vypis slotu";
     qDebug()<<"body pozadavku"<<posledniRequest;
+    qDebug()<<"vysledek"<<vysledek;
     //qDebug()<<obsahBody;
 }
