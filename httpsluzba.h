@@ -43,6 +43,9 @@ public slots:
     //void vypisObsahRequestu();
     void vypisObsahRequestu(QByteArray vysledek);
 
+signals:
+    void pridejSubscribera(QUrl adresaSubscribera);
+
 };
 
 #endif // HTTPSLUZBA_H

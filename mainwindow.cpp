@@ -22,10 +22,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->prepinadloStran->setCurrentIndex(3);
     ui->prepinadloStran->setWindowState(Qt::WindowFullScreen);
     startDatabaze();
-    seznamSubscriberu.push_back(QUrl("http://192.168.12.128:60011"));
+    //seznamSubscriberu.push_back(QUrl("http://192.168.12.128:60011"));
     seznamSubscriberu.push_back(QUrl("http://127.0.0.1:47475"));
+    connect(&DeviceManagementService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
+    connect(&CustomerInformationService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
     //this->bonjourStartPublish2("CustomerInformationService","_ibisip_http._tcp",47450,zeroConf);
-
+    vypisSubscribery(seznamSubscriberu);
 
     //MainWindow::setWindowState(Qt::WindowFullScreen);
 
@@ -703,10 +705,28 @@ void MainWindow::on_tlacitkoOdesliXml_clicked()
 
 void MainWindow::vypisSubscribery(QVector<QUrl> adresy)
 {
-
+    qDebug()<<"MainWindow::vypisSubscribery";
+    ui->seznamOdberatelu->clear();
     for (int i = 0;  i < adresy.count(); i++)
     {
+
       ui->seznamOdberatelu->addItem(adresy[i].toString() );
     }
 
+}
+
+void MainWindow::novySubsriber(QUrl adresaSubscribera)
+{
+    qDebug()<<"MainWindow::novySubsriber";
+    if(seznamSubscriberu.contains(adresaSubscribera))
+    {
+        qDebug()<<"subscriber uz je na seznamu "<<adresaSubscribera;
+    }
+    else
+    {
+        qDebug()<<"novy subscriber je "<<adresaSubscribera;
+        seznamSubscriberu.push_back(adresaSubscribera);
+    }
+
+    vypisSubscribery(seznamSubscriberu);
 }

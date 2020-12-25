@@ -159,8 +159,15 @@ QByteArray HttpSluzba::vyrobGetResponseBody()
 void HttpSluzba::vypisObsahRequestu(QByteArray vysledek)
 {
     QByteArray posledniRequest=InstanceNovehoServeru.bodyPozadavku;
-    qDebug()<<"toto je vypis slotu";
+    QDomDocument xmlrequest;
+    xmlrequest.setContent(vysledek);
+    QString adresa= xmlrequest.elementsByTagName("Client-IP-Address").at(0).toElement().firstChildElement().text() ;
+    QString port= xmlrequest.elementsByTagName("ReplyPort").at(0).toElement().firstChildElement().text() ;
+    qDebug()<<"prvni element "<<adresa<<" "<<port;
     qDebug()<<"body pozadavku"<<posledniRequest;
     qDebug()<<"vysledek"<<vysledek;
+    QString kompletadresa="http://"+adresa+":"+port;
+    QUrl adresaurl=kompletadresa;
+    emit pridejSubscribera(adresaurl);
     //qDebug()<<obsahBody;
 }

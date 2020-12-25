@@ -146,6 +146,9 @@ private:
     void inicializacePoli();
     void vypisSubscribery(QVector<QUrl> adresy);
 
+private slots:
+    void novySubsriber(QUrl adresaSubscribera);
+
 };
 
 #endif // MAINWINDOW_H
