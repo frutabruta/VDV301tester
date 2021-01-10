@@ -6,7 +6,32 @@ SqlPraceRopid::SqlPraceRopid()
 
 }
 
+//test Pridani Komentare prechodu na SQLITE
+int SqlPraceRopid::Pripoj(QString adresa)
 
+{
+    qDebug()<< "SQLprace::Pripoj";
+    this->mojeDatabaze = QSqlDatabase::addDatabase("QSQLITE");
+//this->mojeDatabaze.setHostName(adresa);
+    //this->mojeDatabaze.setPort(3306);
+    //this->mojeDatabaze.setHostName("127.0.0.1");
+    this->mojeDatabaze.setDatabaseName("data.sqlite");
+   // this->mojeDatabaze.setUserName("uzivatel2");
+    //this->mojeDatabaze.setPassword("iOrXsX4FQZdbcSTf");
+    bool ok = this->mojeDatabaze.open();
+    if (ok==true)
+    {
+        qDebug()<<"podarilo se pripojit k databazi ROPID";
+        return 1;
+    }
+    else
+    {
+        qDebug()<<"nepovedlo se";
+        return 0;
+    }
+    //vysledek=ok;
+}
+/*
 int SqlPraceRopid::Pripoj(QString adresa)
 {
     qDebug()<< "SQLprace::Pripoj";
@@ -30,7 +55,7 @@ int SqlPraceRopid::Pripoj(QString adresa)
     }
     //vysledek=ok;
 }
-
+*/
 
 
 int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek, bool platnost )
@@ -55,6 +80,22 @@ int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<SeznamZa
     queryString2+=QString::number(platnost);
     queryString2+=("%' ");
     //queryString2+=(" AND  s.kj LIKE '1%' ORDER BY x.o");
+
+
+    /*
+   Mozna nahrada!
+
+dbManager->query.prepare("INSERT INTO users (username, pass, userGroup) VALUES (:name, :pass, :group)");
+
+dbManager->query.bindValue(":name", username);
+dbManager->query.bindValue(":pass", password);
+dbManager->query.bindValue(":group", 0);
+dbManager->query.exec();
+
+      */
+
+
+
 
     //queryString+=("  ASC LIMIT 5");
     QSqlQuery query(queryString2,this->mojeDatabaze);
@@ -165,13 +206,18 @@ int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek)
     //QString queryString("SELECT a.stop_order, b.name, a.time, b.cis_id,f.mpvalias FROM lineroutestoptime a ");
 
     QString queryString2("SELECT DISTINCT l.c,l.lc,l.n FROM l ");
-    queryString2+=("ORDER BY l.c");
+    queryString2+=("ORDER BY l.c;");
 
     //queryString2+=(" WHERE l.kj LIKE '1%' ");
     //queryString2+=(" AND  s.kj LIKE '1%' ORDER BY x.o");
 
     //queryString+=("  ASC LIMIT 5");
-    QSqlQuery query(queryString2,this->mojeDatabaze);
+
+    QSqlQuery query;
+    //  query.prepare(queryString2);
+   // query.prepare(queryString2);
+    query.exec(queryString2); //this->mojeDatabaze);
+    qDebug()<<"lasterror"<<  query.lastError();
     int counter=0;
     qDebug()<<queryString2;
     qDebug()<<"DebugPointB";
@@ -213,9 +259,9 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisl
 
     QString queryString2("SELECT DISTINCT s.s, s.c FROM s ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
-    queryString2+=("WHERE l.lc=");
+    queryString2+=("WHERE l.lc='");
     queryString2+=( QString::number(cisloLinky));
-    queryString2+=(" AND  s.c !=1000 ");
+    queryString2+=("' AND  s.c !=1000 ");
     queryString2+=(" AND  s.kj LIKE '");
     queryString2+=QString::number(platnost);
     queryString2+=("%' ");
@@ -226,8 +272,9 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisl
     //queryString2+=(" AND  s.kj LIKE '1%' ORDER BY x.o");
 
     //queryString+=("  ASC LIMIT 5");
-    QSqlQuery query(queryString2,this->mojeDatabaze);
-
+    QSqlQuery query;
+    query.exec(queryString2);
+    qDebug()<<"lasterror "<<query.lastError();
     qDebug()<<queryString2;
     qDebug()<<"DebugPointB";
     int citacMaximum=0;
