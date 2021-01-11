@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'qt-watch_p.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.11.3)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.12.5)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'qt-watch_p.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.11.3. It"
+#error "This file was generated using the moc from 5.12.5. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -44,7 +44,7 @@ QT_MOC_LITERAL(3, 18, 6) // "gotOut"
 static const uint qt_meta_data_AvahiWatch[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        2,   14, // methods
@@ -68,7 +68,7 @@ static const uint qt_meta_data_AvahiWatch[] = {
 void AvahiWatch::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        AvahiWatch *_t = static_cast<AvahiWatch *>(_o);
+        auto *_t = static_cast<AvahiWatch *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->gotIn(); break;
@@ -79,10 +79,14 @@ void AvahiWatch::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     Q_UNUSED(_a);
 }
 
-QT_INIT_METAOBJECT const QMetaObject AvahiWatch::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_AvahiWatch.data,
-      qt_meta_data_AvahiWatch,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject AvahiWatch::staticMetaObject = { {
+    &QObject::staticMetaObject,
+    qt_meta_stringdata_AvahiWatch.data,
+    qt_meta_data_AvahiWatch,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *AvahiWatch::metaObject() const
@@ -137,7 +141,7 @@ QT_MOC_LITERAL(2, 21, 0) // ""
 static const uint qt_meta_data_AvahiTimeout[] = {
 
  // content:
-       7,       // revision
+       8,       // revision
        0,       // classname
        0,    0, // classinfo
        1,   14, // methods
@@ -159,7 +163,7 @@ static const uint qt_meta_data_AvahiTimeout[] = {
 void AvahiTimeout::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        AvahiTimeout *_t = static_cast<AvahiTimeout *>(_o);
+        auto *_t = static_cast<AvahiTimeout *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->timeout(); break;
@@ -169,10 +173,14 @@ void AvahiTimeout::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
     Q_UNUSED(_a);
 }
 
-QT_INIT_METAOBJECT const QMetaObject AvahiTimeout::staticMetaObject = {
-    { &QObject::staticMetaObject, qt_meta_stringdata_AvahiTimeout.data,
-      qt_meta_data_AvahiTimeout,  qt_static_metacall, nullptr, nullptr}
-};
+QT_INIT_METAOBJECT const QMetaObject AvahiTimeout::staticMetaObject = { {
+    &QObject::staticMetaObject,
+    qt_meta_stringdata_AvahiTimeout.data,
+    qt_meta_data_AvahiTimeout,
+    qt_static_metacall,
+    nullptr,
+    nullptr
+} };
 
 
 const QMetaObject *AvahiTimeout::metaObject() const
