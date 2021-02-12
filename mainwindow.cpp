@@ -619,9 +619,16 @@ void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QList
     qDebug()<<"MainWindow::on_listSpoje_currentItemChanged";
     if (ui->listSpoje->count()!=0)
     {
-        qDebug()<<"pocetNeniNula";
-        ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
-        novatrida.aktspoj=ui->listSpoje->currentItem()->data(Qt::UserRole).toInt() ;
+        if(ui->listSpoje->currentRow()!=-1)
+        {
+            //ui->listSpoje->setCurrentRow(0);
+            qDebug()<<"xx"+ QString::number( ui->listSpoje->currentRow());
+            qDebug()<<"current item:"+ui->listSpoje->currentItem()->data(Qt::UserRole).toString()
+                      ;
+            ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
+            novatrida.aktspoj=ui->listSpoje->currentItem()->data(Qt::UserRole).toInt() ;
+        }
+
     }
 
 
