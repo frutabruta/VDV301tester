@@ -1,0 +1,37 @@
+=KDYŽ(
+      D12="formret";
+      KDYŽ  (
+              JE.ČISLO  (
+                          POZVYHLEDAT (
+                                          F12;
+                                          'číselník HEXznaků'!C:C;0
+                                      )
+                        );
+              CONCATENATE (
+                            "<1B><";
+                            INDEX   (
+                                      'číselník HEXznaků'!D:D;
+                                      POZVYHLEDAT (
+                                                    F12;
+                                                    'číselník HEXznaků'!C:C;
+                                                    0
+                                                  )
+                                    );
+                            ">"
+                          );
+              CONCATENATE (
+                            "<1B>";
+                            G12;
+                            KDYŽ  (
+                                    H12="";
+                                    "";
+                                    CONCATENATE (
+                                                  "<";
+                                                  DEC2HEX(H12+16);
+                                                  ">"
+                                                )
+                                  )
+                          )
+              );
+              " "
+        )

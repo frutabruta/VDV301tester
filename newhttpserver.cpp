@@ -19,7 +19,7 @@ int NewHttpServer::proved()
     /*QHostAddress test;
 test.setAddress("127.0.0.1:47474");*/
 
-    this->route();
+    this->route(obsahGet);
     this->listen();
 
     return 1;
@@ -28,7 +28,7 @@ test.setAddress("127.0.0.1:47474");*/
 
 
 
-int NewHttpServer::route()
+int NewHttpServer::route(QByteArray &intObsahGet)
 {
 
     qDebug() <<"NewHttpServer::route";
@@ -57,7 +57,7 @@ int NewHttpServer::route()
     });
 
     QByteArray xxx=obsahGet;
-    httpServer.route("/CustomerInformationService/GetAllData", [xxx](const QHttpServerRequest &request)
+    httpServer.route("/CustomerInformationService/GetAllData", [intObsahGet](const QHttpServerRequest &request)
     {
         //qDebug()<<request.headers()["Connection"].isNull();
         qDebug()<<request.body();
@@ -71,7 +71,7 @@ int NewHttpServer::route()
         odpoved+="</Value></Active>";
         odpoved+="</SubscribeResponse>";
 
-        //odpoved=xxx;
+        //odpoved=intObsahGet;
         qDebug()<<"obsahOdpovedi"<<odpoved.toUtf8();
         return odpoved;
         //return "Hello world";

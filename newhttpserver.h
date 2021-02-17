@@ -18,7 +18,7 @@ public:
     void zapisDoSubscribe(QByteArray vstup);
     QByteArray obsahGet="obsahGet";
     QByteArray obsahSubscribe="obsahSubscribe";
-    int route();
+    int route(QByteArray &intObsahGet);
     int listen();
     QByteArray bodyPozadavku="xx";
 
