@@ -56,23 +56,26 @@ int NewHttpServer::route(QByteArray &intObsahGet)
         //return "Hello world";
     });
 
+    qDebug()<<"vnejsi intObsahGet="<<intObsahGet;
     QByteArray xxx=obsahGet;
-    httpServer.route("/CustomerInformationService/GetAllData", [intObsahGet](const QHttpServerRequest &request)
+    httpServer.route("/CustomerInformationService/GetAllData", [&intObsahGet](const QHttpServerRequest &request)
     {
         //qDebug()<<request.headers()["Connection"].isNull();
         qDebug()<<request.body();
+        qDebug()<<"intObsahGet="<<intObsahGet;
         QString textVysledek="true2";
         QString odpoved="";
-        odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
+        /*
+         odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
         odpoved+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
-        //odpoved+="<Active><Value>true</Value></Active>";
+
         odpoved+="<Active><Value>";
         odpoved+=textVysledek;
         odpoved+="</Value></Active>";
         odpoved+="</SubscribeResponse>";
-
-        //odpoved=intObsahGet;
-        qDebug()<<"obsahOdpovedi"<<odpoved.toUtf8();
+        */
+        odpoved=intObsahGet;
+        //qDebug()<<"obsahOdpovedi"<<odpoved.toUtf8();
         return odpoved;
         //return "Hello world";
     });
