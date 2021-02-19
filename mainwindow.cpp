@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "cestaudaje.h"
-#include "sqlprace.h"
-#include "httpserver/myhttpserver.h"
 #include "xmlgenerator.h"
 
 #include <QNetworkReply>
@@ -32,13 +30,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //MainWindow::setWindowState(Qt::WindowFullScreen);
 
 }
-/*
-int MainWindow::vytvor()
-{
-    qDebug()<<"MainWindow::vytvor";
-    return 0;
-}
-*/
+
 
 void MainWindow::xmlHromadnyUpdate()
 {
@@ -61,37 +53,22 @@ void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
 {
     qDebug()<<"MainWindow::OdeslatDataDoDispleju";
     QByteArray zpracovanoMPV="";
-    QByteArray vysledek2="";
+    QString vysledek2="";
     if (verzeVDV301==0)
     {
-        vysledek2=TestXmlGenerator.AllData2( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
+        vysledek2=TestXmlGenerator.AllData2( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument);
     }
     else
     {
-        vysledek2=TestXmlGenerator.AllDataRopid( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument, false);
+        vysledek2=TestXmlGenerator.AllDataRopid( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument);
     }
-
 
     ObnoveniServeru(vysledek2);
-      /*
-    QUrl seznamAdres[]={QUrl("http://192.168.12.128:60011"),QUrl("http://127.0.0.1:47475")};
-
-    int pocetAdres=2;
-    for(int i=0;i<pocetAdres;i++ )
-    {
-        PostDoDispleje(seznamAdres[i],vysledek2);
-    }
-    */
-
-
 
     for(int i=0;i<seznamSubscriberu.count();i++ )
     {
         PostDoDispleje(seznamSubscriberu[i],vysledek2);
     }
-    qDebug()<<"\n MainWindow::xmlUpdate";
-
-
 }
 
 MainWindow::~MainWindow()
@@ -108,34 +85,13 @@ void MainWindow::MpvNetReady()
     OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup,VDV301verze);
 }
 
-void MainWindow::ObnoveniServeru(QByteArray dataDoServeru)
+void MainWindow::ObnoveniServeru(QString dataDoServeru)
 {
     qDebug()<<"MainWindow::ObnoveniServeru";
-
-
-
-
-    //CustomerInformationService.nastavHlavicku(hlavicka);
     CustomerInformationService.nastavObsah(dataDoServeru);
     CustomerInformationService.aktualizuj();
-    /*
-     *
-    QByteArray argumentXMLserveru = "";
-    argumentXMLserveru.append(hlavicka);
-    argumentXMLserveru.append(dataDoServeru);
-    QByteArray hlavicka="";
-
-    hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
-    hlavicka+=("Content-Type: application/xml\r\n");
-    hlavicka+=("Connection: close\r\n");
-    hlavicka+=("Pragma: no-cache\r\n");
-    hlavicka+=("\r\n");
-
-    HHserver.zapisDoPromenne(argumentXMLserveru);
-    HHserver2.zapisDoPromenne(argumentXMLserveru)
-;*/
 }
-void MainWindow::PostDoDispleje(QUrl adresaDispleje, QByteArray dataDoPostu)
+void MainWindow::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
 {
     qDebug()<<"MainWindow::PostDoDispleje";
     QByteArray postDataSize = QByteArray::number(dataDoPostu.size());
@@ -146,7 +102,8 @@ void MainWindow::PostDoDispleje(QUrl adresaDispleje, QByteArray dataDoPostu)
     // pozadavekPOST.setRawHeader("Expect", "100-continue");
     pozadavekPOST.setRawHeader("Accept-Encoding", "gzip, deflate");
     QNetworkAccessManager *manager2 = new QNetworkAccessManager();
-    manager2->post(pozadavekPOST,dataDoPostu);
+    QByteArray dataDoPostuQByte=dataDoPostu.toUtf8() ;
+    manager2->post(pozadavekPOST,dataDoPostuQByte);
 }
 
 
@@ -196,27 +153,16 @@ int MainWindow::on_prikaztlacitko_clicked()
         return 0;
 
     }
-
     xmlHromadnyUpdate();
-
-
     if(globalniSeznamZastavek.empty()==1)
     {
         qDebug()<<"seznam zastavek  je prazdny";
-
         return 0;
     }
     else
     {
         AktualizaceDispleje();
         ui->prepinadloStran->setCurrentIndex(0);
-        /*
-        mojesql.vytvorHlavniText(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
-        ui->prikazovyvysledek->setText(textDoPole);
-        */
-
-
-
     }
     return 1;
 }
@@ -245,34 +191,13 @@ void MainWindow::on_sipkaNahoru_clicked()
 
             if(novatrida.locationState=="AfterStop")
             {novatrida.locationState="BetweenStop";}
-
-
-
         }
     }
     QString textDoPole="";
     AktualizaceDispleje();
-
-    /*
-    mojesql.vytvorHlavniText(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
-    ui->prikazovyvysledek->setText(textDoPole);
-    */
     novatrida.doorState="AllDoorsClosed";
-    //novatrida.locationState="BetweenStop";
     ui->popisek->setText(QString::number(novatrida.cislo));
     xmlHromadnyUpdate();
-    // int vysledek=mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,platnostSpoje);
-    //xmlUpdate(QUrl("http://192.168.1.128:60011"));
-
-    /*
-int vysledek=1;
-if (vysledek==1)
-    {
-        xmlHromadnyUpdate();
-    }
-    */
-
-
 }
 
 void MainWindow::on_sipkaDolu_clicked()
@@ -280,32 +205,26 @@ void MainWindow::on_sipkaDolu_clicked()
     qDebug()<<"\n on_sipkaDolu_clicked \n";
     if (novatrida.cislo>=1)
     {
-            if(novatrida.locationState=="AfterStop")
-            {
-                novatrida.locationState="AtStop";
-                novatrida.cislo--;
-                priPrijezdu();
-            }
-            else
-            {
-                if(novatrida.locationState=="BetweenStop")
-                {novatrida.locationState="AfterStop";}
+        if(novatrida.locationState=="AfterStop")
+        {
+            novatrida.locationState="AtStop";
+            novatrida.cislo--;
+            priPrijezdu();
+        }
+        else
+        {
+            if(novatrida.locationState=="BetweenStop")
+            {novatrida.locationState="AfterStop";}
 
-                if(novatrida.locationState=="BeforeStop")
-                {novatrida.locationState="BetweenStop";}
+            if(novatrida.locationState=="BeforeStop")
+            {novatrida.locationState="BetweenStop";}
 
-                if(novatrida.locationState=="AtStop")
-                {novatrida.locationState="BeforeStop";}
-            }
-            QString textDoPole="";
-            AktualizaceDispleje();
-
-        /*
-        mojesql.vytvorHlavniText(textDoPole,novatrida.cislo,novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,novatrida.pocetZastavek);
-        ui->prikazovyvysledek->setText(textDoPole);
-        */
+            if(novatrida.locationState=="AtStop")
+            {novatrida.locationState="BeforeStop";}
+        }
+        QString textDoPole="";
+        AktualizaceDispleje();
     }
-    //novatrida.doorState="AllDoorsClosed";
     ui->popisek->setText(QString::number(novatrida.cislo));
     xmlHromadnyUpdate();
 }
@@ -314,19 +233,17 @@ void MainWindow::on_sipkaDolu_clicked()
 void MainWindow::on_pripojeniTlacitko_clicked()
 {
     qDebug()<<"\n on_pripojeniTlacitko_clicked \n";
-   startDatabaze();
+    startDatabaze();
 }
 
 void MainWindow::startDatabaze()
 {
     qDebug()<<"MainWindow::startDatabaze()";
-
     mojesql.Pripoj(ui->lineEditSqlServer->text() );
-
     if (mojesql.VytvorSeznamLinek(seznamLinek)==1)
     {
-    NaplnVyberLinky(seznamLinek);
-    ui->NazevVysledku->setText("OK2");
+        NaplnVyberLinky(seznamLinek);
+        ui->NazevVysledku->setText("OK2");
     }
     else
     {
@@ -340,7 +257,6 @@ void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
     ui->listLinek->clear();
     for (int i = 0; i < docasnySeznamLinek.length(); ++i)
     {
-
         QListWidgetItem *newItem = new QListWidgetItem;
         newItem->setText(QString::number(docasnySeznamLinek.at(i).c));
         newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).lc));
@@ -354,12 +270,11 @@ void MainWindow::NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
     qDebug()<<"MainWindow::NaplnVyberSpoje";
     if (ui->listSpoje->count()!=0)
     {
-    ui->listSpoje->clear();
+        ui->listSpoje->clear();
     }
     qDebug()<<"MainWindow::NaplnVyberSpoje_dp1";
     for (int i = 0; i < docasnySeznamSpoju.length(); ++i)
     {
-
         QListWidgetItem *newItem = new QListWidgetItem;
         newItem->setText(QString::number(docasnySeznamSpoju.at(i).cisloRopid));
         newItem->setData(Qt::UserRole, QString::number(docasnySeznamSpoju.at(i).cisloRopid ));
@@ -400,7 +315,6 @@ void MainWindow::on_pridatTlacitko_clicked()
     {
         novatrida.cislo++;
     }
-
     ui->popisek->setText(QString::number(novatrida.cislo));
     AktualizaceDispleje();
     xmlHromadnyUpdate();
@@ -493,12 +407,14 @@ void MainWindow::on_BetweenStop_clicked()
 
 void MainWindow::on_prestupyCheckbox_stateChanged(int arg1)
 {
-    qDebug()<<"";
+    arg1=1;
+    qDebug()<<"MainWindow::on_prestupyCheckbox_stateChanged";
 }
 
 void MainWindow::on_checkBox_stateChanged(int arg1)
 {
-    qDebug()<<"";
+    arg1=1;
+    qDebug()<<"MainWindow::on_checkBox_stateChanged";
     novatrida.prestupy= ui->checkBox->checkState();
 }
 
@@ -523,7 +439,7 @@ void MainWindow::on_tlacitkoSQL_clicked()
     qDebug()<<"";
     if (    xmlRopidParser.databazeStart(ui->lineEditSqlServer->text()) )
     {
-      ui->NazevVysledku->setText("OK");
+        ui->NazevVysledku->setText("OK");
     }
     else
     {
@@ -630,20 +546,9 @@ void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QList
         }
 
     }
-
-
 }
 
 
-
-
-void MainWindow::bonjourStartKomplet() //nikdy se nepouzije
-{
-    zeroConf.clearServiceTxtRecords();
-    zeroConf2.clearServiceTxtRecords();
-    this->bonjourStartPublish2("CustomerInformationService","_ibisip_http._tcp",47474,zeroConf);
-    this->bonjourStartPublish2("DeviceManagementService","_ibisip_http._tcp",64602,zeroConf2); //47475
-}
 
 
 
@@ -679,7 +584,7 @@ void MainWindow::inicializacePoli()
 
 void MainWindow::on_tlacitkoSmazOkno_clicked()
 {
-ui->plainTextEditCustomXml->clear();
+    ui->plainTextEditCustomXml->clear();
 }
 
 void MainWindow::on_tlacitkoManual_clicked()
@@ -696,15 +601,12 @@ void MainWindow::on_tlacitkoOdesliXml_clicked()
 
     QByteArray vysledek2="";
 
-    vysledek2.append(ui->plainTextEditCustomXml->toPlainText());
-
+    //vysledek2.append(ui->plainTextEditCustomXml->toPlainText());
+    vysledek2=vysledek2+ui->plainTextEditCustomXml->toPlainText().toUtf8();
     ObnoveniServeru(vysledek2);
-    //QUrl seznamAdres[]={QUrl("http://192.168.12.128:60011"),QUrl("http://127.0.0.1:47475")};
-    //int pocetAdres=2;
     for(int i=0;i<seznamSubscriberu.count();i++ )
     {
         PostDoDispleje(seznamSubscriberu[i],vysledek2);
-        //PostDoDispleje(seznamAdres[i],vysledek2);
     }
     qDebug()<<"\n MainWindow::xmlUpdate";
 }
@@ -716,8 +618,7 @@ void MainWindow::vypisSubscribery(QVector<QUrl> adresy)
     ui->seznamOdberatelu->clear();
     for (int i = 0;  i < adresy.count(); i++)
     {
-
-      ui->seznamOdberatelu->addItem(adresy[i].toString() );
+        ui->seznamOdberatelu->addItem(adresy[i].toString() );
     }
 
 }

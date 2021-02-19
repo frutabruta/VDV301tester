@@ -19,7 +19,7 @@ int NewHttpServer::proved()
     /*QHostAddress test;
 test.setAddress("127.0.0.1:47474");*/
 
-    this->route(obsahGet);
+    this->route(obsahGet,obsahSubscribe);
     this->listen();
 
     return 1;
@@ -28,7 +28,7 @@ test.setAddress("127.0.0.1:47474");*/
 
 
 
-int NewHttpServer::route(QByteArray &intObsahGet)
+int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe)
 {
 
     qDebug() <<"NewHttpServer::route";
@@ -42,7 +42,6 @@ int NewHttpServer::route(QByteArray &intObsahGet)
         QString odpoved="";
         odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
         odpoved+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
-        //odpoved+="<Active><Value>true</Value></Active>";
         odpoved+="<Active><Value>";
         odpoved+=textVysledek;
         odpoved+="</Value></Active>";
@@ -51,33 +50,16 @@ int NewHttpServer::route(QByteArray &intObsahGet)
         emit zmenaObsahu(request.body());
         //odpoved=this->obsahSubscribe;
 
-
-        return odpoved;
+        return this->obsahSubscribe;
+        //return odpoved;
         //return "Hello world";
     });
 
     qDebug()<<"vnejsi intObsahGet="<<intObsahGet;
-    QByteArray xxx=obsahGet;
     httpServer.route("/CustomerInformationService/GetAllData", [&intObsahGet](const QHttpServerRequest &request)
     {
-        //qDebug()<<request.headers()["Connection"].isNull();
-        qDebug()<<request.body();
-        qDebug()<<"intObsahGet="<<intObsahGet;
-        QString textVysledek="true2";
-        QString odpoved="";
-        /*
-         odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
-        odpoved+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
-
-        odpoved+="<Active><Value>";
-        odpoved+=textVysledek;
-        odpoved+="</Value></Active>";
-        odpoved+="</SubscribeResponse>";
-        */
-        odpoved=intObsahGet;
-        //qDebug()<<"obsahOdpovedi"<<odpoved.toUtf8();
-        return odpoved;
-        //return "Hello world";
+        //qDebug()<<request.body();
+        return intObsahGet;
     });
 
     httpServer.afterRequest([](QHttpServerResponse &&resp)
@@ -113,21 +95,17 @@ int NewHttpServer::listen()
 }
 
 
-void NewHttpServer::zapisDoPromenneGet(QByteArray vstup)
+void NewHttpServer::zapisDoPromenneGet(QString vstup)
 {
     qDebug() <<"NewHttpServer::zapisDoPromenneGet";
     this->obsahGet=vstup;
-    qDebug()<<"obsahGet"<<obsahGet;
-    //this->proved();
-    //this->route();
 
 }
 
-void NewHttpServer::zapisDoSubscribe(QByteArray vstup)
+void NewHttpServer::zapisDoSubscribe(QString vstup)
 {
     qDebug() << "NewHttpServer::zapisDoSubscribe";
     this->obsahSubscribe=vstup;
-
 }
 
 

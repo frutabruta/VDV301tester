@@ -1,8 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include "cestaudaje.h"
-#include "sqlprace.h"
-#include "httpserver/myhttpserver.h"
+
+
 #include "xmlgenerator.h"
 #include "xmlmpvparser.h"
 #include "xmlropidparser.h"
@@ -52,7 +52,7 @@ public:
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301);
 
-    void ObnoveniServeru(QByteArray dataDoServeru);
+    void ObnoveniServeru(QString dataDoServeru);
     XmlRopidParser xmlRopidParser;
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
@@ -97,7 +97,7 @@ private slots:
     void on_AtStop_2_clicked();
     void on_AfterStop_clicked();
     void on_BetweenStop_clicked();
-    void PostDoDispleje(QUrl adresaDispleje, QByteArray dataDoPostu);
+    void PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu);
     void MpvNetReady();
     void on_prestupyCheckbox_stateChanged(int arg1);
 
@@ -139,8 +139,6 @@ private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);
     void AktualizaceDispleje();
-    void bonjourStartKomplet();
-
     void bonjourStartPublish2(QString nazevSluzby, QString typSluzby, int port, QZeroConf &instanceZeroConf);
     void startDatabaze();
     void inicializacePoli();

@@ -17,7 +17,7 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu):In
     connect(&InstanceNovehoServeru,&NewHttpServer::zmenaObsahu,this,&HttpSluzba::vypisObsahRequestu);
 }
 
-int HttpSluzba::nastavObsah(QByteArray vstup)
+int HttpSluzba::nastavObsah(QString vstup)
 {
     qDebug()<<"HttpSluzba::nastavObsah";
     obsahInterni=vstup;
@@ -33,48 +33,18 @@ int HttpSluzba::nastavHlavicku(QByteArray vstup)
 }
 
 
-int HttpSluzba::nastavHttpObsah(QByteArray argumentXMLserveru)
+int HttpSluzba::nastavHttpObsah(QString argumentXMLserveru)
 {
     qDebug()<<"HttpSluzba::nastavHttpObsah";
-    //HHserver.zapisDoPromenneGet(argumentXMLserveru);
     InstanceNovehoServeru.zapisDoPromenneGet(argumentXMLserveru);
-    return 1;
-}
-
-int HttpSluzba::zkombinujHlavickaTeloGet(QByteArray hlavicka,QByteArray telo)
-{
-    qDebug()<<"HttpSluzba::zkombinujHlavickaTelo()";
-    QByteArray argumentXMLserveru="";
-
-    //argumentXMLserveru.append(hlavicka);
-    argumentXMLserveru.append(telo);
-
-    InstanceNovehoServeru.zapisDoPromenneGet(argumentXMLserveru);
-    //HHserver.zapisDoPromenneGet(argumentXMLserveru);
-
-
-    return 1;
-}
-
-int HttpSluzba::zkombinujHlavickaTeloSubscribe(QByteArray hlavicka, QByteArray telo)
-{
-    qDebug()<<"HttpSluzba::zkombinujHlavickaTeloSubscribe()";
-    QByteArray argumentXMLserveru="";
-
-    //argumentXMLserveru.append(hlavicka);
-    argumentXMLserveru.append(telo);
-
-    //HHserver.zapisDoSubscribe(argumentXMLserveru);
-    InstanceNovehoServeru.zapisDoSubscribe(argumentXMLserveru);
     return 1;
 }
 
 int HttpSluzba::aktualizuj()
 {
     qDebug()<<"HttpSluzba::aktualizuj()";
-    //zkombinujHlavickaTeloGet(hlavickaInterni,vyrobGetResponseBody());
-    zkombinujHlavickaTeloGet(vyrobHlavickuGet(),vyrobGetResponseBody());
-    zkombinujHlavickaTeloSubscribe(vyrobHlavickuSubscribe(),vyrobSubscribeResponseBody(1));
+    InstanceNovehoServeru.zapisDoPromenneGet(vyrobGetResponseBody());
+    InstanceNovehoServeru.zapisDoSubscribe(vyrobSubscribeResponseBody(1));
     return 1;
 }
 
@@ -92,7 +62,7 @@ QByteArray HttpSluzba::vyrobHlavickuGet()
     return hlavicka;
 }
 
-QByteArray HttpSluzba::vyrobHlavickuSubscribe()
+QString HttpSluzba::vyrobHlavickuSubscribe()
 {
     qDebug()<<"HttpSluzba::vyrobHlavicku()";
     QByteArray hlavicka;
@@ -113,9 +83,7 @@ void HttpSluzba::bonjourStartKomplet()
 {
     qDebug()<<"HttpSluzba::bonjourStartKomplet";
     //zeroConf.clearServiceTxtRecords();
-
     this->bonjourStartPublish(this->nazevSluzbyInterni,this->typSluzbyInterni,this->cisloPortuInterni,zeroConf);
-    //this->bonjourStartPublish2("DeviceManagementService","_ibisip_http._tcp",47475,zeroConf2);
 }
 
 
@@ -123,11 +91,8 @@ void HttpSluzba::bonjourStartKomplet()
 void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int port, QZeroConf &instanceZeroConf)
 {
     qDebug()<<"HttpSluzba::bonjourStartPublish"<<nazevSluzby;
-
     instanceZeroConf.addServiceTxtRecord("ver", "1.0");
-    //zeroConf.addServiceTxtRecord("ZeroConf is nice too");
     instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
-
 }
 
 QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
@@ -141,7 +106,6 @@ QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
     QByteArray odpoved ="";
     odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
     odpoved+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
-    //odpoved+="<Active><Value>true</Value></Active>";
     odpoved+="<Active><Value>";
     odpoved+=textVysledek;
     odpoved+="</Value></Active>";
@@ -149,7 +113,7 @@ QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
     return odpoved;
 }
 
-QByteArray HttpSluzba::vyrobGetResponseBody()
+QString HttpSluzba::vyrobGetResponseBody()
 {
     qDebug()<<"HttpSluzba::vyrobGetResponseBody()";
     return obsahInterni;

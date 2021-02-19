@@ -14,11 +14,11 @@ public:
     QHttpServer httpServer;
     int proved();
     quint16 cisloPortu=0;
-    void zapisDoPromenneGet(QByteArray vstup);
-    void zapisDoSubscribe(QByteArray vstup);
-    QByteArray obsahGet="obsahGet";
-    QByteArray obsahSubscribe="obsahSubscribe";
-    int route(QByteArray &intObsahGet);
+    void zapisDoPromenneGet(QString vstup);
+    void zapisDoSubscribe(QString vstup);
+    QString obsahGet="obsahGet";
+    QString obsahSubscribe="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Active><Value>true</Value></Active></SubscribeResponse>";
+    int route(QString &intObsahGet, QString &intObsahSubscribe);
     int listen();
     QByteArray bodyPozadavku="xx";
 

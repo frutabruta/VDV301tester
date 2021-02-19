@@ -12,7 +12,6 @@ void Hlasic::gong()
     QMediaPlayer * player = new QMediaPlayer;
     //player->setMedia(QUrl::fromLocalFile("mp3/gong.mp3"));
     player->setMedia(QUrl::fromLocalFile("C:/Users/Adam/Desktop/tmx_zaloha/aktualni_data/HLASENI/zastavky/1141.mp3"));
-    //player->
     player->play();
     player->playlist();
 }

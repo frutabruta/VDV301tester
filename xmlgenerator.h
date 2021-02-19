@@ -13,10 +13,10 @@ class xmlGenerator : public QMainWindow
 public:
     explicit xmlGenerator(QWidget *parent = nullptr);
 
-    QByteArray devStatus();
-    QByteArray createTimestamp();
-    QByteArray AllData2(int poradi, QVector<SeznamZastavek> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, bool poslatHlavicku);
-    QByteArray AllDataRopid(int poradi, QVector<SeznamZastavek> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, bool poslatHlavicku);
+    QString devStatus();
+    QString createTimestamp();
+    QString AllData2(int poradi, QVector<SeznamZastavek> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections);
+    QString AllDataRopid(int poradi, QVector<SeznamZastavek> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections);
 signals:
 
 public slots:
