@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.5
+** Created by: Qt User Interface Compiler version 5.15.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -880,7 +880,7 @@ public:
         tlacitkoAddsubscriber->setGeometry(QRect(300, 310, 151, 21));
         lineEdit_ipadresaOdberatele = new QLineEdit(page_customXML);
         lineEdit_ipadresaOdberatele->setObjectName(QString::fromUtf8("lineEdit_ipadresaOdberatele"));
-        lineEdit_ipadresaOdberatele->setGeometry(QRect(110, 370, 113, 20));
+        lineEdit_ipadresaOdberatele->setGeometry(QRect(80, 370, 201, 20));
         prepinadloStran->addWidget(page_customXML);
 
         horizontalLayout_9->addWidget(prepinadloStran);
@@ -908,7 +908,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(0);
+        prepinadloStran->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -916,61 +916,61 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        tlacitkoLinkospoj->setText(QApplication::translate("MainWindow", "Linka/spoj", nullptr));
-        tlacitkoZpetVydej->setText(QApplication::translate("MainWindow", "V\303\275dej", nullptr));
-        tlacitkoNastaveni->setText(QApplication::translate("MainWindow", "nastaveni", nullptr));
-        tlacitkoManual->setText(QApplication::translate("MainWindow", "Manual", nullptr));
-        tlacitkoNavic->setText(QApplication::translate("MainWindow", "Fullscreen", nullptr));
-        quitTlacitko->setText(QApplication::translate("MainWindow", "QUIT", nullptr));
-        prikazovyvysledek->setText(QApplication::translate("MainWindow", "seznam zastavek", nullptr));
-        prikazovyvysledek_cas->setText(QApplication::translate("MainWindow", "12:01", nullptr));
-        sipkaNahoru->setText(QApplication::translate("MainWindow", "\342\226\262", nullptr));
-        sipkaDolu->setText(QApplication::translate("MainWindow", "\342\226\274", nullptr));
-        BeforeStop->setText(QApplication::translate("MainWindow", "BeforeStop", nullptr));
-        AtStop_2->setText(QApplication::translate("MainWindow", "AtStop", nullptr));
-        AfterStop->setText(QApplication::translate("MainWindow", "AfterStop", nullptr));
-        BetweenStop->setText(QApplication::translate("MainWindow", "BetweenStop", nullptr));
-        locationStateIndicator->setText(QApplication::translate("MainWindow", "locationState", nullptr));
-        popisek->setText(QApplication::translate("MainWindow", "0", nullptr));
-        pridatTlacitko->setText(QApplication::translate("MainWindow", "P\305\231idat", nullptr));
-        ubratTlacitko->setText(QApplication::translate("MainWindow", "Ubrat", nullptr));
-        radioButton->setText(QApplication::translate("MainWindow", "DoorsOpen", nullptr));
-        radioButton_2->setText(QApplication::translate("MainWindow", "AllDoorsClosed", nullptr));
-        radioButton_3->setText(QApplication::translate("MainWindow", "SingleDoorOpen", nullptr));
-        radioButton_4->setText(QApplication::translate("MainWindow", "SingleDoorClosed", nullptr));
-        tlacitkoIBIS->setText(QApplication::translate("MainWindow", "IBIS", nullptr));
-        label->setText(QApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Linka</span></p></body></html>", nullptr));
-        polelinky->setText(QApplication::translate("MainWindow", "100952", nullptr));
-        polespoje->setText(QApplication::translate("MainWindow", "1001", nullptr));
-        label_2->setText(QApplication::translate("MainWindow", "Spoj", nullptr));
-        label_8->setText(QApplication::translate("MainWindow", "Seznam linek", nullptr));
-        label_9->setText(QApplication::translate("MainWindow", "Seznam spoj\305\257", nullptr));
-        checkBox->setText(QApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
-        checkBox_2->setText(QApplication::translate("MainWindow", "StopRequested", nullptr));
-        prikaztlacitko->setText(QApplication::translate("MainWindow", "OK", nullptr));
-        label_5->setText(QApplication::translate("MainWindow", "SQL pr\303\241ce", nullptr));
-        tlacitkoSQL->setText(QApplication::translate("MainWindow", "pripojSQL", nullptr));
-        label_4->setText(QApplication::translate("MainWindow", "Adresa SQL serveru", nullptr));
-        lineEditSqlServer->setText(QApplication::translate("MainWindow", "127.0.0.1", nullptr));
-        label_6->setText(QApplication::translate("MainWindow", "Vstupn\303\255 data", nullptr));
-        tlacitkoNactiXMLropid->setText(QApplication::translate("MainWindow", "nactiXML", nullptr));
-        tlacitkoUlozDoSQL->setText(QApplication::translate("MainWindow", "ulozDoSQL", nullptr));
-        tlacitkoTruncate->setText(QApplication::translate("MainWindow", "TRUNCATE", nullptr));
-        label_7->setText(QApplication::translate("MainWindow", "S\303\251riov\303\275 port", nullptr));
-        lineEdit_jmenoPortu->setText(QApplication::translate("MainWindow", "ttyUSB0", nullptr));
-        tlacitkoNastavPort->setText(QApplication::translate("MainWindow", "nastav \304\215\303\255slo portu", nullptr));
-        tlacitkoOdesliPrikaz->setText(QApplication::translate("MainWindow", "odesliPrikaz", nullptr));
-        label_3->setText(QApplication::translate("MainWindow", "Stav p\305\231ipojen\303\255:", nullptr));
-        NazevVysledku->setText(QApplication::translate("MainWindow", "stav pripojeni", nullptr));
-        pripojeniTlacitko->setText(QApplication::translate("MainWindow", "SQL Connect", nullptr));
-        label_10->setText(QApplication::translate("MainWindow", "CustomXML", nullptr));
-        tlacitkoSmazOkno->setText(QApplication::translate("MainWindow", "Vyma\305\276 okno", nullptr));
-        tlacitkoOdesliXml->setText(QApplication::translate("MainWindow", "ode\305\241li na panely", nullptr));
-        label_11->setText(QApplication::translate("MainWindow", "Odberatele", nullptr));
-        tlacitkoRemoveSubscriber->setText(QApplication::translate("MainWindow", "Zrusit odber", nullptr));
-        tlacitkoAddsubscriber->setText(QApplication::translate("MainWindow", "P\305\231idat odb\304\233ratele", nullptr));
-        toolBar->setWindowTitle(QApplication::translate("MainWindow", "toolBar", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        tlacitkoLinkospoj->setText(QCoreApplication::translate("MainWindow", "Linka/spoj", nullptr));
+        tlacitkoZpetVydej->setText(QCoreApplication::translate("MainWindow", "V\303\275dej", nullptr));
+        tlacitkoNastaveni->setText(QCoreApplication::translate("MainWindow", "nastaveni", nullptr));
+        tlacitkoManual->setText(QCoreApplication::translate("MainWindow", "Manual", nullptr));
+        tlacitkoNavic->setText(QCoreApplication::translate("MainWindow", "Fullscreen", nullptr));
+        quitTlacitko->setText(QCoreApplication::translate("MainWindow", "QUIT", nullptr));
+        prikazovyvysledek->setText(QCoreApplication::translate("MainWindow", "seznam zastavek", nullptr));
+        prikazovyvysledek_cas->setText(QCoreApplication::translate("MainWindow", "12:01", nullptr));
+        sipkaNahoru->setText(QCoreApplication::translate("MainWindow", "\342\226\262", nullptr));
+        sipkaDolu->setText(QCoreApplication::translate("MainWindow", "\342\226\274", nullptr));
+        BeforeStop->setText(QCoreApplication::translate("MainWindow", "BeforeStop", nullptr));
+        AtStop_2->setText(QCoreApplication::translate("MainWindow", "AtStop", nullptr));
+        AfterStop->setText(QCoreApplication::translate("MainWindow", "AfterStop", nullptr));
+        BetweenStop->setText(QCoreApplication::translate("MainWindow", "BetweenStop", nullptr));
+        locationStateIndicator->setText(QCoreApplication::translate("MainWindow", "locationState", nullptr));
+        popisek->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
+        pridatTlacitko->setText(QCoreApplication::translate("MainWindow", "P\305\231idat", nullptr));
+        ubratTlacitko->setText(QCoreApplication::translate("MainWindow", "Ubrat", nullptr));
+        radioButton->setText(QCoreApplication::translate("MainWindow", "DoorsOpen", nullptr));
+        radioButton_2->setText(QCoreApplication::translate("MainWindow", "AllDoorsClosed", nullptr));
+        radioButton_3->setText(QCoreApplication::translate("MainWindow", "SingleDoorOpen", nullptr));
+        radioButton_4->setText(QCoreApplication::translate("MainWindow", "SingleDoorClosed", nullptr));
+        tlacitkoIBIS->setText(QCoreApplication::translate("MainWindow", "IBIS", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Linka</span></p></body></html>", nullptr));
+        polelinky->setText(QCoreApplication::translate("MainWindow", "100952", nullptr));
+        polespoje->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "Spoj", nullptr));
+        label_8->setText(QCoreApplication::translate("MainWindow", "Seznam linek", nullptr));
+        label_9->setText(QCoreApplication::translate("MainWindow", "Seznam spoj\305\257", nullptr));
+        checkBox->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
+        checkBox_2->setText(QCoreApplication::translate("MainWindow", "StopRequested", nullptr));
+        prikaztlacitko->setText(QCoreApplication::translate("MainWindow", "OK", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "SQL pr\303\241ce", nullptr));
+        tlacitkoSQL->setText(QCoreApplication::translate("MainWindow", "pripojSQL", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "Adresa SQL serveru", nullptr));
+        lineEditSqlServer->setText(QCoreApplication::translate("MainWindow", "127.0.0.1", nullptr));
+        label_6->setText(QCoreApplication::translate("MainWindow", "Vstupn\303\255 data", nullptr));
+        tlacitkoNactiXMLropid->setText(QCoreApplication::translate("MainWindow", "nactiXML", nullptr));
+        tlacitkoUlozDoSQL->setText(QCoreApplication::translate("MainWindow", "ulozDoSQL", nullptr));
+        tlacitkoTruncate->setText(QCoreApplication::translate("MainWindow", "TRUNCATE", nullptr));
+        label_7->setText(QCoreApplication::translate("MainWindow", "S\303\251riov\303\275 port", nullptr));
+        lineEdit_jmenoPortu->setText(QCoreApplication::translate("MainWindow", "ttyUSB0", nullptr));
+        tlacitkoNastavPort->setText(QCoreApplication::translate("MainWindow", "nastav \304\215\303\255slo portu", nullptr));
+        tlacitkoOdesliPrikaz->setText(QCoreApplication::translate("MainWindow", "odesliPrikaz", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "Stav p\305\231ipojen\303\255:", nullptr));
+        NazevVysledku->setText(QCoreApplication::translate("MainWindow", "stav pripojeni", nullptr));
+        pripojeniTlacitko->setText(QCoreApplication::translate("MainWindow", "SQL Connect", nullptr));
+        label_10->setText(QCoreApplication::translate("MainWindow", "CustomXML", nullptr));
+        tlacitkoSmazOkno->setText(QCoreApplication::translate("MainWindow", "Vyma\305\276 okno", nullptr));
+        tlacitkoOdesliXml->setText(QCoreApplication::translate("MainWindow", "ode\305\241li na panely", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "Odberatele", nullptr));
+        tlacitkoRemoveSubscriber->setText(QCoreApplication::translate("MainWindow", "Zrusit odber", nullptr));
+        tlacitkoAddsubscriber->setText(QCoreApplication::translate("MainWindow", "P\305\231idat odb\304\233ratele", nullptr));
+        toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 
 };

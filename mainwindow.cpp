@@ -54,13 +54,18 @@ void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
     qDebug()<<"MainWindow::OdeslatDataDoDispleju";
     QByteArray zpracovanoMPV="";
     QString vysledek2="";
+    QString vysledekCurrentDisplayContent="";
     if (verzeVDV301==0)
     {
         vysledek2=TestXmlGenerator.AllData2( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument);
+        vysledekCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument);
+
     }
     else
     {
         vysledek2=TestXmlGenerator.AllDataRopid( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument);
+        //QString vysledekCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument);
+
     }
 
     ObnoveniServeru(vysledek2);
@@ -69,6 +74,10 @@ void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
     {
         PostDoDispleje(seznamSubscriberu[i],vysledek2);
     }
+    // Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    PostDoDispleje(QUrl("http://192.168.137.99:80"),vysledekCurrentDisplayContent);
+    qDebug()<<"do displeje odeslano: "<<vysledekCurrentDisplayContent;
+    // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 }
 
 MainWindow::~MainWindow()
@@ -97,7 +106,7 @@ void MainWindow::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
     QByteArray postDataSize = QByteArray::number(dataDoPostu.size());
     QNetworkRequest pozadavekPOST(adresaDispleje);
     pozadavekPOST.setRawHeader("Connection", "Keep-Alive");
-    pozadavekPOST.setRawHeader("Content-Length", postDataSize );
+    //pozadavekPOST.setRawHeader("Content-Length", postDataSize );
     pozadavekPOST.setRawHeader("Content-Type", "text/xml");
     // pozadavekPOST.setRawHeader("Expect", "100-continue");
     pozadavekPOST.setRawHeader("Accept-Encoding", "gzip, deflate");
@@ -637,4 +646,9 @@ void MainWindow::novySubsriber(QUrl adresaSubscribera)
     }
 
     vypisSubscribery(seznamSubscriberu);
+}
+
+void MainWindow::on_tlacitkoAddsubscriber_clicked()
+{
+    novySubsriber(ui->lineEdit_ipadresaOdberatele->text());
 }

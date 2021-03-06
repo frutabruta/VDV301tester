@@ -59,8 +59,6 @@ SOURCES += \
     newhttpserver.cpp \
     prestupmpv.cpp \
     spoj.cpp \
-    sqlprace.cpp \
-    httpserver/myhttpserver.cpp \
     VDV301_Display/seznamzastavek.cpp\
     xmlgenerator.cpp \
     cestaudaje.cpp \
@@ -78,8 +76,6 @@ HEADERS += \
     newhttpserver.h \
     prestupmpv.h \
     spoj.h \
-    sqlprace.h \
-    httpserver/myhttpserver.h \
     VDV301_Display/seznamzastavek.h\
     xmlgenerator.h \
     cestaudaje.h \

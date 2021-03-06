@@ -147,6 +147,7 @@ private:
 private slots:
     void novySubsriber(QUrl adresaSubscribera);
 
+    void on_tlacitkoAddsubscriber_clicked();
 };
 
 #endif // MAINWINDOW_H
