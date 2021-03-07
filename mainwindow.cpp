@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->prepinadloStran->setWindowState(Qt::WindowFullScreen);
     startDatabaze();
     //seznamSubscriberu.push_back(QUrl("http://192.168.12.128:60011"));
-    seznamSubscriberu.push_back(QUrl("http://127.0.0.1:47475"));
+    //seznamSubscriberu.push_back(QUrl("http://127.0.0.1:48479"));
     connect(&DeviceManagementService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
     connect(&CustomerInformationService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
     //this->bonjourStartPublish2("CustomerInformationService","_ibisip_http._tcp",47450,zeroConf);
@@ -75,7 +75,7 @@ void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
         PostDoDispleje(seznamSubscriberu[i],vysledek2);
     }
     // Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    PostDoDispleje(QUrl("http://192.168.137.99:80"),vysledekCurrentDisplayContent);
+    PostDoDispleje(QUrl("http://192.168.1.37:80"),vysledekCurrentDisplayContent);
     qDebug()<<"do displeje odeslano: "<<vysledekCurrentDisplayContent;
     // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 }

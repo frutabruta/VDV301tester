@@ -832,7 +832,7 @@ public:
         page_customXML->setObjectName(QString::fromUtf8("page_customXML"));
         verticalLayoutWidget_9 = new QWidget(page_customXML);
         verticalLayoutWidget_9->setObjectName(QString::fromUtf8("verticalLayoutWidget_9"));
-        verticalLayoutWidget_9->setGeometry(QRect(80, 100, 160, 92));
+        verticalLayoutWidget_9->setGeometry(QRect(380, 20, 301, 371));
         verticalLayout_10 = new QVBoxLayout(verticalLayoutWidget_9);
         verticalLayout_10->setSpacing(6);
         verticalLayout_10->setContentsMargins(11, 11, 11, 11);
@@ -850,13 +850,13 @@ public:
 
         tlacitkoSmazOkno = new QPushButton(page_customXML);
         tlacitkoSmazOkno->setObjectName(QString::fromUtf8("tlacitkoSmazOkno"));
-        tlacitkoSmazOkno->setGeometry(QRect(400, 80, 151, 31));
+        tlacitkoSmazOkno->setGeometry(QRect(210, 310, 151, 31));
         tlacitkoOdesliXml = new QPushButton(page_customXML);
         tlacitkoOdesliXml->setObjectName(QString::fromUtf8("tlacitkoOdesliXml"));
-        tlacitkoOdesliXml->setGeometry(QRect(354, 160, 181, 31));
+        tlacitkoOdesliXml->setGeometry(QRect(190, 360, 181, 31));
         verticalLayoutWidget_10 = new QWidget(page_customXML);
         verticalLayoutWidget_10->setObjectName(QString::fromUtf8("verticalLayoutWidget_10"));
-        verticalLayoutWidget_10->setGeometry(QRect(80, 260, 160, 94));
+        verticalLayoutWidget_10->setGeometry(QRect(20, 20, 160, 231));
         verticalLayout_11 = new QVBoxLayout(verticalLayoutWidget_10);
         verticalLayout_11->setSpacing(6);
         verticalLayout_11->setContentsMargins(11, 11, 11, 11);
@@ -874,13 +874,13 @@ public:
 
         tlacitkoRemoveSubscriber = new QPushButton(page_customXML);
         tlacitkoRemoveSubscriber->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber"));
-        tlacitkoRemoveSubscriber->setGeometry(QRect(300, 270, 141, 21));
+        tlacitkoRemoveSubscriber->setGeometry(QRect(180, 80, 151, 21));
         tlacitkoAddsubscriber = new QPushButton(page_customXML);
         tlacitkoAddsubscriber->setObjectName(QString::fromUtf8("tlacitkoAddsubscriber"));
-        tlacitkoAddsubscriber->setGeometry(QRect(300, 310, 151, 21));
+        tlacitkoAddsubscriber->setGeometry(QRect(180, 20, 151, 41));
         lineEdit_ipadresaOdberatele = new QLineEdit(page_customXML);
         lineEdit_ipadresaOdberatele->setObjectName(QString::fromUtf8("lineEdit_ipadresaOdberatele"));
-        lineEdit_ipadresaOdberatele->setGeometry(QRect(80, 370, 201, 20));
+        lineEdit_ipadresaOdberatele->setGeometry(QRect(30, 260, 201, 20));
         prepinadloStran->addWidget(page_customXML);
 
         horizontalLayout_9->addWidget(prepinadloStran);
@@ -908,7 +908,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(3);
+        prepinadloStran->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -965,11 +965,239 @@ public:
         NazevVysledku->setText(QCoreApplication::translate("MainWindow", "stav pripojeni", nullptr));
         pripojeniTlacitko->setText(QCoreApplication::translate("MainWindow", "SQL Connect", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "CustomXML", nullptr));
+        plainTextEditCustomXml->setPlainText(QCoreApplication::translate("MainWindow", "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
+"<CustomerInformationService.GetAllDataResponse>\n"
+" <AllData>\n"
+"  <TimeStamp>\n"
+"   <Value>2021-03-07T02:51:28</Value>\n"
+"  </TimeStamp>\n"
+"  <VehicleRef>\n"
+"   <Value>33</Value>\n"
+"  </VehicleRef>\n"
+"  <DefaultLanguage>\n"
+"   <Value>cz</Value>\n"
+"  </DefaultLanguage>\n"
+"  <TripInformation>\n"
+"   <TripRef>\n"
+"    <Value>3</Value>\n"
+"   </TripRef>\n"
+"   <StopSequence>\n"
+"    <StopPoint>\n"
+"     <StopIndex>\n"
+"      <Value>0</Value>\n"
+"     </StopIndex>\n"
+"     <StopRef>\n"
+"      <Value>Ref:0</Value>\n"
+"     </StopRef>\n"
+"     <StopName>\n"
+"      <Value>S\303\255dli\305\241t\304\233 Radot\303\255n</Value>\n"
+"      <Language>cz</Language>\n"
+"     </StopName>\n"
+"     <DisplayContent>\n"
+"      <DisplayContentRef>\n"
+"       <Value>1234</Value>\n"
+"      </DisplayContentRef>\n"
+"      <LineInformation>\n"
+"       <LineRef>\n"
+"        <Value>100315</Value>\n"
+"       </LineRef>\n"
+"       <LineName>\n"
+"        <Value>315</Value>\n"
+"      "
+                        "  <Language>cz</Language>\n"
+"       </LineName>\n"
+"       <LineNumber>\n"
+"        <Value>100315</Value>\n"
+"       </LineNumber>\n"
+"      </LineInformation>\n"
+"      <Destination>\n"
+"       <DestinationRef>\n"
+"        <Value>22</Value>\n"
+"       </DestinationRef>\n"
+"       <DestinationName>\n"
+"        <Value>Zdick\303\241</Value>\n"
+"        <Language>cz</Language>\n"
+"       </DestinationName>\n"
+"      </Destination>\n"
+"     </DisplayContent>\n"
+"    </StopPoint>\n"
+"    <StopPoint>\n"
+"     <StopIndex>\n"
+"      <Value>1</Value>\n"
+"     </StopIndex>\n"
+"     <StopRef>\n"
+"      <Value>Ref:1</Value>\n"
+"     </StopRef>\n"
+"     <StopName>\n"
+"      <Value>S\303\255dli\305\241t\304\233 Radot\303\255n</Value>\n"
+"      <Language>cz</Language>\n"
+"     </StopName>\n"
+"     <DisplayContent>\n"
+"      <DisplayContentRef>\n"
+"       <Value>1234</Value>\n"
+"      </DisplayContentRef>\n"
+"      <LineInformation>\n"
+"       <LineRef>\n"
+"        <Value>100315</Value>\n"
+"       </LineRef>\n"
+"       <Line"
+                        "Name>\n"
+"        <Value>315</Value>\n"
+"        <Language>cz</Language>\n"
+"       </LineName>\n"
+"       <LineNumber>\n"
+"        <Value>100315</Value>\n"
+"       </LineNumber>\n"
+"      </LineInformation>\n"
+"      <Destination>\n"
+"       <DestinationRef>\n"
+"        <Value>22</Value>\n"
+"       </DestinationRef>\n"
+"       <DestinationName>\n"
+"        <Value>Zdick\303\241</Value>\n"
+"        <Language>cz</Language>\n"
+"       </DestinationName>\n"
+"      </Destination>\n"
+"     </DisplayContent>\n"
+"    </StopPoint>\n"
+"    <StopPoint>\n"
+"     <StopIndex>\n"
+"      <Value>2</Value>\n"
+"     </StopIndex>\n"
+"     <StopRef>\n"
+"      <Value>Ref:2</Value>\n"
+"     </StopRef>\n"
+"     <StopName>\n"
+"      <Value>\304\214erno\305\241ice,U Vod\303\241rny</Value>\n"
+"      <Language>cz</Language>\n"
+"     </StopName>\n"
+"     <DisplayContent>\n"
+"      <DisplayContentRef>\n"
+"       <Value>1234</Value>\n"
+"      </DisplayContentRef>\n"
+"      <LineInformation>\n"
+"       <LineRef>\n"
+"        <Value>100315</Va"
+                        "lue>\n"
+"       </LineRef>\n"
+"       <LineName>\n"
+"        <Value>315</Value>\n"
+"        <Language>cz</Language>\n"
+"       </LineName>\n"
+"       <LineNumber>\n"
+"        <Value>100315</Value>\n"
+"       </LineNumber>\n"
+"      </LineInformation>\n"
+"      <Destination>\n"
+"       <DestinationRef>\n"
+"        <Value>22</Value>\n"
+"       </DestinationRef>\n"
+"       <DestinationName>\n"
+"        <Value>Zdick\303\241</Value>\n"
+"        <Language>cz</Language>\n"
+"       </DestinationName>\n"
+"      </Destination>\n"
+"     </DisplayContent>\n"
+"    </StopPoint>\n"
+"    <StopPoint>\n"
+"     <StopIndex>\n"
+"      <Value>3</Value>\n"
+"     </StopIndex>\n"
+"     <StopRef>\n"
+"      <Value>Ref:3</Value>\n"
+"     </StopRef>\n"
+"     <StopName>\n"
+"      <Value>\304\214erno\305\241ice,\305\275el.zast.</Value>\n"
+"      <Language>cz</Language>\n"
+"     </StopName>\n"
+"     <DisplayContent>\n"
+"      <DisplayContentRef>\n"
+"       <Value>1234</Value>\n"
+"      </DisplayContentRef>\n"
+"      <LineInformation>\n"
+"   "
+                        "    <LineRef>\n"
+"        <Value>100315</Value>\n"
+"       </LineRef>\n"
+"       <LineName>\n"
+"        <Value>315</Value>\n"
+"        <Language>cz</Language>\n"
+"       </LineName>\n"
+"       <LineNumber>\n"
+"        <Value>100315</Value>\n"
+"       </LineNumber>\n"
+"      </LineInformation>\n"
+"      <Destination>\n"
+"       <DestinationRef>\n"
+"        <Value>22</Value>\n"
+"       </DestinationRef>\n"
+"       <DestinationName>\n"
+"        <Value>Zdick\303\241</Value>\n"
+"        <Language>cz</Language>\n"
+"       </DestinationName>\n"
+"      </Destination>\n"
+"     </DisplayContent>\n"
+"    </StopPoint>\n"
+"    <StopPoint>\n"
+"     <StopIndex>\n"
+"      <Value>4</Value>\n"
+"     </StopIndex>\n"
+"     <StopRef>\n"
+"      <Value>Ref:4</Value>\n"
+"     </StopRef>\n"
+"     <StopName>\n"
+"      <Value>Zdick\303\241</Value>\n"
+"      <Language>cz</Language>\n"
+"     </StopName>\n"
+"     <DisplayContent>\n"
+"      <DisplayContentRef>\n"
+"       <Value>1234</Value>\n"
+"      </DisplayContentRef>\n"
+"      <LineInfo"
+                        "rmation>\n"
+"       <LineRef>\n"
+"        <Value>100315</Value>\n"
+"       </LineRef>\n"
+"       <LineName>\n"
+"        <Value>315</Value>\n"
+"        <Language>cz</Language>\n"
+"       </LineName>\n"
+"       <LineNumber>\n"
+"        <Value>100315</Value>\n"
+"       </LineNumber>\n"
+"      </LineInformation>\n"
+"      <Destination>\n"
+"       <DestinationRef>\n"
+"        <Value>22</Value>\n"
+"       </DestinationRef>\n"
+"       <DestinationName>\n"
+"        <Value>Zdick\303\241</Value>\n"
+"        <Language>cz</Language>\n"
+"       </DestinationName>\n"
+"      </Destination>\n"
+"     </DisplayContent>\n"
+"    </StopPoint>\n"
+"   </StopSequence>\n"
+"   <LocationState>AtStop</LocationState>\n"
+"  </TripInformation>\n"
+"  <CurrentStopIndex>\n"
+"   <Value>0</Value>\n"
+"  </CurrentStopIndex>\n"
+"  <RouteDeviation>onroute</RouteDeviation>\n"
+"  <DoorState>AllDoorsClosed</DoorState>\n"
+"  <VehicleStopRequested>\n"
+"   <Value>0</Value>\n"
+"  </VehicleStopRequested>\n"
+"  <ExitSide>right</ExitSide>\n"
+" </AllData>\n"
+""
+                        "</CustomerInformationService.GetAllDataResponse>", nullptr));
         tlacitkoSmazOkno->setText(QCoreApplication::translate("MainWindow", "Vyma\305\276 okno", nullptr));
         tlacitkoOdesliXml->setText(QCoreApplication::translate("MainWindow", "ode\305\241li na panely", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "Odberatele", nullptr));
         tlacitkoRemoveSubscriber->setText(QCoreApplication::translate("MainWindow", "Zrusit odber", nullptr));
         tlacitkoAddsubscriber->setText(QCoreApplication::translate("MainWindow", "P\305\231idat odb\304\233ratele", nullptr));
+        lineEdit_ipadresaOdberatele->setText(QCoreApplication::translate("MainWindow", "http://127.0.0.1:48479", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 

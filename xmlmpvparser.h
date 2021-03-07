@@ -19,7 +19,7 @@ public:
     QDomDocument VytvorVystupniDokument(int max, QDomDocument xmlko);
     QDomDocument prestupyXmlDokumentVystup;
     int parsujDomDokument();
-    QByteArray vlozitDoXml="";
+    //QByteArray vlozitDoXml="";
     prestupMPV mujPrestup[40];
     void StahniMpvXml(int cisloCis, QString Ids);
     ~XmlMpvParser();

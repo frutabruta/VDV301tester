@@ -9,6 +9,7 @@ void on_actionstahnoutXML_triggered();
 #include <QMainWindow>
 #include "xmlparser.h"
 #include "httpserver2/myhttpserver.h"
+#include "ibisipsubscriber.h"
 
 class QByteArray;
 class QNetworkAccessManager;
@@ -35,6 +36,8 @@ public:
     int DoplneniPromennych ();
     int FormatZobrazeni();
     ~MainWindow();
+
+    IbisIpSubscriber CustomerInformationService;
 private slots:
     void on_actiontestPolozka_triggered();
     void OnRefreshClicked();
@@ -47,7 +50,7 @@ private slots:
    // void on_prepinaciOkno_currentChanged();
 
 public slots:
-    void refreshujZobrazeni(int vstup);
+    void xmlDoPromenne(QString vstupniXml);
 private:
     Ui::MainWindow *ui;
     //void BuildWindow();

@@ -7,6 +7,8 @@
 QT       += core gui
 QT += xml
 QT       += core gui network
+QT+= httpserver
+
 #QT += svg
 #QT += webenginewidgets
 
@@ -28,14 +30,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    ../newhttpserver.cpp \
     httpserver2/myhttpserver.cpp \
+    ibisipsubscriber.cpp \
         main.cpp \
         mainwindow.cpp \
     xmlparser.cpp \
     seznamzastavek.cpp
 
 HEADERS += \
+    ../newhttpserver.h \
     httpserver2/myhttpserver.h \
+    ibisipsubscriber.h \
         mainwindow.h \
     xmlparser.h \
     seznamzastavek.h

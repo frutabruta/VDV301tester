@@ -3,6 +3,7 @@
 NewHttpServer::NewHttpServer(quint16 ppp)
 {
     cisloPortu=ppp;
+    obsahRoot=vyrobHlavickuOk();
     proved();
 
 }
@@ -19,7 +20,7 @@ int NewHttpServer::proved()
     /*QHostAddress test;
 test.setAddress("127.0.0.1:47474");*/
 
-    this->route(obsahGet,obsahSubscribe);
+    this->route(obsahGet,obsahSubscribe,obsahRoot);
     this->listen();
 
     return 1;
@@ -28,11 +29,11 @@ test.setAddress("127.0.0.1:47474");*/
 
 
 
-int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe)
+int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe, QString &intObsahRoot)
 {
 
     qDebug() <<"NewHttpServer::route";
-    httpServer.route("/CustomerInformationService/SubscribeAllData", [ this ](const QHttpServerRequest &request)
+    httpServer.route("/CustomerInformationService/SubscribeAllData", [this ](const QHttpServerRequest &request)
     {
         //qDebug()<<request.headers()["Connection"].isNull();
         qDebug()<<request.body();
@@ -60,6 +61,16 @@ int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe)
     {
         //qDebug()<<request.body();
         return intObsahGet;
+    });
+
+    httpServer.route("/", [this](const QHttpServerRequest &request)
+    {
+        //this->obsahRoot;
+        qDebug()<<"request HEAD "<<request.headers();
+        qDebug()<<"request BODY "<<request.body();
+        emit prijemDat(request.body());
+        return this->obsahRoot;
+        //return intObsahGet;
     });
 
     httpServer.afterRequest([](QHttpServerResponse &&resp)
@@ -106,6 +117,21 @@ void NewHttpServer::zapisDoSubscribe(QString vstup)
 {
     qDebug() << "NewHttpServer::zapisDoSubscribe";
     this->obsahSubscribe=vstup;
+}
+
+
+QString NewHttpServer::vyrobHlavickuOk()
+{
+    qDebug()<<"HttpSluzba::vyrobHlavicku()";
+    QString hlavicka;
+    //this->hlavickaInterni="";
+    QByteArray argumentXMLserveru = "";
+    hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
+    hlavicka+=("Content-Type: application/xml\r\n");
+    hlavicka+=("Connection: close\r\n");
+    hlavicka+=("Pragma: no-cache\r\n");
+    hlavicka+=("\r\n");
+    return hlavicka;
 }
 
 

@@ -15,49 +15,69 @@ MainWindow::MainWindow(QWidget *parent) :
   , mNetMan(new QNetworkAccessManager(this))
   , mNetReply(nullptr)
   , mDataBuffer(new QByteArray)
+  , CustomerInformationService("CustomerInformationService","_ibisip_http._tcp",48479)
 {
     ui->setupUi(this);
     FormatZobrazeni();
     instanceXMLparser.Test();
     //ui->prepinaciOkno->setCurrentIndex(0);
     //QMainWindow::setWindowState(Qt::WindowFullScreen);
-    QObject::connect(&instanceHttpServeru, &myHTTPserver::dataNahrana  ,this, &MainWindow::refreshujZobrazeni);
+    //QObject::connect(&instanceHttpServeru, &myHTTPserver::dataNahrana  ,this, &MainWindow::refreshujZobrazeni);
+    QObject::connect(&CustomerInformationService, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::xmlDoPromenne);
 }
+
+
+
+/*
+ *MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow),
+    DeviceManagementService("DeviceManagementService","_ibisip_http._tcp",47477),
+    CustomerInformationService("CustomerInformationService","_ibisip_http._tcp",47479)
+ * */
 
 int MainWindow::VykresleniPrijatychDat()
 {
+    qDebug()<<"MainWindow::VykresleniPrijatychDat";
     qInfo()<<"\n VykresleniPrijatychDat";
     //nazevCile=QString( nazevCile.fromUtf8(test1));
     ui->Lcil->setText(nazevCile);
     ui->Llinka->setText(nazevLinky);
-    ui->Lnacestna1->setText(globalniSeznamZastavek[indexZastavky].StopName);
-    if ((indexZastavky+1)<=pocetZastavek)
+    if(indexZastavky<globalniSeznamZastavek.size())
     {
-        ui->Lnacestna2->setText(globalniSeznamZastavek[indexZastavky+1].StopName);
+
+        ui->Lnacestna1->setText(globalniSeznamZastavek[indexZastavky].StopName);
+        if ((indexZastavky+1)<pocetZastavek)
+        {
+            ui->Lnacestna2->setText(globalniSeznamZastavek[indexZastavky+1].StopName);
+        }
+        else
+        {
+            ui->Lnacestna2->setText(" ");
+        }
+        if ((indexZastavky+2)<pocetZastavek)
+        {
+            ui->Lnacestna3->setText(globalniSeznamZastavek[indexZastavky+2].StopName);
+        }
+        else
+        {
+            ui->Lnacestna3->setText(" ");
+        }
+        if ((indexZastavky+3)<pocetZastavek)
+        {
+            ui->Lnacestna4->setText(globalniSeznamZastavek[indexZastavky+3].StopName);
+        }
+        else
+        {
+            ui->Lnacestna4->setText(" ");
+
+        }
+
     }
     else
     {
-        ui->Lnacestna2->setText(" ");
+         qDebug()<<"indexZastavky je"<<QString::number(indexZastavky)<<" velikost globSezZast="<<QString::number(globalniSeznamZastavek.size());
     }
-    if ((indexZastavky+2)<=pocetZastavek)
-    {
-        ui->Lnacestna3->setText(globalniSeznamZastavek[indexZastavky+2].StopName);
-    }
-    else
-    {
-        ui->Lnacestna3->setText(" ");
-    }
-    if ((indexZastavky+3)<=pocetZastavek)
-    {
-        ui->Lnacestna4->setText(globalniSeznamZastavek[indexZastavky+3].StopName);
-    }
-    else
-    {
-        ui->Lnacestna4->setText(" ");
-
-    }
-
-
 
 
     return 1;
@@ -65,15 +85,24 @@ int MainWindow::VykresleniPrijatychDat()
 
 int MainWindow::DoplneniPromennych()
 {
+    qDebug()<<"MainWindow::DoplneniPromennych";
     qInfo()<<"\n DoplneniPromennych";
-    nazevCile=globalniSeznamZastavek.at(indexZastavky).DestinationName;
-    nazevLinky=globalniSeznamZastavek.at(indexZastavky).LineName;
+    if (globalniSeznamZastavek.size()>indexZastavky)
+    {
+        nazevCile=globalniSeznamZastavek.at(indexZastavky).DestinationName;
+        nazevLinky=globalniSeznamZastavek.at(indexZastavky).LineName;
+    }
+    else
+    {
+        qDebug()<<"indexZastavky je"<<QString::number(indexZastavky)<<" velikost globSezZast="<<QString::number(globalniSeznamZastavek.size());
+    }
     qInfo()<<"nazevCile "<<nazevCile;
     return 1;
 }
 
 int MainWindow::FormatZobrazeni()
 {
+    qDebug()<<"MainWindow::FormatZobrazeni";
     qInfo()<<"\n FormatZobrazeni";
 
     QString barva1 ="#1a1a70"; //tmave modra
@@ -92,6 +121,7 @@ int MainWindow::FormatZobrazeni()
 
 MainWindow::~MainWindow()
 {
+    qDebug()<<"MainWindow::~MainWindow";
     delete mDataBuffer;
     delete ui;
 }
@@ -100,6 +130,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actiontestPolozka_triggered()
 {
+    qDebug()<<"MainWindow::on_actiontestPolozka_triggered";
     qInfo()<<"\n on_actiontestPolozka_triggered";
 
     instanceXMLparser.VytvorSeznamZastavek(globalniSeznamZastavek, &indexZastavky, &pocetZastavek);
@@ -149,6 +180,7 @@ void MainWindow::ReadStory()
 
 void MainWindow::NetworkCleanup()
 {
+    qDebug()<<"MainWindow::NetworkCleanup";
     qInfo()<<"NetworkCleanup";
     mNetReply->deleteLater();
     mNetReply = nullptr;
@@ -159,17 +191,20 @@ void MainWindow::NetworkCleanup()
 // == PRIVATE SLOTS ==
 void MainWindow::OnRefreshClicked()
 {
+    qDebug()<<"MainWindow::OnRefreshClicked";
     qInfo()<<"\n OnRefreshClicked";
 }
 
 void MainWindow::OnDataReadyToRead()
 {
+    qDebug()<<"MainWindow::OnDataReadyToRead";
     qInfo()<<"\n OnDataReadyToRead";
     mDataBuffer->append(mNetReply->readAll());
 }
 
 void MainWindow::OnListReadFinished()
 {
+    qDebug()<<"MainWindow::OnListReadFinished";
     /*
     qInfo()<<"\n OnListReadFinished";
     QByteArray retezec = *mDataBuffer;
@@ -199,25 +234,27 @@ void MainWindow::on_actionstahnoutXML_triggered()
 
 void MainWindow::on_refreshTlac_clicked()
 {
+    qDebug()<<"MainWindow::on_refreshTlac_clicked";
     qInfo()<<"\n on_refreshTlac_clicked";
-    refreshujZobrazeni(1);
+    //xmlDoPromenne(1);
 
 }
 
-void MainWindow::refreshujZobrazeni(int vstup)
+void MainWindow::xmlDoPromenne(QString vstupniXml)
 {
-    vstup=0;
-    qInfo()<<"\n refreshujZobrazeni";
-    QByteArray retezec ="";
-    retezec+=instanceHttpServeru.prijatoZeServeruTelo;
-    instanceXMLparser.nactiXML(retezec);
+    qDebug()<<"MainWindow::xmlDoPromenne";
+    //vstup=0;
+
+    //QByteArray retezec ="";
+    //retezec+=instanceHttpServeru.prijatoZeServeruTelo;
+    instanceXMLparser.nactiXML(vstupniXml);
     QByteArray argumentXMLserveru = "";
     QByteArray hlavicka="";
     QByteArray telo="";
     hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
     //hlavicka+=("Content-Type: application/xml\r\n");
     telo+=("<?xml version=\"1.0\" encoding=\"UTF-8\"?>  <body> neco </body>");
-     QByteArray teloVelikost = QByteArray::number(telo.size());
+    QByteArray teloVelikost = QByteArray::number(telo.size());
     hlavicka+=("Content-Length: "+teloVelikost+"\r\n");
     hlavicka+=("Content-Type: text/xml\r\n");
     // hlavicka+=("Connection: close\r\n");
@@ -236,12 +273,20 @@ void MainWindow::refreshujZobrazeni(int vstup)
     //qInfo()<<globalniSeznamZastavek[4].StopName;
     qInfo()<<indexZastavky;
     qInfo()<<"CIl:"<<nazevCile;
+    if( globalniSeznamZastavek.size()>0)
+    {
     DoplneniPromennych();
     VykresleniPrijatychDat();
     FormatZobrazeni();
-    //NetworkCleanup();
     qInfo()<<"CIl:"<<nazevCile;
     instanceHttpServeru.prijatoZeServeruTelo="";
+    }
+    else
+    {
+        qDebug()<<"nepodarilo se vyparsovat zastavky";
+    }
+    //NetworkCleanup();
+
 }
 
 

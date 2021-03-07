@@ -66,13 +66,14 @@ QString xmlGenerator::AllData2(int poradi,  QVector <SeznamZastavek> docasnySezn
     dAllData.appendChild(dDefaultLanguage);
     QDomElement dTripInformation=xmlko.createElement("TripInformation");
     dAllData.appendChild(dTripInformation);
-    QDomElement dLocationState=xmlko.createElement("LocationState");
-    dLocationState.appendChild(xmlko.createTextNode( locationState));
-    dTripInformation.appendChild(dLocationState);
+
     QDomElement dTripRef=xmlko.createElement("TripRef");
     dTripRef.appendChild(xmlko.createElement("Value"));
     dTripRef.firstChildElement("Value").appendChild(xmlko.createTextNode(tripRef));
     dTripInformation.appendChild(dTripRef);
+
+
+
     QDomElement dStopSequence=xmlko.createElement("StopSequence");
     dTripInformation.appendChild(dStopSequence);
     for (int i=0 ; i<docasnySeznamZastavek.count();i++)
@@ -153,6 +154,10 @@ QString xmlGenerator::AllData2(int poradi,  QVector <SeznamZastavek> docasnySezn
             }
         }
     }
+
+    QDomElement dLocationState=xmlko.createElement("LocationState");
+    dLocationState.appendChild(xmlko.createTextNode( locationState));
+    dTripInformation.appendChild(dLocationState);
 
     QDomElement dCurrentStopIndex=xmlko.createElement("CurrentStopIndex");
     dCurrentStopIndex.appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode(currentStopIndex));

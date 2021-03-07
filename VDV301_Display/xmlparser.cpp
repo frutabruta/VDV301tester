@@ -8,41 +8,51 @@
 
 XmlParser::XmlParser()
 {
+    qDebug()<<"XmlParser::XmlParser";
 }
 
-void XmlParser::nactiXML(QByteArray vstup)
+void XmlParser::nactiXML(QString vstup)
 {
-    QByteArray llooll = vstup;
-    QString s = QString::fromUtf8(vstup);
-    QString str =QString::fromUtf8(vstup);
-    s = QString::fromUtf8(str.toLatin1());
-    llooll=s.toUtf8();
-    qInfo().noquote()<<"nactiOOOxml";
-    dokument.setContent(s);
+    qDebug()<<"XmlParser::nactiXML";
+
+    dokument.setContent(vstup);
     QString blabla = dokument.toString();
-    // qInfo().noquote()<<"XXX"<<blabla;
-    qDebug()<<"\n\n XXX "<<s;
+
 
 }
 
-void XmlParser::VytvorSeznamZastavek(QVector<SeznamZastavek> &docasnySeznamZst, int *docasnyIndexZastavky, int *docasnyPocetZastavek)
+int XmlParser::VytvorSeznamZastavek(QVector<SeznamZastavek> &docasnySeznamZst, int *docasnyIndexZastavky, int *docasnyPocetZastavek)
 {
+    docasnySeznamZst.clear();
+    qDebug()<<"XmlParser::VytvorSeznamZastavek";
     QDomElement root = dokument.firstChildElement();
+    qDebug()<<root.tagName();
+    if (root.tagName()!="CustomerInformationService.GetAllDataResponse")
+    {
+        qDebug()<<"vadné XML";
+        return 0;
+    }
     QDomNodeList nodes = root.elementsByTagName("StopPoint");
-    qInfo()<<"testAVVCF";
+
     *docasnyPocetZastavek= nodes.count();
     *docasnyIndexZastavky=root.elementsByTagName("CurrentStopIndex").at(0).firstChildElement().text().toInt();
     for (int i=0; i<nodes.count();i++)
     {
         SeznamZastavek docasnaZastavka;
-        int poradiZastavky=root.elementsByTagName("StopPoint").at(i).toElement().elementsByTagName("StopIndex").at(0).firstChildElement().text().toInt()-1;
+        int poradiZastavky=root.elementsByTagName("StopPoint").at(i).toElement().elementsByTagName("StopIndex").at(0).firstChildElement().text().toInt();
         docasnaZastavka.StopName=root.elementsByTagName("StopPoint").at(i).toElement().elementsByTagName("StopName").at(0).firstChildElement().text();
         docasnaZastavka.LineName=root.elementsByTagName("DisplayContent").at(0).toElement().elementsByTagName("LineInformation").at(0).toElement().elementsByTagName("LineName").at(0).firstChildElement().text();
         docasnaZastavka.StopIndex=i;
         docasnaZastavka.DestinationName=root.elementsByTagName("DisplayContent").at(0).toElement().elementsByTagName("Destination").at(0).toElement().elementsByTagName("DestinationName").at(0).firstChildElement().text();
-        qInfo()<< "22" << docasnaZastavka.StopName;
+        qInfo()<< "xml "<<QString::number(poradiZastavky)<<"i "<<QString::number(i) << docasnaZastavka.StopName;
         docasnySeznamZst.push_back(docasnaZastavka);
     }
+    if (docasnySeznamZst.size() ==0)
+    {
+        qDebug()<<"zastavkyNebylyNacteny";
+        return 0;
+    }
+    return 1;
 }
 
 
@@ -50,6 +60,7 @@ void XmlParser::VytvorSeznamZastavek(QVector<SeznamZastavek> &docasnySeznamZst, 
 
 void XmlParser::Test()
 {
+    qDebug()<<" XmlParser::Test";
     qInfo()<<"xmlParserTestPoint2";
 }
 

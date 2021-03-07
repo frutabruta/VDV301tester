@@ -650,7 +650,7 @@
          <string notr="true">/*background-color:rgb(52, 101, 164); */</string>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="page_vydej">
          <layout class="QGridLayout" name="gridLayout_3">
@@ -1828,10 +1828,10 @@ color: rgb(238, 238, 236);</string>
          <widget class="QWidget" name="verticalLayoutWidget_9">
           <property name="geometry">
            <rect>
-            <x>80</x>
-            <y>100</y>
-            <width>160</width>
-            <height>92</height>
+            <x>380</x>
+            <y>20</y>
+            <width>301</width>
+            <height>371</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -1843,15 +1843,239 @@ color: rgb(238, 238, 236);</string>
             </widget>
            </item>
            <item>
-            <widget class="QPlainTextEdit" name="plainTextEditCustomXml"/>
+            <widget class="QPlainTextEdit" name="plainTextEditCustomXml">
+             <property name="plainText">
+              <string>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;CustomerInformationService.GetAllDataResponse&gt;
+ &lt;AllData&gt;
+  &lt;TimeStamp&gt;
+   &lt;Value&gt;2021-03-07T02:51:28&lt;/Value&gt;
+  &lt;/TimeStamp&gt;
+  &lt;VehicleRef&gt;
+   &lt;Value&gt;33&lt;/Value&gt;
+  &lt;/VehicleRef&gt;
+  &lt;DefaultLanguage&gt;
+   &lt;Value&gt;cz&lt;/Value&gt;
+  &lt;/DefaultLanguage&gt;
+  &lt;TripInformation&gt;
+   &lt;TripRef&gt;
+    &lt;Value&gt;3&lt;/Value&gt;
+   &lt;/TripRef&gt;
+   &lt;StopSequence&gt;
+    &lt;StopPoint&gt;
+     &lt;StopIndex&gt;
+      &lt;Value&gt;0&lt;/Value&gt;
+     &lt;/StopIndex&gt;
+     &lt;StopRef&gt;
+      &lt;Value&gt;Ref:0&lt;/Value&gt;
+     &lt;/StopRef&gt;
+     &lt;StopName&gt;
+      &lt;Value&gt;Sídliště Radotín&lt;/Value&gt;
+      &lt;Language&gt;cz&lt;/Language&gt;
+     &lt;/StopName&gt;
+     &lt;DisplayContent&gt;
+      &lt;DisplayContentRef&gt;
+       &lt;Value&gt;1234&lt;/Value&gt;
+      &lt;/DisplayContentRef&gt;
+      &lt;LineInformation&gt;
+       &lt;LineRef&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineRef&gt;
+       &lt;LineName&gt;
+        &lt;Value&gt;315&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/LineName&gt;
+       &lt;LineNumber&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineNumber&gt;
+      &lt;/LineInformation&gt;
+      &lt;Destination&gt;
+       &lt;DestinationRef&gt;
+        &lt;Value&gt;22&lt;/Value&gt;
+       &lt;/DestinationRef&gt;
+       &lt;DestinationName&gt;
+        &lt;Value&gt;Zdická&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/DestinationName&gt;
+      &lt;/Destination&gt;
+     &lt;/DisplayContent&gt;
+    &lt;/StopPoint&gt;
+    &lt;StopPoint&gt;
+     &lt;StopIndex&gt;
+      &lt;Value&gt;1&lt;/Value&gt;
+     &lt;/StopIndex&gt;
+     &lt;StopRef&gt;
+      &lt;Value&gt;Ref:1&lt;/Value&gt;
+     &lt;/StopRef&gt;
+     &lt;StopName&gt;
+      &lt;Value&gt;Sídliště Radotín&lt;/Value&gt;
+      &lt;Language&gt;cz&lt;/Language&gt;
+     &lt;/StopName&gt;
+     &lt;DisplayContent&gt;
+      &lt;DisplayContentRef&gt;
+       &lt;Value&gt;1234&lt;/Value&gt;
+      &lt;/DisplayContentRef&gt;
+      &lt;LineInformation&gt;
+       &lt;LineRef&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineRef&gt;
+       &lt;LineName&gt;
+        &lt;Value&gt;315&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/LineName&gt;
+       &lt;LineNumber&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineNumber&gt;
+      &lt;/LineInformation&gt;
+      &lt;Destination&gt;
+       &lt;DestinationRef&gt;
+        &lt;Value&gt;22&lt;/Value&gt;
+       &lt;/DestinationRef&gt;
+       &lt;DestinationName&gt;
+        &lt;Value&gt;Zdická&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/DestinationName&gt;
+      &lt;/Destination&gt;
+     &lt;/DisplayContent&gt;
+    &lt;/StopPoint&gt;
+    &lt;StopPoint&gt;
+     &lt;StopIndex&gt;
+      &lt;Value&gt;2&lt;/Value&gt;
+     &lt;/StopIndex&gt;
+     &lt;StopRef&gt;
+      &lt;Value&gt;Ref:2&lt;/Value&gt;
+     &lt;/StopRef&gt;
+     &lt;StopName&gt;
+      &lt;Value&gt;Černošice,U Vodárny&lt;/Value&gt;
+      &lt;Language&gt;cz&lt;/Language&gt;
+     &lt;/StopName&gt;
+     &lt;DisplayContent&gt;
+      &lt;DisplayContentRef&gt;
+       &lt;Value&gt;1234&lt;/Value&gt;
+      &lt;/DisplayContentRef&gt;
+      &lt;LineInformation&gt;
+       &lt;LineRef&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineRef&gt;
+       &lt;LineName&gt;
+        &lt;Value&gt;315&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/LineName&gt;
+       &lt;LineNumber&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineNumber&gt;
+      &lt;/LineInformation&gt;
+      &lt;Destination&gt;
+       &lt;DestinationRef&gt;
+        &lt;Value&gt;22&lt;/Value&gt;
+       &lt;/DestinationRef&gt;
+       &lt;DestinationName&gt;
+        &lt;Value&gt;Zdická&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/DestinationName&gt;
+      &lt;/Destination&gt;
+     &lt;/DisplayContent&gt;
+    &lt;/StopPoint&gt;
+    &lt;StopPoint&gt;
+     &lt;StopIndex&gt;
+      &lt;Value&gt;3&lt;/Value&gt;
+     &lt;/StopIndex&gt;
+     &lt;StopRef&gt;
+      &lt;Value&gt;Ref:3&lt;/Value&gt;
+     &lt;/StopRef&gt;
+     &lt;StopName&gt;
+      &lt;Value&gt;Černošice,Žel.zast.&lt;/Value&gt;
+      &lt;Language&gt;cz&lt;/Language&gt;
+     &lt;/StopName&gt;
+     &lt;DisplayContent&gt;
+      &lt;DisplayContentRef&gt;
+       &lt;Value&gt;1234&lt;/Value&gt;
+      &lt;/DisplayContentRef&gt;
+      &lt;LineInformation&gt;
+       &lt;LineRef&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineRef&gt;
+       &lt;LineName&gt;
+        &lt;Value&gt;315&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/LineName&gt;
+       &lt;LineNumber&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineNumber&gt;
+      &lt;/LineInformation&gt;
+      &lt;Destination&gt;
+       &lt;DestinationRef&gt;
+        &lt;Value&gt;22&lt;/Value&gt;
+       &lt;/DestinationRef&gt;
+       &lt;DestinationName&gt;
+        &lt;Value&gt;Zdická&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/DestinationName&gt;
+      &lt;/Destination&gt;
+     &lt;/DisplayContent&gt;
+    &lt;/StopPoint&gt;
+    &lt;StopPoint&gt;
+     &lt;StopIndex&gt;
+      &lt;Value&gt;4&lt;/Value&gt;
+     &lt;/StopIndex&gt;
+     &lt;StopRef&gt;
+      &lt;Value&gt;Ref:4&lt;/Value&gt;
+     &lt;/StopRef&gt;
+     &lt;StopName&gt;
+      &lt;Value&gt;Zdická&lt;/Value&gt;
+      &lt;Language&gt;cz&lt;/Language&gt;
+     &lt;/StopName&gt;
+     &lt;DisplayContent&gt;
+      &lt;DisplayContentRef&gt;
+       &lt;Value&gt;1234&lt;/Value&gt;
+      &lt;/DisplayContentRef&gt;
+      &lt;LineInformation&gt;
+       &lt;LineRef&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineRef&gt;
+       &lt;LineName&gt;
+        &lt;Value&gt;315&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/LineName&gt;
+       &lt;LineNumber&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineNumber&gt;
+      &lt;/LineInformation&gt;
+      &lt;Destination&gt;
+       &lt;DestinationRef&gt;
+        &lt;Value&gt;22&lt;/Value&gt;
+       &lt;/DestinationRef&gt;
+       &lt;DestinationName&gt;
+        &lt;Value&gt;Zdická&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/DestinationName&gt;
+      &lt;/Destination&gt;
+     &lt;/DisplayContent&gt;
+    &lt;/StopPoint&gt;
+   &lt;/StopSequence&gt;
+   &lt;LocationState&gt;AtStop&lt;/LocationState&gt;
+  &lt;/TripInformation&gt;
+  &lt;CurrentStopIndex&gt;
+   &lt;Value&gt;0&lt;/Value&gt;
+  &lt;/CurrentStopIndex&gt;
+  &lt;RouteDeviation&gt;onroute&lt;/RouteDeviation&gt;
+  &lt;DoorState&gt;AllDoorsClosed&lt;/DoorState&gt;
+  &lt;VehicleStopRequested&gt;
+   &lt;Value&gt;0&lt;/Value&gt;
+  &lt;/VehicleStopRequested&gt;
+  &lt;ExitSide&gt;right&lt;/ExitSide&gt;
+ &lt;/AllData&gt;
+&lt;/CustomerInformationService.GetAllDataResponse&gt;</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
          <widget class="QPushButton" name="tlacitkoSmazOkno">
           <property name="geometry">
            <rect>
-            <x>400</x>
-            <y>80</y>
+            <x>210</x>
+            <y>310</y>
             <width>151</width>
             <height>31</height>
            </rect>
@@ -1863,8 +2087,8 @@ color: rgb(238, 238, 236);</string>
          <widget class="QPushButton" name="tlacitkoOdesliXml">
           <property name="geometry">
            <rect>
-            <x>354</x>
-            <y>160</y>
+            <x>190</x>
+            <y>360</y>
             <width>181</width>
             <height>31</height>
            </rect>
@@ -1876,10 +2100,10 @@ color: rgb(238, 238, 236);</string>
          <widget class="QWidget" name="verticalLayoutWidget_10">
           <property name="geometry">
            <rect>
-            <x>80</x>
-            <y>260</y>
+            <x>20</x>
+            <y>20</y>
             <width>160</width>
-            <height>94</height>
+            <height>231</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -1898,9 +2122,9 @@ color: rgb(238, 238, 236);</string>
          <widget class="QPushButton" name="tlacitkoRemoveSubscriber">
           <property name="geometry">
            <rect>
-            <x>300</x>
-            <y>270</y>
-            <width>141</width>
+            <x>180</x>
+            <y>80</y>
+            <width>151</width>
             <height>21</height>
            </rect>
           </property>
@@ -1911,10 +2135,10 @@ color: rgb(238, 238, 236);</string>
          <widget class="QPushButton" name="tlacitkoAddsubscriber">
           <property name="geometry">
            <rect>
-            <x>300</x>
-            <y>310</y>
+            <x>180</x>
+            <y>20</y>
             <width>151</width>
-            <height>21</height>
+            <height>41</height>
            </rect>
           </property>
           <property name="text">
@@ -1924,11 +2148,14 @@ color: rgb(238, 238, 236);</string>
          <widget class="QLineEdit" name="lineEdit_ipadresaOdberatele">
           <property name="geometry">
            <rect>
-            <x>80</x>
-            <y>370</y>
+            <x>30</x>
+            <y>260</y>
             <width>201</width>
             <height>20</height>
            </rect>
+          </property>
+          <property name="text">
+           <string>http://127.0.0.1:48479</string>
           </property>
          </widget>
         </widget>

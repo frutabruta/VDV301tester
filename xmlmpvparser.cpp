@@ -75,8 +75,12 @@ QDomDocument XmlMpvParser::VytvorVystupniDokument(int max, QDomDocument xmlko)
 
         QDomElement dConnection=xmlko.createElement("Connection");
         xmlko.appendChild(dConnection);
-        dConnection.appendChild(xmlko.createElement("StopRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("&lt;StopProperty&gt;&lt;/StopProperty&gt;"));
-        dConnection.appendChild(xmlko.createElement("ConnectionRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("&lt;ConnectionProperty&gt;"+nizkop+"&lt;/ConnectionProperty&gt;"));
+        //dConnection.appendChild(xmlko.createElement("StopRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("&lt;StopProperty&gt;&lt;/StopProperty&gt;"));
+        //dConnection.appendChild(xmlko.createElement("ConnectionRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("&lt;ConnectionProperty&gt;"+nizkop+"&lt;/ConnectionProperty&gt;"));
+
+        dConnection.appendChild(xmlko.createElement("StopRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("xx"));
+        dConnection.appendChild(xmlko.createElement("ConnectionRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("yy"));
+
 
         dConnection.appendChild(xmlko.createElement("ConnectionType")).appendChild(xmlko.createTextNode("Interchange"));
         QDomElement dDisplayContent=xmlko.createElement("DisplayContent");
@@ -139,13 +143,13 @@ QDomDocument XmlMpvParser::VytvorVystupniDokument(int max, QDomDocument xmlko)
         vysledek+=mujPrestup[i].odj;
         vysledek+="</Value></ExpectedDepatureTime></Connection>";
     }
-    vlozitDoXml="";
-    vlozitDoXml+=vysledek;
+    //vlozitDoXml="";
+    //vlozitDoXml+=vysledek;
     navratovaHodnota+=vysledek;
     qDebug()<<"DOMverze";
-    qDebug()<<xmlko.toString()<<"/n/n";
+  //  qDebug()<<xmlko.toString()<<"/n/n";
     qDebug()<<"QBytearrayVerze";
-    qDebug()<<vlozitDoXml;
+   // qDebug()<<vlozitDoXml;
     return xmlko;
 
 }

@@ -15,10 +15,11 @@ public:
     QString cil="";
    // SeznamZastavek docasnySeznamZastavek[] ;
     SeznamZastavek* docasnySeznamZastavek = new SeznamZastavek[MAX_ZAST2];
-    void VytvorSeznamZastavek(QVector<SeznamZastavek> &docasnySeznamZst, int* docasnyIndexZastavky, int* docasnyPocetZastavek);
+    int VytvorSeznamZastavek(QVector<SeznamZastavek> &docasnySeznamZst, int* docasnyIndexZastavky, int* docasnyPocetZastavek);
     QDomDocument dokument;
     void Test();
 
+    void nactiXML(QString vstup);
 };
 
 
