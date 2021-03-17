@@ -54,11 +54,11 @@ void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
     qDebug()<<"MainWindow::OdeslatDataDoDispleju";
     QByteArray zpracovanoMPV="";
     QString vysledek2="";
-    QString vysledekCurrentDisplayContent="";
+    QString bodyCurrentDisplayContent="";
     if (verzeVDV301==0)
     {
         vysledek2=TestXmlGenerator.AllData2( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument);
-        vysledekCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument);
+        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( novatrida.cislo,globalniSeznamZastavek, novatrida.aktlinka, novatrida.doorState, novatrida.locationState,prestupyDomDocument);
 
     }
     else
@@ -75,8 +75,10 @@ void MainWindow::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
         PostDoDispleje(seznamSubscriberu[i],vysledek2);
     }
     // Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    PostDoDispleje(QUrl("http://192.168.1.37:80"),vysledekCurrentDisplayContent);
-    qDebug()<<"do displeje odeslano: "<<vysledekCurrentDisplayContent;
+    //PostDoDispleje(QUrl("http://192.168.2.37:80"),bodyCurrentDisplayContent);
+    //PostDoDispleje(QUrl("http://192.168.2.16:60012"),bodyCurrentDisplayContent);
+    PostDoDispleje(QUrl("http://192.168.1.152:80"),bodyCurrentDisplayContent);
+    qDebug()<<"do displeje odeslano: "<<bodyCurrentDisplayContent;
     // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 }
 
@@ -105,14 +107,16 @@ void MainWindow::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
     qDebug()<<"MainWindow::PostDoDispleje";
     QByteArray postDataSize = QByteArray::number(dataDoPostu.size());
     QNetworkRequest pozadavekPOST(adresaDispleje);
-    pozadavekPOST.setRawHeader("Connection", "Keep-Alive");
+
     //pozadavekPOST.setRawHeader("Content-Length", postDataSize );
     pozadavekPOST.setRawHeader("Content-Type", "text/xml");
-    // pozadavekPOST.setRawHeader("Expect", "100-continue");
-    pozadavekPOST.setRawHeader("Accept-Encoding", "gzip, deflate");
+    pozadavekPOST.setRawHeader("Expect", "100-continue");
+    pozadavekPOST.setRawHeader("Connection", "keep-Alive");
+    //pozadavekPOST.setRawHeader("Accept-Encoding", "gzip, deflate");
     QNetworkAccessManager *manager2 = new QNetworkAccessManager();
     QByteArray dataDoPostuQByte=dataDoPostu.toUtf8() ;
     manager2->post(pozadavekPOST,dataDoPostuQByte);
+
 }
 
 
