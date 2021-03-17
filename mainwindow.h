@@ -3,7 +3,7 @@
 #include "cestaudaje.h"
 
 
-#include "xmlgenerator.h"
+
 #include "xmlmpvparser.h"
 #include "xmlropidparser.h"
 #include "ibisovladani.h"
@@ -20,7 +20,7 @@
 
 #include <QtSerialPort/QSerialPort>
 
-#include "qtzeroconf/qzeroconf.h"
+
 #include "httpsluzba.h"
 
 
@@ -45,14 +45,14 @@ public:
     SqlPraceRopid mojesql;
     int cisloPortu=12;
 
-    xmlGenerator TestXmlGenerator;
+
     XmlMpvParser mpvParser;
     void xmlHromadnyUpdate();
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301);
+    //void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301);
 
-    void ObnoveniServeru(QString dataDoServeru);
+    //void ObnoveniServeru(QString dataDoServeru);
     XmlRopidParser xmlRopidParser;
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
@@ -63,17 +63,6 @@ public:
 
     HttpSluzba DeviceManagementService;
     HttpSluzba CustomerInformationService;
-
-    QVector<QUrl> seznamSubscriberu;
-
-
-
-
-
-
-    //bonjour
-    QZeroConf zeroConf;
-    QZeroConf zeroConf2;
 
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);
@@ -97,7 +86,7 @@ private slots:
     void on_AtStop_2_clicked();
     void on_AfterStop_clicked();
     void on_BetweenStop_clicked();
-    void PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu);
+    //void PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu);
     void MpvNetReady();
     void on_prestupyCheckbox_stateChanged(int arg1);
 
@@ -139,15 +128,15 @@ private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);
     void AktualizaceDispleje();
-    void bonjourStartPublish2(QString nazevSluzby, QString typSluzby, int port, QZeroConf &instanceZeroConf);
     void startDatabaze();
     void inicializacePoli();
-    void vypisSubscribery(QVector<QUrl> adresy);
+    void vypisSubscribery(QVector<Subscriber> adresy);
 
 private slots:
-    void novySubsriber(QUrl adresaSubscribera);
+    //void novySubsriber(QUrl adresaSubscribera);
 
     void on_tlacitkoAddsubscriber_clicked();
+    void on_tlacitkoRemoveSubscriber_clicked();
 };
 
 #endif // MAINWINDOW_H

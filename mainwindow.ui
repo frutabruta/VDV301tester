@@ -650,7 +650,7 @@
          <string notr="true">/*background-color:rgb(52, 101, 164); */</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="page_vydej">
          <layout class="QGridLayout" name="gridLayout_3">
@@ -2156,6 +2156,19 @@ color: rgb(238, 238, 236);</string>
           </property>
           <property name="text">
            <string>http://127.0.0.1:48479</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="lineEdit_strukturaOdberu">
+          <property name="geometry">
+           <rect>
+            <x>240</x>
+            <y>260</y>
+            <width>113</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>AllData</string>
           </property>
          </widget>
         </widget>

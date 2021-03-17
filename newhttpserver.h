@@ -26,7 +26,7 @@ public:
 private:
     QString vyrobHlavickuOk();
 signals:
-    void zmenaObsahu(QByteArray vysledek) ;
+    void zmenaObsahu(QByteArray vysledek,QString struktura) ;
     void prijemDat(QString vysledek) ;
     //void zmenaObsahu() ;
 };

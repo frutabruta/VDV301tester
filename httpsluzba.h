@@ -7,6 +7,9 @@
 
 #include <QtHttpServer>
 #include "newhttpserver.h"
+#include "xmlgenerator.h"
+#include "cestaudaje.h"
+#include "subscriber.h"
 
 class HttpSluzba: public QObject
 {
@@ -18,6 +21,16 @@ public:
     void bonjourStartKomplet();
     int aktualizuj();
     QByteArray vyrobSubscribeResponseBody(int vysledek);
+    //QVector<QUrl> seznamSubscriberu;
+    QVector<Subscriber> seznamSubscriberu;
+
+    void PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu);
+    void ObnoveniServeru(QString dataDoServeru);
+    //void novySubscriber(QUrl adresaSubscribera, QString struktura);
+    void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stavSystemu, QVector<SeznamZastavek> interniSeznamZastavek);
+    void novySubscriber(Subscriber subscriber);
+    int jeSubscriberNaSeznamu(QVector<Subscriber> seznam, Subscriber prvek);
+    int odstranitSubscribera(int index);
 private:
     QZeroConf zeroConf;
 
@@ -38,13 +51,15 @@ private:
     */
     QString vyrobGetResponseBody();
     QString vyrobHlavickuSubscribe();
+    xmlGenerator TestXmlGenerator;
 
 public slots:
     //void vypisObsahRequestu();
-    void vypisObsahRequestu(QByteArray vysledek);
+    void vypisObsahRequestu(QByteArray vysledek, QString struktura);
 
 signals:
     void pridejSubscribera(QUrl adresaSubscribera);
+    void vypisSubscriberu(QVector<Subscriber> seznamSubscriberuInt);
 
 };
 

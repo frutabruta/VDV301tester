@@ -35,6 +35,7 @@ int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe, QStri
     qDebug() <<"NewHttpServer::route";
     httpServer.route("/CustomerInformationService/SubscribeAllData", [this ](const QHttpServerRequest &request)
     {
+        qDebug()<<"request "<<"/CustomerInformationService/SubscribeAllData";
         //qDebug()<<request.headers()["Connection"].isNull();
         qDebug()<<request.body();
         qDebug()<<"tady se mel spustit emit";
@@ -48,7 +49,33 @@ int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe, QStri
         odpoved+="</Value></Active>";
         odpoved+="</SubscribeResponse>";
         this->bodyPozadavku=request.body();
-        emit zmenaObsahu(request.body());
+        QString struktura="AllData";
+        emit zmenaObsahu(request.body(),struktura);
+        //odpoved=this->obsahSubscribe;
+
+        return this->obsahSubscribe;
+        //return odpoved;
+        //return "Hello world";
+    });
+    httpServer.route("/CustomerInformationService/SubscribeCurrentDisplayContent", [this ](const QHttpServerRequest &request)
+    {
+        //qDebug()<<request.headers()["Connection"].isNull();
+        qDebug()<<"request "<<"/CustomerInformationService/SubscribeCurrentDisplayContent";
+        qDebug()<<request.body();
+
+        qDebug()<<"tady se mel spustit emit";
+
+        QString textVysledek="true";
+        QString odpoved="";
+        odpoved+="<?xml version=\"1.0\" encoding=\"utf-16\"?>";
+        odpoved+="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
+        odpoved+="<Active><Value>";
+        odpoved+=textVysledek;
+        odpoved+="</Value></Active>";
+        odpoved+="</SubscribeResponse>";
+        this->bodyPozadavku=request.body();
+        QString struktura="CurrentDisplayContent";
+        emit zmenaObsahu(request.body(),struktura);
         //odpoved=this->obsahSubscribe;
 
         return this->obsahSubscribe;
@@ -59,9 +86,11 @@ int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe, QStri
     qDebug()<<"vnejsi intObsahGet="<<intObsahGet;
     httpServer.route("/CustomerInformationService/GetAllData", [&intObsahGet](const QHttpServerRequest &request)
     {
+        qDebug()<<"request "<<"/CustomerInformationService/GetAllData";
         //qDebug()<<request.body();
         return intObsahGet;
     });
+
 
     httpServer.route("/", [this](const QHttpServerRequest &request)
     {
