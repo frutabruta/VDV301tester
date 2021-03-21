@@ -20,7 +20,7 @@ int NewHttpServer::proved()
     /*QHostAddress test;
 test.setAddress("127.0.0.1:47474");*/
 
-    this->route(obsahGet,obsahSubscribe,obsahRoot);
+    this->route(obsahGet,obsahSubscribe,obsahRoot,obsahTelaPole);
     this->listen();
 
     return 1;
@@ -29,7 +29,7 @@ test.setAddress("127.0.0.1:47474");*/
 
 
 
-int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe, QString &intObsahRoot)
+int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe, QString &intObsahRoot, QMap<QString,QString> &obsahyBody)
 {
 
     qDebug() <<"NewHttpServer::route";
@@ -84,11 +84,18 @@ int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe, QStri
     });
 
     qDebug()<<"vnejsi intObsahGet="<<intObsahGet;
-    httpServer.route("/CustomerInformationService/GetAllData", [&intObsahGet](const QHttpServerRequest &request)
+    httpServer.route("/CustomerInformationService/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
     {
+
+
+        QString struktura= QStringLiteral("%1").arg(url.path());
+        qDebug()<<"argument "<<struktura;
+
         qDebug()<<"request "<<"/CustomerInformationService/GetAllData";
         //qDebug()<<request.body();
-        return intObsahGet;
+        //return obsahyBody.value("AllData");
+        return obsahyBody.value(struktura);
+        //return intObsahGet;
     });
 
 
@@ -146,6 +153,17 @@ void NewHttpServer::zapisDoSubscribe(QString vstup)
 {
     qDebug() << "NewHttpServer::zapisDoSubscribe";
     this->obsahSubscribe=vstup;
+}
+
+int NewHttpServer::nastavObsahTela(QMap<QString,QString> vstup )
+{
+    qDebug()<<"NewHttpServer::nastavObsahTela";
+    obsahTelaPole=vstup;
+
+
+    qDebug()<<"obsah CDC z pole: "<<obsahTelaPole.value("CurrentDisplayContent");
+
+    return 1;
 }
 
 

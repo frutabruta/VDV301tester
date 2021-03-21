@@ -130,6 +130,7 @@ public:
     QPushButton *tlacitkoRemoveSubscriber;
     QPushButton *tlacitkoAddsubscriber;
     QLineEdit *lineEdit_ipadresaOdberatele;
+    QLineEdit *lineEdit_strukturaOdberu;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -881,6 +882,9 @@ public:
         lineEdit_ipadresaOdberatele = new QLineEdit(page_customXML);
         lineEdit_ipadresaOdberatele->setObjectName(QString::fromUtf8("lineEdit_ipadresaOdberatele"));
         lineEdit_ipadresaOdberatele->setGeometry(QRect(30, 260, 201, 20));
+        lineEdit_strukturaOdberu = new QLineEdit(page_customXML);
+        lineEdit_strukturaOdberu->setObjectName(QString::fromUtf8("lineEdit_strukturaOdberu"));
+        lineEdit_strukturaOdberu->setGeometry(QRect(240, 260, 113, 20));
         prepinadloStran->addWidget(page_customXML);
 
         horizontalLayout_9->addWidget(prepinadloStran);
@@ -908,7 +912,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(1);
+        prepinadloStran->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1198,6 +1202,7 @@ public:
         tlacitkoRemoveSubscriber->setText(QCoreApplication::translate("MainWindow", "Zrusit odber", nullptr));
         tlacitkoAddsubscriber->setText(QCoreApplication::translate("MainWindow", "P\305\231idat odb\304\233ratele", nullptr));
         lineEdit_ipadresaOdberatele->setText(QCoreApplication::translate("MainWindow", "http://127.0.0.1:48479", nullptr));
+        lineEdit_strukturaOdberu->setText(QCoreApplication::translate("MainWindow", "AllData", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 

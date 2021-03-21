@@ -74,6 +74,7 @@ dbManager->query.exec();
     qDebug()<<queryString2;
     qDebug()<<"DebugPointB";
     int citacMaximum=0;
+    SeznamZastavek cilovaZastavka;
     while (query.next())
     {
         if (query.value(0).toString()!="")
@@ -100,7 +101,8 @@ dbManager->query.exec();
             aktZast.NameSide=query.value(query.record().indexOf("t.btn")).toString();
             aktZast.NameLcd=query.value(query.record().indexOf("t.lcdn")).toString();
             aktZast.LineName=query.value(query.record().indexOf("l.c")).toString();
-            aktZast.nacestna=query.value(query.record().indexOf("t.btn")).toInt();
+            aktZast.nacestna=query.value(query.record().indexOf("x.na")).toInt();
+            aktZast.naZnameni =query.value(query.record().indexOf("x.zn")).toInt();
             aktZast.NameInner=query.value(query.record().indexOf("t.vtn")).toString();
             aktZast.cisloOis=query.value(query.record().indexOf("z.ois")).toUInt();
             aktZast.prestupMetroA =query.value(query.record().indexOf("x.xA")).toBool();
@@ -121,11 +123,13 @@ dbManager->query.exec();
         return 0;
     }
     qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(counter);
-    QString cil=docasnySeznamZastavek.at(docasnySeznamZastavek.length()-1).StopName;
+    cilovaZastavka=docasnySeznamZastavek.at(docasnySeznamZastavek.length()-1);
+
     qInfo()<<"DebugPointD5";
     for (int i=0; i<counter;i++)
     {
-        docasnySeznamZastavek[i].DestinationName=cil;
+        docasnySeznamZastavek[i].DestinationName=cilovaZastavka.StopName ;
+        docasnySeznamZastavek[i].DestinationCis=cilovaZastavka.cisloCis;
     }
     qInfo()<<"DebugPointF";
     VypisPole(docasnySeznamZastavek,counter);

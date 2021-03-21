@@ -554,7 +554,8 @@ void MainWindow::on_tlacitkoOdesliXml_clicked()
 
     //vysledek2.append(ui->plainTextEditCustomXml->toPlainText());
     vysledek2=vysledek2+ui->plainTextEditCustomXml->toPlainText().toUtf8();
-    CustomerInformationService.ObnoveniServeru(vysledek2);
+    //CustomerInformationService.ObnoveniServeru(vysledek2);
+    CustomerInformationService.nastavObsahTela("AllData",vysledek2);
     for(int i=0;i<CustomerInformationService.seznamSubscriberu.count();i++ )
     {
         CustomerInformationService.PostDoDispleje(CustomerInformationService.seznamSubscriberu[i].adresa,vysledek2);

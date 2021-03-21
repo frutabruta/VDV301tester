@@ -60,6 +60,7 @@ SOURCES += \
     prestupmpv.cpp \
     spoj.cpp \
     VDV301_Display/seznamzastavek.cpp\
+    subscriber.cpp \
     xmlgenerator.cpp \
     cestaudaje.cpp \
     xmlmpvparser.cpp \
@@ -77,6 +78,7 @@ HEADERS += \
     prestupmpv.h \
     spoj.h \
     VDV301_Display/seznamzastavek.h\
+    subscriber.h \
     xmlgenerator.h \
     cestaudaje.h \
     xmlmpvparser.h \

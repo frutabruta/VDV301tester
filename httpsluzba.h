@@ -25,12 +25,13 @@ public:
     QVector<Subscriber> seznamSubscriberu;
 
     void PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu);
-    void ObnoveniServeru(QString dataDoServeru);
+   // void ObnoveniServeru(QString dataDoServeru);
     //void novySubscriber(QUrl adresaSubscribera, QString struktura);
     void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stavSystemu, QVector<SeznamZastavek> interniSeznamZastavek);
     void novySubscriber(Subscriber subscriber);
     int jeSubscriberNaSeznamu(QVector<Subscriber> seznam, Subscriber prvek);
     int odstranitSubscribera(int index);
+    int nastavObsahTela(QString klic, QString obsah);
 private:
     QZeroConf zeroConf;
 
@@ -42,17 +43,19 @@ private:
     int delkaObsahu=0;
     void bonjourStartPublish(QString nazevSluzby, QString typSluzby, int port, QZeroConf &instanceZeroConf);
     QString typSluzbyInterni="_ibisip_http._tcp";
-    int nastavHttpObsah(QString argumentXMLserveru);
+    //int nastavHttpObsah(QString argumentXMLserveru);
     QByteArray vyrobHlavickuGet();
     /*
     int zkombinujHlavickaTeloGet(QString hlavicka, QString telo);
 
     int zkombinujHlavickaTeloSubscribe(QString hlavicka, QString telo);
     */
-    QString vyrobGetResponseBody();
+    //QString vyrobGetResponseBody();
     QString vyrobHlavickuSubscribe();
     xmlGenerator TestXmlGenerator;
+    QMap<QString,QString> obsahTelaPole;
 
+    int asocPoleDoServeru(QMap<QString, QString> pole);
 public slots:
     //void vypisObsahRequestu();
     void vypisObsahRequestu(QByteArray vysledek, QString struktura);

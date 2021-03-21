@@ -18,13 +18,16 @@ public:
     void zapisDoSubscribe(QString vstup);
     QString obsahGet="obsahGet";
     QString obsahSubscribe="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Active><Value>true</Value></Active></SubscribeResponse>";
-    int route(QString &intObsahGet, QString &intObsahSubscribe, QString &intObsahRoot);
+    int route(QString &intObsahGet, QString &intObsahSubscribe, QString &intObsahRoot, QMap<QString, QString> &obsahyBody);
     int listen();
     QByteArray bodyPozadavku="xx";
     QString obsahRoot="";
 
+
+    int nastavObsahTela(QMap<QString, QString> vstup);
 private:
     QString vyrobHlavickuOk();
+    QMap<QString,QString> obsahTelaPole;
 signals:
     void zmenaObsahu(QByteArray vysledek,QString struktura) ;
     void prijemDat(QString vysledek) ;
