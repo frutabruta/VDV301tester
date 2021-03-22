@@ -16,8 +16,6 @@ class HttpSluzba: public QObject
     Q_OBJECT
 public:
     HttpSluzba(QString nazevSluzby, QString typSluzby, int cisloPortu);
-    int nastavObsah(QString vstup);
-    int nastavHlavicku(QByteArray vstup);
     void bonjourStartKomplet();
     int aktualizuj();
     QByteArray vyrobSubscribeResponseBody(int vysledek);
@@ -38,7 +36,7 @@ private:
     NewHttpServer InstanceNovehoServeru;
     int cisloPortuInterni=0;
     QString nazevSluzbyInterni="";
-    QString obsahInterni="";
+   //QString obsahInterni="";
     QString hlavickaInterni="";
     int delkaObsahu=0;
     void bonjourStartPublish(QString nazevSluzby, QString typSluzby, int port, QZeroConf &instanceZeroConf);

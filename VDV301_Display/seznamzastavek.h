@@ -14,6 +14,7 @@ public:
     QString StopName="";
     QString LineName="";
     QString DestinationName="";
+    int DestinationCis=0;
     QString DepartureTime="";
     QString NameFront="";
     QString NameSide="";

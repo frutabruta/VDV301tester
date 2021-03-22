@@ -18,7 +18,7 @@ public:
     void zapisDoSubscribe(QString vstup);
     QString obsahGet="obsahGet";
     QString obsahSubscribe="<SubscribeResponse xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"><Active><Value>true</Value></Active></SubscribeResponse>";
-    int route(QString &intObsahGet, QString &intObsahSubscribe, QString &intObsahRoot, QMap<QString, QString> &obsahyBody);
+    int route(QString &intObsahGet, QMap<QString, QString> &obsahyBody);
     int listen();
     QByteArray bodyPozadavku="xx";
     QString obsahRoot="";

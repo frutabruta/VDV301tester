@@ -20,7 +20,7 @@ int NewHttpServer::proved()
     /*QHostAddress test;
 test.setAddress("127.0.0.1:47474");*/
 
-    this->route(obsahGet,obsahSubscribe,obsahRoot,obsahTelaPole);
+    this->route(obsahGet,obsahTelaPole);
     this->listen();
 
     return 1;
@@ -29,7 +29,7 @@ test.setAddress("127.0.0.1:47474");*/
 
 
 
-int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe, QString &intObsahRoot, QMap<QString,QString> &obsahyBody)
+int NewHttpServer::route(QString &intObsahGet,  QMap<QString,QString> &obsahyBody)
 {
 
     qDebug() <<"NewHttpServer::route";
@@ -91,7 +91,7 @@ int NewHttpServer::route(QString &intObsahGet, QString &intObsahSubscribe, QStri
         QString struktura= QStringLiteral("%1").arg(url.path());
         qDebug()<<"argument "<<struktura;
 
-        qDebug()<<"request "<<"/CustomerInformationService/GetAllData";
+        qDebug()<<"request "<<"/CustomerInformationService/Get<arg>";
         //qDebug()<<request.body();
         //return obsahyBody.value("AllData");
         return obsahyBody.value(struktura);

@@ -12,52 +12,30 @@ HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu):In
     nazevSluzbyInterni=nazevSluzby;
     typSluzbyInterni=typSluzby;
     bonjourStartKomplet();
-    hlavickaInterni=vyrobHlavickuGet();
+    //hlavickaInterni=vyrobHlavickuGet();
 
     //connect(&InstanceNovehoServeru,SIGNAL(zmenaObsahu()),this,SLOT(vypisObsahRequestu()));
     connect(&InstanceNovehoServeru,&NewHttpServer::zmenaObsahu,this,&HttpSluzba::vypisObsahRequestu);
 }
 
-/*
-int HttpSluzba::nastavObsah(QString vstup)
-{
-    qDebug()<<"HttpSluzba::nastavObsah";
-    obsahInterni=vstup;
-    this->nastavHttpObsah(vstup);
-    return 1;
-}
-*/
 
 
-int HttpSluzba::nastavHlavicku(QByteArray vstup)
-{
-    qDebug()<<"HttpSluzba::nastavHlavicku";
-    hlavickaInterni=vstup;
-    return 1;
-}
+
 
 /*
-int HttpSluzba::nastavHttpObsah(QString argumentXMLserveru)
-{
-    qDebug()<<"HttpSluzba::nastavHttpObsah";
-    InstanceNovehoServeru.zapisDoPromenneGet(argumentXMLserveru);
-    this->asocPoleDoServeru(this->obsahTelaPole);
-    return 1;
-}
-*/
 int HttpSluzba::aktualizuj()
 {
     qDebug()<<"HttpSluzba::aktualizuj()";
     //InstanceNovehoServeru.zapisDoPromenneGet(vyrobGetResponseBody());
     InstanceNovehoServeru.zapisDoSubscribe(vyrobSubscribeResponseBody(1));
     return 1;
-}
+} */
 
 QByteArray HttpSluzba::vyrobHlavickuGet()
 {
     qDebug()<<"HttpSluzba::vyrobHlavicku()";
     QByteArray hlavicka;
-    this->hlavickaInterni="";
+    //this->hlavickaInterni="";
     QByteArray argumentXMLserveru = "";
     hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
     hlavicka+=("Content-Type: application/xml\r\n");
@@ -71,7 +49,7 @@ QString HttpSluzba::vyrobHlavickuSubscribe()
 {
     qDebug()<<"HttpSluzba::vyrobHlavicku()";
     QByteArray hlavicka;
-    this->hlavickaInterni="";
+    //this->hlavickaInterni="";
     QByteArray argumentXMLserveru = "";
     hlavicka+=("HTTP/1.1 200 OK\r\n");       // \r needs to be before \n
     hlavicka+=("Content-Type: text/xml\r\n");
@@ -118,14 +96,6 @@ QByteArray HttpSluzba::vyrobSubscribeResponseBody(int vysledek)
     return odpoved;
 }
 
-/*
-QString HttpSluzba::vyrobGetResponseBody()
-{
-    qDebug()<<"HttpSluzba::vyrobGetResponseBody()";
-    return obsahInterni;
-
-}
-*/
 
 void HttpSluzba::vypisObsahRequestu(QByteArray vysledek,QString struktura)
 {
@@ -158,7 +128,7 @@ void HttpSluzba::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
     if (verzeVDV301==0)
     {
         bodyAllData=TestXmlGenerator.AllData2( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
-        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
+        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka);
 
     }
     else
@@ -168,25 +138,19 @@ void HttpSluzba::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
 
     }
 
-    //ObnoveniServeru(bodyAllData);
+
+
     this->nastavObsahTela("AllData",bodyAllData);
     this->nastavObsahTela("CurrentDisplayContent",bodyCurrentDisplayContent);
     this->asocPoleDoServeru(obsahTelaPole);
 
+
+
+
+
     for(int i=0;i<seznamSubscriberu.count();i++ )
     {
         PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
-        /*if (seznamSubscriberu[i].struktura=="AllData")
-        {
-            PostDoDispleje(seznamSubscriberu[i].adresa,bodyAllData);
-        }
-        if (seznamSubscriberu[i].struktura=="CurrentDisplayContent")
-        {
-            PostDoDispleje(seznamSubscriberu[i].adresa,bodyCurrentDisplayContent);
-        }
-        */
-
-
     }
     qDebug()<<"do displeje odeslano: "<<obsahTelaPole.value("CurrentDisplayContent");
     // Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -214,17 +178,8 @@ void HttpSluzba::PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu)
 
 }
 
-/*
-void HttpSluzba::ObnoveniServeru(QString dataDoServeru)
-{
-    qDebug()<<"HttpSluzba::ObnoveniServeru";
-    this->asocPoleDoServeru()
-    this->nastavObsah(dataDoServeru);
-    this->aktualizuj();
-}
-*/
 
-//void HttpSluzba::novySubscriber(QUrl adresaSubscribera,QString struktura)
+
 void HttpSluzba::novySubscriber(Subscriber subscriber)
 {
     qDebug()<<"MainWindow::novySubsriber "<<subscriber.adresa;
