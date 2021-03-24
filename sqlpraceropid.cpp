@@ -166,8 +166,6 @@ void SqlPraceRopid::vytvorHlavniText (QString &textPoleObsah,QString &textPoleCa
     }
     qDebug()<< "SQLpraceRopid::TestDotaz konec";
 
-
-
 }
 
 
