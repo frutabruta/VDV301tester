@@ -23,7 +23,7 @@ QString xmlGenerator::AllData2(int poradi,  QVector <SeznamZastavek> docasnySezn
     SeznamZastavek cilovaZastavka=docasnySeznamZastavek.last();
     qDebug()<<" xmlGenerator::AllData2 ";
 
-   // QString testVysledek="<TBL cas=\"2019-08-10T23:12:41\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"77\" smer=\"Praha,Spojovací\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"15\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"273\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"32\" smer=\"Praha,Zličín\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"161\" smer=\"Praha,Bílá Hora\" odj=\"2019-08-10T23:17:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27908\"/></t></TBL>";
+    // QString testVysledek="<TBL cas=\"2019-08-10T23:12:41\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"77\" smer=\"Praha,Spojovací\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"15\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"273\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"32\" smer=\"Praha,Zličín\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"161\" smer=\"Praha,Bílá Hora\" odj=\"2019-08-10T23:17:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27908\"/></t></TBL>";
     qDebug()<<"  ";
     QString language="cz";
     QString deflanguage="cz";
@@ -391,6 +391,7 @@ QDomElement xmlGenerator::StopSequence1_0(QDomDocument xmlko,QVector<SeznamZasta
 
 QDomElement xmlGenerator::DisplayContent1_0(QString tagName,QDomDocument xmlko,QVector<SeznamZastavek> docasnySeznamZastavek, QString lineNumber, QString lineName, QString language, QString destinationRef, QString destinationName,int currentStopIndex)
 {
+    bool pridatPristi=true;
     QDomElement dDisplayContent=xmlko.createElement(tagName);
 
 
@@ -431,15 +432,28 @@ QDomElement xmlGenerator::DisplayContent1_0(QString tagName,QDomDocument xmlko,Q
     dDestination.appendChild(dDestinationName);
     dDisplayContent.appendChild(dDestination);
 
-    for (int j=currentStopIndex+1;j<docasnySeznamZastavek.count() ;j++)
+    //badabum
+    if ((pridatPristi==true)&&((currentStopIndex+1)<docasnySeznamZastavek.count()))
     {
-        //qDebug()<<"Projizdim nacesty "<<docasnySeznamZastavek.at(j).nacestna<<" "<<docasnySeznamZastavek.at(j).StopName ;
-        if(docasnySeznamZastavek.at(j).nacestna == 1)
+        SeznamZastavek pristi=docasnySeznamZastavek.at(currentStopIndex+1);
+        if (pristi.nacestna==0)
         {
-            SeznamZastavek nacestnaZastavka=docasnySeznamZastavek.at(j);
-            dDisplayContent.appendChild(ViaPoint1_0(xmlko,nacestnaZastavka,language));
+            dDisplayContent.appendChild(ViaPoint1_0(xmlko,pristi,language));
         }
+
     }
+
+        for (int j=currentStopIndex+1;j<docasnySeznamZastavek.count() ;j++)
+        {
+            //qDebug()<<"Projizdim nacesty "<<docasnySeznamZastavek.at(j).nacestna<<" "<<docasnySeznamZastavek.at(j).StopName ;
+            if(docasnySeznamZastavek.at(j).nacestna == 1)
+            {
+                SeznamZastavek nacestnaZastavka=docasnySeznamZastavek.at(j);
+                dDisplayContent.appendChild(ViaPoint1_0(xmlko,nacestnaZastavka,language));
+            }
+        }
+
+
     return dDisplayContent;
 }
 

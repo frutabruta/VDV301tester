@@ -12,6 +12,7 @@ release/newhttpserver.o
 release/prestupmpv.o
 release/spoj.o
 release/seznamzastavek.o
+release/subscriber.o
 release/xmlgenerator.o
 release/cestaudaje.o
 release/xmlmpvparser.o
@@ -24,6 +25,7 @@ release/moc_qzeroconfservice.o
 release/moc_httpsluzba.o
 release/moc_mainwindow.o
 release/moc_newhttpserver.o
+release/moc_subscriber.o
 release/moc_xmlgenerator.o
 release/moc_cestaudaje.o
 release/moc_xmlmpvparser.o
