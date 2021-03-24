@@ -26,6 +26,10 @@ void XmlRopidParser::otevriSoubor()
     qDebug()<<"predOtevrenimSouboru";
     QDomDocument doc("mydocument");
     QFile file("xml_zdroje/XML_Zlicin_20200702_20200705.xml");
+
+
+
+
     if (!file.open(QIODevice::ReadOnly))
     {
         qDebug()<<"fail1";
@@ -187,7 +191,8 @@ int XmlRopidParser::vlozL(QDomElement koren)
     for (int i=0;i<m.count();i++)
     {
         QDomElement element = m.at(i).toElement();
-        QVector<navrat> polozky;    polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
+        QVector<navrat> polozky;
+        polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
         polozky.push_back(inicializujPolozku("d",element.attribute("d"),"Integer"));
         polozky.push_back(inicializujPolozku("lc",element.attribute("lc"),"Integer"));
         polozky.push_back(inicializujPolozku("tl",element.attribute("tl"),"String"));
@@ -423,6 +428,8 @@ int XmlRopidParser::vlozX(QDomElement koren)
         polozky.push_back(inicializujPolozku("xVla",element.attribute("xVla"),"Boolean"));
         polozky.push_back(inicializujPolozku("xLod",element.attribute("xLod"),"Boolean"));
         polozky.push_back(inicializujPolozku("xLet",element.attribute("xLed"),"Boolean"));
+        polozky.push_back(inicializujPolozku("xorder",QString::number(i),"Integer"));
+        //polozky.push_back(inicializujPolozku("AA","BB","String"));
 
 
 

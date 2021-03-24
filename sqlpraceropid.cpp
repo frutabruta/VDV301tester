@@ -43,7 +43,7 @@ int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<SeznamZa
     docasnySeznamZastavek.clear();
     qDebug()<< "SQLprace::StahniSeznam";
     qInfo()<<"DebugPointA";
-    QString queryString2("SELECT DISTINCT z.n, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c,x.na,t.vtn,z.ois,x.xA,x.xB,x.xC,x.xVla FROM x ");
+    QString queryString2("SELECT DISTINCT z.n, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c,x.na,t.vtn,z.ois,x.xA,x.xB,x.xC,x.xVla, x.xorder FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
@@ -56,6 +56,8 @@ int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<SeznamZa
     queryString2+=(" AND  s.kj LIKE '");
     queryString2+=QString::number(platnost);
     queryString2+=("%' ");
+    queryString2+=("ORDER BY x.xorder");
+
 
 
     /*

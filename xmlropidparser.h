@@ -34,6 +34,9 @@ public:
 
 
     navrat inicializujPolozku(QString nazevSloupce, QString obsah, QString typ);
+
+
+
 private:
     int vlozM(QDomElement koren);
     int vlozD(QDomElement koren);

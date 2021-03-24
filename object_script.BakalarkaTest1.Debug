@@ -12,6 +12,7 @@ debug/newhttpserver.o
 debug/prestupmpv.o
 debug/spoj.o
 debug/seznamzastavek.o
+debug/subscriber.o
 debug/xmlgenerator.o
 debug/cestaudaje.o
 debug/xmlmpvparser.o
@@ -24,6 +25,7 @@ debug/moc_qzeroconfservice.o
 debug/moc_httpsluzba.o
 debug/moc_mainwindow.o
 debug/moc_newhttpserver.o
+debug/moc_subscriber.o
 debug/moc_xmlgenerator.o
 debug/moc_cestaudaje.o
 debug/moc_xmlmpvparser.o

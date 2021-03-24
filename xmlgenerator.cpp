@@ -22,8 +22,8 @@ QString xmlGenerator::AllData2(int poradi,  QVector <SeznamZastavek> docasnySezn
 {
     SeznamZastavek cilovaZastavka=docasnySeznamZastavek.last();
     qDebug()<<" xmlGenerator::AllData2 ";
-    QString vysledekMpvnetu ="";
-    QString testVysledek="<TBL cas=\"2019-08-10T23:12:41\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"77\" smer=\"Praha,Spojovací\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"15\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"273\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"32\" smer=\"Praha,Zličín\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"161\" smer=\"Praha,Bílá Hora\" odj=\"2019-08-10T23:17:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27908\"/></t></TBL>";
+
+   // QString testVysledek="<TBL cas=\"2019-08-10T23:12:41\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"77\" smer=\"Praha,Spojovací\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"15\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"273\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"32\" smer=\"Praha,Zličín\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"161\" smer=\"Praha,Bílá Hora\" odj=\"2019-08-10T23:17:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27908\"/></t></TBL>";
     qDebug()<<"  ";
     QString language="cz";
     QString deflanguage="cz";
@@ -36,13 +36,9 @@ QString xmlGenerator::AllData2(int poradi,  QVector <SeznamZastavek> docasnySezn
     QString exitSide="right";
     QString tripRef="3";
     QString displayContentRef="1234";
-    //QString destinationRef="22";
-    QString destinationName="";
-    destinationName+=docasnySeznamZastavek[poradi].DestinationName;
+    QString destinationName=docasnySeznamZastavek[poradi].DestinationName;
     qDebug()<<"nazev cile2"<<destinationName;
-    QString dotaz="";
-    QString hlavicka="";
-    /*QString telo="";*/
+
     QDomDocument xmlko;
     QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
     xmlko.appendChild(dHlavicka);
@@ -51,11 +47,8 @@ QString xmlGenerator::AllData2(int poradi,  QVector <SeznamZastavek> docasnySezn
     xmlko.appendChild(dCustomerInformationService);
     dCustomerInformationService.appendChild(dAllData);
 
-    QDomElement dTimeStamp=xmlko.createElement("TimeStamp");
-    QDomElement dTimeStampValue =xmlko.createElement("Value");
-    dTimeStampValue.appendChild(xmlko.createTextNode(this->createTimestamp()));
-    dTimeStamp.appendChild(dTimeStampValue);
-    dAllData.appendChild(dTimeStamp);
+
+    dAllData.appendChild(TimeStampTag1_0(xmlko));
 
     QDomElement dVehicleRef=xmlko.createElement("VehicleRef");
     dVehicleRef.appendChild(xmlko.createElement("Value"));
