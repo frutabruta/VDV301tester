@@ -15,7 +15,7 @@ class HttpSluzba: public QObject
 {
     Q_OBJECT
 public:
-    HttpSluzba(QString nazevSluzby, QString typSluzby, int cisloPortu);
+    HttpSluzba(QString nazevSluzby, QString typSluzby, int cisloPortu, QString verze);
     void bonjourStartKomplet();
     int aktualizuj();
     QByteArray vyrobSubscribeResponseBody(int vysledek);
@@ -30,6 +30,7 @@ public:
     int jeSubscriberNaSeznamu(QVector<Subscriber> seznam, Subscriber prvek);
     int odstranitSubscribera(int index);
     int nastavObsahTela(QString klic, QString obsah);
+    QString globVerze="1.0";
 private:
     QZeroConf zeroConf;
 
@@ -39,7 +40,7 @@ private:
    //QString obsahInterni="";
     QString hlavickaInterni="";
     int delkaObsahu=0;
-    void bonjourStartPublish(QString nazevSluzby, QString typSluzby, int port, QZeroConf &instanceZeroConf);
+    void bonjourStartPublish(QString nazevSluzby, QString typSluzby, int port, QString verze, QZeroConf &instanceZeroConf);
     QString typSluzbyInterni="_ibisip_http._tcp";
     //int nastavHttpObsah(QString argumentXMLserveru);
     QByteArray vyrobHlavickuGet();

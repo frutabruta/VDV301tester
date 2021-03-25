@@ -52,8 +52,9 @@ QT += network
 
 SOURCES += \
     VDV301_Display/linka.cpp \
+    VDV301publisher/customerinformationservice.cpp \
     hlasic.cpp \
-    httpsluzba.cpp \
+    VDV301publisher/httpsluzba.cpp \
         main.cpp \
         mainwindow.cpp \
     newhttpserver.cpp \
@@ -71,8 +72,9 @@ SOURCES += \
 
 HEADERS += \
     VDV301_Display/linka.h \
+    VDV301publisher/customerinformationservice.h \
     hlasic.h \
-    httpsluzba.h \
+    VDV301publisher/httpsluzba.h \
         mainwindow.h \
     newhttpserver.h \
     prestupmpv.h \

@@ -4,6 +4,7 @@ debug/dnssd_clientstub.o
 debug/dnssd_ipc.o
 debug/qzeroconfservice.o
 debug/linka.o
+debug/customerinformationservice.o
 debug/hlasic.o
 debug/httpsluzba.o
 debug/main.o
@@ -25,7 +26,6 @@ debug/moc_qzeroconfservice.o
 debug/moc_httpsluzba.o
 debug/moc_mainwindow.o
 debug/moc_newhttpserver.o
-debug/moc_subscriber.o
 debug/moc_xmlgenerator.o
 debug/moc_cestaudaje.o
 debug/moc_xmlmpvparser.o

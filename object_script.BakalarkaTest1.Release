@@ -4,6 +4,7 @@ release/dnssd_clientstub.o
 release/dnssd_ipc.o
 release/qzeroconfservice.o
 release/linka.o
+release/customerinformationservice.o
 release/hlasic.o
 release/httpsluzba.o
 release/main.o
@@ -25,7 +26,6 @@ release/moc_qzeroconfservice.o
 release/moc_httpsluzba.o
 release/moc_mainwindow.o
 release/moc_newhttpserver.o
-release/moc_subscriber.o
 release/moc_xmlgenerator.o
 release/moc_cestaudaje.o
 release/moc_xmlmpvparser.o

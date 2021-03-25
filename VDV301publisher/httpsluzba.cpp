@@ -5,12 +5,13 @@
 
 
 
-HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu):InstanceNovehoServeru(cisloPortu)
+HttpSluzba::HttpSluzba(QString nazevSluzby,QString typSluzby, int cisloPortu,QString verze):InstanceNovehoServeru(cisloPortu)
 {
     qDebug()<<"HttpSluzba::HttpSluzba";
     cisloPortuInterni=cisloPortu;
     nazevSluzbyInterni=nazevSluzby;
     typSluzbyInterni=typSluzby;
+    globVerze=verze;
     bonjourStartKomplet();
     //hlavickaInterni=vyrobHlavickuGet();
 
@@ -66,15 +67,15 @@ void HttpSluzba::bonjourStartKomplet()
 {
     qDebug()<<"HttpSluzba::bonjourStartKomplet";
     //zeroConf.clearServiceTxtRecords();
-    this->bonjourStartPublish(this->nazevSluzbyInterni,this->typSluzbyInterni,this->cisloPortuInterni,zeroConf);
+    this->bonjourStartPublish(this->nazevSluzbyInterni,this->typSluzbyInterni,this->cisloPortuInterni,this->globVerze ,zeroConf);
 }
 
 
 
-void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int port, QZeroConf &instanceZeroConf)
+void HttpSluzba::bonjourStartPublish(QString nazevSluzby, QString typSluzby,int port,QString verze, QZeroConf &instanceZeroConf)
 {
     qDebug()<<"HttpSluzba::bonjourStartPublish"<<nazevSluzby;
-    instanceZeroConf.addServiceTxtRecord("ver", "1.0");
+    instanceZeroConf.addServiceTxtRecord("ver", verze);
     instanceZeroConf.startServicePublish(nazevSluzby.toUtf8(), typSluzby.toUtf8(), "local", port);
 }
 
@@ -125,19 +126,19 @@ void HttpSluzba::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
     QByteArray zpracovanoMPV="";
     QString bodyAllData="";
     QString bodyCurrentDisplayContent="";
-    if (verzeVDV301==0)
+    if (globVerze=="2.2CZ1.0")
     {
-        bodyAllData=TestXmlGenerator.AllData2( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
+        bodyAllData=TestXmlGenerator.AllData1_0( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
         bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka);
 
     }
     else
     {
-        bodyAllData=TestXmlGenerator.AllDataRopid( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
+        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
+        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka);
         //QString vysledekCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stavSystemu.cislo,globalniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
 
     }
-
 
 
     this->nastavObsahTela("AllData",bodyAllData);

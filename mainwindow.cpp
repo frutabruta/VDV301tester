@@ -12,8 +12,9 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    DeviceManagementService("DeviceManagementService","_ibisip_http._tcp",47477),
-    CustomerInformationService("CustomerInformationService","_ibisip_http._tcp",47479)
+    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"),
+    customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
+    customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0")
 {
     qDebug()<<"MainWindow::MainWindow";
     ui->setupUi(this);
@@ -27,10 +28,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&DeviceManagementService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
     connect(&CustomerInformationService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
     */
-    connect(&CustomerInformationService,&HttpSluzba::vypisSubscriberu,this,&MainWindow::vypisSubscribery);
+    connect(&customerInformationService1_0,&HttpSluzba::vypisSubscriberu,this,&MainWindow::vypisSubscribery);
     //this->bonjourStartPublish2("CustomerInformationService","_ibisip_http._tcp",47450,zeroConf);
-    this->vypisSubscribery(CustomerInformationService.seznamSubscriberu);
-
+    this->vypisSubscribery(customerInformationService1_0.seznamSubscriberu);
+     connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     //MainWindow::setWindowState(Qt::WindowFullScreen);
 
 }
@@ -46,10 +47,11 @@ void MainWindow::xmlHromadnyUpdate()
     {
 
         mpvParser.StahniMpvXml(globalniSeznamZastavek[novatrida.cislo].cisloCis,globalniSeznamZastavek[novatrida.cislo].ids);
-        connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
+       // connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     }
     qDebug()<<QString::number(novatrida.cislo);
-    CustomerInformationService.OdeslatDataDoDispleju(vstupniDomXmlPrestupy,VDV301verze,novatrida,globalniSeznamZastavek);
+    customerInformationService1_0.OdeslatDataDoDispleju(vstupniDomXmlPrestupy,VDV301verze,novatrida,globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.OdeslatDataDoDispleju(vstupniDomXmlPrestupy,VDV301verze,novatrida,globalniSeznamZastavek);
 
 }
 
@@ -66,7 +68,8 @@ void MainWindow::MpvNetReady()
     qDebug()<<"MainWindow::MpvNetReady";
     mpvParser.naplnVstupDokument(mpvParser.stazenaData);
     mpvParser.prestupyXmlDokumentVystup=mpvParser.VytvorVystupniDokument(mpvParser.parsujDomDokument(),mpvParser.prestupyXmlDokumentVystup);
-    CustomerInformationService.OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup,VDV301verze,novatrida,globalniSeznamZastavek);
+    customerInformationService1_0.OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup,VDV301verze,novatrida,globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup,VDV301verze,novatrida,globalniSeznamZastavek);
 }
 
 
@@ -555,10 +558,11 @@ void MainWindow::on_tlacitkoOdesliXml_clicked()
     //vysledek2.append(ui->plainTextEditCustomXml->toPlainText());
     vysledek2=vysledek2+ui->plainTextEditCustomXml->toPlainText().toUtf8();
     //CustomerInformationService.ObnoveniServeru(vysledek2);
-    CustomerInformationService.nastavObsahTela("AllData",vysledek2);
-    for(int i=0;i<CustomerInformationService.seznamSubscriberu.count();i++ )
+    customerInformationService1_0.nastavObsahTela("AllData",vysledek2);
+    customerInformationService2_2CZ1_0.nastavObsahTela("AllData",vysledek2);
+    for(int i=0;i<customerInformationService1_0.seznamSubscriberu.count();i++ )
     {
-        CustomerInformationService.PostDoDispleje(CustomerInformationService.seznamSubscriberu[i].adresa,vysledek2);
+        customerInformationService1_0.PostDoDispleje(customerInformationService1_0.seznamSubscriberu[i].adresa,vysledek2);
     }
     qDebug()<<"\n MainWindow::xmlUpdate";
 }
@@ -591,7 +595,7 @@ void MainWindow::vypisSubscribery(QVector<Subscriber> adresy)
 
 void MainWindow::on_tlacitkoAddsubscriber_clicked()
 {
-    CustomerInformationService.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),"AllData"));
+    customerInformationService1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),"AllData"));
 }
 
 void MainWindow::on_tlacitkoRemoveSubscriber_clicked()
@@ -608,9 +612,9 @@ void MainWindow::on_tlacitkoRemoveSubscriber_clicked()
         return;
     }
     int indexPolozky = ui->seznamOdberatelu->selectionModel()->selectedIndexes().at(0).row() ;
-    if (CustomerInformationService.odstranitSubscribera(indexPolozky)==1)
+    if (customerInformationService1_0.odstranitSubscribera(indexPolozky)==1)
     {
-        vypisSubscribery(CustomerInformationService.seznamSubscriberu);
+        vypisSubscribery(customerInformationService1_0.seznamSubscriberu);
         qDebug()<<"odstraneno";
     }
     else

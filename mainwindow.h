@@ -21,7 +21,8 @@
 #include <QtSerialPort/QSerialPort>
 
 
-#include "httpsluzba.h"
+#include "VDV301publisher/httpsluzba.h"
+#include "VDV301publisher/customerinformationservice.h"
 
 
 
@@ -61,8 +62,9 @@ public:
     bool platnostSpoje=1;
     int VDV301verze=0;
 
-    HttpSluzba DeviceManagementService;
-    HttpSluzba CustomerInformationService;
+    HttpSluzba deviceManagementService1_0;
+    CustomerInformationService customerInformationService1_0;
+    CustomerInformationService customerInformationService2_2CZ1_0;
 
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);
