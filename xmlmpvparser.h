@@ -16,13 +16,16 @@ public:
     QByteArray stazenaData="";
     QByteArray vystupData="";
     void naplnVstupDokument(QByteArray vstup);
-    QDomDocument VytvorVystupniDokument(int max, QDomDocument xmlko);
-    QDomDocument prestupyXmlDokumentVystup;
-    int parsujDomDokument();
+    QDomDocument connections1_0( QVector<prestupMPV> lokPrestupy);
+    QDomDocument prestupyXmlDokumentVystup1_0;
+    QDomDocument prestupyXmlDokumentVystup2_2CZ1_0;
+    QVector<prestupMPV> parsujDomDokument();
     //QByteArray vlozitDoXml="";
-    prestupMPV mujPrestup[40];
+    QVector<prestupMPV> seznamPrestupu;
     void StahniMpvXml(int cisloCis, QString Ids);
     ~XmlMpvParser();
+
+    QDomDocument connections2_2CZ1_0(QVector<prestupMPV> lokPrestupy);
 private slots:
     QByteArray requestReceived(QNetworkReply *replyoo);
 signals:

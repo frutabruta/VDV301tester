@@ -67,9 +67,10 @@ void MainWindow::MpvNetReady()
 {
     qDebug()<<"MainWindow::MpvNetReady";
     mpvParser.naplnVstupDokument(mpvParser.stazenaData);
-    mpvParser.prestupyXmlDokumentVystup=mpvParser.VytvorVystupniDokument(mpvParser.parsujDomDokument(),mpvParser.prestupyXmlDokumentVystup);
-    customerInformationService1_0.OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup,VDV301verze,novatrida,globalniSeznamZastavek);
-    customerInformationService2_2CZ1_0.OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup,VDV301verze,novatrida,globalniSeznamZastavek);
+    mpvParser.prestupyXmlDokumentVystup1_0=mpvParser.connections1_0( mpvParser.parsujDomDokument());
+    mpvParser.prestupyXmlDokumentVystup2_2CZ1_0 =mpvParser.connections2_2CZ1_0(mpvParser.parsujDomDokument());
+    customerInformationService1_0.OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup1_0,VDV301verze,novatrida,globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup2_2CZ1_0, VDV301verze,novatrida,globalniSeznamZastavek);
 }
 
 
