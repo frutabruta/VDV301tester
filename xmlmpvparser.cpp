@@ -189,6 +189,12 @@ QDomDocument XmlMpvParser::connections2_2CZ1_0( QVector<prestupMPV> lokPrestupy)
             mainMode="TramSubmode";
 
         }
+        if (aktualniPrestup.t=="Metro")
+        {
+            subMode="metro";
+            mainMode="MetroSubmode";
+
+        }
 
 
 
