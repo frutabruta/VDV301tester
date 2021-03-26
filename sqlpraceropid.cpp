@@ -1,5 +1,6 @@
 #include "sqlpraceropid.h"
 #include "VDV301_Display/seznamzastavek.h"
+#include "xmlgenerator.h"
 
 SqlPraceRopid::SqlPraceRopid()
 {
@@ -43,7 +44,7 @@ int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<SeznamZa
     docasnySeznamZastavek.clear();
     qDebug()<< "SQLprace::StahniSeznam";
     qInfo()<<"DebugPointA";
-    QString queryString2("SELECT DISTINCT z.n, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c,x.na,t.vtn,z.ois,x.xA,x.xB,x.xC,x.xVla, x.xorder FROM x ");
+    QString queryString2("SELECT DISTINCT z.n, z.tp, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c,l.lc,t.vtn,z.ois,x.na,x.zn,x.xA,x.xB,x.xC,x.xD,x.xVla,x.xLet,x.xLod, x.xorder FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
@@ -90,11 +91,15 @@ dbManager->query.exec();
             aktZast.StopIndex=cisloZast;
             QString cisloZastString = QString::number(cisloZast);
             qDebug()<<QString::number(counter);
-            QString jmenoZastavky = query.value(0).toString();
+            //QString jmenoZastavky = query.value(0).toString();
+            QString jmenoZastavky =query.value( query.record().indexOf("z.n")).toString();
+
             aktZast.StopName= jmenoZastavky;
-            QString casPrijezdu =  query.value(1).toString();
+            //QString casPrijezdu =  query.value(1).toString();
+            QString casPrijezdu =query.value( query.record().indexOf("x.o")).toString();
             aktZast.DepartureTime=casPrijezdu;
-            aktZast.cisloCis=query.value(2).toInt();
+            //aktZast.cisloCis=query.value(2).toInt();
+            aktZast.cisloCis=query.value( query.record().indexOf("z.cis")).toInt() ;
             aktZast.ids ="PID";//query.value(4).toString();
             //aktZast.StopName=query.value(3).toString();
             aktZast.StopName=query.value(query.record().indexOf("t.ri")).toString();
@@ -103,14 +108,21 @@ dbManager->query.exec();
             aktZast.NameSide=query.value(query.record().indexOf("t.btn")).toString();
             aktZast.NameLcd=query.value(query.record().indexOf("t.lcdn")).toString();
             aktZast.LineName=query.value(query.record().indexOf("l.c")).toString();
+            aktZast.LineNumber=query.value(query.record().indexOf("l.lc")).toString();
             aktZast.nacestna=query.value(query.record().indexOf("x.na")).toInt();
-            aktZast.naZnameni =query.value(query.record().indexOf("x.zn")).toInt();
+            aktZast.naZnameni =query.value(query.record().indexOf("x.zn")).toBool();
             aktZast.NameInner=query.value(query.record().indexOf("t.vtn")).toString();
             aktZast.cisloOis=query.value(query.record().indexOf("z.ois")).toUInt();
             aktZast.prestupMetroA =query.value(query.record().indexOf("x.xA")).toBool();
             aktZast.prestupMetroB =query.value(query.record().indexOf("x.xB")).toBool();
             aktZast.prestupMetroC =query.value(query.record().indexOf("x.xC")).toBool();
+             aktZast.prestupMetroC =query.value(query.record().indexOf("x.xD")).toBool();
             aktZast.prestupVlak =query.value(query.record().indexOf("x.xVla")).toBool();
+            aktZast.prestupLetadlo =query.value(query.record().indexOf("x.xLet")).toBool();
+            aktZast.prestupPrivoz =query.value(query.record().indexOf("x.xLod")).toBool();
+            xmlGenerator xmlgen;
+            aktZast.seznamPasem=xmlgen.pasmoStringDoVectoru(query.value(query.record().indexOf("z.tp")).toString(),"PID");
+            qDebug()<<"pasmo"<<query.value(query.record().indexOf("z.tp")).toString();
 
             qInfo()<<"DebugPointC";
             counter++;
@@ -282,6 +294,7 @@ QString SqlPraceRopid::doplnNulu(int cislo,int pocetMist)
     }
     return konverze;
 }
+
 
 
 

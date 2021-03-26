@@ -1,6 +1,7 @@
 #ifndef SEZNAMZASTAVEK_H
 #define SEZNAMZASTAVEK_H
 
+#include "struktury/pasmo.h"
 #include <QMainWindow>
 #include <QObject>
 
@@ -13,6 +14,7 @@ public:
     QString ids="";
     QString StopName="";
     QString LineName="";
+    QString LineNumber="";
     QString DestinationName="";
     int DestinationCis=0;
     QString DepartureTime="";
@@ -26,12 +28,15 @@ public:
     bool prestupMetroB=0;
     bool prestupMetroC=0;
     bool prestupMetroD=0;
+    bool prestupLetadlo=0;
+    bool prestupPrivoz=0;
     bool naZnameni=0;
 
 
     int cisloOis=0;
     int nacestna=0;
     SeznamZastavek();
+    QVector<Pasmo> seznamPasem;
 
 };
 

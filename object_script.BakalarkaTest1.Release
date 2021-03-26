@@ -13,6 +13,7 @@ release/newhttpserver.o
 release/prestupmpv.o
 release/spoj.o
 release/seznamzastavek.o
+release/pasmo.o
 release/subscriber.o
 release/xmlgenerator.o
 release/cestaudaje.o

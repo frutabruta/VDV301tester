@@ -13,6 +13,7 @@ debug/newhttpserver.o
 debug/prestupmpv.o
 debug/spoj.o
 debug/seznamzastavek.o
+debug/pasmo.o
 debug/subscriber.o
 debug/xmlgenerator.o
 debug/cestaudaje.o

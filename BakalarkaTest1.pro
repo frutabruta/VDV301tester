@@ -61,6 +61,7 @@ SOURCES += \
     prestupmpv.cpp \
     spoj.cpp \
     VDV301_Display/seznamzastavek.cpp\
+    struktury/pasmo.cpp \
     subscriber.cpp \
     xmlgenerator.cpp \
     cestaudaje.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
     prestupmpv.h \
     spoj.h \
     VDV301_Display/seznamzastavek.h\
+    struktury/pasmo.h \
     subscriber.h \
     xmlgenerator.h \
     cestaudaje.h \

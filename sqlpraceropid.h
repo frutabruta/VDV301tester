@@ -10,6 +10,7 @@
 #include "VDV301_Display/seznamzastavek.h"
 #include "VDV301_Display/linka.h"
 #include "spoj.h"
+#include "struktury/pasmo.h"
 
 class SqlPraceRopid
 {
