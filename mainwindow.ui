@@ -714,7 +714,7 @@
          <string notr="true">/*background-color:rgb(52, 101, 164); */</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="page_vydej">
          <layout class="QGridLayout" name="gridLayout_3">
@@ -1997,7 +1997,7 @@ Stop</string>
             <x>90</x>
             <y>320</y>
             <width>160</width>
-            <height>51</height>
+            <height>70</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2009,7 +2009,18 @@ Stop</string>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEditHlaseniCesta"/>
+            <widget class="QPushButton" name="tlacitkoHlaseniSlozka">
+             <property name="text">
+              <string>nastav slozku</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEditHlaseniCesta">
+             <property name="text">
+              <string>/home/pi/hlaseni</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

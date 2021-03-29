@@ -645,3 +645,9 @@ void MainWindow::on_tlacitkoRemoveSubscriber_clicked()
 
 
 }
+
+void MainWindow::on_tlacitkoHlaseniSlozka_clicked()
+{
+    qDebug()<<"nastavena cesta k hlaseni na "<<ui->lineEditHlaseniCesta->text();
+    hlasic.cesta=ui->lineEditHlaseniCesta->text();
+}

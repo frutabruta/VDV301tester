@@ -123,6 +123,7 @@ public:
     QWidget *verticalLayoutWidget_2;
     QVBoxLayout *verticalLayout_14;
     QLabel *hlaseniLabel;
+    QPushButton *tlacitkoHlaseniSlozka;
     QLineEdit *lineEditHlaseniCesta;
     QWidget *page_customXML;
     QWidget *verticalLayoutWidget_9;
@@ -902,7 +903,7 @@ public:
 
         verticalLayoutWidget_2 = new QWidget(page_nastaveni);
         verticalLayoutWidget_2->setObjectName(QString::fromUtf8("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(90, 320, 160, 51));
+        verticalLayoutWidget_2->setGeometry(QRect(90, 320, 160, 70));
         verticalLayout_14 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_14->setSpacing(6);
         verticalLayout_14->setContentsMargins(11, 11, 11, 11);
@@ -912,6 +913,11 @@ public:
         hlaseniLabel->setObjectName(QString::fromUtf8("hlaseniLabel"));
 
         verticalLayout_14->addWidget(hlaseniLabel);
+
+        tlacitkoHlaseniSlozka = new QPushButton(verticalLayoutWidget_2);
+        tlacitkoHlaseniSlozka->setObjectName(QString::fromUtf8("tlacitkoHlaseniSlozka"));
+
+        verticalLayout_14->addWidget(tlacitkoHlaseniSlozka);
 
         lineEditHlaseniCesta = new QLineEdit(verticalLayoutWidget_2);
         lineEditHlaseniCesta->setObjectName(QString::fromUtf8("lineEditHlaseniCesta"));
@@ -1002,7 +1008,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(0);
+        prepinadloStran->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1066,6 +1072,8 @@ public:
         NazevVysledku->setText(QCoreApplication::translate("MainWindow", "stav pripojeni", nullptr));
         pripojeniTlacitko->setText(QCoreApplication::translate("MainWindow", "SQL Connect", nullptr));
         hlaseniLabel->setText(QCoreApplication::translate("MainWindow", "Slozka hlaseni", nullptr));
+        tlacitkoHlaseniSlozka->setText(QCoreApplication::translate("MainWindow", "nastav slozku", nullptr));
+        lineEditHlaseniCesta->setText(QCoreApplication::translate("MainWindow", "/home/pi/hlaseni", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "CustomXML", nullptr));
         plainTextEditCustomXml->setPlainText(QCoreApplication::translate("MainWindow", "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 "<CustomerInformationService.GetAllDataResponse>\n"

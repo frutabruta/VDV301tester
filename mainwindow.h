@@ -139,6 +139,7 @@ private slots:
 
     void on_tlacitkoAddsubscriber_clicked();
     void on_tlacitkoRemoveSubscriber_clicked();
+    void on_tlacitkoHlaseniSlozka_clicked();
 };
 
 #endif // MAINWINDOW_H
