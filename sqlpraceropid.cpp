@@ -161,24 +161,53 @@ void SqlPraceRopid::VypisPole(QVector<SeznamZastavek> docasnySeznamZastavek, int
     }
 }
 
+void SqlPraceRopid::vytvorHlavniAktualni(QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<SeznamZastavek> docasnySeznamZastavek,QString locationState)
+{
+    qDebug()<< "SqlPraceRopid::vytvorHlavniAktualni";
+    int i=0;
+    textPoleObsah="";
+    textPoleCasu="";
+    if (locationState=="AtStop")
+    {
+        i=cisloporadi;
+        QString cisloZastavky = QString::number(i);
+        QString jmenoZastavky = docasnySeznamZastavek.at(i).StopName;
+        QString casOdjezdu =  vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).DepartureTime);
+        textPoleObsah+=cisloZastavky+" "+jmenoZastavky;
+        qDebug()<<cisloZastavky<<" "<<jmenoZastavky<<" "<<casOdjezdu<<"\n";
+        textPoleCasu+=casOdjezdu;
+    }
 
-void SqlPraceRopid::vytvorHlavniText (QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<SeznamZastavek> docasnySeznamZastavek)
+
+    qDebug()<< "SQLpraceRopid::TestDotaz konec";
+
+}
+
+void SqlPraceRopid::vytvorHlavniTextNasledujici (QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<SeznamZastavek> docasnySeznamZastavek, QString locationState)
 {
     qDebug()<< "SqlPraceRopid::vytvorHlavniText";
+    textPoleObsah="";
+    textPoleCasu="";
     int i=0;
-
-    for (i=cisloporadi;i<(docasnySeznamZastavek.count());i++)
+    int posunIndexu=0;
+    if (locationState=="AtStop")
     {
-        QString blabla = QString::number(i);
-        QString blabla2 = docasnySeznamZastavek.at(i).StopName;
-        QString necum =  vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).DepartureTime);
-        textPoleObsah+=blabla+" "+blabla2+"\n";
-        qDebug()<<blabla<<" "<<blabla2<<" "<<necum<<"\n";
-        textPoleCasu+=necum+"\n";
+        posunIndexu=1;
+    }
+    for (i=cisloporadi+posunIndexu;i<(docasnySeznamZastavek.count());i++)
+    {
+        QString cisloZastavky = QString::number(i);
+        QString nazevZastavky2 = docasnySeznamZastavek.at(i).StopName;
+        QString odjezdZeZastavky =  vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).DepartureTime);
+        textPoleObsah+=cisloZastavky+" "+nazevZastavky2+"\n";
+        textPoleCasu+=odjezdZeZastavky+"\n";
+        qDebug()<<cisloZastavky<<" "<<nazevZastavky2<<" "<<odjezdZeZastavky<<"\n";
+        //textPoleCasu+=necum+"\n";
     }
     qDebug()<< "SQLpraceRopid::TestDotaz konec";
 
 }
+
 
 
 int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek)

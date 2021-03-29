@@ -5,16 +5,16 @@
 #include <QObject>
 #include <QWidget>
 
-class CestaUdaje : public QMainWindow
+class CestaUdaje
 {
-    Q_OBJECT
+
 public:
     explicit CestaUdaje(QWidget *parent = nullptr);
     QString doorState="AllDoorsClosed";
     QString locationState="AtStop";  
     bool VehicleStopRequested=false;
     bool prestupy=false;
-    int cislo;
+    int indexAktZastavky;
     int pocetZastavek;
     int aktlinka;
     int aktspoj;

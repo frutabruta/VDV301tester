@@ -25,7 +25,7 @@ public:
     void PostDoDispleje(QUrl adresaDispleje, QString dataDoPostu);
    // void ObnoveniServeru(QString dataDoServeru);
     //void novySubscriber(QUrl adresaSubscribera, QString struktura);
-    void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stavSystemu, QVector<SeznamZastavek> interniSeznamZastavek);
+    void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<SeznamZastavek> interniSeznamZastavek);
     void novySubscriber(Subscriber subscriber);
     int jeSubscriberNaSeznamu(QVector<Subscriber> seznam, Subscriber prvek);
     int odstranitSubscribera(int index);

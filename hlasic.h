@@ -19,6 +19,7 @@ public:
     QMediaPlaylist * playlist = new QMediaPlaylist;
     bool kompletZastavka(int cis1, int ois1, int cis2, int ois2);    
     bool kompletKonecna(int cis1, int ois1);
+    QString cesta="D:";
 private:
     bool souborExistuje(QString path);
     QUrl dilciVyhlaseni(int kodOis, int kodCis);

@@ -161,7 +161,7 @@ int NewHttpServer::nastavObsahTela(QMap<QString,QString> vstup )
     obsahTelaPole=vstup;
 
 
-    qDebug()<<"obsah CDC z pole: "<<obsahTelaPole.value("CurrentDisplayContent");
+    //qDebug()<<"obsah CDC z pole: "<<obsahTelaPole.value("CurrentDisplayContent");
 
     return 1;
 }

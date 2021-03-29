@@ -2,7 +2,7 @@
 #include<iostream>
 #include <QDebug>
 using namespace std;
-CestaUdaje::CestaUdaje(QWidget *parent) : QMainWindow(parent)
+CestaUdaje::CestaUdaje(QWidget *parent)
 {
 qDebug()<<"CestaUdaje::CestaUdaje";
     vymaz();
@@ -16,7 +16,7 @@ int CestaUdaje::vymaz()
     doorState="AllDoorsClosed";
     locationState="AtStop";
     VehicleStopRequested=false;
-    cislo=0;
+    indexAktZastavky=0;
     pocetZastavek=0;
     aktlinka=0;
     aktspoj=0;

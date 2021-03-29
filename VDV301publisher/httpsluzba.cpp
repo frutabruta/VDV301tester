@@ -120,7 +120,7 @@ void HttpSluzba::vypisObsahRequestu(QByteArray vysledek,QString struktura)
 }
 
 
-void HttpSluzba::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stavSystemu, QVector<SeznamZastavek>  interniSeznamZastavek ) //novy
+void HttpSluzba::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301, CestaUdaje &stav, QVector<SeznamZastavek>  interniSeznamZastavek ) //novy
 {
     qDebug()<<"HttpSluzba::OdeslatDataDoDispleju";
     QByteArray zpracovanoMPV="";
@@ -128,14 +128,14 @@ void HttpSluzba::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
     QString bodyCurrentDisplayContent="";
     if (globVerze=="2.2CZ1.0")
     {
-        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
-        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka);
+        bodyAllData=TestXmlGenerator.AllData2_2CZ1_0( stav.indexAktZastavky,interniSeznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument);
+        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,interniSeznamZastavek,stav);
 
     }
     else
     {
-        bodyAllData=TestXmlGenerator.AllData1_0( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
-        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stavSystemu.cislo,interniSeznamZastavek, stavSystemu.aktlinka);
+        bodyAllData=TestXmlGenerator.AllData1_0( interniSeznamZastavek, stav.aktlinka, stav.doorState, stav.locationState,prestupyDomDocument,stav);
+        bodyCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stav.indexAktZastavky,interniSeznamZastavek, stav);
         //QString vysledekCurrentDisplayContent=TestXmlGenerator.CurrentDisplayContent1_0( stavSystemu.cislo,globalniSeznamZastavek, stavSystemu.aktlinka, stavSystemu.doorState, stavSystemu.locationState,prestupyDomDocument);
 
     }
@@ -153,7 +153,7 @@ void HttpSluzba::OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int ver
     {
         PostDoDispleje(seznamSubscriberu[i].adresa,obsahTelaPole.value(seznamSubscriberu[i].struktura));
     }
-    qDebug()<<"do displeje odeslano: "<<obsahTelaPole.value("CurrentDisplayContent");
+    //qDebug()<<"do displeje odeslano: "<<obsahTelaPole.value("CurrentDisplayContent");
     // Xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     //PostDoDispleje(QUrl("http://192.168.2.37:80"),bodyCurrentDisplayContent);
     //PostDoDispleje(QUrl("http://192.168.2.16:60012"),bodyCurrentDisplayContent);
@@ -241,7 +241,7 @@ int HttpSluzba::nastavObsahTela(QString klic, QString obsah)
     qDebug()<<"HttpSluzba::nastavObsahTela";
     obsahTelaPole.insert(klic,obsah);
 
-qDebug()<<"hh "<<obsahTelaPole.value("xx");
+//qDebug()<<"hh "<<obsahTelaPole.value("xx");
 
 
 return 1;

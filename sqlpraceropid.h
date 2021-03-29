@@ -22,7 +22,7 @@ public:
     //void Pripoj();
     //void StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, SeznamZastavek *docasnySeznamZastavek);
 
-    void vytvorHlavniText(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector <SeznamZastavek> docasnySeznamZastavek);
+    void vytvorHlavniTextNasledujici(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector <SeznamZastavek> docasnySeznamZastavek, QString locationState);
     int StahniSeznam(int cisloLinky, int cisloSpoje, QVector<SeznamZastavek> &docasnySeznamZastavek, bool platnost);
 
 
@@ -30,6 +30,7 @@ public:
     //QVector<Linka> seznamLinek;
     int VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek);
     int VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisloLinky);
+    void vytvorHlavniAktualni(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<SeznamZastavek> docasnySeznamZastavek, QString locationState);
 private:
     void VypisPole(QVector<SeznamZastavek> docasnySeznamZastavek, int &pocetZastavek);
     QString vytvorCasHodinyMinuty(QString vstup);
