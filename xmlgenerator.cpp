@@ -558,8 +558,8 @@ nedodelane priznaky:
     //dDestination.appendChild(ref("DestinationRef",destinationRef));
 
 
-    QDomElement dDestinationName=internationalTextType("DestinationName",destinationName,language);
-    dDestination.appendChild(dDestinationName);
+    //QDomElement dDestinationName=internationalTextType("DestinationName",destinationName,language);
+    QDomElement dDestinationName=internationalTextType("DestinationName","x"+destinationName,language);dDestination.appendChild(dDestinationName);
 
     dDisplayContent.appendChild(dDestination);
 

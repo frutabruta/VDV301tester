@@ -136,10 +136,12 @@ public:
     QVBoxLayout *verticalLayout_11;
     QLabel *label_11;
     QListWidget *seznamOdberatelu;
-    QPushButton *tlacitkoRemoveSubscriber;
-    QPushButton *tlacitkoAddsubscriber;
     QLineEdit *lineEdit_ipadresaOdberatele;
     QLineEdit *lineEdit_strukturaOdberu;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout_12;
+    QPushButton *tlacitkoAddsubscriber;
+    QPushButton *tlacitkoRemoveSubscriber;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -953,7 +955,7 @@ public:
         tlacitkoOdesliXml->setGeometry(QRect(190, 360, 181, 31));
         verticalLayoutWidget_10 = new QWidget(page_customXML);
         verticalLayoutWidget_10->setObjectName(QString::fromUtf8("verticalLayoutWidget_10"));
-        verticalLayoutWidget_10->setGeometry(QRect(20, 20, 160, 231));
+        verticalLayoutWidget_10->setGeometry(QRect(20, 20, 351, 231));
         verticalLayout_11 = new QVBoxLayout(verticalLayoutWidget_10);
         verticalLayout_11->setSpacing(6);
         verticalLayout_11->setContentsMargins(11, 11, 11, 11);
@@ -969,18 +971,30 @@ public:
 
         verticalLayout_11->addWidget(seznamOdberatelu);
 
-        tlacitkoRemoveSubscriber = new QPushButton(page_customXML);
-        tlacitkoRemoveSubscriber->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber"));
-        tlacitkoRemoveSubscriber->setGeometry(QRect(180, 80, 151, 21));
-        tlacitkoAddsubscriber = new QPushButton(page_customXML);
-        tlacitkoAddsubscriber->setObjectName(QString::fromUtf8("tlacitkoAddsubscriber"));
-        tlacitkoAddsubscriber->setGeometry(QRect(180, 20, 151, 41));
         lineEdit_ipadresaOdberatele = new QLineEdit(page_customXML);
         lineEdit_ipadresaOdberatele->setObjectName(QString::fromUtf8("lineEdit_ipadresaOdberatele"));
-        lineEdit_ipadresaOdberatele->setGeometry(QRect(30, 260, 201, 20));
+        lineEdit_ipadresaOdberatele->setGeometry(QRect(30, 270, 201, 20));
         lineEdit_strukturaOdberu = new QLineEdit(page_customXML);
         lineEdit_strukturaOdberu->setObjectName(QString::fromUtf8("lineEdit_strukturaOdberu"));
-        lineEdit_strukturaOdberu->setGeometry(QRect(240, 260, 113, 20));
+        lineEdit_strukturaOdberu->setGeometry(QRect(240, 270, 113, 20));
+        verticalLayoutWidget = new QWidget(page_customXML);
+        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(30, 310, 101, 80));
+        verticalLayout_12 = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout_12->setSpacing(6);
+        verticalLayout_12->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_12->setObjectName(QString::fromUtf8("verticalLayout_12"));
+        verticalLayout_12->setContentsMargins(0, 0, 0, 0);
+        tlacitkoAddsubscriber = new QPushButton(verticalLayoutWidget);
+        tlacitkoAddsubscriber->setObjectName(QString::fromUtf8("tlacitkoAddsubscriber"));
+
+        verticalLayout_12->addWidget(tlacitkoAddsubscriber);
+
+        tlacitkoRemoveSubscriber = new QPushButton(verticalLayoutWidget);
+        tlacitkoRemoveSubscriber->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber"));
+
+        verticalLayout_12->addWidget(tlacitkoRemoveSubscriber);
+
         prepinadloStran->addWidget(page_customXML);
 
         horizontalLayout_9->addWidget(prepinadloStran);
@@ -1008,7 +1022,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(2);
+        prepinadloStran->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1305,10 +1319,10 @@ public:
         tlacitkoSmazOkno->setText(QCoreApplication::translate("MainWindow", "Vyma\305\276 okno", nullptr));
         tlacitkoOdesliXml->setText(QCoreApplication::translate("MainWindow", "ode\305\241li na panely", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "Odberatele", nullptr));
-        tlacitkoRemoveSubscriber->setText(QCoreApplication::translate("MainWindow", "Zrusit odber", nullptr));
-        tlacitkoAddsubscriber->setText(QCoreApplication::translate("MainWindow", "P\305\231idat odb\304\233ratele", nullptr));
         lineEdit_ipadresaOdberatele->setText(QCoreApplication::translate("MainWindow", "http://127.0.0.1:48479", nullptr));
         lineEdit_strukturaOdberu->setText(QCoreApplication::translate("MainWindow", "AllData", nullptr));
+        tlacitkoAddsubscriber->setText(QCoreApplication::translate("MainWindow", "P\305\231idat odb\304\233ratele", nullptr));
+        tlacitkoRemoveSubscriber->setText(QCoreApplication::translate("MainWindow", "Zrusit odber", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 

@@ -714,7 +714,7 @@
          <string notr="true">/*background-color:rgb(52, 101, 164); */</string>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="page_vydej">
          <layout class="QGridLayout" name="gridLayout_3">
@@ -2303,7 +2303,7 @@ Stop</string>
            <rect>
             <x>20</x>
             <y>20</y>
-            <width>160</width>
+            <width>351</width>
             <height>231</height>
            </rect>
           </property>
@@ -2320,37 +2320,11 @@ Stop</string>
            </item>
           </layout>
          </widget>
-         <widget class="QPushButton" name="tlacitkoRemoveSubscriber">
-          <property name="geometry">
-           <rect>
-            <x>180</x>
-            <y>80</y>
-            <width>151</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Zrusit odber</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="tlacitkoAddsubscriber">
-          <property name="geometry">
-           <rect>
-            <x>180</x>
-            <y>20</y>
-            <width>151</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Přidat odběratele</string>
-          </property>
-         </widget>
          <widget class="QLineEdit" name="lineEdit_ipadresaOdberatele">
           <property name="geometry">
            <rect>
             <x>30</x>
-            <y>260</y>
+            <y>270</y>
             <width>201</width>
             <height>20</height>
            </rect>
@@ -2363,7 +2337,7 @@ Stop</string>
           <property name="geometry">
            <rect>
             <x>240</x>
-            <y>260</y>
+            <y>270</y>
             <width>113</width>
             <height>20</height>
            </rect>
@@ -2371,6 +2345,32 @@ Stop</string>
           <property name="text">
            <string>AllData</string>
           </property>
+         </widget>
+         <widget class="QWidget" name="verticalLayoutWidget">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>310</y>
+            <width>101</width>
+            <height>80</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_12">
+           <item>
+            <widget class="QPushButton" name="tlacitkoAddsubscriber">
+             <property name="text">
+              <string>Přidat odběratele</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="tlacitkoRemoveSubscriber">
+             <property name="text">
+              <string>Zrusit odber</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </widget>
        </widget>
