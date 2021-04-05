@@ -1,5 +1,5 @@
 #include "sqlpraceropid.h"
-#include "VDV301_Display/seznamzastavek.h"
+#include "VDV301struktury/seznamzastavek.h"
 #include "xmlgenerator.h"
 
 SqlPraceRopid::SqlPraceRopid()

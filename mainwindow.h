@@ -13,8 +13,8 @@
 #include <QNetworkAccessManager>
 #include <QMainWindow>
 #define MAX_ZAST 100
-#include "VDV301_Display/seznamzastavek.h"
-#include "VDV301_Display/linka.h"
+#include "VDV301struktury/seznamzastavek.h"
+#include "VDV301struktury/linka.h"
 #include <QVector>
 #include <QListWidget>
 

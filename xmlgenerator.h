@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QObject>
-#include "VDV301_Display/seznamzastavek.h"
+#include "VDV301struktury/seznamzastavek.h"
 #include <QCoreApplication>
 #include <QDomDocument>
 #include "cestaudaje.h"

@@ -2,14 +2,14 @@
 #include "xmlgenerator.h"
 #include <QTime>
 #include "cestaudaje.h"
-#include "VDV301_Display/seznamzastavek.h"
+#include "VDV301struktury/seznamzastavek.h"
 #include "cestaudaje.h"
 #include <QCoreApplication>
 #include <QtDebug>
 #include <QtXml>
 #include "prestupmpv.h"
 #include "xmlmpvparser.h"
-#include "struktury/pasmo.h"
+#include "VDV301struktury/pasmo.h"
 
 xmlGenerator::xmlGenerator(QWidget *parent) : QMainWindow(parent)
 {

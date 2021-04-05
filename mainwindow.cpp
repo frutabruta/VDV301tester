@@ -4,7 +4,7 @@
 #include "xmlgenerator.h"
 
 #include <QNetworkReply>
-#include "VDV301_Display/seznamzastavek.h"
+#include "VDV301struktury/seznamzastavek.h"
 
 
 //koment

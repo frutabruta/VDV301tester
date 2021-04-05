@@ -28,5 +28,4 @@ release/moc_httpsluzba.o
 release/moc_mainwindow.o
 release/moc_newhttpserver.o
 release/moc_xmlgenerator.o
-release/moc_cestaudaje.o
 release/moc_xmlmpvparser.o

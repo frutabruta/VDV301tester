@@ -7,10 +7,10 @@
 #include <QtSql>
 //#include <QVector>
 
-#include "VDV301_Display/seznamzastavek.h"
-#include "VDV301_Display/linka.h"
-#include "spoj.h"
-#include "struktury/pasmo.h"
+#include "VDV301struktury/seznamzastavek.h"
+#include "VDV301struktury/linka.h"
+#include "VDV301struktury/spoj.h"
+#include "VDV301struktury/pasmo.h"
 
 class SqlPraceRopid
 {

@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QMainWindow>
 #include <QCoreApplication>
-#include "VDV301_Display/seznamzastavek.h"
+#include "VDV301struktury/seznamzastavek.h"
 
 IbisOvladani::IbisOvladani()
 {

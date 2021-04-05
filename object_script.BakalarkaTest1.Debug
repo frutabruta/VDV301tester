@@ -28,5 +28,4 @@ debug/moc_httpsluzba.o
 debug/moc_mainwindow.o
 debug/moc_newhttpserver.o
 debug/moc_xmlgenerator.o
-debug/moc_cestaudaje.o
 debug/moc_xmlmpvparser.o

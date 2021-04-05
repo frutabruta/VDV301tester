@@ -5,7 +5,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QtSerialPort/QSerialPort>
-#include <VDV301_Display/seznamzastavek.h>
+#include <VDV301struktury/seznamzastavek.h>
 
 
 

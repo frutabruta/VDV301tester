@@ -51,7 +51,7 @@ QT += network
 //LIBS += -lqhttpserver
 
 SOURCES += \
-    VDV301_Display/linka.cpp \
+    VDV301struktury/linka.cpp \
     VDV301publisher/customerinformationservice.cpp \
     hlasic.cpp \
     VDV301publisher/httpsluzba.cpp \
@@ -59,9 +59,9 @@ SOURCES += \
         mainwindow.cpp \
     newhttpserver.cpp \
     prestupmpv.cpp \
-    spoj.cpp \
-    VDV301_Display/seznamzastavek.cpp\
-    struktury/pasmo.cpp \
+    VDV301struktury/spoj.cpp \
+    VDV301struktury/seznamzastavek.cpp\
+    VDV301struktury/pasmo.cpp \
     subscriber.cpp \
     xmlgenerator.cpp \
     cestaudaje.cpp \
@@ -72,16 +72,16 @@ SOURCES += \
 
 
 HEADERS += \
-    VDV301_Display/linka.h \
+    VDV301struktury/linka.h \
     VDV301publisher/customerinformationservice.h \
     hlasic.h \
     VDV301publisher/httpsluzba.h \
         mainwindow.h \
     newhttpserver.h \
     prestupmpv.h \
-    spoj.h \
-    VDV301_Display/seznamzastavek.h\
-    struktury/pasmo.h \
+    VDV301struktury/spoj.h \
+    VDV301struktury/seznamzastavek.h\
+    VDV301struktury/pasmo.h \
     subscriber.h \
     xmlgenerator.h \
     cestaudaje.h \
