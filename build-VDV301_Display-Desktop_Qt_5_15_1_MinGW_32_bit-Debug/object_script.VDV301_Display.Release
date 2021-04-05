@@ -1,0 +1,11 @@
+release/newhttpserver.o
+release/myhttpserver.o
+release/ibisipsubscriber.o
+release/main.o
+release/mainwindow.o
+release/xmlparser.o
+release/seznamzastavek.o
+release/moc_newhttpserver.o
+release/moc_myhttpserver.o
+release/moc_ibisipsubscriber.o
+release/moc_mainwindow.o

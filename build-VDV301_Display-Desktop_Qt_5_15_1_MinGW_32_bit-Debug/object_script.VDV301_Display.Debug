@@ -1,0 +1,11 @@
+debug/newhttpserver.o
+debug/myhttpserver.o
+debug/ibisipsubscriber.o
+debug/main.o
+debug/mainwindow.o
+debug/xmlparser.o
+debug/seznamzastavek.o
+debug/moc_newhttpserver.o
+debug/moc_myhttpserver.o
+debug/moc_ibisipsubscriber.o
+debug/moc_mainwindow.o
