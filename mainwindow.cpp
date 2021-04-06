@@ -50,8 +50,8 @@ void MainWindow::xmlHromadnyUpdate()
        // connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     }
     qDebug()<<QString::number(novatrida.indexAktZastavky);
-    customerInformationService1_0.OdeslatDataDoDispleju(vstupniDomXmlPrestupy,VDV301verze,novatrida,globalniSeznamZastavek);
-    customerInformationService2_2CZ1_0.OdeslatDataDoDispleju(vstupniDomXmlPrestupy,VDV301verze,novatrida,globalniSeznamZastavek);
+    customerInformationService1_0.aktualizaceInternichPromennychOdeslat(vstupniDomXmlPrestupy,VDV301verze,novatrida,globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.aktualizaceInternichPromennychOdeslat(vstupniDomXmlPrestupy,VDV301verze,novatrida,globalniSeznamZastavek);
 
 }
 
@@ -69,8 +69,8 @@ void MainWindow::MpvNetReady()
     mpvParser.naplnVstupDokument(mpvParser.stazenaData);
     mpvParser.prestupyXmlDokumentVystup1_0=mpvParser.connections1_0( mpvParser.parsujDomDokument());
     mpvParser.prestupyXmlDokumentVystup2_2CZ1_0 =mpvParser.connections2_2CZ1_0(mpvParser.parsujDomDokument());
-    customerInformationService1_0.OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup1_0,VDV301verze,novatrida,globalniSeznamZastavek);
-    customerInformationService2_2CZ1_0.OdeslatDataDoDispleju(mpvParser.prestupyXmlDokumentVystup2_2CZ1_0, VDV301verze,novatrida,globalniSeznamZastavek);
+    customerInformationService1_0.aktualizaceInternichPromennychOdeslat(mpvParser.prestupyXmlDokumentVystup1_0,VDV301verze,novatrida,globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.aktualizaceInternichPromennychOdeslat(mpvParser.prestupyXmlDokumentVystup2_2CZ1_0, VDV301verze,novatrida,globalniSeznamZastavek);
 }
 
 
