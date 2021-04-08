@@ -40,14 +40,6 @@ QT += network
 
 # QT       += core
 
-
-
-
-
-
-
-
-
 //LIBS += -lqhttpserver
 
 SOURCES += \
@@ -64,7 +56,7 @@ SOURCES += \
     VDV301struktury/pasmo.cpp \
     subscriber.cpp \
     xmlgenerator.cpp \
-    cestaudaje.cpp \
+    VDV301struktury/cestaudaje.cpp \
     xmlmpvparser.cpp \
     sqlpraceropid.cpp \
     xmlropidparser.cpp \
@@ -84,7 +76,7 @@ HEADERS += \
     VDV301struktury/pasmo.h \
     subscriber.h \
     xmlgenerator.h \
-    cestaudaje.h \
+    VDV301struktury/cestaudaje.h \
     xmlmpvparser.h \
     sqlpraceropid.h \
     xmlropidparser.h \
