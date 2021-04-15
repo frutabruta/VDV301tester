@@ -6,7 +6,7 @@
 #include "VDV301struktury/seznamzastavek.h"
 #include <QCoreApplication>
 #include <QDomDocument>
-#include "cestaudaje.h"
+#include "VDV301struktury/cestaudaje.h"
 
 class xmlGenerator : public QMainWindow
 {

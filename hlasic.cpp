@@ -201,6 +201,8 @@ bool Hlasic::kompletZastavka(int cis1,int ois1, int cis2, int ois2)
     playlist->addMedia(dilciVyhlaseni(ois2,cis2));
     playlist->setCurrentIndex(1);
 
+
+
     QMediaPlayer * player = new QMediaPlayer;
     player->setPlaylist(playlist);
     player->play();

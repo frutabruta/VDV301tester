@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include "cestaudaje.h"
+#include "VDV301struktury/cestaudaje.h"
 
 
 
@@ -15,6 +15,7 @@
 #define MAX_ZAST 100
 #include "VDV301struktury/seznamzastavek.h"
 #include "VDV301struktury/linka.h"
+#include "VDV301struktury/cestaudaje.h"
 #include <QVector>
 #include <QListWidget>
 
@@ -41,7 +42,8 @@ public:
     //SeznamZastavek* globalniSeznamZastavek = new SeznamZastavek[MAX_ZAST]; //new SeznamZastavek[MAX_ZAST];
     QVector<SeznamZastavek>  globalniSeznamZastavek ;
     //int vytvor();
-    CestaUdaje novatrida;
+    //CestaUdaje stavSystemu2;
+    CestaUdaje stavSystemu;
     //SQLprace mojesql;
     SqlPraceRopid mojesql;
     int cisloPortu=12;
@@ -50,10 +52,6 @@ public:
     XmlMpvParser mpvParser;
     void xmlHromadnyUpdate();
 
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    //void OdeslatDataDoDispleju(QDomDocument prestupyDomDocument, int verzeVDV301);
-
-    //void ObnoveniServeru(QString dataDoServeru);
     XmlRopidParser xmlRopidParser;
     IbisOvladani ibisOvladani;
     Hlasic hlasic;

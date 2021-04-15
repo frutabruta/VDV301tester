@@ -1,9 +1,9 @@
 #include "xmlgenerator.h"
 #include "xmlgenerator.h"
 #include <QTime>
-#include "cestaudaje.h"
+
 #include "VDV301struktury/seznamzastavek.h"
-#include "cestaudaje.h"
+#include "VDV301struktury/cestaudaje.h"
 #include <QCoreApplication>
 #include <QtDebug>
 #include <QtXml>

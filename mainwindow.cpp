@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "cestaudaje.h"
+#include "VDV301struktury/cestaudaje.h"
 #include "xmlgenerator.h"
 
 #include <QNetworkReply>
@@ -43,15 +43,15 @@ void MainWindow::xmlHromadnyUpdate()
 
     //ui->locationStateIndicator->setText(novatrida.locationState);
     QDomDocument vstupniDomXmlPrestupy;
-    if (novatrida.prestupy==true)
+    if (stavSystemu.prestupy==true)
     {
 
-        mpvParser.StahniMpvXml(globalniSeznamZastavek[novatrida.indexAktZastavky].cisloCis,globalniSeznamZastavek[novatrida.indexAktZastavky].ids);
+        mpvParser.StahniMpvXml(globalniSeznamZastavek[stavSystemu.indexAktZastavky].cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].ids);
        // connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     }
-    qDebug()<<QString::number(novatrida.indexAktZastavky);
-    customerInformationService1_0.aktualizaceInternichPromennychOdeslat(vstupniDomXmlPrestupy,VDV301verze,novatrida,globalniSeznamZastavek);
-    customerInformationService2_2CZ1_0.aktualizaceInternichPromennychOdeslat(vstupniDomXmlPrestupy,VDV301verze,novatrida,globalniSeznamZastavek);
+    qDebug()<<QString::number(stavSystemu.indexAktZastavky);
+    customerInformationService1_0.aktualizaceInternichPromennychOdeslat(vstupniDomXmlPrestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.aktualizaceInternichPromennychOdeslat(vstupniDomXmlPrestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
 
 }
 
@@ -69,8 +69,8 @@ void MainWindow::MpvNetReady()
     mpvParser.naplnVstupDokument(mpvParser.stazenaData);
     mpvParser.prestupyXmlDokumentVystup1_0=mpvParser.connections1_0( mpvParser.parsujDomDokument());
     mpvParser.prestupyXmlDokumentVystup2_2CZ1_0 =mpvParser.connections2_2CZ1_0(mpvParser.parsujDomDokument());
-    customerInformationService1_0.aktualizaceInternichPromennychOdeslat(mpvParser.prestupyXmlDokumentVystup1_0,VDV301verze,novatrida,globalniSeznamZastavek);
-    customerInformationService2_2CZ1_0.aktualizaceInternichPromennychOdeslat(mpvParser.prestupyXmlDokumentVystup2_2CZ1_0, VDV301verze,novatrida,globalniSeznamZastavek);
+    customerInformationService1_0.aktualizaceInternichPromennychOdeslat(mpvParser.prestupyXmlDokumentVystup1_0,VDV301verze,stavSystemu,globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.aktualizaceInternichPromennychOdeslat(mpvParser.prestupyXmlDokumentVystup2_2CZ1_0, VDV301verze,stavSystemu,globalniSeznamZastavek);
 }
 
 
@@ -109,13 +109,13 @@ QByteArray MainWindow::requestReceived(QNetworkReply* replyoo)
 int MainWindow::on_prikaztlacitko_clicked()
 {
     qDebug()<<"MainWindow::on_prikaztlacitko_clicked";
-    novatrida.doorState="AllDoorsClosed";
-    novatrida.aktlinka=ui->polelinky->text().toInt();
-    novatrida.aktspoj=ui->polespoje->text().toInt();
-    novatrida.indexAktZastavky=0;
+    stavSystemu.doorState="AllDoorsClosed";
+    stavSystemu.aktlinka=ui->polelinky->text().toInt();
+    stavSystemu.aktspoj=ui->polespoje->text().toInt();
+    stavSystemu.indexAktZastavky=0;
     //mojesql.zjistiPocet(novatrida.pocetZastavek,novatrida.cislo, novatrida.aktlinka,novatrida.aktspoj);
     QString textDoPole="";
-    int vysledek=mojesql.StahniSeznam( novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,platnostSpoje);
+    int vysledek=mojesql.StahniSeznam( stavSystemu.aktlinka,stavSystemu.aktspoj,globalniSeznamZastavek,platnostSpoje);
     if (vysledek==0)
     {
         textDoPole="spoj neexistuje";
@@ -132,7 +132,7 @@ int MainWindow::on_prikaztlacitko_clicked()
     else
     {
         AktualizaceDispleje();
-        novatrida.locationState="AtStop";
+        stavSystemu.locationState="AtStop";
         ui->tlacitkoZpetVydej->setChecked(1);
         ui->prepinadloStran->setCurrentIndex(0);
     }
@@ -142,69 +142,69 @@ int MainWindow::on_prikaztlacitko_clicked()
 void MainWindow::on_sipkaNahoru_clicked()
 {
     qDebug()<<"\n MainWindow::on_sipkaNahoru_clicked() \n";
-    if (novatrida.indexAktZastavky<(globalniSeznamZastavek.count()-1))
+    if (stavSystemu.indexAktZastavky<(globalniSeznamZastavek.count()-1))
     {
-        if(novatrida.locationState=="AtStop")
+        if(stavSystemu.locationState=="AtStop")
         {
-            novatrida.locationState="AfterStop";
+            stavSystemu.locationState="AfterStop";
             ui->AfterStop->setChecked(true);
-            novatrida.indexAktZastavky++;
+            stavSystemu.indexAktZastavky++;
             priOdjezdu();
         }
         else
         {
-            if(novatrida.locationState=="BeforeStop")
+            if(stavSystemu.locationState=="BeforeStop")
             {
-                novatrida.locationState="AtStop";
+                stavSystemu.locationState="AtStop";
                 ui->AtStop_2->setChecked(true);
                 priPrijezdu();
             }
 
-            if(novatrida.locationState=="BetweenStop")
+            if(stavSystemu.locationState=="BetweenStop")
             {
-                novatrida.locationState="BeforeStop";
+                stavSystemu.locationState="BeforeStop";
                 ui->BeforeStop->setChecked(true);
             }
 
-            if(novatrida.locationState=="AfterStop")
-            {novatrida.locationState="BetweenStop";
+            if(stavSystemu.locationState=="AfterStop")
+            {stavSystemu.locationState="BetweenStop";
             ui->BetweenStop->setChecked(true);
             }
         }
     }
     QString textDoPole="";
     AktualizaceDispleje();
-    novatrida.doorState="AllDoorsClosed";
-    ui->popisek->setText(QString::number(novatrida.indexAktZastavky));
+    stavSystemu.doorState="AllDoorsClosed";
+    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
     xmlHromadnyUpdate();
 }
 
 void MainWindow::on_sipkaDolu_clicked()
 {
     qDebug()<<"\n on_sipkaDolu_clicked \n";
-    if (novatrida.indexAktZastavky>=1)
+    if (stavSystemu.indexAktZastavky>=1)
     {
-        if(novatrida.locationState=="AfterStop")
+        if(stavSystemu.locationState=="AfterStop")
         {
-            novatrida.locationState="AtStop";
-            novatrida.indexAktZastavky--;
+            stavSystemu.locationState="AtStop";
+            stavSystemu.indexAktZastavky--;
             priPrijezdu();
         }
         else
         {
-            if(novatrida.locationState=="BetweenStop")
-            {novatrida.locationState="AfterStop";}
+            if(stavSystemu.locationState=="BetweenStop")
+            {stavSystemu.locationState="AfterStop";}
 
-            if(novatrida.locationState=="BeforeStop")
-            {novatrida.locationState="BetweenStop";}
+            if(stavSystemu.locationState=="BeforeStop")
+            {stavSystemu.locationState="BetweenStop";}
 
-            if(novatrida.locationState=="AtStop")
-            {novatrida.locationState="BeforeStop";}
+            if(stavSystemu.locationState=="AtStop")
+            {stavSystemu.locationState="BeforeStop";}
         }
         QString textDoPole="";
         AktualizaceDispleje();
     }
-    ui->popisek->setText(QString::number(novatrida.indexAktZastavky));
+    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
     xmlHromadnyUpdate();
 }
 
@@ -272,8 +272,8 @@ void MainWindow::AktualizaceDispleje()
     QString casDoPoleAkt="";
     QString textDoPoleNasl="";
     QString textPoleCasuNasl="";
-    mojesql.vytvorHlavniAktualni(textDoPoleAkt,casDoPoleAkt,novatrida.indexAktZastavky,globalniSeznamZastavek,novatrida.locationState);
-    mojesql.vytvorHlavniTextNasledujici(textDoPoleNasl,textPoleCasuNasl,novatrida.indexAktZastavky,globalniSeznamZastavek,novatrida.locationState);
+    mojesql.vytvorHlavniAktualni(textDoPoleAkt,casDoPoleAkt,stavSystemu.indexAktZastavky,globalniSeznamZastavek,stavSystemu.locationState);
+    mojesql.vytvorHlavniTextNasledujici(textDoPoleNasl,textPoleCasuNasl,stavSystemu.indexAktZastavky,globalniSeznamZastavek,stavSystemu.locationState);
 
 
     ui->labelAktZastJmeno->setText(textDoPoleAkt);
@@ -282,7 +282,7 @@ void MainWindow::AktualizaceDispleje()
     ui->prikazovyvysledek_cas->setText(textPoleCasuNasl);
 
 
-    ui->locationStateIndicator->setText(novatrida.locationState);
+    ui->locationStateIndicator->setText(stavSystemu.locationState);
 
 
     /*
@@ -298,11 +298,11 @@ void MainWindow::AktualizaceDispleje()
 void MainWindow::on_pridatTlacitko_clicked()
 {
     qDebug()<<"\n on_pridatTlacitko_clicked \n";
-    if (novatrida.indexAktZastavky<(globalniSeznamZastavek.count()-1))
+    if (stavSystemu.indexAktZastavky<(globalniSeznamZastavek.count()-1))
     {
-        novatrida.indexAktZastavky++;
+        stavSystemu.indexAktZastavky++;
     }
-    ui->popisek->setText(QString::number(novatrida.indexAktZastavky));
+    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
     AktualizaceDispleje();
     xmlHromadnyUpdate();
 }
@@ -310,11 +310,11 @@ void MainWindow::on_pridatTlacitko_clicked()
 void MainWindow::on_ubratTlacitko_clicked()
 {
     qDebug()<<"\n on_ubratTlacitko_clicked \n";
-    if (novatrida.indexAktZastavky>=2)
+    if (stavSystemu.indexAktZastavky>=2)
     {
-        novatrida.indexAktZastavky--;
+        stavSystemu.indexAktZastavky--;
     }
-    ui->popisek->setText(QString::number(novatrida.indexAktZastavky));
+    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
     AktualizaceDispleje();
     xmlHromadnyUpdate();
 }
@@ -365,7 +365,7 @@ void MainWindow::replyFinished(QNetworkReply*)
 void MainWindow::on_BeforeStop_clicked()
 {
 
-    novatrida.locationState="BeforeStop";
+    stavSystemu.locationState="BeforeStop";
     xmlHromadnyUpdate();
 }
 
@@ -383,14 +383,14 @@ void MainWindow::on_AtStop_2_clicked()
 void MainWindow::on_AfterStop_clicked()
 {
     qDebug()<<"";
-    novatrida.locationState="AfterStop";
+    stavSystemu.locationState="AfterStop";
     xmlHromadnyUpdate();
 }
 
 void MainWindow::on_BetweenStop_clicked()
 {
     qDebug()<<"";
-    novatrida.locationState="BetweenStop";
+    stavSystemu.locationState="BetweenStop";
     xmlHromadnyUpdate();
 }
 
@@ -404,7 +404,7 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 {
     arg1=1;
     qDebug()<<"MainWindow::on_checkBox_stateChanged";
-    novatrida.prestupy= ui->checkBox->checkState();
+    stavSystemu.prestupy= ui->checkBox->checkState();
 }
 
 
@@ -466,12 +466,12 @@ void MainWindow::on_tlacitkoIBIS_clicked()
 {
     qDebug()<<"";
     ibisOvladani.dopocetCelni("xC2");
-    ibisOvladani.odesliFrontKomplet(globalniSeznamZastavek,novatrida.indexAktZastavky);
-    ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,novatrida.indexAktZastavky);
+    ibisOvladani.odesliFrontKomplet(globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,stavSystemu.indexAktZastavky);
     //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
-    ibisOvladani.odesliJKZKomplet(globalniSeznamZastavek,novatrida.indexAktZastavky);
-    ibisOvladani.odeslikompletBUSEjednoradekAA(globalniSeznamZastavek,novatrida.indexAktZastavky);
-    ibisOvladani.odesliRearKomplet(globalniSeznamZastavek,novatrida.indexAktZastavky);
+    ibisOvladani.odesliJKZKomplet(globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odeslikompletBUSEjednoradekAA(globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliRearKomplet(globalniSeznamZastavek,stavSystemu.indexAktZastavky);
 }
 
 
@@ -479,18 +479,18 @@ int MainWindow::priPrijezdu()
 {
     qDebug()<<"MainWindow::priPrijezdu";
 
-    novatrida.doorState="DoorsOpen";
+    stavSystemu.doorState="DoorsOpen";
 
 
-    if (novatrida.indexAktZastavky<(globalniSeznamZastavek.length()-1))
+    if (stavSystemu.indexAktZastavky<(globalniSeznamZastavek.length()-1))
     {
-        hlasic.kompletZastavka(globalniSeznamZastavek[novatrida.indexAktZastavky].cisloCis,globalniSeznamZastavek[novatrida.indexAktZastavky].cisloOis,globalniSeznamZastavek[novatrida.indexAktZastavky+1].cisloCis,globalniSeznamZastavek[novatrida.indexAktZastavky+1].cisloOis);
+        hlasic.kompletZastavka(globalniSeznamZastavek[stavSystemu.indexAktZastavky].cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].cisloOis,globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].cisloOis);
     }
     else
     {
-        hlasic.kompletKonecna(globalniSeznamZastavek[novatrida.indexAktZastavky].cisloCis,globalniSeznamZastavek[novatrida.indexAktZastavky].cisloOis );
+        hlasic.kompletKonecna(globalniSeznamZastavek[stavSystemu.indexAktZastavky].cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].cisloOis );
     }
-    novatrida.locationState="AtStop";
+    stavSystemu.locationState="AtStop";
     xmlHromadnyUpdate();
 
     return 1;
@@ -512,8 +512,8 @@ int MainWindow::priOdjezdu()
 void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
     ui->polelinky->setText(ui->listLinek->currentItem()->data(Qt::UserRole ).toString() );
-    novatrida.aktlinka=ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
-    if (mojesql.VytvorSeznamSpoju(seznamSpoju,novatrida.aktlinka)==1)
+    stavSystemu.aktlinka=ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
+    if (mojesql.VytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka)==1)
     {
         NaplnVyberSpoje(seznamSpoju);
     }
@@ -531,7 +531,7 @@ void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QList
             qDebug()<<"current item:"+ui->listSpoje->currentItem()->data(Qt::UserRole).toString()
                       ;
             ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
-            novatrida.aktspoj=ui->listSpoje->currentItem()->data(Qt::UserRole).toInt() ;
+            stavSystemu.aktspoj=ui->listSpoje->currentItem()->data(Qt::UserRole).toInt() ;
         }
 
     }
@@ -557,7 +557,7 @@ void MainWindow::inicializacePoli()
     globalniSeznamZastavek.clear();
     seznamLinek.clear();
     seznamSpoju.clear();
-    novatrida.vymaz();
+    stavSystemu.vymaz();
 }
 
 void MainWindow::on_tlacitkoSmazOkno_clicked()
