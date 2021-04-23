@@ -14,6 +14,7 @@ class xmlGenerator : public QMainWindow
     QDomElement StopSequence1_0(QDomDocument xmlko, QVector<SeznamZastavek> docasnySeznamZastavek, QString language, int currentStopIndex, QDomDocument Connections, CestaUdaje stav);
     QDomElement ViaPoint1_0(QDomDocument xmlko, SeznamZastavek nacestnaZastavka, QString language);
     QDomElement TimeStampTag1_0(QDomDocument xmlko);
+    QDomElement additionalTextMessage1_0(QString obsahZpravy);
 public:
     explicit xmlGenerator(QWidget *parent = nullptr);
 

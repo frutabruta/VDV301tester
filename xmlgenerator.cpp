@@ -67,6 +67,13 @@ QString xmlGenerator::AllData1_0(  QVector <SeznamZastavek> docasnySeznamZastave
     dTripRef.appendChild(xmlko.createElement("Value"));
     dTripRef.firstChildElement("Value").appendChild(xmlko.createTextNode(tripRef));
     dTripInformation.appendChild(dTripRef);
+    //dTripInformation.appendChild(additionalTextMessage1_0("test obsahu zpravy"));
+    QString specialniOznameni=docasnySeznamZastavek.at(stav.indexAktZastavky).additionalTextMessage;
+    qDebug()<<"spec oznameni="<<specialniOznameni;
+    if (specialniOznameni!="")
+    {
+    dTripInformation.appendChild(additionalTextMessage1_0(specialniOznameni));
+    }
 
     //stop sequence
     dTripInformation.appendChild(StopSequence1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,Connections,stav));
@@ -187,6 +194,13 @@ QString xmlGenerator::AllData2_2CZ1_0(int poradi, QVector <SeznamZastavek> docas
     dTripRef.appendChild(xmlko.createElement("Value"));
     dTripRef.firstChildElement("Value").appendChild(xmlko.createTextNode(tripRef));
     dTripInformation.appendChild(dTripRef);
+
+    QString specialniOznameni=docasnySeznamZastavek.at(poradi).additionalTextMessage;
+    qDebug()<<"spec oznameni="<<specialniOznameni;
+    if (specialniOznameni!="")
+    {
+    dTripInformation.appendChild(additionalTextMessage1_0(specialniOznameni));
+    }
 
     //stop sequence
     dTripInformation.appendChild(StopSequence2_2CZ1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,Connections));
@@ -800,6 +814,18 @@ QDomElement xmlGenerator::xxxProperty2_2CZ1_0(QString nazev,bool vysledek,QStrin
     return prazdny;
 
 
+}
+
+QDomElement xmlGenerator::additionalTextMessage1_0(QString obsahZpravy)
+{
+    QDomDocument xmlko;
+    QDomElement additionalTextMessage=xmlko.createElement("AdditionalTextMessage");
+
+    QDomElement value=xmlko.createElement("Value");
+    value.appendChild(xmlko.createTextNode(obsahZpravy));
+    additionalTextMessage.appendChild(value);
+    //<AdditionalTextMessage> <Value>$LS$This is additional text message Šg (Umlaute ÄÖÜäöüß), which could be long...</Value></AdditionalTextMessage>
+    return additionalTextMessage;
 }
 
 

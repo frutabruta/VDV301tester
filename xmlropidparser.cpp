@@ -387,6 +387,7 @@ int XmlRopidParser::vlozT(QDomElement koren)
         polozky.push_back(inicializujPolozku("ctn",element.attribute("ctn"),"String"));
         polozky.push_back(inicializujPolozku("lcdm",element.attribute("lcdm"),"String"));
         polozky.push_back(inicializujPolozku("lcdn",element.attribute("lcdn"),"String"));
+        polozky.push_back(inicializujPolozku("hl",element.attribute("hl"),"String"));
 
 
 

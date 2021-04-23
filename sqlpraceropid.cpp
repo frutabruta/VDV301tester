@@ -44,7 +44,7 @@ int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<SeznamZa
     docasnySeznamZastavek.clear();
     qDebug()<< "SQLprace::StahniSeznam";
     qInfo()<<"DebugPointA";
-    QString queryString2("SELECT DISTINCT z.n, z.tp, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c,l.lc,t.vtn,z.ois,x.na,x.zn,x.xA,x.xB,x.xC,x.xD,x.xVla,x.xLet,x.xLod, x.xorder FROM x ");
+    QString queryString2("SELECT DISTINCT z.n, z.tp, x.o,z.cis,t.ri,t.ctn,t.btn,t.lcdn,l.c,l.lc,t.vtn,z.ois,x.na,x.zn,x.xA,x.xB,x.xC,x.xD,x.xVla,x.xLet,x.xLod, x.xorder, t.hl FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
@@ -120,10 +120,14 @@ dbManager->query.exec();
             aktZast.prestupVlak =query.value(query.record().indexOf("x.xVla")).toBool();
             aktZast.prestupLetadlo =query.value(query.record().indexOf("x.xLet")).toBool();
             aktZast.prestupPrivoz =query.value(query.record().indexOf("x.xLod")).toBool();
+            aktZast.additionalTextMessage =query.value(query.record().indexOf("t.hl")).toString();
             xmlGenerator xmlgen;
             aktZast.seznamPasem=xmlgen.pasmoStringDoVectoru(query.value(query.record().indexOf("z.tp")).toString(),"PID");
             qDebug()<<"pasmo"<<query.value(query.record().indexOf("z.tp")).toString();
-
+            if(aktZast.additionalTextMessage!="")
+            {
+            qDebug()<<"additionalVlozeno "<<aktZast.additionalTextMessage;
+            }
             qInfo()<<"DebugPointC";
             counter++;
             qDebug()<<"citac: "<<citacMaximum ;
