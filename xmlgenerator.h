@@ -15,6 +15,7 @@ class xmlGenerator : public QMainWindow
     QDomElement ViaPoint1_0(QDomDocument xmlko, SeznamZastavek nacestnaZastavka, QString language);
     QDomElement TimeStampTag1_0(QDomDocument xmlko);
     QDomElement additionalTextMessage1_0(QString obsahZpravy);
+    QDomElement AllData_empty_1_0();
 public:
     explicit xmlGenerator(QWidget *parent = nullptr);
 

@@ -592,6 +592,7 @@ void MainWindow::vypisSubscribery(QVector<Subscriber> adresy)
 {
     qDebug()<<"MainWindow::vypisSubscribery";
     ui->seznamOdberatelu->clear();
+    //ui->odberatele_tableView->setRowCount(0);
     qDebug()<<"smazano"<<" adresy.size="<<adresy.size();
     if (adresy.size()==0)
     {

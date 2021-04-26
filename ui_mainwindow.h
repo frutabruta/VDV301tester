@@ -15,6 +15,7 @@
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
@@ -25,6 +26,7 @@
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -136,6 +138,7 @@ public:
     QVBoxLayout *verticalLayout_11;
     QLabel *label_11;
     QListWidget *seznamOdberatelu;
+    QTableWidget *tableWidget;
     QLineEdit *lineEdit_ipadresaOdberatele;
     QLineEdit *lineEdit_strukturaOdberu;
     QWidget *verticalLayoutWidget;
@@ -970,6 +973,11 @@ public:
         seznamOdberatelu->setObjectName(QString::fromUtf8("seznamOdberatelu"));
 
         verticalLayout_11->addWidget(seznamOdberatelu);
+
+        tableWidget = new QTableWidget(verticalLayoutWidget_10);
+        tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
+
+        verticalLayout_11->addWidget(tableWidget);
 
         lineEdit_ipadresaOdberatele = new QLineEdit(page_customXML);
         lineEdit_ipadresaOdberatele->setObjectName(QString::fromUtf8("lineEdit_ipadresaOdberatele"));
