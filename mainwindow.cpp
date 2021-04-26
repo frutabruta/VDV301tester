@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"),
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
-    customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0")
+    customerInformationService2_2CZ1_0("CustomerInformationService(2)","_ibisip_http._tcp",47480,"2.2CZ1.0")
 {
     qDebug()<<"MainWindow::MainWindow";
     ui->setupUi(this);
