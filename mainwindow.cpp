@@ -4,7 +4,7 @@
 #include "xmlgenerator.h"
 
 #include <QNetworkReply>
-#include "VDV301struktury/seznamzastavek.h"
+#include "VDV301struktury/zastavka.h"
 
 
 
@@ -50,7 +50,7 @@ void MainWindow::xmlHromadnyUpdate()
     if (stavSystemu.prestupy==true)
     {
 
-        mpvParser.StahniMpvXml(globalniSeznamZastavek[stavSystemu.indexAktZastavky].cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].ids);
+        mpvParser.StahniMpvXml(globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.ids);
        // connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     }
     qDebug()<<QString::number(stavSystemu.indexAktZastavky);
@@ -488,11 +488,11 @@ int MainWindow::priPrijezdu()
 
     if (stavSystemu.indexAktZastavky<(globalniSeznamZastavek.length()-1))
     {
-        hlasic.kompletZastavka(globalniSeznamZastavek[stavSystemu.indexAktZastavky].cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].cisloOis,globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].cisloOis);
+        hlasic.kompletZastavka(globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis,globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka.cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka.cisloOis);
     }
     else
     {
-        hlasic.kompletKonecna(globalniSeznamZastavek[stavSystemu.indexAktZastavky].cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].cisloOis );
+        hlasic.kompletKonecna(globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis );
     }
     stavSystemu.locationState="AtStop";
     xmlHromadnyUpdate();

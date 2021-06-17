@@ -45,6 +45,8 @@ QT += network
 SOURCES += \
     VDV301struktury/linka.cpp \
     VDV301publisher/customerinformationservice.cpp \
+    VDV301struktury/zastavka.cpp \
+    VDV301struktury/zastavkacil.cpp \
     hlasic.cpp \
     VDV301publisher/httpsluzba.cpp \
         main.cpp \
@@ -52,7 +54,6 @@ SOURCES += \
     newhttpserver.cpp \
     prestupmpv.cpp \
     VDV301struktury/spoj.cpp \
-    VDV301struktury/seznamzastavek.cpp\
     VDV301struktury/pasmo.cpp \
     subscriber.cpp \
     xmlgenerator.cpp \
@@ -66,13 +67,14 @@ SOURCES += \
 HEADERS += \
     VDV301struktury/linka.h \
     VDV301publisher/customerinformationservice.h \
+    VDV301struktury/zastavka.h \
+    VDV301struktury/zastavkacil.h \
     hlasic.h \
     VDV301publisher/httpsluzba.h \
         mainwindow.h \
     newhttpserver.h \
     prestupmpv.h \
     VDV301struktury/spoj.h \
-    VDV301struktury/seznamzastavek.h\
     VDV301struktury/pasmo.h \
     subscriber.h \
     xmlgenerator.h \

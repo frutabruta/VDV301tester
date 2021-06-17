@@ -5,6 +5,8 @@ debug/dnssd_ipc.o
 debug/qzeroconfservice.o
 debug/linka.o
 debug/customerinformationservice.o
+debug/zastavka.o
+debug/zastavkacil.o
 debug/hlasic.o
 debug/httpsluzba.o
 debug/main.o
@@ -12,7 +14,6 @@ debug/mainwindow.o
 debug/newhttpserver.o
 debug/prestupmpv.o
 debug/spoj.o
-debug/seznamzastavek.o
 debug/pasmo.o
 debug/subscriber.o
 debug/xmlgenerator.o

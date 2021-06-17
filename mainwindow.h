@@ -13,7 +13,7 @@
 #include <QNetworkAccessManager>
 #include <QMainWindow>
 #define MAX_ZAST 100
-#include "VDV301struktury/seznamzastavek.h"
+#include "VDV301struktury/zastavka.h"
 #include "VDV301struktury/linka.h"
 #include "VDV301struktury/cestaudaje.h"
 #include <QVector>
@@ -24,7 +24,7 @@
 
 #include "VDV301publisher/httpsluzba.h"
 #include "VDV301publisher/customerinformationservice.h"
-
+#include "VDV301struktury/zastavkacil.h"
 
 
 namespace Ui {
@@ -40,7 +40,7 @@ public:
     ~MainWindow();
 
     //SeznamZastavek* globalniSeznamZastavek = new SeznamZastavek[MAX_ZAST]; //new SeznamZastavek[MAX_ZAST];
-    QVector<SeznamZastavek>  globalniSeznamZastavek ;
+    QVector<ZastavkaCil>  globalniSeznamZastavek ;
     //int vytvor();
     //CestaUdaje stavSystemu2;
     CestaUdaje stavSystemu;
