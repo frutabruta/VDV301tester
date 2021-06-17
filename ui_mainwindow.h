@@ -1030,7 +1030,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(3);
+        prepinadloStran->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);

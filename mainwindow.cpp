@@ -7,6 +7,7 @@
 #include "VDV301struktury/seznamzastavek.h"
 
 
+
 //koment
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -33,6 +34,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->vypisSubscribery(customerInformationService1_0.seznamSubscriberu);
      connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     //MainWindow::setWindowState(Qt::WindowFullScreen);
+
+
+
 
 }
 

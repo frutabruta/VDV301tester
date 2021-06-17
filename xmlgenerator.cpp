@@ -597,7 +597,7 @@ nedodelane priznaky:
 
 
     //QDomElement dDestinationName=internationalTextType("DestinationName",destinationName,language);
-    QDomElement dDestinationName=internationalTextType("DestinationName","x"+destinationName,language);dDestination.appendChild(dDestinationName);
+    QDomElement dDestinationName=internationalTextType("DestinationName",""+destinationName,language);dDestination.appendChild(dDestinationName);
 
     dDisplayContent.appendChild(dDestination);
 

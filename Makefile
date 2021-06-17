@@ -242,7 +242,7 @@ Makefile: VDV301tester.pro C:/Qt/5.15.1/mingw81_64/mkspecs/win32-g++/qmake.conf 
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/toolchain.prf \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/default_pre.prf \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/win32/default_pre.prf \
-		qtzeroconf/qtzeroconf.pri \
+		QtZeroConf/qtzeroconf.pri \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/resolve_config.prf \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/exclusive_builds_post.prf \
 		C:/Qt/5.15.1/mingw81_64/mkspecs/features/default_post.prf \
@@ -450,7 +450,7 @@ C:/Qt/5.15.1/mingw81_64/mkspecs/features/exclusive_builds.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/toolchain.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/default_pre.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/win32/default_pre.prf:
-qtzeroconf/qtzeroconf.pri:
+QtZeroConf/qtzeroconf.pri:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/resolve_config.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/exclusive_builds_post.prf:
 C:/Qt/5.15.1/mingw81_64/mkspecs/features/default_post.prf:
