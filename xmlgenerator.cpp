@@ -80,8 +80,16 @@ QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, 
     qDebug()<<"spec oznameni="<<specialniOznameni;
     if (specialniOznameni!="")
     {
+        qDebug()<<"specOznNeniPrazdne";
     dTripInformation.appendChild(additionalTextMessage1_0(specialniOznameni));
     }
+    else
+    {
+        qDebug()<<"specOznJePrazdne";
+    }
+
+    qDebug()<<"zaSpecOzn";
+
 
     //stop sequence
     dTripInformation.appendChild(StopSequence1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,Connections,stav));
@@ -91,24 +99,29 @@ QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, 
     QDomElement dLocationState=xmlko.createElement("LocationState");
     dLocationState.appendChild(xmlko.createTextNode( locationState));
     dTripInformation.appendChild(dLocationState);
-
+    qDebug()<<"DB1";
     QDomElement dCurrentStopIndex=xmlko.createElement("CurrentStopIndex");
     dCurrentStopIndex.appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode(QString::number(currentStopIndex)));
     dAllData.appendChild(dCurrentStopIndex);
+    qDebug()<<"DB2";
     QDomElement dRouteDeviation = xmlko.createElement("RouteDeviation");
     dRouteDeviation.appendChild(xmlko.createTextNode(routeDeviation));
     dAllData.appendChild(dRouteDeviation);
+    qDebug()<<"DB3";
     QDomElement dDoorState = xmlko.createElement("DoorState");
     dDoorState.appendChild(xmlko.createTextNode(doorState));
     dAllData.appendChild(dDoorState);
+    qDebug()<<"DB4";
     QDomElement dVehicleStopRequested=xmlko.createElement("VehicleStopRequested");
     dVehicleStopRequested.appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode(vehicleStopRequested));
     dAllData.appendChild(dVehicleStopRequested);
     QDomElement dExitSide = xmlko.createElement("ExitSide");
+    qDebug()<<"DB5";
     dExitSide.appendChild(xmlko.createTextNode(exitSide));
     dAllData.appendChild(dExitSide);
     /*telo="";
     telo+=xmlko;*/
+    qDebug()<<"DB6";
     return xmlko.toString();
 }
 
@@ -294,7 +307,7 @@ QString xmlGenerator::CurrentDisplayContent1_0(int poradi, QVector <ZastavkaCil>
     dCurrentDisplayContentData.appendChild(TimeStampTag1_0(xmlko));
 
 
-    dCurrentDisplayContentData.appendChild(DisplayContent1_0("CurrentDisplayContent",xmlko,docasnySeznamZastavek,lineNumber,lineName,language,destinationRef,destinationName,stav));
+    dCurrentDisplayContentData.appendChild(DisplayContent1_0("CurrentDisplayContent",xmlko,docasnySeznamZastavek,language,stav));
     dCustomerInformationService.appendChild(dCurrentDisplayContentData);
     xmlko.appendChild(dCustomerInformationService);
 
@@ -382,7 +395,7 @@ QDomElement xmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastave
 
 
 
-    QDomElement dDisplayContent=DisplayContent1_0("DisplayContent",xmlko,docasnySeznamZastavek, aktZastavka.linka.LineNumber ,aktZastavka.linka.LineName,language,xDestinationCis,aktZastavka.cil.StopName, stav);
+    QDomElement dDisplayContent=DisplayContent1_0("DisplayContent",xmlko,docasnySeznamZastavek,language, stav);
     dStopPoint.appendChild(dDisplayContent);
 
 
@@ -486,9 +499,17 @@ nedodelane priznaky:
     return dStopPoint;
 }
 
-QDomElement xmlGenerator::DisplayContent1_0(QString tagName,QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek, QString lineNumber, QString lineName, QString language, QString destinationRef, QString destinationName,CestaUdaje stav)
+QDomElement xmlGenerator::DisplayContent1_0(QString tagName,QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek, QString language,  CestaUdaje stav)
 {
+
     int indexAktZastavky=stav.indexAktZastavky;
+    ZastavkaCil aktZastCil=docasnySeznamZastavek.at(indexAktZastavky);
+
+
+    QString destinationName=aktZastCil.cil.NameLcd;
+    QString lineNumber=aktZastCil.linka.LineNumber;
+    QString lineName=aktZastCil.linka.LineName;
+    QString destinationRef=QString::number(docasnySeznamZastavek.at(indexAktZastavky).cil.cisloCis);
     bool pridatPristi=true;
     QDomElement dDisplayContent=xmlko.createElement(tagName);
 
@@ -629,7 +650,17 @@ nedodelane priznaky:
 
 
     //QDomElement dDestinationName=internationalTextType("DestinationName",destinationName,language);
-    QDomElement dDestinationName=internationalTextType("DestinationName",""+destinationName,language);dDestination.appendChild(dDestinationName);
+    QDomElement dDestinationFrontName=internationalTextType("DestinationFrontName",""+destinationName,language);
+    dDestination.appendChild(dDestinationFrontName);
+    QDomElement dDestinationSideName=internationalTextType("DestinationSideName",""+destinationName,language);
+    dDestination.appendChild(dDestinationSideName);
+    QDomElement dDestinationRearName=internationalTextType("DestinationRearName",""+destinationName,language);
+    dDestination.appendChild(dDestinationRearName);
+    QDomElement dDestinationInnerName=internationalTextType("DestinationInnerName",""+destinationName,language);
+    dDestination.appendChild(dDestinationInnerName);
+    dDisplayContent.appendChild(dDestinationInnerName);
+    QDomElement dDestinationLcdName=internationalTextType("DestinationLcdName",""+destinationName,language);
+    dDestination.appendChild(dDestinationLcdName);
 
     dDisplayContent.appendChild(dDestination);
 

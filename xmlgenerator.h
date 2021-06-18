@@ -23,7 +23,6 @@ public:
     QString devStatus();
     QString createTimestamp();
     QString CurrentDisplayContent1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, CestaUdaje stav);
-    QDomElement DisplayContent1_0(QString tagName, QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString lineNumber, QString lineName, QString language, QString destinationRef, QString destinationName, CestaUdaje stav);
     QVector<Pasmo> pasmoStringDoVectoru(QString vstup, QString system);
     QDomElement internationalTextType(QString name, QString value, QString language);
     QDomElement fareZone1_0(QString shortName, QString longName, QString type, QString language);
@@ -39,6 +38,7 @@ public:
     QDomElement DisplayContent2_2CZ1_0(QString tagName, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int iteracniIndex, int currentStopIndex);
     QString AllData2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections);
     QString AllData1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, CestaUdaje stav);
+    QDomElement DisplayContent1_0(QString tagName, QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, CestaUdaje stav);
 signals:
 
 public slots:

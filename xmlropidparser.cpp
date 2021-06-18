@@ -349,6 +349,7 @@ int XmlRopidParser::vlozS(QDomElement koren)
         polozky.push_back(inicializujPolozku("man",element.attribute("man"),"Boolean"));
         polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
         polozky.push_back(inicializujPolozku("neve",element.attribute("neve"),"Boolean"));
+        polozky.push_back(inicializujPolozku("ns",element.attribute("ns"),"Integer"));
 
 
 
