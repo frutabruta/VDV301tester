@@ -445,6 +445,17 @@ QDomElement xmlGenerator::stopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZa
     QDomElement dStopName=internationalTextType("StopName",cStopName,language);
     dStopPoint.appendChild(dStopName);
 
+    QDomElement dStopFrontName=internationalTextType("StopFrontName",aktZastavka.zastavka.NameFront,language);
+    dStopPoint.appendChild(dStopFrontName);
+    QDomElement dStopSideName=internationalTextType("StopSideName",aktZastavka.zastavka.NameSide,language);
+    dStopPoint.appendChild(dStopSideName);
+    QDomElement dStopRearName=internationalTextType("StopRearName",aktZastavka.zastavka.NameRear,language);
+    dStopPoint.appendChild(dStopRearName);
+    QDomElement dStopLcdName=internationalTextType("StopLcdName",aktZastavka.zastavka.NameLcd,language);
+    dStopPoint.appendChild(dStopLcdName);
+    QDomElement dStopInnerName=internationalTextType("StopInnerName",aktZastavka.zastavka.NameInner,language);
+    dStopPoint.appendChild(dStopInnerName);
+
     dStopPoint.appendChild(xxxProperty2_2CZ1_0("StopProperty",aktZastavka.zastavka.naZnameni,"RequestStop"));
     dStopPoint.appendChild(xxxProperty2_2CZ1_0("StopProperty",aktZastavka.zastavka.prestupLetadlo ,"Air"));
     dStopPoint.appendChild(xxxProperty2_2CZ1_0("StopProperty",aktZastavka.zastavka.prestupPrivoz ,"Ferry"));
@@ -650,17 +661,16 @@ nedodelane priznaky:
 
 
     //QDomElement dDestinationName=internationalTextType("DestinationName",destinationName,language);
-    QDomElement dDestinationFrontName=internationalTextType("DestinationFrontName",""+destinationName,language);
+    QDomElement dDestinationFrontName=internationalTextType("DestinationFrontName",aktZastavkaCil.cil.NameFront,language);
     dDestination.appendChild(dDestinationFrontName);
-    QDomElement dDestinationSideName=internationalTextType("DestinationSideName",""+destinationName,language);
+    QDomElement dDestinationSideName=internationalTextType("DestinationSideName",aktZastavkaCil.cil.NameSide,language);
     dDestination.appendChild(dDestinationSideName);
-    QDomElement dDestinationRearName=internationalTextType("DestinationRearName",""+destinationName,language);
+    QDomElement dDestinationRearName=internationalTextType("DestinationRearName",aktZastavkaCil.cil.NameRear,language);
     dDestination.appendChild(dDestinationRearName);
-    QDomElement dDestinationInnerName=internationalTextType("DestinationInnerName",""+destinationName,language);
-    dDestination.appendChild(dDestinationInnerName);
-    dDisplayContent.appendChild(dDestinationInnerName);
-    QDomElement dDestinationLcdName=internationalTextType("DestinationLcdName",""+destinationName,language);
+    QDomElement dDestinationLcdName=internationalTextType("DestinationLcdName",aktZastavkaCil.cil.NameLcd,language);
     dDestination.appendChild(dDestinationLcdName);
+    QDomElement dDestinationInnerName=internationalTextType("DestinationInnerName",aktZastavkaCil.cil.NameInner,language);
+    dDestination.appendChild(dDestinationInnerName);
 
     dDisplayContent.appendChild(dDestination);
 

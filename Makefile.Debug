@@ -819,6 +819,8 @@ debug/moc_httpsluzba.cpp: VDV301publisher/httpsluzba.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtGui/qicon.h \
 		VDV301struktury/zastavka.h \
 		VDV301struktury/pasmo.h \
+		VDV301struktury/zastavkacil.h \
+		VDV301struktury/linka.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QCoreApplication \
 		C:/Qt/5.15.1/mingw81_64/include/QtXml/QDomDocument \
 		VDV301struktury/cestaudaje.h \
@@ -1724,6 +1726,9 @@ debug/moc_xmlgenerator.cpp: xmlgenerator.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QObject \
 		VDV301struktury/zastavka.h \
 		VDV301struktury/pasmo.h \
+		VDV301struktury/zastavkacil.h \
+		VDV301struktury/linka.h \
+		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QWidget \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QCoreApplication \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/qcoreapplication.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/qeventloop.h \
@@ -1732,7 +1737,6 @@ debug/moc_xmlgenerator.cpp: xmlgenerator.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtXml/qtxmlglobal.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtXml/qtxml-config.h \
 		VDV301struktury/cestaudaje.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QWidget \
 		debug/moc_predefs.h \
 		C:/Qt/5.15.1/mingw81_64/bin/moc.exe
 	C:\Qt\5.15.1\mingw81_64\bin\moc.exe $(DEFINES) --include C:/Users/adam/Documents/GitHub/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.1/mingw81_64/mkspecs/win32-g++ -IC:/Users/adam/Documents/GitHub/VDV301tester -IC:/Qt/5.15.1/mingw81_64/include -IC:/Qt/5.15.1/mingw81_64/include/QtMultimedia -IC:/Qt/5.15.1/mingw81_64/include/QtWidgets -IC:/Qt/5.15.1/mingw81_64/include/QtGui -IC:/Qt/5.15.1/mingw81_64/include/QtANGLE -IC:/Qt/5.15.1/mingw81_64/include/QtHttpServer -IC:/Qt/5.15.1/mingw81_64/include/QtWebSockets -IC:/Qt/5.15.1/mingw81_64/include/QtSslServer -IC:/Qt/5.15.1/mingw81_64/include/QtNetwork -IC:/Qt/5.15.1/mingw81_64/include/QtSql -IC:/Qt/5.15.1/mingw81_64/include/QtXml -IC:/Qt/5.15.1/mingw81_64/include/QtSerialPort -IC:/Qt/5.15.1/mingw81_64/include/QtConcurrent -IC:/Qt/5.15.1/mingw81_64/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlgenerator.h -o debug\moc_xmlgenerator.cpp
@@ -2677,6 +2681,8 @@ debug/customerinformationservice.o: VDV301publisher/customerinformationservice.c
 		C:/Qt/5.15.1/mingw81_64/include/QtGui/qicon.h \
 		VDV301struktury/zastavka.h \
 		VDV301struktury/pasmo.h \
+		VDV301struktury/zastavkacil.h \
+		VDV301struktury/linka.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QCoreApplication \
 		C:/Qt/5.15.1/mingw81_64/include/QtXml/QDomDocument \
 		VDV301struktury/cestaudaje.h \
@@ -2903,7 +2909,9 @@ debug/zastavkacil.o: VDV301struktury/zastavkacil.cpp VDV301struktury/zastavkacil
 		C:/Qt/5.15.1/mingw81_64/include/QtGui/qvector2d.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtGui/qtouchdevice.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qicon.h
+		C:/Qt/5.15.1/mingw81_64/include/QtGui/qicon.h \
+		VDV301struktury/linka.h \
+		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\zastavkacil.o VDV301struktury\zastavkacil.cpp
 
 debug/hlasic.o: hlasic.cpp hlasic.h \
@@ -3400,6 +3408,8 @@ debug/httpsluzba.o: VDV301publisher/httpsluzba.cpp VDV301publisher/httpsluzba.h 
 		C:/Qt/5.15.1/mingw81_64/include/QtGui/qicon.h \
 		VDV301struktury/zastavka.h \
 		VDV301struktury/pasmo.h \
+		VDV301struktury/zastavkacil.h \
+		VDV301struktury/linka.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QCoreApplication \
 		C:/Qt/5.15.1/mingw81_64/include/QtXml/QDomDocument \
 		VDV301struktury/cestaudaje.h \
@@ -4283,62 +4293,7 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtXml/QDomDocument \
 		subscriber.h \
 		VDV301publisher/customerinformationservice.h \
-		ui_mainwindow.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QApplication \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qapplication.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qdesktopwidget.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qguiapplication.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qinputmethod.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QCheckBox \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qcheckbox.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QFormLayout \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qformlayout.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QLayout \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qlayout.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qlayoutitem.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qboxlayout.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qgridlayout.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QGridLayout \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QHBoxLayout \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QHeaderView \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qheaderview.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QLabel \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qlabel.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QLineEdit \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qtextcursor.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qtextformat.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qpen.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qtextoption.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QMenuBar \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qmenubar.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qmenu.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qaction.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qactiongroup.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QPlainTextEdit \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qplaintextedit.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qtextedit.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qtextdocument.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qabstracttextdocumentlayout.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qtextlayout.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qglyphrun.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qrawfont.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtGui/qfontdatabase.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QPushButton \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QRadioButton \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qradiobutton.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QStackedWidget \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qstackedwidget.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QStatusBar \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qstatusbar.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QTableWidget \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qtablewidget.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qtableview.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QToolBar \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/qtoolbar.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QVBoxLayout
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
 
 debug/newhttpserver.o: newhttpserver.cpp newhttpserver.h \
@@ -5135,6 +5090,9 @@ debug/xmlgenerator.o: xmlgenerator.cpp xmlgenerator.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QObject \
 		VDV301struktury/zastavka.h \
 		VDV301struktury/pasmo.h \
+		VDV301struktury/zastavkacil.h \
+		VDV301struktury/linka.h \
+		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QWidget \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QCoreApplication \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/qcoreapplication.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/qeventloop.h \
@@ -5143,7 +5101,6 @@ debug/xmlgenerator.o: xmlgenerator.cpp xmlgenerator.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtXml/qtxmlglobal.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtXml/qtxml-config.h \
 		VDV301struktury/cestaudaje.h \
-		C:/Qt/5.15.1/mingw81_64/include/QtWidgets/QWidget \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QTime \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/qdatetime.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QtDebug \
@@ -6369,6 +6326,8 @@ debug/ibisovladani.o: ibisovladani.cpp ibisovladani.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtSerialPort/qserialportglobal.h \
 		VDV301struktury/zastavka.h \
 		VDV301struktury/pasmo.h \
+		VDV301struktury/zastavkacil.h \
+		VDV301struktury/linka.h \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QDebug \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/QCoreApplication \
 		C:/Qt/5.15.1/mingw81_64/include/QtCore/qcoreapplication.h \
