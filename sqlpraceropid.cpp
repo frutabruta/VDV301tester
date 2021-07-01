@@ -89,7 +89,7 @@ int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<Zastavka
     queryString2+=("t.ri,t.hl, ");
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
-    queryString2+=("l.c, l.lc, l.tl, ");
+    queryString2+=("l.c, l.lc, l.tl, l.aois, ");
     queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, ");
     queryString2+=("s.ns ");
     queryString2+=("FROM x ");
@@ -146,7 +146,16 @@ dbManager->query.exec();
             aktZast.StopIndex=cisloZast;
             qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(counter);
 
-            aktLinka.LineName=query.value(query.record().indexOf("l.c")).toString();
+            //aktLinka.LineName=query.value(query.record().indexOf("l.c")).toString();
+            QString aois=query.value(query.record().indexOf("l.aois")).toString();
+            if (aois!="")
+            {
+                aktLinka.LineName=aois;
+            }
+            else
+            {
+                aktLinka.LineName=query.value(query.record().indexOf("l.c")).toString();
+            }
             aktLinka.LineNumber=query.value(query.record().indexOf("l.lc")).toString();
             aktLinka.typLinky=query.value(query.record().indexOf("l.tl")).toString();
 
@@ -271,12 +280,12 @@ dbManager->query.exec();
 
 int SqlPraceRopid::StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost )
 {
-qDebug()<< "SQLprace::StahniSeznam";
+    qDebug()<< "SQLprace::StahniSeznam";
 
     QVector <ZastavkaCil> interniSeznamZastavek;
 
 
-   this->otevriDB();
+    this->otevriDB();
     //docasnySeznamZastavek.clear();
 
 
@@ -451,13 +460,24 @@ qDebug()<< "SQLprace::StahniSeznam";
     }
     else
     {
-        qDebug()<<"navazujici spoj neni";
+        qDebug()<<"navazujici spoj2 neni";
     }
 
     if (docasnySeznamZastavek.size()>0 )
     {
         docasnySeznamZastavek.removeLast();
     }
+
+    for(int i=0;i<docasnySeznamZastavek.size();i++)
+    {
+
+        QString novyHorniCil=docasnySeznamZastavek.at(i).cil.NameFront+docasnySeznamZastavek.at(i).cil.NameFront2;
+        docasnySeznamZastavek[i].cil.NameFront=novyHorniCil;
+        docasnySeznamZastavek[i].cil.NameFront2="a dále jako linka "+interniSeznamZastavek.first().linka.LineName;
+        qDebug()<<"obsah spodniho radku "<<docasnySeznamZastavek[i].cil.NameFront2;
+
+    }
+
     docasnySeznamZastavek.append(interniSeznamZastavek);
 
     return 1;

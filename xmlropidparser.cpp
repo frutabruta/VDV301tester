@@ -247,6 +247,8 @@ int XmlRopidParser::vlozL(QDomElement koren)
         polozky.push_back(inicializujPolozku("kup",element.attribute("kup"),"Integer"));
         polozky.push_back(inicializujPolozku("ids",element.attribute("ids"),"Boolean"));
         polozky.push_back(inicializujPolozku("noc",element.attribute("noc"),"Boolean"));
+        polozky.push_back(inicializujPolozku("aois",element.attribute("aois"),"String"));
+        polozky.push_back(inicializujPolozku("a",element.attribute("a"),"String"));
         QString queryString=this->slozInsert("l",polozky);
         qDebug()<<"l2 "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
