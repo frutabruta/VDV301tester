@@ -17,6 +17,9 @@ class xmlGenerator : public QMainWindow
     QDomElement TimeStampTag1_0(QDomDocument xmlko);
     QDomElement additionalTextMessage1_0(QString obsahZpravy);
     QDomElement AllData_empty_1_0();
+    QString AllDataEmpty2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections);
+    QDomElement rawInsert(QString vstup);
+    QDomElement additionalTextMessage2_2CZ1_0(QString obsahZpravy);
 public:
     explicit xmlGenerator(QWidget *parent = nullptr);
 

@@ -172,7 +172,7 @@ dbManager->query.exec();
             aktZast.StopName=query.value(query.record().indexOf("t.ri")).toString();
             aktZast.ids ="PID";
 
-            if(aktLinka.typLinky=="A")
+            if(aktLinka.typLinky!="A")
             {
                 aktZast.NameFront=query.value(query.record().indexOf("t.ctn")).toString();
                 aktZast.NameSide=query.value(query.record().indexOf("t.btn")).toString();

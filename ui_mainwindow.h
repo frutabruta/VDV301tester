@@ -127,6 +127,8 @@ public:
     QLabel *hlaseniLabel;
     QPushButton *tlacitkoHlaseniSlozka;
     QLineEdit *lineEditHlaseniCesta;
+    QLabel *label_12;
+    QLabel *label_build;
     QWidget *page_customXML;
     QWidget *verticalLayoutWidget_9;
     QVBoxLayout *verticalLayout_10;
@@ -929,6 +931,12 @@ public:
 
         verticalLayout_14->addWidget(lineEditHlaseniCesta);
 
+        label_12 = new QLabel(page_nastaveni);
+        label_12->setObjectName(QString::fromUtf8("label_12"));
+        label_12->setGeometry(QRect(360, 340, 47, 13));
+        label_build = new QLabel(page_nastaveni);
+        label_build->setObjectName(QString::fromUtf8("label_build"));
+        label_build->setGeometry(QRect(450, 340, 151, 16));
         prepinadloStran->addWidget(page_nastaveni);
         page_customXML = new QWidget();
         page_customXML->setObjectName(QString::fromUtf8("page_customXML"));
@@ -1030,7 +1038,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(3);
+        prepinadloStran->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1096,6 +1104,8 @@ public:
         hlaseniLabel->setText(QCoreApplication::translate("MainWindow", "Slozka hlaseni", nullptr));
         tlacitkoHlaseniSlozka->setText(QCoreApplication::translate("MainWindow", "nastav slozku", nullptr));
         lineEditHlaseniCesta->setText(QCoreApplication::translate("MainWindow", "/home/pi/hlaseni", nullptr));
+        label_12->setText(QCoreApplication::translate("MainWindow", "build", nullptr));
+        label_build->setText(QCoreApplication::translate("MainWindow", "cisloBuildu", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "CustomXML", nullptr));
         plainTextEditCustomXml->setPlainText(QCoreApplication::translate("MainWindow", "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 "<CustomerInformationService.GetAllDataResponse>\n"

@@ -34,8 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->vypisSubscribery(customerInformationService1_0.seznamSubscriberu);
      connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     //MainWindow::setWindowState(Qt::WindowFullScreen);
-
-
+    QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
+    ui->label_build->setText(compilationTime);
 
 
 }

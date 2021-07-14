@@ -714,7 +714,7 @@
          <string notr="true">/*background-color:rgb(52, 101, 164); */</string>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="page_vydej">
          <layout class="QGridLayout" name="gridLayout_3">
@@ -2023,6 +2023,32 @@ Stop</string>
             </widget>
            </item>
           </layout>
+         </widget>
+         <widget class="QLabel" name="label_12">
+          <property name="geometry">
+           <rect>
+            <x>360</x>
+            <y>340</y>
+            <width>47</width>
+            <height>13</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>build</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_build">
+          <property name="geometry">
+           <rect>
+            <x>450</x>
+            <y>340</y>
+            <width>151</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>cisloBuildu</string>
+          </property>
          </widget>
         </widget>
         <widget class="QWidget" name="page_customXML">
