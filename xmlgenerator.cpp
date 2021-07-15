@@ -619,33 +619,51 @@ QDomElement xmlGenerator::DisplayContent2_2CZ1_0(QString tagName,QVector<Zastavk
 
     dDisplayContent.appendChild(ref("DisplayContentRef","1234"));
 
+    //linka
+
     QDomElement dLineInformation=xmlko.createElement("LineInformation");
     dDisplayContent.appendChild(dLineInformation);
 
+    QDomElement dLineProperty=xmlko.createElement("LineProperty");
+
+    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",aktZastavkaCil.linka.isDiversion ,"Diversion"));
+    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",!aktZastavkaCil.linka.isNight ,"Day"));
+    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",aktZastavkaCil.linka.isNight ,"Night"));
+    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",aktZastavkaCil.linka.isReplacement ,"Replacement"));
+    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",aktZastavkaCil.linka.isSpecial ,"Special"));
+    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",aktZastavkaCil.linka.isWheelchair ,"WheelChair"));
+
+
+
+
+
+
     //dLineInformation.appendChild(ref("LineRef",lineNumber));
 
-QDomElement dLineName;
+
+
+    QDomElement dLineName;
 
     if(lineName.length()>3)
     {
-    lineName="v &#x0A; &#x1B; &#x53; &#x0D; &#x34; "+lineName;
+        lineName="v &#x0A; &#x1B; &#x53; &#x0D; &#x34; "+lineName;
 
-    QDomElement ctyrmistnaLinka=xmlko.createElement("test");
-    QDomNode ppppp;
+        QDomElement ctyrmistnaLinka=xmlko.createElement("test");
+        //QDomNode ppppp;
 
-    QString ridiciZnak="";
-    ridiciZnak+=0x1B;
-    QDomCDATASection sekceKodu=xmlko.createCDATASection("<element>&#x1B;&#x53; ahoj</element>");
+        QString ridiciZnak="";
+        ridiciZnak+=0x1B;
+        QDomCDATASection sekceKodu=xmlko.createCDATASection("<element>&#x1B;&#x53; ahoj</element>");
 
 
-    dLineName=internationalTextType("LineName",  lineName ,language);
-   // dLineName.appendChild(sekceKodu);
-    dLineName.appendChild(rawInsert(lineName));
+        dLineName=internationalTextType("LineName",  lineName ,language);
+        // dLineName.appendChild(sekceKodu);
+        dLineName.appendChild(rawInsert(lineName));
 
     }
     else
     {
-     dLineName=internationalTextType("LineName",lineName,language);
+        dLineName=internationalTextType("LineName",lineName,language);
     }
 
 
@@ -1156,7 +1174,7 @@ QDomElement xmlGenerator::rawInsert(QString vstup)
     impl.setInvalidDataPolicy( QDomImplementation::AcceptInvalidChars );
 
     vstup="&#12;";
-   //vstup=vstup.toHtmlEscaped();
+    //vstup=vstup.toHtmlEscaped();
     QString rawElement="<?xml version=\"1.0\" encoding=\"utf-8\" ?><wrapper>"+vstup+"</wrapper>";
     novy.setContent(rawElement,false);
     vystup=novy.firstChildElement();

@@ -89,7 +89,7 @@ int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<Zastavka
     queryString2+=("t.ri,t.hl, ");
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
-    queryString2+=("l.c, l.lc, l.tl, l.aois, ");
+    queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, ");
     queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, ");
     queryString2+=("s.ns ");
     queryString2+=("FROM x ");
@@ -158,6 +158,7 @@ dbManager->query.exec();
             }
             aktLinka.LineNumber=query.value(query.record().indexOf("l.lc")).toString();
             aktLinka.typLinky=query.value(query.record().indexOf("l.tl")).toString();
+            aktLinka.isNight=query.value(query.record().indexOf("l.noc")).toBool();
 
 
 
