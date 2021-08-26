@@ -3,6 +3,7 @@ debug/dnssd_clientlib.o
 debug/dnssd_clientstub.o
 debug/dnssd_ipc.o
 debug/qzeroconfservice.o
+debug/ticketvalidationservice.o
 debug/linka.o
 debug/customerinformationservice.o
 debug/zastavka.o

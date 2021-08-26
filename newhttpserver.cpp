@@ -98,6 +98,20 @@ int NewHttpServer::route(QString &intObsahGet,  QMap<QString,QString> &obsahyBod
         //return intObsahGet;
     });
 
+    httpServer.route("/TicketValidationService/Get<arg>", [&obsahyBody](const QUrl &url,const QHttpServerRequest &request)
+    {
+
+
+        QString struktura= QStringLiteral("%1").arg(url.path());
+        qDebug()<<"argument "<<struktura;
+
+        qDebug()<<"request "<<"/TicketValidationService/Get<arg>";
+        //qDebug()<<request.body();
+        //return obsahyBody.value("AllData");
+        return obsahyBody.value(struktura);
+        //return intObsahGet;
+    });
+
 
     httpServer.route("/", [this](const QHttpServerRequest &request)
     {

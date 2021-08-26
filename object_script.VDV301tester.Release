@@ -3,6 +3,7 @@ release/dnssd_clientlib.o
 release/dnssd_clientstub.o
 release/dnssd_ipc.o
 release/qzeroconfservice.o
+release/ticketvalidationservice.o
 release/linka.o
 release/customerinformationservice.o
 release/zastavka.o

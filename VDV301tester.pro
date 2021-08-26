@@ -43,6 +43,7 @@ QT += network
 //LIBS += -lqhttpserver
 
 SOURCES += \
+    VDV301publisher/ticketvalidationservice.cpp \
     VDV301struktury/linka.cpp \
     VDV301publisher/customerinformationservice.cpp \
     VDV301struktury/zastavka.cpp \
@@ -65,6 +66,7 @@ SOURCES += \
 
 
 HEADERS += \
+    VDV301publisher/ticketvalidationservice.h \
     VDV301struktury/linka.h \
     VDV301publisher/customerinformationservice.h \
     VDV301struktury/zastavka.h \

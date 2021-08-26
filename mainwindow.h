@@ -24,6 +24,7 @@
 
 #include "VDV301publisher/httpsluzba.h"
 #include "VDV301publisher/customerinformationservice.h"
+#include "VDV301publisher/ticketvalidationservice.h"
 #include "VDV301struktury/zastavkacil.h"
 
 
@@ -63,6 +64,7 @@ public:
     HttpSluzba deviceManagementService1_0;
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_2CZ1_0;
+    TicketValidationService ticketValidationService2_3CZ1_0;
 
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);

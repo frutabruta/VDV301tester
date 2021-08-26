@@ -39,9 +39,16 @@ public:
     QVector<QDomElement> FareZoneInformationStructure1_0(QVector<Pasmo> seznamPasem, QString language);
     QDomElement xxxProperty2_2CZ1_0(QString nazev, bool vysledek, QString hodnota);
     QDomElement DisplayContent2_2CZ1_0(QString tagName, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int iteracniIndex, int currentStopIndex);
-    QString AllData2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections);
+    //QString AllData2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections);
     QString AllData1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, CestaUdaje stav);
     QDomElement DisplayContent1_0(QString tagName, QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, CestaUdaje stav);
+    QString TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections);
+    QString AllData2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, QDomDocument Connections, CestaUdaje stav);
+    QString TicketValidationService_GetVehicleDataResponse2_2CZ1_0(CestaUdaje stav);
+    QDomElement RouteDeviation(QDomDocument xmlko, QString obsah);
+    QDomElement DoorOpenState(QDomDocument xmlko, QString obsah);
+    QDomElement VehicleMode(QDomDocument xmlko, QString mode, QString subMode);
+    QString TicketValidationService_GetRazziaResponse2_2CZ1_0(CestaUdaje stav);
 signals:
 
 public slots:
