@@ -134,12 +134,16 @@ private:
     void inicializacePoli();
     void vypisSubscribery(QVector<Subscriber> adresy);
 
+    void vypisSubscribery2(QVector<Subscriber> adresy);
 private slots:
     //void novySubsriber(QUrl adresaSubscribera);
 
     void on_tlacitkoAddsubscriber_clicked();
     void on_tlacitkoRemoveSubscriber_clicked();
     void on_tlacitkoHlaseniSlozka_clicked();
+    void on_tlacitkoAddsubscriber_2_clicked();
+    void on_tlacitkoRemoveSubscriber_2_clicked();
+    void vypisDiagnostika(QString vstup);
 };
 
 #endif // MAINWINDOW_H

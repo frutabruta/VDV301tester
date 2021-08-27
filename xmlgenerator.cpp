@@ -433,15 +433,29 @@ QDomElement xmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastave
 
 QDomElement xmlGenerator::stopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QDomDocument Connections, QString language,int currentStopIndex)
 {
-    ZastavkaCil aktZastavka=docasnySeznamZastavek.at(indexZpracZastavky);
+    qDebug()<<"xmlGenerator::stopPoint2_2CZ1_0";
     QDomDocument xmlko;
+    QDomElement dStopPoint=xmlko.createElement("StopPoint");
+    qDebug()<<"indexZpracZast "<<indexZpracZastavky;
+    if (docasnySeznamZastavek.isEmpty())
+    {
+        qDebug()<<"seznam zastávek je prázdný";
+        return dStopPoint;
+    }
+    if (indexZpracZastavky>=docasnySeznamZastavek.length())
+    {
+        qDebug()<<"index zastavky je mimo rozsah";
+        return dStopPoint;
+    }
+    ZastavkaCil aktZastavka=docasnySeznamZastavek.at(indexZpracZastavky);
+
     //SeznamZastavek prochazenaZastavka=docasnySeznamZastavek.at(i);
     QByteArray cCurrentStopIndex=QByteArray::number(aktZastavka.zastavka.StopIndex);
     QString cStopName= aktZastavka.zastavka.StopName;
-    QString xDestinationName= aktZastavka.cil.StopName;
-    QString xDestinationCis=QString::number(aktZastavka.cil.cisloCis);
+    //   QString xDestinationName= aktZastavka.cil.StopName;
+    //  QString xDestinationCis=QString::number(aktZastavka.cil.cisloCis);
     //STOP
-    QDomElement dStopPoint=xmlko.createElement("StopPoint");
+
 
     QDomElement dStopIndex=xmlko.createElement("StopIndex");
     dStopIndex.appendChild(xmlko.createElement("Value"));
@@ -1189,7 +1203,7 @@ QDomElement xmlGenerator::rawInsert(QString vstup)
 
 QString xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections)
 {
-
+    qDebug()<<"xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0";
     QDomDocument xmlko;
     QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
     xmlko.appendChild(dHlavicka);
@@ -1207,7 +1221,7 @@ QString xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1
 
 QString xmlGenerator::TicketValidationService_GetVehicleDataResponse2_2CZ1_0( CestaUdaje stav)
 {
-
+    qDebug()<<"xmlGenerator::TicketValidationService_GetVehicleDataResponse2_2CZ1_0";
     QDomDocument xmlko;
     QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
     xmlko.appendChild(dHlavicka);
@@ -1280,7 +1294,7 @@ QDomElement xmlGenerator::VehicleMode(QDomDocument xmlko,QString subMode, QStrin
 
 QString xmlGenerator::TicketValidationService_GetRazziaResponse2_2CZ1_0( CestaUdaje stav)
 {
-
+    qDebug()<<"xmlGenerator::TicketValidationService_GetRazziaResponse2_2CZ1_0";
     QDomDocument xmlko;
     QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
     xmlko.appendChild(dHlavicka);

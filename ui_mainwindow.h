@@ -139,14 +139,22 @@ public:
     QWidget *verticalLayoutWidget_10;
     QVBoxLayout *verticalLayout_11;
     QLabel *label_11;
-    QListWidget *seznamOdberatelu;
-    QTableWidget *tableWidget;
+    QTableWidget *seznamOdberatelu;
+    QLabel *label_15;
+    QTableWidget *seznamOdberatelu2;
     QLineEdit *lineEdit_ipadresaOdberatele;
     QLineEdit *lineEdit_strukturaOdberu;
-    QWidget *verticalLayoutWidget;
+    QWidget *horizontalLayoutWidget;
+    QHBoxLayout *horizontalLayout_5;
     QVBoxLayout *verticalLayout_12;
+    QLabel *label_13;
     QPushButton *tlacitkoAddsubscriber;
     QPushButton *tlacitkoRemoveSubscriber;
+    QVBoxLayout *verticalLayout_15;
+    QLabel *label_14;
+    QPushButton *tlacitkoAddsubscriber_2;
+    QPushButton *tlacitkoRemoveSubscriber_2;
+    QLabel *label_diagnostika_manual;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -977,15 +985,36 @@ public:
 
         verticalLayout_11->addWidget(label_11);
 
-        seznamOdberatelu = new QListWidget(verticalLayoutWidget_10);
+        seznamOdberatelu = new QTableWidget(verticalLayoutWidget_10);
+        if (seznamOdberatelu->columnCount() < 3)
+            seznamOdberatelu->setColumnCount(3);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        seznamOdberatelu->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        seznamOdberatelu->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        seznamOdberatelu->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         seznamOdberatelu->setObjectName(QString::fromUtf8("seznamOdberatelu"));
 
         verticalLayout_11->addWidget(seznamOdberatelu);
 
-        tableWidget = new QTableWidget(verticalLayoutWidget_10);
-        tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
+        label_15 = new QLabel(verticalLayoutWidget_10);
+        label_15->setObjectName(QString::fromUtf8("label_15"));
 
-        verticalLayout_11->addWidget(tableWidget);
+        verticalLayout_11->addWidget(label_15);
+
+        seznamOdberatelu2 = new QTableWidget(verticalLayoutWidget_10);
+        if (seznamOdberatelu2->columnCount() < 3)
+            seznamOdberatelu2->setColumnCount(3);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        seznamOdberatelu2->setHorizontalHeaderItem(0, __qtablewidgetitem3);
+        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
+        seznamOdberatelu2->setHorizontalHeaderItem(1, __qtablewidgetitem4);
+        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        seznamOdberatelu2->setHorizontalHeaderItem(2, __qtablewidgetitem5);
+        seznamOdberatelu2->setObjectName(QString::fromUtf8("seznamOdberatelu2"));
+
+        verticalLayout_11->addWidget(seznamOdberatelu2);
 
         lineEdit_ipadresaOdberatele = new QLineEdit(page_customXML);
         lineEdit_ipadresaOdberatele->setObjectName(QString::fromUtf8("lineEdit_ipadresaOdberatele"));
@@ -993,24 +1022,59 @@ public:
         lineEdit_strukturaOdberu = new QLineEdit(page_customXML);
         lineEdit_strukturaOdberu->setObjectName(QString::fromUtf8("lineEdit_strukturaOdberu"));
         lineEdit_strukturaOdberu->setGeometry(QRect(240, 270, 113, 20));
-        verticalLayoutWidget = new QWidget(page_customXML);
-        verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(30, 310, 101, 80));
-        verticalLayout_12 = new QVBoxLayout(verticalLayoutWidget);
+        horizontalLayoutWidget = new QWidget(page_customXML);
+        horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
+        horizontalLayoutWidget->setGeometry(QRect(10, 310, 180, 80));
+        horizontalLayout_5 = new QHBoxLayout(horizontalLayoutWidget);
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
+        verticalLayout_12 = new QVBoxLayout();
         verticalLayout_12->setSpacing(6);
-        verticalLayout_12->setContentsMargins(11, 11, 11, 11);
         verticalLayout_12->setObjectName(QString::fromUtf8("verticalLayout_12"));
-        verticalLayout_12->setContentsMargins(0, 0, 0, 0);
-        tlacitkoAddsubscriber = new QPushButton(verticalLayoutWidget);
+        label_13 = new QLabel(horizontalLayoutWidget);
+        label_13->setObjectName(QString::fromUtf8("label_13"));
+
+        verticalLayout_12->addWidget(label_13);
+
+        tlacitkoAddsubscriber = new QPushButton(horizontalLayoutWidget);
         tlacitkoAddsubscriber->setObjectName(QString::fromUtf8("tlacitkoAddsubscriber"));
 
         verticalLayout_12->addWidget(tlacitkoAddsubscriber);
 
-        tlacitkoRemoveSubscriber = new QPushButton(verticalLayoutWidget);
+        tlacitkoRemoveSubscriber = new QPushButton(horizontalLayoutWidget);
         tlacitkoRemoveSubscriber->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber"));
 
         verticalLayout_12->addWidget(tlacitkoRemoveSubscriber);
 
+
+        horizontalLayout_5->addLayout(verticalLayout_12);
+
+        verticalLayout_15 = new QVBoxLayout();
+        verticalLayout_15->setSpacing(6);
+        verticalLayout_15->setObjectName(QString::fromUtf8("verticalLayout_15"));
+        label_14 = new QLabel(horizontalLayoutWidget);
+        label_14->setObjectName(QString::fromUtf8("label_14"));
+
+        verticalLayout_15->addWidget(label_14);
+
+        tlacitkoAddsubscriber_2 = new QPushButton(horizontalLayoutWidget);
+        tlacitkoAddsubscriber_2->setObjectName(QString::fromUtf8("tlacitkoAddsubscriber_2"));
+
+        verticalLayout_15->addWidget(tlacitkoAddsubscriber_2);
+
+        tlacitkoRemoveSubscriber_2 = new QPushButton(horizontalLayoutWidget);
+        tlacitkoRemoveSubscriber_2->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber_2"));
+
+        verticalLayout_15->addWidget(tlacitkoRemoveSubscriber_2);
+
+
+        horizontalLayout_5->addLayout(verticalLayout_15);
+
+        label_diagnostika_manual = new QLabel(page_customXML);
+        label_diagnostika_manual->setObjectName(QString::fromUtf8("label_diagnostika_manual"));
+        label_diagnostika_manual->setGeometry(QRect(20, 390, 541, 16));
         prepinadloStran->addWidget(page_customXML);
 
         horizontalLayout_9->addWidget(prepinadloStran);
@@ -1038,7 +1102,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(2);
+        prepinadloStran->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1336,11 +1400,29 @@ public:
                         "</CustomerInformationService.GetAllDataResponse>", nullptr));
         tlacitkoSmazOkno->setText(QCoreApplication::translate("MainWindow", "Vyma\305\276 okno", nullptr));
         tlacitkoOdesliXml->setText(QCoreApplication::translate("MainWindow", "ode\305\241li na panely", nullptr));
-        label_11->setText(QCoreApplication::translate("MainWindow", "Odberatele", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "Odberatele 1.0", nullptr));
+        QTableWidgetItem *___qtablewidgetitem = seznamOdberatelu->horizontalHeaderItem(0);
+        ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "Adresa", nullptr));
+        QTableWidgetItem *___qtablewidgetitem1 = seznamOdberatelu->horizontalHeaderItem(1);
+        ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "Struktura", nullptr));
+        QTableWidgetItem *___qtablewidgetitem2 = seznamOdberatelu->horizontalHeaderItem(2);
+        ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "Interval", nullptr));
+        label_15->setText(QCoreApplication::translate("MainWindow", "Odberatele V2.2CZ1.0", nullptr));
+        QTableWidgetItem *___qtablewidgetitem3 = seznamOdberatelu2->horizontalHeaderItem(0);
+        ___qtablewidgetitem3->setText(QCoreApplication::translate("MainWindow", "Adresa", nullptr));
+        QTableWidgetItem *___qtablewidgetitem4 = seznamOdberatelu2->horizontalHeaderItem(1);
+        ___qtablewidgetitem4->setText(QCoreApplication::translate("MainWindow", "Struktura", nullptr));
+        QTableWidgetItem *___qtablewidgetitem5 = seznamOdberatelu2->horizontalHeaderItem(2);
+        ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Interval", nullptr));
         lineEdit_ipadresaOdberatele->setText(QCoreApplication::translate("MainWindow", "http://127.0.0.1:48479", nullptr));
         lineEdit_strukturaOdberu->setText(QCoreApplication::translate("MainWindow", "AllData", nullptr));
+        label_13->setText(QCoreApplication::translate("MainWindow", "V1.0", nullptr));
         tlacitkoAddsubscriber->setText(QCoreApplication::translate("MainWindow", "P\305\231idat odb\304\233ratele", nullptr));
         tlacitkoRemoveSubscriber->setText(QCoreApplication::translate("MainWindow", "Zrusit odber", nullptr));
+        label_14->setText(QCoreApplication::translate("MainWindow", "V2.2CZ1.0", nullptr));
+        tlacitkoAddsubscriber_2->setText(QCoreApplication::translate("MainWindow", "P\305\231idat odb\304\233ratele", nullptr));
+        tlacitkoRemoveSubscriber_2->setText(QCoreApplication::translate("MainWindow", "Zrusit odber", nullptr));
+        label_diagnostika_manual->setText(QCoreApplication::translate("MainWindow", "subscribe diagnostika", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 

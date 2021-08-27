@@ -31,9 +31,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&CustomerInformationService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
     */
     connect(&customerInformationService1_0,&HttpSluzba::vypisSubscriberu,this,&MainWindow::vypisSubscribery);
+    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::vypisSubscriberu,this,&MainWindow::vypisSubscribery2);
     //this->bonjourStartPublish2("CustomerInformationService","_ibisip_http._tcp",47450,zeroConf);
     this->vypisSubscribery(customerInformationService1_0.seznamSubscriberu);
-     connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
+    this->vypisSubscribery2(customerInformationService2_2CZ1_0.seznamSubscriberu);
+    connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     //MainWindow::setWindowState(Qt::WindowFullScreen);
     QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
     ui->label_build->setText(compilationTime);
@@ -52,7 +54,7 @@ void MainWindow::xmlHromadnyUpdate()
     {
 
         mpvParser.StahniMpvXml(globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.ids);
-       // connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
+        // connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     }
     qDebug()<<QString::number(stavSystemu.indexAktZastavky);
     customerInformationService1_0.aktualizaceObsahuSluzby(vstupniDomXmlPrestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
@@ -176,7 +178,7 @@ void MainWindow::on_sipkaNahoru_clicked()
 
             if(stavSystemu.locationState=="AfterStop")
             {stavSystemu.locationState="BetweenStop";
-            ui->BetweenStop->setChecked(true);
+                ui->BetweenStop->setChecked(true);
             }
         }
     }
@@ -599,7 +601,43 @@ void MainWindow::on_tlacitkoOdesliXml_clicked()
 void MainWindow::vypisSubscribery(QVector<Subscriber> adresy)
 {
     qDebug()<<"MainWindow::vypisSubscribery";
-    ui->seznamOdberatelu->clear();
+    ui->seznamOdberatelu->setRowCount(0);
+    qDebug()<<"smazano"<<" adresy.size="<<adresy.size();
+    if (adresy.size()==0)
+    {
+        qDebug()<<"vracim 0";
+        //return 0;
+    }
+    else
+    {
+        for (int i = 0;  i < adresy.count(); i++)
+        {
+            Subscriber odberatel=adresy.at(i);
+
+            qint32 row;
+            QTableWidgetItem *cell;
+            row = ui->seznamOdberatelu->rowCount();
+            ui->seznamOdberatelu->insertRow(row);
+            cell = new QTableWidgetItem(odberatel.adresa.toString());
+            ui->seznamOdberatelu->setItem(row, 0, cell);
+
+
+            cell = new QTableWidgetItem(odberatel.struktura);
+            ui->seznamOdberatelu->setItem(row, 1, cell);
+            ui->seznamOdberatelu->resizeColumnsToContents();
+        }
+        qDebug()<<"vracim 1";
+        //return 1;
+    }
+
+
+}
+
+void MainWindow::vypisSubscribery2(QVector<Subscriber> adresy)
+{
+    qDebug()<<"MainWindow::vypisSubscribery2";
+    //ui->seznamOdberatelu->clear();
+    ui->seznamOdberatelu2->setRowCount(0);
     //ui->odberatele_tableView->setRowCount(0);
     qDebug()<<"smazano"<<" adresy.size="<<adresy.size();
     if (adresy.size()==0)
@@ -611,7 +649,29 @@ void MainWindow::vypisSubscribery(QVector<Subscriber> adresy)
     {
         for (int i = 0;  i < adresy.count(); i++)
         {
-            ui->seznamOdberatelu->addItem(adresy.at(i).adresa.toString()+"_"+adresy.at(i).struktura );
+            //ui->seznamOdberatelu->addItem(adresy.at(i).adresa.toString()+"_"+adresy.at(i).struktura );
+            Subscriber odberatel=adresy.at(i);
+
+            qint32 row;
+            QTableWidgetItem *cell;
+            row = ui->seznamOdberatelu2->rowCount();
+            ui->seznamOdberatelu2->insertRow(row);
+            cell = new QTableWidgetItem(odberatel.adresa.toString());
+            ui->seznamOdberatelu2->setItem(row, 0, cell);
+
+
+            cell = new QTableWidgetItem(odberatel.struktura);
+            ui->seznamOdberatelu2->setItem(row, 1, cell);
+            ui->seznamOdberatelu2->resizeColumnsToContents();
+            /*
+            ui->tabulkaSubscriberu->setItem(row, 2, cell);
+            ui->tabulkaSubscriberu->resizeColumnsToContents();
+
+            cell = new QTableWidgetItem(QString::number(port));
+            ui->tabulkaSubscriberu->setItem(row, 3, cell);
+            ui->tabulkaSubscriberu->resizeColumnsToContents();
+            */
+
         }
         qDebug()<<"vracim 1";
         //return 1;
@@ -622,41 +682,103 @@ void MainWindow::vypisSubscribery(QVector<Subscriber> adresy)
 
 
 
+
+
 void MainWindow::on_tlacitkoAddsubscriber_clicked()
 {
-    customerInformationService1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),"AllData"));
+vypisDiagnostika(customerInformationService1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
+
+
+
+
+
+
 }
+
+
+void MainWindow::on_tlacitkoAddsubscriber_2_clicked()
+{
+   vypisDiagnostika( customerInformationService2_2CZ1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
+}
+
+
+
 
 void MainWindow::on_tlacitkoRemoveSubscriber_clicked()
 {
-    if (ui->seznamOdberatelu->count()==0)
+    if (ui->seznamOdberatelu->rowCount()==0)
     {
-        qDebug()<<"seznam je prazdny";
+
+        vypisDiagnostika("seznam je prazdny");
         return;
     }
 
     if (ui->seznamOdberatelu->selectionModel()->selectedIndexes().size()==0)
     {
-        qDebug()<<"nic neni vybrnao";
+        vypisDiagnostika("nic neni vybrnao");
         return;
     }
     int indexPolozky = ui->seznamOdberatelu->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService1_0.odstranitSubscribera(indexPolozky)==1)
     {
         vypisSubscribery(customerInformationService1_0.seznamSubscriberu);
-        qDebug()<<"odstraneno";
+        vypisDiagnostika("odstraneno");
     }
     else
     {
 
-        qDebug()<<"nepovedlo se odstranit";
+        vypisDiagnostika("nepovedlo se odstranit");
     }
 
 
+
+
+
+
 }
+
+
+
+void MainWindow::on_tlacitkoRemoveSubscriber_2_clicked()
+{
+    if (ui->seznamOdberatelu2->rowCount()==0)
+    {
+        vypisDiagnostika("seznam je prazdny");
+        return;
+    }
+
+    if (ui->seznamOdberatelu2->selectionModel()->selectedIndexes().size()==0)
+    {
+         vypisDiagnostika("nic neni vybrano");
+
+        return;
+    }
+    int indexPolozky = ui->seznamOdberatelu2->selectionModel()->selectedIndexes().at(0).row() ;
+    if (customerInformationService2_2CZ1_0.odstranitSubscribera(indexPolozky)==1)
+    {
+
+        vypisSubscribery2(customerInformationService2_2CZ1_0.seznamSubscriberu);
+        vypisDiagnostika("odstraneno");
+
+    }
+    else
+    {
+     vypisDiagnostika("nepovedlo se odstranit");
+    }
+}
+
 
 void MainWindow::on_tlacitkoHlaseniSlozka_clicked()
 {
     qDebug()<<"nastavena cesta k hlaseni na "<<ui->lineEditHlaseniCesta->text();
     hlasic.cesta=ui->lineEditHlaseniCesta->text();
 }
+
+
+void MainWindow::vypisDiagnostika(QString vstup)
+{
+    qDebug()<<"subscribe diag "<<vstup;
+    ui->label_diagnostika_manual->clear();
+    ui->label_diagnostika_manual->setText(vstup);
+}
+
