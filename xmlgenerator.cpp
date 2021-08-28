@@ -20,7 +20,7 @@ xmlGenerator::xmlGenerator(QWidget *parent) : QMainWindow(parent)
 
 
 
-QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections, CestaUdaje stav )
+QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy, CestaUdaje stav )
 {
     qDebug()<<" xmlGenerator::AllData1_0 ";
     int poradi=stav.indexAktZastavky;
@@ -34,18 +34,18 @@ QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, 
 
     // QString testVysledek="<TBL cas=\"2019-08-10T23:12:41\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"77\" smer=\"Praha,Spojovací\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"15\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"273\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"32\" smer=\"Praha,Zličín\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"161\" smer=\"Praha,Bílá Hora\" odj=\"2019-08-10T23:17:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27908\"/></t></TBL>";
     qDebug()<<"  ";
-    QString language="cz";
-    QString deflanguage="cz";
+    QString language=this->defaultniJazyk1_0;
+    QString deflanguage=this->defaultniJazyk1_0;
     QString lineNumber=QByteArray::number(docasLinka);
     QString lineName=lineNumber.right(3);
     //QString vehicleref="33";
     QString vehicleref=QString::number(stav.cisloVozu);
     int currentStopIndex= poradi;
-    QString routeDeviation="onroute";
-    QString vehicleStopRequested="0";
+    QString routeDeviation=stav.routeDeviation;
+    QString vehicleStopRequested=QString::number(stav.VehicleStopRequested);
     QString exitSide="right";
-    QString tripRef="3";
-    QString displayContentRef="1234";
+    QString tripRef=QString::number(stav.aktspoj);
+   // QString displayContentRef="1234";
     //QString destinationName=docasnySeznamZastavek[poradi].DestinationName;
     QString destinationName=docasnySeznamZastavek[poradi].cil.StopName;
     qDebug()<<"nazev cile2"<<destinationName;
@@ -61,10 +61,9 @@ QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, 
 
     dAllData.appendChild(TimeStampTag1_0(xmlko));
 
-    QDomElement dVehicleRef=xmlko.createElement("VehicleRef");
-    dVehicleRef.appendChild(xmlko.createElement("Value"));
-    dVehicleRef.firstChildElement("Value").appendChild(xmlko.createTextNode(vehicleref));
-    dAllData.appendChild(dVehicleRef);
+
+
+    dAllData.appendChild(ref("VehicleRef",vehicleref));
     QDomElement dDefaultLanguage=xmlko.createElement("DefaultLanguage");
     dDefaultLanguage.appendChild(xmlko.createElement("Value"));
     dDefaultLanguage.firstChildElement("Value").appendChild(xmlko.createTextNode(deflanguage));
@@ -72,10 +71,9 @@ QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, 
     QDomElement dTripInformation=xmlko.createElement("TripInformation");
     dAllData.appendChild(dTripInformation);
 
-    QDomElement dTripRef=xmlko.createElement("TripRef");
-    dTripRef.appendChild(xmlko.createElement("Value"));
-    dTripRef.firstChildElement("Value").appendChild(xmlko.createTextNode(tripRef));
-    dTripInformation.appendChild(dTripRef);
+
+
+    dTripInformation.appendChild(ref("TripRef",tripRef));
     //dTripInformation.appendChild(additionalTextMessage1_0("test obsahu zpravy"));
     QString specialniOznameni=docasnySeznamZastavek.at(stav.indexAktZastavky).zastavka.additionalTextMessage;
     qDebug()<<"spec oznameni="<<specialniOznameni;
@@ -93,7 +91,7 @@ QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, 
 
 
     //stop sequence
-    dTripInformation.appendChild(StopSequence1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,Connections,stav));
+    dTripInformation.appendChild(StopSequence1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,prestupy,stav));
     //dTripInformation.appendChild(dStopSequence);
 
 
@@ -168,7 +166,7 @@ QString xmlGenerator::createTimestamp()
 }
 
 
-QString xmlGenerator::AllData2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, QDomDocument Connections, CestaUdaje stav )
+QString xmlGenerator::AllData2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, QVector<prestupMPV> prestupy, CestaUdaje stav )
 {
     int docasLinka=stav.aktlinka;
     int poradi=stav.indexAktZastavky;
@@ -244,7 +242,7 @@ QString xmlGenerator::AllData2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek
 
 
     //stop sequence
-    dTripInformation.appendChild(StopSequence2_2CZ1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,Connections));
+    dTripInformation.appendChild(StopSequence2_2CZ1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,prestupy));
     //dTripInformation.appendChild(dStopSequence);
 
 
@@ -328,7 +326,7 @@ QString xmlGenerator::CurrentDisplayContent1_0(int poradi, QVector <ZastavkaCil>
 }
 
 
-QDomElement xmlGenerator::StopSequence1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QDomDocument Connections,CestaUdaje stav)
+QDomElement xmlGenerator::StopSequence1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QVector<prestupMPV> prestupy,CestaUdaje stav)
 {
     QDomElement dStopSequence=xmlko.createElement("StopSequence");
     //dTripInformation.appendChild(dStopSequence);
@@ -336,13 +334,13 @@ QDomElement xmlGenerator::StopSequence1_0(QDomDocument xmlko,QVector<ZastavkaCil
     {
         //Zastavka aktZastavka=docasnySeznamZastavek.at(i);
 
-        dStopSequence.appendChild(stopPoint1_0(docasnySeznamZastavek,i,Connections,language,currentStopIndex,stav));
+        dStopSequence.appendChild(stopPoint1_0(docasnySeznamZastavek,i,prestupy,language,currentStopIndex,stav));
 
     }
     return dStopSequence;
 }
 
-QDomElement xmlGenerator::StopSequence2_2CZ1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QDomDocument Connections)
+QDomElement xmlGenerator::StopSequence2_2CZ1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QVector<prestupMPV> seznamPrestupu)
 {
     QDomElement dStopSequence=xmlko.createElement("StopSequence");
     //dTripInformation.appendChild(dStopSequence);
@@ -350,29 +348,31 @@ QDomElement xmlGenerator::StopSequence2_2CZ1_0(QDomDocument xmlko,QVector<Zastav
     {
         //Zastavka aktZastavka=docasnySeznamZastavek.at(i);
 
-        dStopSequence.appendChild(stopPoint2_2CZ1_0(docasnySeznamZastavek,i,Connections,language,currentStopIndex));
+        dStopSequence.appendChild(stopPoint2_2CZ1_0(docasnySeznamZastavek,i,seznamPrestupu,language,currentStopIndex));
 
     }
     return dStopSequence;
 }
 
 
-QDomElement xmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QDomDocument Connections, QString language,int currentStopIndex,CestaUdaje stav)
+QDomElement xmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QVector<prestupMPV> seznamPrestupu, QString language,int currentStopIndex,CestaUdaje stav)
 {
     ZastavkaCil aktZastavka=docasnySeznamZastavek.at(indexZpracZastavky);
     QDomDocument xmlko;
     //SeznamZastavek prochazenaZastavka=docasnySeznamZastavek.at(i);
-    QByteArray cCurrentStopIndex=QByteArray::number(aktZastavka.zastavka.StopIndex);
+    //QByteArray cCurrentStopIndex=QByteArray::number(aktZastavka.zastavka.StopIndex);
+    QByteArray cCurrentStopIndex=QByteArray::number(indexZpracZastavky);
     QString cStopName= aktZastavka.zastavka.StopName;
-    QString cStopFrontName= aktZastavka.zastavka.NameFront;
+   /* QString cStopFrontName= aktZastavka.zastavka.NameFront;
     QString cStopSideName= aktZastavka.zastavka.NameSide;
     QString cStopRearName= aktZastavka.zastavka.NameRear;
     QString cStopInnerName= aktZastavka.zastavka.NameInner;
-    QString cStopLcdName= aktZastavka.zastavka.NameLcd;
-    //QString xDestinationName= aktZastavka.DestinationName;
-    QString xDestinationName= aktZastavka.cil.NameFront;
+    QString cStopLcdName= aktZastavka.zastavka.NameLcd; */
 
-    QString xDestinationCis=QString::number(aktZastavka.cil.cisloCis);
+    //QString xDestinationName= aktZastavka.DestinationName;
+   // QString xDestinationName= aktZastavka.cil.NameFront;
+
+  //  QString xDestinationCis=QString::number(aktZastavka.cil.cisloCis);
     //STOP
     QDomElement dStopPoint=xmlko.createElement("StopPoint");
 
@@ -383,23 +383,24 @@ QDomElement xmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastave
 
     dStopPoint.appendChild(ref("StopRef",QString::number(aktZastavka.zastavka.cisloCis)));
 
+
+
+
+    if(aktZastavka.zastavka.prestupVlak==true)
+    {
+      cStopName=cStopName+"$04";
+    }
+
+
+
+    if(aktZastavka.zastavka.prestupMetroA||aktZastavka.zastavka.prestupMetroB||aktZastavka.zastavka.prestupMetroC||aktZastavka.zastavka.prestupMetroD )
+    {
+      cStopName=cStopName+"$03";
+    }
     QDomElement dStopName=internationalTextType("StopName",cStopName,language);
+
     dStopPoint.appendChild(dStopName);
 
-    QDomElement dStopFrontName=internationalTextType("StopFrontName",cStopFrontName,language);
-    dStopPoint.appendChild(dStopFrontName);
-
-    QDomElement dStopSideName=internationalTextType("StopSideName",cStopSideName,language);
-    dStopPoint.appendChild(dStopSideName);
-
-    QDomElement dStopRearName=internationalTextType("StopRearName",cStopRearName,language);
-    dStopPoint.appendChild(dStopRearName);
-
-    QDomElement dStopInnerName=internationalTextType("StopInnerName",cStopInnerName,language);
-    dStopPoint.appendChild(dStopInnerName);
-
-    QDomElement dStopLcdName=internationalTextType("StopLcdName",cStopLcdName,language);
-    dStopPoint.appendChild(dStopLcdName);
 
 
 
@@ -417,6 +418,7 @@ QDomElement xmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastave
 
 
 
+    QDomDocument Connections=this->connections1_0(seznamPrestupu);
 
     if (cCurrentStopIndex.toInt()==currentStopIndex)
     {
@@ -431,7 +433,7 @@ QDomElement xmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastave
     return dStopPoint;
 }
 
-QDomElement xmlGenerator::stopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QDomDocument Connections, QString language,int currentStopIndex)
+QDomElement xmlGenerator::stopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QVector<prestupMPV> seznamPrestupu, QString language,int currentStopIndex)
 {
     qDebug()<<"xmlGenerator::stopPoint2_2CZ1_0";
     QDomDocument xmlko;
@@ -485,6 +487,7 @@ QDomElement xmlGenerator::stopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZa
     dStopPoint.appendChild(xxxProperty2_2CZ1_0("StopProperty",aktZastavka.zastavka.prestupMetroB ,"UndergroundB"));
     dStopPoint.appendChild(xxxProperty2_2CZ1_0("StopProperty",aktZastavka.zastavka.prestupMetroC ,"UndergroundC"));
     dStopPoint.appendChild(xxxProperty2_2CZ1_0("StopProperty",aktZastavka.zastavka.prestupMetroD ,"UndergroundD"));
+    dStopPoint.appendChild(xxxProperty2_2CZ1_0("StopProperty",aktZastavka.zastavka.prestupVlak ,"Train"));
     /*
 nedodelane priznaky:
             <xs:enumeration value="Bus"/>
@@ -516,6 +519,7 @@ nedodelane priznaky:
     }
 
 
+    QDomDocument Connections=connections2_2CZ1_0(seznamPrestupu);
 
     if (cCurrentStopIndex.toInt()==currentStopIndex)
     {
@@ -1040,7 +1044,7 @@ QDomElement xmlGenerator::additionalTextMessage1_0(QString obsahZpravy)
     QDomElement TextMessage=xmlko.createElement("AdditionalTextMessage");
 
     QDomElement value=xmlko.createElement("Value");
-    value.appendChild(xmlko.createTextNode(obsahZpravy));
+    value.appendChild(xmlko.createTextNode("$LS$"+obsahZpravy));
     TextMessage.appendChild(value);
     //<TextMessage> <Value>$LS$This is  text message Šg (Umlaute ÄÖÜäöüß), which could be long...</Value></TextMessage>
     return TextMessage;
@@ -1054,7 +1058,7 @@ QDomElement xmlGenerator::additionalTextMessage2_2CZ1_0(QString obsahZpravy)
     QDomDocument xmlko;
     QDomElement TextMessage=xmlko.createElement("AdditionalTextMessage");
 
-    QDomElement value=internationalTextType("AdditionalTextMessageText",obsahZpravy,"cz");
+    QDomElement value=internationalTextType("AdditionalTextMessageText",obsahZpravy,defaultniJazyk2_2CZ1_0);
     //value.appendChild(xmlko.createTextNode(obsahZpravy));
     TextMessage.appendChild(value);
     //<TextMessage> <Value>$LS$This is  text message Šg (Umlaute ÄÖÜäöüß), which could be long...</Value></TextMessage>
@@ -1075,7 +1079,7 @@ QDomElement xmlGenerator::AllData_empty_1_0()
 }
 
 
-QString xmlGenerator::AllDataEmpty2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections )
+QString xmlGenerator::AllDataEmpty2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy )
 {
     qDebug()<<"xmlGenerator::AllData2_2CZ1_0";
 
@@ -1146,7 +1150,7 @@ QString xmlGenerator::AllDataEmpty2_2CZ1_0(int poradi, QVector <ZastavkaCil> doc
 
 
     //stop sequence
-    dTripInformation.appendChild(StopSequence2_2CZ1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,Connections));
+    dTripInformation.appendChild(StopSequence2_2CZ1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,prestupy));
     //dTripInformation.appendChild(dStopSequence);
 
 
@@ -1201,7 +1205,7 @@ QDomElement xmlGenerator::rawInsert(QString vstup)
 }
 
 
-QString xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections)
+QString xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy)
 {
     qDebug()<<"xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0";
     QDomDocument xmlko;
@@ -1212,7 +1216,7 @@ QString xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1
     QDomElement dCurrentTarifStopData=xmlko.createElement("CurrentTariffStopData");
     dCurrentTarifStopData.appendChild(TimeStampTag1_0(xmlko));
 
-    dCurrentTarifStopData.appendChild(stopPoint2_2CZ1_0(docasnySeznamZastavek,poradi,Connections, "cz",poradi) );
+    dCurrentTarifStopData.appendChild(stopPoint2_2CZ1_0(docasnySeznamZastavek,poradi,prestupy, defaultniJazyk2_2CZ1_0,poradi) );
     dGetCurrentTarrifStopResp.appendChild(dCurrentTarifStopData);
 
     return xmlko.toString();
@@ -1317,3 +1321,278 @@ QString xmlGenerator::TicketValidationService_GetRazziaResponse2_2CZ1_0( CestaUd
     return xmlko.toString();
 }
 
+
+QDomDocument xmlGenerator::connections1_0( QVector<prestupMPV> lokPrestupy)
+{
+
+    qDebug()<<"xmlGenerator::connections1_0";
+    QDomDocument xmlko;
+    QDomElement root=xmlko.createElement("wrapper");
+
+
+
+  //  QString nizkop="";
+  //  QString BusSubmode="";
+    QString dopravniProstredek="";
+    QString language ="cs";
+    QString destinationRef="1";
+
+  //  QString mainMode="";
+//    QString subMode="";
+    for (int i=0;i<lokPrestupy.count();i++)
+    {
+       prestupMPV prestup=lokPrestupy.at(i);
+       // seznamPrestupu[i].lin=seznamPrestupu[i].lin.number(10);
+        dopravniProstredek="";
+        QDomElement dConnectionMode = xmlko.createElement("TransportMode");
+        /*if( prestup.np==true)
+        {
+            nizkop="Accessible";
+        }
+        */
+
+
+// Bus, RegBus,Metro, NTram, Tram, NBus, Os, EC, R, Ex
+
+        if (prestup.t=="Bus")
+        {
+            dopravniProstredek="$01";
+
+        }
+        if(prestup.t=="Metro")
+        {
+            dopravniProstredek="$03";
+
+        }
+        if(prestup.t=="Tram")
+        {
+            dopravniProstredek="$02";
+
+        }
+        if((prestup.t=="Os")||(prestup.t=="R")||(prestup.t=="Sp")||(prestup.t=="Ex")||(prestup.t=="EC"))
+        {
+            dopravniProstredek="$04";
+
+        }
+
+
+        QDomElement dConnection=xmlko.createElement("Connection");
+        xmlko.appendChild(dConnection);
+        //dConnection.appendChild(xmlko.createElement("StopRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("&lt;StopProperty&gt;&lt;/StopProperty&gt;"));
+        //dConnection.appendChild(xmlko.createElement("ConnectionRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("&lt;ConnectionProperty&gt;"+nizkop+"&lt;/ConnectionProperty&gt;"));
+
+        dConnection.appendChild(ref("StopRef","XX"));
+        dConnection.appendChild(ref("ConnectionRef","yy"));
+        //dConnection.appendChild(xmlko.createElement("StopRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("xx"));
+        //dConnection.appendChild(xmlko.createElement("ConnectionRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("yy"));
+
+
+        dConnection.appendChild(xmlko.createElement("ConnectionType")).appendChild(xmlko.createTextNode("Interchange"));
+        QDomElement dDisplayContent=xmlko.createElement("DisplayContent");
+        dConnection.appendChild(dDisplayContent);
+        dDisplayContent.appendChild(xmlko.createElement("DisplayContentRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("2244"));
+
+        QDomElement dLineInformation=xmlko.createElement("LineInformation");
+        dDisplayContent.appendChild(dLineInformation);
+
+        /*
+        QDomElement dLineRef=xmlko.createElement("LineRef");
+        dLineRef.appendChild(xmlko.createElement("Value"));
+        dLineRef.firstChildElement("Value").appendChild(xmlko.createTextNode(prestup.alias));
+        dLineInformation.appendChild(dLineRef);
+        */
+        dLineInformation.appendChild(ref("LineRef",prestup.alias));
+
+        QDomElement dLineName=xmlko.createElement("LineName");
+        dLineName.appendChild(xmlko.createElement("Value"));
+        dLineName.firstChildElement("Value").appendChild(xmlko.createTextNode(prestup.alias));
+        dLineInformation.appendChild(dLineName);
+        dLineName.appendChild(xmlko.createElement("Language"));
+        dLineName.firstChildElement("Language").appendChild(xmlko.createTextNode(language));
+        QDomElement dLineNumber=xmlko.createElement("LineNumber");
+        dLineNumber.appendChild(xmlko.createElement("Value"));
+        dLineNumber.firstChildElement("Value").appendChild(xmlko.createTextNode("1"));
+        dLineInformation.appendChild(dLineNumber);
+        QDomElement dDestination=xmlko.createElement("Destination");
+        dDisplayContent.appendChild(dDestination);
+        QDomElement dDestinationRef=xmlko.createElement("DestinationRef");
+        dDestinationRef.appendChild(xmlko.createElement("Value"));
+        dDestinationRef.firstChildElement("Value").appendChild(xmlko.createTextNode(destinationRef));
+        dDestination.appendChild(dDestinationRef);
+
+        QDomElement dDestinationName=xmlko.createElement("DestinationName");
+        dDestinationName.appendChild(xmlko.createElement("Value"));
+        dDestinationName.firstChildElement("Value").appendChild(xmlko.createTextNode(prestup.smer));
+        dDestination.appendChild(dDestinationName);
+        dDestinationName.appendChild(xmlko.createElement("Language"));
+        dDestinationName.firstChildElement("Language").appendChild(xmlko.createTextNode(language));
+        dConnection.appendChild(xmlko.createElement("Platform")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode(prestup.stan));
+
+
+
+        //dConnectionMode.appendChild(xmlko.createElement("TransportMode")).appendChild(xmlko.createTextNode(mainMode));
+
+       dConnectionMode.appendChild(this->ref("VehicleTypeRef","3"));
+       dConnectionMode.appendChild(this->internationalTextType("Name",dopravniProstredek,defaultniJazyk1_0));
+
+
+
+
+
+       // dConnectionMode.appendChild(xmlko.createElement(mainMode)).appendChild(xmlko.createTextNode(subMode));
+        dConnection.appendChild(dConnectionMode);
+        QDomElement dExpectedDepartureTime=xmlko.createElement("ExpectedDepatureTime"); //verze 1.0
+        // QDomElement dExpectedDepartureTime=xmlko.createElement("ExpectedDepartureTime"); verze 2.0
+        dExpectedDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  prestup.odj ));
+        dConnection.appendChild(dExpectedDepartureTime);
+
+    }
+
+
+    qDebug()<<"DOMverze";
+  //  qDebug()<<xmlko.toString()<<"/n/n";
+
+    return xmlko;
+
+}
+
+QDomDocument xmlGenerator::connections2_2CZ1_0( QVector<prestupMPV> seznamPrestupu)
+{
+
+    qDebug()<<"xmlGenerator::connections2_2CZ1_0";
+    QDomDocument xmlko;
+    QDomElement root=xmlko.createElement("wrapper");
+
+
+
+    QString BusSubmode="";
+    QString dopravniProstredek="";
+    QString language ="cs";
+    QString destinationRef="1";
+
+    QString mainMode="";
+    QString subMode="";
+    for (int i=0;i<seznamPrestupu.count();i++)
+    {
+        prestupMPV aktualniPrestup=seznamPrestupu.at(i);
+        aktualniPrestup.lin=aktualniPrestup.lin.number(10);
+
+        QDomElement dConnectionMode = xmlko.createElement("ConnectionMode");
+
+
+        if (aktualniPrestup.t=="Bus")
+        {
+
+            subMode="localBus";
+            mainMode="BusSubmode";
+        }
+        if (aktualniPrestup.t=="RegBus")
+        {
+
+            subMode="regionalBus";
+            mainMode="BusSubmode";
+        }
+        if (aktualniPrestup.t=="NBus")
+        {
+
+            subMode="nightBus";
+            mainMode="BusSubmode";
+        }
+        if (aktualniPrestup.t=="Tram")
+        {
+            subMode="localTram";
+            mainMode="TramSubmode";
+
+        }
+        if (aktualniPrestup.t=="NTram")
+        {
+            subMode="localTram";
+            mainMode="TramSubmode";
+
+        }
+        if (aktualniPrestup.t=="Metro")
+        {
+            subMode="metro";
+            mainMode="MetroSubmode";
+
+        }
+
+
+
+
+
+
+
+
+
+        QDomElement dConnection=xmlko.createElement("Connection");
+        xmlko.appendChild(dConnection);
+        //dConnection.appendChild(xmlko.createElement("StopRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("&lt;StopProperty&gt;&lt;/StopProperty&gt;"));
+        //dConnection.appendChild(xmlko.createElement("ConnectionRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("&lt;ConnectionProperty&gt;"+nizkop+"&lt;/ConnectionProperty&gt;"));
+
+        //dConnection.appendChild(xmlko.createElement("StopRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("xx"));
+       // dConnection.appendChild(xmlko.createElement("ConnectionRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("yy"));
+
+        if(aktualniPrestup.np==true)
+        {
+        dConnection.appendChild(xmlko.createElement("ConnectionProperty")).appendChild(xmlko.createTextNode("Accessible"));
+        }
+        dConnection.appendChild(xmlko.createElement("ConnectionType")).appendChild(xmlko.createTextNode("Interchange"));
+
+        QDomElement dDisplayContent=xmlko.createElement("DisplayContent");
+        dConnection.appendChild(dDisplayContent);
+       // dDisplayContent.appendChild(xmlko.createElement("DisplayContentRef")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode("2244"));
+
+        QDomElement dLineInformation=xmlko.createElement("LineInformation");
+        dDisplayContent.appendChild(dLineInformation);
+       /* QDomElement dLineRef=xmlko.createElement("LineRef");
+        dLineRef.appendChild(xmlko.createElement("Value"));
+        dLineRef.firstChildElement("Value").appendChild(xmlko.createTextNode(seznamPrestupu[i].alias));
+        dLineInformation.appendChild(dLineRef);
+        */
+        QDomElement dLineName=xmlko.createElement("LineName");
+        dLineName.appendChild(xmlko.createElement("Value"));
+        dLineName.firstChildElement("Value").appendChild(xmlko.createTextNode(aktualniPrestup.alias));
+        dLineInformation.appendChild(dLineName);
+        dLineName.appendChild(xmlko.createElement("Language"));
+        dLineName.firstChildElement("Language").appendChild(xmlko.createTextNode(language));
+        QDomElement dLineNumber=xmlko.createElement("LineNumber");
+        dLineNumber.appendChild(xmlko.createElement("Value"));
+        dLineNumber.firstChildElement("Value").appendChild(xmlko.createTextNode("1"));
+        dLineInformation.appendChild(dLineNumber);
+        QDomElement dDestination=xmlko.createElement("Destination");
+        dDisplayContent.appendChild(dDestination);
+        /*QDomElement dDestinationRef=xmlko.createElement("DestinationRef");
+        dDestinationRef.appendChild(xmlko.createElement("Value"));
+        dDestinationRef.firstChildElement("Value").appendChild(xmlko.createTextNode(destinationRef));
+
+        dDestination.appendChild(dDestinationRef); */
+
+        QDomElement dDestinationName=xmlko.createElement("DestinationName");
+        dDestinationName.appendChild(xmlko.createElement("Value"));
+        dDestinationName.firstChildElement("Value").appendChild(xmlko.createTextNode(aktualniPrestup.smer));
+        dDestination.appendChild(dDestinationName);
+
+        dDestinationName.appendChild(xmlko.createElement("Language"));
+        dDestinationName.firstChildElement("Language").appendChild(xmlko.createTextNode(language));
+
+        dConnection.appendChild(xmlko.createElement("Platform")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode(aktualniPrestup.stan));
+
+        dConnectionMode.appendChild(xmlko.createElement("PtMainMode")).appendChild(xmlko.createTextNode(mainMode));
+        dConnectionMode.appendChild(xmlko.createElement(mainMode)).appendChild(xmlko.createTextNode(subMode));
+        dConnection.appendChild(dConnectionMode);
+
+       //  QDomElement dExpectedDepartureTime=xmlko.createElement("ExpectedDepatureTime"); verze 1.0
+         QDomElement dExpectedDepartureTime=xmlko.createElement("ExpectedDepartureTime"); //verze 2.2CZ1.0
+        dExpectedDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  aktualniPrestup.odj ));
+        dConnection.appendChild(dExpectedDepartureTime);
+
+    }
+
+
+    qDebug()<<"DOMverze";
+  //  qDebug()<<xmlko.toString()<<"/n/n";
+
+    return xmlko;
+
+}

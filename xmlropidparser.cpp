@@ -593,3 +593,7 @@ QString XmlRopidParser::vytvorCas(QString vstup)
     vstup=QString::number(hodiny)+""+QString::number(minuty)+""+QString::number(sekundy);
     return vstup;
 }
+
+
+
+

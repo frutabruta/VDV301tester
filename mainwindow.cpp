@@ -57,10 +57,11 @@ void MainWindow::xmlHromadnyUpdate()
         // connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     }
     qDebug()<<QString::number(stavSystemu.indexAktZastavky);
-    customerInformationService1_0.aktualizaceObsahuSluzby(vstupniDomXmlPrestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
-    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(vstupniDomXmlPrestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
+    QVector<prestupMPV> prestupy;
+    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
     //ticketValidationService2_3CZ1_0.aktualizaceInternichPromennychOdeslat(vstupniDomXmlPrestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
-    ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(vstupniDomXmlPrestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
+    ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
 
 }
 
@@ -76,10 +77,13 @@ void MainWindow::MpvNetReady()
 {
     qDebug()<<"MainWindow::MpvNetReady";
     mpvParser.naplnVstupDokument(mpvParser.stazenaData);
-    mpvParser.prestupyXmlDokumentVystup1_0=mpvParser.connections1_0( mpvParser.parsujDomDokument());
-    mpvParser.prestupyXmlDokumentVystup2_2CZ1_0 =mpvParser.connections2_2CZ1_0(mpvParser.parsujDomDokument());
-    customerInformationService1_0.aktualizaceObsahuSluzby(mpvParser.prestupyXmlDokumentVystup1_0,VDV301verze,stavSystemu,globalniSeznamZastavek);
-    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(mpvParser.prestupyXmlDokumentVystup2_2CZ1_0, VDV301verze,stavSystemu,globalniSeznamZastavek);
+    //mpvParser.prestupyXmlDokumentVystup1_0=mpvParser.connections1_0( mpvParser.parsujDomDokument());
+    QVector<prestupMPV> prestupy=mpvParser.parsujDomDokument();
+
+    //mpvParser.prestupyXmlDokumentVystup2_2CZ1_0 =mpvParser.connections2_2CZ1_0(mpvParser.parsujDomDokument());
+    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy, VDV301verze,stavSystemu,globalniSeznamZastavek);
+    //customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(mpvParser.prestupyXmlDokumentVystup2_2CZ1_0, VDV301verze,stavSystemu,globalniSeznamZastavek);
 
 }
 

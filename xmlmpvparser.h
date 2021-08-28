@@ -17,8 +17,8 @@ public:
     QByteArray vystupData="";
     void naplnVstupDokument(QByteArray vstup);
     QDomDocument connections1_0( QVector<prestupMPV> lokPrestupy);
-    QDomDocument prestupyXmlDokumentVystup1_0;
-    QDomDocument prestupyXmlDokumentVystup2_2CZ1_0;
+    //QDomDocument prestupyXmlDokumentVystup1_0;
+   // QDomDocument prestupyXmlDokumentVystup2_2CZ1_0;
     QVector<prestupMPV> parsujDomDokument();
     //QByteArray vlozitDoXml="";
     QVector<prestupMPV> seznamPrestupu;
