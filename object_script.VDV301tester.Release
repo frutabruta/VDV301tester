@@ -31,3 +31,5 @@ release/moc_mainwindow.o
 release/moc_newhttpserver.o
 release/moc_xmlgenerator.o
 release/moc_xmlmpvparser.o
+release/moc_sqlpraceropid.o
+release/moc_xmlropidparser.o

@@ -129,6 +129,7 @@ public:
     QLineEdit *lineEditHlaseniCesta;
     QLabel *label_12;
     QLabel *label_build;
+    QLabel *label_diagnostika_sql;
     QWidget *page_customXML;
     QWidget *verticalLayoutWidget_9;
     QVBoxLayout *verticalLayout_10;
@@ -945,6 +946,9 @@ public:
         label_build = new QLabel(page_nastaveni);
         label_build->setObjectName(QString::fromUtf8("label_build"));
         label_build->setGeometry(QRect(450, 340, 151, 16));
+        label_diagnostika_sql = new QLabel(page_nastaveni);
+        label_diagnostika_sql->setObjectName(QString::fromUtf8("label_diagnostika_sql"));
+        label_diagnostika_sql->setGeometry(QRect(30, 300, 631, 16));
         prepinadloStran->addWidget(page_nastaveni);
         page_customXML = new QWidget();
         page_customXML->setObjectName(QString::fromUtf8("page_customXML"));
@@ -1024,7 +1028,7 @@ public:
         lineEdit_strukturaOdberu->setGeometry(QRect(240, 270, 113, 20));
         horizontalLayoutWidget = new QWidget(page_customXML);
         horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(10, 310, 180, 80));
+        horizontalLayoutWidget->setGeometry(QRect(10, 310, 194, 80));
         horizontalLayout_5 = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout_5->setSpacing(6);
         horizontalLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -1102,7 +1106,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(3);
+        prepinadloStran->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1170,6 +1174,7 @@ public:
         lineEditHlaseniCesta->setText(QCoreApplication::translate("MainWindow", "/home/pi/hlaseni", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "build", nullptr));
         label_build->setText(QCoreApplication::translate("MainWindow", "cisloBuildu", nullptr));
+        label_diagnostika_sql->setText(QCoreApplication::translate("MainWindow", "Diagnostick\303\275 \305\231\303\241dek importu dat", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "CustomXML", nullptr));
         plainTextEditCustomXml->setPlainText(QCoreApplication::translate("MainWindow", "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 "<CustomerInformationService.GetAllDataResponse>\n"

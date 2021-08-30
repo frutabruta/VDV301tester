@@ -64,6 +64,8 @@ public:
     HttpSluzba deviceManagementService1_0;
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_2CZ1_0;
+
+
     TicketValidationService ticketValidationService2_3CZ1_0;
 
 //void StahniMpvXml(int cisloCis, QString Ids);
@@ -73,6 +75,8 @@ public:
     void NaplnVyberLinky(QVector<Linka> docasnySeznamLinek);
     void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
 
+public slots:
+    void vypisSqlVysledek(QString vstup);
 private slots:
   // QByteArray requestReceived(QNetworkReply *replyoo);
     int on_prikaztlacitko_clicked();

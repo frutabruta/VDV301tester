@@ -7,8 +7,9 @@
 #include <QtXml>
 #include "sqlpraceropid.h"
 
-class XmlRopidParser
+class XmlRopidParser: public QObject
 {
+     Q_OBJECT
 public:
 
     struct navrat
@@ -36,7 +37,8 @@ public:
     navrat inicializujPolozku(QString nazevSloupce, QString obsah, QString typ);
 
 
-
+signals:
+    void odesliChybovouHlasku(QString chybovaHlaska);
 private:
     int vlozM(QDomElement koren);
     int vlozD(QDomElement koren);

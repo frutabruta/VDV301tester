@@ -35,11 +35,13 @@ void XmlRopidParser::otevriSoubor()
 
     if (!file.open(QIODevice::ReadOnly))
     {
+        emit odesliChybovouHlasku("soubor se nepovedlo otevrit");
         qDebug()<<"fail1";
         return;
     }
     if (!doc.setContent(&file))
     {
+         emit odesliChybovouHlasku("soubor se nepovedlo otevrit2");
         qDebug()<<"fail2";
         file.close();
         return;
@@ -64,15 +66,24 @@ void XmlRopidParser::otevriSoubor()
     {
        // QSqlQuery query(ropidSQL.mojeDatabaze);
         vlozDd(koren);
+        emit odesliChybovouHlasku("dokoncen import Dd");
         //vlozTv(koren);
         vlozTv2(koren);
+        emit odesliChybovouHlasku("dokoncen import Tv2");
         vlozM(koren);
+        emit odesliChybovouHlasku("dokoncen import M");
         vlozD(koren);
+        emit odesliChybovouHlasku("dokoncen import D");
         vlozP(koren);
+        emit odesliChybovouHlasku("dokoncen import P");
          vlozZ(koren);
+         emit odesliChybovouHlasku("dokoncen import Z");
          vlozL(koren);
+         emit odesliChybovouHlasku("dokoncen import L");
          vlozS(koren);
+         emit odesliChybovouHlasku("dokoncen import S");
          vlozT(koren);
+         emit odesliChybovouHlasku("Import hotov!");
 
        if(!ropidSQL.mojeDatabaze.commit())
        {
@@ -318,6 +329,7 @@ int XmlRopidParser::vlozP(QDomElement koren)
 int XmlRopidParser::vlozM(QDomElement koren)
 {
     qDebug()<<"zacatekImportuM";
+   // emit odesliChybovouHlasku("");
     QDomNodeList m=koren.elementsByTagName("m");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku M je "<<pocetPrvku;

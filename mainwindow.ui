@@ -714,7 +714,7 @@
          <string notr="true">/*background-color:rgb(52, 101, 164); */</string>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="page_vydej">
          <layout class="QGridLayout" name="gridLayout_3">
@@ -2050,6 +2050,19 @@ Stop</string>
            <string>cisloBuildu</string>
           </property>
          </widget>
+         <widget class="QLabel" name="label_diagnostika_sql">
+          <property name="geometry">
+           <rect>
+            <x>30</x>
+            <y>300</y>
+            <width>631</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Diagnostický řádek importu dat</string>
+          </property>
+         </widget>
         </widget>
         <widget class="QWidget" name="page_customXML">
          <widget class="QWidget" name="verticalLayoutWidget_9">
@@ -2419,7 +2432,7 @@ Stop</string>
            <rect>
             <x>10</x>
             <y>310</y>
-            <width>180</width>
+            <width>194</width>
             <height>80</height>
            </rect>
           </property>

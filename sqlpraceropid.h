@@ -13,8 +13,9 @@
 #include "VDV301struktury/pasmo.h"
 #include "VDV301struktury/zastavkacil.h"
 
-class SqlPraceRopid
+class SqlPraceRopid: public QObject
 {
+     Q_OBJECT
 public:
 
     QSqlDatabase mojeDatabaze;
@@ -35,11 +36,15 @@ public:
     int StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
     int otevriDB();
     int zavriDB();
+signals:
+   // void pridejSubscribera(QUrl adresaSubscribera);
+    void odesliChybovouHlasku(QString chybovaHlaska);
 private:
     void VypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek);
     QString vytvorCasHodinyMinuty(QString vstup);
     QString doplnNulu(int cislo, int pocetMist = 2);
     QString vytvorCasHodinyMinutySekundy(QString vstup);
+
 };
 
 #endif // SQLPRACEROPID_H
