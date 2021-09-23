@@ -16,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"),
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
-    ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47481,"2.2CZ1.0")
+    ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47481,"2.2CZ1.0"),
+    konfigurace(QCoreApplication::applicationDirPath())
 {
     qDebug()<<"MainWindow::MainWindow";
     ui->setupUi(this);
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //seznamSubscriberu.push_back(QUrl("http://192.168.12.128:60011"));
     //seznamSubscriberu.push_back(QUrl("http://127.0.0.1:48479"));
     /*
+
 
     connect(&DeviceManagementService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
     connect(&CustomerInformationService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
@@ -41,6 +43,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //MainWindow::setWindowState(Qt::WindowFullScreen);
     QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
     ui->label_build->setText(compilationTime);
+    hlasic.zmenUmisteniProgramu(umisteniProgramu);
+    konfigurace.vytvorDefaultniKonfiguraci();
+    konfigurace.otevriSoubor();
 
 
 }

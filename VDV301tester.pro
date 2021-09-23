@@ -38,6 +38,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 QT += network
 
 
+QT_MULTIMEDIA_PREFERRED_PLUGINS=
 # QT       += core
 
 //LIBS += -lqhttpserver
@@ -50,6 +51,7 @@ SOURCES += \
     VDV301struktury/zastavkacil.cpp \
     hlasic.cpp \
     VDV301publisher/httpsluzba.cpp \
+    konfigurace.cpp \
         main.cpp \
         mainwindow.cpp \
     newhttpserver.cpp \
@@ -73,6 +75,7 @@ HEADERS += \
     VDV301struktury/zastavkacil.h \
     hlasic.h \
     VDV301publisher/httpsluzba.h \
+    konfigurace.h \
         mainwindow.h \
     newhttpserver.h \
     prestupmpv.h \

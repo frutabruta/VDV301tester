@@ -47,6 +47,7 @@ private:
     QString slozeniTextuJKZr1(QVector<Zastavka> nacestne, QString LineName);
     QString slozeniTextuJKZr2(QString DestinationName, QString LineName);
     QString slozeniTextuRear(QString LineName);
+    QString currentPortName="";
 };
 
 #endif // IBISOVLADANI_H

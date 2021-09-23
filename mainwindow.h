@@ -26,6 +26,7 @@
 #include "VDV301publisher/customerinformationservice.h"
 #include "VDV301publisher/ticketvalidationservice.h"
 #include "VDV301struktury/zastavkacil.h"
+#include "konfigurace.h"
 
 
 namespace Ui {
@@ -67,6 +68,9 @@ public:
 
 
     TicketValidationService ticketValidationService2_3CZ1_0;
+    Konfigurace konfigurace;
+
+
 
 //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);
@@ -74,6 +78,8 @@ public:
     int priOdjezdu();
     void NaplnVyberLinky(QVector<Linka> docasnySeznamLinek);
     void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
+
+    QString umisteniProgramu=QCoreApplication::applicationDirPath();
 
 public slots:
     void vypisSqlVysledek(QString vstup);

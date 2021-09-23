@@ -788,7 +788,7 @@ public:
         page_nastaveni->setObjectName(QString::fromUtf8("page_nastaveni"));
         horizontalLayoutWidget_3 = new QWidget(page_nastaveni);
         horizontalLayoutWidget_3->setObjectName(QString::fromUtf8("horizontalLayoutWidget_3"));
-        horizontalLayoutWidget_3->setGeometry(QRect(100, 0, 436, 295));
+        horizontalLayoutWidget_3->setGeometry(QRect(100, 0, 523, 305));
         horizontalLayout_6 = new QHBoxLayout(horizontalLayoutWidget_3);
         horizontalLayout_6->setSpacing(6);
         horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
@@ -894,7 +894,7 @@ public:
 
         layoutWidget_2 = new QWidget(page_nastaveni);
         layoutWidget_2->setObjectName(QString::fromUtf8("layoutWidget_2"));
-        layoutWidget_2->setGeometry(QRect(590, 130, 120, 119));
+        layoutWidget_2->setGeometry(QRect(590, 130, 133, 119));
         verticalLayout_2 = new QVBoxLayout(layoutWidget_2);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -919,7 +919,7 @@ public:
 
         verticalLayoutWidget_2 = new QWidget(page_nastaveni);
         verticalLayoutWidget_2->setObjectName(QString::fromUtf8("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(90, 320, 160, 70));
+        verticalLayoutWidget_2->setGeometry(QRect(90, 320, 160, 77));
         verticalLayout_14 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_14->setSpacing(6);
         verticalLayout_14->setContentsMargins(11, 11, 11, 11);
@@ -1090,7 +1090,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(false);
-        menuBar->setGeometry(QRect(0, 0, 800, 21));
+        menuBar->setGeometry(QRect(0, 0, 800, 26));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
@@ -1171,7 +1171,7 @@ public:
         pripojeniTlacitko->setText(QCoreApplication::translate("MainWindow", "SQL Connect", nullptr));
         hlaseniLabel->setText(QCoreApplication::translate("MainWindow", "Slozka hlaseni", nullptr));
         tlacitkoHlaseniSlozka->setText(QCoreApplication::translate("MainWindow", "nastav slozku", nullptr));
-        lineEditHlaseniCesta->setText(QCoreApplication::translate("MainWindow", "/home/pi/hlaseni", nullptr));
+        lineEditHlaseniCesta->setText(QCoreApplication::translate("MainWindow", "C:/Users/adam/Desktop/HLASENI", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "build", nullptr));
         label_build->setText(QCoreApplication::translate("MainWindow", "cisloBuildu", nullptr));
         label_diagnostika_sql->setText(QCoreApplication::translate("MainWindow", "Diagnostick\303\275 \305\231\303\241dek importu dat", nullptr));

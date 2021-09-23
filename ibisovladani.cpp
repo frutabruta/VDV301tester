@@ -19,6 +19,7 @@ IbisOvladani::IbisOvladani()
 
 QString IbisOvladani::nahradDiakritiku(QString vstup)
 {
+    qDebug()<<"IbisOvladani::nahradDiakritiku";
     //BUSE kodovani
     /*
     vstup.replace("á","<0E><20>");
@@ -181,11 +182,12 @@ int IbisOvladani::odesliDoPortu(QString vstup)
 {
     qDebug()<<"IbisOvladani::odesliDoPortu";
     bool currentPortNameChanged = false;
-    QString portName="ttyUSB0";
-    QString currentPortName;
+    QString portName=globalniSeriovyPort;
+    // QString currentPortName=globalniSeriovyPort;
     if (currentPortName != portName) {
         currentPortName = portName;
         currentPortNameChanged = true;
+        qDebug()<<"jmeno portu se zmenilo na "<<currentPortName;
     }
 
     int waitTimeout=1000;
@@ -195,16 +197,20 @@ int IbisOvladani::odesliDoPortu(QString vstup)
     QSerialPort serial;
 
     if (currentPortName.isEmpty()) {
-        //emit error(tr("No port name specified"));
+        qDebug()<<"No port name specified";
         return 0;
     }
     int quit=0;
     while (!quit) {
         //![6] //! [7]
-        if (currentPortNameChanged) {
+        if (currentPortNameChanged)
+        {
             serial.close();
             serial.setPortName(currentPortName);
-            serial.open(QIODevice::ReadWrite);
+            if(serial.open(QIODevice::ReadWrite))
+            {
+                qDebug()<<"port "<<currentPortName<<" je otevren";
+            }
 
             serial.setBaudRate(1200);
             serial.setDataBits(QSerialPort::Data7);
@@ -217,34 +223,54 @@ int IbisOvladani::odesliDoPortu(QString vstup)
         //! [7] //! [8]
         // write request
         QByteArray requestData = currentRequest.toLocal8Bit();
+        if(!serial.isOpen())
+        {
+            qDebug()<<"seriovy port NENI otevreny";
+
+        }
+        else
+        {
+            qDebug()<<"seriovy port JE otevreny";
+        }
         serial.write(requestData);
-        if (serial.waitForBytesWritten(waitTimeout)) {
+        if (serial.waitForBytesWritten(waitTimeout))
+        {
             //! [8] //! [10]
             // read response
-            if (serial.waitForReadyRead(currentWaitTimeout)) {
+            /*
+            if (serial.waitForReadyRead(currentWaitTimeout))
+            {
                 QByteArray responseData = serial.readAll();
                 while (serial.waitForReadyRead(10))
                     responseData += serial.readAll();
 
                 QString response(responseData);
-                //! [12]
+
                 //emit this->response(response);
-                //! [10] //! [11] //! [12]
-            } else {
+
+            }
+            else
+            {
                 //emit timeout(tr("Wait read response timeout %1")    .arg(QTime::currentTime().toString()));
             }
             //! [9] //! [11]
-        } else {
+            //! */
+        }
+        else
+        {
             // emit timeout(tr("Wait write request timeout %1")                        .arg(QTime::currentTime().toString()));
         }
-        if (currentPortName != portName) {
+        /*if (currentPortName != portName)
+        {
             currentPortName = portName;
             currentPortNameChanged = true;
-        } else {
+        }
+        else
+        {
             currentPortNameChanged = false;
         }
         currentWaitTimeout = waitTimeout;
-        currentRequest = request;
+        currentRequest = request;*/
         quit=1;
     }
     return 1;
@@ -297,7 +323,7 @@ int IbisOvladani::odesliFrontKomplet(QVector<ZastavkaCil>zastavky,int index)
     qDebug()<<"IbisOvladani::odesliFrontKomplet";
     QString LineName=zastavky[index].linka.LineName;
     QString DestinationName= zastavky[index].cil.NameFront;
-       // zastavky.last().NameFront;
+    // zastavky.last().NameFront;
     dopocetCelni(slozeniTextuFront(LineName,DestinationName));
     return 1;
 }
@@ -440,8 +466,8 @@ QString IbisOvladani::slozeniTextuJKZr1(QVector<Zastavka> nacestne,QString LineN
     QString vystup="aA<3B>3";
     //vystup+="<1B>p<26><1B><53><1B><22>"; BUSE?
     vystup+="<1B>t<11>";
-   // vystup+=LineName;
-   // vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>"; BUSE?
+    // vystup+=LineName;
+    // vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>"; BUSE?
     //vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>";
     vystup+="přes zastávky/via: ";
     int i=0;
@@ -452,7 +478,7 @@ QString IbisOvladani::slozeniTextuJKZr1(QVector<Zastavka> nacestne,QString LineN
         vystup+=" - ";
         if (i>6)
         {
-             vystup+= nahradZobacek( nacestne[i+1].NameInner);
+            vystup+= nahradZobacek( nacestne[i+1].NameInner);
             vystup+="<0B>";
             return vystup;
         }
@@ -470,8 +496,8 @@ QString IbisOvladani::slozeniTextuJKZr2(QString DestinationName,QString LineName
     QString vystup="aA<3B>2";
     //vystup+="<1B>p<26><1B><53><1B><22>"; BUSE?
     //vystup+="<1B>t<11>";
-   // vystup+=LineName;
-   // vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>"; BUSE?
+    // vystup+=LineName;
+    // vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>"; BUSE?
     //vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>";
     vystup+=nahradZobacek(DestinationName);
 
@@ -512,6 +538,7 @@ QString IbisOvladani::nahradZobacek(QString vstup)
 
 QString IbisOvladani::slozBUSEjednoradekAA(QString DestinationName,QString LineName)
 {
+    qDebug()<<"IbisOvladani::slozBUSEjednoradekAA";
     QString vystup="aA<3B>2 <3E>";
     //vystup+="<0C><1B>l<29><1B>p<0E><17><1B>z<10><1B>t<11><1B><53><1B><22>";
     vystup+=this->nahradZobacek( DestinationName);
@@ -520,6 +547,7 @@ QString IbisOvladani::slozBUSEjednoradekAA(QString DestinationName,QString LineN
 
 int IbisOvladani::odeslikompletBUSEjednoradekAA(QVector<ZastavkaCil> zastavky,int index)
 {
+    qDebug()<<"IbisOvladani::odeslikompletBUSEjednoradekAA";
     QString LineName=zastavky[index].linka.LineName;
     //QString DestinationName=zastavky[zastavky.count()-1].NameInner;
     QString DestinationName=zastavky[zastavky.count()-1].cil.NameInner;

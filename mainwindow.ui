@@ -1698,8 +1698,8 @@ Stop</string>
            <rect>
             <x>100</x>
             <y>0</y>
-            <width>436</width>
-            <height>295</height>
+            <width>523</width>
+            <height>305</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -1948,7 +1948,7 @@ Stop</string>
            <rect>
             <x>590</x>
             <y>130</y>
-            <width>120</width>
+            <width>133</width>
             <height>119</height>
            </rect>
           </property>
@@ -1997,7 +1997,7 @@ Stop</string>
             <x>90</x>
             <y>320</y>
             <width>160</width>
-            <height>70</height>
+            <height>77</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -2018,7 +2018,7 @@ Stop</string>
            <item>
             <widget class="QLineEdit" name="lineEditHlaseniCesta">
              <property name="text">
-              <string>/home/pi/hlaseni</string>
+              <string>C:/Users/adam/Desktop/HLASENI</string>
              </property>
             </widget>
            </item>
@@ -2518,7 +2518,7 @@ Stop</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

@@ -10,6 +10,7 @@ debug/zastavka.o
 debug/zastavkacil.o
 debug/hlasic.o
 debug/httpsluzba.o
+debug/konfigurace.o
 debug/main.o
 debug/mainwindow.o
 debug/newhttpserver.o
@@ -26,7 +27,9 @@ debug/ibisovladani.o
 debug/moc_qzeroconf.o
 debug/moc_bonjour_p.o
 debug/moc_qzeroconfservice.o
+debug/moc_hlasic.o
 debug/moc_httpsluzba.o
+debug/moc_konfigurace.o
 debug/moc_mainwindow.o
 debug/moc_newhttpserver.o
 debug/moc_xmlgenerator.o
