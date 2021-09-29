@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include "cestaudaje.h"
+//#include "cestaudaje.h"
 #include <QDebug>
 
 //#include "QHT
