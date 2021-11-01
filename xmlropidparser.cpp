@@ -27,7 +27,7 @@ void XmlRopidParser::otevriSoubor()
     QDomDocument doc("mydocument");
    // QFile file("xml_zdroje/XML_Zlicin_20200702_20200705.xml");
 
-    QFile file("xml_zdroje/XML_Arriva_City_20210621_20210630.xml");
+    QFile file("xml_zdroje/XML_Arriva_City_20211029_20211105.xml");
 
 
 
@@ -83,6 +83,9 @@ void XmlRopidParser::otevriSoubor()
          vlozS(koren);
          emit odesliChybovouHlasku("dokoncen import S");
          vlozT(koren);
+         emit odesliChybovouHlasku("dokoncen import T");
+         vlozO(koren);
+          emit odesliChybovouHlasku("dokoncen import O");
          emit odesliChybovouHlasku("Import hotov!");
 
        if(!ropidSQL.mojeDatabaze.commit())
@@ -186,6 +189,30 @@ int XmlRopidParser::vlozTv2(QDomElement koren)
         polozky.push_back(inicializujPolozku("np",element.attribute("np"),"Boolean"));
         QString queryString=this->slozInsert("tv",polozky);
         qDebug()<<"TV2 "<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+    return 1;
+}
+
+int XmlRopidParser::vlozO(QDomElement koren)
+{
+    qDebug()<<"XmlRopidParser::vlozO";
+    QDomNodeList m=koren.elementsByTagName("o");
+    int pocetPrvku=m.count();
+    qDebug()<<"pocet prvku O je "<<pocetPrvku;
+    for (int i=0;i<pocetPrvku;i++)
+    {
+        QDomElement element = m.at(i).toElement();
+        QVector<navrat> polozky;
+        polozky.push_back(inicializujPolozku("l",element.attribute("l"),"Integer"));
+        polozky.push_back(inicializujPolozku("p",element.attribute("p"),"Integer"));
+        polozky.push_back(inicializujPolozku("kj",element.attribute("kj"),"String"));
+        //přepsat pro vložení spojů jednotlivě!
+        polozky.push_back(inicializujPolozku("sp",element.attribute("sp"),"String"));
+        polozky.push_back(inicializujPolozku("tv",element.attribute("tv"),"Integer"));
+         polozky.push_back(inicializujPolozku("td",element.attribute("td"),"Integer"));
+        QString queryString=this->slozInsert("o",polozky);
+        qDebug()<<"O "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
     return 1;

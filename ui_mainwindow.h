@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.15.1
+** Created by: Qt User Interface Compiler version 5.15.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -57,6 +57,9 @@ public:
     QHBoxLayout *pristiHorLAyout;
     QLabel *prikazovyvysledek;
     QLabel *prikazovyvysledek_cas;
+    QHBoxLayout *horizontalLayout_8;
+    QLabel *label_aktLinka;
+    QLabel *label_aktSpoj;
     QHBoxLayout *horizontalLayout_3;
     QHBoxLayout *horizontalLayout;
     QLabel *popisek;
@@ -429,7 +432,23 @@ public:
         displej_hor_layout->addLayout(verticalLayout_13);
 
 
-        gridLayout_3->addLayout(displej_hor_layout, 0, 0, 1, 1);
+        gridLayout_3->addLayout(displej_hor_layout, 3, 0, 1, 1);
+
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setSpacing(6);
+        horizontalLayout_8->setObjectName(QString::fromUtf8("horizontalLayout_8"));
+        label_aktLinka = new QLabel(page_vydej);
+        label_aktLinka->setObjectName(QString::fromUtf8("label_aktLinka"));
+
+        horizontalLayout_8->addWidget(label_aktLinka);
+
+        label_aktSpoj = new QLabel(page_vydej);
+        label_aktSpoj->setObjectName(QString::fromUtf8("label_aktSpoj"));
+
+        horizontalLayout_8->addWidget(label_aktSpoj);
+
+
+        gridLayout_3->addLayout(horizontalLayout_8, 0, 0, 1, 1);
 
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
@@ -512,7 +531,7 @@ public:
         horizontalLayout_3->addWidget(tlacitkoIBIS);
 
 
-        gridLayout_3->addLayout(horizontalLayout_3, 1, 0, 1, 1);
+        gridLayout_3->addLayout(horizontalLayout_3, 4, 0, 1, 1);
 
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setSpacing(6);
@@ -535,7 +554,7 @@ public:
         verticalLayout_4->addWidget(sipkaDolu);
 
 
-        gridLayout_3->addLayout(verticalLayout_4, 0, 4, 2, 1);
+        gridLayout_3->addLayout(verticalLayout_4, 3, 4, 2, 1);
 
         verticalLayout_5 = new QVBoxLayout();
         verticalLayout_5->setSpacing(6);
@@ -595,7 +614,7 @@ public:
         verticalLayout_5->addWidget(locationStateIndicator);
 
 
-        gridLayout_3->addLayout(verticalLayout_5, 0, 1, 2, 1);
+        gridLayout_3->addLayout(verticalLayout_5, 3, 1, 2, 1);
 
         prepinadloStran->addWidget(page_vydej);
         page_linkaspoj = new QWidget();
@@ -1090,7 +1109,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(false);
-        menuBar->setGeometry(QRect(0, 0, 800, 26));
+        menuBar->setGeometry(QRect(0, 0, 800, 21));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
@@ -1106,7 +1125,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        prepinadloStran->setCurrentIndex(2);
+        prepinadloStran->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1114,7 +1133,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "VDV301 Tester", nullptr));
         tlacitkoLinkospoj->setText(QCoreApplication::translate("MainWindow", "Linka\n"
 "/spoj", nullptr));
         tlacitkoZpetVydej->setText(QCoreApplication::translate("MainWindow", "V\303\275dej", nullptr));
@@ -1126,6 +1145,8 @@ public:
         labelAktZastCas->setText(QCoreApplication::translate("MainWindow", "99:99", nullptr));
         prikazovyvysledek->setText(QCoreApplication::translate("MainWindow", "seznam zastavek", nullptr));
         prikazovyvysledek_cas->setText(QCoreApplication::translate("MainWindow", "12:01", nullptr));
+        label_aktLinka->setText(QCoreApplication::translate("MainWindow", "Linka", nullptr));
+        label_aktSpoj->setText(QCoreApplication::translate("MainWindow", "Spoj", nullptr));
         popisek->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
         pridatTlacitko->setText(QCoreApplication::translate("MainWindow", "P\305\231idat", nullptr));
         ubratTlacitko->setText(QCoreApplication::translate("MainWindow", "Ubrat", nullptr));

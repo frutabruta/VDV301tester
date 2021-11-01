@@ -26,6 +26,7 @@
 #include "VDV301publisher/customerinformationservice.h"
 #include "VDV301publisher/ticketvalidationservice.h"
 #include "VDV301struktury/zastavkacil.h"
+#include "VDV301struktury/trip.h"
 #include "konfigurace.h"
 
 
@@ -42,7 +43,8 @@ public:
     ~MainWindow();
 
     //SeznamZastavek* globalniSeznamZastavek = new SeznamZastavek[MAX_ZAST]; //new SeznamZastavek[MAX_ZAST];
-    QVector<ZastavkaCil>  globalniSeznamZastavek ;
+  //  QVector<ZastavkaCil>  globalniSeznamZastavek ;
+    QVector<Trip> seznamTripu;
     //int vytvor();
     //CestaUdaje stavSystemu2;
     CestaUdaje stavSystemu;

@@ -54,21 +54,27 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::xmlHromadnyUpdate()
 {
     qDebug()<<"MainWindow::xmlHromadnyUpdate()";
+    qDebug()<<"delka seznamu tripu "<<seznamTripu.length();
+    if (seznamTripu.isEmpty())
+    {
+        qDebug()<<"seznam tripu je prazdny";
+        return;
+    }
 
     //ui->locationStateIndicator->setText(novatrida.locationState);
     QDomDocument vstupniDomXmlPrestupy;
     if (stavSystemu.prestupy==true)
     {
 
-        mpvParser.StahniMpvXml(globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.ids);
+        mpvParser.StahniMpvXml( this->seznamTripu.first().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,this->seznamTripu.first().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.ids);
         // connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
     }
     qDebug()<<QString::number(stavSystemu.indexAktZastavky);
     QVector<prestupMPV> prestupy;
-    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
-    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
+    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,this->seznamTripu.first().globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,this->seznamTripu.first().globalniSeznamZastavek);
     //ticketValidationService2_3CZ1_0.aktualizaceInternichPromennychOdeslat(vstupniDomXmlPrestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
-    ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
+    ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,this->seznamTripu.first().globalniSeznamZastavek);
 
 }
 
@@ -88,8 +94,8 @@ void MainWindow::MpvNetReady()
     QVector<prestupMPV> prestupy=mpvParser.parsujDomDokument();
 
     //mpvParser.prestupyXmlDokumentVystup2_2CZ1_0 =mpvParser.connections2_2CZ1_0(mpvParser.parsujDomDokument());
-    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,globalniSeznamZastavek);
-    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy, VDV301verze,stavSystemu,globalniSeznamZastavek);
+    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,VDV301verze,stavSystemu,this->seznamTripu.first().globalniSeznamZastavek);
+    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy, VDV301verze,stavSystemu,this->seznamTripu.first().globalniSeznamZastavek);
     //customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(mpvParser.prestupyXmlDokumentVystup2_2CZ1_0, VDV301verze,stavSystemu,globalniSeznamZastavek);
 
 }
@@ -136,7 +142,18 @@ int MainWindow::on_prikaztlacitko_clicked()
     stavSystemu.indexAktZastavky=0;
     //mojesql.zjistiPocet(novatrida.pocetZastavek,novatrida.cislo, novatrida.aktlinka,novatrida.aktspoj);
     QString textDoPole="";
-    int vysledek=mojesql.StahniSeznam( stavSystemu.aktlinka,stavSystemu.aktspoj,globalniSeznamZastavek,platnostSpoje);
+    //int vysledek=mojesql.StahniSeznam( stavSystemu.aktlinka,stavSystemu.aktspoj,this->seznamTripu,platnostSpoje);
+
+
+    int vysledek=mojesql.StahniSeznam( stavSystemu.aktlinka,stavSystemu.aktspoj,this->seznamTripu,platnostSpoje);
+    if (vysledek==2)
+    {
+        qDebug()<<"existuje navazujici spoj";
+    }
+
+
+
+
     if (vysledek==0)
     {
         textDoPole="spoj neexistuje";
@@ -145,7 +162,7 @@ int MainWindow::on_prikaztlacitko_clicked()
 
     }
     xmlHromadnyUpdate();
-    if(globalniSeznamZastavek.empty()==1)
+    if(this->seznamTripu.first().globalniSeznamZastavek.empty()==1)
     {
         qDebug()<<"seznam zastavek  je prazdny";
         return 0;
@@ -163,7 +180,7 @@ int MainWindow::on_prikaztlacitko_clicked()
 void MainWindow::on_sipkaNahoru_clicked()
 {
     qDebug()<<"\n MainWindow::on_sipkaNahoru_clicked() \n";
-    if (stavSystemu.indexAktZastavky<(globalniSeznamZastavek.count()-1))
+    if (stavSystemu.indexAktZastavky<(this->seznamTripu.first().globalniSeznamZastavek.count()-1))
     {
         if(stavSystemu.locationState=="AtStop")
         {
@@ -193,7 +210,7 @@ void MainWindow::on_sipkaNahoru_clicked()
             }
         }
     }
-    QString textDoPole="";
+    //QString textDoPole="";
     AktualizaceDispleje();
     stavSystemu.doorState="AllDoorsClosed";
     ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
@@ -293,15 +310,16 @@ void MainWindow::AktualizaceDispleje()
     QString casDoPoleAkt="";
     QString textDoPoleNasl="";
     QString textPoleCasuNasl="";
-    mojesql.vytvorHlavniAktualni(textDoPoleAkt,casDoPoleAkt,stavSystemu.indexAktZastavky,globalniSeznamZastavek,stavSystemu.locationState);
-    mojesql.vytvorHlavniTextNasledujici(textDoPoleNasl,textPoleCasuNasl,stavSystemu.indexAktZastavky,globalniSeznamZastavek,stavSystemu.locationState);
+    mojesql.vytvorHlavniAktualni(textDoPoleAkt,casDoPoleAkt,stavSystemu.indexAktZastavky,this->seznamTripu.first().globalniSeznamZastavek,stavSystemu.locationState);
+    mojesql.vytvorHlavniTextNasledujici(textDoPoleNasl,textPoleCasuNasl,stavSystemu.indexAktZastavky,this->seznamTripu.first().globalniSeznamZastavek,stavSystemu.locationState);
 
 
     ui->labelAktZastJmeno->setText(textDoPoleAkt);
     ui->labelAktZastCas->setText(casDoPoleAkt);
     ui->prikazovyvysledek->setText(textDoPoleNasl);
     ui->prikazovyvysledek_cas->setText(textPoleCasuNasl);
-
+    ui->label_aktLinka->setText(this->seznamTripu.first().globalniSeznamZastavek.at(stavSystemu.indexAktZastavky).linka.LineNumber);
+    ui->label_aktSpoj->setText(QString::number(this->seznamTripu.first().globalniSeznamZastavek.at(stavSystemu.indexAktZastavky).spoj.cisloRopid));
 
     ui->locationStateIndicator->setText(stavSystemu.locationState);
 
@@ -319,7 +337,7 @@ void MainWindow::AktualizaceDispleje()
 void MainWindow::on_pridatTlacitko_clicked()
 {
     qDebug()<<"\n on_pridatTlacitko_clicked \n";
-    if (stavSystemu.indexAktZastavky<(globalniSeznamZastavek.count()-1))
+    if (stavSystemu.indexAktZastavky<(this->seznamTripu.first().globalniSeznamZastavek.count()-1))
     {
         stavSystemu.indexAktZastavky++;
     }
@@ -487,12 +505,12 @@ void MainWindow::on_tlacitkoIBIS_clicked()
 {
     qDebug()<<"";
     ibisOvladani.dopocetCelni("xC2");
-    ibisOvladani.odesliFrontKomplet(globalniSeznamZastavek,stavSystemu.indexAktZastavky);
-    ibisOvladani.odesliSideKomplet(globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliFrontKomplet(this->seznamTripu.first().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliSideKomplet(this->seznamTripu.first().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
     //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
-    ibisOvladani.odesliJKZKomplet(globalniSeznamZastavek,stavSystemu.indexAktZastavky);
-    ibisOvladani.odeslikompletBUSEjednoradekAA(globalniSeznamZastavek,stavSystemu.indexAktZastavky);
-    ibisOvladani.odesliRearKomplet(globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliJKZKomplet(this->seznamTripu.first().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odeslikompletBUSEjednoradekAA(this->seznamTripu.first().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliRearKomplet(this->seznamTripu.first().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
 }
 
 
@@ -503,13 +521,13 @@ int MainWindow::priPrijezdu()
     stavSystemu.doorState="DoorsOpen";
 
 
-    if (stavSystemu.indexAktZastavky<(globalniSeznamZastavek.length()-1))
+    if (stavSystemu.indexAktZastavky<(this->seznamTripu.first().globalniSeznamZastavek.length()-1))
     {
-        hlasic.kompletZastavka(globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis,globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka.cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka.cisloOis);
+        hlasic.kompletZastavka(this->seznamTripu.first().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,this->seznamTripu.first().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis,this->seznamTripu.first().globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka.cisloCis,this->seznamTripu.first().globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka.cisloOis);
     }
     else
     {
-        hlasic.kompletKonecna(globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis );
+        hlasic.kompletKonecna(this->seznamTripu.first().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,this->seznamTripu.first().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis );
     }
     stavSystemu.locationState="AtStop";
     xmlHromadnyUpdate();
@@ -575,7 +593,7 @@ void MainWindow::on_tlacitkoLinkospoj_clicked()
 
 void MainWindow::inicializacePoli()
 {
-    globalniSeznamZastavek.clear();
+    this->seznamTripu.first().globalniSeznamZastavek.clear();
     seznamLinek.clear();
     seznamSpoju.clear();
     stavSystemu.vymaz();
@@ -697,7 +715,7 @@ void MainWindow::vypisSubscribery2(QVector<Subscriber> adresy)
 
 void MainWindow::on_tlacitkoAddsubscriber_clicked()
 {
-vypisDiagnostika(customerInformationService1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
+    vypisDiagnostika(customerInformationService1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
 
 
 
@@ -709,7 +727,7 @@ vypisDiagnostika(customerInformationService1_0.novySubscriber(Subscriber(ui->lin
 
 void MainWindow::on_tlacitkoAddsubscriber_2_clicked()
 {
-   vypisDiagnostika( customerInformationService2_2CZ1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
+    vypisDiagnostika( customerInformationService2_2CZ1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
 }
 
 
@@ -760,7 +778,7 @@ void MainWindow::on_tlacitkoRemoveSubscriber_2_clicked()
 
     if (ui->seznamOdberatelu2->selectionModel()->selectedIndexes().size()==0)
     {
-         vypisDiagnostika("nic neni vybrano");
+        vypisDiagnostika("nic neni vybrano");
 
         return;
     }
@@ -774,7 +792,7 @@ void MainWindow::on_tlacitkoRemoveSubscriber_2_clicked()
     }
     else
     {
-     vypisDiagnostika("nepovedlo se odstranit");
+        vypisDiagnostika("nepovedlo se odstranit");
     }
 }
 

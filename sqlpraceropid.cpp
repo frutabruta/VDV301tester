@@ -2,6 +2,7 @@
 #include "VDV301struktury/zastavka.h"
 #include "xmlgenerator.h"
 #include "VDV301struktury/zastavkacil.h"
+#include "VDV301struktury/trip.h"
 
 SqlPraceRopid::SqlPraceRopid()
 {
@@ -12,7 +13,7 @@ SqlPraceRopid::SqlPraceRopid()
 int SqlPraceRopid::Pripoj(QString adresa)
 
 {
-    qDebug()<< "SQLprace::Pripoj";
+    qDebug()<< "SQLpraceRopid::Pripoj";
     this->mojeDatabaze = QSqlDatabase::addDatabase("QSQLITE");
     //this->mojeDatabaze.setHostName(adresa);
     //this->mojeDatabaze.setPort(3306);
@@ -41,14 +42,14 @@ int SqlPraceRopid::Pripoj(QString adresa)
 
 int SqlPraceRopid::otevriDB()
 {
-
+  qDebug()<< "SQLpraceRopid::otevriDB";
     if(this->mojeDatabaze.open())
     {
         qDebug()<<"podarilo se pripojit k databazi ROPID";
         qDebug()<<"is driver available "<<QString::number(mojeDatabaze.isDriverAvailable("QSQLITE"));
-        qDebug()<<"je databazte otevrena "<<QString::number(mojeDatabaze.isOpen());
+        qDebug()<<"je databate otevrena "<<QString::number(mojeDatabaze.isOpen());
          emit odesliChybovouHlasku("je databaze otevrena");
-        qDebug()<<"je databazte validni "<<QString::number(mojeDatabaze.isValid());
+        qDebug()<<"je databaze validni "<<QString::number(mojeDatabaze.isValid());
         // qDebug()<<"transaction mode"+QString::number(mojeDatabaze.transaction());
         return 1;
     }
@@ -62,6 +63,7 @@ int SqlPraceRopid::otevriDB()
 
 int SqlPraceRopid::zavriDB()
 {
+     qDebug()<< "SQLpraceRopid::zavriDB";
     this->mojeDatabaze.close();
     if(1)
     {
@@ -82,11 +84,21 @@ int SqlPraceRopid::zavriDB()
 
 
 
-int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost )
+int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje,QVector<Trip> &seznamTripu , bool platnost )
 {
     this->otevriDB();
-    docasnySeznamZastavek.clear();
+
+    seznamTripu.clear();
+    Trip aktualniTrip;
+    aktualniTrip.globalniSeznamZastavek.clear();
+
+   // docasnySeznamZastavek.clear();
     qDebug()<< "SQLprace::StahniSeznam";
+
+
+    QVector<ZastavkaCil> docasnySeznamZastavek;
+
+        //    .first().globalniSeznamZastavek
 
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT   ");
@@ -96,7 +108,7 @@ int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje, QVector<Zastavka
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
     queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, ");
     queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, ");
-    queryString2+=("s.ns ");
+    queryString2+=("s.ns, s.c ");
     queryString2+=("FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
@@ -146,6 +158,7 @@ dbManager->query.exec();
             Zastavka aktZast;
             ZastavkaCil aktZastCil;
             Linka aktLinka;
+            Spoj aktSpoj;
             int cisloZast = counter; //query.value(0).toInt();
 
             aktZast.StopIndex=cisloZast;
@@ -166,7 +179,7 @@ dbManager->query.exec();
             aktLinka.isNight=query.value(query.record().indexOf("l.noc")).toBool();
 
 
-
+            aktSpoj.cisloRopid=query.value(query.record().indexOf("s.c")).toInt();
 
             //aktZast.StopName =query.value( query.record().indexOf("z.n")).toString();
             aktZast.cisloCis=query.value( query.record().indexOf("z.cis")).toInt() ;
@@ -230,6 +243,10 @@ dbManager->query.exec();
             counter++;
             qDebug()<<"citac: "<<counter     ;
             qDebug()<<aktZast.StopName;
+
+
+            aktZastCil.spoj=aktSpoj;
+
             aktZastCil.linka=aktLinka;
             aktZastCil.zastavka=aktZast;
             if (ignorovat==false)
@@ -263,10 +280,14 @@ dbManager->query.exec();
     // VypisPole(docasnySeznamZastavek,counter);
     qInfo()<<"pocetzastavek je"<<QString::number(docasnySeznamZastavek.length());
 
+    aktualniTrip.globalniSeznamZastavek=docasnySeznamZastavek;
+    seznamTripu.append(aktualniTrip);
+
     if (navazujiciSpoj!=0)
     {
         qDebug()<<"navazujici spoj ma cislo "<<QString::number(navazujiciSpoj);
         StahniSeznamNavazSpoj(navazujiciSpoj,docasnySeznamZastavek,platnost);
+        return 2;
     }
     else
     {
@@ -461,6 +482,7 @@ int SqlPraceRopid::StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &doca
     if (navazujiciSpoj!=0)
     {
         qDebug()<<"navazujici spoj ma cislo "<<QString::number(navazujiciSpoj);
+        return 2;
         StahniSeznamNavazSpoj(navazujiciSpoj,interniSeznamZastavek,platnost);
 
     }
@@ -471,6 +493,7 @@ int SqlPraceRopid::StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &doca
 
     if (docasnySeznamZastavek.size()>0 )
     {
+        qDebug()<<"odstranuji posledni zastavku";
         docasnySeznamZastavek.removeLast();
     }
 

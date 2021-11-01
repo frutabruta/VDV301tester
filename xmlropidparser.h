@@ -37,6 +37,7 @@ public:
     navrat inicializujPolozku(QString nazevSloupce, QString obsah, QString typ);
 
 
+
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:
@@ -50,6 +51,7 @@ private:
     int vlozTv(QDomElement koren);
     int vlozT(QDomElement koren);
     int vlozX(QDomElement koren);
+    int vlozO(QDomElement koren);
     QString overBoolean(QString vstup);
     QString overInteger(QString vstup);
     QString overString(QString vstup);
