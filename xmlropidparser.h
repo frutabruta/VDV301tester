@@ -58,6 +58,7 @@ private:
     QString slozInsert(QString nazevTabulky, QVector<navrat>);
     QString vytvorCas(QString vstup);
     int vlozTv2(QDomElement koren);
+    int vlozSpPo(QDomElement koren);
 };
 
 #endif // XMLROPIDPARSER_H
