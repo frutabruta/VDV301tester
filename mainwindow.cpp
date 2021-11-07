@@ -137,15 +137,72 @@ int MainWindow::on_prikaztlacitko_clicked()
 {
     qDebug()<<"MainWindow::on_prikaztlacitko_clicked";
     stavSystemu.doorState="AllDoorsClosed";
-    stavSystemu.aktlinka=ui->polelinky->text().toInt();
-    stavSystemu.aktspoj=ui->polespoje->text().toInt();
+    stavSystemu.aktspoj.linka.c =ui->polelinky->text().toInt();
+    stavSystemu.aktspoj.cisloRopid=ui->polespoje->text().toInt();
+    /*
+    if (!seznamSpoju.isEmpty())
+    {
+            stavSystemu.aktspoj=seznamSpoju.at(ui->listSpoje->selectionModel()->selectedRows().first().row());
+    }
+    */
+         //   ui->polespoje->text().toInt();
     stavSystemu.indexAktZastavky=0;
     //mojesql.zjistiPocet(novatrida.pocetZastavek,novatrida.cislo, novatrida.aktlinka,novatrida.aktspoj);
     QString textDoPole="";
     //int vysledek=mojesql.StahniSeznam( stavSystemu.aktlinka,stavSystemu.aktspoj,this->seznamTripu,platnostSpoje);
 
 
-    int vysledek=mojesql.StahniSeznam( stavSystemu.aktlinka,stavSystemu.aktspoj,this->seznamTripu,platnostSpoje);
+    int vysledek=mojesql.StahniSeznam( stavSystemu.aktspoj.linka,stavSystemu.aktspoj.cisloRopid,this->seznamTripu,platnostSpoje);
+    if (vysledek==2)
+    {
+        qDebug()<<"existuje navazujici spoj";
+    }
+
+
+
+
+    if (vysledek==0)
+    {
+        textDoPole="spoj neexistuje";
+        ui->prikazovyvysledek->setText(textDoPole);
+        return 0;
+
+    }
+    xmlHromadnyUpdate();
+    if(this->seznamTripu.first().globalniSeznamZastavek.empty()==1)
+    {
+        qDebug()<<"seznam zastavek  je prazdny";
+        return 0;
+    }
+    else
+    {
+        AktualizaceDispleje();
+        stavSystemu.locationState="AtStop";
+        ui->tlacitkoZpetVydej->setChecked(1);
+        ui->prepinadloStran->setCurrentIndex(0);
+    }
+    return 1;
+}
+
+
+int MainWindow::on_prikazTlacitkoTurnus_clicked()
+{
+    qDebug()<<"MainWindow::on_prikaztTurnuslacitko_clicked";
+    stavSystemu.doorState="AllDoorsClosed";
+    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text().toInt();
+    /*
+    if (!seznamSpoju.isEmpty())
+    {
+            stavSystemu.aktspoj=seznamSpoju.at(ui->listTurnusSpoje->selectionModel()->selectedRows().first().row());
+    }*/
+    //stavSystemu.aktspoj=ui->poleSpojeTurnus->text().toInt();
+    stavSystemu.indexAktZastavky=0;
+    //mojesql.zjistiPocet(novatrida.pocetZastavek,novatrida.cislo, novatrida.aktlinka,novatrida.aktspoj);
+    QString textDoPole="";
+    //int vysledek=mojesql.StahniSeznam( stavSystemu.aktlinka,stavSystemu.aktspoj,this->seznamTripu,platnostSpoje);
+
+
+    int vysledek=mojesql.StahniSeznam( stavSystemu.aktspoj.linka,stavSystemu.aktspoj.cisloRopid,this->seznamTripu,platnostSpoje);
     if (vysledek==2)
     {
         qDebug()<<"existuje navazujici spoj";
@@ -260,6 +317,9 @@ void MainWindow::startDatabaze()
     if (mojesql.VytvorSeznamLinek(seznamLinek)==1)
     {
         NaplnVyberLinky(seznamLinek);
+        QVector<Linka> kmenoveLinky;
+        mojesql.VytvorSeznamKmenovychLinek(kmenoveLinky);
+        NaplnKmenoveLinky(kmenoveLinky);
         ui->NazevVysledku->setText("OK2");
     }
     else
@@ -276,8 +336,22 @@ void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
     {
         QListWidgetItem *newItem = new QListWidgetItem;
         newItem->setText(QString::number(docasnySeznamLinek.at(i).c));
-        newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).lc));
+        //newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).lc));
+        newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).c));
         ui->listLinek->addItem( newItem);
+    }
+
+}
+
+void MainWindow::NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek)
+{
+    ui->listKmenovychLinek->clear();
+    for (int i = 0; i < docasnySeznamLinek.length(); ++i)
+    {
+        QListWidgetItem *newItem = new QListWidgetItem;
+        newItem->setText(QString::number(docasnySeznamLinek.at(i).c));
+        newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).c));
+        ui->listKmenovychLinek->addItem( newItem);
     }
 
 }
@@ -299,6 +373,49 @@ void MainWindow::NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
         qDebug()<<"MainWindow::NaplnVyberSpoje_"<<QString::number(i);
     }
     qDebug()<<"MainWindow::NaplnVyberSpoje_konec";
+
+}
+
+void MainWindow::NaplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju)
+{
+    qDebug()<<"MainWindow::NaplnVyberTurnusSpoje";
+    if (ui->listTurnusSpoje->count()!=0)
+    {
+        ui->listTurnusSpoje->clear();
+    }
+    qDebug()<<"MainWindow::NaplnVyberSpoje_dp1";
+    for (int i = 0; i < docasnySeznamSpoju.length(); ++i)
+    {
+        QListWidgetItem *newItem = new QListWidgetItem;
+        QString linka=QString::number(docasnySeznamSpoju.at(i).linka.c);
+        QString spoj=QString::number(docasnySeznamSpoju.at(i).cisloRopid);
+
+        newItem->setText(linka+"/"+spoj);
+        newItem->setData(Qt::UserRole, QString::number(docasnySeznamSpoju.at(i).cisloRopid ));
+        ui->listTurnusSpoje->addItem( newItem);
+        qDebug()<<"MainWindow::NaplnVyberTurnusSpoje_"<<QString::number(i);
+    }
+    qDebug()<<"MainWindow::NaplnVyberTurnusSpoje_konec";
+
+}
+
+void MainWindow::NaplnVyberPoradi(QVector<Obeh> docasnySeznamObehu)
+{
+    qDebug()<<"MainWindow::NaplnVyberPoradi";
+    if (ui->listPoradi->count()!=0)
+    {
+        ui->listPoradi->clear();
+    }
+   // qDebug()<<"MainWindow::NaplnVyberSpoje_dp1";
+    for (int i = 0; i < docasnySeznamObehu.length(); ++i)
+    {
+        QListWidgetItem *newItem = new QListWidgetItem;
+        newItem->setText(QString::number(docasnySeznamObehu.at(i).p));
+        newItem->setData(Qt::UserRole, QString::number(docasnySeznamObehu.at(i).p ));
+        ui->listPoradi->addItem( newItem);
+        qDebug()<<"MainWindow::NaplnVyberPoradi_"<<QString::number(i);
+    }
+    qDebug()<<"MainWindow::NaplnVyberPoradi_konec";
 
 }
 
@@ -551,12 +668,63 @@ int MainWindow::priOdjezdu()
 void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
     ui->polelinky->setText(ui->listLinek->currentItem()->data(Qt::UserRole ).toString() );
-    stavSystemu.aktlinka=ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
+    stavSystemu.aktlinka.c=ui->listLinek->currentItem()->data(Qt::UserRole).toString().toInt();
+    qDebug()<<"tady budu vypisovat vybrane spoje";
+    qDebug()<<"raw "<<ui->listLinek->currentItem()->data(Qt::UserRole)<<" int "<<ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
     if (mojesql.VytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka)==1)
     {
         NaplnVyberSpoje(seznamSpoju);
     }
 }
+
+void MainWindow::on_listKmenovychLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    qDebug()<<"on_listKmenovychLinek_currentItemChanged";
+    ui->poleLinkyTurnus->setText(ui->listKmenovychLinek->currentItem()->data(Qt::UserRole ).toString() );
+
+    stavSystemu.aktObeh.kmenovaLinka.c=ui->listKmenovychLinek->currentItem()->data(Qt::UserRole).toInt();
+
+    ui->listPoradi->clear();
+
+    ui->listTurnusSpoje->clear();
+
+    if (mojesql.VytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka )==1)
+    {
+
+        NaplnVyberPoradi(seznamObehu);
+
+
+    }
+}
+
+
+void MainWindow::on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    qDebug()<<"MainWindow::on_listPoradi_currentItemChanged";
+    if (ui->listPoradi->count()!=0)
+    {
+        if(ui->listPoradi->currentRow()!=-1)
+        {
+            //ui->listSpoje->setCurrentRow(0);
+
+            qDebug()<<"xx"+ QString::number( ui->listPoradi->currentRow());
+            qDebug()<<"current item:"+ui->listPoradi->currentItem()->data(Qt::UserRole).toString();
+
+            //ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
+            stavSystemu.aktObeh.p=ui->listPoradi->currentItem()->data(Qt::UserRole).toInt() ;
+
+            if (mojesql.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh)==1)
+            {
+                NaplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
+
+            }
+
+
+        }
+
+    }
+}
+
 
 void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
@@ -567,10 +735,36 @@ void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QList
         {
             //ui->listSpoje->setCurrentRow(0);
             qDebug()<<"xx"+ QString::number( ui->listSpoje->currentRow());
-            qDebug()<<"current item:"+ui->listSpoje->currentItem()->data(Qt::UserRole).toString()
-                      ;
+            qDebug()<<"current item:"+ui->listSpoje->currentItem()->data(Qt::UserRole).toString();
             ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
-            stavSystemu.aktspoj=ui->listSpoje->currentItem()->data(Qt::UserRole).toInt() ;
+            //stavSystemu.aktspoj=ui->listSpoje->currentItem()->data(Qt::UserRole).toInt() ;
+            int indexVyberu=ui->listSpoje->currentRow();
+            stavSystemu.aktspoj=seznamSpoju.at(indexVyberu);
+        }
+
+    }
+}
+
+void MainWindow::on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    qDebug()<<"MainWindow::on_listTurnusSpoje_currentItemChanged";
+    if (ui->listTurnusSpoje->count()!=0)
+    {
+        if(ui->listTurnusSpoje->currentRow()!=-1)
+        {
+            //ui->listSpoje->setCurrentRow(0);
+            qDebug()<<"xx"+ QString::number( ui->listTurnusSpoje->currentRow());
+            qDebug()<<"current item:"+ui->listTurnusSpoje->currentItem()->data(Qt::UserRole).toString();
+            int zvolenaPolozka=ui->listTurnusSpoje->currentRow();
+            qDebug()<<"current row "<<zvolenaPolozka;
+            qDebug()<<"delka seznamu spoju"<<stavSystemu.aktObeh.seznamSpoju.size()<<" zvolena polozka "<<zvolenaPolozka;
+            stavSystemu.aktspoj=stavSystemu.aktObeh.seznamSpoju.at(zvolenaPolozka);
+            ui->poleLinkyTurnus->setText(QString::number(stavSystemu.aktspoj.linka.c));
+            //ui->poleSpojeTurnus->setText(ui->listTurnusSpoje->currentItem()->data(Qt::UserRole).toString());
+            ui->poleSpojeTurnus->setText(QString::number(stavSystemu.aktspoj.cisloRopid));
+
+
+
         }
 
     }
@@ -816,3 +1010,19 @@ void MainWindow::vypisSqlVysledek(QString vstup)
 {
     ui->label_diagnostika_sql->setText(vstup);
 }
+
+void MainWindow::on_tlacitkoTurnus_clicked()
+{
+    ui->prepinadloStran->setCurrentIndex(4);
+}
+
+
+
+
+
+
+
+
+
+
+

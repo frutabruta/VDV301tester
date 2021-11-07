@@ -43,7 +43,7 @@ public:
     ~MainWindow();
 
     //SeznamZastavek* globalniSeznamZastavek = new SeznamZastavek[MAX_ZAST]; //new SeznamZastavek[MAX_ZAST];
-  //  QVector<ZastavkaCil>  globalniSeznamZastavek ;
+    //  QVector<ZastavkaCil>  globalniSeznamZastavek ;
     QVector<Trip> seznamTripu;
     //int vytvor();
     //CestaUdaje stavSystemu2;
@@ -61,6 +61,7 @@ public:
     Hlasic hlasic;
     QVector <Linka> seznamLinek;
     QVector <Spoj> seznamSpoju;
+    QVector <Obeh> seznamObehu;
     bool platnostSpoje=1;
     int VDV301verze=0;
 
@@ -74,19 +75,20 @@ public:
 
 
 
-//void StahniMpvXml(int cisloCis, QString Ids);
+    //void StahniMpvXml(int cisloCis, QString Ids);
     //QByteArray requestReceived(QNetworkReply *replyoo);
     int priPrijezdu();
     int priOdjezdu();
     void NaplnVyberLinky(QVector<Linka> docasnySeznamLinek);
     void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
-
+    void NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek);
     QString umisteniProgramu=QCoreApplication::applicationDirPath();
+
 
 public slots:
     void vypisSqlVysledek(QString vstup);
 private slots:
-  // QByteArray requestReceived(QNetworkReply *replyoo);
+    // QByteArray requestReceived(QNetworkReply *replyoo);
     int on_prikaztlacitko_clicked();
     void on_sipkaNahoru_clicked();
     void on_sipkaDolu_clicked();
@@ -147,6 +149,8 @@ private:
     void vypisSubscribery(QVector<Subscriber> adresy);
 
     void vypisSubscribery2(QVector<Subscriber> adresy);
+    void NaplnVyberPoradi(QVector<Obeh> docasnySeznamObehu);
+    void NaplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju);
 private slots:
     //void novySubsriber(QUrl adresaSubscribera);
 
@@ -156,6 +160,11 @@ private slots:
     void on_tlacitkoAddsubscriber_2_clicked();
     void on_tlacitkoRemoveSubscriber_2_clicked();
     void vypisDiagnostika(QString vstup);
+    void on_tlacitkoTurnus_clicked();
+    void on_listKmenovychLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    void on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+    int on_prikazTlacitkoTurnus_clicked();
 };
 
 #endif // MAINWINDOW_H

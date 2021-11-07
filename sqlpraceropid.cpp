@@ -3,6 +3,7 @@
 #include "xmlgenerator.h"
 #include "VDV301struktury/zastavkacil.h"
 #include "VDV301struktury/trip.h"
+#include "VDV301struktury/obeh.h"
 
 SqlPraceRopid::SqlPraceRopid()
 {
@@ -84,7 +85,7 @@ int SqlPraceRopid::zavriDB()
 
 
 
-int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje,QVector<Trip> &seznamTripu , bool platnost )
+int SqlPraceRopid::StahniSeznam(Linka docasnaLinka, int cisloSpoje,QVector<Trip> &seznamTripu , bool platnost )
 {
     this->otevriDB();
 
@@ -114,8 +115,8 @@ int SqlPraceRopid::StahniSeznam(int cisloLinky, int cisloSpoje,QVector<Trip> &se
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
     queryString2+=("LEFT JOIN t ON t.u=x.u AND t.z=x.z " );
-    queryString2+=("WHERE l.lc=");
-    queryString2+=( QString::number(cisloLinky));
+    queryString2+=("WHERE l.c=");
+    queryString2+=( QString::number(docasnaLinka.c));
     //290664
     queryString2+=(" AND s.c=");
     queryString2+=( QString::number(cisloSpoje));
@@ -615,10 +616,54 @@ int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek)
 }
 
 
+int SqlPraceRopid::VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek)
+{
+
+    qDebug()<< "SqlPraceRopid::VytvorSeznamKmenovychLinek";
+    this->otevriDB();
+    bool platnost=true;
+    docasnySeznamLinek.clear();
+    QString queryString2("SELECT DISTINCT o.l,l.c,l.lc,l.n FROM o ");
+    queryString2+=("LEFT JOIN l ON o.l=l.c ");
+
+    queryString2+=("WHERE o.kj LIKE '");
+    queryString2+=QString::number(platnost);
+    queryString2+=("%' ");
+    queryString2+=("ORDER BY l.c;");
+    QSqlQuery query;
+    query.exec(queryString2); //this->mojeDatabaze);
+    qDebug()<<"lasterror"<<  query.lastError();
+    qDebug()<<queryString2;
+    qDebug()<<"DebugPointB";
+    int citacMaximum=0;
+    while (query.next())
+    {
+        if (query.value(0).toString()!="")
+        {
+            Linka docasnaLinka;
+            docasnaLinka.c=query.value(query.record().indexOf("l.c")).toInt();
+                   // query.value(0).toInt();
+            docasnaLinka.lc=query.value(query.record().indexOf("l.lc")).toInt();
+                 //   query.value(1).toInt();
+            docasnaLinka.n=query.value(query.record().indexOf("l.n")).toString();
+            docasnySeznamLinek.push_back(docasnaLinka);
+            citacMaximum++;
+        }
+    }
+    this->zavriDB();
+    if (citacMaximum==0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
 
 
 
-int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisloLinky)
+int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka)
 {
     qDebug()<< "SqlPraceRopid::VytvorSeznamSpoju";
     docasnySeznamSpoju.clear();
@@ -627,9 +672,9 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisl
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT s.s, s.c FROM s ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
-    queryString2+=("WHERE l.lc='");
-    queryString2+=( QString::number(cisloLinky));
-    queryString2+=("' AND  s.c !=1000 ");
+    queryString2+=("WHERE l.c=");
+    queryString2+=( QString::number(docasnaLinka.c));
+    queryString2+=(" AND  s.c !=1000 ");
     queryString2+=(" AND  s.kj LIKE '");
     queryString2+=QString::number(platnost);
     queryString2+=("%' ");
@@ -645,11 +690,115 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, int cisl
         if (query.value(0).toString()!="")
         {
             Spoj docasnySpoj;
-            docasnySpoj.cislo=query.value(0).toInt();
-            docasnySpoj.cisloRopid=query.value(1).toInt();
+            docasnySpoj.cislo=query.value(query.record().indexOf("s.s")).toInt();
+            docasnySpoj.cisloRopid=query.value(query.record().indexOf("s.c")).toInt();
             docasnySeznamSpoju.push_back(docasnySpoj);
             citacMaximum++;
             qDebug()<<docasnySpoj.cisloRopid;
+        }
+    }
+
+    this->zavriDB();
+    if (citacMaximum==0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+
+int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh)
+{
+    //QVector<Spoj> &docasnySeznamSpoju,
+    qDebug()<< "SqlPraceRopid::VytvorSeznamTurnusSpoju";
+    docasnyObeh.seznamSpoju.clear();
+    this->Pripoj("");
+    bool platnost = true;
+    qInfo()<<"DebugPointA";
+    QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, s.c, s.s, s.l FROM sp_po ");
+    queryString2+=("LEFT JOIN s ON sp_po.s=s.s ");
+    queryString2+=("WHERE sp_po.l=");
+    queryString2+=( QString::number(docasnyObeh.kmenovaLinka.c));
+    //queryString2+=(" AND  s.c !=1000 ");
+    queryString2+=(" AND  sp_po.p=");
+    queryString2+=( QString::number(docasnyObeh.p));
+    queryString2+=(" AND  sp_po.kj LIKE '");
+    queryString2+=QString::number(platnost);
+    queryString2+=("%' ");
+    queryString2+=(" ORDER BY sp_po.ord");
+    QSqlQuery query;
+    query.exec(queryString2);
+    qDebug()<<"lasterror "<<query.lastError();
+    qDebug()<<queryString2;
+    qDebug()<<"DebugPointB";
+    int citacMaximum=0;
+    while (query.next())
+    {
+       /* if (query.value(0).toString()!="")
+        {*/
+            Spoj docasnySpoj;
+            docasnySpoj.cislo=query.value(query.record().indexOf("s.s")).toInt();
+           // docasnySpoj.cislo=query.value(0).toInt();
+            docasnySpoj.cisloRopid=query.value(query.record().indexOf("s.c")).toInt();
+            docasnySpoj.linka.c=query.value(query.record().indexOf("s.l")).toInt();
+            docasnyObeh.seznamSpoju.push_back(docasnySpoj);
+            citacMaximum++;
+            qDebug()<<docasnySpoj.cisloRopid;
+        /*}*/
+    }
+
+    this->zavriDB();
+    if (citacMaximum==0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+
+int SqlPraceRopid::VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka)
+{
+    qDebug()<< "SqlPraceRopid::VytvorSeznamPoradi";
+    docasnySeznamObehu.clear();
+    this->Pripoj("");
+    bool platnost = true;
+    qInfo()<<"DebugPointA";
+    QString queryString2("SELECT DISTINCT o.l, o.p FROM o ");
+   // queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("WHERE o.l=");
+    queryString2+=( QString::number(docasnaLinka.c));
+    //queryString2+=("' AND  s.c !=1000 ");
+    queryString2+=(" AND  o.kj LIKE '");
+    queryString2+=QString::number(platnost);
+    queryString2+=("%' ");
+    queryString2+=(" ORDER BY o.p");
+    QSqlQuery query;
+    query.exec(queryString2);
+    qDebug()<<"lasterror "<<query.lastError();
+    qDebug()<<queryString2;
+    qDebug()<<"DebugPointB";
+    int citacMaximum=0;
+    while (query.next())
+    {
+        if (query.value(0).toString()!="")
+        {
+            Obeh docasnyObeh;
+            Linka docasnaLinka;
+
+           // aktZast.prestupVlak =query.value(query.record().indexOf("x.xVla")).toBool();
+
+            docasnyObeh.kmenovaLinka.c=query.value(query.record().indexOf("o.l")).toInt();
+            docasnyObeh.p=query.value(query.record().indexOf("o.p")).toInt();
+
+            docasnySeznamObehu.push_back(docasnyObeh);
+            citacMaximum++;
+            qDebug()<<docasnyObeh.kmenovaLinka.c<<"/"<<docasnyObeh.p;
         }
     }
 

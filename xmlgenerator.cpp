@@ -20,7 +20,7 @@ xmlGenerator::xmlGenerator(QWidget *parent) : QMainWindow(parent)
 
 
 
-QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy, CestaUdaje stav )
+QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, Linka docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy, CestaUdaje stav )
 {
     qDebug()<<" xmlGenerator::AllData1_0 ";
     int poradi=stav.indexAktZastavky;
@@ -36,15 +36,15 @@ QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, 
     qDebug()<<"  ";
     QString language=this->defaultniJazyk1_0;
     QString deflanguage=this->defaultniJazyk1_0;
-    QString lineNumber=QByteArray::number(docasLinka);
-    QString lineName=lineNumber.right(3);
+    QString lineNumber=docasLinka.LineNumber;
+    QString lineName=docasLinka.LineName;
     //QString vehicleref="33";
     QString vehicleref=QString::number(stav.cisloVozu);
     int currentStopIndex= poradi;
     QString routeDeviation=stav.routeDeviation;
     QString vehicleStopRequested=QString::number(stav.VehicleStopRequested);
     QString exitSide="right";
-    QString tripRef=QString::number(stav.aktspoj);
+    QString tripRef=QString::number(stav.aktspoj.cisloRopid);
    // QString displayContentRef="1234";
     //QString destinationName=docasnySeznamZastavek[poradi].DestinationName;
     QString destinationName=docasnySeznamZastavek[poradi].cil.StopName;
@@ -168,7 +168,7 @@ QString xmlGenerator::createTimestamp()
 
 QString xmlGenerator::AllData2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, QVector<prestupMPV> prestupy, CestaUdaje stav )
 {
-    int docasLinka=stav.aktlinka;
+
     int poradi=stav.indexAktZastavky;
 
     qDebug()<<"xmlGenerator::AllData2_2CZ1_0";
@@ -193,8 +193,8 @@ QString xmlGenerator::AllData2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek
     QString locationState=stav.locationState;
     QString language="cz";
     QString deflanguage="cz";
-    QString lineNumber=QByteArray::number(docasLinka);
-    QString lineName=lineNumber.right(3);
+    QString lineNumber=stav.aktlinka.LineNumber;
+    //QString lineName=lineNumber.right(3);
     QString vehicleref=QString::number(stav.cisloVozu);
     int currentStopIndex= stav.indexAktZastavky;
     QString routeDeviation="onroute";
@@ -294,14 +294,14 @@ QString xmlGenerator::CurrentDisplayContent1_0(int poradi, QVector <ZastavkaCil>
     qDebug()<<"  ";
     QString  language="cz";
     QString  lineNumber=aktualniZastavka.linka.LineNumber;
-    QString  lineName=lineNumber.right(3);
-    int  currentStopIndex= poradi;
+    //QString  lineName=lineNumber.right(3);
+    //int  currentStopIndex= poradi;
 
 
 
 
-    QString destinationName=docasnySeznamZastavek[poradi].cil.StopName;
-    QString destinationRef=QString::number(docasnySeznamZastavek[poradi].cil.cisloCis);
+   // QString destinationName=docasnySeznamZastavek[poradi].cil.StopName;
+   // QString destinationRef=QString::number(docasnySeznamZastavek[poradi].cil.cisloCis);
     QDomDocument xmlko;
     QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
     xmlko.appendChild(dHlavicka);
@@ -1205,7 +1205,7 @@ QDomElement xmlGenerator::rawInsert(QString vstup)
 }
 
 
-QString xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy)
+QString xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, Linka docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy)
 {
     qDebug()<<"xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0";
     QDomDocument xmlko;
