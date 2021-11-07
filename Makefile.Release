@@ -6638,7 +6638,8 @@ release/spoj.o: VDV301struktury/spoj.cpp VDV301struktury/spoj.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfile.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfiledevice.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qvector2d.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtouchdevice.h
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtouchdevice.h \
+		VDV301struktury/linka.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\spoj.o VDV301struktury\spoj.cpp
 
 release/pasmo.o: VDV301struktury/pasmo.cpp VDV301struktury/pasmo.h \

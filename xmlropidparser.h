@@ -38,6 +38,7 @@ public:
 
 
 
+    QVector<int> seznamDlouhychSpoju(QDomNodeList &dlouheSpoje);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:

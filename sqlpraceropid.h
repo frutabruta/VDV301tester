@@ -44,6 +44,7 @@ public:
     int VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka);
 
     int VytvorSeznamTurnusSpoju(Obeh &docasnyObeh);
+    int StahniSeznamCelySpoj(Spoj docasnySpoj, QVector<Trip> &seznamTripu, bool platnost);
 signals:
    // void pridejSubscribera(QUrl adresaSubscribera);
     void odesliChybovouHlasku(QString chybovaHlaska);

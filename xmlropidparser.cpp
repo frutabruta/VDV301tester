@@ -239,6 +239,10 @@ int XmlRopidParser::vlozSpPo(QDomElement koren)
     int pocetPrvku=seznam.count();
     qDebug()<<"pocet spoju v obehu "+element.attribute("l")+"/"+element.attribute("p")+" je "<<pocetPrvku;
 
+    QDomNodeList dlouheSpoje=element.elementsByTagName("ds");
+
+    QVector<int> navazujiciSpoje=seznamDlouhychSpoju(dlouheSpoje);
+
     for (int i=0;i<pocetPrvku;i++)
     {
         //QDomElement element = m.at(i).toElement();
@@ -251,6 +255,7 @@ int XmlRopidParser::vlozSpPo(QDomElement koren)
         polozky.push_back(inicializujPolozku("kj",kalendar,"String"));
         //přepsat pro vložení spojů jednotlivě!
         polozky.push_back(inicializujPolozku("s",seznam.at(i),"Integer"));
+        polozky.push_back(inicializujPolozku("pokrac",QString::number(navazujiciSpoje.contains(seznam.at(i).toInt())),"Boolean"));
         polozky.push_back(inicializujPolozku("ord",QString::number(i),"Integer"));
         //vlozSpPo(element);
         QString queryString=this->slozInsert("sp_po",polozky);
@@ -260,6 +265,41 @@ int XmlRopidParser::vlozSpPo(QDomElement koren)
 
     qDebug()<<"konecImportu sp_po";
     return 1;
+}
+
+QVector<int> XmlRopidParser::seznamDlouhychSpoju(QDomNodeList &dlouheSpoje)
+{
+    qDebug()<<"XmlRopidParser::seznamDlouhychSpoju";
+    QVector<int> navazujiciSpoje;
+
+    for(int i=0;i<dlouheSpoje.length();i++)
+    {
+        QString retezec= dlouheSpoje.at(i).toElement().attribute("sp");
+        qDebug()<<"retezec dlouhych spoju "<<retezec;
+        QStringList seznam= retezec.split(" ");
+
+        if (seznam.length()>1)
+        {
+            seznam.removeLast();
+
+            for (int j=0;j<seznam.length();j++)
+            {
+                navazujiciSpoje.append(seznam.at(j).toInt());
+                qDebug()<<"navazujici spoj "<<seznam.at(j).toInt();
+            }
+        }
+        else
+        {
+            qDebug()<<"seznam dlouhych spoju je prazdny";
+        }
+
+    }
+
+
+
+
+    return navazujiciSpoje;
+
 }
 
 XmlRopidParser::navrat XmlRopidParser::inicializujPolozku(QString nazevSloupce,QString obsah,QString typ)

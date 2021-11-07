@@ -452,7 +452,7 @@ QDomElement xmlGenerator::stopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZa
     ZastavkaCil aktZastavka=docasnySeznamZastavek.at(indexZpracZastavky);
 
     //SeznamZastavek prochazenaZastavka=docasnySeznamZastavek.at(i);
-    QByteArray cCurrentStopIndex=QByteArray::number(aktZastavka.zastavka.StopIndex);
+    QByteArray cCurrentStopIndex=QByteArray::number(aktZastavka.zastavka.StopIndex+1);
     QString cStopName= aktZastavka.zastavka.StopName;
     //   QString xDestinationName= aktZastavka.cil.StopName;
     //  QString xDestinationCis=QString::number(aktZastavka.cil.cisloCis);
@@ -1167,7 +1167,8 @@ QString xmlGenerator::AllDataEmpty2_2CZ1_0(int poradi, QVector <ZastavkaCil> doc
     }
 
     QDomElement dCurrentStopIndex=xmlko.createElement("CurrentStopIndex");
-    dCurrentStopIndex.appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode(QString::number(currentStopIndex)));
+    //korekce pro index začínající 1
+    dCurrentStopIndex.appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode(QString::number(currentStopIndex+1)));
     dAllData.appendChild(dCurrentStopIndex);
     QDomElement dRouteDeviation = xmlko.createElement("RouteDeviation");
     dRouteDeviation.appendChild(xmlko.createTextNode(routeDeviation));
