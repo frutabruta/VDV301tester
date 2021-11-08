@@ -559,7 +559,7 @@ dbManager->query.exec();
     qDebug()<<queryString2;
     qDebug()<<"DebugPointB";
     Zastavka cilovaZastavka;
-    int navazujiciSpoj=0;
+    //int navazujiciSpoj=0;
     int citacD=0;
 
     while (query.next())
@@ -595,7 +595,7 @@ dbManager->query.exec();
 
 
             aktSpoj.cisloRopid=query.value(query.record().indexOf("s.c")).toInt();
-
+            //aktSpoj.navazujici=query.value(query.record().indexOf("s.")).toInt();
 
             aktZast.cisloCis=query.value( query.record().indexOf("z.cis")).toInt() ;
             aktZast.cisloOis=query.value(query.record().indexOf("z.ois")).toUInt();
@@ -648,7 +648,7 @@ dbManager->query.exec();
                 ignorovat=true;
             }
 
-            navazujiciSpoj=query.value(query.record().indexOf("s.ns")).toInt();
+            //navazujiciSpoj=query.value(query.record().indexOf("s.ns")).toInt();
 
             if(aktZast.additionalTextMessage!="")
             {
@@ -695,19 +695,12 @@ dbManager->query.exec();
     // VypisPole(docasnySeznamZastavek,counter);
     qInfo()<<"pocetzastavek je"<<QString::number(docasnySeznamZastavek.length());
 
+    aktualniTrip.spoj=docasnySpoj;
+    aktualniTrip.navaz=docasnySpoj.navazujici;
     aktualniTrip.globalniSeznamZastavek=docasnySeznamZastavek;
     seznamTripu.append(aktualniTrip);
 
-    if (navazujiciSpoj!=0)
-    {
-        qDebug()<<"navazujici spoj ma cislo "<<QString::number(navazujiciSpoj);
-        StahniSeznamNavazSpoj(navazujiciSpoj,docasnySeznamZastavek,platnost);
-        return 2;
-    }
-    else
-    {
-        qDebug()<<"navazujici spoj neni";
-    }
+
 
     return 1;
 }
@@ -735,7 +728,12 @@ void SqlPraceRopid::vytvorHlavniAktualni(QString &textPoleObsah,QString &textPol
         QString cisloZastavky = QString::number(i);
         QString jmenoZastavky = docasnySeznamZastavek.at(i).zastavka.StopName;
         QString casOdjezdu =  vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).zastavka.DepartureTime);
-        textPoleObsah+=cisloZastavky+" "+jmenoZastavky;
+        QString znameni="";
+        if (docasnySeznamZastavek.at(i).zastavka.naZnameni==true)
+        {
+            znameni="(x)";
+        }
+        textPoleObsah+=cisloZastavky+" "+jmenoZastavky+znameni;
         qDebug()<<cisloZastavky<<" "<<jmenoZastavky<<" "<<casOdjezdu<<"\n";
         textPoleCasu+=casOdjezdu;
     }
@@ -761,9 +759,17 @@ void SqlPraceRopid::vytvorHlavniTextNasledujici (QString &textPoleObsah,QString 
         QString cisloZastavky = QString::number(i);
         QString nazevZastavky2 = docasnySeznamZastavek.at(i).zastavka.StopName;
         QString odjezdZeZastavky =  vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).zastavka.DepartureTime);
-        textPoleObsah+=cisloZastavky+" "+nazevZastavky2+"\n";
+        QString znameni="";
+        if (docasnySeznamZastavek.at(i).zastavka.naZnameni==true)
+        {
+            znameni="(x)";
+        }
+
+        textPoleObsah+=cisloZastavky+" "+nazevZastavky2+znameni+"\n";
         textPoleCasu+=odjezdZeZastavky+"\n";
-        qDebug()<<cisloZastavky<<" "<<nazevZastavky2<<" "<<odjezdZeZastavky<<"\n";
+
+
+        qDebug()<<cisloZastavky<<" "<<nazevZastavky2<<odjezdZeZastavky<<"\n";
         //textPoleCasu+=necum+"\n";
     }
     qDebug()<< "SQLpraceRopid::TestDotaz konec";
@@ -912,7 +918,7 @@ int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh)
     this->Pripoj("");
     bool platnost = true;
     qInfo()<<"DebugPointA";
-    QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, s.c, s.s, s.l FROM sp_po ");
+    QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l FROM sp_po ");
     queryString2+=("LEFT JOIN s ON sp_po.s=s.s ");
     queryString2+=("WHERE sp_po.l=");
     queryString2+=( QString::number(docasnyObeh.kmenovaLinka.c));
@@ -938,7 +944,7 @@ int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh)
            // docasnySpoj.cislo=query.value(0).toInt();
             docasnySpoj.cisloRopid=query.value(query.record().indexOf("s.c")).toInt();
             docasnySpoj.linka.c=query.value(query.record().indexOf("s.l")).toInt();
-            docasnySpoj.navazujici=query.value(query.record().indexOf("s.pokrac")).toBool();
+            docasnySpoj.navazujici=query.value(query.record().indexOf("sp_po.pokrac")).toBool();
             docasnyObeh.seznamSpoju.push_back(docasnySpoj);
             citacMaximum++;
             qDebug()<<docasnySpoj.cisloRopid;
