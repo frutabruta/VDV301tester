@@ -12,7 +12,7 @@
 #include "VDV301struktury/spoj.h"
 #include "VDV301struktury/pasmo.h"
 #include "VDV301struktury/zastavkacil.h"
-#include "VDV301struktury/trip.h"
+//#include "VDV301struktury/trip.h"
 #include "VDV301struktury/obeh.h"
 
 class SqlPraceRopid: public QObject
@@ -38,13 +38,13 @@ public:
     int StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
     int otevriDB();
     int zavriDB();
-    int StahniSeznam(Linka docasnaLinka, int cisloSpoje, QVector<Trip> &seznamTripu, bool platnost);
+    int StahniSeznam(Linka docasnaLinka, int cisloSpoje, QVector<Spoj> &seznamSpoju, bool platnost);
     int VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek);
     //int VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, int cisloLinky);
     int VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka);
 
     int VytvorSeznamTurnusSpoju(Obeh &docasnyObeh);
-    int StahniSeznamCelySpoj(Spoj docasnySpoj, QVector<Trip> &seznamTripu, bool platnost);
+    int StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju, int indexSpoje, bool platnost);
 signals:
    // void pridejSubscribera(QUrl adresaSubscribera);
     void odesliChybovouHlasku(QString chybovaHlaska);

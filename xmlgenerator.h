@@ -8,7 +8,7 @@
 #include <QCoreApplication>
 #include <QDomDocument>
 #include "VDV301struktury/cestaudaje.h"
-#include "VDV301struktury/trip.h"
+//#include "VDV301struktury/trip.h"
 #include "prestupmpv.h"
 
 class xmlGenerator : public QMainWindow
@@ -56,8 +56,8 @@ public:
     QDomDocument connections1_0(QVector<prestupMPV>  lokPrestupy);
     QDomDocument connections2_2CZ1_0(QVector<prestupMPV> seznamPrestupu);
     QString TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, Linka docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy);
-    QString AllData2_2CZ1_0(QVector<Trip> seznamTripu, QVector<prestupMPV> prestupy, CestaUdaje stav);
-    QDomElement TripInformation2_2CZ1_0(QVector<Trip> docasnySeznamTripu, QVector<prestupMPV> prestupy, CestaUdaje stav, int indexSpoje, bool navazny);
+    QString AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<prestupMPV> prestupy, CestaUdaje stav);
+    QDomElement TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamTripu, QVector<prestupMPV> prestupy, CestaUdaje stav, int indexSpoje, bool navazny);
 signals:
 
 public slots:

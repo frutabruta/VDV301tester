@@ -48,7 +48,6 @@ SOURCES += \
     VDV301struktury/linka.cpp \
     VDV301publisher/customerinformationservice.cpp \
     VDV301struktury/obeh.cpp \
-    VDV301struktury/trip.cpp \
     VDV301struktury/zastavka.cpp \
     VDV301struktury/zastavkacil.cpp \
     hlasic.cpp \
@@ -74,7 +73,6 @@ HEADERS += \
     VDV301struktury/linka.h \
     VDV301publisher/customerinformationservice.h \
     VDV301struktury/obeh.h \
-    VDV301struktury/trip.h \
     VDV301struktury/zastavka.h \
     VDV301struktury/zastavkacil.h \
     hlasic.h \

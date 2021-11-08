@@ -7,7 +7,6 @@ release/ticketvalidationservice.o
 release/linka.o
 release/customerinformationservice.o
 release/obeh.o
-release/trip.o
 release/zastavka.o
 release/zastavkacil.o
 release/hlasic.o

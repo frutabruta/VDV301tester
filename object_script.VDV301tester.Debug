@@ -7,7 +7,6 @@ debug/ticketvalidationservice.o
 debug/linka.o
 debug/customerinformationservice.o
 debug/obeh.o
-debug/trip.o
 debug/zastavka.o
 debug/zastavkacil.o
 debug/hlasic.o

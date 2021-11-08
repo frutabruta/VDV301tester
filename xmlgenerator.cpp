@@ -11,7 +11,7 @@
 #include "prestupmpv.h"
 #include "xmlmpvparser.h"
 #include "VDV301struktury/pasmo.h"
-#include "VDV301struktury/trip.h"
+//#include "VDV301struktury/trip.h"
 
 xmlGenerator::xmlGenerator(QWidget *parent) : QMainWindow(parent)
 {
@@ -167,10 +167,10 @@ QString xmlGenerator::createTimestamp()
 }
 
 
-QString xmlGenerator::AllData2_2CZ1_0(QVector<Trip> seznamTripu, QVector<prestupMPV> prestupy, CestaUdaje stav )
+QString xmlGenerator::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<prestupMPV> prestupy, CestaUdaje stav )
 {
 
-    QVector<ZastavkaCil> docasnySeznamZastavek=seznamTripu.at(stav.indexTripu).globalniSeznamZastavek;
+    QVector<ZastavkaCil> docasnySeznamZastavek=seznamSpoju.at(stav.indexTripu).globalniSeznamZastavek;
     // int poradi=stav.indexAktZastavky;
 
     qDebug()<<"xmlGenerator::AllData2_2CZ1_0";
@@ -236,12 +236,12 @@ QString xmlGenerator::AllData2_2CZ1_0(QVector<Trip> seznamTripu, QVector<prestup
 
 
 
-    QDomElement dTripInformation=this->TripInformation2_2CZ1_0(seznamTripu,prestupy,stav,stav.indexTripu,false);
+    QDomElement dTripInformation=this->TripInformation2_2CZ1_0(seznamSpoju,prestupy,stav,stav.indexTripu,false);
     dAllData.appendChild(dTripInformation);
-    if (seznamTripu.at(stav.indexTripu).spoj.navazujici)
+    if (seznamSpoju.at(stav.indexTripu).navazujici)
     {
         //qDebug()<<"abcd navaz Spoj existuje "<<;
-        dTripInformation=this->TripInformation2_2CZ1_0(seznamTripu,prestupy,stav,stav.indexTripu+1,true);
+        dTripInformation=this->TripInformation2_2CZ1_0(seznamSpoju,prestupy,stav,stav.indexTripu+1,true);
         dAllData.appendChild(dTripInformation);
     }
 
@@ -267,13 +267,13 @@ QString xmlGenerator::AllData2_2CZ1_0(QVector<Trip> seznamTripu, QVector<prestup
     return xmlko.toString();
 }
 
-QDomElement xmlGenerator::TripInformation2_2CZ1_0(QVector<Trip> docasnySeznamTripu, QVector<prestupMPV> prestupy, CestaUdaje stav, int indexSpoje, bool navazny)
+QDomElement xmlGenerator::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpoju, QVector<prestupMPV> prestupy, CestaUdaje stav, int indexSpoje, bool navazny)
 {
-    QVector<ZastavkaCil> docasnySeznamZastavek=docasnySeznamTripu.at(indexSpoje).globalniSeznamZastavek;
+    QVector<ZastavkaCil> docasnySeznamZastavek=docasnySeznamSpoju.at(indexSpoje).globalniSeznamZastavek;
     QDomDocument xmlko;
     QString locationState=stav.locationState;
 
-    QString tripRef=QString::number(docasnySeznamTripu.at(indexSpoje).spoj.cisloRopid);
+    QString tripRef=QString::number(docasnySeznamSpoju.at(indexSpoje).cisloRopid);
     QString language="cz";
 
     int currentStopIndex= stav.indexAktZastavky;
@@ -668,7 +668,7 @@ QDomElement xmlGenerator::DisplayContent2_2CZ1_0(QString tagName,QVector<Zastavk
     ZastavkaCil aktZastavkaCil=docasnySeznamZastavek.at(iteracniIndex);
     QString lineNumber=aktZastavkaCil.linka.LineNumber;
     QString lineName=aktZastavkaCil.linka.LineName;
-    QString destinationName=aktZastavkaCil.cil.StopName;
+   // QString destinationName=aktZastavkaCil.cil.StopName;
 
 
     bool pridatPristi=true;
