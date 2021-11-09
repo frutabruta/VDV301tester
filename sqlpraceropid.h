@@ -35,7 +35,7 @@ public:
     int VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek);
     int VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka);
     void vytvorHlavniAktualni(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
-    int StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
+  //  int StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
     int otevriDB();
     int zavriDB();
     int StahniSeznam(Linka docasnaLinka, int cisloSpoje, QVector<Spoj> &seznamSpoju, bool platnost);

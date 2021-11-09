@@ -101,7 +101,7 @@ int SqlPraceRopid::StahniSeznam(Linka docasnaLinka, int cisloSpoje,QVector<Spoj>
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
     queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, ");
-    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, ");
+    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, ");
     queryString2+=("s.ns, s.c ");
     queryString2+=("FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
@@ -132,7 +132,7 @@ dbManager->query.exec();
 
       */
     QSqlQuery query(queryString2,this->mojeDatabaze);
-    int counter=0;
+    int pocetZastavek=0;
     qDebug()<<queryString2;
     qDebug()<<"DebugPointB";
     Zastavka cilovaZastavka;
@@ -151,10 +151,10 @@ dbManager->query.exec();
             ZastavkaCil aktZastCil;
             Linka aktLinka;
             Spoj aktSpoj;
-            int cisloZast = counter; //query.value(0).toInt();
+            int cisloZast = pocetZastavek; //query.value(0).toInt();
 
             aktZast.StopIndex=cisloZast;
-            qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(counter);
+            qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(pocetZastavek);
 
             //aktLinka.LineName=query.value(query.record().indexOf("l.c")).toString();
             QString aois=query.value(query.record().indexOf("l.aois")).toString();
@@ -218,6 +218,7 @@ dbManager->query.exec();
             aktZast.prestupVlak =query.value(query.record().indexOf("x.xVla")).toBool();
             aktZast.prestupLetadlo =query.value(query.record().indexOf("x.xLet")).toBool();
             aktZast.prestupPrivoz =query.value(query.record().indexOf("x.xLod")).toBool();
+            aktZast.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
 
             if(  query.value(query.record().indexOf("x.t")).toString() =="Majak")
             {
@@ -232,8 +233,8 @@ dbManager->query.exec();
                 qDebug()<<"additionalVlozeno "<<aktZast.additionalTextMessage;
             }
             qInfo()<<"DebugPointC";
-            counter++;
-            qDebug()<<"citac: "<<counter     ;
+            pocetZastavek++;
+            qDebug()<<"citac: "<<pocetZastavek     ;
             qDebug()<<aktZast.StopName;
 
 
@@ -250,24 +251,35 @@ dbManager->query.exec();
         }
     }
     qDebug()<<"pred pocitanim zastavek";
-    counter=docasnySeznamZastavek.length();
+    pocetZastavek=docasnySeznamZastavek.length();
     qDebug()<<"po pocitani zastavek";
     this->zavriDB();
-    if (counter ==0)
+    if (pocetZastavek ==0)
     {
 
         return 0;
     }
-    qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(counter);
+    qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(pocetZastavek);
     cilovaZastavka=docasnySeznamZastavek.at(docasnySeznamZastavek.length()-1).zastavka;
 
     qInfo()<<"DebugPointD5";
-    for (int i=0; i<counter;i++)
+
+    for (int i=docasnySeznamZastavek.size()-1;i>=0;i--)
+    {
+        if (docasnySeznamZastavek.at(i).zastavka.zsol==true)
+        {
+            qDebug()<<"zmena konecne na"<<docasnySeznamZastavek.at(i).zastavka.NameSide;
+            cilovaZastavka=docasnySeznamZastavek.at(i).zastavka;
+        }
+        docasnySeznamZastavek[i].cil=cilovaZastavka;
+    }
+    /*
+    for (int i=0; i<pocetZastavek;i++)
     {
         //docasnySeznamZastavek[i].DestinationName=cilovaZastavka.StopName ;
         //docasnySeznamZastavek[i].zastavka.DestinationCis=cilovaZastavka.cisloCis;
         docasnySeznamZastavek[i].cil=cilovaZastavka;
-    }
+    }*/
     qInfo()<<"DebugPointF";
     // VypisPole(docasnySeznamZastavek,counter);
     qInfo()<<"pocetzastavek je"<<QString::number(docasnySeznamZastavek.length());
@@ -282,220 +294,6 @@ dbManager->query.exec();
     return 1;
 }
 
-
-
-
-
-
-
-
-
-int SqlPraceRopid::StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost )
-{
-    qDebug()<< "SQLprace::StahniSeznam";
-
-    QVector <ZastavkaCil> interniSeznamZastavek;
-
-
-    this->otevriDB();
-    //docasnySeznamZastavek.clear();
-
-
-    qInfo()<<"DebugPointA";
-    QString queryString2("SELECT DISTINCT   ");
-    queryString2+=("z.n, z.tp, z.cis, z.ois, ");
-    queryString2+=("t.ri,t.hl, ");
-    queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
-    queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
-    queryString2+=("l.c, l.lc, l.tl, ");
-    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, ");
-    queryString2+=("s.ns ");
-    queryString2+=("FROM x ");
-    queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
-    queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
-    queryString2+=("LEFT JOIN l ON s.l=l.c ");
-    queryString2+=("LEFT JOIN t ON t.u=x.u AND t.z=x.z " );
-
-    queryString2+=("WHERE s.s=");
-    queryString2+=( QString::number(idSpoje));
-    queryString2+=(" AND  s.kj LIKE '");
-    queryString2+=QString::number(platnost);
-    queryString2+=("%' ");
-    queryString2+=("ORDER BY x.xorder");
-
-
-
-    /*
-       Mozna nahrada!
-
-    dbManager->query.prepare("INSERT INTO users (username, pass, userGroup) VALUES (:name, :pass, :group)");
-
-    dbManager->query.bindValue(":name", username);
-    dbManager->query.bindValue(":pass", password);
-    dbManager->query.bindValue(":group", 0);
-    dbManager->query.exec();
-
-          */
-    QSqlQuery query(queryString2,this->mojeDatabaze);
-    int counter=0;
-    qDebug()<<queryString2;
-    qDebug()<<"DebugPointB";
-    Zastavka cilovaZastavka;
-    int navazujiciSpoj=0;
-    int citacD=0;
-
-    while (query.next())
-    {
-        //qDebug()<<"SQL citac pred zpracovanim"<<citacD;
-        citacD++;
-        //qDebug()<<query.lastError();
-
-        if (query.value(0).toString()!="")
-        {
-            bool majak=false;
-            bool ignorovat=false;
-            Zastavka aktZast;
-            ZastavkaCil aktZastCil;
-            Linka aktLinka;
-            int cisloZast = counter; //query.value(0).toInt();
-
-            aktZast.StopIndex=cisloZast;
-            qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(counter);
-
-            aktLinka.LineName=query.value(query.record().indexOf("l.c")).toString();
-            aktLinka.LineNumber=query.value(query.record().indexOf("l.lc")).toString();
-            aktLinka.typLinky=query.value(query.record().indexOf("l.tl")).toString();
-
-
-
-
-            //aktZast.StopName =query.value( query.record().indexOf("z.n")).toString();
-            aktZast.cisloCis=query.value( query.record().indexOf("z.cis")).toInt() ;
-            aktZast.cisloOis=query.value(query.record().indexOf("z.ois")).toUInt();
-            xmlGenerator xmlgen;
-            aktZast.seznamPasem=xmlgen.pasmoStringDoVectoru(query.value(query.record().indexOf("z.tp")).toString(),"PID");
-            qDebug()<<"pasmo"<<query.value(query.record().indexOf("z.tp")).toString();
-
-            aktZast.StopName=query.value(query.record().indexOf("t.ri")).toString();
-            aktZast.ids ="PID";
-
-            if(aktLinka.typLinky=="A")
-            {
-                aktZast.NameFront=query.value(query.record().indexOf("t.ctn")).toString();
-                aktZast.NameSide=query.value(query.record().indexOf("t.btn")).toString();
-                aktZast.NameLcd=query.value(query.record().indexOf("t.lcdn")).toString();
-                aktZast.NameInner=query.value(query.record().indexOf("t.vtn")).toString();
-            }
-            else
-            {
-                aktZast.NameFront=query.value(query.record().indexOf("t.ctm")).toString();
-                aktZast.NameSide=query.value(query.record().indexOf("t.btm")).toString();
-                aktZast.NameLcd=query.value(query.record().indexOf("t.lcdm")).toString();
-                aktZast.NameInner=query.value(query.record().indexOf("t.vtm")).toString();
-            }
-
-
-
-            aktZast.additionalTextMessage =query.value(query.record().indexOf("t.hl")).toString();
-
-            QString casPrijezdu =query.value( query.record().indexOf("x.o")).toString();
-            aktZast.DepartureTime=casPrijezdu;
-
-
-
-            // aktLinka.tl=query.value(query.record().indexOf("l.tl")).toString();
-
-            aktZast.nacestna=query.value(query.record().indexOf("x.na")).toInt();
-            aktZast.naZnameni =query.value(query.record().indexOf("x.zn")).toBool();
-            aktZast.prestupMetroA =query.value(query.record().indexOf("x.xA")).toBool();
-            aktZast.prestupMetroB =query.value(query.record().indexOf("x.xB")).toBool();
-            aktZast.prestupMetroC =query.value(query.record().indexOf("x.xC")).toBool();
-            aktZast.prestupMetroC =query.value(query.record().indexOf("x.xD")).toBool();
-            aktZast.prestupVlak =query.value(query.record().indexOf("x.xVla")).toBool();
-            aktZast.prestupLetadlo =query.value(query.record().indexOf("x.xLet")).toBool();
-            aktZast.prestupPrivoz =query.value(query.record().indexOf("x.xLod")).toBool();
-
-            if(  query.value(query.record().indexOf("x.t")).toString() =="Majak")
-            {
-                majak=true;
-                ignorovat=true;
-            }
-
-            navazujiciSpoj=query.value(query.record().indexOf("s.ns")).toInt();
-
-            if(aktZast.additionalTextMessage!="")
-            {
-                qDebug()<<"additionalVlozeno "<<aktZast.additionalTextMessage;
-            }
-            qInfo()<<"DebugPointC";
-            counter++;
-            qDebug()<<"citac: "<<counter     ;
-            qDebug()<<aktZast.StopName;
-            aktZastCil.linka=aktLinka;
-            aktZastCil.zastavka=aktZast;
-            if (ignorovat==false)
-            {
-                qInfo()<<"DebugPointC3"<<" pridavam zastavku "<<aktZastCil.zastavka.StopName;
-                interniSeznamZastavek.push_back(aktZastCil);
-            }
-            qInfo()<<"DebugPointC5";
-        }
-    }
-    qDebug()<<"pred pocitanim zastavek";
-    counter=interniSeznamZastavek.length();
-    qDebug()<<"po pocitani zastavek";
-    this->zavriDB();
-    if (counter ==0)
-    {
-
-        return 0;
-    }
-    qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(counter);
-    cilovaZastavka=interniSeznamZastavek.at(interniSeznamZastavek.length()-1).zastavka;
-
-    qInfo()<<"DebugPointD5";
-    for (int i=0; i<counter;i++)
-    {
-        //docasnySeznamZastavek[i].DestinationName=cilovaZastavka.StopName ;
-        //docasnySeznamZastavek[i].zastavka.DestinationCis=cilovaZastavka.cisloCis;
-        interniSeznamZastavek[i].cil=cilovaZastavka;
-    }
-    qInfo()<<"DebugPointF";
-    // VypisPole(docasnySeznamZastavek,counter);
-    qInfo()<<"pocetzastavek je"<<QString::number(interniSeznamZastavek.length());
-
-    if (navazujiciSpoj!=0)
-    {
-        qDebug()<<"navazujici spoj ma cislo "<<QString::number(navazujiciSpoj);
-        return 2;
-        StahniSeznamNavazSpoj(navazujiciSpoj,interniSeznamZastavek,platnost);
-
-    }
-    else
-    {
-        qDebug()<<"navazujici spoj2 neni";
-    }
-
-    if (docasnySeznamZastavek.size()>0 )
-    {
-        qDebug()<<"odstranuji posledni zastavku";
-        docasnySeznamZastavek.removeLast();
-    }
-
-    for(int i=0;i<docasnySeznamZastavek.size();i++)
-    {
-
-        QString novyHorniCil=docasnySeznamZastavek.at(i).cil.NameFront+docasnySeznamZastavek.at(i).cil.NameFront2;
-        docasnySeznamZastavek[i].cil.NameFront=novyHorniCil;
-        docasnySeznamZastavek[i].cil.NameFront2="a dále jako linka "+interniSeznamZastavek.first().linka.LineName;
-        qDebug()<<"obsah spodniho radku "<<docasnySeznamZastavek[i].cil.NameFront2;
-
-    }
-
-    docasnySeznamZastavek.append(interniSeznamZastavek);
-
-    return 1;
-}
 
 
 
@@ -517,7 +315,7 @@ int SqlPraceRopid::StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju ,int indexSpo
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
     queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, ");
-    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, ");
+    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, ");
     queryString2+=("s.ns, s.c ");
     queryString2+=("FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
@@ -636,6 +434,7 @@ dbManager->query.exec();
             aktZast.prestupVlak =query.value(query.record().indexOf("x.xVla")).toBool();
             aktZast.prestupLetadlo =query.value(query.record().indexOf("x.xLet")).toBool();
             aktZast.prestupPrivoz =query.value(query.record().indexOf("x.xLod")).toBool();
+            aktZast.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
 
             if(  query.value(query.record().indexOf("x.t")).toString() =="Majak")
             {
@@ -677,30 +476,30 @@ dbManager->query.exec();
         return 0;
     }
     qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(counter);
+
+
+
+
+
     cilovaZastavka=docasnySeznamZastavek.at(docasnySeznamZastavek.length()-1).zastavka;
-
-
-    if(seznamSpoju.at(indexSpoje).navazujici==true)
-    {
-
-        QString novyHorniCil=cilovaZastavka.NameFront+cilovaZastavka.NameFront2;
-        cilovaZastavka.NameFront=novyHorniCil;
-        cilovaZastavka.NameFront2="a dále jako linka "+seznamSpoju.at(indexSpoje+1).linka.LineName;// interniSeznamZastavek.first().linka.LineName;
-        qDebug()<<"obsah spodniho radku "<<cilovaZastavka.NameFront2;
-
-    }
-
-
     qInfo()<<"DebugPointD5";
-    for (int i=0; i<counter;i++)
+    for (int i=docasnySeznamZastavek.size()-1;i>=0;i--)
     {
-        //docasnySeznamZastavek[i].DestinationName=cilovaZastavka.StopName ;
-        //docasnySeznamZastavek[i].zastavka.DestinationCis=cilovaZastavka.cisloCis;
+        if (docasnySeznamZastavek.at(i).zastavka.zsol==true)
+        {
+            qDebug()<<"zmena konecne na"<<docasnySeznamZastavek.at(i).zastavka.NameSide;
+            cilovaZastavka=docasnySeznamZastavek.at(i).zastavka;
+        }
+        if(seznamSpoju.at(indexSpoje).navazujici==true)
+        {
 
+            QString novyHorniCil=cilovaZastavka.NameFront+cilovaZastavka.NameFront2;
+            cilovaZastavka.NameFront=novyHorniCil;
+            cilovaZastavka.NameFront2="a dále jako linka "+seznamSpoju.at(indexSpoje+1).linka.LineName;// interniSeznamZastavek.first().linka.LineName;
+            qDebug()<<"obsah spodniho radku "<<cilovaZastavka.NameFront2;
+
+        }
         docasnySeznamZastavek[i].cil=cilovaZastavka;
-
-
-
     }
     qInfo()<<"DebugPointF";
     // VypisPole(docasnySeznamZastavek,counter);
@@ -716,15 +515,6 @@ dbManager->query.exec();
     seznamSpoju[indexSpoje].globalniSeznamZastavek=docasnySeznamZastavek;
 
     //docasnySeznamZastavek=seznamSpoju.at(indexSpoje).globalniSeznamZastavek;
-
-
-
-
-
-
-
-
-
 
     return 1;
 }
