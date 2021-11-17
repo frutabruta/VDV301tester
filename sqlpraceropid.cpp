@@ -349,7 +349,7 @@ dbManager->query.exec();
     int counter=0;
     qDebug()<<queryString2;
     qDebug()<<"DebugPointB";
-    Zastavka cilovaZastavka;
+
     //int navazujiciSpoj=0;
     int citacD=0;
 
@@ -480,8 +480,19 @@ dbManager->query.exec();
 
 
 
-
+    Zastavka cilovaZastavka;
     cilovaZastavka=docasnySeznamZastavek.at(docasnySeznamZastavek.length()-1).zastavka;
+    if(seznamSpoju.at(indexSpoje).navazujici==true)
+    {
+
+        QString novyHorniCil=cilovaZastavka.NameFront+cilovaZastavka.NameFront2;
+        cilovaZastavka.NameFront=novyHorniCil;
+        cilovaZastavka.NameFront2="a dále jako linka "+seznamSpoju.at(indexSpoje+1).linka.LineName;// interniSeznamZastavek.first().linka.LineName;
+        qDebug()<<"obsah spodniho radku "<<cilovaZastavka.NameFront2;
+
+    }
+
+
     qInfo()<<"DebugPointD5";
     for (int i=docasnySeznamZastavek.size()-1;i>=0;i--)
     {
@@ -490,15 +501,7 @@ dbManager->query.exec();
             qDebug()<<"zmena konecne na"<<docasnySeznamZastavek.at(i).zastavka.NameSide;
             cilovaZastavka=docasnySeznamZastavek.at(i).zastavka;
         }
-        if(seznamSpoju.at(indexSpoje).navazujici==true)
-        {
 
-            QString novyHorniCil=cilovaZastavka.NameFront+cilovaZastavka.NameFront2;
-            cilovaZastavka.NameFront=novyHorniCil;
-            cilovaZastavka.NameFront2="a dále jako linka "+seznamSpoju.at(indexSpoje+1).linka.LineName;// interniSeznamZastavek.first().linka.LineName;
-            qDebug()<<"obsah spodniho radku "<<cilovaZastavka.NameFront2;
-
-        }
         docasnySeznamZastavek[i].cil=cilovaZastavka;
     }
     qInfo()<<"DebugPointF";
