@@ -25,13 +25,13 @@ void Konfigurace::otevriSoubor()
 
     if (!file.open(QIODevice::ReadOnly))
     {
-        emit odesliChybovouHlasku("soubor se nepovedlo otevrit");
+        emit odesliChybovouHlasku("soubor konfigurace se nepovedlo otevrit");
         qDebug()<<"fail1";
         return;
     }
     if (!doc.setContent(&file))
     {
-         emit odesliChybovouHlasku("soubor se nepovedlo otevrit2");
+         emit odesliChybovouHlasku("soubor konfigurace se nepovedlo otevrit2");
         qDebug()<<"fail2";
         file.close();
         return;

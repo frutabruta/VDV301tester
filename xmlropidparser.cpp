@@ -665,6 +665,7 @@ int XmlRopidParser::truncateAll()
     truncateTable("`d`");
     truncateTable("`tv`");
     truncateTable("`dd`");
+    emit odesliChybovouHlasku("databaze vymazana");
     //truncateTable("");
     ropidSQL.zavriDB();
     return 1;

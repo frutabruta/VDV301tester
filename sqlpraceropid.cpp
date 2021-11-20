@@ -68,15 +68,17 @@ int SqlPraceRopid::zavriDB()
     this->mojeDatabaze.close();
     if(1)
     {
-        emit odesliChybovouHlasku("");
-        qDebug()<<"DB se povedlo zavřít";
+        QString chybaZavriDb="DB se povedlo zavřít";
+        emit odesliChybovouHlasku(chybaZavriDb);
+        qDebug()<<chybaZavriDb;
 
         return 1;
     }
     else
     {
-        emit odesliChybovouHlasku("");
-        qDebug()<<"DB se nepovedlo zavřít";
+        QString chybaZavriDb="DB se nepovedlo zavřít";
+        emit odesliChybovouHlasku(chybaZavriDb);
+        qDebug()<<chybaZavriDb;
 
     }
     return 0;

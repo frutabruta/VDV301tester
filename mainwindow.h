@@ -85,6 +85,7 @@ public:
     QString umisteniProgramu=QCoreApplication::applicationDirPath();
 
 
+
 public slots:
     void vypisSqlVysledek(QString vstup);
 private slots:
@@ -96,7 +97,6 @@ private slots:
     void on_pripojeniTlacitko_clicked();
     void on_pridatTlacitko_clicked();
     void on_quitTlacitko_clicked();
-    void on_tlacitkoNavic_clicked();
     void on_prijezd_clicked();
     void on_BeforeStop_clicked();
     void on_AtStop_2_clicked();
@@ -151,6 +151,9 @@ private:
     void vypisSubscribery2(QVector<Subscriber> adresy);
     void NaplnVyberPoradi(QVector<Obeh> docasnySeznamObehu);
     void NaplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju);
+    void zastavSluzby();
+    void toggleFullscreen();
+    void nastartujVsechnySluzby();
 private slots:
     //void novySubsriber(QUrl adresaSubscribera);
 
@@ -165,6 +168,15 @@ private slots:
     void on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     int on_prikazTlacitkoTurnus_clicked();
+    void on_quitTlacitko_2_clicked();
+    void on_tlacitkoPalubniPc_clicked();
+    void on_tlacitkoTestRozhrani_clicked();
+
+    void on_tlacitkoFullscreen_clicked();
+    void on_tlacitkoFullscreen2_clicked();
+    void radio1(bool stav);
+    void radio2(bool stav);
+    void radio3(bool stav);
 };
 
 #endif // MAINWINDOW_H

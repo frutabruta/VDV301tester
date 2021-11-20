@@ -24,33 +24,61 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->prepinadloStran->setCurrentIndex(1);
     ui->prepinadloStran->setWindowState(Qt::WindowFullScreen);
     startDatabaze();
+    //manualni pridani subscriberu pro pripad nefunkcnosti DNS-SD
     //seznamSubscriberu.push_back(QUrl("http://192.168.12.128:60011"));
     //seznamSubscriberu.push_back(QUrl("http://127.0.0.1:48479"));
-    /*
 
 
-    connect(&DeviceManagementService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
-    connect(&CustomerInformationService,&HttpSluzba::pridejSubscribera,this,&MainWindow::novySubsriber);
-    */
     connect(&customerInformationService1_0,&HttpSluzba::vypisSubscriberu,this,&MainWindow::vypisSubscribery);
     connect(&customerInformationService2_2CZ1_0,&HttpSluzba::vypisSubscriberu,this,&MainWindow::vypisSubscribery2);
     //this->bonjourStartPublish2("CustomerInformationService","_ibisip_http._tcp",47450,zeroConf);
     this->vypisSubscribery(customerInformationService1_0.seznamSubscriberu);
     this->vypisSubscribery2(customerInformationService2_2CZ1_0.seznamSubscriberu);
     connect(&mpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
+
+    //vypisovani stavovych hlasek do stavoveho radku vespod okna
     connect(&mojesql,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
+    connect(&mojesql,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
     connect(&xmlRopidParser,&XmlRopidParser::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
-    //MainWindow::setWindowState(Qt::WindowFullScreen);
+
+
+    //prepinani stavu radio prepinacu podle stavu sluzeb
+    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::stavSignal,this,&MainWindow::radio1);
+    connect(&deviceManagementService1_0,&HttpSluzba::stavSignal,this,&MainWindow::radio2);
+    connect(&ticketValidationService2_3CZ1_0,&HttpSluzba::stavSignal,this,&MainWindow::radio3);
+
+    //vypinani sluzeb pomoci prepinacu
+    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::start);
+    connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::stop);
+
+    connect(&ticketValidationService2_3CZ1_0,&HttpSluzba::stavSignal,this,&MainWindow::radio3);
+
+    nastartujVsechnySluzby();
+
+
+
+    //vyplneni polozky build pro rozliseni zkompilovanych verzi
     QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
     ui->label_build->setText(compilationTime);
+
+    //radky tykajici se souboru konfigurace
+    connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
     hlasic.zmenUmisteniProgramu(umisteniProgramu);
     konfigurace.vytvorDefaultniKonfiguraci();
     konfigurace.otevriSoubor();
 
+    ui->statusBar->showMessage("test");
+
 
 }
 
-
+void MainWindow::nastartujVsechnySluzby()
+{
+    deviceManagementService1_0.start(true);
+    customerInformationService1_0.start(true);
+    customerInformationService2_2CZ1_0.start(true);
+    ticketValidationService2_3CZ1_0.start(true);
+}
 void MainWindow::xmlHromadnyUpdate()
 {
     qDebug()<<"MainWindow::xmlHromadnyUpdate()";
@@ -105,34 +133,6 @@ void MainWindow::MpvNetReady()
 
 
 
-
-/*
-void MainWindow::StahniMpvXml(int cisloCis, QString Ids)
-{
-    qDebug()<<"MainWindow::requestShowPage";
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(requestReceived(QNetworkReply*)));
-    //manager->get(QNetworkRequest(QUrl("http://www.mpvnet.cz/PID/x/21619?pocet=15&pz=true&t=true")));
-    QString adresa = "http://www.mpvnet.cz/"+Ids+"/x/"+QString::number(cisloCis)+"?pocet=15&pz=true&t=true";
-    qDebug()<<adresa;
-    //manager->get(QNetworkRequest(QUrl("http://www.mpvnet.cz/PID/x/51888?pocet=15&pz=true&t=true")));
-    manager->get(QNetworkRequest(QUrl(adresa)));
-}
-*/
-
-/*
-QByteArray MainWindow::requestReceived(QNetworkReply* replyoo)
-{
-    qDebug()<<"MainWindow::requestReceived";
-    QString replyText;
-    QByteArray rawData = replyoo->readAll();
-    QString textData(rawData);
-    qDebug() << textData;
-    mpvParser.stazenaData=rawData;
-    return rawData;
-}
-
-*/
 int MainWindow::on_prikaztlacitko_clicked()
 {
     qDebug()<<"MainWindow::on_prikaztlacitko_clicked";
@@ -510,26 +510,6 @@ void MainWindow::on_quitTlacitko_clicked()
     MainWindow::close();
 }
 
-void MainWindow::on_tlacitkoNavic_clicked()
-{
-
-    qDebug()<< "on_tlacitkoNavic_clicked";
-    /*
-    mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,platnostSpoje);
-    QByteArray vysledekMpvnetu = "<TBL cas=\"2019-08-08T13:22:47\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"B\" lin=\"9\" alias=\"9\" spoj=\"46\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"A\" lin=\"18\" alias=\"18\" spoj=\"95\" smer=\"Praha,Vozovna Pankrác\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"59386\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"158\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"M2\" lin=\"B\" alias=\"B\" spoj=\"9\" smer=\"Praha,Černý Most\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"47090\"/><o stan=\"A\" lin=\"16\" alias=\"16\" spoj=\"83\" smer=\"Praha,Lehovec\" odj=\"2019-08-08T13:24:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27872\"/><o stan=\"A\" lin=\"23\" alias=\"23\" spoj=\"22\" smer=\"Praha,Zvonařka\" odj=\"2019-08-08T13:24:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"62902\"/><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"139\" smer=\"Praha,Spojovací\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"10\" alias=\"10\" spoj=\"102\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"133\" smer=\"Praha,Vypich\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"51451\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"197\" smer=\"Praha,Zličín\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"99\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-08T13:26:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"B\" lin=\"2\" alias=\"2\" spoj=\"35\" smer=\"Praha,Sídliště Petřiny\" odj=\"2019-08-08T13:27:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63906\"/><o stan=\"M2\" lin=\"B\" alias=\"B\" spoj=\"79\" smer=\"Praha,Černý Most\" odj=\"2019-08-08T13:28:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"47090\"/><o stan=\"B\" lin=\"9\" alias=\"9\" spoj=\"54\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:29:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"A\" lin=\"10\" alias=\"10\" spoj=\"47\" smer=\"Praha,Sídliště Ďáblice\" odj=\"2019-08-08T13:29:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27916\"/></t></TBL>";
-    mpvParser.naplnVstupDokument(vysledekMpvnetu);
-    mpvParser.VytvorVystupniDokument(mpvParser.parsujDomDokument(),mpvParser.prestupyXmlDokumentVystup);
-*/
-
-    if (MainWindow::windowState()==Qt::WindowFullScreen )
-    {
-        MainWindow::setWindowState(Qt::WindowMaximized);
-    }
-    else
-    {
-        MainWindow::setWindowState(Qt::WindowFullScreen);
-    }
-}
 
 void MainWindow::on_prijezd_clicked()
 {
@@ -635,7 +615,7 @@ void MainWindow::on_tlacitkoOdesliPrikaz_clicked()
 
 void MainWindow::on_tlacitkoNastavPort_clicked()
 {
-    qDebug()<<"";
+    qDebug()<<"on_tlacitkoNastavPort_clicked()";
 
 
     ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
@@ -649,7 +629,7 @@ void MainWindow::on_tlacitkoNastavPort_clicked()
 
 void MainWindow::on_tlacitkoIBIS_clicked()
 {
-    qDebug()<<"";
+    qDebug()<<"on_tlacitkoIBIS_clicked()";
     ibisOvladani.dopocetCelni("xC2");
     ibisOvladani.odesliFrontKomplet(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.indexAktZastavky);
     ibisOvladani.odesliSideKomplet(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.indexAktZastavky);
@@ -1032,6 +1012,8 @@ void MainWindow::vypisDiagnostika(QString vstup)
     qDebug()<<"subscribe diag "<<vstup;
     ui->label_diagnostika_manual->clear();
     ui->label_diagnostika_manual->setText(vstup);
+    ui->statusBar->showMessage(vstup);
+
 }
 
 
@@ -1049,9 +1031,86 @@ void MainWindow::on_tlacitkoTurnus_clicked()
 
 
 
+void MainWindow::on_quitTlacitko_2_clicked()
+{
+    qDebug()<<"\n on_quitTlacitko_2_clicked \n";
+    MainWindow::close();
+}
+
+
+void MainWindow::zastavSluzby()
+{
+    //customerInformationService1_0.
+}
+
+void MainWindow::on_tlacitkoPalubniPc_clicked()
+{
+    ui->stackedWidget_hlavni->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_tlacitkoTestRozhrani_clicked()
+{
+    ui->stackedWidget_hlavni->setCurrentIndex(1);
+}
 
 
 
 
 
+
+void MainWindow::on_tlacitkoFullscreen_clicked()
+{
+
+    qDebug()<< "on_tlacitkoFullscreen_clicked";
+    this->toggleFullscreen();
+    /*
+    mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,platnostSpoje);
+    QByteArray vysledekMpvnetu = "<TBL cas=\"2019-08-08T13:22:47\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"B\" lin=\"9\" alias=\"9\" spoj=\"46\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"A\" lin=\"18\" alias=\"18\" spoj=\"95\" smer=\"Praha,Vozovna Pankrác\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"59386\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"158\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"M2\" lin=\"B\" alias=\"B\" spoj=\"9\" smer=\"Praha,Černý Most\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"47090\"/><o stan=\"A\" lin=\"16\" alias=\"16\" spoj=\"83\" smer=\"Praha,Lehovec\" odj=\"2019-08-08T13:24:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27872\"/><o stan=\"A\" lin=\"23\" alias=\"23\" spoj=\"22\" smer=\"Praha,Zvonařka\" odj=\"2019-08-08T13:24:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"62902\"/><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"139\" smer=\"Praha,Spojovací\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"10\" alias=\"10\" spoj=\"102\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"133\" smer=\"Praha,Vypich\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"51451\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"197\" smer=\"Praha,Zličín\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"99\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-08T13:26:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"B\" lin=\"2\" alias=\"2\" spoj=\"35\" smer=\"Praha,Sídliště Petřiny\" odj=\"2019-08-08T13:27:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63906\"/><o stan=\"M2\" lin=\"B\" alias=\"B\" spoj=\"79\" smer=\"Praha,Černý Most\" odj=\"2019-08-08T13:28:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"47090\"/><o stan=\"B\" lin=\"9\" alias=\"9\" spoj=\"54\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:29:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"A\" lin=\"10\" alias=\"10\" spoj=\"47\" smer=\"Praha,Sídliště Ďáblice\" odj=\"2019-08-08T13:29:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27916\"/></t></TBL>";
+    mpvParser.naplnVstupDokument(vysledekMpvnetu);
+    mpvParser.VytvorVystupniDokument(mpvParser.parsujDomDokument(),mpvParser.prestupyXmlDokumentVystup);
+*/
+
+
+}
+void MainWindow::on_tlacitkoFullscreen2_clicked()
+{
+    qDebug()<< "on_tlacitkoFullscreen2_clicked";
+    this->toggleFullscreen();
+}
+
+//CIS
+void MainWindow::radio1(bool stav)
+{
+    ui->radioButton_ON1->setChecked(stav);
+    ui->radioButton_OFF1->setChecked(!stav);
+}
+
+//DEVMGMT
+void MainWindow::radio2(bool stav)
+{
+    ui->radioButton_ON2->setChecked(stav);
+    ui->radioButton_OFF2->setChecked(!stav);
+}
+
+
+//TicketValidationService
+void MainWindow::radio3(bool stav)
+{
+    ui->radioButton_ON3->setChecked(stav);
+    ui->radioButton_OFF3->setChecked(!stav);
+}
+
+
+void MainWindow::toggleFullscreen()
+{
+    if (MainWindow::windowState()==Qt::WindowFullScreen )
+    {
+        MainWindow::setWindowState(Qt::WindowMaximized);
+    }
+    else
+    {
+        MainWindow::setWindowState(Qt::WindowFullScreen);
+    }
+}
 

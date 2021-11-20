@@ -5952,62 +5952,7 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		VDV301publisher/customerinformationservice.h \
 		VDV301publisher/ticketvalidationservice.h \
 		konfigurace.h \
-		ui_mainwindow.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QApplication \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QCheckBox \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcheckbox.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qabstractbutton.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QFormLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qformlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgridlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QGridLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QHBoxLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QHeaderView \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qheaderview.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QLabel \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlabel.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QLineEdit \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlineedit.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextcursor.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextformat.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpen.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextoption.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QMenuBar \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmenubar.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmenu.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qaction.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qactiongroup.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QPlainTextEdit \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qplaintextedit.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtextedit.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextdocument.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qabstracttextdocumentlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qglyphrun.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qrawfont.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qfontdatabase.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QPushButton \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qpushbutton.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QRadioButton \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qradiobutton.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QStackedWidget \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstackedwidget.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QStatusBar \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstatusbar.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QTableWidget \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtablewidget.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtableview.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QToolBar \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtoolbar.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QVBoxLayout
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o mainwindow.cpp
 
 release/newhttpserver.o: newhttpserver.cpp newhttpserver.h \
