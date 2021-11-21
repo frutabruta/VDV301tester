@@ -9,6 +9,8 @@ release/customerinformationservice.o
 release/obeh.o
 release/zastavka.o
 release/zastavkacil.o
+release/polozkatestu.o
+release/vdv301testy.o
 release/hlasic.o
 release/httpsluzba.o
 release/konfigurace.o
@@ -29,6 +31,7 @@ release/ibisovladani.o
 release/moc_qzeroconf.o
 release/moc_bonjour_p.o
 release/moc_qzeroconfservice.o
+release/moc_vdv301testy.o
 release/moc_hlasic.o
 release/moc_httpsluzba.o
 release/moc_konfigurace.o

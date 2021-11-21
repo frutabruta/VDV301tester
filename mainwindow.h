@@ -16,6 +16,8 @@
 #include "VDV301publisher/customerinformationservice.h"
 #include "VDV301publisher/ticketvalidationservice.h"
 
+#include "VDV301testy/vdv301testy.h"
+
 #include "sqlpraceropid.h"
 #include "xmlmpvparser.h"
 #include "xmlropidparser.h"
@@ -59,6 +61,9 @@ public:
     Hlasic hlasic;
     Logfile logfile;
 
+    //VDV301testy
+    Vdv301testy vzorovyTest;
+
     QFile log;
 
     //udalosti
@@ -99,6 +104,7 @@ private:
 
 public slots:
     void vypisSqlVysledek(QString vstup);
+    void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
 private slots:
     //tlacitka
     int on_prikaztlacitko_clicked();
@@ -159,6 +165,10 @@ private slots:
     void MpvNetReady();
     void vypisDiagnostika(QString vstup);
 
+
+    void on_tlacitkoPrubehTestu_clicked();
+    void on_tlacitko_StartTest_clicked();
+    void on_TlacitkoStopTest_clicked();
 };
 
 #endif // MAINWINDOW_H

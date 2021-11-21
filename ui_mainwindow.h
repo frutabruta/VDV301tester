@@ -188,13 +188,17 @@ public:
     QFormLayout *formLayout_3;
     QVBoxLayout *verticalLayout_21;
     QPushButton *tlacitkoLinkospoj_2;
+    QPushButton *tlacitkoPrubehTestu;
     QPushButton *tlacitkoTurnus_2;
     QPushButton *tlacitkoPalubniPc;
     QPushButton *tlacitkoFullscreen2;
     QPushButton *quitTlacitko_2;
-    QStackedWidget *stackedWidget;
-    QWidget *page_5;
-    QWidget *page_6;
+    QStackedWidget *stackedWidget_testy;
+    QWidget *page_prubehTestu;
+    QTableWidget *tableWidgetCastiTestu;
+    QPushButton *TlacitkoStopTest;
+    QPushButton *tlacitko_StartTest;
+    QWidget *page_prepinaceSluzby;
     QWidget *layoutWidget1;
     QVBoxLayout *verticalLayout_26;
     QLabel *label_nazevSluzby_2;
@@ -246,7 +250,7 @@ public:
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         stackedWidget_hlavni = new QStackedWidget(centralWidget);
         stackedWidget_hlavni->setObjectName(QString::fromUtf8("stackedWidget_hlavni"));
-        stackedWidget_hlavni->setStyleSheet(QString::fromUtf8("*{margin: 10 0 0 0}"));
+        stackedWidget_hlavni->setStyleSheet(QString::fromUtf8("*{margin: 0 0 0 0}"));
         stackedWidget_hlavni->setLineWidth(1);
         page_3 = new QWidget();
         page_3->setObjectName(QString::fromUtf8("page_3"));
@@ -444,7 +448,7 @@ public:
 #endif
         prepinadloStran->setPalette(palette1);
         prepinadloStran->setStyleSheet(QString::fromUtf8("/*background-color:rgb(52, 101, 164); */\n"
-"*{margin:  0 0 0 }"));
+"*{padding: 0 0 0}"));
         page_vydej = new QWidget();
         page_vydej->setObjectName(QString::fromUtf8("page_vydej"));
         gridLayout_3 = new QGridLayout(page_vydej);
@@ -1060,7 +1064,7 @@ public:
         tlacitkoOdesliXml->setGeometry(QRect(190, 360, 181, 31));
         verticalLayoutWidget_10 = new QWidget(page_customXML);
         verticalLayoutWidget_10->setObjectName(QString::fromUtf8("verticalLayoutWidget_10"));
-        verticalLayoutWidget_10->setGeometry(QRect(20, 20, 351, 231));
+        verticalLayoutWidget_10->setGeometry(QRect(20, 20, 351, 246));
         verticalLayout_11 = new QVBoxLayout(verticalLayoutWidget_10);
         verticalLayout_11->setSpacing(6);
         verticalLayout_11->setContentsMargins(11, 11, 11, 11);
@@ -1110,7 +1114,7 @@ public:
         lineEdit_strukturaOdberu->setGeometry(QRect(240, 270, 113, 20));
         horizontalLayoutWidget = new QWidget(page_customXML);
         horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(10, 310, 194, 80));
+        horizontalLayoutWidget->setGeometry(QRect(10, 310, 194, 89));
         horizontalLayout_5 = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout_5->setSpacing(6);
         horizontalLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -1389,6 +1393,17 @@ public:
 
         verticalLayout_21->addWidget(tlacitkoLinkospoj_2);
 
+        tlacitkoPrubehTestu = new QPushButton(page_4);
+        tlacitkoPrubehTestu->setObjectName(QString::fromUtf8("tlacitkoPrubehTestu"));
+        tlacitkoPrubehTestu->setMinimumSize(QSize(0, 80));
+        tlacitkoPrubehTestu->setMaximumSize(QSize(200, 200));
+        tlacitkoPrubehTestu->setFont(font);
+        tlacitkoPrubehTestu->setCheckable(true);
+        tlacitkoPrubehTestu->setChecked(true);
+        tlacitkoPrubehTestu->setAutoExclusive(true);
+
+        verticalLayout_21->addWidget(tlacitkoPrubehTestu);
+
         tlacitkoTurnus_2 = new QPushButton(page_4);
         tlacitkoTurnus_2->setObjectName(QString::fromUtf8("tlacitkoTurnus_2"));
         tlacitkoTurnus_2->setMinimumSize(QSize(0, 80));
@@ -1434,14 +1449,31 @@ public:
 
         formLayout_3->setLayout(0, QFormLayout::LabelRole, verticalLayout_21);
 
-        stackedWidget = new QStackedWidget(page_4);
-        stackedWidget->setObjectName(QString::fromUtf8("stackedWidget"));
-        page_5 = new QWidget();
-        page_5->setObjectName(QString::fromUtf8("page_5"));
-        stackedWidget->addWidget(page_5);
-        page_6 = new QWidget();
-        page_6->setObjectName(QString::fromUtf8("page_6"));
-        layoutWidget1 = new QWidget(page_6);
+        stackedWidget_testy = new QStackedWidget(page_4);
+        stackedWidget_testy->setObjectName(QString::fromUtf8("stackedWidget_testy"));
+        page_prubehTestu = new QWidget();
+        page_prubehTestu->setObjectName(QString::fromUtf8("page_prubehTestu"));
+        tableWidgetCastiTestu = new QTableWidget(page_prubehTestu);
+        if (tableWidgetCastiTestu->columnCount() < 3)
+            tableWidgetCastiTestu->setColumnCount(3);
+        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        tableWidgetCastiTestu->setHorizontalHeaderItem(0, __qtablewidgetitem6);
+        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
+        tableWidgetCastiTestu->setHorizontalHeaderItem(1, __qtablewidgetitem7);
+        QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
+        tableWidgetCastiTestu->setHorizontalHeaderItem(2, __qtablewidgetitem8);
+        tableWidgetCastiTestu->setObjectName(QString::fromUtf8("tableWidgetCastiTestu"));
+        tableWidgetCastiTestu->setGeometry(QRect(80, 100, 541, 301));
+        TlacitkoStopTest = new QPushButton(page_prubehTestu);
+        TlacitkoStopTest->setObjectName(QString::fromUtf8("TlacitkoStopTest"));
+        TlacitkoStopTest->setGeometry(QRect(310, 30, 241, 41));
+        tlacitko_StartTest = new QPushButton(page_prubehTestu);
+        tlacitko_StartTest->setObjectName(QString::fromUtf8("tlacitko_StartTest"));
+        tlacitko_StartTest->setGeometry(QRect(70, 30, 161, 41));
+        stackedWidget_testy->addWidget(page_prubehTestu);
+        page_prepinaceSluzby = new QWidget();
+        page_prepinaceSluzby->setObjectName(QString::fromUtf8("page_prepinaceSluzby"));
+        layoutWidget1 = new QWidget(page_prepinaceSluzby);
         layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
         layoutWidget1->setGeometry(QRect(70, 200, 262, 114));
         verticalLayout_26 = new QVBoxLayout(layoutWidget1);
@@ -1476,7 +1508,7 @@ public:
 
         verticalLayout_26->addLayout(horizontalLayout_16);
 
-        layoutWidget_3 = new QWidget(page_6);
+        layoutWidget_3 = new QWidget(page_prepinaceSluzby);
         layoutWidget_3->setObjectName(QString::fromUtf8("layoutWidget_3"));
         layoutWidget_3->setGeometry(QRect(70, 340, 262, 114));
         verticalLayout_27 = new QVBoxLayout(layoutWidget_3);
@@ -1511,7 +1543,7 @@ public:
 
         verticalLayout_27->addLayout(horizontalLayout_17);
 
-        layoutWidget2 = new QWidget(page_6);
+        layoutWidget2 = new QWidget(page_prepinaceSluzby);
         layoutWidget2->setObjectName(QString::fromUtf8("layoutWidget2"));
         layoutWidget2->setGeometry(QRect(70, 60, 272, 114));
         verticalLayout_24 = new QVBoxLayout(layoutWidget2);
@@ -1546,9 +1578,9 @@ public:
 
         verticalLayout_24->addLayout(horizontalLayout_14);
 
-        stackedWidget->addWidget(page_6);
+        stackedWidget_testy->addWidget(page_prepinaceSluzby);
 
-        formLayout_3->setWidget(0, QFormLayout::FieldRole, stackedWidget);
+        formLayout_3->setWidget(0, QFormLayout::FieldRole, stackedWidget_testy);
 
 
         gridLayout_5->addLayout(formLayout_3, 0, 0, 1, 1);
@@ -1636,9 +1668,9 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget_hlavni->setCurrentIndex(0);
-        prepinadloStran->setCurrentIndex(0);
-        stackedWidget->setCurrentIndex(0);
+        stackedWidget_hlavni->setCurrentIndex(1);
+        prepinadloStran->setCurrentIndex(3);
+        stackedWidget_testy->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1972,10 +2004,20 @@ public:
         label_20->setText(QCoreApplication::translate("MainWindow", "Po\305\231ad\303\255", nullptr));
         label_19->setText(QCoreApplication::translate("MainWindow", "Spoje", nullptr));
         tlacitkoLinkospoj_2->setText(QCoreApplication::translate("MainWindow", "Slu\305\276by", nullptr));
+        tlacitkoPrubehTestu->setText(QCoreApplication::translate("MainWindow", "Pr\305\257beh\n"
+" testu", nullptr));
         tlacitkoTurnus_2->setText(QCoreApplication::translate("MainWindow", "Turnus", nullptr));
         tlacitkoPalubniPc->setText(QCoreApplication::translate("MainWindow", "PalPC", nullptr));
         tlacitkoFullscreen2->setText(QCoreApplication::translate("MainWindow", "Fullscr.", nullptr));
         quitTlacitko_2->setText(QCoreApplication::translate("MainWindow", "QUIT", nullptr));
+        QTableWidgetItem *___qtablewidgetitem6 = tableWidgetCastiTestu->horizontalHeaderItem(0);
+        ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "N\303\241zev \304\215\303\241sti testu", nullptr));
+        QTableWidgetItem *___qtablewidgetitem7 = tableWidgetCastiTestu->horizontalHeaderItem(1);
+        ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "Pr\305\257b\304\233h", nullptr));
+        QTableWidgetItem *___qtablewidgetitem8 = tableWidgetCastiTestu->horizontalHeaderItem(2);
+        ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "V\303\275sledek", nullptr));
+        TlacitkoStopTest->setText(QCoreApplication::translate("MainWindow", "Zastavit test", nullptr));
+        tlacitko_StartTest->setText(QCoreApplication::translate("MainWindow", "Spustit test", nullptr));
         label_nazevSluzby_2->setText(QCoreApplication::translate("MainWindow", "DeviceManagementService", nullptr));
         radioButton_ON2->setText(QCoreApplication::translate("MainWindow", "ON", nullptr));
         radioButton_OFF2->setText(QCoreApplication::translate("MainWindow", "OFF", nullptr));

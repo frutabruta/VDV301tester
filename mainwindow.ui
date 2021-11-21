@@ -57,13 +57,13 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget_hlavni">
       <property name="styleSheet">
-       <string notr="true">*{margin: 10 0 0 0}</string>
+       <string notr="true">*{margin: 0 0 0 0}</string>
       </property>
       <property name="lineWidth">
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_3">
        <widget class="QWidget" name="layoutWidget">
@@ -801,10 +801,10 @@
            </property>
            <property name="styleSheet">
             <string notr="true">/*background-color:rgb(52, 101, 164); */
-*{margin:  0 0 0 }</string>
+*{padding: 0 0 0}</string>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>3</number>
            </property>
            <widget class="QWidget" name="page_vydej">
             <layout class="QGridLayout" name="gridLayout_3">
@@ -2417,7 +2417,7 @@ Stop</string>
                <x>20</x>
                <y>20</y>
                <width>351</width>
-               <height>231</height>
+               <height>246</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -2507,7 +2507,7 @@ Stop</string>
                <x>10</x>
                <y>310</y>
                <width>194</width>
-               <height>80</height>
+               <height>89</height>
               </rect>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -3239,6 +3239,40 @@ Stop</string>
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="tlacitkoPrubehTestu">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>80</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>15</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Průbeh
+ testu</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+              <property name="autoExclusive">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="tlacitkoTurnus_2">
               <property name="minimumSize">
                <size>
@@ -3365,12 +3399,64 @@ Stop</string>
            </layout>
           </item>
           <item row="0" column="1">
-           <widget class="QStackedWidget" name="stackedWidget">
+           <widget class="QStackedWidget" name="stackedWidget_testy">
             <property name="currentIndex">
              <number>0</number>
             </property>
-            <widget class="QWidget" name="page_5"/>
-            <widget class="QWidget" name="page_6">
+            <widget class="QWidget" name="page_prubehTestu">
+             <widget class="QTableWidget" name="tableWidgetCastiTestu">
+              <property name="geometry">
+               <rect>
+                <x>80</x>
+                <y>100</y>
+                <width>541</width>
+                <height>301</height>
+               </rect>
+              </property>
+              <column>
+               <property name="text">
+                <string>Název části testu</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Průběh</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Výsledek</string>
+               </property>
+              </column>
+             </widget>
+             <widget class="QPushButton" name="TlacitkoStopTest">
+              <property name="geometry">
+               <rect>
+                <x>310</x>
+                <y>30</y>
+                <width>241</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Zastavit test</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="tlacitko_StartTest">
+              <property name="geometry">
+               <rect>
+                <x>70</x>
+                <y>30</y>
+                <width>161</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>Spustit test</string>
+              </property>
+             </widget>
+            </widget>
+            <widget class="QWidget" name="page_prepinaceSluzby">
              <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>

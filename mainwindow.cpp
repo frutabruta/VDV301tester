@@ -5,6 +5,7 @@
 
 #include <QNetworkReply>
 #include "VDV301struktury/zastavka.h"
+#include "VDV301testy/vdv301testy.h"
 
 
 
@@ -69,6 +70,9 @@ void MainWindow::vsechnyConnecty()
     this->vypisSubscribery(customerInformationService1_0.seznamSubscriberu);
     this->vypisSubscribery2(customerInformationService2_2CZ1_0.seznamSubscriberu);
     connect(&xmlMpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
+
+    //vypis stavu testu
+    connect(&vzorovyTest,&Vdv301testy::update,this,&MainWindow::testyVykresliCasti);
 
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
     connect(&mojesql,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
@@ -188,7 +192,7 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
     int vysledek=0;
     Spoj iterSpoj;
     stavSystemu.indexTripu=ui->listTurnusSpoje->currentRow();
-     vysledek=mojesql.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu,platnostSpoje);
+    vysledek=mojesql.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu,platnostSpoje);
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     if (stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).navazujici==true)
@@ -1036,5 +1040,69 @@ void MainWindow::toggleFullscreen()
     {
         MainWindow::setWindowState(Qt::WindowFullScreen);
     }
+}
+
+void MainWindow::testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek)
+{
+
+    qDebug()<<"MainWindow::testyVykresliCasti";
+    for(int i =0;i<seznamPolozek.size();i++)
+    {
+        qDebug()<<i<<" "<<seznamPolozek.at(i).nazev<<" "<<seznamPolozek.at(i).vysledek;
+    }
+
+    ui->tableWidgetCastiTestu->setRowCount(0);
+    qDebug()<<"smazano"<<" adresy.size="<<seznamPolozek.size();
+    if (seznamPolozek.size()==0)
+    {
+        qDebug()<<"vracim 0";
+        //return 0;
+    }
+    else
+    {
+        for (int i = 0;  i < seznamPolozek.count(); i++)
+        {
+
+
+            qint32 row;
+            QTableWidgetItem *cell;
+            row = ui->tableWidgetCastiTestu->rowCount();
+            ui->tableWidgetCastiTestu->insertRow(row);
+            cell = new QTableWidgetItem(seznamPolozek.at(i).nazev);
+            ui->tableWidgetCastiTestu->setItem(row, 0, cell);
+
+
+            cell = new QTableWidgetItem(seznamPolozek.at(i).prubeh);
+            ui->tableWidgetCastiTestu->setItem(row, 1, cell);
+
+            cell = new QTableWidgetItem(seznamPolozek.at(i).vysledek);
+            ui->tableWidgetCastiTestu->setItem(row, 2, cell);
+
+            ui->tableWidgetCastiTestu->resizeColumnsToContents();
+        }
+        qDebug()<<"vracim 1";
+        //return 1;
+    }
+
+
+}
+
+
+
+void MainWindow::on_tlacitkoPrubehTestu_clicked()
+{
+ui->stackedWidget_testy->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_tlacitko_StartTest_clicked()
+{
+   vzorovyTest.start();
+}
+
+
+void MainWindow::on_TlacitkoStopTest_clicked()
+{
+    vzorovyTest.stop();
 }
 

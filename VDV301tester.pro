@@ -50,6 +50,8 @@ SOURCES += \
     VDV301struktury/obeh.cpp \
     VDV301struktury/zastavka.cpp \
     VDV301struktury/zastavkacil.cpp \
+    VDV301testy/polozkatestu.cpp \
+    VDV301testy/vdv301testy.cpp \
     hlasic.cpp \
     VDV301publisher/httpsluzba.cpp \
     konfigurace.cpp \
@@ -76,6 +78,8 @@ HEADERS += \
     VDV301struktury/obeh.h \
     VDV301struktury/zastavka.h \
     VDV301struktury/zastavkacil.h \
+    VDV301testy/polozkatestu.h \
+    VDV301testy/vdv301testy.h \
     hlasic.h \
     VDV301publisher/httpsluzba.h \
     konfigurace.h \
