@@ -2,6 +2,7 @@
 #define LOGFILE_H
 
 #include <QObject>
+#include <QFile>
 
 class Logfile : public QObject
 {
@@ -11,8 +12,11 @@ public:
     void otevriSoubor();
     QString cesta;
     Logfile(QString cestaProgramu);
-    void novySoubor();
+    void novySoubor(QFile &soubor);
     bool souborExistuje(QString path);
+    bool pridejNaKonecSouboru(QFile &soubor, QString vstup);
+    void nastavCestuSouboru(QFile &soubor, QString cesta, QString nazevSouboru);
+    void defaultniLog(QFile &soubor);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 

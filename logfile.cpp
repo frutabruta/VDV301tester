@@ -21,7 +21,7 @@ void Logfile::otevriSoubor()
     //QDomDocument doc("mydocument");
    // QFile file("xml_zdroje/XML_Zlicin_20200702_20200705.xml");
 
-    QFile file(cesta+"/konfigurace/konfigurace.xml");
+    QFile file(cesta+"/log/log.xml");
 
 
 
@@ -29,7 +29,7 @@ void Logfile::otevriSoubor()
 
     if (!file.open(QIODevice::ReadOnly))
     {
-        emit odesliChybovouHlasku("soubor konfigurace se nepovedlo otevrit");
+        emit odesliChybovouHlasku("soubor logu se nepovedlo otevrit");
         qDebug()<<"fail1";
         return;
     }
@@ -51,28 +51,53 @@ void Logfile::otevriSoubor()
 
 }
 
-void Logfile::novySoubor()
+void Logfile::novySoubor(QFile &soubor)
 {
     qDebug()<<"Logfile::novySoubor";
-   /* QDomDocument xmlko;
-    QDomElement parent=xmlko.createElement("konfigurace");
-    xmlko.appendChild(parent);
-
-    QDomElement hlaseni=xmlko.createElement("hlaseni");
-    QDomElement hlaseniCesta=xmlko.createElement("cesta");
-    hlaseniCesta.appendChild(xmlko.createTextNode(hlaseniDefaultniCesta));
-    hlaseni.appendChild(hlaseniCesta);
 
 
-    parent.appendChild(hlaseni);
 
-*/
-    QString filename=cesta+"/log/log.xml";
-    qDebug()<<"cesta ke konfiguraci "<<filename;
-    QFile file( filename );
-    if ( file.open(QIODevice::ReadWrite) )
+
+
+    //cestaLong=soubor.fileName().right();
+    //QString slozka=
+    QString cestaLong= QFileInfo(soubor.fileName()).dir().absolutePath();
+
+    QDir dir;
+    qDebug()<<"cestaLong "<<dir;
+
+    if (!dir.exists(cestaLong))
     {
-        QTextStream stream( &file );
+        qDebug()<<"slozka neexistuje";
+        if(dir.mkpath(cestaLong))
+        {
+            qDebug()<<"slozku se povedlo vytvorit";
+        }
+        else
+        {
+            qDebug()<<"slozku se NEpovedlo vytvorit";
+        }
+    }
+    else
+    {
+        qDebug()<<"slozka existuje";
+    }
+
+    QString cestaSouboru=soubor.fileName();
+    //QFile soubor2(cestaSouboru);
+
+    qDebug()<<"cestaSouboru "<<cestaSouboru;
+    soubor.open(QIODevice::WriteOnly); // Or QIODevice::ReadWrite
+/*
+
+
+
+    QString filename=cesta+"/log/log.xml";
+    qDebug()<<"cesta k logu "<<filename;
+    QFile soubor( filename );
+    if ( file.open(QIODevice::ReadWrite) ) // if (f.open(QIODevice::WriteOnly | QIODevice::Append))
+    {
+        QTextStream stream( &soubor );
         stream << "test";
                   //xmlko.toString();
                  // "something" << Qt::endl;
@@ -81,9 +106,27 @@ void Logfile::novySoubor()
     {
         qDebug()<<"problem se souborem";
     }
-    file.close();
+    */
+
+    soubor.close();
 
 
+}
+
+void Logfile::nastavCestuSouboru(QFile &soubor, QString cesta, QString nazevSouboru)
+{
+    qDebug()<<"Logfile::nastavCestuSouboru";
+    soubor.close();
+    QString celaCesta=cesta+"/"+nazevSouboru;
+    qDebug()<<"cela cesta "<<celaCesta;
+    soubor.setFileName(celaCesta);
+}
+
+void Logfile::defaultniLog(QFile &soubor)
+{
+    qDebug()<<"Logfile::defaultniLog";
+    QString cestaLong(cesta+"/log");
+    nastavCestuSouboru(soubor,cestaLong,"log.txt");
 }
 
 
@@ -99,6 +142,50 @@ bool Logfile::souborExistuje(QString path)
         qDebug()<<"soubor "<<path<<" neexistuje";
         return false;
     }
+}
+
+bool Logfile::pridejNaKonecSouboru( QFile &soubor,QString vstup)
+{
+    qDebug()<<"Logfile::pridejNaKonecSouboru";
+
+    bool vysledek=true;
+/*
+
+    QString cestaSouboru=cestaLong + "log.txt";
+    QFile soubor(cestaSouboru);
+
+    qDebug()<<"cestaSouboru "<<cestaSouboru;
+    soubor.open(QIODevice::WriteOnly);
+    */
+
+
+
+
+    if (soubor.open(QIODevice::WriteOnly | QIODevice::Append))
+    {
+      QTextStream stream(&soubor);
+       stream<<vstup<<Qt::endl;
+       soubor.close();
+       vysledek=true;
+    }
+    else
+    {
+        qDebug()<<"do souboru nelze zapsat";
+        vysledek=false;
+    }
+
+
+
+
+
+
+
+
+
+  return vysledek;
+
+
+
 }
 
 

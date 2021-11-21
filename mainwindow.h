@@ -1,33 +1,28 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#include "VDV301struktury/cestaudaje.h"
 
-
-
-#include "xmlmpvparser.h"
-#include "xmlropidparser.h"
-#include "ibisovladani.h"
-#include "hlasic.h"
-
-#include "sqlpraceropid.h"
+#include <QVector>
+#include <QListWidget>
+#include <QtSerialPort/QSerialPort>
 #include <QNetworkAccessManager>
 #include <QMainWindow>
-#define MAX_ZAST 100
+
 #include "VDV301struktury/zastavka.h"
 #include "VDV301struktury/linka.h"
 #include "VDV301struktury/cestaudaje.h"
-#include <QVector>
-#include <QListWidget>
-
-#include <QtSerialPort/QSerialPort>
-
+#include "VDV301struktury/zastavkacil.h"
 
 #include "VDV301publisher/httpsluzba.h"
 #include "VDV301publisher/customerinformationservice.h"
 #include "VDV301publisher/ticketvalidationservice.h"
-#include "VDV301struktury/zastavkacil.h"
-//#include "VDV301struktury/trip.h"
+
+#include "sqlpraceropid.h"
+#include "xmlmpvparser.h"
+#include "xmlropidparser.h"
+#include "ibisovladani.h"
+#include "hlasic.h"
 #include "konfigurace.h"
+#include "logfile.h"
 
 
 namespace Ui {
@@ -42,32 +37,35 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-//konstanty
+    //konstanty
     QString umisteniProgramu=QCoreApplication::applicationDirPath();
 
 
     //datove struktury
-     CestaUdaje stavSystemu;
-     QVector <Linka> seznamLinek;
-     QVector <Spoj> seznamSpoju;
-     QVector <Obeh> seznamObehu;
+    CestaUdaje stavSystemu;
+    QVector <Linka> seznamLinek;
+    QVector <Spoj> seznamSpoju;
+    QVector <Obeh> seznamObehu;
 
-     bool platnostSpoje=1;
+    bool platnostSpoje=1;
 
     //SQLprace mojesql;
     SqlPraceRopid mojesql;
-
 
     //instance knihoven
     XmlMpvParser xmlMpvParser;
     XmlRopidParser xmlRopidParser;
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
+    Logfile logfile;
+
+    QFile log;
 
     //udalosti
     void xmlHromadnyUpdate();
     int priPrijezdu();
     int priOdjezdu();
+    void vsechnyConnecty();
 
     //IBIS-IP lsuzby
     HttpSluzba deviceManagementService1_0;
@@ -83,8 +81,6 @@ public:
     void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
     void NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek);
 
-
-    void vsechnyConnecty();
 private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);
@@ -101,13 +97,9 @@ private:
     void nastartujVsechnySluzby();
 
 
-
-
 public slots:
     void vypisSqlVysledek(QString vstup);
 private slots:
-
-
     //tlacitka
     int on_prikaztlacitko_clicked();
     void on_sipkaNahoru_clicked();
@@ -147,8 +139,6 @@ private slots:
     void on_tlacitkoFullscreen2_clicked();
     void on_tlacitkoTurnus_clicked();
 
-
-
     //checkbox
     void on_prestupyCheckbox_stateChanged(int arg1);
     void on_checkBox_stateChanged(int arg1);
@@ -158,13 +148,13 @@ private slots:
     void radio2(bool stav);
     void radio3(bool stav);
 
-
     //zmeny seznamu
     void on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listKmenovychLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+
     //vlatni signaly
     void MpvNetReady();
     void vypisDiagnostika(QString vstup);

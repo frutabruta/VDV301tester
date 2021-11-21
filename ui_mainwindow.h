@@ -246,12 +246,13 @@ public:
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         stackedWidget_hlavni = new QStackedWidget(centralWidget);
         stackedWidget_hlavni->setObjectName(QString::fromUtf8("stackedWidget_hlavni"));
+        stackedWidget_hlavni->setStyleSheet(QString::fromUtf8("*{margin: 10 0 0 0}"));
         stackedWidget_hlavni->setLineWidth(1);
         page_3 = new QWidget();
         page_3->setObjectName(QString::fromUtf8("page_3"));
         layoutWidget = new QWidget(page_3);
         layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
-        layoutWidget->setGeometry(QRect(0, 0, 782, 632));
+        layoutWidget->setGeometry(QRect(0, 0, 782, 669));
         horizontalLayout_9 = new QHBoxLayout(layoutWidget);
         horizontalLayout_9->setSpacing(0);
         horizontalLayout_9->setContentsMargins(11, 11, 11, 11);
@@ -442,7 +443,8 @@ public:
         palette1.setBrush(QPalette::Disabled, QPalette::PlaceholderText, brush11);
 #endif
         prepinadloStran->setPalette(palette1);
-        prepinadloStran->setStyleSheet(QString::fromUtf8("/*background-color:rgb(52, 101, 164); */"));
+        prepinadloStran->setStyleSheet(QString::fromUtf8("/*background-color:rgb(52, 101, 164); */\n"
+"*{margin:  0 0 0 }"));
         page_vydej = new QWidget();
         page_vydej->setObjectName(QString::fromUtf8("page_vydej"));
         gridLayout_3 = new QGridLayout(page_vydej);
@@ -1511,7 +1513,7 @@ public:
 
         layoutWidget2 = new QWidget(page_6);
         layoutWidget2->setObjectName(QString::fromUtf8("layoutWidget2"));
-        layoutWidget2->setGeometry(QRect(70, 60, 262, 114));
+        layoutWidget2->setGeometry(QRect(70, 60, 272, 114));
         verticalLayout_24 = new QVBoxLayout(layoutWidget2);
         verticalLayout_24->setSpacing(6);
         verticalLayout_24->setContentsMargins(11, 11, 11, 11);

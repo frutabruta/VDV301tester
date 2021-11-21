@@ -12,23 +12,22 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
+    logfile(QCoreApplication::applicationDirPath()),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"),
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47481,"2.2CZ1.0"),
-    konfigurace(QCoreApplication::applicationDirPath())
+    konfigurace(QCoreApplication::applicationDirPath()),
+    ui(new Ui::MainWindow)
 {
     qDebug()<<"MainWindow::MainWindow";
     ui->setupUi(this);
     ui->prepinadloStran->setCurrentIndex(1);
     ui->prepinadloStran->setWindowState(Qt::WindowFullScreen);
 
-
     //manualni pridani subscriberu pro pripad nefunkcnosti DNS-SD
     //seznamSubscriberu.push_back(QUrl("http://192.168.12.128:60011"));
     //seznamSubscriberu.push_back(QUrl("http://127.0.0.1:48479"));
-
 
     //inicializace databaze
     startDatabaze();
@@ -36,24 +35,24 @@ MainWindow::MainWindow(QWidget *parent) :
     //propojeni vsech slotu
     vsechnyConnecty();
 
-
     nastartujVsechnySluzby();
-
-
 
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
     QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
     ui->label_build->setText(compilationTime);
-
 
     //cesty souboru
     hlasic.zmenUmisteniProgramu(umisteniProgramu);
     konfigurace.vytvorDefaultniKonfiguraci();
     konfigurace.otevriSoubor();
 
+
+    logfile.defaultniLog(log);
+    logfile.novySoubor(log);
+
+    logfile.pridejNaKonecSouboru(log,QDateTime::currentDateTime().toString()+" program spuštěn");
+
     ui->statusBar->showMessage("test");
-
-
 }
 
 
@@ -208,9 +207,6 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
     {
         qDebug()<<"existuje navazujici spoj";
     }
-
-
-
 
     if (vysledek==0)
     {
@@ -946,6 +942,7 @@ void MainWindow::vypisDiagnostika(QString vstup)
     ui->label_diagnostika_manual->clear();
     ui->label_diagnostika_manual->setText(vstup);
     ui->statusBar->showMessage(vstup);
+    logfile.pridejNaKonecSouboru(log,QDateTime::currentDateTime().toString()+" "+ vstup);
 
 }
 
@@ -997,12 +994,6 @@ void MainWindow::on_tlacitkoFullscreen_clicked()
 
     qDebug()<< "on_tlacitkoFullscreen_clicked";
     this->toggleFullscreen();
-    /*
-    mojesql.StahniSeznam(novatrida.pocetZastavek, novatrida.aktlinka,novatrida.aktspoj,globalniSeznamZastavek,platnostSpoje);
-    QByteArray vysledekMpvnetu = "<TBL cas=\"2019-08-08T13:22:47\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"B\" lin=\"9\" alias=\"9\" spoj=\"46\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"A\" lin=\"18\" alias=\"18\" spoj=\"95\" smer=\"Praha,Vozovna Pankrác\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"59386\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"158\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"M2\" lin=\"B\" alias=\"B\" spoj=\"9\" smer=\"Praha,Černý Most\" odj=\"2019-08-08T13:23:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"47090\"/><o stan=\"A\" lin=\"16\" alias=\"16\" spoj=\"83\" smer=\"Praha,Lehovec\" odj=\"2019-08-08T13:24:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27872\"/><o stan=\"A\" lin=\"23\" alias=\"23\" spoj=\"22\" smer=\"Praha,Zvonařka\" odj=\"2019-08-08T13:24:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"62902\"/><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"139\" smer=\"Praha,Spojovací\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"10\" alias=\"10\" spoj=\"102\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"133\" smer=\"Praha,Vypich\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"51451\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"197\" smer=\"Praha,Zličín\" odj=\"2019-08-08T13:25:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"99\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-08T13:26:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"B\" lin=\"2\" alias=\"2\" spoj=\"35\" smer=\"Praha,Sídliště Petřiny\" odj=\"2019-08-08T13:27:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63906\"/><o stan=\"M2\" lin=\"B\" alias=\"B\" spoj=\"79\" smer=\"Praha,Černý Most\" odj=\"2019-08-08T13:28:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"47090\"/><o stan=\"B\" lin=\"9\" alias=\"9\" spoj=\"54\" smer=\"Praha,Sídliště Řepy\" odj=\"2019-08-08T13:29:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"50697\"/><o stan=\"A\" lin=\"10\" alias=\"10\" spoj=\"47\" smer=\"Praha,Sídliště Ďáblice\" odj=\"2019-08-08T13:29:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27916\"/></t></TBL>";
-    mpvParser.naplnVstupDokument(vysledekMpvnetu);
-    mpvParser.VytvorVystupniDokument(mpvParser.parsujDomDokument(),mpvParser.prestupyXmlDokumentVystup);
-*/
 
 
 }
