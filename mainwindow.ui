@@ -63,7 +63,7 @@
        <number>0</number>
       </property>
       <widget class="QWidget" name="page_3">
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>0</x>
@@ -1808,50 +1808,7 @@ Stop</string>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_6">
               <item>
-               <layout class="QVBoxLayout" name="verticalLayoutSQLPeace">
-                <item>
-                 <widget class="QLabel" name="label_5">
-                  <property name="font">
-                   <font>
-                    <pointsize>20</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>SQL práce</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="tlacitkoSQL">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>80</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>pripojSQL</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_4">
-                  <property name="text">
-                   <string>Adresa SQL serveru</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLineEdit" name="lineEditSqlServer">
-                  <property name="text">
-                   <string>127.0.0.1</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+               <layout class="QVBoxLayout" name="verticalLayoutSQLPeace"/>
               </item>
               <item>
                <layout class="QVBoxLayout" name="verticalLayoutvstupniData">
@@ -2057,7 +2014,7 @@ Stop</string>
              <property name="geometry">
               <rect>
                <x>520</x>
-               <y>270</y>
+               <y>320</y>
                <width>133</width>
                <height>119</height>
               </rect>
@@ -2108,7 +2065,7 @@ Stop</string>
              <property name="geometry">
               <rect>
                <x>90</x>
-               <y>320</y>
+               <y>350</y>
                <width>160</width>
                <height>77</height>
               </rect>
@@ -3406,7 +3363,7 @@ Stop</string>
           <item row="0" column="1">
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_5"/>
             <widget class="QWidget" name="page_6">
@@ -3550,7 +3507,7 @@ Stop</string>
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="">
+             <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
                 <x>70</x>
@@ -3678,8 +3635,6 @@ Stop</string>
   <tabstop>checkBox</tabstop>
   <tabstop>checkBox_2</tabstop>
   <tabstop>prikaztlacitko</tabstop>
-  <tabstop>tlacitkoSQL</tabstop>
-  <tabstop>lineEditSqlServer</tabstop>
   <tabstop>tlacitkoNactiXMLropid</tabstop>
   <tabstop>tlacitkoUlozDoSQL</tabstop>
   <tabstop>tlacitkoTruncate</tabstop>
@@ -3717,8 +3672,6 @@ Stop</string>
   <tabstop>polespoje</tabstop>
   <tabstop>radioButton_OFF1</tabstop>
   <tabstop>radioButton_ON1</tabstop>
-  <tabstop>radioButton_7</tabstop>
-  <tabstop>radioButton_8</tabstop>
   <tabstop>radioButton_ON2</tabstop>
   <tabstop>radioButton_OFF2</tabstop>
   <tabstop>radioButton_ON3</tabstop>

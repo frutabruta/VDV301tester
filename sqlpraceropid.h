@@ -30,7 +30,7 @@ public:
     int StahniSeznam(int cisloLinky, int cisloSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
 
 
-    int Pripoj(QString adresa);
+    int Pripoj();
     //QVector<Linka> seznamLinek;
     int VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek);
     int VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka);

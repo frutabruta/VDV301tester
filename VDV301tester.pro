@@ -53,6 +53,7 @@ SOURCES += \
     hlasic.cpp \
     VDV301publisher/httpsluzba.cpp \
     konfigurace.cpp \
+    logfile.cpp \
         main.cpp \
         mainwindow.cpp \
     newhttpserver.cpp \
@@ -78,6 +79,7 @@ HEADERS += \
     hlasic.h \
     VDV301publisher/httpsluzba.h \
     konfigurace.h \
+    logfile.h \
         mainwindow.h \
     newhttpserver.h \
     prestupmpv.h \

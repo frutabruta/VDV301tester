@@ -11,7 +11,7 @@ SqlPraceRopid::SqlPraceRopid()
 }
 
 //test Pridani Komentare prechodu na SQLITE
-int SqlPraceRopid::Pripoj(QString adresa)
+int SqlPraceRopid::Pripoj()
 
 {
     qDebug()<< "SQLpraceRopid::Pripoj";
@@ -686,7 +686,7 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka do
 {
     qDebug()<< "SqlPraceRopid::VytvorSeznamSpoju";
     docasnySeznamSpoju.clear();
-    this->Pripoj("");
+    this->Pripoj();
     bool platnost = true;
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT s.s, s.c, l.c,l.lc,l.aois FROM s ");
@@ -745,7 +745,7 @@ int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh)
     //QVector<Spoj> &docasnySeznamSpoju,
     qDebug()<< "SqlPraceRopid::VytvorSeznamTurnusSpoju";
     docasnyObeh.seznamSpoju.clear();
-    this->Pripoj("");
+    this->Pripoj();
     bool platnost = true;
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.aois FROM sp_po ");
@@ -812,7 +812,7 @@ int SqlPraceRopid::VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka d
 {
     qDebug()<< "SqlPraceRopid::VytvorSeznamPoradi";
     docasnySeznamObehu.clear();
-    this->Pripoj("");
+    this->Pripoj();
     bool platnost = true;
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT o.l, o.p FROM o ");

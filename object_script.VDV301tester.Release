@@ -12,6 +12,7 @@ release/zastavkacil.o
 release/hlasic.o
 release/httpsluzba.o
 release/konfigurace.o
+release/logfile.o
 release/main.o
 release/mainwindow.o
 release/newhttpserver.o
@@ -31,6 +32,7 @@ release/moc_qzeroconfservice.o
 release/moc_hlasic.o
 release/moc_httpsluzba.o
 release/moc_konfigurace.o
+release/moc_logfile.o
 release/moc_mainwindow.o
 release/moc_newhttpserver.o
 release/moc_xmlgenerator.o
