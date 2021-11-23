@@ -2,32 +2,48 @@
 #include <QDebug>
 Vdv301testy::Vdv301testy()
 {
-connect(timer, &QTimer::timeout, this, &Vdv301testy::slotCasovacVyprsel);
+  //  connect(timer, &QTimer::timeout, this, &Vdv301testy::slotCasovacVyprsel);
 
-pridejPolozkuTestu("zacatek","probiha","");
-pridejPolozkuTestu("stred","","");
-pridejPolozkuTestu("stred2","","");
-pridejPolozkuTestu("konec","","");
+   // inicializujPolozky();
 
 }
 
-
+/*
 void Vdv301testy::start()
 {
     qDebug()<<"Vdv301testy::start";
-indexTestu=0;
-vymazStavy(seznamPolozek);
-emit update(seznamPolozek);
-timer->start(4000);
+    testBezi=true;
+    indexTestu=0;
+    inicializujPolozky();
+    //vymazStavy(seznamPolozek);
+    emit update(seznamPolozek);
+    prubehTestu();
+
 
 }
 
+void Vdv301testy::inicializujPolozky()
+{
+    seznamPolozek.clear();
+    pridejPolozkuTestu("zacatek","probiha","");
+    pridejPolozkuTestu("stred","","");
+    pridejPolozkuTestu("stred2","","");
+    pridejPolozkuTestu("konec","","");
+}
+
+
+void Vdv301testy::prubehTestu()
+{
+    qDebug()<<"Vdv301testy::prubehTestu()";
+timer->start(4000);
+}
 void Vdv301testy::stop()
 {
     qDebug()<<"Vdv301testy::stop";
-timer->stop();
+    timer->stop();
+    testBezi=false;
 }
-
+*/
 void Vdv301testy::pridejPolozkuTestu(QString jmeno, QString prubeh, QString vysledek)
 {
     qDebug()<<"Vdv301testy::pridejPolozkuTestu";
@@ -38,7 +54,7 @@ void Vdv301testy::pridejPolozkuTestu(QString jmeno, QString prubeh, QString vysl
     seznamPolozek.append(novaPolozka);
 
 }
-
+/*
 void Vdv301testy::slotCasovacVyprsel()
 {
     qDebug()<<"Vdv301testy::slotCasovacVyprsel";
@@ -47,12 +63,16 @@ void Vdv301testy::slotCasovacVyprsel()
         seznamPolozek[indexTestu].vysledek="OK";
         indexTestu++;
     }
+    else
+    {
+        timer->stop();
+    }
 
 
 
     emit update(seznamPolozek);
 }
-
+*/
 void Vdv301testy::vymazStavy(QVector<PolozkaTestu> &seznamPolozek2)
 {
     qDebug()<<"Vdv301testy::vymazStavy";
@@ -62,4 +82,10 @@ void Vdv301testy::vymazStavy(QVector<PolozkaTestu> &seznamPolozek2)
         seznamPolozek2[i].vysledek="";
         qDebug()<<"iteruju";
     }
+}
+
+void Vdv301testy::emitujUpdate()
+{
+    qDebug()<<"Vdv301testy::emitujUpdate";
+    emit update(seznamPolozek);
 }

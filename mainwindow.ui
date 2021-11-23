@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>1000</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -19,13 +19,13 @@
   <property name="minimumSize">
    <size>
     <width>800</width>
-    <height>1000</height>
+    <height>100</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>800</width>
-    <height>1000</height>
+    <height>538</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -56,6 +56,12 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget_hlavni">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true">*{margin: 0 0 0 0}</string>
       </property>
@@ -63,7 +69,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_3">
        <widget class="QWidget" name="layoutWidget">
@@ -72,7 +78,7 @@
           <x>0</x>
           <y>0</y>
           <width>782</width>
-          <height>669</height>
+          <height>459</height>
          </rect>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -80,7 +86,7 @@
           <number>0</number>
          </property>
          <property name="sizeConstraint">
-          <enum>QLayout::SetMaximumSize</enum>
+          <enum>QLayout::SetMinimumSize</enum>
          </property>
          <property name="leftMargin">
           <number>0</number>
@@ -95,7 +101,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>60</height>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -126,10 +132,16 @@
            </item>
            <item>
             <widget class="QPushButton" name="tlacitkoTurnus">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>30</height>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -162,7 +174,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>60</height>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -192,7 +204,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>60</height>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -222,7 +234,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>60</height>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -252,7 +264,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>60</height>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -282,7 +294,7 @@
              <property name="minimumSize">
               <size>
                <width>0</width>
-               <height>80</height>
+               <height>0</height>
               </size>
              </property>
              <property name="maximumSize">
@@ -3200,17 +3212,23 @@ Stop</string>
        </widget>
       </widget>
       <widget class="QWidget" name="page_4">
-       <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_18">
+        <item>
          <layout class="QFormLayout" name="formLayout_3">
           <item row="0" column="0">
            <layout class="QVBoxLayout" name="verticalLayout_21">
             <item>
-             <widget class="QPushButton" name="tlacitkoLinkospoj_2">
+             <widget class="QPushButton" name="tlacitkoSluzby">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>80</height>
+                <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -3240,10 +3258,16 @@ Stop</string>
             </item>
             <item>
              <widget class="QPushButton" name="tlacitkoPrubehTestu">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>80</height>
+                <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -3274,10 +3298,16 @@ Stop</string>
             </item>
             <item>
              <widget class="QPushButton" name="tlacitkoTurnus_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>80</height>
+                <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -3292,7 +3322,7 @@ Stop</string>
                </font>
               </property>
               <property name="text">
-               <string>Turnus</string>
+               <string>xx</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -3307,10 +3337,16 @@ Stop</string>
             </item>
             <item>
              <widget class="QPushButton" name="tlacitkoPalubniPc">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>80</height>
+                <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -3337,10 +3373,16 @@ Stop</string>
             </item>
             <item>
              <widget class="QPushButton" name="tlacitkoFullscreen2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>80</height>
+                <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
@@ -3368,7 +3410,7 @@ Stop</string>
             <item>
              <widget class="QPushButton" name="quitTlacitko_2">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -3404,66 +3446,176 @@ Stop</string>
              <number>0</number>
             </property>
             <widget class="QWidget" name="page_prubehTestu">
-             <widget class="QTableWidget" name="tableWidgetCastiTestu">
-              <property name="geometry">
-               <rect>
-                <x>80</x>
-                <y>100</y>
-                <width>541</width>
-                <height>301</height>
-               </rect>
-              </property>
-              <column>
-               <property name="text">
-                <string>Název části testu</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Průběh</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Výsledek</string>
-               </property>
-              </column>
-             </widget>
-             <widget class="QPushButton" name="TlacitkoStopTest">
-              <property name="geometry">
-               <rect>
-                <x>310</x>
-                <y>30</y>
-                <width>241</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Zastavit test</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="tlacitko_StartTest">
-              <property name="geometry">
-               <rect>
-                <x>70</x>
-                <y>30</y>
-                <width>161</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>Spustit test</string>
-              </property>
-             </widget>
+             <layout class="QGridLayout" name="gridLayout_5">
+              <item row="0" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <item>
+                 <widget class="QPushButton" name="pushButton_test1">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>15</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Vzorový test</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_test2">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>15</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Test odberu</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_test3">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>15</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Test Bonjour</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_test4">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>50</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>15</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>PushButton</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_15">
+                <item>
+                 <widget class="QTableWidget" name="tableWidgetCastiTestu">
+                  <column>
+                   <property name="text">
+                    <string>Název části testu</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Průběh</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Výsledek</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_22">
+                  <item>
+                   <widget class="QPushButton" name="tlacitko_StartTest">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Spustit test</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="TlacitkoStopTest">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Zastavit test</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </widget>
             <widget class="QWidget" name="page_prepinaceSluzby">
              <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
-                <x>70</x>
-                <y>200</y>
-                <width>262</width>
-                <height>114</height>
+                <x>71</x>
+                <y>128</y>
+                <width>242</width>
+                <height>59</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_26">
@@ -3530,10 +3682,10 @@ Stop</string>
              <widget class="QWidget" name="layoutWidget_3">
               <property name="geometry">
                <rect>
-                <x>70</x>
-                <y>340</y>
-                <width>262</width>
-                <height>114</height>
+                <x>71</x>
+                <y>195</y>
+                <width>209</width>
+                <height>59</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_27">
@@ -3573,6 +3725,9 @@ Stop</string>
                      <height>30</height>
                     </size>
                    </property>
+                   <property name="autoExclusive">
+                    <bool>true</bool>
+                   </property>
                   </widget>
                  </item>
                  <item>
@@ -3600,10 +3755,10 @@ Stop</string>
              <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
-                <x>70</x>
-                <y>60</y>
-                <width>272</width>
-                <height>114</height>
+                <x>71</x>
+                <y>61</y>
+                <width>262</width>
+                <height>59</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_24">
@@ -3754,7 +3909,7 @@ Stop</string>
   <tabstop>listKmenovychLinek</tabstop>
   <tabstop>listPoradi</tabstop>
   <tabstop>listTurnusSpoje</tabstop>
-  <tabstop>tlacitkoLinkospoj_2</tabstop>
+  <tabstop>tlacitkoSluzby</tabstop>
   <tabstop>tlacitkoTurnus_2</tabstop>
   <tabstop>tlacitkoPalubniPc</tabstop>
   <tabstop>tlacitkoFullscreen2</tabstop>

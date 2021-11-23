@@ -10,6 +10,9 @@ release/obeh.o
 release/zastavka.o
 release/zastavkacil.o
 release/polozkatestu.o
+release/testdemo.o
+release/testdetekcebonjour.o
+release/testodberuserver.o
 release/vdv301testy.o
 release/hlasic.o
 release/httpsluzba.o
@@ -31,6 +34,8 @@ release/ibisovladani.o
 release/moc_qzeroconf.o
 release/moc_bonjour_p.o
 release/moc_qzeroconfservice.o
+release/moc_testdemo.o
+release/moc_testodberuserver.o
 release/moc_vdv301testy.o
 release/moc_hlasic.o
 release/moc_httpsluzba.o

@@ -184,10 +184,10 @@ public:
     QLabel *label_19;
     QListWidget *listTurnusSpoje;
     QWidget *page_4;
-    QGridLayout *gridLayout_5;
+    QHBoxLayout *horizontalLayout_18;
     QFormLayout *formLayout_3;
     QVBoxLayout *verticalLayout_21;
-    QPushButton *tlacitkoLinkospoj_2;
+    QPushButton *tlacitkoSluzby;
     QPushButton *tlacitkoPrubehTestu;
     QPushButton *tlacitkoTurnus_2;
     QPushButton *tlacitkoPalubniPc;
@@ -195,9 +195,17 @@ public:
     QPushButton *quitTlacitko_2;
     QStackedWidget *stackedWidget_testy;
     QWidget *page_prubehTestu;
+    QGridLayout *gridLayout_5;
+    QHBoxLayout *horizontalLayout_13;
+    QPushButton *pushButton_test1;
+    QPushButton *pushButton_test2;
+    QPushButton *pushButton_test3;
+    QPushButton *pushButton_test4;
+    QHBoxLayout *horizontalLayout_15;
     QTableWidget *tableWidgetCastiTestu;
-    QPushButton *TlacitkoStopTest;
+    QVBoxLayout *verticalLayout_22;
     QPushButton *tlacitko_StartTest;
+    QPushButton *TlacitkoStopTest;
     QWidget *page_prepinaceSluzby;
     QWidget *layoutWidget1;
     QVBoxLayout *verticalLayout_26;
@@ -224,14 +232,14 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(800, 1000);
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        MainWindow->resize(800, 480);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        MainWindow->setMinimumSize(QSize(800, 1000));
-        MainWindow->setMaximumSize(QSize(800, 1000));
+        MainWindow->setMinimumSize(QSize(800, 100));
+        MainWindow->setMaximumSize(QSize(800, 538));
         MainWindow->setStyleSheet(QString::fromUtf8("*{padding: 0px;margin: 0px;}"));
         MainWindow->setAnimated(true);
         centralWidget = new QWidget(MainWindow);
@@ -250,18 +258,19 @@ public:
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         stackedWidget_hlavni = new QStackedWidget(centralWidget);
         stackedWidget_hlavni->setObjectName(QString::fromUtf8("stackedWidget_hlavni"));
+        stackedWidget_hlavni->setMaximumSize(QSize(16777215, 16777215));
         stackedWidget_hlavni->setStyleSheet(QString::fromUtf8("*{margin: 0 0 0 0}"));
         stackedWidget_hlavni->setLineWidth(1);
         page_3 = new QWidget();
         page_3->setObjectName(QString::fromUtf8("page_3"));
         layoutWidget = new QWidget(page_3);
         layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
-        layoutWidget->setGeometry(QRect(0, 0, 782, 669));
+        layoutWidget->setGeometry(QRect(0, 0, 782, 459));
         horizontalLayout_9 = new QHBoxLayout(layoutWidget);
         horizontalLayout_9->setSpacing(0);
         horizontalLayout_9->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_9->setObjectName(QString::fromUtf8("horizontalLayout_9"));
-        horizontalLayout_9->setSizeConstraint(QLayout::SetMaximumSize);
+        horizontalLayout_9->setSizeConstraint(QLayout::SetMinimumSize);
         horizontalLayout_9->setContentsMargins(0, 0, 0, 0);
         bocniMenu = new QVBoxLayout();
         bocniMenu->setSpacing(6);
@@ -269,7 +278,7 @@ public:
         bocniMenu->setSizeConstraint(QLayout::SetDefaultConstraint);
         tlacitkoLinkospoj = new QPushButton(layoutWidget);
         tlacitkoLinkospoj->setObjectName(QString::fromUtf8("tlacitkoLinkospoj"));
-        tlacitkoLinkospoj->setMinimumSize(QSize(0, 60));
+        tlacitkoLinkospoj->setMinimumSize(QSize(0, 0));
         tlacitkoLinkospoj->setMaximumSize(QSize(200, 200));
         QFont font;
         font.setPointSize(15);
@@ -282,7 +291,12 @@ public:
 
         tlacitkoTurnus = new QPushButton(layoutWidget);
         tlacitkoTurnus->setObjectName(QString::fromUtf8("tlacitkoTurnus"));
-        tlacitkoTurnus->setMinimumSize(QSize(0, 30));
+        QSizePolicy sizePolicy2(QSizePolicy::Minimum, QSizePolicy::Maximum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(tlacitkoTurnus->sizePolicy().hasHeightForWidth());
+        tlacitkoTurnus->setSizePolicy(sizePolicy2);
+        tlacitkoTurnus->setMinimumSize(QSize(0, 0));
         tlacitkoTurnus->setMaximumSize(QSize(200, 200));
         tlacitkoTurnus->setFont(font);
         tlacitkoTurnus->setCheckable(true);
@@ -293,7 +307,7 @@ public:
 
         tlacitkoZpetVydej = new QPushButton(layoutWidget);
         tlacitkoZpetVydej->setObjectName(QString::fromUtf8("tlacitkoZpetVydej"));
-        tlacitkoZpetVydej->setMinimumSize(QSize(0, 60));
+        tlacitkoZpetVydej->setMinimumSize(QSize(0, 0));
         tlacitkoZpetVydej->setMaximumSize(QSize(200, 200));
         tlacitkoZpetVydej->setFont(font);
         tlacitkoZpetVydej->setCheckable(true);
@@ -303,7 +317,7 @@ public:
 
         tlacitkoTestRozhrani = new QPushButton(layoutWidget);
         tlacitkoTestRozhrani->setObjectName(QString::fromUtf8("tlacitkoTestRozhrani"));
-        tlacitkoTestRozhrani->setMinimumSize(QSize(0, 60));
+        tlacitkoTestRozhrani->setMinimumSize(QSize(0, 0));
         tlacitkoTestRozhrani->setMaximumSize(QSize(200, 200));
         tlacitkoTestRozhrani->setFont(font);
 
@@ -311,12 +325,12 @@ public:
 
         tlacitkoNastaveni = new QPushButton(layoutWidget);
         tlacitkoNastaveni->setObjectName(QString::fromUtf8("tlacitkoNastaveni"));
-        QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(tlacitkoNastaveni->sizePolicy().hasHeightForWidth());
-        tlacitkoNastaveni->setSizePolicy(sizePolicy2);
-        tlacitkoNastaveni->setMinimumSize(QSize(0, 60));
+        QSizePolicy sizePolicy3(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(tlacitkoNastaveni->sizePolicy().hasHeightForWidth());
+        tlacitkoNastaveni->setSizePolicy(sizePolicy3);
+        tlacitkoNastaveni->setMinimumSize(QSize(0, 0));
         tlacitkoNastaveni->setMaximumSize(QSize(200, 200));
         tlacitkoNastaveni->setFont(font);
         tlacitkoNastaveni->setCheckable(true);
@@ -326,7 +340,7 @@ public:
 
         tlacitkoManual = new QPushButton(layoutWidget);
         tlacitkoManual->setObjectName(QString::fromUtf8("tlacitkoManual"));
-        tlacitkoManual->setMinimumSize(QSize(0, 60));
+        tlacitkoManual->setMinimumSize(QSize(0, 0));
         tlacitkoManual->setMaximumSize(QSize(200, 200));
         tlacitkoManual->setFont(font);
         tlacitkoManual->setCheckable(true);
@@ -336,7 +350,7 @@ public:
 
         tlacitkoFullscreen = new QPushButton(layoutWidget);
         tlacitkoFullscreen->setObjectName(QString::fromUtf8("tlacitkoFullscreen"));
-        tlacitkoFullscreen->setMinimumSize(QSize(0, 80));
+        tlacitkoFullscreen->setMinimumSize(QSize(0, 0));
         tlacitkoFullscreen->setMaximumSize(QSize(200, 200));
         tlacitkoFullscreen->setFont(font);
         tlacitkoFullscreen->setCheckable(true);
@@ -346,11 +360,11 @@ public:
 
         quitTlacitko = new QPushButton(layoutWidget);
         quitTlacitko->setObjectName(QString::fromUtf8("quitTlacitko"));
-        QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Minimum);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(quitTlacitko->sizePolicy().hasHeightForWidth());
-        quitTlacitko->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy4(QSizePolicy::Expanding, QSizePolicy::Minimum);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(quitTlacitko->sizePolicy().hasHeightForWidth());
+        quitTlacitko->setSizePolicy(sizePolicy4);
         quitTlacitko->setMaximumSize(QSize(200, 200));
         QPalette palette;
         quitTlacitko->setPalette(palette);
@@ -561,11 +575,11 @@ public:
         pridatTlacitko = new QPushButton(page_vydej);
         pridatTlacitko->setObjectName(QString::fromUtf8("pridatTlacitko"));
         pridatTlacitko->setEnabled(true);
-        QSizePolicy sizePolicy4(QSizePolicy::Minimum, QSizePolicy::Expanding);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(pridatTlacitko->sizePolicy().hasHeightForWidth());
-        pridatTlacitko->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy5(QSizePolicy::Minimum, QSizePolicy::Expanding);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(pridatTlacitko->sizePolicy().hasHeightForWidth());
+        pridatTlacitko->setSizePolicy(sizePolicy5);
         QFont font4;
         font4.setPointSize(14);
         pridatTlacitko->setFont(font4);
@@ -574,8 +588,8 @@ public:
 
         ubratTlacitko = new QPushButton(page_vydej);
         ubratTlacitko->setObjectName(QString::fromUtf8("ubratTlacitko"));
-        sizePolicy4.setHeightForWidth(ubratTlacitko->sizePolicy().hasHeightForWidth());
-        ubratTlacitko->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(ubratTlacitko->sizePolicy().hasHeightForWidth());
+        ubratTlacitko->setSizePolicy(sizePolicy5);
         ubratTlacitko->setFont(font4);
 
         verticalLayout->addWidget(ubratTlacitko);
@@ -625,18 +639,18 @@ public:
         verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
         sipkaNahoru = new QPushButton(page_vydej);
         sipkaNahoru->setObjectName(QString::fromUtf8("sipkaNahoru"));
-        QSizePolicy sizePolicy5(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(sipkaNahoru->sizePolicy().hasHeightForWidth());
-        sipkaNahoru->setSizePolicy(sizePolicy5);
+        QSizePolicy sizePolicy6(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(sipkaNahoru->sizePolicy().hasHeightForWidth());
+        sipkaNahoru->setSizePolicy(sizePolicy6);
 
         verticalLayout_4->addWidget(sipkaNahoru);
 
         sipkaDolu = new QPushButton(page_vydej);
         sipkaDolu->setObjectName(QString::fromUtf8("sipkaDolu"));
-        sizePolicy4.setHeightForWidth(sipkaDolu->sizePolicy().hasHeightForWidth());
-        sipkaDolu->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(sipkaDolu->sizePolicy().hasHeightForWidth());
+        sipkaDolu->setSizePolicy(sizePolicy5);
 
         verticalLayout_4->addWidget(sipkaDolu);
 
@@ -649,8 +663,8 @@ public:
         verticalLayout_5->setSizeConstraint(QLayout::SetNoConstraint);
         BeforeStop = new QPushButton(page_vydej);
         BeforeStop->setObjectName(QString::fromUtf8("BeforeStop"));
-        sizePolicy4.setHeightForWidth(BeforeStop->sizePolicy().hasHeightForWidth());
-        BeforeStop->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(BeforeStop->sizePolicy().hasHeightForWidth());
+        BeforeStop->setSizePolicy(sizePolicy5);
         BeforeStop->setFont(font2);
         BeforeStop->setCheckable(true);
         BeforeStop->setAutoExclusive(true);
@@ -659,8 +673,8 @@ public:
 
         AtStop_2 = new QPushButton(page_vydej);
         AtStop_2->setObjectName(QString::fromUtf8("AtStop_2"));
-        sizePolicy4.setHeightForWidth(AtStop_2->sizePolicy().hasHeightForWidth());
-        AtStop_2->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(AtStop_2->sizePolicy().hasHeightForWidth());
+        AtStop_2->setSizePolicy(sizePolicy5);
         AtStop_2->setFont(font2);
         AtStop_2->setCheckable(true);
         AtStop_2->setChecked(true);
@@ -670,8 +684,8 @@ public:
 
         AfterStop = new QPushButton(page_vydej);
         AfterStop->setObjectName(QString::fromUtf8("AfterStop"));
-        sizePolicy4.setHeightForWidth(AfterStop->sizePolicy().hasHeightForWidth());
-        AfterStop->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(AfterStop->sizePolicy().hasHeightForWidth());
+        AfterStop->setSizePolicy(sizePolicy5);
         AfterStop->setFont(font2);
         AfterStop->setCheckable(true);
         AfterStop->setAutoExclusive(true);
@@ -680,8 +694,8 @@ public:
 
         BetweenStop = new QPushButton(page_vydej);
         BetweenStop->setObjectName(QString::fromUtf8("BetweenStop"));
-        sizePolicy4.setHeightForWidth(BetweenStop->sizePolicy().hasHeightForWidth());
-        BetweenStop->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(BetweenStop->sizePolicy().hasHeightForWidth());
+        BetweenStop->setSizePolicy(sizePolicy5);
         QFont font5;
         font5.setPointSize(18);
         BetweenStop->setFont(font5);
@@ -692,11 +706,11 @@ public:
 
         locationStateIndicator = new QLabel(page_vydej);
         locationStateIndicator->setObjectName(QString::fromUtf8("locationStateIndicator"));
-        QSizePolicy sizePolicy6(QSizePolicy::Preferred, QSizePolicy::Expanding);
-        sizePolicy6.setHorizontalStretch(0);
-        sizePolicy6.setVerticalStretch(0);
-        sizePolicy6.setHeightForWidth(locationStateIndicator->sizePolicy().hasHeightForWidth());
-        locationStateIndicator->setSizePolicy(sizePolicy6);
+        QSizePolicy sizePolicy7(QSizePolicy::Preferred, QSizePolicy::Expanding);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(locationStateIndicator->sizePolicy().hasHeightForWidth());
+        locationStateIndicator->setSizePolicy(sizePolicy7);
 
         verticalLayout_5->addWidget(locationStateIndicator);
 
@@ -883,8 +897,8 @@ public:
 
         prikaztlacitko = new QPushButton(page_linkaspoj);
         prikaztlacitko->setObjectName(QString::fromUtf8("prikaztlacitko"));
-        sizePolicy5.setHeightForWidth(prikaztlacitko->sizePolicy().hasHeightForWidth());
-        prikaztlacitko->setSizePolicy(sizePolicy5);
+        sizePolicy6.setHeightForWidth(prikaztlacitko->sizePolicy().hasHeightForWidth());
+        prikaztlacitko->setSizePolicy(sizePolicy6);
         prikaztlacitko->setFont(font2);
 
         gridLayout_2->addWidget(prikaztlacitko, 2, 0, 1, 1);
@@ -998,8 +1012,8 @@ public:
         pripojeniTlacitko = new QPushButton(layoutWidget_2);
         pripojeniTlacitko->setObjectName(QString::fromUtf8("pripojeniTlacitko"));
         pripojeniTlacitko->setEnabled(false);
-        sizePolicy4.setHeightForWidth(pripojeniTlacitko->sizePolicy().hasHeightForWidth());
-        pripojeniTlacitko->setSizePolicy(sizePolicy4);
+        sizePolicy5.setHeightForWidth(pripojeniTlacitko->sizePolicy().hasHeightForWidth());
+        pripojeniTlacitko->setSizePolicy(sizePolicy5);
 
         verticalLayout_2->addWidget(pripojeniTlacitko);
 
@@ -1299,8 +1313,8 @@ public:
 
         prikazTlacitkoTurnus = new QPushButton(page_turnus);
         prikazTlacitkoTurnus->setObjectName(QString::fromUtf8("prikazTlacitkoTurnus"));
-        sizePolicy5.setHeightForWidth(prikazTlacitkoTurnus->sizePolicy().hasHeightForWidth());
-        prikazTlacitkoTurnus->setSizePolicy(sizePolicy5);
+        sizePolicy6.setHeightForWidth(prikazTlacitkoTurnus->sizePolicy().hasHeightForWidth());
+        prikazTlacitkoTurnus->setSizePolicy(sizePolicy6);
         prikazTlacitkoTurnus->setFont(font2);
 
         gridLayout_4->addWidget(prikazTlacitkoTurnus, 2, 0, 1, 1);
@@ -1372,30 +1386,34 @@ public:
         stackedWidget_hlavni->addWidget(page_3);
         page_4 = new QWidget();
         page_4->setObjectName(QString::fromUtf8("page_4"));
-        gridLayout_5 = new QGridLayout(page_4);
-        gridLayout_5->setSpacing(6);
-        gridLayout_5->setContentsMargins(11, 11, 11, 11);
-        gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
+        horizontalLayout_18 = new QHBoxLayout(page_4);
+        horizontalLayout_18->setSpacing(6);
+        horizontalLayout_18->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_18->setObjectName(QString::fromUtf8("horizontalLayout_18"));
         formLayout_3 = new QFormLayout();
         formLayout_3->setSpacing(6);
         formLayout_3->setObjectName(QString::fromUtf8("formLayout_3"));
         verticalLayout_21 = new QVBoxLayout();
         verticalLayout_21->setSpacing(6);
         verticalLayout_21->setObjectName(QString::fromUtf8("verticalLayout_21"));
-        tlacitkoLinkospoj_2 = new QPushButton(page_4);
-        tlacitkoLinkospoj_2->setObjectName(QString::fromUtf8("tlacitkoLinkospoj_2"));
-        tlacitkoLinkospoj_2->setMinimumSize(QSize(0, 80));
-        tlacitkoLinkospoj_2->setMaximumSize(QSize(200, 200));
-        tlacitkoLinkospoj_2->setFont(font);
-        tlacitkoLinkospoj_2->setCheckable(true);
-        tlacitkoLinkospoj_2->setChecked(true);
-        tlacitkoLinkospoj_2->setAutoExclusive(true);
+        tlacitkoSluzby = new QPushButton(page_4);
+        tlacitkoSluzby->setObjectName(QString::fromUtf8("tlacitkoSluzby"));
+        sizePolicy5.setHeightForWidth(tlacitkoSluzby->sizePolicy().hasHeightForWidth());
+        tlacitkoSluzby->setSizePolicy(sizePolicy5);
+        tlacitkoSluzby->setMinimumSize(QSize(0, 0));
+        tlacitkoSluzby->setMaximumSize(QSize(200, 200));
+        tlacitkoSluzby->setFont(font);
+        tlacitkoSluzby->setCheckable(true);
+        tlacitkoSluzby->setChecked(true);
+        tlacitkoSluzby->setAutoExclusive(true);
 
-        verticalLayout_21->addWidget(tlacitkoLinkospoj_2);
+        verticalLayout_21->addWidget(tlacitkoSluzby);
 
         tlacitkoPrubehTestu = new QPushButton(page_4);
         tlacitkoPrubehTestu->setObjectName(QString::fromUtf8("tlacitkoPrubehTestu"));
-        tlacitkoPrubehTestu->setMinimumSize(QSize(0, 80));
+        sizePolicy5.setHeightForWidth(tlacitkoPrubehTestu->sizePolicy().hasHeightForWidth());
+        tlacitkoPrubehTestu->setSizePolicy(sizePolicy5);
+        tlacitkoPrubehTestu->setMinimumSize(QSize(0, 0));
         tlacitkoPrubehTestu->setMaximumSize(QSize(200, 200));
         tlacitkoPrubehTestu->setFont(font);
         tlacitkoPrubehTestu->setCheckable(true);
@@ -1406,7 +1424,9 @@ public:
 
         tlacitkoTurnus_2 = new QPushButton(page_4);
         tlacitkoTurnus_2->setObjectName(QString::fromUtf8("tlacitkoTurnus_2"));
-        tlacitkoTurnus_2->setMinimumSize(QSize(0, 80));
+        sizePolicy5.setHeightForWidth(tlacitkoTurnus_2->sizePolicy().hasHeightForWidth());
+        tlacitkoTurnus_2->setSizePolicy(sizePolicy5);
+        tlacitkoTurnus_2->setMinimumSize(QSize(0, 0));
         tlacitkoTurnus_2->setMaximumSize(QSize(200, 200));
         tlacitkoTurnus_2->setFont(font);
         tlacitkoTurnus_2->setCheckable(true);
@@ -1417,7 +1437,9 @@ public:
 
         tlacitkoPalubniPc = new QPushButton(page_4);
         tlacitkoPalubniPc->setObjectName(QString::fromUtf8("tlacitkoPalubniPc"));
-        tlacitkoPalubniPc->setMinimumSize(QSize(0, 80));
+        sizePolicy5.setHeightForWidth(tlacitkoPalubniPc->sizePolicy().hasHeightForWidth());
+        tlacitkoPalubniPc->setSizePolicy(sizePolicy5);
+        tlacitkoPalubniPc->setMinimumSize(QSize(0, 0));
         tlacitkoPalubniPc->setMaximumSize(QSize(200, 200));
         tlacitkoPalubniPc->setFont(font);
         tlacitkoPalubniPc->setCheckable(true);
@@ -1427,7 +1449,9 @@ public:
 
         tlacitkoFullscreen2 = new QPushButton(page_4);
         tlacitkoFullscreen2->setObjectName(QString::fromUtf8("tlacitkoFullscreen2"));
-        tlacitkoFullscreen2->setMinimumSize(QSize(0, 80));
+        sizePolicy5.setHeightForWidth(tlacitkoFullscreen2->sizePolicy().hasHeightForWidth());
+        tlacitkoFullscreen2->setSizePolicy(sizePolicy5);
+        tlacitkoFullscreen2->setMinimumSize(QSize(0, 0));
         tlacitkoFullscreen2->setMaximumSize(QSize(200, 200));
         tlacitkoFullscreen2->setFont(font);
         tlacitkoFullscreen2->setCheckable(true);
@@ -1437,8 +1461,8 @@ public:
 
         quitTlacitko_2 = new QPushButton(page_4);
         quitTlacitko_2->setObjectName(QString::fromUtf8("quitTlacitko_2"));
-        sizePolicy3.setHeightForWidth(quitTlacitko_2->sizePolicy().hasHeightForWidth());
-        quitTlacitko_2->setSizePolicy(sizePolicy3);
+        sizePolicy6.setHeightForWidth(quitTlacitko_2->sizePolicy().hasHeightForWidth());
+        quitTlacitko_2->setSizePolicy(sizePolicy6);
         quitTlacitko_2->setMaximumSize(QSize(200, 200));
         QPalette palette5;
         quitTlacitko_2->setPalette(palette5);
@@ -1453,6 +1477,56 @@ public:
         stackedWidget_testy->setObjectName(QString::fromUtf8("stackedWidget_testy"));
         page_prubehTestu = new QWidget();
         page_prubehTestu->setObjectName(QString::fromUtf8("page_prubehTestu"));
+        gridLayout_5 = new QGridLayout(page_prubehTestu);
+        gridLayout_5->setSpacing(6);
+        gridLayout_5->setContentsMargins(11, 11, 11, 11);
+        gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
+        horizontalLayout_13 = new QHBoxLayout();
+        horizontalLayout_13->setSpacing(6);
+        horizontalLayout_13->setObjectName(QString::fromUtf8("horizontalLayout_13"));
+        pushButton_test1 = new QPushButton(page_prubehTestu);
+        pushButton_test1->setObjectName(QString::fromUtf8("pushButton_test1"));
+        sizePolicy4.setHeightForWidth(pushButton_test1->sizePolicy().hasHeightForWidth());
+        pushButton_test1->setSizePolicy(sizePolicy4);
+        pushButton_test1->setMinimumSize(QSize(0, 0));
+        pushButton_test1->setMaximumSize(QSize(16777215, 50));
+        pushButton_test1->setFont(font);
+
+        horizontalLayout_13->addWidget(pushButton_test1);
+
+        pushButton_test2 = new QPushButton(page_prubehTestu);
+        pushButton_test2->setObjectName(QString::fromUtf8("pushButton_test2"));
+        sizePolicy4.setHeightForWidth(pushButton_test2->sizePolicy().hasHeightForWidth());
+        pushButton_test2->setSizePolicy(sizePolicy4);
+        pushButton_test2->setMaximumSize(QSize(16777215, 50));
+        pushButton_test2->setFont(font);
+
+        horizontalLayout_13->addWidget(pushButton_test2);
+
+        pushButton_test3 = new QPushButton(page_prubehTestu);
+        pushButton_test3->setObjectName(QString::fromUtf8("pushButton_test3"));
+        sizePolicy4.setHeightForWidth(pushButton_test3->sizePolicy().hasHeightForWidth());
+        pushButton_test3->setSizePolicy(sizePolicy4);
+        pushButton_test3->setMaximumSize(QSize(16777215, 50));
+        pushButton_test3->setFont(font);
+
+        horizontalLayout_13->addWidget(pushButton_test3);
+
+        pushButton_test4 = new QPushButton(page_prubehTestu);
+        pushButton_test4->setObjectName(QString::fromUtf8("pushButton_test4"));
+        sizePolicy4.setHeightForWidth(pushButton_test4->sizePolicy().hasHeightForWidth());
+        pushButton_test4->setSizePolicy(sizePolicy4);
+        pushButton_test4->setMaximumSize(QSize(16777215, 50));
+        pushButton_test4->setFont(font);
+
+        horizontalLayout_13->addWidget(pushButton_test4);
+
+
+        gridLayout_5->addLayout(horizontalLayout_13, 0, 0, 1, 1);
+
+        horizontalLayout_15 = new QHBoxLayout();
+        horizontalLayout_15->setSpacing(6);
+        horizontalLayout_15->setObjectName(QString::fromUtf8("horizontalLayout_15"));
         tableWidgetCastiTestu = new QTableWidget(page_prubehTestu);
         if (tableWidgetCastiTestu->columnCount() < 3)
             tableWidgetCastiTestu->setColumnCount(3);
@@ -1463,19 +1537,38 @@ public:
         QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
         tableWidgetCastiTestu->setHorizontalHeaderItem(2, __qtablewidgetitem8);
         tableWidgetCastiTestu->setObjectName(QString::fromUtf8("tableWidgetCastiTestu"));
-        tableWidgetCastiTestu->setGeometry(QRect(80, 100, 541, 301));
-        TlacitkoStopTest = new QPushButton(page_prubehTestu);
-        TlacitkoStopTest->setObjectName(QString::fromUtf8("TlacitkoStopTest"));
-        TlacitkoStopTest->setGeometry(QRect(310, 30, 241, 41));
+
+        horizontalLayout_15->addWidget(tableWidgetCastiTestu);
+
+        verticalLayout_22 = new QVBoxLayout();
+        verticalLayout_22->setSpacing(6);
+        verticalLayout_22->setObjectName(QString::fromUtf8("verticalLayout_22"));
         tlacitko_StartTest = new QPushButton(page_prubehTestu);
         tlacitko_StartTest->setObjectName(QString::fromUtf8("tlacitko_StartTest"));
-        tlacitko_StartTest->setGeometry(QRect(70, 30, 161, 41));
+        sizePolicy5.setHeightForWidth(tlacitko_StartTest->sizePolicy().hasHeightForWidth());
+        tlacitko_StartTest->setSizePolicy(sizePolicy5);
+
+        verticalLayout_22->addWidget(tlacitko_StartTest);
+
+        TlacitkoStopTest = new QPushButton(page_prubehTestu);
+        TlacitkoStopTest->setObjectName(QString::fromUtf8("TlacitkoStopTest"));
+        sizePolicy5.setHeightForWidth(TlacitkoStopTest->sizePolicy().hasHeightForWidth());
+        TlacitkoStopTest->setSizePolicy(sizePolicy5);
+
+        verticalLayout_22->addWidget(TlacitkoStopTest);
+
+
+        horizontalLayout_15->addLayout(verticalLayout_22);
+
+
+        gridLayout_5->addLayout(horizontalLayout_15, 1, 0, 1, 1);
+
         stackedWidget_testy->addWidget(page_prubehTestu);
         page_prepinaceSluzby = new QWidget();
         page_prepinaceSluzby->setObjectName(QString::fromUtf8("page_prepinaceSluzby"));
         layoutWidget1 = new QWidget(page_prepinaceSluzby);
         layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
-        layoutWidget1->setGeometry(QRect(70, 200, 262, 114));
+        layoutWidget1->setGeometry(QRect(71, 128, 242, 59));
         verticalLayout_26 = new QVBoxLayout(layoutWidget1);
         verticalLayout_26->setSpacing(6);
         verticalLayout_26->setContentsMargins(11, 11, 11, 11);
@@ -1510,7 +1603,7 @@ public:
 
         layoutWidget_3 = new QWidget(page_prepinaceSluzby);
         layoutWidget_3->setObjectName(QString::fromUtf8("layoutWidget_3"));
-        layoutWidget_3->setGeometry(QRect(70, 340, 262, 114));
+        layoutWidget_3->setGeometry(QRect(71, 195, 209, 59));
         verticalLayout_27 = new QVBoxLayout(layoutWidget_3);
         verticalLayout_27->setSpacing(6);
         verticalLayout_27->setContentsMargins(11, 11, 11, 11);
@@ -1530,6 +1623,7 @@ public:
         radioButton_ON3->setMaximumSize(QSize(16777206, 16777215));
         radioButton_ON3->setFont(font);
         radioButton_ON3->setIconSize(QSize(30, 30));
+        radioButton_ON3->setAutoExclusive(true);
 
         horizontalLayout_17->addWidget(radioButton_ON3);
 
@@ -1545,7 +1639,7 @@ public:
 
         layoutWidget2 = new QWidget(page_prepinaceSluzby);
         layoutWidget2->setObjectName(QString::fromUtf8("layoutWidget2"));
-        layoutWidget2->setGeometry(QRect(70, 60, 272, 114));
+        layoutWidget2->setGeometry(QRect(71, 61, 262, 59));
         verticalLayout_24 = new QVBoxLayout(layoutWidget2);
         verticalLayout_24->setSpacing(6);
         verticalLayout_24->setContentsMargins(11, 11, 11, 11);
@@ -1583,7 +1677,7 @@ public:
         formLayout_3->setWidget(0, QFormLayout::FieldRole, stackedWidget_testy);
 
 
-        gridLayout_5->addLayout(formLayout_3, 0, 0, 1, 1);
+        horizontalLayout_18->addLayout(formLayout_3);
 
         stackedWidget_hlavni->addWidget(page_4);
 
@@ -1653,8 +1747,8 @@ public:
         QWidget::setTabOrder(prikazTlacitkoTurnus, listKmenovychLinek);
         QWidget::setTabOrder(listKmenovychLinek, listPoradi);
         QWidget::setTabOrder(listPoradi, listTurnusSpoje);
-        QWidget::setTabOrder(listTurnusSpoje, tlacitkoLinkospoj_2);
-        QWidget::setTabOrder(tlacitkoLinkospoj_2, tlacitkoTurnus_2);
+        QWidget::setTabOrder(listTurnusSpoje, tlacitkoSluzby);
+        QWidget::setTabOrder(tlacitkoSluzby, tlacitkoTurnus_2);
         QWidget::setTabOrder(tlacitkoTurnus_2, tlacitkoPalubniPc);
         QWidget::setTabOrder(tlacitkoPalubniPc, tlacitkoFullscreen2);
         QWidget::setTabOrder(tlacitkoFullscreen2, quitTlacitko_2);
@@ -1668,7 +1762,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget_hlavni->setCurrentIndex(1);
+        stackedWidget_hlavni->setCurrentIndex(0);
         prepinadloStran->setCurrentIndex(3);
         stackedWidget_testy->setCurrentIndex(0);
 
@@ -2003,21 +2097,25 @@ public:
 " linka", nullptr));
         label_20->setText(QCoreApplication::translate("MainWindow", "Po\305\231ad\303\255", nullptr));
         label_19->setText(QCoreApplication::translate("MainWindow", "Spoje", nullptr));
-        tlacitkoLinkospoj_2->setText(QCoreApplication::translate("MainWindow", "Slu\305\276by", nullptr));
+        tlacitkoSluzby->setText(QCoreApplication::translate("MainWindow", "Slu\305\276by", nullptr));
         tlacitkoPrubehTestu->setText(QCoreApplication::translate("MainWindow", "Pr\305\257beh\n"
 " testu", nullptr));
-        tlacitkoTurnus_2->setText(QCoreApplication::translate("MainWindow", "Turnus", nullptr));
+        tlacitkoTurnus_2->setText(QCoreApplication::translate("MainWindow", "xx", nullptr));
         tlacitkoPalubniPc->setText(QCoreApplication::translate("MainWindow", "PalPC", nullptr));
         tlacitkoFullscreen2->setText(QCoreApplication::translate("MainWindow", "Fullscr.", nullptr));
         quitTlacitko_2->setText(QCoreApplication::translate("MainWindow", "QUIT", nullptr));
+        pushButton_test1->setText(QCoreApplication::translate("MainWindow", "Vzorov\303\275 test", nullptr));
+        pushButton_test2->setText(QCoreApplication::translate("MainWindow", "Test odberu", nullptr));
+        pushButton_test3->setText(QCoreApplication::translate("MainWindow", "Test Bonjour", nullptr));
+        pushButton_test4->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
         QTableWidgetItem *___qtablewidgetitem6 = tableWidgetCastiTestu->horizontalHeaderItem(0);
         ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "N\303\241zev \304\215\303\241sti testu", nullptr));
         QTableWidgetItem *___qtablewidgetitem7 = tableWidgetCastiTestu->horizontalHeaderItem(1);
         ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "Pr\305\257b\304\233h", nullptr));
         QTableWidgetItem *___qtablewidgetitem8 = tableWidgetCastiTestu->horizontalHeaderItem(2);
         ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "V\303\275sledek", nullptr));
-        TlacitkoStopTest->setText(QCoreApplication::translate("MainWindow", "Zastavit test", nullptr));
         tlacitko_StartTest->setText(QCoreApplication::translate("MainWindow", "Spustit test", nullptr));
+        TlacitkoStopTest->setText(QCoreApplication::translate("MainWindow", "Zastavit test", nullptr));
         label_nazevSluzby_2->setText(QCoreApplication::translate("MainWindow", "DeviceManagementService", nullptr));
         radioButton_ON2->setText(QCoreApplication::translate("MainWindow", "ON", nullptr));
         radioButton_OFF2->setText(QCoreApplication::translate("MainWindow", "OFF", nullptr));

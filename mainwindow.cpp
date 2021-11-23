@@ -73,6 +73,12 @@ void MainWindow::vsechnyConnecty()
 
     //vypis stavu testu
     connect(&vzorovyTest,&Vdv301testy::update,this,&MainWindow::testyVykresliCasti);
+    connect(&testOdberuServer,&Vdv301testy::update,this,&MainWindow::testyVykresliCasti);
+
+    //jednotliveTesty
+    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::vypisSubscriberu,&testOdberuServer,&TestOdberuServer::aktualizaceSubscriberu);
+    connect(&testOdberuServer,&TestOdberuServer::vymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::vymazSubscribery);
+   // connect(&testOdberuServer,&TestOdberuServer::nastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::start);
 
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
     connect(&mojesql,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
@@ -91,6 +97,54 @@ void MainWindow::vsechnyConnecty()
 
     //konfigurace
     connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
+}
+
+void MainWindow::testNaplnOkno(int index)
+{
+    qDebug()<<"MainWindow::testNaplnOkno";
+    switch (index)
+    {
+    case 0:
+        vzorovyTest.emitujUpdate();
+        break;
+    case 1:
+        testOdberuServer.emitujUpdate();
+        break;
+    default:
+        break;
+    }
+}
+void MainWindow::testStart(int index)
+{
+    qDebug()<<"MainWindow::testStart";
+    switch (index)
+    {
+    case 0:
+        vzorovyTest.start();
+        break;
+    case 1:
+        testOdberuServer.start();
+        break;
+    default:
+        qDebug()<<"test s indexem "<<QString::number(index)<<" neexistuje";
+        break;
+    }
+}
+void MainWindow::testStop(int index)
+{
+    qDebug()<<"MainWindow::testStop";
+    switch (index)
+    {
+    case 0:
+        vzorovyTest.stop();
+        break;
+    case 1:
+        testOdberuServer.stop();
+        break;
+    default:
+        qDebug()<<"test s indexem "<<QString::number(index)<<" neexistuje";
+        break;
+    }
 }
 
 void MainWindow::nastartujVsechnySluzby()
@@ -1091,18 +1145,53 @@ void MainWindow::testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek)
 
 void MainWindow::on_tlacitkoPrubehTestu_clicked()
 {
-ui->stackedWidget_testy->setCurrentIndex(0);
+    ui->stackedWidget_testy->setCurrentIndex(0);
 }
 
 
 void MainWindow::on_tlacitko_StartTest_clicked()
 {
-   vzorovyTest.start();
+    testStart(testIndex);
+    //vzorovyTest.start();
 }
 
 
 void MainWindow::on_TlacitkoStopTest_clicked()
 {
     vzorovyTest.stop();
+}
+
+
+
+
+//tlacitka pro spusteni testu
+void MainWindow::on_pushButton_test1_clicked()
+{
+    testIndex=0;
+    testNaplnOkno(testIndex);
+}
+
+void MainWindow::on_pushButton_test2_clicked()
+{
+    testIndex=1;
+    testNaplnOkno(testIndex);
+}
+
+void MainWindow::on_pushButton_test3_clicked()
+{
+    testIndex=2;
+    testNaplnOkno(testIndex);
+}
+
+void MainWindow::on_pushButton_test4_clicked()
+{
+    testIndex=3;
+    testNaplnOkno(testIndex);
+}
+
+
+void MainWindow::on_tlacitkoSluzby_clicked()
+{
+    ui->stackedWidget_testy->setCurrentIndex(1);
 }
 

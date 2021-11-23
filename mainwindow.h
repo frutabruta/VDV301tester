@@ -17,6 +17,8 @@
 #include "VDV301publisher/ticketvalidationservice.h"
 
 #include "VDV301testy/vdv301testy.h"
+#include "VDV301testy/testodberuserver.h"
+#include "VDV301testy/testdemo.h"
 
 #include "sqlpraceropid.h"
 #include "xmlmpvparser.h"
@@ -25,6 +27,7 @@
 #include "hlasic.h"
 #include "konfigurace.h"
 #include "logfile.h"
+
 
 
 namespace Ui {
@@ -41,7 +44,6 @@ public:
 
     //konstanty
     QString umisteniProgramu=QCoreApplication::applicationDirPath();
-
 
     //datove struktury
     CestaUdaje stavSystemu;
@@ -62,7 +64,9 @@ public:
     Logfile logfile;
 
     //VDV301testy
-    Vdv301testy vzorovyTest;
+    TestDemo vzorovyTest;
+    TestOdberuServer testOdberuServer;
+    int testIndex=0;
 
     QFile log;
 
@@ -71,6 +75,7 @@ public:
     int priPrijezdu();
     int priOdjezdu();
     void vsechnyConnecty();
+    void testNaplnOkno(int index);
 
     //IBIS-IP lsuzby
     HttpSluzba deviceManagementService1_0;
@@ -86,6 +91,8 @@ public:
     void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
     void NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek);
 
+    void testStart(int index);
+    void testStop(int index);
 private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);
@@ -114,14 +121,14 @@ private slots:
     void on_pripojeniTlacitko_clicked();
     void on_pridatTlacitko_clicked();
     void on_quitTlacitko_clicked();
-    //void on_prijezd_clicked();
+
     void on_BeforeStop_clicked();
     void on_AtStop_2_clicked();
     void on_AfterStop_clicked();
     void on_BetweenStop_clicked();
+
     void on_tlacitkoNactiXMLropid_clicked();
     void on_tlacitkoNastaveni_clicked();
-    //void on_tlacitkoSQL_clicked();
     void on_tlacitkoTruncate_clicked();
     void on_tlacitkoOdesliPrikaz_clicked();
     void on_tlacitkoNastavPort_clicked();
@@ -169,6 +176,11 @@ private slots:
     void on_tlacitkoPrubehTestu_clicked();
     void on_tlacitko_StartTest_clicked();
     void on_TlacitkoStopTest_clicked();
+    void on_pushButton_test1_clicked();
+    void on_pushButton_test2_clicked();
+    void on_pushButton_test3_clicked();
+    void on_pushButton_test4_clicked();
+    void on_tlacitkoSluzby_clicked();
 };
 
 #endif // MAINWINDOW_H

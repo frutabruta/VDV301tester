@@ -11,17 +11,27 @@ class Vdv301testy : public QObject
     Q_OBJECT
 public:
     Vdv301testy();
-    QTimer *timer = new QTimer(this);
+   // QTimer *timer = new QTimer(this);
 
     int indexTestu=0;
-
-    void pridejPolozkuTestu(QString jmeno, QString prubeh, QString vysledek);
+    bool testBezi=false;
     QVector<PolozkaTestu> seznamPolozek;
-    void start();
-    void stop();
+
+    //void start();
+    //void stop();
+    void pridejPolozkuTestu(QString jmeno, QString prubeh, QString vysledek);
     void vymazStavy(QVector<PolozkaTestu> &seznamPolozek2);
+    void emitujUpdate();
+
+    QString vysledekOK="OK";
+    QString vysledekFail="fail";
+    //void prubehTestu();
+
+
+    //void inicializujPolozky();
 public slots:
-    void slotCasovacVyprsel();
+   // void slotCasovacVyprsel();
+
 signals:
     void update(QVector<PolozkaTestu> &seznamPolozek);
 

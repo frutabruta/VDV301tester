@@ -69,24 +69,23 @@ void XmlRopidParser::otevriSoubor()
         emit odesliChybovouHlasku("dokoncen import Dd");
         //vlozTv(koren);
         vlozTv2(koren);
-        emit odesliChybovouHlasku("dokoncen import Tv2");
+
         vlozM(koren);
-        emit odesliChybovouHlasku("dokoncen import M");
+
         vlozD(koren);
-        emit odesliChybovouHlasku("dokoncen import D");
+
         vlozP(koren);
-        emit odesliChybovouHlasku("dokoncen import P");
+
         vlozZ(koren);
-        emit odesliChybovouHlasku("dokoncen import Z");
+
         vlozL(koren);
-        emit odesliChybovouHlasku("dokoncen import L");
+
         vlozS(koren);
-        emit odesliChybovouHlasku("dokoncen import S");
+
         vlozT(koren);
-        emit odesliChybovouHlasku("dokoncen import T");
         vlozO(koren);
-        emit odesliChybovouHlasku("dokoncen import O");
-        emit odesliChybovouHlasku("Import hotov!");
+
+        //emit odesliChybovouHlasku("Import hotov!");
 
         if(!ropidSQL.mojeDatabaze.commit())
         {
@@ -191,6 +190,7 @@ int XmlRopidParser::vlozTv2(QDomElement koren)
         qDebug()<<"TV2 "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
+    emit odesliChybovouHlasku("dokoncen import Tv2");
     return 1;
 }
 
@@ -216,6 +216,7 @@ int XmlRopidParser::vlozO(QDomElement koren)
         qDebug()<<"O "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
+    emit odesliChybovouHlasku("dokoncen import O");
     return 1;
 }
 
@@ -375,6 +376,7 @@ int XmlRopidParser::vlozL(QDomElement koren)
         qDebug()<<"l2 "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
+    emit odesliChybovouHlasku("dokoncen import L");
     qDebug()<<"konecImportuL";
     return 1;
 }
@@ -406,6 +408,7 @@ int XmlRopidParser::vlozD(QDomElement koren)
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
     qDebug()<<"konecImportuD";
+    emit odesliChybovouHlasku("dokoncen import D");
     return 1;
 }
 
@@ -433,6 +436,7 @@ int XmlRopidParser::vlozP(QDomElement koren)
         qDebug()<<"p2 "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
+    emit odesliChybovouHlasku("dokoncen import P");
     qDebug()<<"konecImportuP";
     return 1;
 }
@@ -455,6 +459,7 @@ int XmlRopidParser::vlozM(QDomElement koren)
         qDebug()<<"m2 "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
+    emit odesliChybovouHlasku("dokoncen import M");
     qDebug()<<"konecImportuM";
     return 1;
 }
@@ -503,6 +508,7 @@ int XmlRopidParser::vlozZ(QDomElement koren)
         qDebug()<<"z2 "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
+    emit odesliChybovouHlasku("dokoncen import Z");
     qDebug()<<"konecImportuZ";
     return 1;
 }
@@ -548,6 +554,7 @@ int XmlRopidParser::vlozS(QDomElement koren)
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
         vlozX(m.at(i).toElement());
     }
+    emit odesliChybovouHlasku("dokoncen import S");
 
     qDebug()<<"konecImportuS";
     return 1;
@@ -590,6 +597,7 @@ int XmlRopidParser::vlozT(QDomElement koren)
         // qDebug()<<"t2 "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
+    emit odesliChybovouHlasku("dokoncen import T");
     qDebug()<<"konecImportuT";
 
     return 1;

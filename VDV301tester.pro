@@ -51,6 +51,9 @@ SOURCES += \
     VDV301struktury/zastavka.cpp \
     VDV301struktury/zastavkacil.cpp \
     VDV301testy/polozkatestu.cpp \
+    VDV301testy/testdemo.cpp \
+    VDV301testy/testdetekcebonjour.cpp \
+    VDV301testy/testodberuserver.cpp \
     VDV301testy/vdv301testy.cpp \
     hlasic.cpp \
     VDV301publisher/httpsluzba.cpp \
@@ -79,6 +82,9 @@ HEADERS += \
     VDV301struktury/zastavka.h \
     VDV301struktury/zastavkacil.h \
     VDV301testy/polozkatestu.h \
+    VDV301testy/testdemo.h \
+    VDV301testy/testdetekcebonjour.h \
+    VDV301testy/testodberuserver.h \
     VDV301testy/vdv301testy.h \
     hlasic.h \
     VDV301publisher/httpsluzba.h \
