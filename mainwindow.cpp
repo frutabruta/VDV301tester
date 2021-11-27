@@ -76,8 +76,9 @@ void MainWindow::vsechnyConnecty()
     connect(&testOdberuServer,&Vdv301testy::update,this,&MainWindow::testyVykresliCasti);
 
     //jednotliveTesty
-    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::vypisSubscriberu,&testOdberuServer,&TestOdberuServer::aktualizaceSubscriberu);
+    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::vypisSubscriberu,&testOdberuServer,&TestOdberuServer::slotAktualizaceSubscriberu);
     connect(&testOdberuServer,&TestOdberuServer::vymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::vymazSubscribery);
+    connect(&testOdberuServer,&TestOdberuServer::nastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::start);
    // connect(&testOdberuServer,&TestOdberuServer::nastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::start);
 
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
@@ -237,7 +238,7 @@ int MainWindow::on_prikaztlacitko_clicked()
 
 int MainWindow::on_prikazTlacitkoTurnus_clicked()
 {
-    qDebug()<<"MainWindow::on_prikaztTurnuslacitko_clicked";
+    qDebug()<<"MainWindow::on_prikazTurnuslacitko_clicked";
     stavSystemu.doorState="AllDoorsClosed";
     stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text().toInt();
 
@@ -245,7 +246,26 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
     QString textDoPole="";
     int vysledek=0;
     Spoj iterSpoj;
-    stavSystemu.indexTripu=ui->listTurnusSpoje->currentRow();
+
+    if(ui->listTurnusSpoje->count()==0)
+    {
+       qDebug()<<"neni zvoleny spoj";
+       this->vypisDiagnostika("není zvoleno pořadí");
+       return 0;
+    }
+    else
+    {
+        //if(ui->listTurnusSpoje)
+
+       stavSystemu.indexTripu=ui->listTurnusSpoje->currentRow();
+       qDebug()<<"zjisteni zvolene pozice v seznamu"<<stavSystemu.indexTripu;
+       if (stavSystemu.indexTripu<0)
+       {
+           this->vypisDiagnostika("není zvolený spoj");
+           return 0;
+       }
+    }
+
     vysledek=mojesql.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu,platnostSpoje);
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
@@ -413,10 +433,12 @@ void MainWindow::NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek)
 void MainWindow::NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
 {
     qDebug()<<"MainWindow::NaplnVyberSpoje";
+    ui->listSpoje->clear();
+    /*
     if (ui->listSpoje->count()!=0)
     {
         ui->listSpoje->clear();
-    }
+    }*/
     qDebug()<<"MainWindow::NaplnVyberSpoje_dp1";
     for (int i = 0; i < docasnySeznamSpoju.length(); ++i)
     {
@@ -667,6 +689,7 @@ void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QList
     stavSystemu.aktlinka.c=ui->listLinek->currentItem()->data(Qt::UserRole).toString().toInt();
     qDebug()<<"tady budu vypisovat vybrane spoje";
     qDebug()<<"raw "<<ui->listLinek->currentItem()->data(Qt::UserRole)<<" int "<<ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
+    ui->listSpoje->clear();
     if (mojesql.VytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka)==1)
     {
         NaplnVyberSpoje(seznamSpoju);

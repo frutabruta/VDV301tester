@@ -13,12 +13,17 @@ public:
     void inicializujPolozky();
     void stop();
     void start();
+
 public slots:
     void vysledekOdberu(bool vysledek, QString poznamka);
-    void aktualizaceSubscriberu(QVector<Subscriber> seznamSubscriberuInt);
+    void slotAktualizaceSubscriberu(QVector<Subscriber> seznamSubscriberuInt);
+    void slotTimeoutFazeVyprsel();
+    void slotOdpovedNaData(QString status);
 signals:
     void nastartujSluzbu(bool parametr);
     void vymazSeznamOdberatelu();
+    void zastavCisTimer();
+    void odesliDataDoPanelu();
 
 };
 

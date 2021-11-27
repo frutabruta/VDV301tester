@@ -13,7 +13,7 @@ TestDemo::TestDemo()
 
 void TestDemo::start()
 {
-    qDebug()<<"Vdv301testy::start";
+    qDebug()<<"TestDemo::start";
     testBezi=true;
     indexTestu=0;
     inicializujPolozky();
@@ -26,25 +26,30 @@ void TestDemo::start()
 
 void TestDemo::stop()
 {
-    qDebug()<<"Vdv301testy::stop";
+    qDebug()<<"TestDemo::stop";
     timer->stop();
     testBezi=false;
+    seznamPolozek[indexTestu].prubehPrerusen();
+    emit update(seznamPolozek);
 }
 
 
 void TestDemo::inicializujPolozky()
 {
+    qDebug()<<"TestDemo::inicializujPolozky";
     seznamPolozek.clear();
-    pridejPolozkuTestu("zacatek","probiha","");
-    pridejPolozkuTestu("stred","","");
-    pridejPolozkuTestu("stred2","","");
-    pridejPolozkuTestu("konec","","");
+    pridejPolozkuTestu("Fáze 1","","",-1);
+    pridejPolozkuTestu("Fáze 2","","",-1);
+    pridejPolozkuTestu("Fáze 3","","",-1);
+    pridejPolozkuTestu("Fáze 4","","",-1);
 }
 
 
 void TestDemo::prubehTestu()
 {
-    qDebug()<<"Vdv301testy::prubehTestu()";
+    qDebug()<<"TestDemo::prubehTestu";
+    seznamPolozek[indexTestu].prubehBezi();
+    emit update(seznamPolozek);
 timer->start(4000);
 }
 
@@ -53,14 +58,29 @@ timer->start(4000);
 
 void TestDemo::slotCasovacVyprsel()
 {
-    qDebug()<<"Vdv301testy::slotCasovacVyprsel";
+
+    qDebug()<<"TestDemo::slotCasovacVyprsel";
     if(indexTestu<seznamPolozek.length())
     {
-        seznamPolozek[indexTestu].vysledek=vysledekOK;
+        seznamPolozek[indexTestu].vysledekOk();
+        seznamPolozek[indexTestu].prubehHotovo();
         indexTestu++;
+        qDebug()<<"A";
+        if (indexTestu<seznamPolozek.length())
+        {
+            qDebug()<<"B";
+            seznamPolozek[indexTestu].prubehBezi();
+        }
+        else
+        {
+            qDebug()<<"C";
+            emit testDokoncen(true);
+        }
+
     }
     else
     {
+        qDebug()<<"D";
         timer->stop();
     }
 

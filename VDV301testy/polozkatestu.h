@@ -10,10 +10,16 @@ public:
     QString nazev="";
     QString prubeh="";
     QString vysledek="";
+    int timeout=-1;
 
+    void prubehBezi();
+    void prubehHotovo();
 
-    void stavOk();
-    void stavChyba(QString textChyby);
+    void vysledekOk();
+    void vysledekChyba();
+    void vysledekChyba(QString textChyby);
+    void prubehPrerusen();
+    void prubehTimeout();
 };
 
 #endif // POLOZKATESTU_H

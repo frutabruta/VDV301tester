@@ -693,7 +693,9 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka do
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
     queryString2+=("WHERE l.c=");
     queryString2+=( QString::number(docasnaLinka.c));
-    queryString2+=(" AND  s.c !=1000 ");
+    //queryString2+=(" AND  s.c !=1000 "); //vlastnosti neveřejných spojů: číslo x000,  man="true" a ty="10"
+    queryString2+=(" AND  s.man !=1 ");
+
     queryString2+=(" AND  s.kj LIKE '");
     queryString2+=QString::number(platnost);
     queryString2+=("%' ");
@@ -749,11 +751,13 @@ int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh)
     bool platnost = true;
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.aois FROM sp_po ");
+
     queryString2+=("LEFT JOIN s ON sp_po.s=s.s ");
     queryString2+=("LEFT JOIN l ON sp_po.l=l.c ");
     queryString2+=("WHERE sp_po.l=");
     queryString2+=( QString::number(docasnyObeh.kmenovaLinka.c));
     //queryString2+=(" AND  s.c !=1000 ");
+    queryString2+=(" AND  s.man !=1 ");
     queryString2+=(" AND  sp_po.p=");
     queryString2+=( QString::number(docasnyObeh.p));
     queryString2+=(" AND  sp_po.kj LIKE '");
@@ -863,6 +867,7 @@ QString SqlPraceRopid::vytvorCasHodinyMinuty(QString vstup)
 {
     qDebug()<<"SqlPraceRopid::vytvorCas";
     int cislo=vstup.toInt();
+    cislo=cislo%86400; //oprava pro spoje jedoucí přes půlnoc
     int hodiny=cislo/3600;
     int minuty=(cislo%3600)/60;
     vstup="";
