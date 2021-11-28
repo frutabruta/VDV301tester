@@ -565,6 +565,7 @@ void MainWindow::on_quitTlacitko_clicked()
 {
     qDebug()<<"\n on_quitTlacitko_clicked \n";
     MainWindow::close();
+    QApplication::quit();
 }
 
 
@@ -1064,7 +1065,7 @@ void MainWindow::on_tlacitkoTurnus_clicked()
 void MainWindow::on_quitTlacitko_2_clicked()
 {
     qDebug()<<"\n on_quitTlacitko_2_clicked \n";
-    MainWindow::close();
+    this->on_quitTlacitko_clicked();
 }
 
 
