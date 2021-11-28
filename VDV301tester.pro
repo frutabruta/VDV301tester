@@ -14,7 +14,7 @@ QT+= httpserver
 
 DEFINES+= QZEROCONF_STATIC
 
-include(QtZeroConf/qtzeroconf.pri)
+include(qtzeroconf/qtzeroconf.pri)
 
 
 
