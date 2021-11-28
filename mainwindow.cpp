@@ -565,7 +565,8 @@ void MainWindow::on_quitTlacitko_clicked()
 {
     qDebug()<<"\n on_quitTlacitko_clicked \n";
     MainWindow::close();
-    QApplication::quit();
+    QApplication::exit(1);
+
 }
 
 
