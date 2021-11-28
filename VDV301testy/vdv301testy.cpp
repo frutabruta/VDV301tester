@@ -6,7 +6,7 @@ Vdv301testy::Vdv301testy()
   //  connect(timer, &QTimer::timeout, this, &Vdv301testy::slotCasovacVyprsel);
 
    // inicializujPolozky();
-
+     connect(timerTimeoutFaze, &QTimer::timeout, this, &Vdv301testy::slotTimeoutFazeVyprsel);
 }
 
 
@@ -65,4 +65,23 @@ void Vdv301testy::polozkaHotovo(int index, QVector<PolozkaTestu> &seznamPolozek)
 void Vdv301testy::start()
 {
 qDebug()<<"Vdv301testy::start()";
+}
+
+void Vdv301testy::stop()
+{
+    qDebug()<<"Vdv301testy::stop";
+    timerTimeoutFaze->stop();
+    testBezi=false;
+    seznamPolozek[indexFaze].prubehPrerusen();
+    emit update(seznamPolozek);
+}
+
+void Vdv301testy::slotTimeoutFazeVyprsel()
+{
+    qDebug()<<"TestOdberuServer::timeoutFazeVyprsel()"<<" nastaven na"<<timerTimeoutFaze->interval();
+    seznamPolozek[indexFaze].prubehTimeout();
+    seznamPolozek[indexFaze].vysledekChyba();
+    emit update(seznamPolozek);
+
+    this->stop();
 }

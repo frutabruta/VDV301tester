@@ -14,16 +14,7 @@
 class xmlGenerator : public QMainWindow
 {
     Q_OBJECT
-    QDomElement StopSequence1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<prestupMPV> prestupy, CestaUdaje stav);
-    QDomElement ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
-    QDomElement TimeStampTag1_0(QDomDocument xmlko);
-    QDomElement additionalTextMessage1_0(QString obsahZpravy);
-    QDomElement AllData_empty_1_0();
-    QString AllDataEmpty2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy);
-    QDomElement rawInsert(QString vstup);
-    QDomElement additionalTextMessage2_2CZ1_0(QString obsahZpravy);
-    QString defaultniJazyk1_0="de";
-    QString defaultniJazyk2_2CZ1_0="cz";
+
 public:
     explicit xmlGenerator(QWidget *parent = nullptr);
 
@@ -58,6 +49,18 @@ public:
     QString TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, Linka docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy);
     QString AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<prestupMPV> prestupy, CestaUdaje stav);
     QDomElement TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamTripu, QVector<prestupMPV> prestupy, CestaUdaje stav, int indexSpoje, bool navazny);
+    QString AllData_empty_1_0();
+
+    QString AllDataEmpty2_2CZ1_0();
+private:
+    QDomElement StopSequence1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<prestupMPV> prestupy, CestaUdaje stav);
+    QDomElement ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
+    QDomElement TimeStampTag1_0(QDomDocument xmlko);
+    QDomElement additionalTextMessage1_0(QString obsahZpravy);
+   QDomElement rawInsert(QString vstup);
+    QDomElement additionalTextMessage2_2CZ1_0(QString obsahZpravy);
+    QString defaultniJazyk1_0="de";
+    QString defaultniJazyk2_2CZ1_0="cz";
 signals:
 
 public slots:

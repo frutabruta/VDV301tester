@@ -93,6 +93,7 @@ public:
 
     void testStart(int index);
     void testStop(int index);
+
 private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);
@@ -152,6 +153,16 @@ private slots:
     void on_tlacitkoFullscreen2_clicked();
     void on_tlacitkoTurnus_clicked();
 
+    //tlacitkaTestu
+    void on_tlacitkoPrubehTestu_clicked();
+    void on_tlacitko_StartTest_clicked();
+    void on_TlacitkoStopTest_clicked();
+    void on_pushButton_test1_clicked();
+    void on_pushButton_test2_clicked();
+    void on_pushButton_test3_clicked();
+    void on_pushButton_test4_clicked();
+    void on_tlacitkoSluzby_clicked();
+
     //checkbox
     void on_prestupyCheckbox_stateChanged(int arg1);
     void on_checkBox_stateChanged(int arg1);
@@ -160,6 +171,7 @@ private slots:
     void radio1(bool stav);
     void radio2(bool stav);
     void radio3(bool stav);
+     void radio4(bool stav);
 
     //zmeny seznamu
     void on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
@@ -173,14 +185,7 @@ private slots:
     void vypisDiagnostika(QString vstup);
 
 
-    void on_tlacitkoPrubehTestu_clicked();
-    void on_tlacitko_StartTest_clicked();
-    void on_TlacitkoStopTest_clicked();
-    void on_pushButton_test1_clicked();
-    void on_pushButton_test2_clicked();
-    void on_pushButton_test3_clicked();
-    void on_pushButton_test4_clicked();
-    void on_tlacitkoSluzby_clicked();
+
 };
 
 #endif // MAINWINDOW_H

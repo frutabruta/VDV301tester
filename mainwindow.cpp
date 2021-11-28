@@ -65,8 +65,8 @@ MainWindow::~MainWindow()
 void MainWindow::vsechnyConnecty()
 {
     //vypisy subscriberu
-    connect(&customerInformationService1_0,&HttpSluzba::vypisSubscriberu,this,&MainWindow::vypisSubscribery);
-    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::vypisSubscriberu,this,&MainWindow::vypisSubscribery2);
+    connect(&customerInformationService1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery);
+    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery2);
     this->vypisSubscribery(customerInformationService1_0.seznamSubscriberu);
     this->vypisSubscribery2(customerInformationService2_2CZ1_0.seznamSubscriberu);
     connect(&xmlMpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
@@ -76,10 +76,32 @@ void MainWindow::vsechnyConnecty()
     connect(&testOdberuServer,&Vdv301testy::update,this,&MainWindow::testyVykresliCasti);
 
     //jednotliveTesty
-    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::vypisSubscriberu,&testOdberuServer,&TestOdberuServer::slotAktualizaceSubscriberu);
-    connect(&testOdberuServer,&TestOdberuServer::vymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::vymazSubscribery);
-    connect(&testOdberuServer,&TestOdberuServer::nastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::start);
-   // connect(&testOdberuServer,&TestOdberuServer::nastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::start);
+    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalVypisSubscriberu,&testOdberuServer,&TestOdberuServer::slotAktualizaceSubscriberu);
+    connect(&testOdberuServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotVymazSubscribery);
+    connect(&testOdberuServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStart);
+    connect(&testOdberuServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotZastavCasovac);
+    connect(&testOdberuServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotTedOdesliNaPanely);
+
+    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalVypisSubscriberu,&testOdberuServer,&TestOdberuServer::slotAktualizaceSubscriberu);
+    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalOdpovedNaPost,&testOdberuServer,&TestOdberuServer::slotVypisOdpovedServeru);
+
+    //vypinani sluzeb pomoci prepinacu
+    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::slotStart);
+    connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::slotStop);
+
+    connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpSluzba::slotStart);
+    connect(ui->radioButton_OFF2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpSluzba::slotStop);
+
+    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpSluzba::slotStart);
+    connect(ui->radioButton_OFF3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpSluzba::slotStop);
+
+    connect(ui->radioButton_ON4,&QRadioButton::clicked,&customerInformationService1_0,&HttpSluzba::slotStart);
+    connect(ui->radioButton_OFF4,&QRadioButton::clicked,&customerInformationService1_0,&HttpSluzba::slotStop);
+
+
+
+    // connect(&testOdberuServer,&TestOdberuServer::nastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::start);
+
 
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
     connect(&mojesql,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
@@ -88,13 +110,10 @@ void MainWindow::vsechnyConnecty()
 
 
     //prepinani stavu radio prepinacu podle stavu sluzeb
-    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::stavSignal,this,&MainWindow::radio1);
-    connect(&deviceManagementService1_0,&HttpSluzba::stavSignal,this,&MainWindow::radio2);
-    connect(&ticketValidationService2_3CZ1_0,&HttpSluzba::stavSignal,this,&MainWindow::radio3);
-
-    //vypinani sluzeb pomoci prepinacu
-    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::start);
-    connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::stop);
+    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalStav,this,&MainWindow::radio1);
+    connect(&deviceManagementService1_0,&HttpSluzba::signalStav,this,&MainWindow::radio2);
+    connect(&ticketValidationService2_3CZ1_0,&HttpSluzba::signalStav,this,&MainWindow::radio3);
+    connect(&customerInformationService1_0,&HttpSluzba::signalStav,this,&MainWindow::radio4);
 
     //konfigurace
     connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
@@ -150,10 +169,10 @@ void MainWindow::testStop(int index)
 
 void MainWindow::nastartujVsechnySluzby()
 {
-    deviceManagementService1_0.start(true);
-    customerInformationService1_0.start(true);
-    customerInformationService2_2CZ1_0.start(true);
-    ticketValidationService2_3CZ1_0.start(true);
+    deviceManagementService1_0.slotStart(true);
+    customerInformationService1_0.slotStart(true);
+    customerInformationService2_2CZ1_0.slotStart(true);
+    ticketValidationService2_3CZ1_0.slotStart(true);
 }
 void MainWindow::xmlHromadnyUpdate()
 {
@@ -249,21 +268,21 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
 
     if(ui->listTurnusSpoje->count()==0)
     {
-       qDebug()<<"neni zvoleny spoj";
-       this->vypisDiagnostika("není zvoleno pořadí");
-       return 0;
+        qDebug()<<"neni zvoleny spoj";
+        this->vypisDiagnostika("není zvoleno pořadí");
+        return 0;
     }
     else
     {
         //if(ui->listTurnusSpoje)
 
-       stavSystemu.indexTripu=ui->listTurnusSpoje->currentRow();
-       qDebug()<<"zjisteni zvolene pozice v seznamu"<<stavSystemu.indexTripu;
-       if (stavSystemu.indexTripu<0)
-       {
-           this->vypisDiagnostika("není zvolený spoj");
-           return 0;
-       }
+        stavSystemu.indexTripu=ui->listTurnusSpoje->currentRow();
+        qDebug()<<"zjisteni zvolene pozice v seznamu"<<stavSystemu.indexTripu;
+        if (stavSystemu.indexTripu<0)
+        {
+            this->vypisDiagnostika("není zvolený spoj");
+            return 0;
+        }
     }
 
     vysledek=mojesql.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu,platnostSpoje);
@@ -1084,14 +1103,14 @@ void MainWindow::on_tlacitkoFullscreen2_clicked()
     this->toggleFullscreen();
 }
 
-//CIS
+//CIS 2.2CZ1.0
 void MainWindow::radio1(bool stav)
 {
     ui->radioButton_ON1->setChecked(stav);
     ui->radioButton_OFF1->setChecked(!stav);
 }
 
-//DEVMGMT
+//DEVMGMT 1:0
 void MainWindow::radio2(bool stav)
 {
     ui->radioButton_ON2->setChecked(stav);
@@ -1099,12 +1118,20 @@ void MainWindow::radio2(bool stav)
 }
 
 
-//TicketValidationService
+//TicketValidationService 2.2CZ1.0
 void MainWindow::radio3(bool stav)
 {
     ui->radioButton_ON3->setChecked(stav);
     ui->radioButton_OFF3->setChecked(!stav);
 }
+
+//CIS 1.0
+void MainWindow::radio4(bool stav)
+{
+    ui->radioButton_ON4->setChecked(stav);
+    ui->radioButton_OFF4->setChecked(!stav);
+}
+
 
 
 void MainWindow::toggleFullscreen()

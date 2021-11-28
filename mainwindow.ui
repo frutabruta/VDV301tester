@@ -69,7 +69,7 @@
        <number>1</number>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="page_3">
        <widget class="QWidget" name="layoutWidget">
@@ -3443,7 +3443,7 @@ Stop</string>
           <item row="0" column="1">
            <widget class="QStackedWidget" name="stackedWidget_testy">
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page_prubehTestu">
              <layout class="QGridLayout" name="gridLayout_5">
@@ -3614,7 +3614,7 @@ Stop</string>
                <rect>
                 <x>71</x>
                 <y>128</y>
-                <width>242</width>
+                <width>276</width>
                 <height>59</height>
                </rect>
               </property>
@@ -3627,7 +3627,7 @@ Stop</string>
                   </font>
                  </property>
                  <property name="text">
-                  <string>DeviceManagementService</string>
+                  <string>DeviceManagementService 1.0</string>
                  </property>
                 </widget>
                </item>
@@ -3684,7 +3684,7 @@ Stop</string>
                <rect>
                 <x>71</x>
                 <y>195</y>
-                <width>209</width>
+                <width>294</width>
                 <height>59</height>
                </rect>
               </property>
@@ -3697,7 +3697,7 @@ Stop</string>
                   </font>
                  </property>
                  <property name="text">
-                  <string>TicketValidationService</string>
+                  <string>TicketValidationService 2.2CZ1.0</string>
                  </property>
                 </widget>
                </item>
@@ -3757,7 +3757,7 @@ Stop</string>
                <rect>
                 <x>71</x>
                 <y>61</y>
-                <width>262</width>
+                <width>347</width>
                 <height>59</height>
                </rect>
               </property>
@@ -3770,7 +3770,7 @@ Stop</string>
                   </font>
                  </property>
                  <property name="text">
-                  <string>Customer Informaton Service</string>
+                  <string>Customer Informaton Service 2.2CZ1.0</string>
                  </property>
                 </widget>
                </item>
@@ -3802,6 +3802,76 @@ Stop</string>
                  </item>
                  <item>
                   <widget class="QRadioButton" name="radioButton_OFF1">
+                   <property name="font">
+                    <font>
+                     <pointsize>15</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>OFF</string>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>90</width>
+                     <height>90</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="layoutWidget_4">
+              <property name="geometry">
+               <rect>
+                <x>70</x>
+                <y>270</y>
+                <width>296</width>
+                <height>59</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_25">
+               <item>
+                <widget class="QLabel" name="label_nazevSluzby_4">
+                 <property name="font">
+                  <font>
+                   <pointsize>15</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Customer Informaton Service 1.0</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_19">
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_ON4">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777206</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>15</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>ON</string>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="radioButton_OFF4">
                    <property name="font">
                     <font>
                      <pointsize>15</pointsize>

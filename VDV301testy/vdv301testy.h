@@ -12,7 +12,7 @@ class Vdv301testy : public QObject
 public:
     Vdv301testy();
 
-    int indexTestu=0;
+    int indexFaze=0;
     bool testBezi=false;
     QVector<PolozkaTestu> seznamPolozek;
 
@@ -30,9 +30,11 @@ public:
     //jenTest
     virtual void start();
 
+    void stop();
 public slots:
    // void slotCasovacVyprsel();
 
+    void slotTimeoutFazeVyprsel();
 signals:
     void update(QVector<PolozkaTestu> &seznamPolozek);
     void testDokoncen(bool vysledek);

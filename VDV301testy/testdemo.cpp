@@ -15,7 +15,7 @@ void TestDemo::start()
 {
     qDebug()<<"TestDemo::start";
     testBezi=true;
-    indexTestu=0;
+    indexFaze=0;
     inicializujPolozky();
     //vymazStavy(seznamPolozek);
     emit update(seznamPolozek);
@@ -24,12 +24,13 @@ void TestDemo::start()
 
 }
 
+
 void TestDemo::stop()
 {
     qDebug()<<"TestDemo::stop";
     timer->stop();
     testBezi=false;
-    seznamPolozek[indexTestu].prubehPrerusen();
+    seznamPolozek[indexFaze].prubehPrerusen();
     emit update(seznamPolozek);
 }
 
@@ -48,7 +49,7 @@ void TestDemo::inicializujPolozky()
 void TestDemo::prubehTestu()
 {
     qDebug()<<"TestDemo::prubehTestu";
-    seznamPolozek[indexTestu].prubehBezi();
+    seznamPolozek[indexFaze].prubehBezi();
     emit update(seznamPolozek);
 timer->start(4000);
 }
@@ -60,16 +61,16 @@ void TestDemo::slotCasovacVyprsel()
 {
 
     qDebug()<<"TestDemo::slotCasovacVyprsel";
-    if(indexTestu<seznamPolozek.length())
+    if(indexFaze<seznamPolozek.length())
     {
-        seznamPolozek[indexTestu].vysledekOk();
-        seznamPolozek[indexTestu].prubehHotovo();
-        indexTestu++;
+        seznamPolozek[indexFaze].vysledekOk();
+        seznamPolozek[indexFaze].prubehHotovo();
+        indexFaze++;
         qDebug()<<"A";
-        if (indexTestu<seznamPolozek.length())
+        if (indexFaze<seznamPolozek.length())
         {
             qDebug()<<"B";
-            seznamPolozek[indexTestu].prubehBezi();
+            seznamPolozek[indexFaze].prubehBezi();
         }
         else
         {

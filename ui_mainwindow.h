@@ -225,6 +225,12 @@ public:
     QHBoxLayout *horizontalLayout_14;
     QRadioButton *radioButton_ON1;
     QRadioButton *radioButton_OFF1;
+    QWidget *layoutWidget_4;
+    QVBoxLayout *verticalLayout_25;
+    QLabel *label_nazevSluzby_4;
+    QHBoxLayout *horizontalLayout_19;
+    QRadioButton *radioButton_ON4;
+    QRadioButton *radioButton_OFF4;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
@@ -1568,7 +1574,7 @@ public:
         page_prepinaceSluzby->setObjectName(QString::fromUtf8("page_prepinaceSluzby"));
         layoutWidget1 = new QWidget(page_prepinaceSluzby);
         layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
-        layoutWidget1->setGeometry(QRect(71, 128, 242, 59));
+        layoutWidget1->setGeometry(QRect(71, 128, 276, 59));
         verticalLayout_26 = new QVBoxLayout(layoutWidget1);
         verticalLayout_26->setSpacing(6);
         verticalLayout_26->setContentsMargins(11, 11, 11, 11);
@@ -1603,7 +1609,7 @@ public:
 
         layoutWidget_3 = new QWidget(page_prepinaceSluzby);
         layoutWidget_3->setObjectName(QString::fromUtf8("layoutWidget_3"));
-        layoutWidget_3->setGeometry(QRect(71, 195, 209, 59));
+        layoutWidget_3->setGeometry(QRect(71, 195, 294, 59));
         verticalLayout_27 = new QVBoxLayout(layoutWidget_3);
         verticalLayout_27->setSpacing(6);
         verticalLayout_27->setContentsMargins(11, 11, 11, 11);
@@ -1639,7 +1645,7 @@ public:
 
         layoutWidget2 = new QWidget(page_prepinaceSluzby);
         layoutWidget2->setObjectName(QString::fromUtf8("layoutWidget2"));
-        layoutWidget2->setGeometry(QRect(71, 61, 262, 59));
+        layoutWidget2->setGeometry(QRect(71, 61, 347, 59));
         verticalLayout_24 = new QVBoxLayout(layoutWidget2);
         verticalLayout_24->setSpacing(6);
         verticalLayout_24->setContentsMargins(11, 11, 11, 11);
@@ -1671,6 +1677,41 @@ public:
 
 
         verticalLayout_24->addLayout(horizontalLayout_14);
+
+        layoutWidget_4 = new QWidget(page_prepinaceSluzby);
+        layoutWidget_4->setObjectName(QString::fromUtf8("layoutWidget_4"));
+        layoutWidget_4->setGeometry(QRect(70, 270, 296, 59));
+        verticalLayout_25 = new QVBoxLayout(layoutWidget_4);
+        verticalLayout_25->setSpacing(6);
+        verticalLayout_25->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_25->setObjectName(QString::fromUtf8("verticalLayout_25"));
+        verticalLayout_25->setContentsMargins(0, 0, 0, 0);
+        label_nazevSluzby_4 = new QLabel(layoutWidget_4);
+        label_nazevSluzby_4->setObjectName(QString::fromUtf8("label_nazevSluzby_4"));
+        label_nazevSluzby_4->setFont(font);
+
+        verticalLayout_25->addWidget(label_nazevSluzby_4);
+
+        horizontalLayout_19 = new QHBoxLayout();
+        horizontalLayout_19->setSpacing(6);
+        horizontalLayout_19->setObjectName(QString::fromUtf8("horizontalLayout_19"));
+        radioButton_ON4 = new QRadioButton(layoutWidget_4);
+        radioButton_ON4->setObjectName(QString::fromUtf8("radioButton_ON4"));
+        radioButton_ON4->setMaximumSize(QSize(16777206, 16777215));
+        radioButton_ON4->setFont(font);
+        radioButton_ON4->setIconSize(QSize(30, 30));
+
+        horizontalLayout_19->addWidget(radioButton_ON4);
+
+        radioButton_OFF4 = new QRadioButton(layoutWidget_4);
+        radioButton_OFF4->setObjectName(QString::fromUtf8("radioButton_OFF4"));
+        radioButton_OFF4->setFont(font);
+        radioButton_OFF4->setIconSize(QSize(90, 90));
+
+        horizontalLayout_19->addWidget(radioButton_OFF4);
+
+
+        verticalLayout_25->addLayout(horizontalLayout_19);
 
         stackedWidget_testy->addWidget(page_prepinaceSluzby);
 
@@ -1762,9 +1803,9 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget_hlavni->setCurrentIndex(0);
+        stackedWidget_hlavni->setCurrentIndex(1);
         prepinadloStran->setCurrentIndex(0);
-        stackedWidget_testy->setCurrentIndex(0);
+        stackedWidget_testy->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -2116,15 +2157,18 @@ public:
         ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "V\303\275sledek", nullptr));
         tlacitko_StartTest->setText(QCoreApplication::translate("MainWindow", "Spustit test", nullptr));
         TlacitkoStopTest->setText(QCoreApplication::translate("MainWindow", "Zastavit test", nullptr));
-        label_nazevSluzby_2->setText(QCoreApplication::translate("MainWindow", "DeviceManagementService", nullptr));
+        label_nazevSluzby_2->setText(QCoreApplication::translate("MainWindow", "DeviceManagementService 1.0", nullptr));
         radioButton_ON2->setText(QCoreApplication::translate("MainWindow", "ON", nullptr));
         radioButton_OFF2->setText(QCoreApplication::translate("MainWindow", "OFF", nullptr));
-        label_nazevSluzby_3->setText(QCoreApplication::translate("MainWindow", "TicketValidationService", nullptr));
+        label_nazevSluzby_3->setText(QCoreApplication::translate("MainWindow", "TicketValidationService 2.2CZ1.0", nullptr));
         radioButton_ON3->setText(QCoreApplication::translate("MainWindow", "ON", nullptr));
         radioButton_OFF3->setText(QCoreApplication::translate("MainWindow", "OFF", nullptr));
-        label_nazevSluzby->setText(QCoreApplication::translate("MainWindow", "Customer Informaton Service", nullptr));
+        label_nazevSluzby->setText(QCoreApplication::translate("MainWindow", "Customer Informaton Service 2.2CZ1.0", nullptr));
         radioButton_ON1->setText(QCoreApplication::translate("MainWindow", "ON", nullptr));
         radioButton_OFF1->setText(QCoreApplication::translate("MainWindow", "OFF", nullptr));
+        label_nazevSluzby_4->setText(QCoreApplication::translate("MainWindow", "Customer Informaton Service 1.0", nullptr));
+        radioButton_ON4->setText(QCoreApplication::translate("MainWindow", "ON", nullptr));
+        radioButton_OFF4->setText(QCoreApplication::translate("MainWindow", "OFF", nullptr));
     } // retranslateUi
 
 };

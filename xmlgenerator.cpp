@@ -1101,7 +1101,7 @@ QDomElement xmlGenerator::additionalTextMessage2_2CZ1_0(QString obsahZpravy)
 }
 
 
-QDomElement xmlGenerator::AllData_empty_1_0()
+QString xmlGenerator::AllData_empty_1_0()
 {
     QDomDocument xmlko;
 
@@ -1110,34 +1110,26 @@ QDomElement xmlGenerator::AllData_empty_1_0()
     xmlko.setContent(obsahPrazdny);
     vysledek=xmlko.firstChildElement();
 
-    return vysledek;
+    return obsahPrazdny;
 }
 
 
-QString xmlGenerator::AllDataEmpty2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy )
+QString xmlGenerator::AllDataEmpty2_2CZ1_0( )
 {
     qDebug()<<"xmlGenerator::AllData2_2CZ1_0";
 
     //SeznamZastavek cilovaZastavka=docasnySeznamZastavek.last();
 
 
-    // Zastavka cilovaZastavka;
-    if (docasnySeznamZastavek.size()>0)
-    {
-        //cilovaZastavka=docasnySeznamZastavek.last();
-    }
-    else
-    {
-        qDebug()<<"nejsou zastavky";
-        return "prazdnyString";
-    }
+
+    int poradi=1;
 
     // QString testVysledek="<TBL cas=\"2019-08-10T23:12:41\" ver=\"1.0.7145.21217\" text=\"Ověřovací provoz. Bez záruky.\"><t id=\"62887\" stan=\"A,B,M1,M2\" zast=\"Národní třída\"><o stan=\"A\" lin=\"9\" alias=\"9\" spoj=\"77\" smer=\"Praha,Spojovací\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27891\"/><o stan=\"B\" lin=\"18\" alias=\"18\" spoj=\"15\" smer=\"Praha,Nádraží Podbaba\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"63414\"/><o stan=\"A\" lin=\"22\" alias=\"22\" spoj=\"273\" smer=\"Praha,Nádraží Strašnice\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"57696\"/><o stan=\"M1\" lin=\"B\" alias=\"B\" spoj=\"32\" smer=\"Praha,Zličín\" odj=\"2019-08-10T23:16:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"false\" nad=\"false\" t=\"Metro\" dd=\"1\" smer_c=\"28037\"/><o stan=\"B\" lin=\"22\" alias=\"22\" spoj=\"161\" smer=\"Praha,Bílá Hora\" odj=\"2019-08-10T23:17:00+02:00\" sled=\"false\" zpoz=\"0\" np=\"true\" nad=\"false\" t=\"Tram\" dd=\"2\" smer_c=\"27908\"/></t></TBL>";
     qDebug()<<"mezera  ";
     QString language="cz";
     QString deflanguage="cz";
-    QString lineNumber=QByteArray::number(docasLinka);
-    QString lineName=lineNumber.right(3);
+   // QString lineNumber=QByteArray::number(docasLinka);
+    //QString lineName=lineNumber.right(3);
     QString vehicleref="33";
     int currentStopIndex= poradi;
     QString routeDeviation="onroute";
@@ -1145,15 +1137,7 @@ QString xmlGenerator::AllDataEmpty2_2CZ1_0(int poradi, QVector <ZastavkaCil> doc
     QString exitSide="right";
     QString tripRef="15";
     QString displayContentRef="1234";
-    //QString destinationName=docasnySeznamZastavek[poradi].cil.NameLcd;
 
-    // QString destinationName=docasnySeznamZastavek[poradi].DestinationName;
-
-    /* QString destinationFrontName=docasnySeznamZastavek[poradi].DestinationName;
-    QString destinationSideName=docasnySeznamZastavek[poradi].DestinationName;
-    QString destinationRearName=docasnySeznamZastavek[poradi].DestinationName;
-*/
-    //qDebug()<<"nazev cile2"<<destinationName;
 
     QDomDocument xmlko;
     QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
@@ -1174,32 +1158,12 @@ QString xmlGenerator::AllDataEmpty2_2CZ1_0(int poradi, QVector <ZastavkaCil> doc
     dDefaultLanguage.appendChild(xmlko.createElement("Value"));
     dDefaultLanguage.firstChildElement("Value").appendChild(xmlko.createTextNode(deflanguage));
     dAllData.appendChild(dDefaultLanguage);
-    QDomElement dTripInformation=xmlko.createElement("TripInformation");
-    //dAllData.appendChild(dTripInformation);
-
-    QDomElement dTripRef=xmlko.createElement("TripRef");
-    dTripRef.appendChild(xmlko.createElement("Value"));
-    dTripRef.firstChildElement("Value").appendChild(xmlko.createTextNode(tripRef));
-    dTripInformation.appendChild(dTripRef);
 
 
 
-    //stop sequence
-    dTripInformation.appendChild(StopSequence2_2CZ1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,prestupy));
-    //dTripInformation.appendChild(dStopSequence);
 
 
-    QDomElement dLocationState=xmlko.createElement("LocationState");
-    dLocationState.appendChild(xmlko.createTextNode( locationState));
-    dTripInformation.appendChild(dLocationState);
 
-
-    QString specialniOznameni=docasnySeznamZastavek.at(poradi).zastavka.additionalTextMessage;
-    qDebug()<<"spec oznameni="<<specialniOznameni;
-    if (specialniOznameni!="")
-    {
-        dTripInformation.appendChild(additionalTextMessage2_2CZ1_0(specialniOznameni));
-    }
 
     QDomElement dCurrentStopIndex=xmlko.createElement("CurrentStopIndex");
     //korekce pro index začínající 1
@@ -1208,15 +1172,17 @@ QString xmlGenerator::AllDataEmpty2_2CZ1_0(int poradi, QVector <ZastavkaCil> doc
     QDomElement dRouteDeviation = xmlko.createElement("RouteDeviation");
     dRouteDeviation.appendChild(xmlko.createTextNode(routeDeviation));
     dAllData.appendChild(dRouteDeviation);
-    QDomElement dDoorState = xmlko.createElement("DoorState");
+    /*QDomElement dDoorState = xmlko.createElement("DoorState");
     dDoorState.appendChild(xmlko.createTextNode(doorState));
-    dAllData.appendChild(dDoorState);
-    QDomElement dVehicleStopRequested=xmlko.createElement("VehicleStopRequested");
+    dAllData.appendChild(dDoorState);*/
+   /* QDomElement dVehicleStopRequested=xmlko.createElement("VehicleStopRequested");
     dVehicleStopRequested.appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode(vehicleStopRequested));
     dAllData.appendChild(dVehicleStopRequested);
+    */
+    /*
     QDomElement dExitSide = xmlko.createElement("ExitSide");
     dExitSide.appendChild(xmlko.createTextNode(exitSide));
-    dAllData.appendChild(dExitSide);
+    dAllData.appendChild(dExitSide);*/
     /*telo="";
     telo+=xmlko;*/
     return xmlko.toString();
