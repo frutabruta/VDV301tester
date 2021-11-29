@@ -20,6 +20,10 @@ IbisOvladani::IbisOvladani()
 QString IbisOvladani::nahradDiakritiku(QString vstup)
 {
     qDebug()<<"IbisOvladani::nahradDiakritiku";
+    if (vstup.isEmpty())
+    {
+        return vstup;
+    }
     //BUSE kodovani
     /*
     vstup.replace("á","<0E><20>");
@@ -92,10 +96,11 @@ QString IbisOvladani::nahradDiakritiku(QString vstup)
 }
 
 
-QString IbisOvladani::dopocetCelni (QString puvodniPrikaz)
+QString IbisOvladani::dopocetCelni(QString puvodniPrikaz)
 {
-    puvodniPrikaz=nahradDiakritiku(puvodniPrikaz);
+
     qDebug()<<"IbisOvladani::dopocetCelni";
+    puvodniPrikaz=nahradDiakritiku(puvodniPrikaz);
     qDebug()<<puvodniPrikaz;
 
     QString prikaz = "";
@@ -202,7 +207,6 @@ int IbisOvladani::odesliDoPortu(QString vstup)
     }
     int quit=0;
     while (!quit) {
-        //![6] //! [7]
         if (currentPortNameChanged)
         {
             serial.close();
@@ -227,52 +231,26 @@ int IbisOvladani::odesliDoPortu(QString vstup)
         {
             qDebug()<<"seriovy port NENI otevreny";
 
+            return 0;
+
         }
         else
         {
             qDebug()<<"seriovy port JE otevreny";
-        }
-        serial.write(requestData);
-        if (serial.waitForBytesWritten(waitTimeout))
-        {
-            //! [8] //! [10]
-            // read response
-            /*
-            if (serial.waitForReadyRead(currentWaitTimeout))
+            serial.write(requestData);
+            if (serial.waitForBytesWritten(waitTimeout))
             {
-                QByteArray responseData = serial.readAll();
-                while (serial.waitForReadyRead(10))
-                    responseData += serial.readAll();
-
-                QString response(responseData);
-
-                //emit this->response(response);
 
             }
             else
             {
-                //emit timeout(tr("Wait read response timeout %1")    .arg(QTime::currentTime().toString()));
             }
-            //! [9] //! [11]
-            //! */
         }
-        else
-        {
-            // emit timeout(tr("Wait write request timeout %1")                        .arg(QTime::currentTime().toString()));
-        }
-        /*if (currentPortName != portName)
-        {
-            currentPortName = portName;
-            currentPortNameChanged = true;
-        }
-        else
-        {
-            currentPortNameChanged = false;
-        }
-        currentWaitTimeout = waitTimeout;
-        currentRequest = request;*/
+
+
         quit=1;
     }
+    qDebug()<<"konec odesliDoPortu";
     return 1;
 }
 

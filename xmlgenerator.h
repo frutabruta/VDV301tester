@@ -8,21 +8,13 @@
 #include <QCoreApplication>
 #include <QDomDocument>
 #include "VDV301struktury/cestaudaje.h"
+//#include "VDV301struktury/trip.h"
 #include "prestupmpv.h"
 
 class xmlGenerator : public QMainWindow
 {
     Q_OBJECT
-    QDomElement StopSequence1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<prestupMPV> prestupy, CestaUdaje stav);
-    QDomElement ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
-    QDomElement TimeStampTag1_0(QDomDocument xmlko);
-    QDomElement additionalTextMessage1_0(QString obsahZpravy);
-    QDomElement AllData_empty_1_0();
-    QString AllDataEmpty2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy);
-    QDomElement rawInsert(QString vstup);
-    QDomElement additionalTextMessage2_2CZ1_0(QString obsahZpravy);
-    QString defaultniJazyk1_0="de";
-    QString defaultniJazyk2_2CZ1_0="cz";
+
 public:
     explicit xmlGenerator(QWidget *parent = nullptr);
 
@@ -43,10 +35,10 @@ public:
     QDomElement xxxProperty2_2CZ1_0(QString nazev, bool vysledek, QString hodnota);
     QDomElement DisplayContent2_2CZ1_0(QString tagName, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int iteracniIndex, int currentStopIndex);
     //QString AllData2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QDomDocument Connections);
-    QString AllData1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy, CestaUdaje stav);
+    QString AllData1_0(QVector<ZastavkaCil> docasnySeznamZastavek, Linka docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy, CestaUdaje stav);
     QDomElement DisplayContent1_0(QString tagName, QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, CestaUdaje stav);
-    QString TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy);
-    QString AllData2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, QVector<prestupMPV> prestupy, CestaUdaje stav);
+    //QString TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, int docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy);
+    //QString AllData2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, QVector<prestupMPV> prestupy, CestaUdaje stav);
     QString TicketValidationService_GetVehicleDataResponse2_2CZ1_0(CestaUdaje stav);
     QDomElement RouteDeviation(QDomDocument xmlko, QString obsah);
     QDomElement DoorOpenState(QDomDocument xmlko, QString obsah);
@@ -54,6 +46,21 @@ public:
     QString TicketValidationService_GetRazziaResponse2_2CZ1_0(CestaUdaje stav);
     QDomDocument connections1_0(QVector<prestupMPV>  lokPrestupy);
     QDomDocument connections2_2CZ1_0(QVector<prestupMPV> seznamPrestupu);
+    QString TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, Linka docasLinka, QString doorState, QString locationState, QVector<prestupMPV> prestupy);
+    QString AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<prestupMPV> prestupy, CestaUdaje stav);
+    QDomElement TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamTripu, QVector<prestupMPV> prestupy, CestaUdaje stav, int indexSpoje, bool navazny);
+    QString AllData_empty_1_0();
+
+    QString AllDataEmpty2_2CZ1_0();
+private:
+    QDomElement StopSequence1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<prestupMPV> prestupy, CestaUdaje stav);
+    QDomElement ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
+    QDomElement TimeStampTag1_0(QDomDocument xmlko);
+    QDomElement additionalTextMessage1_0(QString obsahZpravy);
+   QDomElement rawInsert(QString vstup);
+    QDomElement additionalTextMessage2_2CZ1_0(QString obsahZpravy);
+    QString defaultniJazyk1_0="de";
+    QString defaultniJazyk2_2CZ1_0="cz";
 signals:
 
 public slots:

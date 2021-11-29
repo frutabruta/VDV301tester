@@ -20,12 +20,13 @@ public:
     };
     XmlRopidParser();
     SqlPraceRopid ropidSQL;
-    void otevriSoubor();
+    void otevriSoubor(QString cesta);
     //void databazeStart();
 
     int truncateTable(QString tabulka);
     int truncateAll();
 
+    QString vstupniXmlSouborCesta;
 
 
     int databazeStart(QString adresaServeru);
@@ -37,6 +38,8 @@ public:
     navrat inicializujPolozku(QString nazevSloupce, QString obsah, QString typ);
 
 
+
+    QVector<int> seznamDlouhychSpoju(QDomNodeList &dlouheSpoje);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:
@@ -50,12 +53,14 @@ private:
     int vlozTv(QDomElement koren);
     int vlozT(QDomElement koren);
     int vlozX(QDomElement koren);
+    int vlozO(QDomElement koren);
     QString overBoolean(QString vstup);
     QString overInteger(QString vstup);
     QString overString(QString vstup);
     QString slozInsert(QString nazevTabulky, QVector<navrat>);
     QString vytvorCas(QString vstup);
     int vlozTv2(QDomElement koren);
+    int vlozSpPo(QDomElement koren);
 };
 
 #endif // XMLROPIDPARSER_H

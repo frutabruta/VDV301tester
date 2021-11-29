@@ -14,7 +14,7 @@ QT+= httpserver
 
 DEFINES+= QZEROCONF_STATIC
 
-include(QtZeroConf/qtzeroconf.pri)
+include(qtzeroconf/qtzeroconf.pri)
 
 
 
@@ -44,17 +44,24 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 //LIBS += -lqhttpserver
 
 SOURCES += \
+    VDV301publisher/newhttpserver.cpp \
     VDV301publisher/ticketvalidationservice.cpp \
     VDV301struktury/linka.cpp \
     VDV301publisher/customerinformationservice.cpp \
+    VDV301struktury/obeh.cpp \
     VDV301struktury/zastavka.cpp \
     VDV301struktury/zastavkacil.cpp \
+    VDV301testy/polozkatestu.cpp \
+    VDV301testy/testdemo.cpp \
+    VDV301testy/testdetekcebonjour.cpp \
+    VDV301testy/testodberuserver.cpp \
+    VDV301testy/vdv301testy.cpp \
     hlasic.cpp \
     VDV301publisher/httpsluzba.cpp \
     konfigurace.cpp \
+    logfile.cpp \
         main.cpp \
         mainwindow.cpp \
-    newhttpserver.cpp \
     prestupmpv.cpp \
     VDV301struktury/spoj.cpp \
     VDV301struktury/pasmo.cpp \
@@ -68,16 +75,23 @@ SOURCES += \
 
 
 HEADERS += \
+    VDV301publisher/newhttpserver.h \
     VDV301publisher/ticketvalidationservice.h \
     VDV301struktury/linka.h \
     VDV301publisher/customerinformationservice.h \
+    VDV301struktury/obeh.h \
     VDV301struktury/zastavka.h \
     VDV301struktury/zastavkacil.h \
+    VDV301testy/polozkatestu.h \
+    VDV301testy/testdemo.h \
+    VDV301testy/testdetekcebonjour.h \
+    VDV301testy/testodberuserver.h \
+    VDV301testy/vdv301testy.h \
     hlasic.h \
     VDV301publisher/httpsluzba.h \
     konfigurace.h \
+    logfile.h \
         mainwindow.h \
-    newhttpserver.h \
     prestupmpv.h \
     VDV301struktury/spoj.h \
     VDV301struktury/pasmo.h \
