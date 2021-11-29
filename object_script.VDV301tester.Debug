@@ -3,6 +3,7 @@ debug/dnssd_clientlib.o
 debug/dnssd_clientstub.o
 debug/dnssd_ipc.o
 debug/qzeroconfservice.o
+debug/newhttpserver.o
 debug/ticketvalidationservice.o
 debug/linka.o
 debug/customerinformationservice.o
@@ -20,7 +21,6 @@ debug/konfigurace.o
 debug/logfile.o
 debug/main.o
 debug/mainwindow.o
-debug/newhttpserver.o
 debug/prestupmpv.o
 debug/spoj.o
 debug/pasmo.o
@@ -34,6 +34,7 @@ debug/ibisovladani.o
 debug/moc_qzeroconf.o
 debug/moc_bonjour_p.o
 debug/moc_qzeroconfservice.o
+debug/moc_newhttpserver.o
 debug/moc_testdemo.o
 debug/moc_testodberuserver.o
 debug/moc_vdv301testy.o
@@ -42,7 +43,6 @@ debug/moc_httpsluzba.o
 debug/moc_konfigurace.o
 debug/moc_logfile.o
 debug/moc_mainwindow.o
-debug/moc_newhttpserver.o
 debug/moc_xmlgenerator.o
 debug/moc_xmlmpvparser.o
 debug/moc_sqlpraceropid.o

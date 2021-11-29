@@ -44,6 +44,7 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 //LIBS += -lqhttpserver
 
 SOURCES += \
+    VDV301publisher/newhttpserver.cpp \
     VDV301publisher/ticketvalidationservice.cpp \
     VDV301struktury/linka.cpp \
     VDV301publisher/customerinformationservice.cpp \
@@ -61,7 +62,6 @@ SOURCES += \
     logfile.cpp \
         main.cpp \
         mainwindow.cpp \
-    newhttpserver.cpp \
     prestupmpv.cpp \
     VDV301struktury/spoj.cpp \
     VDV301struktury/pasmo.cpp \
@@ -75,6 +75,7 @@ SOURCES += \
 
 
 HEADERS += \
+    VDV301publisher/newhttpserver.h \
     VDV301publisher/ticketvalidationservice.h \
     VDV301struktury/linka.h \
     VDV301publisher/customerinformationservice.h \
@@ -91,7 +92,6 @@ HEADERS += \
     konfigurace.h \
     logfile.h \
         mainwindow.h \
-    newhttpserver.h \
     prestupmpv.h \
     VDV301struktury/spoj.h \
     VDV301struktury/pasmo.h \
