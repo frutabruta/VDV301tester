@@ -94,6 +94,8 @@ public:
     void testStart(int index);
     void testStop(int index);
 
+    QString otevriSouborXmlDialog();
+    void nastavLabelCestyXml();
 private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);
@@ -186,6 +188,8 @@ private slots:
 
 
 
+
+    void on_tlacitkoXmlVyberCestu_clicked();
 };
 
 #endif // MAINWINDOW_H

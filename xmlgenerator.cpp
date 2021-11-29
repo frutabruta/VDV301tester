@@ -703,7 +703,7 @@ QDomElement xmlGenerator::DisplayContent2_2CZ1_0(QString tagName,QVector<Zastavk
 
     if(lineName.length()>3)
     {
-        lineName="v &#x0A; &#x1B; &#x53; &#x0D; &#x34; "+lineName;
+        //lineName="v &#x0A; &#x1B; &#x53; &#x0D; &#x34; "+lineName;
 
         QDomElement ctyrmistnaLinka=xmlko.createElement("test");
         //QDomNode ppppp;

@@ -6,7 +6,7 @@
 #include <QNetworkReply>
 #include "VDV301struktury/zastavka.h"
 #include "VDV301testy/vdv301testy.h"
-
+#include "QFileDialog"
 
 
 //koment
@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
     ui->label_build->setText(compilationTime);
 
+    nastavLabelCestyXml();
     //cesty souboru
     hlasic.zmenUmisteniProgramu(umisteniProgramu);
     konfigurace.vytvorDefaultniKonfiguraci();
@@ -620,7 +621,8 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 void MainWindow::on_tlacitkoNactiXMLropid_clicked()
 {
     qDebug()<<"";
-    xmlRopidParser.otevriSoubor();
+    xmlRopidParser.otevriSoubor(xmlRopidParser.vstupniXmlSouborCesta);
+    this->startDatabaze();
 }
 
 
@@ -1246,5 +1248,28 @@ void MainWindow::on_pushButton_test4_clicked()
 void MainWindow::on_tlacitkoSluzby_clicked()
 {
     ui->stackedWidget_testy->setCurrentIndex(1);
+}
+
+
+
+void MainWindow::on_tlacitkoXmlVyberCestu_clicked()
+{
+    xmlRopidParser.vstupniXmlSouborCesta=otevriSouborXmlDialog();
+    nastavLabelCestyXml();
+}
+
+void MainWindow::nastavLabelCestyXml()
+{
+    qDebug()<<"MainWindow::nastavLabelCestyXml()";
+    ui->label_cestaXml->setText(xmlRopidParser.vstupniXmlSouborCesta);
+
+}
+
+QString MainWindow::otevriSouborXmlDialog()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+            tr("Otevři soubor"), "",
+            tr("XML Ropid JŘ (*.xml);;All Files (*)"));
+        return fileName;
 }
 

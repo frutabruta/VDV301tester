@@ -12,7 +12,7 @@
 
 XmlRopidParser::XmlRopidParser()
 {
-
+vstupniXmlSouborCesta="xml_zdroje/XML_X926_20211006_20211012";
 }
 
 int XmlRopidParser::databazeStart(QString adresaServeru)
@@ -21,13 +21,13 @@ int XmlRopidParser::databazeStart(QString adresaServeru)
 }
 
 
-void XmlRopidParser::otevriSoubor()
+void XmlRopidParser::otevriSoubor(QString cesta)
 {
     qDebug()<<"predOtevrenimSouboru";
     QDomDocument doc("mydocument");
     // QFile file("xml_zdroje/XML_Zlicin_20200702_20200705.xml");
 
-    QFile file("xml_zdroje/XML_Arriva_City_20211029_20211105.xml");
+    QFile file(cesta);
 
 
 
@@ -669,8 +669,10 @@ int XmlRopidParser::truncateAll()
     truncateTable("`l`");
     truncateTable("`z`");
     truncateTable("`m`");
+    truncateTable("`o`");
     truncateTable("`p`");
     truncateTable("`d`");
+    truncateTable("`sp_po`");
     truncateTable("`tv`");
     truncateTable("`dd`");
     emit odesliChybovouHlasku("databaze vymazana");

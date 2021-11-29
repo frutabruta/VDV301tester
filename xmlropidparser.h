@@ -20,12 +20,13 @@ public:
     };
     XmlRopidParser();
     SqlPraceRopid ropidSQL;
-    void otevriSoubor();
+    void otevriSoubor(QString cesta);
     //void databazeStart();
 
     int truncateTable(QString tabulka);
     int truncateAll();
 
+    QString vstupniXmlSouborCesta;
 
 
     int databazeStart(QString adresaServeru);

@@ -104,32 +104,33 @@ public:
     QListWidget *listSpoje;
     QCheckBox *checkBox;
     QWidget *page_nastaveni;
-    QWidget *horizontalLayoutWidget_3;
+    QVBoxLayout *verticalLayout_23;
+    QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout_6;
-    QVBoxLayout *verticalLayoutSQLPeace;
+    QVBoxLayout *verticalLayout_14;
+    QLabel *hlaseniLabel;
+    QPushButton *tlacitkoHlaseniSlozka;
+    QLineEdit *lineEditHlaseniCesta;
+    QVBoxLayout *verticalLayout_2;
+    QLabel *label_3;
+    QLabel *NazevVysledku;
+    QPushButton *pripojeniTlacitko;
     QVBoxLayout *verticalLayoutvstupniData;
     QLabel *label_6;
-    QPushButton *tlacitkoNactiXMLropid;
-    QPushButton *tlacitkoUlozDoSQL;
+    QLabel *label_4;
+    QLabel *label_cestaXml;
     QPushButton *tlacitkoTruncate;
+    QPushButton *tlacitkoXmlVyberCestu;
+    QPushButton *tlacitkoNactiXMLropid;
     QVBoxLayout *verticalLayoutseriovyPort;
     QLabel *label_7;
     QLineEdit *lineEdit_jmenoPortu;
     QPushButton *tlacitkoNastavPort;
     QPushButton *tlacitkoOdesliPrikaz;
-    QWidget *layoutWidget_2;
-    QVBoxLayout *verticalLayout_2;
-    QLabel *label_3;
-    QLabel *NazevVysledku;
-    QPushButton *pripojeniTlacitko;
-    QWidget *verticalLayoutWidget_2;
-    QVBoxLayout *verticalLayout_14;
-    QLabel *hlaseniLabel;
-    QPushButton *tlacitkoHlaseniSlozka;
-    QLineEdit *lineEditHlaseniCesta;
-    QLabel *label_12;
-    QLabel *label_build;
     QLabel *label_diagnostika_sql;
+    QHBoxLayout *horizontalLayout_2;
+    QLabel *label_build;
+    QLabel *label_12;
     QWidget *page_customXML;
     QWidget *verticalLayoutWidget_9;
     QVBoxLayout *verticalLayout_10;
@@ -903,47 +904,99 @@ public:
         prepinadloStran->addWidget(page_linkaspoj);
         page_nastaveni = new QWidget();
         page_nastaveni->setObjectName(QString::fromUtf8("page_nastaveni"));
-        horizontalLayoutWidget_3 = new QWidget(page_nastaveni);
-        horizontalLayoutWidget_3->setObjectName(QString::fromUtf8("horizontalLayoutWidget_3"));
-        horizontalLayoutWidget_3->setGeometry(QRect(100, 0, 523, 305));
-        horizontalLayout_6 = new QHBoxLayout(horizontalLayoutWidget_3);
+        verticalLayout_23 = new QVBoxLayout(page_nastaveni);
+        verticalLayout_23->setSpacing(6);
+        verticalLayout_23->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_23->setObjectName(QString::fromUtf8("verticalLayout_23"));
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
+        horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setSpacing(6);
-        horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
-        horizontalLayout_6->setContentsMargins(0, 0, 0, 0);
-        verticalLayoutSQLPeace = new QVBoxLayout();
-        verticalLayoutSQLPeace->setSpacing(6);
-        verticalLayoutSQLPeace->setObjectName(QString::fromUtf8("verticalLayoutSQLPeace"));
+        verticalLayout_14 = new QVBoxLayout();
+        verticalLayout_14->setSpacing(6);
+        verticalLayout_14->setObjectName(QString::fromUtf8("verticalLayout_14"));
+        hlaseniLabel = new QLabel(page_nastaveni);
+        hlaseniLabel->setObjectName(QString::fromUtf8("hlaseniLabel"));
 
-        horizontalLayout_6->addLayout(verticalLayoutSQLPeace);
+        verticalLayout_14->addWidget(hlaseniLabel);
+
+        tlacitkoHlaseniSlozka = new QPushButton(page_nastaveni);
+        tlacitkoHlaseniSlozka->setObjectName(QString::fromUtf8("tlacitkoHlaseniSlozka"));
+
+        verticalLayout_14->addWidget(tlacitkoHlaseniSlozka);
+
+        lineEditHlaseniCesta = new QLineEdit(page_nastaveni);
+        lineEditHlaseniCesta->setObjectName(QString::fromUtf8("lineEditHlaseniCesta"));
+
+        verticalLayout_14->addWidget(lineEditHlaseniCesta);
+
+
+        horizontalLayout_6->addLayout(verticalLayout_14);
+
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalLayout_2->setContentsMargins(20, 0, 20, -1);
+        label_3 = new QLabel(page_nastaveni);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+
+        verticalLayout_2->addWidget(label_3);
+
+        NazevVysledku = new QLabel(page_nastaveni);
+        NazevVysledku->setObjectName(QString::fromUtf8("NazevVysledku"));
+
+        verticalLayout_2->addWidget(NazevVysledku);
+
+        pripojeniTlacitko = new QPushButton(page_nastaveni);
+        pripojeniTlacitko->setObjectName(QString::fromUtf8("pripojeniTlacitko"));
+        pripojeniTlacitko->setEnabled(false);
+        sizePolicy3.setHeightForWidth(pripojeniTlacitko->sizePolicy().hasHeightForWidth());
+        pripojeniTlacitko->setSizePolicy(sizePolicy3);
+
+        verticalLayout_2->addWidget(pripojeniTlacitko);
+
+
+        horizontalLayout_6->addLayout(verticalLayout_2);
 
         verticalLayoutvstupniData = new QVBoxLayout();
         verticalLayoutvstupniData->setSpacing(6);
         verticalLayoutvstupniData->setObjectName(QString::fromUtf8("verticalLayoutvstupniData"));
-        label_6 = new QLabel(horizontalLayoutWidget_3);
+        label_6 = new QLabel(page_nastaveni);
         label_6->setObjectName(QString::fromUtf8("label_6"));
         label_6->setFont(font2);
 
         verticalLayoutvstupniData->addWidget(label_6);
 
-        tlacitkoNactiXMLropid = new QPushButton(horizontalLayoutWidget_3);
-        tlacitkoNactiXMLropid->setObjectName(QString::fromUtf8("tlacitkoNactiXMLropid"));
-        tlacitkoNactiXMLropid->setMinimumSize(QSize(0, 80));
+        label_4 = new QLabel(page_nastaveni);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
 
-        verticalLayoutvstupniData->addWidget(tlacitkoNactiXMLropid);
+        verticalLayoutvstupniData->addWidget(label_4);
 
-        tlacitkoUlozDoSQL = new QPushButton(horizontalLayoutWidget_3);
-        tlacitkoUlozDoSQL->setObjectName(QString::fromUtf8("tlacitkoUlozDoSQL"));
-        tlacitkoUlozDoSQL->setEnabled(false);
-        tlacitkoUlozDoSQL->setMinimumSize(QSize(0, 80));
+        label_cestaXml = new QLabel(page_nastaveni);
+        label_cestaXml->setObjectName(QString::fromUtf8("label_cestaXml"));
 
-        verticalLayoutvstupniData->addWidget(tlacitkoUlozDoSQL);
+        verticalLayoutvstupniData->addWidget(label_cestaXml);
 
-        tlacitkoTruncate = new QPushButton(horizontalLayoutWidget_3);
+        tlacitkoTruncate = new QPushButton(page_nastaveni);
         tlacitkoTruncate->setObjectName(QString::fromUtf8("tlacitkoTruncate"));
         tlacitkoTruncate->setMinimumSize(QSize(0, 80));
 
         verticalLayoutvstupniData->addWidget(tlacitkoTruncate);
+
+        tlacitkoXmlVyberCestu = new QPushButton(page_nastaveni);
+        tlacitkoXmlVyberCestu->setObjectName(QString::fromUtf8("tlacitkoXmlVyberCestu"));
+        tlacitkoXmlVyberCestu->setEnabled(true);
+        tlacitkoXmlVyberCestu->setMinimumSize(QSize(0, 80));
+
+        verticalLayoutvstupniData->addWidget(tlacitkoXmlVyberCestu);
+
+        tlacitkoNactiXMLropid = new QPushButton(page_nastaveni);
+        tlacitkoNactiXMLropid->setObjectName(QString::fromUtf8("tlacitkoNactiXMLropid"));
+        tlacitkoNactiXMLropid->setMinimumSize(QSize(0, 80));
+
+        verticalLayoutvstupniData->addWidget(tlacitkoNactiXMLropid);
 
 
         horizontalLayout_6->addLayout(verticalLayoutvstupniData);
@@ -951,13 +1004,13 @@ public:
         verticalLayoutseriovyPort = new QVBoxLayout();
         verticalLayoutseriovyPort->setSpacing(6);
         verticalLayoutseriovyPort->setObjectName(QString::fromUtf8("verticalLayoutseriovyPort"));
-        label_7 = new QLabel(horizontalLayoutWidget_3);
+        label_7 = new QLabel(page_nastaveni);
         label_7->setObjectName(QString::fromUtf8("label_7"));
         label_7->setFont(font2);
 
         verticalLayoutseriovyPort->addWidget(label_7);
 
-        lineEdit_jmenoPortu = new QLineEdit(horizontalLayoutWidget_3);
+        lineEdit_jmenoPortu = new QLineEdit(page_nastaveni);
         lineEdit_jmenoPortu->setObjectName(QString::fromUtf8("lineEdit_jmenoPortu"));
         QPalette palette3;
         palette3.setBrush(QPalette::Active, QPalette::Button, brush);
@@ -973,13 +1026,13 @@ public:
 
         verticalLayoutseriovyPort->addWidget(lineEdit_jmenoPortu);
 
-        tlacitkoNastavPort = new QPushButton(horizontalLayoutWidget_3);
+        tlacitkoNastavPort = new QPushButton(page_nastaveni);
         tlacitkoNastavPort->setObjectName(QString::fromUtf8("tlacitkoNastavPort"));
         tlacitkoNastavPort->setMinimumSize(QSize(0, 80));
 
         verticalLayoutseriovyPort->addWidget(tlacitkoNastavPort);
 
-        tlacitkoOdesliPrikaz = new QPushButton(horizontalLayoutWidget_3);
+        tlacitkoOdesliPrikaz = new QPushButton(page_nastaveni);
         tlacitkoOdesliPrikaz->setObjectName(QString::fromUtf8("tlacitkoOdesliPrikaz"));
         tlacitkoOdesliPrikaz->setMinimumSize(QSize(0, 80));
 
@@ -988,64 +1041,33 @@ public:
 
         horizontalLayout_6->addLayout(verticalLayoutseriovyPort);
 
-        layoutWidget_2 = new QWidget(page_nastaveni);
-        layoutWidget_2->setObjectName(QString::fromUtf8("layoutWidget_2"));
-        layoutWidget_2->setGeometry(QRect(520, 320, 133, 119));
-        verticalLayout_2 = new QVBoxLayout(layoutWidget_2);
-        verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        verticalLayout_2->setContentsMargins(20, 0, 20, 0);
-        label_3 = new QLabel(layoutWidget_2);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
 
-        verticalLayout_2->addWidget(label_3);
+        verticalLayout_3->addLayout(horizontalLayout_6);
 
-        NazevVysledku = new QLabel(layoutWidget_2);
-        NazevVysledku->setObjectName(QString::fromUtf8("NazevVysledku"));
+        label_diagnostika_sql = new QLabel(page_nastaveni);
+        label_diagnostika_sql->setObjectName(QString::fromUtf8("label_diagnostika_sql"));
 
-        verticalLayout_2->addWidget(NazevVysledku);
+        verticalLayout_3->addWidget(label_diagnostika_sql);
 
-        pripojeniTlacitko = new QPushButton(layoutWidget_2);
-        pripojeniTlacitko->setObjectName(QString::fromUtf8("pripojeniTlacitko"));
-        pripojeniTlacitko->setEnabled(false);
-        sizePolicy3.setHeightForWidth(pripojeniTlacitko->sizePolicy().hasHeightForWidth());
-        pripojeniTlacitko->setSizePolicy(sizePolicy3);
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        label_build = new QLabel(page_nastaveni);
+        label_build->setObjectName(QString::fromUtf8("label_build"));
 
-        verticalLayout_2->addWidget(pripojeniTlacitko);
-
-        verticalLayoutWidget_2 = new QWidget(page_nastaveni);
-        verticalLayoutWidget_2->setObjectName(QString::fromUtf8("verticalLayoutWidget_2"));
-        verticalLayoutWidget_2->setGeometry(QRect(90, 350, 160, 77));
-        verticalLayout_14 = new QVBoxLayout(verticalLayoutWidget_2);
-        verticalLayout_14->setSpacing(6);
-        verticalLayout_14->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_14->setObjectName(QString::fromUtf8("verticalLayout_14"));
-        verticalLayout_14->setContentsMargins(0, 0, 0, 0);
-        hlaseniLabel = new QLabel(verticalLayoutWidget_2);
-        hlaseniLabel->setObjectName(QString::fromUtf8("hlaseniLabel"));
-
-        verticalLayout_14->addWidget(hlaseniLabel);
-
-        tlacitkoHlaseniSlozka = new QPushButton(verticalLayoutWidget_2);
-        tlacitkoHlaseniSlozka->setObjectName(QString::fromUtf8("tlacitkoHlaseniSlozka"));
-
-        verticalLayout_14->addWidget(tlacitkoHlaseniSlozka);
-
-        lineEditHlaseniCesta = new QLineEdit(verticalLayoutWidget_2);
-        lineEditHlaseniCesta->setObjectName(QString::fromUtf8("lineEditHlaseniCesta"));
-
-        verticalLayout_14->addWidget(lineEditHlaseniCesta);
+        horizontalLayout_2->addWidget(label_build);
 
         label_12 = new QLabel(page_nastaveni);
         label_12->setObjectName(QString::fromUtf8("label_12"));
-        label_12->setGeometry(QRect(360, 340, 47, 13));
-        label_build = new QLabel(page_nastaveni);
-        label_build->setObjectName(QString::fromUtf8("label_build"));
-        label_build->setGeometry(QRect(450, 340, 151, 16));
-        label_diagnostika_sql = new QLabel(page_nastaveni);
-        label_diagnostika_sql->setObjectName(QString::fromUtf8("label_diagnostika_sql"));
-        label_diagnostika_sql->setGeometry(QRect(30, 300, 631, 16));
+
+        horizontalLayout_2->addWidget(label_12);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_2);
+
+
+        verticalLayout_23->addLayout(verticalLayout_3);
+
         prepinadloStran->addWidget(page_nastaveni);
         page_customXML = new QWidget();
         page_customXML->setObjectName(QString::fromUtf8("page_customXML"));
@@ -1722,7 +1744,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(false);
-        menuBar->setGeometry(QRect(0, 0, 800, 25));
+        menuBar->setGeometry(QRect(0, 0, 800, 20));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -1752,9 +1774,7 @@ public:
         QWidget::setTabOrder(listLinek, listSpoje);
         QWidget::setTabOrder(listSpoje, prikaztlacitko);
         QWidget::setTabOrder(prikaztlacitko, tlacitkoNactiXMLropid);
-        QWidget::setTabOrder(tlacitkoNactiXMLropid, tlacitkoUlozDoSQL);
-        QWidget::setTabOrder(tlacitkoUlozDoSQL, tlacitkoTruncate);
-        QWidget::setTabOrder(tlacitkoTruncate, lineEdit_jmenoPortu);
+        QWidget::setTabOrder(tlacitkoNactiXMLropid, lineEdit_jmenoPortu);
         QWidget::setTabOrder(lineEdit_jmenoPortu, tlacitkoOdesliPrikaz);
         QWidget::setTabOrder(tlacitkoOdesliPrikaz, tlacitkoNastavPort);
         QWidget::setTabOrder(tlacitkoNastavPort, polelinky);
@@ -1795,7 +1815,7 @@ public:
         retranslateUi(MainWindow);
 
         stackedWidget_hlavni->setCurrentIndex(0);
-        prepinadloStran->setCurrentIndex(0);
+        prepinadloStran->setCurrentIndex(2);
         stackedWidget_testy->setCurrentIndex(1);
 
 
@@ -1848,23 +1868,25 @@ public:
         label_8->setText(QCoreApplication::translate("MainWindow", "Seznam linek", nullptr));
         label_9->setText(QCoreApplication::translate("MainWindow", "Seznam spoj\305\257", nullptr));
         checkBox->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
+        hlaseniLabel->setText(QCoreApplication::translate("MainWindow", "Slozka hlaseni", nullptr));
+        tlacitkoHlaseniSlozka->setText(QCoreApplication::translate("MainWindow", "nastav slozku", nullptr));
+        lineEditHlaseniCesta->setText(QCoreApplication::translate("MainWindow", "C:/Users/adam/Desktop/HLASENI", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "Stav p\305\231ipojen\303\255:", nullptr));
+        NazevVysledku->setText(QCoreApplication::translate("MainWindow", "stav pripojeni", nullptr));
+        pripojeniTlacitko->setText(QCoreApplication::translate("MainWindow", "SQL Connect", nullptr));
         label_6->setText(QCoreApplication::translate("MainWindow", "Vstupn\303\255 data", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "cesta k souboru", nullptr));
+        label_cestaXml->setText(QCoreApplication::translate("MainWindow", "cesta_obsah", nullptr));
+        tlacitkoTruncate->setText(QCoreApplication::translate("MainWindow", "Vymazat data z DB", nullptr));
+        tlacitkoXmlVyberCestu->setText(QCoreApplication::translate("MainWindow", "Vyber cestu XML", nullptr));
         tlacitkoNactiXMLropid->setText(QCoreApplication::translate("MainWindow", "nactiXML", nullptr));
-        tlacitkoUlozDoSQL->setText(QCoreApplication::translate("MainWindow", "ulozDoSQL", nullptr));
-        tlacitkoTruncate->setText(QCoreApplication::translate("MainWindow", "TRUNCATE", nullptr));
         label_7->setText(QCoreApplication::translate("MainWindow", "S\303\251riov\303\275 port", nullptr));
         lineEdit_jmenoPortu->setText(QCoreApplication::translate("MainWindow", "ttyUSB0", nullptr));
         tlacitkoNastavPort->setText(QCoreApplication::translate("MainWindow", "nastav \304\215\303\255slo portu", nullptr));
         tlacitkoOdesliPrikaz->setText(QCoreApplication::translate("MainWindow", "odesliPrikaz", nullptr));
-        label_3->setText(QCoreApplication::translate("MainWindow", "Stav p\305\231ipojen\303\255:", nullptr));
-        NazevVysledku->setText(QCoreApplication::translate("MainWindow", "stav pripojeni", nullptr));
-        pripojeniTlacitko->setText(QCoreApplication::translate("MainWindow", "SQL Connect", nullptr));
-        hlaseniLabel->setText(QCoreApplication::translate("MainWindow", "Slozka hlaseni", nullptr));
-        tlacitkoHlaseniSlozka->setText(QCoreApplication::translate("MainWindow", "nastav slozku", nullptr));
-        lineEditHlaseniCesta->setText(QCoreApplication::translate("MainWindow", "C:/Users/adam/Desktop/HLASENI", nullptr));
-        label_12->setText(QCoreApplication::translate("MainWindow", "build", nullptr));
-        label_build->setText(QCoreApplication::translate("MainWindow", "cisloBuildu", nullptr));
         label_diagnostika_sql->setText(QCoreApplication::translate("MainWindow", "Diagnostick\303\275 \305\231\303\241dek importu dat", nullptr));
+        label_build->setText(QCoreApplication::translate("MainWindow", "cisloBuildu", nullptr));
+        label_12->setText(QCoreApplication::translate("MainWindow", "build", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "CustomXML", nullptr));
         plainTextEditCustomXml->setPlainText(QCoreApplication::translate("MainWindow", "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 "<CustomerInformationService.GetAllDataResponse>\n"
