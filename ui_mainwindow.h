@@ -11,7 +11,9 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCalendarWidget>
 #include <QtWidgets/QCheckBox>
+#include <QtWidgets/QDateEdit>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
@@ -108,6 +110,9 @@ public:
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout_6;
     QVBoxLayout *verticalLayout_14;
+    QDateEdit *dateEdit;
+    QPushButton *tlacitkoDnes;
+    QCalendarWidget *calendarWidget;
     QLabel *hlaseniLabel;
     QPushButton *tlacitkoHlaseniSlozka;
     QLineEdit *lineEditHlaseniCesta;
@@ -917,6 +922,38 @@ public:
         verticalLayout_14 = new QVBoxLayout();
         verticalLayout_14->setSpacing(6);
         verticalLayout_14->setObjectName(QString::fromUtf8("verticalLayout_14"));
+        dateEdit = new QDateEdit(page_nastaveni);
+        dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
+        QSizePolicy sizePolicy7(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(dateEdit->sizePolicy().hasHeightForWidth());
+        dateEdit->setSizePolicy(sizePolicy7);
+
+        verticalLayout_14->addWidget(dateEdit);
+
+        tlacitkoDnes = new QPushButton(page_nastaveni);
+        tlacitkoDnes->setObjectName(QString::fromUtf8("tlacitkoDnes"));
+        sizePolicy7.setHeightForWidth(tlacitkoDnes->sizePolicy().hasHeightForWidth());
+        tlacitkoDnes->setSizePolicy(sizePolicy7);
+
+        verticalLayout_14->addWidget(tlacitkoDnes);
+
+        calendarWidget = new QCalendarWidget(page_nastaveni);
+        calendarWidget->setObjectName(QString::fromUtf8("calendarWidget"));
+        QSizePolicy sizePolicy8(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        sizePolicy8.setHorizontalStretch(0);
+        sizePolicy8.setVerticalStretch(0);
+        sizePolicy8.setHeightForWidth(calendarWidget->sizePolicy().hasHeightForWidth());
+        calendarWidget->setSizePolicy(sizePolicy8);
+        calendarWidget->setMinimumSize(QSize(100, 0));
+        calendarWidget->setFirstDayOfWeek(Qt::Monday);
+        calendarWidget->setSelectionMode(QCalendarWidget::SingleSelection);
+        calendarWidget->setHorizontalHeaderFormat(QCalendarWidget::ShortDayNames);
+        calendarWidget->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
+
+        verticalLayout_14->addWidget(calendarWidget);
+
         hlaseniLabel = new QLabel(page_nastaveni);
         hlaseniLabel->setObjectName(QString::fromUtf8("hlaseniLabel"));
 
@@ -924,6 +961,8 @@ public:
 
         tlacitkoHlaseniSlozka = new QPushButton(page_nastaveni);
         tlacitkoHlaseniSlozka->setObjectName(QString::fromUtf8("tlacitkoHlaseniSlozka"));
+        sizePolicy7.setHeightForWidth(tlacitkoHlaseniSlozka->sizePolicy().hasHeightForWidth());
+        tlacitkoHlaseniSlozka->setSizePolicy(sizePolicy7);
 
         verticalLayout_14->addWidget(tlacitkoHlaseniSlozka);
 
@@ -931,9 +970,6 @@ public:
         lineEditHlaseniCesta->setObjectName(QString::fromUtf8("lineEditHlaseniCesta"));
 
         verticalLayout_14->addWidget(lineEditHlaseniCesta);
-
-
-        horizontalLayout_6->addLayout(verticalLayout_14);
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setSpacing(6);
@@ -958,7 +994,10 @@ public:
         verticalLayout_2->addWidget(pripojeniTlacitko);
 
 
-        horizontalLayout_6->addLayout(verticalLayout_2);
+        verticalLayout_14->addLayout(verticalLayout_2);
+
+
+        horizontalLayout_6->addLayout(verticalLayout_14);
 
         verticalLayoutvstupniData = new QVBoxLayout();
         verticalLayoutvstupniData->setSpacing(6);
@@ -1744,7 +1783,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(false);
-        menuBar->setGeometry(QRect(0, 0, 800, 20));
+        menuBar->setGeometry(QRect(0, 0, 800, 21));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -1816,7 +1855,7 @@ public:
 
         stackedWidget_hlavni->setCurrentIndex(0);
         prepinadloStran->setCurrentIndex(2);
-        stackedWidget_testy->setCurrentIndex(1);
+        stackedWidget_testy->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1868,6 +1907,7 @@ public:
         label_8->setText(QCoreApplication::translate("MainWindow", "Seznam linek", nullptr));
         label_9->setText(QCoreApplication::translate("MainWindow", "Seznam spoj\305\257", nullptr));
         checkBox->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
+        tlacitkoDnes->setText(QCoreApplication::translate("MainWindow", "DNES", nullptr));
         hlaseniLabel->setText(QCoreApplication::translate("MainWindow", "Slozka hlaseni", nullptr));
         tlacitkoHlaseniSlozka->setText(QCoreApplication::translate("MainWindow", "nastav slozku", nullptr));
         lineEditHlaseniCesta->setText(QCoreApplication::translate("MainWindow", "C:/Users/adam/Desktop/HLASENI", nullptr));

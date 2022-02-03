@@ -41,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
     QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
     ui->label_build->setText(compilationTime);
+    pracovniDatumPrvniDenDat();
+
+
 
     nastavLabelCestyXml();
     //cesty souboru
@@ -105,8 +108,8 @@ void MainWindow::vsechnyConnecty()
 
 
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
-    connect(&mojesql,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
-    connect(&mojesql,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
+    connect(&sqlPraceRopid,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
+    connect(&sqlPraceRopid,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
     connect(&xmlRopidParser,&XmlRopidParser::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
 
 
@@ -226,7 +229,7 @@ int MainWindow::on_prikaztlacitko_clicked()
 
     QString textDoPole="";
 
-    int vysledek=mojesql.StahniSeznam( stavSystemu.aktspoj.linka,stavSystemu.aktspoj.cisloRopid,stavSystemu.aktObeh.seznamSpoju,platnostSpoje);
+    int vysledek=sqlPraceRopid.StahniSeznam( stavSystemu.aktspoj.linka,stavSystemu.aktspoj.cisloRopid,stavSystemu.aktObeh.seznamSpoju,platnostSpoje);
     if (vysledek==2)
     {
         qDebug()<<"existuje navazujici spoj";
@@ -286,12 +289,12 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
         }
     }
 
-    vysledek=mojesql.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu,platnostSpoje);
+    vysledek=sqlPraceRopid.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu,platnostSpoje);
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     if (stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).navazujici==true)
     {
-        vysledek=mojesql.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu+1,platnostSpoje);
+        vysledek=sqlPraceRopid.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu+1,platnostSpoje);
         qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     }
@@ -407,12 +410,14 @@ void MainWindow::on_pripojeniTlacitko_clicked()
 void MainWindow::startDatabaze()
 {
     qDebug()<<"MainWindow::startDatabaze()";
-    mojesql.Pripoj();
-    if (mojesql.VytvorSeznamLinek(seznamLinek)==1)
+    sqlPraceRopid.Pripoj();
+    if (sqlPraceRopid.VytvorSeznamLinek(seznamLinek)==1)
     {
+
         NaplnVyberLinky(seznamLinek);
         QVector<Linka> kmenoveLinky;
-        mojesql.VytvorSeznamKmenovychLinek(kmenoveLinky);
+        sqlPraceRopid.VytvorSeznamKmenovychLinek(kmenoveLinky,sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidParser.platnostOd, xmlRopidParser.platnostDo));
+        sqlPraceRopid.nactiPlatnost(xmlRopidParser.platnostOd,xmlRopidParser.platnostDo);
         NaplnKmenoveLinky(kmenoveLinky);
         ui->NazevVysledku->setText("OK2");
     }
@@ -425,7 +430,15 @@ void MainWindow::startDatabaze()
 
 void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
 {
+    qDebug()<<"MainWindow::NaplnVyberLinky";
+
+    ui->listLinek->blockSignals(true);
     ui->listLinek->clear();
+    ui->listLinek->blockSignals(false);
+
+    // https://stackoverflow.com/a/53632933
+
+    qDebug()<<"vymazano";
     for (int i = 0; i < docasnySeznamLinek.length(); ++i)
     {
         QListWidgetItem *newItem = new QListWidgetItem;
@@ -439,7 +452,15 @@ void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
 
 void MainWindow::NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek)
 {
+    qDebug()<<"MainWindow::NaplnKmenoveLinky";
+
+
+    ui->listKmenovychLinek->blockSignals(true);
     ui->listKmenovychLinek->clear();
+    ui->listKmenovychLinek->blockSignals(false);
+
+
+
     for (int i = 0; i < docasnySeznamLinek.length(); ++i)
     {
         QListWidgetItem *newItem = new QListWidgetItem;
@@ -453,7 +474,11 @@ void MainWindow::NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek)
 void MainWindow::NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
 {
     qDebug()<<"MainWindow::NaplnVyberSpoje";
+
+
+    ui->listSpoje->blockSignals(true);
     ui->listSpoje->clear();
+    ui->listSpoje->blockSignals(false);
     /*
     if (ui->listSpoje->count()!=0)
     {
@@ -523,8 +548,8 @@ void MainWindow::AktualizaceDispleje()
     QString casDoPoleAkt="";
     QString textDoPoleNasl="";
     QString textPoleCasuNasl="";
-    mojesql.vytvorHlavniAktualni(textDoPoleAkt,casDoPoleAkt,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
-    mojesql.vytvorHlavniTextNasledujici(textDoPoleNasl,textPoleCasuNasl,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
+    sqlPraceRopid.vytvorHlavniAktualni(textDoPoleAkt,casDoPoleAkt,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
+    sqlPraceRopid.vytvorHlavniTextNasledujici(textDoPoleNasl,textPoleCasuNasl,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
 
 
     ui->labelAktZastJmeno->setText(textDoPoleAkt);
@@ -535,7 +560,6 @@ void MainWindow::AktualizaceDispleje()
     ui->label_aktSpoj->setText(QString::number(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).cisloRopid));
 
     ui->locationStateIndicator->setText(stavSystemu.locationState);
-
 }
 
 void MainWindow::on_pridatTlacitko_clicked()
@@ -709,12 +733,18 @@ int MainWindow::priOdjezdu()
 
 void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
+    qDebug()<<"MainWindow::on_listLinek_currentItemChanged ";
+    if (ui->listLinek->count()<=0)
+    {
+        qDebug()<<"seznam je prazdny";
+        return;
+    }
     ui->polelinky->setText(ui->listLinek->currentItem()->data(Qt::UserRole ).toString() );
     stavSystemu.aktlinka.c=ui->listLinek->currentItem()->data(Qt::UserRole).toString().toInt();
     qDebug()<<"tady budu vypisovat vybrane spoje";
     qDebug()<<"raw "<<ui->listLinek->currentItem()->data(Qt::UserRole)<<" int "<<ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
     ui->listSpoje->clear();
-    if (mojesql.VytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka)==1)
+    if (sqlPraceRopid.VytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka)==1)
     {
         NaplnVyberSpoje(seznamSpoju);
     }
@@ -731,7 +761,7 @@ void MainWindow::on_listKmenovychLinek_currentItemChanged(QListWidgetItem *curre
 
     ui->listTurnusSpoje->clear();
 
-    if (mojesql.VytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka )==1)
+    if (sqlPraceRopid.VytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka )==1)
     {
 
         NaplnVyberPoradi(seznamObehu);
@@ -756,7 +786,7 @@ void MainWindow::on_listPoradi_currentItemChanged(QListWidgetItem *current, QLis
             //ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
             stavSystemu.aktObeh.p=ui->listPoradi->currentItem()->data(Qt::UserRole).toInt() ;
 
-            if (mojesql.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh)==1)
+            if (sqlPraceRopid.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh)==1)
             {
                 NaplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
 
@@ -1258,6 +1288,13 @@ void MainWindow::on_tlacitkoXmlVyberCestu_clicked()
     nastavLabelCestyXml();
 }
 
+
+void MainWindow::on_tlacitkoDnes_clicked()
+{
+    pracovniDatumDnes();
+}
+
+
 void MainWindow::nastavLabelCestyXml()
 {
     qDebug()<<"MainWindow::nastavLabelCestyXml()";
@@ -1267,9 +1304,57 @@ void MainWindow::nastavLabelCestyXml()
 
 QString MainWindow::otevriSouborXmlDialog()
 {
+    qDebug()<<"MainWindow::otevriSouborXmlDialog()";
     QString fileName = QFileDialog::getOpenFileName(this,
-            tr("Otevři soubor"), "",
-            tr("XML Ropid JŘ (*.xml);;All Files (*)"));
-        return fileName;
+                                                    tr("Otevři soubor"), "",
+                                                    tr("XML Ropid JŘ (*.xml);;All Files (*)"));
+    return fileName;
 }
+
+
+void MainWindow::on_calendarWidget_selectionChanged()
+{
+    qDebug()<<"MainWindow::on_calendarWidget_selectionChanged()";
+    stavSystemu.pracovniDatum=ui->calendarWidget->selectedDate();
+    AktualizacePracovnihoData();
+}
+
+void MainWindow::AktualizacePracovnihoData()
+{
+    qDebug()<<"MainWindow::AktualizacePracovnihoData";
+    ui->dateEdit->setDate(stavSystemu.pracovniDatum);
+    ui->calendarWidget->setSelectedDate(stavSystemu.pracovniDatum);
+
+    qDebug()<<"od "<<xmlRopidParser.platnostOd<<" do "<<xmlRopidParser.platnostDo<<" pracovni "<<stavSystemu.pracovniDatum ;
+    qDebug()<<"dnu do pracovnihodata "<< stavSystemu.pracovniDatum.daysTo(xmlRopidParser.platnostOd) <<" dnu do zacatku platnosti " << stavSystemu.pracovniDatum.daysTo(xmlRopidParser.platnostDo);
+
+    sqlPraceRopid.maskaKalendarJizd(this->stavSystemu.pracovniDatum,xmlRopidParser.platnostOd,xmlRopidParser.platnostDo);
+    startDatabaze();
+}
+
+
+void MainWindow::pracovniDatumDnes()
+{
+    qDebug()<<"MainWindow::pracovniDatumDnes()";
+    stavSystemu.pracovniDatum=QDate::currentDate();
+    AktualizacePracovnihoData();
+}
+
+void MainWindow::pracovniDatumPrvniDenDat()
+{
+    sqlPraceRopid.nactiPlatnost(xmlRopidParser.platnostOd,xmlRopidParser.platnostDo);
+
+    qDebug()<<"MainWindow::pracovniDatumPrvniDenDat()";
+    stavSystemu.pracovniDatum=xmlRopidParser.platnostOd;
+    AktualizacePracovnihoData();
+}
+
+
+
+void MainWindow::slotAktualizacePracData()
+{
+    startDatabaze();
+}
+
+
 

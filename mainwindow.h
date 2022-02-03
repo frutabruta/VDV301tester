@@ -54,7 +54,7 @@ public:
     bool platnostSpoje=1;
 
     //SQLprace mojesql;
-    SqlPraceRopid mojesql;
+    SqlPraceRopid sqlPraceRopid;
 
     //instance knihoven
     XmlMpvParser xmlMpvParser;
@@ -96,6 +96,7 @@ public:
 
     QString otevriSouborXmlDialog();
     void nastavLabelCestyXml();
+    void AktualizacePracovnihoData();
 private:
     Ui::MainWindow *ui;
     //void replyFinished(QNetworkReply *);
@@ -112,9 +113,12 @@ private:
     void nastartujVsechnySluzby();
 
 
+    void pracovniDatumDnes();
+    void pracovniDatumPrvniDenDat();
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
+    void slotAktualizacePracData();
 private slots:
     //tlacitka
     int on_prikaztlacitko_clicked();
@@ -173,7 +177,7 @@ private slots:
     void radio1(bool stav);
     void radio2(bool stav);
     void radio3(bool stav);
-     void radio4(bool stav);
+    void radio4(bool stav);
 
     //zmeny seznamu
     void on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
@@ -190,6 +194,8 @@ private slots:
 
 
     void on_tlacitkoXmlVyberCestu_clicked();
+    void on_calendarWidget_selectionChanged();
+    void on_tlacitkoDnes_clicked();
 };
 
 #endif // MAINWINDOW_H

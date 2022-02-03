@@ -39,12 +39,14 @@ public:
     int otevriDB();
     int zavriDB();
     int StahniSeznam(Linka docasnaLinka, int cisloSpoje, QVector<Spoj> &seznamSpoju, bool platnost);
-    int VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek);
+    int VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek, QString kj);
     //int VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, int cisloLinky);
     int VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka);
 
     int VytvorSeznamTurnusSpoju(Obeh &docasnyObeh);
     int StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju, int indexSpoje, bool platnost);
+    int nactiPlatnost(QDate &platnostOd, QDate &platnostDo);
+    QString maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti);
 signals:
    // void pridejSubscribera(QUrl adresaSubscribera);
     void odesliChybovouHlasku(QString chybovaHlaska);

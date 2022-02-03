@@ -12,7 +12,7 @@
 
 XmlRopidParser::XmlRopidParser()
 {
-vstupniXmlSouborCesta="xml_zdroje/XML_X926_20211006_20211012";
+    vstupniXmlSouborCesta="xml_zdroje/XML_X926_20211006_20211012";
 }
 
 int XmlRopidParser::databazeStart(QString adresaServeru)
@@ -60,11 +60,12 @@ void XmlRopidParser::otevriSoubor(QString cesta)
     // ropidSQL.mojeDatabaze.close();
     this->databazeStart("ahoj");
     qDebug()<<"is driver available "<<QString::number(ropidSQL.mojeDatabaze.isDriverAvailable("QSQLITE"));
-    qDebug()<<"je databazte otevrena "<<QString::number(ropidSQL.mojeDatabaze.isOpen());
-    qDebug()<<"je databazte validni "<<QString::number(ropidSQL.mojeDatabaze.isValid());
+    qDebug()<<"je databaze otevrena "<<QString::number(ropidSQL.mojeDatabaze.isOpen());
+    qDebug()<<"je databaze validni "<<QString::number(ropidSQL.mojeDatabaze.isValid());
     if(ropidSQL.mojeDatabaze.transaction())
     {
         // QSqlQuery query(ropidSQL.mojeDatabaze);
+        vlozPlatnost(koren, platnostOd, platnostDo);
         vlozDd(koren);
         emit odesliChybovouHlasku("dokoncen import Dd");
         //vlozTv(koren);
@@ -101,12 +102,50 @@ void XmlRopidParser::otevriSoubor(QString cesta)
     ropidSQL.zavriDB();
 
 
+}
+
+
+
+int XmlRopidParser::vlozPlatnost(QDomElement koren, QDate &plOd, QDate &plDo)
+{
+    qDebug()<<"XmlRopidParser::vlozPlatnost";
+
+
+    plOd=QDate::fromString(koren.attribute("od"),Qt::ISODate);
+    plDo=QDate::fromString(koren.attribute("do"),Qt::ISODate);
+
+
+    // QString queryString("INSERT INTO hlavicka(platnostod,platnostdo) VALUES("+ plOd.toString(Qt::ISODate)+","+plDo.toString(Qt::ISODate)+")");
 
 
 
 
 
 
+
+
+
+    QDomElement element = koren;
+    QVector<navrat> polozky;
+    polozky.push_back(inicializujPolozku("od",element.attribute("od"),"String"));
+    polozky.push_back(inicializujPolozku("do",element.attribute("do"),"String"));
+    polozky.push_back(inicializujPolozku("režim",element.attribute("režim"),"String"));
+    QString queryString=this->slozInsert("hlavicka",polozky);
+    QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    qDebug()<<queryString;
+
+
+    QString vystup="platnost dat od "+plOd.toString(Qt::ISODate)+" do "+plDo.toString(Qt::ISODate);
+    //   QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    qDebug()<<vystup;
+    emit odesliChybovouHlasku(vystup );
+
+
+
+
+
+
+    return 1;
 }
 
 
@@ -675,6 +714,7 @@ int XmlRopidParser::truncateAll()
     truncateTable("`sp_po`");
     truncateTable("`tv`");
     truncateTable("`dd`");
+    truncateTable("`hlavicka`");
     emit odesliChybovouHlasku("databaze vymazana");
     //truncateTable("");
     ropidSQL.zavriDB();

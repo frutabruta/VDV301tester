@@ -624,6 +624,7 @@ int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek)
         }
     }
     this->zavriDB();
+    qDebug()<<"bylo nalezeno tolik linek: "<<citacMaximum;
     if (citacMaximum==0)
     {
         return 0;
@@ -635,7 +636,7 @@ int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek)
 }
 
 
-int SqlPraceRopid::VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek)
+int SqlPraceRopid::VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek, QString kj)
 {
 
     qDebug()<< "SqlPraceRopid::VytvorSeznamKmenovychLinek";
@@ -646,8 +647,10 @@ int SqlPraceRopid::VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek
     queryString2+=("LEFT JOIN l ON o.l=l.c ");
 
     queryString2+=("WHERE o.kj LIKE '");
-    queryString2+=QString::number(platnost);
-    queryString2+=("%' ");
+    queryString2+=(kj);
+    queryString2+=("' ");
+    /*queryString2+=QString::number(platnost);
+    queryString2+=("%' ");*/
     queryString2+=("ORDER BY l.c;");
     QSqlQuery query;
     query.exec(queryString2); //this->mojeDatabaze);
@@ -898,6 +901,83 @@ QString SqlPraceRopid::doplnNulu(int cislo,int pocetMist)
     return konverze;
 }
 
+int SqlPraceRopid::nactiPlatnost(QDate &platnostOd, QDate &platnostDo)
+{
+
+
+    qDebug()<< "SqlPraceRopid::nactiPlatnost";
+
+    this->Pripoj();
+
+    QString queryString2("SELECT DISTINCT h.od, h.do FROM hlavicka AS h ");
+
+
+    //  queryString2+=(" ORDER BY o.p");
+    QSqlQuery query;
+    query.exec(queryString2);
+    qDebug()<<"lasterror "<<query.lastError();
+    qDebug()<<queryString2;
+
+    int citacMaximum=0;
+    while (query.next())
+    {
+
+        if (query.value(0).toString()!="")
+        {
+
+
+            /*
+            QString plod=query.value(query.record().indexOf("od")).toString();
+            QString pldo=query.value(query.record().indexOf("do")).toString();
+            qDebug()<<"string od "<<plod<<" do "<<pldo;
+            */
+
+            //   plOd=QDate::fromString(koren.attribute("od"),Qt::ISODate);
+            //    plDo=QDate::fromString(koren.attribute("do"),Qt::ISODate);
+
+
+            platnostOd=query.value(query.record().indexOf("od")).toDate();
+            platnostDo=query.value(query.record().indexOf("do")).toDate();
+            citacMaximum++;
+
+        }
+    }
+
+    this->zavriDB();
+    if (citacMaximum==0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+
+
+
+
+
+
+}
+
+QString SqlPraceRopid::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti)
+{
+    QString vysledek="";
+
+    int pocetDni=1;
+
+    pocetDni=-pracDatum.daysTo(prvniDenPlatnosti);
+
+    for(int i=0;i<pocetDni;i++)
+    {
+       vysledek+="_";
+    }
+    vysledek+="1%";
+    qDebug()<<"data plati od "<<prvniDenPlatnosti<<" prac datum je "<<pracDatum<<" maska pro SQL databazi je "<<vysledek;
+
+    return vysledek;
+
+}
 
 
 

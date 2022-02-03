@@ -40,6 +40,11 @@ public:
 
 
     QVector<int> seznamDlouhychSpoju(QDomNodeList &dlouheSpoje);
+
+
+    QDate platnostOd;
+    QDate platnostDo;
+    int vlozPlatnost(QDomElement koren, QDate &plOd, QDate &plDo);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:
