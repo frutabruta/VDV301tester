@@ -744,7 +744,7 @@ void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QList
     qDebug()<<"tady budu vypisovat vybrane spoje";
     qDebug()<<"raw "<<ui->listLinek->currentItem()->data(Qt::UserRole)<<" int "<<ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
     ui->listSpoje->clear();
-    if (sqlPraceRopid.VytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka)==1)
+    if (sqlPraceRopid.VytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka, sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidParser.platnostOd, xmlRopidParser.platnostDo))==1)
     {
         NaplnVyberSpoje(seznamSpoju);
     }
@@ -786,7 +786,7 @@ void MainWindow::on_listPoradi_currentItemChanged(QListWidgetItem *current, QLis
             //ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
             stavSystemu.aktObeh.p=ui->listPoradi->currentItem()->data(Qt::UserRole).toInt() ;
 
-            if (sqlPraceRopid.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh)==1)
+            if (sqlPraceRopid.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh,sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidParser.platnostOd, xmlRopidParser.platnostDo))==1)
             {
                 NaplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
 

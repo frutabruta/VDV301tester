@@ -33,7 +33,7 @@ public:
     int Pripoj();
     //QVector<Linka> seznamLinek;
     int VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek);
-    int VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka);
+    int VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka, QString kj);
     void vytvorHlavniAktualni(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
   //  int StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
     int otevriDB();
@@ -43,7 +43,7 @@ public:
     //int VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, int cisloLinky);
     int VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka);
 
-    int VytvorSeznamTurnusSpoju(Obeh &docasnyObeh);
+    int VytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj);
     int StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju, int indexSpoje, bool platnost);
     int nactiPlatnost(QDate &platnostOd, QDate &platnostDo);
     QString maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti);

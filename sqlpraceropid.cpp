@@ -685,23 +685,30 @@ int SqlPraceRopid::VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek
 
 
 
-int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka)
+int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka, QString kj)
 {
     qDebug()<< "SqlPraceRopid::VytvorSeznamSpoju";
     docasnySeznamSpoju.clear();
     this->Pripoj();
-    bool platnost = true;
+    //bool platnost = true;
     qInfo()<<"DebugPointA";
-    QString queryString2("SELECT DISTINCT s.s, s.c, l.c,l.lc,l.aois FROM s ");
+    QString queryString2("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois FROM s ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
     queryString2+=("WHERE l.c=");
     queryString2+=( QString::number(docasnaLinka.c));
     //queryString2+=(" AND  s.c !=1000 "); //vlastnosti neveřejných spojů: číslo x000,  man="true" a ty="10"
     queryString2+=(" AND  s.man !=1 ");
 
-    queryString2+=(" AND  s.kj LIKE '");
+    /*queryString2+=(" AND  s.kj LIKE '");
     queryString2+=QString::number(platnost);
     queryString2+=("%' ");
+    */
+
+    queryString2+=(" AND s.kj LIKE '");
+    queryString2+=(kj);
+    queryString2+=("' ");
+
+
     queryString2+=(" ORDER BY s.c");
     QSqlQuery query;
     query.exec(queryString2);
@@ -745,13 +752,13 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka do
     }
 }
 
-int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh)
+int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
 {
     //QVector<Spoj> &docasnySeznamSpoju,
     qDebug()<< "SqlPraceRopid::VytvorSeznamTurnusSpoju";
     docasnyObeh.seznamSpoju.clear();
     this->Pripoj();
-    bool platnost = true;
+   // bool platnost = true;
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.aois FROM sp_po ");
 
@@ -763,9 +770,19 @@ int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh)
     queryString2+=(" AND  s.man !=1 ");
     queryString2+=(" AND  sp_po.p=");
     queryString2+=( QString::number(docasnyObeh.p));
+
+
+    /*
+
     queryString2+=(" AND  sp_po.kj LIKE '");
     queryString2+=QString::number(platnost);
     queryString2+=("%' ");
+    */
+
+    queryString2+=(" AND sp_po.kj LIKE '");
+    queryString2+=(kj);
+    queryString2+=("' ");
+
     queryString2+=(" ORDER BY sp_po.ord");
     QSqlQuery query;
     query.exec(queryString2);
