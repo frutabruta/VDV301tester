@@ -55,7 +55,6 @@ private:
     int vlozL(QDomElement koren);
     int vlozP(QDomElement koren);
     int vlozDd(QDomElement koren);
-    int vlozTv(QDomElement koren);
     int vlozT(QDomElement koren);
     int vlozX(QDomElement koren);
     int vlozO(QDomElement koren);
@@ -64,8 +63,14 @@ private:
     QString overString(QString vstup);
     QString slozInsert(QString nazevTabulky, QVector<navrat>);
     QString vytvorCas(QString vstup);
-    int vlozTv2(QDomElement koren);
+    int vlozTv(QDomElement koren);
     int vlozSpPo(QDomElement koren);
+    int vlozCh(QDomElement koren);
+    int vlozIds(QDomElement koren);
+    int vlozPo(QDomElement koren);
+    int vlozR(QDomElement koren);
+    int vlozK(QDomElement koren);
+    int vlozTy(QDomElement koren);
 };
 
 #endif // XMLROPIDPARSER_H

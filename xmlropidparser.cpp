@@ -66,25 +66,45 @@ void XmlRopidParser::otevriSoubor(QString cesta)
     {
         // QSqlQuery query(ropidSQL.mojeDatabaze);
         vlozPlatnost(koren, platnostOd, platnostDo);
-        vlozDd(koren);
-        emit odesliChybovouHlasku("dokoncen import Dd");
-        //vlozTv(koren);
-        vlozTv2(koren);
 
-        vlozM(koren);
 
         vlozD(koren);
-
-        vlozP(koren);
-
+        vlozDd(koren);
+        vlozIds(koren);
+        vlozM(koren);
         vlozZ(koren);
-
+        vlozP(koren);
         vlozL(koren);
-
-        vlozS(koren);
-
-        vlozT(koren);
+        vlozK(koren);
+        vlozTv(koren);
+        vlozTy(koren);
+        vlozCh(koren);
+        vlozR(koren);
+        vlozPo(koren);
         vlozO(koren);
+        vlozS(koren);
+        //vlozG
+        vlozT(koren);
+
+
+
+        //vlozTv(koren);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //emit odesliChybovouHlasku("Import hotov!");
 
@@ -116,14 +136,6 @@ int XmlRopidParser::vlozPlatnost(QDomElement koren, QDate &plOd, QDate &plDo)
 
 
     // QString queryString("INSERT INTO hlavicka(platnostod,platnostdo) VALUES("+ plOd.toString(Qt::ISODate)+","+plDo.toString(Qt::ISODate)+")");
-
-
-
-
-
-
-
-
 
     QDomElement element = koren;
     QVector<navrat> polozky;
@@ -171,48 +183,120 @@ int XmlRopidParser::vlozDd(QDomElement koren)
 }
 
 
-int XmlRopidParser::vlozTv(QDomElement koren)
+
+
+
+
+
+int XmlRopidParser::vlozCh(QDomElement koren)
 {
-    QDomNodeList m=koren.elementsByTagName("tv");
+    qDebug()<<"XmlRopidParser::vlozCh";
+    QString nazevElementu="ch";
+    QDomNodeList m=koren.elementsByTagName(nazevElementu);
     int pocetPrvku=m.count();
-    qDebug()<<"pocet prvku Tv je "<<pocetPrvku;
-    for (int i=0;i<pocetPrvku ;i++)
+    qDebug()<<"pocet prvku "+nazevElementu+" je "<<pocetPrvku;
+    for (int i=0;i<pocetPrvku;i++)
     {
-        qDebug()<<m.at(i).toElement().attribute("n");
-        QString queryString("INSERT INTO tv(c,z,n,dd,np) VALUES( ");
-        queryString+=(m.at(i).toElement().attribute("c"));
-        queryString+=(" ,");
-        queryString+=(overString( m.at(i).toElement().attribute("z")));
-        queryString+=(" ,\"");
-        queryString+=(m.at(i).toElement().attribute("n"));
-        queryString+=("\" ,\"");
-        queryString+=(m.at(i).toElement().attribute("dd"));
-        queryString+=("\" ,");
-        if(m.at(i).toElement().attribute("np")=="")
-        {
-            queryString+="false";
-        }
-        else
-        {
-            queryString+=(m.at(i).toElement().attribute("np"));
+        QDomElement element = m.at(i).toElement();
+        QVector<navrat> polozky;
+        polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
+        polozky.push_back(inicializujPolozku("n",element.attribute("n"),"String"));
 
 
-        }
-
-
-        queryString+=("  );");
-        qDebug()<<queryString;
+        QString queryString=this->slozInsert(nazevElementu,polozky);
+        qDebug()<<nazevElementu<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
-
+    emit odesliChybovouHlasku("dokoncen import "+nazevElementu);
     return 1;
 }
 
 
 
-int XmlRopidParser::vlozTv2(QDomElement koren)
+int XmlRopidParser::vlozIds(QDomElement koren)
 {
-    qDebug()<<"XmlRopidParser::vlozTv2";
+    qDebug()<<"XmlRopidParser::vlozIds";
+    QString nazevElementu="ids";
+    QDomNodeList m=koren.elementsByTagName(nazevElementu);
+    int pocetPrvku=m.count();
+    qDebug()<<"pocet prvku "+nazevElementu+" je "<<pocetPrvku;
+    for (int i=0;i<pocetPrvku;i++)
+    {
+        QDomElement element = m.at(i).toElement();
+        QVector<navrat> polozky;
+        polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
+        polozky.push_back(inicializujPolozku("z",element.attribute("z"),"String"));
+        polozky.push_back(inicializujPolozku("n",element.attribute("n"),"String"));
+        polozky.push_back(inicializujPolozku("tapoj",element.attribute("tapoj"),"String"));
+
+
+        QString queryString=this->slozInsert(nazevElementu,polozky);
+        qDebug()<<nazevElementu<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+    emit odesliChybovouHlasku("dokoncen import "+nazevElementu);
+    return 1;
+}
+
+
+int XmlRopidParser::vlozK(QDomElement koren)
+{
+    qDebug()<<"XmlRopidParser::vlozK";
+    QString nazevElementu="k";
+    QDomNodeList m=koren.elementsByTagName(nazevElementu);
+    int pocetPrvku=m.count();
+    qDebug()<<"pocet prvku "+nazevElementu+" je "<<pocetPrvku;
+    for (int i=0;i<pocetPrvku;i++)
+    {
+        QDomElement element = m.at(i).toElement();
+        QVector<navrat> polozky;
+        polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
+        polozky.push_back(inicializujPolozku("n",element.attribute("n"),"String"));
+
+         QString queryString=this->slozInsert(nazevElementu,polozky);
+        qDebug()<<nazevElementu<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+    emit odesliChybovouHlasku("dokoncen import "+nazevElementu);
+    return 1;
+}
+
+
+
+int XmlRopidParser::vlozM(QDomElement koren)
+{
+    qDebug()<<"XmlRopidParser::vlozM";
+    QString nazevElementu="m";
+    QDomNodeList m=koren.elementsByTagName(nazevElementu);
+    int pocetPrvku=m.count();
+    qDebug()<<"pocet prvku "+nazevElementu+" je "<<pocetPrvku;
+    for (int i=0;i<pocetPrvku;i++)
+    {
+        QDomElement element = m.at(i).toElement();
+        QVector<navrat> polozky;
+        polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
+
+        polozky.push_back(inicializujPolozku("n",element.attribute("n"),"String"));
+        polozky.push_back(inicializujPolozku("z",element.attribute("z"),"String"));
+
+
+
+        QString queryString=this->slozInsert(nazevElementu,polozky);
+        qDebug()<<nazevElementu<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+    emit odesliChybovouHlasku("dokoncen import "+nazevElementu);
+    return 1;
+}
+
+
+
+
+
+
+int XmlRopidParser::vlozTv(QDomElement koren)
+{
+    qDebug()<<"XmlRopidParser::vlozTv";
     QDomNodeList m=koren.elementsByTagName("tv");
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku Tv2 je "<<pocetPrvku;
@@ -258,6 +342,101 @@ int XmlRopidParser::vlozO(QDomElement koren)
     emit odesliChybovouHlasku("dokoncen import O");
     return 1;
 }
+
+
+
+int XmlRopidParser::vlozPo(QDomElement koren)
+{
+    qDebug()<<"XmlRopidParser::vlozPo";
+    QString nazevElementu="po";
+    QDomNodeList m=koren.elementsByTagName(nazevElementu);
+    int pocetPrvku=m.count();
+    qDebug()<<"pocet prvku "+nazevElementu+" je "<<pocetPrvku;
+    for (int i=0;i<pocetPrvku;i++)
+    {
+        QDomElement element = m.at(i).toElement();
+        QVector<navrat> polozky;
+        polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
+        polozky.push_back(inicializujPolozku("t",element.attribute("t"),"String"));
+        polozky.push_back(inicializujPolozku("zkr1",element.attribute("zkr1"),"String"));
+        polozky.push_back(inicializujPolozku("zkr2",element.attribute("zkr2"),"String"));
+        polozky.push_back(inicializujPolozku("ois",element.attribute("ois"),"Boolean"));
+        polozky.push_back(inicializujPolozku("zjr",element.attribute("zjr"),"Boolean"));
+        polozky.push_back(inicializujPolozku("csad",element.attribute("csad"),"Boolean"));
+        polozky.push_back(inicializujPolozku("ljr",element.attribute("ljr"),"Boolean"));
+        polozky.push_back(inicializujPolozku("kjr",element.attribute("kjr"),"Boolean"));
+        polozky.push_back(inicializujPolozku("jdf",element.attribute("jdf"),"Boolean"));
+        polozky.push_back(inicializujPolozku("tt",element.attribute("tt"),"Boolean"));
+
+        polozky.push_back(inicializujPolozku("n",element.attribute("n"),"String"));
+        polozky.push_back(inicializujPolozku("tn",element.attribute("tn"),"String"));
+        polozky.push_back(inicializujPolozku("nl",element.attribute("nl"),"String"));
+        polozky.push_back(inicializujPolozku("anl",element.attribute("anl"),"Integer"));
+        polozky.push_back(inicializujPolozku("dd",element.attribute("dd"),"Integer"));
+        polozky.push_back(inicializujPolozku("cd",element.attribute("cd"),"String"));
+
+
+
+        QString queryString=this->slozInsert(nazevElementu,polozky);
+        qDebug()<<nazevElementu<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+    emit odesliChybovouHlasku("dokoncen import "+nazevElementu);
+    return 1;
+}
+
+int XmlRopidParser::vlozR(QDomElement koren)
+{
+    qDebug()<<"XmlRopidParser::vlozR";
+    QString nazevElementu="r";
+    QDomNodeList m=koren.elementsByTagName(nazevElementu);
+    int pocetPrvku=m.count();
+    qDebug()<<"pocet prvku "+nazevElementu+" je "<<pocetPrvku;
+    for (int i=0;i<pocetPrvku;i++)
+    {
+        QDomElement element = m.at(i).toElement();
+        QVector<navrat> polozky;
+        polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
+        polozky.push_back(inicializujPolozku("pop",element.attribute("pop"),"String"));
+
+
+
+
+        QString queryString=this->slozInsert(nazevElementu,polozky);
+        qDebug()<<nazevElementu<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+    emit odesliChybovouHlasku("dokoncen import "+nazevElementu);
+    return 1;
+}
+
+
+int XmlRopidParser::vlozTy(QDomElement koren)
+{
+    qDebug()<<"XmlRopidParser::vlozTy";
+    QString nazevElementu="ty";
+    QDomNodeList m=koren.elementsByTagName(nazevElementu);
+    int pocetPrvku=m.count();
+    qDebug()<<"pocet prvku "+nazevElementu+" je "<<pocetPrvku;
+    for (int i=0;i<pocetPrvku;i++)
+    {
+        QDomElement element = m.at(i).toElement();
+        QVector<navrat> polozky;
+        polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
+        polozky.push_back(inicializujPolozku("n",element.attribute("n"),"String"));
+        polozky.push_back(inicializujPolozku("li",element.attribute("li"),"String"));
+
+
+
+
+        QString queryString=this->slozInsert(nazevElementu,polozky);
+        qDebug()<<nazevElementu<<queryString;
+        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
+    }
+    emit odesliChybovouHlasku("dokoncen import "+nazevElementu);
+    return 1;
+}
+
 
 
 int XmlRopidParser::vlozSpPo(QDomElement koren)
@@ -436,12 +615,13 @@ int XmlRopidParser::vlozD(QDomElement koren)
         QVector<navrat> polozky;
         polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
         polozky.push_back(inicializujPolozku("n",element.attribute("n"),"String"));
+        polozky.push_back(inicializujPolozku("kj",element.attribute("kj"),"String"));
         polozky.push_back(inicializujPolozku("ncis",element.attribute("ncis"),"String"));
         polozky.push_back(inicializujPolozku("ico",element.attribute("ico"),"Integer"));
         polozky.push_back(inicializujPolozku("dic",element.attribute("dic"),"String"));
         polozky.push_back(inicializujPolozku("ul",element.attribute("ul"),"String"));
         polozky.push_back(inicializujPolozku("me",element.attribute("me"),"String"));
-        polozky.push_back(inicializujPolozku("psc",element.attribute("psc"),"Integer"));
+        polozky.push_back(inicializujPolozku("psc",element.attribute("psc"),"String"));
         polozky.push_back(inicializujPolozku("tel",element.attribute("tel"),"String"));
         polozky.push_back(inicializujPolozku("em",element.attribute("em"),"String"));
         QString queryString=this->slozInsert("d",polozky);
@@ -467,12 +647,16 @@ int XmlRopidParser::vlozP(QDomElement koren)
         QDomElement element = m.at(i).toElement();
         QVector<navrat> polozky;
         polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
+        polozky.push_back(inicializujPolozku("kj",element.attribute("kj"),"String"));
         polozky.push_back(inicializujPolozku("z",element.attribute("z"),"String"));
         polozky.push_back(inicializujPolozku("n",element.attribute("n"),"String"));
         polozky.push_back(inicializujPolozku("d",element.attribute("d"),"Integer"));
         polozky.push_back(inicializujPolozku("dd",element.attribute("dd"),"Integer"));
         polozky.push_back(inicializujPolozku("u",element.attribute("u"),"Integer"));
         polozky.push_back(inicializujPolozku("mail",element.attribute("mail"),"String"));
+        polozky.push_back(inicializujPolozku("telv",element.attribute("telg"),"String"));
+        polozky.push_back(inicializujPolozku("telg",element.attribute("telv"),"String"));
+        polozky.push_back(inicializujPolozku("telz",element.attribute("telz"),"String"));
         QString queryString=this->slozInsert("p",polozky);
         qDebug()<<"p2 "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
@@ -482,28 +666,8 @@ int XmlRopidParser::vlozP(QDomElement koren)
     return 1;
 }
 
-int XmlRopidParser::vlozM(QDomElement koren)
-{
-    qDebug()<<"zacatekImportuM";
-    // emit odesliChybovouHlasku("");
-    QDomNodeList m=koren.elementsByTagName("m");
-    int pocetPrvku=m.count();
-    qDebug()<<"pocet prvku M je "<<pocetPrvku;
-    for (int i=0;i<pocetPrvku;i++)
-    {
-        QDomElement element = m.at(i).toElement();
-        QVector<navrat> polozky;
-        polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
-        polozky.push_back(inicializujPolozku("n",element.attribute("n"),"String"));
 
-        QString queryString=this->slozInsert("m",polozky);
-        qDebug()<<"m2 "<<queryString;
-        QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
-    }
-    emit odesliChybovouHlasku("dokoncen import M");
-    qDebug()<<"konecImportuM";
-    return 1;
-}
+
 
 
 int XmlRopidParser::vlozZ(QDomElement koren)
@@ -617,6 +781,7 @@ int XmlRopidParser::vlozT(QDomElement koren)
 
         polozky.push_back(inicializujPolozku("u",element.attribute("u"),"Integer"));
         polozky.push_back(inicializujPolozku("z",element.attribute("z"),"Integer"));
+        polozky.push_back(inicializujPolozku("kj",element.attribute("kj"),"String"));
         polozky.push_back(inicializujPolozku("ois",element.attribute("ois"),"Integer"));
         polozky.push_back(inicializujPolozku("cis",element.attribute("cis"),"Integer"));
         polozky.push_back(inicializujPolozku("nza",element.attribute("nza"),"String"));
@@ -704,19 +869,37 @@ int XmlRopidParser::truncateTable(QString tabulka)
 int XmlRopidParser::truncateAll()
 {
     ropidSQL.Pripoj();
+
+   //  truncateTable("``");
+
     truncateTable("`t`");
-    truncateTable("`x`");
+    truncateTable("`sp_po`");
+     truncateTable("`x`");
     truncateTable("`s`");
+    truncateTable("`o`");
+    truncateTable("`po`");
+    truncateTable("`r`");
+    truncateTable("`ch`");
+    truncateTable("`ty`");
+    truncateTable("`tv`");
+    truncateTable("`k`");
     truncateTable("`l`");
+    truncateTable("`p`");
     truncateTable("`z`");
     truncateTable("`m`");
-    truncateTable("`o`");
-    truncateTable("`p`");
+    truncateTable("`ids`");
+     truncateTable("`dd`");
     truncateTable("`d`");
-    truncateTable("`sp_po`");
-    truncateTable("`tv`");
-    truncateTable("`dd`");
     truncateTable("`hlavicka`");
+
+
+
+
+
+
+
+
+
     emit odesliChybovouHlasku("databaze vymazana");
     //truncateTable("");
     ropidSQL.zavriDB();
