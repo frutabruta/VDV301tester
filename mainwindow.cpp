@@ -66,6 +66,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+
+/*!
+
+*/
 void MainWindow::vsechnyConnecty()
 {
     //vypisy subscriberu
@@ -123,6 +128,11 @@ void MainWindow::vsechnyConnecty()
     connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
 }
 
+
+
+/*!
+
+*/
 void MainWindow::testNaplnOkno(int index)
 {
     qDebug()<<"MainWindow::testNaplnOkno";
@@ -407,17 +417,31 @@ void MainWindow::on_pripojeniTlacitko_clicked()
     startDatabaze();
 }
 
+
+
+
+/*!
+
+*/
 void MainWindow::startDatabaze()
 {
     qDebug()<<"MainWindow::startDatabaze()";
     sqlPraceRopid.Pripoj();
-    if (sqlPraceRopid.VytvorSeznamLinek(seznamLinek)==1)
+    vymazSeznam(ui->listLinek);
+    vymazSeznam(ui->listKmenovychLinek);
+    vymazSeznam(ui->listPoradi);
+
+    if (sqlPraceRopid.VytvorSeznamLinek(seznamLinek,this->vyrobMaskuKalendareJizd())==1)
     {
 
         NaplnVyberLinky(seznamLinek);
         QVector<Linka> kmenoveLinky;
-        sqlPraceRopid.VytvorSeznamKmenovychLinek(kmenoveLinky,sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidParser.platnostOd, xmlRopidParser.platnostDo));
-        sqlPraceRopid.nactiPlatnost(xmlRopidParser.platnostOd,xmlRopidParser.platnostDo);
+        sqlPraceRopid.VytvorSeznamKmenovychLinek(kmenoveLinky,vyrobMaskuKalendareJizd());
+
+        aktualizaceKalendare();
+
+
+
         NaplnKmenoveLinky(kmenoveLinky);
         ui->NazevVysledku->setText("OK2");
     }
@@ -428,13 +452,31 @@ void MainWindow::startDatabaze()
     }
 }
 
+
+void MainWindow::aktualizaceKalendare()
+{
+    qDebug()<<"MainWindow::aktualizaceKalendare";
+    if(sqlPraceRopid.nactiPlatnost(xmlRopidParser.platnostOd,xmlRopidParser.platnostDo))
+    {
+        ui->calendarWidget->setMinimumDate(xmlRopidParser.platnostOd);
+        ui->calendarWidget->setMaximumDate(xmlRopidParser.platnostDo);
+    }
+    else
+    {
+        ui->calendarWidget->setMinimumDate(QDate(1900, 1, 1));
+        ui->calendarWidget->setMaximumDate(QDate(3000, 1, 1));
+    }
+}
+
 void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
 {
     qDebug()<<"MainWindow::NaplnVyberLinky";
-
+/*
     ui->listLinek->blockSignals(true);
     ui->listLinek->clear();
     ui->listLinek->blockSignals(false);
+*/
+    vymazSeznam(ui->listLinek);
 
     // https://stackoverflow.com/a/53632933
 
@@ -448,6 +490,13 @@ void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
         ui->listLinek->addItem( newItem);
     }
 
+}
+
+void MainWindow::vymazSeznam(QListWidget *vstup)
+{
+    vstup->blockSignals(true);
+    vstup->clear();
+    vstup->blockSignals(false);
 }
 
 void MainWindow::NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek)
@@ -744,7 +793,7 @@ void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QList
     qDebug()<<"tady budu vypisovat vybrane spoje";
     qDebug()<<"raw "<<ui->listLinek->currentItem()->data(Qt::UserRole)<<" int "<<ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
     ui->listSpoje->clear();
-    if (sqlPraceRopid.VytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka, sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidParser.platnostOd, xmlRopidParser.platnostDo))==1)
+    if (sqlPraceRopid.VytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd())==1)
     {
         NaplnVyberSpoje(seznamSpoju);
     }
@@ -761,7 +810,7 @@ void MainWindow::on_listKmenovychLinek_currentItemChanged(QListWidgetItem *curre
 
     ui->listTurnusSpoje->clear();
 
-    if (sqlPraceRopid.VytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka )==1)
+    if (sqlPraceRopid.VytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
     {
 
         NaplnVyberPoradi(seznamObehu);
@@ -786,7 +835,7 @@ void MainWindow::on_listPoradi_currentItemChanged(QListWidgetItem *current, QLis
             //ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
             stavSystemu.aktObeh.p=ui->listPoradi->currentItem()->data(Qt::UserRole).toInt() ;
 
-            if (sqlPraceRopid.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh,sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidParser.platnostOd, xmlRopidParser.platnostDo))==1)
+            if (sqlPraceRopid.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
             {
                 NaplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
 
@@ -1328,6 +1377,8 @@ void MainWindow::AktualizacePracovnihoData()
     qDebug()<<"od "<<xmlRopidParser.platnostOd<<" do "<<xmlRopidParser.platnostDo<<" pracovni "<<stavSystemu.pracovniDatum ;
     qDebug()<<"dnu do pracovnihodata "<< stavSystemu.pracovniDatum.daysTo(xmlRopidParser.platnostOd) <<" dnu do zacatku platnosti " << stavSystemu.pracovniDatum.daysTo(xmlRopidParser.platnostDo);
 
+
+    this->vyrobMaskuKalendareJizd();
     sqlPraceRopid.maskaKalendarJizd(this->stavSystemu.pracovniDatum,xmlRopidParser.platnostOd,xmlRopidParser.platnostDo);
     startDatabaze();
 }
@@ -1342,7 +1393,7 @@ void MainWindow::pracovniDatumDnes()
 
 void MainWindow::pracovniDatumPrvniDenDat()
 {
-    sqlPraceRopid.nactiPlatnost(xmlRopidParser.platnostOd,xmlRopidParser.platnostDo);
+    aktualizaceKalendare();
 
     qDebug()<<"MainWindow::pracovniDatumPrvniDenDat()";
     stavSystemu.pracovniDatum=xmlRopidParser.platnostOd;
@@ -1354,6 +1405,13 @@ void MainWindow::pracovniDatumPrvniDenDat()
 void MainWindow::slotAktualizacePracData()
 {
     startDatabaze();
+}
+
+
+QString MainWindow::vyrobMaskuKalendareJizd()
+{
+    qDebug()<<"MainWindow::vyrobMaskuKalendareJizd()";
+    return sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidParser.platnostOd, xmlRopidParser.platnostDo);
 }
 
 

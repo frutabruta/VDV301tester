@@ -597,13 +597,20 @@ void SqlPraceRopid::vytvorHlavniTextNasledujici (QString &textPoleObsah,QString 
 
 
 
-int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek)
+int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek, QString kj)
 {
 
     qDebug()<< "SqlPraceRopid::VytvorSeznamLinek";
     this->otevriDB();
     docasnySeznamLinek.clear();
     QString queryString2("SELECT DISTINCT l.c,l.lc,l.n FROM l ");
+
+
+    queryString2+=("WHERE l.kj LIKE '");
+    queryString2+=(kj);
+    queryString2+=("' ");
+
+
     queryString2+=("ORDER BY l.c;");
     QSqlQuery query;
     query.exec(queryString2); //this->mojeDatabaze);
@@ -758,7 +765,7 @@ int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
     qDebug()<< "SqlPraceRopid::VytvorSeznamTurnusSpoju";
     docasnyObeh.seznamSpoju.clear();
     this->Pripoj();
-   // bool platnost = true;
+    // bool platnost = true;
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.aois FROM sp_po ");
 
@@ -769,6 +776,9 @@ int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
     //queryString2+=(" AND  s.c !=1000 ");
     queryString2+=(" AND  s.man !=1 ");
     queryString2+=(" AND  sp_po.p=");
+
+
+
     queryString2+=( QString::number(docasnyObeh.p));
 
 
@@ -832,21 +842,27 @@ int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
     }
 }
 
-int SqlPraceRopid::VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka)
+int SqlPraceRopid::VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka, QString kj)
 {
     qDebug()<< "SqlPraceRopid::VytvorSeznamPoradi";
     docasnySeznamObehu.clear();
     this->Pripoj();
-    bool platnost = true;
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT o.l, o.p FROM o ");
     // queryString2+=("LEFT JOIN l ON s.l=l.c ");
     queryString2+=("WHERE o.l=");
     queryString2+=( QString::number(docasnaLinka.c));
     //queryString2+=("' AND  s.c !=1000 ");
-    queryString2+=(" AND  o.kj LIKE '");
-    queryString2+=QString::number(platnost);
-    queryString2+=("%' ");
+
+
+
+
+    queryString2+=(" AND o.kj LIKE '");
+    queryString2+=(kj);
+    queryString2+=("' ");
+
+
+
     queryString2+=(" ORDER BY o.p");
     QSqlQuery query;
     query.exec(queryString2);
@@ -985,9 +1001,15 @@ QString SqlPraceRopid::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnost
 
     pocetDni=-pracDatum.daysTo(prvniDenPlatnosti);
 
+    if(!jeDatumVRozsahu(pracDatum,prvniDenPlatnosti,konecPlatnosti))
+    {
+        qDebug("datum je mimo rozsah platnosti");
+        return "x";
+    }
+
     for(int i=0;i<pocetDni;i++)
     {
-       vysledek+="_";
+        vysledek+="_";
     }
     vysledek+="1%";
     qDebug()<<"data plati od "<<prvniDenPlatnosti<<" prac datum je "<<pracDatum<<" maska pro SQL databazi je "<<vysledek;
@@ -996,6 +1018,24 @@ QString SqlPraceRopid::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnost
 
 }
 
+bool SqlPraceRopid::jeDatumVRozsahu(QDate datum, QDate zacatek, QDate konec)
+{
 
+    qDebug()<<"SqlPraceRopid::jeDatumVRozsahu";
+    int rozdilZacatek=datum.daysTo(zacatek);
+    int rozdilKonec=datum.daysTo(konec);
+
+    qDebug()<<"pocet dni ZACATEK "<<rozdilZacatek<<" pocet dni KONEC "<<rozdilKonec;
+
+
+    if ((rozdilZacatek<=0)&&(rozdilKonec>=0))
+    {
+        return true;
+    }
+
+
+
+    return false;
+}
 
 

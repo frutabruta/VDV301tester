@@ -115,6 +115,9 @@ private:
 
     void pracovniDatumDnes();
     void pracovniDatumPrvniDenDat();
+    void vymazSeznam(QListWidget *vstup);
+    void aktualizaceKalendare();
+    QString vyrobMaskuKalendareJizd();
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
