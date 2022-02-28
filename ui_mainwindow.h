@@ -1856,7 +1856,7 @@ public:
         retranslateUi(MainWindow);
 
         stackedWidget_hlavni->setCurrentIndex(0);
-        prepinadloStran->setCurrentIndex(2);
+        prepinadloStran->setCurrentIndex(4);
         stackedWidget_testy->setCurrentIndex(0);
 
 

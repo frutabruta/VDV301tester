@@ -11,6 +11,10 @@ SqlPraceRopid::SqlPraceRopid()
 }
 
 //test Pridani Komentare prechodu na SQLITE
+
+/*!
+
+*/
 int SqlPraceRopid::Pripoj()
 
 {
@@ -40,7 +44,9 @@ int SqlPraceRopid::Pripoj()
 
 }
 
+/*!
 
+*/
 int SqlPraceRopid::otevriDB()
 {
     qDebug()<< "SQLpraceRopid::otevriDB";
@@ -62,6 +68,10 @@ int SqlPraceRopid::otevriDB()
     return 0;
 }
 
+
+/*!
+
+*/
 int SqlPraceRopid::zavriDB()
 {
     qDebug()<< "SQLpraceRopid::zavriDB";
@@ -86,7 +96,9 @@ int SqlPraceRopid::zavriDB()
 
 
 
+/*!
 
+*/
 int SqlPraceRopid::StahniSeznam(Linka docasnaLinka, int cisloSpoje,QVector<Spoj> &seznamSpoju , bool platnost )
 {
     qDebug()<< "SQLprace::StahniSeznam";
@@ -301,7 +313,9 @@ dbManager->query.exec();
 
 
 
+/*!
 
+*/
 int SqlPraceRopid::StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju ,int indexSpoje,bool platnost )
 {
     qDebug()<< "SQLprace::StahniSeznamCelySpoj";
@@ -525,7 +539,9 @@ dbManager->query.exec();
 }
 
 
+/*!
 
+*/
 void SqlPraceRopid::VypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek)
 {
     qDebug()<< "SQLprace::VypisPole";
@@ -535,6 +551,10 @@ void SqlPraceRopid::VypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &p
     }
 }
 
+
+/*!
+
+*/
 void SqlPraceRopid::vytvorHlavniAktualni(QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek,QString locationState)
 {
     qDebug()<< "SqlPraceRopid::vytvorHlavniAktualni";
@@ -562,6 +582,10 @@ void SqlPraceRopid::vytvorHlavniAktualni(QString &textPoleObsah,QString &textPol
 
 }
 
+
+/*!
+
+*/
 void SqlPraceRopid::vytvorHlavniTextNasledujici (QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState)
 {
     qDebug()<< "SqlPraceRopid::vytvorHlavniText";
@@ -596,7 +620,9 @@ void SqlPraceRopid::vytvorHlavniTextNasledujici (QString &textPoleObsah,QString 
 }
 
 
+/*!
 
+*/
 int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek, QString kj)
 {
 
@@ -643,6 +669,10 @@ int SqlPraceRopid::VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek, QString
 }
 
 
+
+/*!
+
+*/
 int SqlPraceRopid::VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek, QString kj)
 {
 
@@ -691,7 +721,9 @@ int SqlPraceRopid::VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek
 }
 
 
+/*!
 
+*/
 int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka, QString kj)
 {
     qDebug()<< "SqlPraceRopid::VytvorSeznamSpoju";
@@ -759,6 +791,10 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka do
     }
 }
 
+
+/*!
+
+*/
 int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
 {
     //QVector<Spoj> &docasnySeznamSpoju,
@@ -842,6 +878,12 @@ int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
     }
 }
 
+
+
+
+/*!
+
+*/
 int SqlPraceRopid::VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka, QString kj)
 {
     qDebug()<< "SqlPraceRopid::VytvorSeznamPoradi";
@@ -899,6 +941,10 @@ int SqlPraceRopid::VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka d
     }
 }
 
+
+/*!
+
+*/
 QString SqlPraceRopid::vytvorCasHodinyMinuty(QString vstup)
 {
     qDebug()<<"SqlPraceRopid::vytvorCas";
@@ -911,6 +957,10 @@ QString SqlPraceRopid::vytvorCasHodinyMinuty(QString vstup)
     return vstup;
 }
 
+
+/*!
+
+*/
 QString SqlPraceRopid::vytvorCasHodinyMinutySekundy(QString vstup)
 {
     qDebug()<<"SqlPraceRopid::vytvorCas";
@@ -923,6 +973,10 @@ QString SqlPraceRopid::vytvorCasHodinyMinutySekundy(QString vstup)
     return vstup;
 }
 
+
+/*!
+
+*/
 QString SqlPraceRopid::doplnNulu(int cislo,int pocetMist)
 {
     qDebug()<<"SqlPraceRopid::doplnNulu";
@@ -934,6 +988,10 @@ QString SqlPraceRopid::doplnNulu(int cislo,int pocetMist)
     return konverze;
 }
 
+
+/*!
+
+*/
 int SqlPraceRopid::nactiPlatnost(QDate &platnostOd, QDate &platnostDo)
 {
 
@@ -993,6 +1051,10 @@ int SqlPraceRopid::nactiPlatnost(QDate &platnostOd, QDate &platnostDo)
 
 }
 
+
+/*!
+
+*/
 QString SqlPraceRopid::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti)
 {
     QString vysledek="";
@@ -1018,6 +1080,9 @@ QString SqlPraceRopid::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnost
 
 }
 
+/*!
+
+*/
 bool SqlPraceRopid::jeDatumVRozsahu(QDate datum, QDate zacatek, QDate konec)
 {
 
