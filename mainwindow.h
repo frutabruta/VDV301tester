@@ -45,6 +45,11 @@ public:
     //konstanty
     QString umisteniProgramu=QCoreApplication::applicationDirPath();
 
+
+
+
+private:
+
     //datove struktury
     CestaUdaje stavSystemu;
     QVector <Linka> seznamLinek;
@@ -62,20 +67,31 @@ public:
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
     Logfile logfile;
+    QFile souborLogu;
+
 
     //VDV301testy
     TestDemo vzorovyTest;
     TestOdberuServer testOdberuServer;
     int testIndex=0;
 
-    QFile log;
+    void testStart(int index);
+    void testStop(int index);
+
+    //promenne
+
+
+
 
     //udalosti
-    void xmlHromadnyUpdate();
+
     int priPrijezdu();
     int priOdjezdu();
     void vsechnyConnecty();
     void testNaplnOkno(int index);
+    void xmlVdv301HromadnyUpdate();
+
+
 
     //IBIS-IP lsuzby
     HttpSluzba deviceManagementService1_0;
@@ -90,34 +106,47 @@ public:
     void NaplnVyberLinky(QVector<Linka> docasnySeznamLinek);
     void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
     void NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek);
+    void NaplnVyberPoradi(QVector<Obeh> docasnySeznamObehu);
+    void NaplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju);
+    void vymazSeznam(QListWidget *vstup);
 
-    void testStart(int index);
-    void testStop(int index);
 
+    //prace s XML
     QString otevriSouborXmlDialog();
     void nastavLabelCestyXml();
     void AktualizacePracovnihoData();
-private:
+
+
+    //prace s oknem
     Ui::MainWindow *ui;
-    //void replyFinished(QNetworkReply *);
     void AktualizaceDispleje();
-    void startDatabaze();
-    void inicializacePoli();
-    void vypisSubscribery(QVector<Subscriber> adresy);
-
-    void vypisSubscribery2(QVector<Subscriber> adresy);
-    void NaplnVyberPoradi(QVector<Obeh> docasnySeznamObehu);
-    void NaplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju);
-    void zastavSluzby();
     void toggleFullscreen();
-    void nastartujVsechnySluzby();
 
 
+
+    //void replyFinished(QNetworkReply *);
+
+    void inicializaceVyberovychPoli();
+    void inicializacePoli();
+
+
+    //VDV301
+    void vypisSubscribery1_0(QVector<Subscriber> adresy);
+    void vypisSubscribery2_2CZ(QVector<Subscriber> adresy);
+    void nastartujVsechnyVdv301Sluzby();
+    void zastavSluzby();
+
+
+
+
+    //kalendar jizd
     void pracovniDatumDnes();
     void pracovniDatumPrvniDenDat();
-    void vymazSeznam(QListWidget *vstup);
     void aktualizaceKalendare();
     QString vyrobMaskuKalendareJizd();
+
+
+
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
@@ -189,6 +218,12 @@ private slots:
     void on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
+
+    //kalendar
+    void on_calendarWidget_selectionChanged();
+
+
+
     //vlatni signaly
     void MpvNetReady();
     void vypisDiagnostika(QString vstup);
@@ -197,7 +232,7 @@ private slots:
 
 
     void on_tlacitkoXmlVyberCestu_clicked();
-    void on_calendarWidget_selectionChanged();
+
     void on_tlacitkoDnes_clicked();
 };
 
