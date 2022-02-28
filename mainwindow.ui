@@ -1990,6 +1990,12 @@ Stop</string>
                     </item>
                     <item>
                      <widget class="QLabel" name="label_4">
+                      <property name="maximumSize">
+                       <size>
+                        <width>200</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>cesta k souboru</string>
                       </property>
@@ -1997,6 +2003,12 @@ Stop</string>
                     </item>
                     <item>
                      <widget class="QLabel" name="label_cestaXml">
+                      <property name="maximumSize">
+                       <size>
+                        <width>200</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
                       <property name="text">
                        <string>cesta_obsah</string>
                       </property>

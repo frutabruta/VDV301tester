@@ -1010,11 +1010,13 @@ public:
 
         label_4 = new QLabel(page_nastaveni);
         label_4->setObjectName(QString::fromUtf8("label_4"));
+        label_4->setMaximumSize(QSize(200, 16777215));
 
         verticalLayoutvstupniData->addWidget(label_4);
 
         label_cestaXml = new QLabel(page_nastaveni);
         label_cestaXml->setObjectName(QString::fromUtf8("label_cestaXml"));
+        label_cestaXml->setMaximumSize(QSize(200, 16777215));
 
         verticalLayoutvstupniData->addWidget(label_cestaXml);
 

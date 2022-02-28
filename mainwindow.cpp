@@ -695,6 +695,7 @@ void MainWindow::on_tlacitkoNactiXMLropid_clicked()
 {
     qDebug()<<"";
     xmlRopidParser.otevriSoubor(xmlRopidParser.vstupniXmlSouborCesta);
+    this->pracovniDatumPrvniDenDat();
     this->startDatabaze();
 }
 
@@ -1380,6 +1381,7 @@ void MainWindow::AktualizacePracovnihoData()
 
     this->vyrobMaskuKalendareJizd();
     sqlPraceRopid.maskaKalendarJizd(this->stavSystemu.pracovniDatum,xmlRopidParser.platnostOd,xmlRopidParser.platnostDo);
+
     startDatabaze();
 }
 
