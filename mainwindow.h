@@ -56,7 +56,7 @@ private:
     QVector <Spoj> seznamSpoju;
     QVector <Obeh> seznamObehu;
 
-    bool platnostSpoje=1;
+
 
     //SQLprace mojesql;
     SqlPraceRopid sqlPraceRopid;
@@ -224,8 +224,8 @@ private slots:
 
 
 
-    //vlatni signaly
-    void MpvNetReady();
+    //vlatni sloty
+    void slotMpvNetReady();
     void vypisDiagnostika(QString vstup);
 
 

@@ -17,27 +17,26 @@
 
 class SqlPraceRopid: public QObject
 {
-     Q_OBJECT
+    Q_OBJECT
 public:
 
     QSqlDatabase mojeDatabaze;
     SqlPraceRopid();
     bool vysledek;
-    //void Pripoj();
-    //void StahniSeznam(int &pocetVysledku, int cisloLinky, int cisloSpoje, SeznamZastavek *docasnySeznamZastavek);
 
-    void vytvorHlavniTextNasledujici(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
-    int StahniSeznam(int cisloLinky, int cisloSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
 
 
     int Pripoj();
     //QVector<Linka> seznamLinek;
 
-    void vytvorHlavniAktualni(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
-  //  int StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
+    //  int StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
     int otevriDB();
     int zavriDB();
-    int StahniSeznam(Linka docasnaLinka, int cisloSpoje, QVector<Spoj> &seznamSpoju, bool platnost);
+
+    int StahniSeznam(Linka docasnaLinka, int cisloSpoje, QVector<Spoj> &seznamSpoju, QString kj);
+    int StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju, int indexSpoje, QString kj);
+    void vytvorDisplejRidiceAktualniZastavka(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
+    void vytvorDisplejRidiceSeznamZastavek(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
 
 
     int VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek, QString kj);
@@ -47,13 +46,12 @@ public:
     int VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka, QString kj);
     int VytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj);
 
-    int StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju, int indexSpoje, bool platnost);
+    // kalendář jízdenek
     int nactiPlatnost(QDate &platnostOd, QDate &platnostDo);
     QString maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti);
     bool jeDatumVRozsahu(QDate datum, QDate zacatek, QDate konec);
 
 signals:
-   // void pridejSubscribera(QUrl adresaSubscribera);
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:
     void VypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek);

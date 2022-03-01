@@ -74,7 +74,7 @@ void MainWindow::vsechnyConnecty()
     connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery2_2CZ);
     this->vypisSubscribery1_0(customerInformationService1_0.seznamSubscriberu);
     this->vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);
-    connect(&xmlMpvParser,SIGNAL(stazeniHotovo()),this,SLOT(MpvNetReady()));
+    connect(&xmlMpvParser,SIGNAL(stazeniHotovo()),this,SLOT(slotMpvNetReady()));
 
     //vypis stavu testu
     connect(&vzorovyTest,&Vdv301testy::update,this,&MainWindow::testyVykresliCasti);
@@ -231,7 +231,7 @@ void MainWindow::xmlVdv301HromadnyUpdate()
 /*!
 
 */
-void MainWindow::MpvNetReady()
+void MainWindow::slotMpvNetReady()
 {
     qDebug()<<"MainWindow::MpvNetReady";
     xmlMpvParser.naplnVstupDokument(xmlMpvParser.stazenaData);
@@ -258,7 +258,7 @@ int MainWindow::on_prikaztlacitko_clicked()
 
     QString textDoPole="";
 
-    int vysledek=sqlPraceRopid.StahniSeznam( stavSystemu.aktspoj.linka,stavSystemu.aktspoj.cisloRopid,stavSystemu.aktObeh.seznamSpoju,platnostSpoje);
+    int vysledek=sqlPraceRopid.StahniSeznam( stavSystemu.aktspoj.linka,stavSystemu.aktspoj.cisloRopid,stavSystemu.aktObeh.seznamSpoju,this->vyrobMaskuKalendareJizd());
     if (vysledek==2)
     {
         qDebug()<<"existuje navazujici spoj";
@@ -322,12 +322,12 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
         }
     }
 
-    vysledek=sqlPraceRopid.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu,platnostSpoje);
+    vysledek=sqlPraceRopid.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu,this->vyrobMaskuKalendareJizd());
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     if (stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).navazujici==true)
     {
-        vysledek=sqlPraceRopid.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu+1,platnostSpoje);
+        vysledek=sqlPraceRopid.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu+1,this->vyrobMaskuKalendareJizd());
         qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     }
@@ -670,8 +670,8 @@ void MainWindow::AktualizaceDispleje()
     QString casDoPoleAkt="";
     QString textDoPoleNasl="";
     QString textPoleCasuNasl="";
-    sqlPraceRopid.vytvorHlavniAktualni(textDoPoleAkt,casDoPoleAkt,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
-    sqlPraceRopid.vytvorHlavniTextNasledujici(textDoPoleNasl,textPoleCasuNasl,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
+    sqlPraceRopid.vytvorDisplejRidiceAktualniZastavka(textDoPoleAkt,casDoPoleAkt,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
+    sqlPraceRopid.vytvorDisplejRidiceSeznamZastavek(textDoPoleNasl,textPoleCasuNasl,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
 
 
     ui->labelAktZastJmeno->setText(textDoPoleAkt);

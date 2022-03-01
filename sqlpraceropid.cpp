@@ -99,7 +99,7 @@ int SqlPraceRopid::zavriDB()
 /*!
 
 */
-int SqlPraceRopid::StahniSeznam(Linka docasnaLinka, int cisloSpoje,QVector<Spoj> &seznamSpoju , bool platnost )
+int SqlPraceRopid::StahniSeznam(Linka docasnaLinka, int cisloSpoje,QVector<Spoj> &seznamSpoju , QString kj )
 {
     qDebug()<< "SQLprace::StahniSeznam";
     this->otevriDB();
@@ -128,8 +128,8 @@ int SqlPraceRopid::StahniSeznam(Linka docasnaLinka, int cisloSpoje,QVector<Spoj>
     queryString2+=(" AND s.c=");
     queryString2+=( QString::number(cisloSpoje));
     queryString2+=(" AND  s.kj LIKE '");
-    queryString2+=QString::number(platnost);
-    queryString2+=("%' ");
+    queryString2+=(kj);
+    queryString2+=("' ");
     queryString2+=("ORDER BY x.xorder");
 
 
@@ -316,7 +316,7 @@ dbManager->query.exec();
 /*!
 
 */
-int SqlPraceRopid::StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju ,int indexSpoje,bool platnost )
+int SqlPraceRopid::StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju ,int indexSpoje,QString kj)
 {
     qDebug()<< "SQLprace::StahniSeznamCelySpoj";
     this->otevriDB();
@@ -344,8 +344,8 @@ int SqlPraceRopid::StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju ,int indexSpo
     //290664
 
     queryString2+=(" AND  s.kj LIKE '");
-    queryString2+=QString::number(platnost);
-    queryString2+=("%' ");
+    queryString2+=(kj);
+    queryString2+=("' ");
     queryString2+=("ORDER BY x.xorder");
 
 
@@ -555,7 +555,7 @@ void SqlPraceRopid::VypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &p
 /*!
 
 */
-void SqlPraceRopid::vytvorHlavniAktualni(QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek,QString locationState)
+void SqlPraceRopid::vytvorDisplejRidiceAktualniZastavka(QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek,QString locationState)
 {
     qDebug()<< "SqlPraceRopid::vytvorHlavniAktualni";
     int i=0;
@@ -584,9 +584,9 @@ void SqlPraceRopid::vytvorHlavniAktualni(QString &textPoleObsah,QString &textPol
 
 
 /*!
-
+vytvoří seznam následujících zastávek pro zobrazení na displeji řidiče
 */
-void SqlPraceRopid::vytvorHlavniTextNasledujici (QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState)
+void SqlPraceRopid::vytvorDisplejRidiceSeznamZastavek (QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState)
 {
     qDebug()<< "SqlPraceRopid::vytvorHlavniText";
     textPoleObsah="";
