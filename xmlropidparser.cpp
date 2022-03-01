@@ -87,25 +87,6 @@ void XmlRopidParser::otevriSoubor(QString cesta)
         vlozT(koren);
 
 
-
-        //vlozTv(koren);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //emit odesliChybovouHlasku("Import hotov!");
 
         if(!ropidSQL.mojeDatabaze.commit())
@@ -152,11 +133,6 @@ int XmlRopidParser::vlozPlatnost(QDomElement koren, QDate &plOd, QDate &plDo)
     qDebug()<<vystup;
     emit odesliChybovouHlasku(vystup );
 
-
-
-
-
-
     return 1;
 }
 
@@ -181,7 +157,6 @@ int XmlRopidParser::vlozDd(QDomElement koren)
     qDebug()<<"konecImportuDd";
     return 1;
 }
-
 
 
 
@@ -253,7 +228,7 @@ int XmlRopidParser::vlozK(QDomElement koren)
         polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
         polozky.push_back(inicializujPolozku("n",element.attribute("n"),"String"));
 
-         QString queryString=this->slozInsert(nazevElementu,polozky);
+        QString queryString=this->slozInsert(nazevElementu,polozky);
         qDebug()<<nazevElementu<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
@@ -399,9 +374,6 @@ int XmlRopidParser::vlozR(QDomElement koren)
         polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
         polozky.push_back(inicializujPolozku("pop",element.attribute("pop"),"String"));
 
-
-
-
         QString queryString=this->slozInsert(nazevElementu,polozky);
         qDebug()<<nazevElementu<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
@@ -443,17 +415,16 @@ int XmlRopidParser::vlozSpPo(QDomElement koren)
 {
     qDebug()<<"XmlRopidParser::vlozSpPo";
     QDomElement element = koren;
-    //QDomNodeList m=koren.elementsByTagName("s");
 
 
-    QString spoje="2971 2972 2973 2974 2975 2976 2977 2978 2979 2980 2981 2982 2983 2984 2985 2986 2987 2988 2989 2990 2991 2992 2993 2994 2995 2996 2997 2998 2999 3000 3001";
+    QString spoje="";
+            //2971 2972 2973 2974 2975 2976 2977 2978 2979 2980 2981 2982 2983 2984 2985 2986 2987 2988 2989 2990 2991 2992 2993 2994 2995 2996 2997 2998 2999 3000 3001";
     spoje=element.attribute("sp");
     QStringList seznam=spoje.split(" ");
 
     QString linka=element.attribute("l");
     QString poradi=element.attribute("p");
     QString kalendar=element.attribute("kj");
-    //element.attribute("sp")
 
     int pocetPrvku=seznam.count();
     qDebug()<<"pocet spoju v obehu "+element.attribute("l")+"/"+element.attribute("p")+" je "<<pocetPrvku;
@@ -464,10 +435,6 @@ int XmlRopidParser::vlozSpPo(QDomElement koren)
 
     for (int i=0;i<pocetPrvku;i++)
     {
-        //QDomElement element = m.at(i).toElement();
-
-
-        //QDomElement element = m.at(i).toElement();
         QVector<navrat> polozky;
         polozky.push_back(inicializujPolozku("l",linka,"Integer"));
         polozky.push_back(inicializujPolozku("p",poradi,"Integer"));
@@ -590,7 +557,6 @@ int XmlRopidParser::vlozL(QDomElement koren)
         polozky.push_back(inicializujPolozku("ids",element.attribute("ids"),"Boolean"));
         polozky.push_back(inicializujPolozku("noc",element.attribute("noc"),"Boolean"));
         polozky.push_back(inicializujPolozku("aois",element.attribute("aois"),"String"));
-
         polozky.push_back(inicializujPolozku("a",element.attribute("a"),"String"));
         QString queryString=this->slozInsert("l",polozky);
         qDebug()<<"l2 "<<queryString;
@@ -752,7 +718,6 @@ int XmlRopidParser::vlozS(QDomElement koren)
         polozky.push_back(inicializujPolozku("ns",element.attribute("ns"),"Integer"));
 
 
-
         QString queryString=this->slozInsert("s",polozky);
         //qDebug()<<"s2 "<<queryString;
 
@@ -872,11 +837,11 @@ int XmlRopidParser::truncateAll()
 {
     ropidSQL.Pripoj();
 
-   //  truncateTable("``");
+    //  truncateTable("``");
 
     truncateTable("`t`");
     truncateTable("`sp_po`");
-     truncateTable("`x`");
+    truncateTable("`x`");
     truncateTable("`s`");
     truncateTable("`o`");
     truncateTable("`po`");
@@ -890,16 +855,9 @@ int XmlRopidParser::truncateAll()
     truncateTable("`z`");
     truncateTable("`m`");
     truncateTable("`ids`");
-     truncateTable("`dd`");
+    truncateTable("`dd`");
     truncateTable("`d`");
     truncateTable("`hlavicka`");
-
-
-
-
-
-
-
 
 
     emit odesliChybovouHlasku("databaze vymazana");
