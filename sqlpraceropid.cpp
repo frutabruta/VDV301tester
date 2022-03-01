@@ -99,7 +99,7 @@ int SqlPraceRopid::zavriDB()
 /*!
 
 */
-int SqlPraceRopid::StahniSeznam(Linka docasnaLinka, int cisloSpoje,QVector<Spoj> &seznamSpoju , QString kj )
+int SqlPraceRopid::StahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje,QVector<Spoj> &seznamSpoju , QString kj )
 {
     qDebug()<< "SQLprace::StahniSeznam";
     this->otevriDB();
@@ -115,7 +115,7 @@ int SqlPraceRopid::StahniSeznam(Linka docasnaLinka, int cisloSpoje,QVector<Spoj>
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
     queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, ");
-    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, ");
+    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, ");
     queryString2+=("s.ns, s.c ");
     queryString2+=("FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
@@ -127,6 +127,7 @@ int SqlPraceRopid::StahniSeznam(Linka docasnaLinka, int cisloSpoje,QVector<Spoj>
     //290664
     queryString2+=(" AND s.c=");
     queryString2+=( QString::number(cisloSpoje));
+    queryString2+=(" AND  x.s2=0 ");
     queryString2+=(" AND  s.kj LIKE '");
     queryString2+=(kj);
     queryString2+=("' ");
@@ -316,7 +317,7 @@ dbManager->query.exec();
 /*!
 
 */
-int SqlPraceRopid::StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju ,int indexSpoje,QString kj)
+int SqlPraceRopid::StahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,int indexSpoje,QString kj)
 {
     qDebug()<< "SQLprace::StahniSeznamCelySpoj";
     this->otevriDB();
@@ -331,7 +332,7 @@ int SqlPraceRopid::StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju ,int indexSpo
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
     queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, ");
-    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, ");
+    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, ");
     queryString2+=("s.ns, s.c ");
     queryString2+=("FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
@@ -342,7 +343,7 @@ int SqlPraceRopid::StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju ,int indexSpo
     queryString2+=( QString::number(seznamSpoju.at(indexSpoje).cislo));
     //queryString2+=( QString::number(docasnySpoj.cislo));
     //290664
-
+    queryString2+=(" AND  x.s2=0 ");
     queryString2+=(" AND  s.kj LIKE '");
     queryString2+=(kj);
     queryString2+=("' ");

@@ -33,8 +33,8 @@ public:
     int otevriDB();
     int zavriDB();
 
-    int StahniSeznam(Linka docasnaLinka, int cisloSpoje, QVector<Spoj> &seznamSpoju, QString kj);
-    int StahniSeznamCelySpoj(QVector<Spoj> &seznamSpoju, int indexSpoje, QString kj);
+    int StahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje, QVector<Spoj> &seznamSpoju, QString kj);
+    int StahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju, int indexSpoje, QString kj);
     void vytvorDisplejRidiceAktualniZastavka(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
     void vytvorDisplejRidiceSeznamZastavek(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
 

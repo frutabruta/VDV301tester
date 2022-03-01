@@ -258,7 +258,7 @@ int MainWindow::on_prikaztlacitko_clicked()
 
     QString textDoPole="";
 
-    int vysledek=sqlPraceRopid.StahniSeznam( stavSystemu.aktspoj.linka,stavSystemu.aktspoj.cisloRopid,stavSystemu.aktObeh.seznamSpoju,this->vyrobMaskuKalendareJizd());
+    int vysledek=sqlPraceRopid.StahniSeznamLinkospoj( stavSystemu.aktspoj.linka,stavSystemu.aktspoj.cisloRopid,stavSystemu.aktObeh.seznamSpoju,this->vyrobMaskuKalendareJizd());
     if (vysledek==2)
     {
         qDebug()<<"existuje navazujici spoj";
@@ -271,6 +271,8 @@ int MainWindow::on_prikaztlacitko_clicked()
         return 0;
 
     }
+
+
     xmlVdv301HromadnyUpdate();
     if(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek.empty()==1)
     {
@@ -322,12 +324,12 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
         }
     }
 
-    vysledek=sqlPraceRopid.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu,this->vyrobMaskuKalendareJizd());
+    vysledek=sqlPraceRopid.StahniSeznamCelySpojTurnus(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu,this->vyrobMaskuKalendareJizd());
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     if (stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).navazujici==true)
     {
-        vysledek=sqlPraceRopid.StahniSeznamCelySpoj(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu+1,this->vyrobMaskuKalendareJizd());
+        vysledek=sqlPraceRopid.StahniSeznamCelySpojTurnus(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexTripu+1,this->vyrobMaskuKalendareJizd());
         qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     }

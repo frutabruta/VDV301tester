@@ -841,6 +841,8 @@ int XmlRopidParser::vlozX(QDomElement koren)
         polozky.push_back(inicializujPolozku("xLet",element.attribute("xLed"),"Boolean"));
         polozky.push_back(inicializujPolozku("xorder",QString::number(i),"Integer"));
         polozky.push_back(inicializujPolozku("zsol",element.attribute("zsol"),"Boolean"));
+        polozky.push_back(inicializujPolozku("s1",element.attribute("s1"),"Boolean"));
+        polozky.push_back(inicializujPolozku("s2",element.attribute("s2"),"Boolean"));
         //polozky.push_back(inicializujPolozku("AA","BB","String"));
 
 
