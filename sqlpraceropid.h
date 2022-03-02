@@ -52,13 +52,15 @@ public:
     bool jeDatumVRozsahu(QDate datum, QDate zacatek, QDate konec);
 
     QString pasmaDoStringu(QVector<Pasmo> pasma, QString delimiter);
+    QString vytvorCasHodinyMinutySekundy(QString vstup);
+    QString vytvorCasHodinyMinuty(QString vstup);
+    QString doplnNulu(int cislo, int pocetMist = 2);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:
     void VypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek);
-    QString vytvorCasHodinyMinuty(QString vstup);
-    QString doplnNulu(int cislo, int pocetMist = 2);
-    QString vytvorCasHodinyMinutySekundy(QString vstup);
+
+
 
 
 };

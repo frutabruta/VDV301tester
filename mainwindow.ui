@@ -851,7 +851,7 @@
 *{padding: 0 0 0}</string>
             </property>
             <property name="currentIndex">
-             <number>4</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_vydej">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -894,76 +894,31 @@
                    </layout>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="pristiHorLAyout">
-                    <item>
-                     <widget class="QLabel" name="prikazovyvysledek">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>350</width>
-                        <height>270</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="autoFillBackground">
-                       <bool>false</bool>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">background-color:rgb(32, 74, 135);
-color: rgb(238, 238, 236);</string>
-                      </property>
-                      <property name="text">
-                       <string>seznam zastavek</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="prikazovyvysledek_cas">
-                      <property name="minimumSize">
-                       <size>
-                        <width>112</width>
-                        <height>270</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="autoFillBackground">
-                       <bool>false</bool>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">background-color:rgb(32, 74, 135);
-color: rgb(238, 238, 236);</string>
-                      </property>
-                      <property name="text">
-                       <string>12:01</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
+                   <widget class="QTableWidget" name="tableWidgetNasledujiciZastavky">
+                    <column>
+                     <property name="text">
+                      <string>jmeno</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>cas</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>znam</string>
+                     </property>
+                    </column>
+                    <column>
+                     <property name="text">
+                      <string>pásma</string>
+                     </property>
+                    </column>
+                   </widget>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="pristiHorLAyout"/>
                   </item>
                  </layout>
                 </item>

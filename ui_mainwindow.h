@@ -60,9 +60,8 @@ public:
     QHBoxLayout *Akt_Hor_Layout;
     QLabel *labelAktZastJmeno;
     QLabel *labelAktZastCas;
+    QTableWidget *tableWidgetNasledujiciZastavky;
     QHBoxLayout *pristiHorLAyout;
-    QLabel *prikazovyvysledek;
-    QLabel *prikazovyvysledek_cas;
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_aktLinka;
     QLabel *label_aktSpoj;
@@ -522,36 +521,24 @@ public:
 
         verticalLayout_13->addLayout(Akt_Hor_Layout);
 
+        tableWidgetNasledujiciZastavky = new QTableWidget(page_vydej);
+        if (tableWidgetNasledujiciZastavky->columnCount() < 4)
+            tableWidgetNasledujiciZastavky->setColumnCount(4);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        tableWidgetNasledujiciZastavky->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        tableWidgetNasledujiciZastavky->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        tableWidgetNasledujiciZastavky->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        tableWidgetNasledujiciZastavky->setHorizontalHeaderItem(3, __qtablewidgetitem3);
+        tableWidgetNasledujiciZastavky->setObjectName(QString::fromUtf8("tableWidgetNasledujiciZastavky"));
+
+        verticalLayout_13->addWidget(tableWidgetNasledujiciZastavky);
+
         pristiHorLAyout = new QHBoxLayout();
         pristiHorLAyout->setSpacing(6);
         pristiHorLAyout->setObjectName(QString::fromUtf8("pristiHorLAyout"));
-        prikazovyvysledek = new QLabel(page_vydej);
-        prikazovyvysledek->setObjectName(QString::fromUtf8("prikazovyvysledek"));
-        sizePolicy1.setHeightForWidth(prikazovyvysledek->sizePolicy().hasHeightForWidth());
-        prikazovyvysledek->setSizePolicy(sizePolicy1);
-        prikazovyvysledek->setMinimumSize(QSize(350, 270));
-        prikazovyvysledek->setMaximumSize(QSize(16777215, 16777215));
-        QFont font2;
-        font2.setPointSize(20);
-        prikazovyvysledek->setFont(font2);
-        prikazovyvysledek->setAutoFillBackground(false);
-        prikazovyvysledek->setStyleSheet(QString::fromUtf8("background-color:rgb(32, 74, 135);\n"
-"color: rgb(238, 238, 236);"));
-        prikazovyvysledek->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
-
-        pristiHorLAyout->addWidget(prikazovyvysledek);
-
-        prikazovyvysledek_cas = new QLabel(page_vydej);
-        prikazovyvysledek_cas->setObjectName(QString::fromUtf8("prikazovyvysledek_cas"));
-        prikazovyvysledek_cas->setMinimumSize(QSize(112, 270));
-        prikazovyvysledek_cas->setFont(font2);
-        prikazovyvysledek_cas->setAutoFillBackground(false);
-        prikazovyvysledek_cas->setStyleSheet(QString::fromUtf8("background-color:rgb(32, 74, 135);\n"
-"color: rgb(238, 238, 236);"));
-        prikazovyvysledek_cas->setAlignment(Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing);
-
-        pristiHorLAyout->addWidget(prikazovyvysledek_cas);
-
 
         verticalLayout_13->addLayout(pristiHorLAyout);
 
@@ -586,9 +573,9 @@ public:
         horizontalLayout->setContentsMargins(0, -1, -1, -1);
         popisek = new QLabel(page_vydej);
         popisek->setObjectName(QString::fromUtf8("popisek"));
-        QFont font3;
-        font3.setPointSize(24);
-        popisek->setFont(font3);
+        QFont font2;
+        font2.setPointSize(24);
+        popisek->setFont(font2);
         popisek->setTextFormat(Qt::PlainText);
         popisek->setAlignment(Qt::AlignCenter);
 
@@ -603,9 +590,9 @@ public:
         pridatTlacitko->setEnabled(true);
         sizePolicy3.setHeightForWidth(pridatTlacitko->sizePolicy().hasHeightForWidth());
         pridatTlacitko->setSizePolicy(sizePolicy3);
-        QFont font4;
-        font4.setPointSize(14);
-        pridatTlacitko->setFont(font4);
+        QFont font3;
+        font3.setPointSize(14);
+        pridatTlacitko->setFont(font3);
 
         verticalLayout->addWidget(pridatTlacitko);
 
@@ -613,7 +600,7 @@ public:
         ubratTlacitko->setObjectName(QString::fromUtf8("ubratTlacitko"));
         sizePolicy3.setHeightForWidth(ubratTlacitko->sizePolicy().hasHeightForWidth());
         ubratTlacitko->setSizePolicy(sizePolicy3);
-        ubratTlacitko->setFont(font4);
+        ubratTlacitko->setFont(font3);
 
         verticalLayout->addWidget(ubratTlacitko);
 
@@ -686,7 +673,9 @@ public:
         BeforeStop->setObjectName(QString::fromUtf8("BeforeStop"));
         sizePolicy3.setHeightForWidth(BeforeStop->sizePolicy().hasHeightForWidth());
         BeforeStop->setSizePolicy(sizePolicy3);
-        BeforeStop->setFont(font2);
+        QFont font4;
+        font4.setPointSize(20);
+        BeforeStop->setFont(font4);
         BeforeStop->setCheckable(true);
         BeforeStop->setAutoExclusive(true);
 
@@ -696,7 +685,7 @@ public:
         AtStop_2->setObjectName(QString::fromUtf8("AtStop_2"));
         sizePolicy3.setHeightForWidth(AtStop_2->sizePolicy().hasHeightForWidth());
         AtStop_2->setSizePolicy(sizePolicy3);
-        AtStop_2->setFont(font2);
+        AtStop_2->setFont(font4);
         AtStop_2->setCheckable(true);
         AtStop_2->setChecked(true);
         AtStop_2->setAutoExclusive(true);
@@ -707,7 +696,7 @@ public:
         AfterStop->setObjectName(QString::fromUtf8("AfterStop"));
         sizePolicy3.setHeightForWidth(AfterStop->sizePolicy().hasHeightForWidth());
         AfterStop->setSizePolicy(sizePolicy3);
-        AfterStop->setFont(font2);
+        AfterStop->setFont(font4);
         AfterStop->setCheckable(true);
         AfterStop->setAutoExclusive(true);
 
@@ -754,7 +743,7 @@ public:
         prikaztlacitko->setObjectName(QString::fromUtf8("prikaztlacitko"));
         sizePolicy2.setHeightForWidth(prikaztlacitko->sizePolicy().hasHeightForWidth());
         prikaztlacitko->setSizePolicy(sizePolicy2);
-        prikaztlacitko->setFont(font2);
+        prikaztlacitko->setFont(font4);
 
         gridLayout_2->addWidget(prikaztlacitko, 5, 0, 1, 1);
 
@@ -837,14 +826,14 @@ public:
         palette2.setBrush(QPalette::Disabled, QPalette::PlaceholderText, brush16);
 #endif
         polelinky->setPalette(palette2);
-        polelinky->setFont(font2);
+        polelinky->setFont(font4);
         polelinky->setAutoFillBackground(false);
 
         formLayout->setWidget(0, QFormLayout::FieldRole, polelinky);
 
         polespoje = new QLineEdit(page_linkaspoj);
         polespoje->setObjectName(QString::fromUtf8("polespoje"));
-        polespoje->setFont(font2);
+        polespoje->setFont(font4);
 
         formLayout->setWidget(1, QFormLayout::FieldRole, polespoje);
 
@@ -1004,7 +993,7 @@ public:
         verticalLayoutvstupniData->setObjectName(QString::fromUtf8("verticalLayoutvstupniData"));
         label_6 = new QLabel(page_nastaveni);
         label_6->setObjectName(QString::fromUtf8("label_6"));
-        label_6->setFont(font2);
+        label_6->setFont(font4);
 
         verticalLayoutvstupniData->addWidget(label_6);
 
@@ -1047,7 +1036,7 @@ public:
         verticalLayoutseriovyPort->setObjectName(QString::fromUtf8("verticalLayoutseriovyPort"));
         label_7 = new QLabel(page_nastaveni);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setFont(font2);
+        label_7->setFont(font4);
 
         verticalLayoutseriovyPort->addWidget(label_7);
 
@@ -1152,12 +1141,12 @@ public:
         seznamOdberatelu = new QTableWidget(verticalLayoutWidget_10);
         if (seznamOdberatelu->columnCount() < 3)
             seznamOdberatelu->setColumnCount(3);
-        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
-        seznamOdberatelu->setHorizontalHeaderItem(0, __qtablewidgetitem);
-        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
-        seznamOdberatelu->setHorizontalHeaderItem(1, __qtablewidgetitem1);
-        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
-        seznamOdberatelu->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
+        seznamOdberatelu->setHorizontalHeaderItem(0, __qtablewidgetitem4);
+        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        seznamOdberatelu->setHorizontalHeaderItem(1, __qtablewidgetitem5);
+        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        seznamOdberatelu->setHorizontalHeaderItem(2, __qtablewidgetitem6);
         seznamOdberatelu->setObjectName(QString::fromUtf8("seznamOdberatelu"));
 
         verticalLayout_11->addWidget(seznamOdberatelu);
@@ -1170,12 +1159,12 @@ public:
         seznamOdberatelu2 = new QTableWidget(verticalLayoutWidget_10);
         if (seznamOdberatelu2->columnCount() < 3)
             seznamOdberatelu2->setColumnCount(3);
-        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
-        seznamOdberatelu2->setHorizontalHeaderItem(0, __qtablewidgetitem3);
-        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
-        seznamOdberatelu2->setHorizontalHeaderItem(1, __qtablewidgetitem4);
-        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
-        seznamOdberatelu2->setHorizontalHeaderItem(2, __qtablewidgetitem5);
+        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
+        seznamOdberatelu2->setHorizontalHeaderItem(0, __qtablewidgetitem7);
+        QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
+        seznamOdberatelu2->setHorizontalHeaderItem(1, __qtablewidgetitem8);
+        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
+        seznamOdberatelu2->setHorizontalHeaderItem(2, __qtablewidgetitem9);
         seznamOdberatelu2->setObjectName(QString::fromUtf8("seznamOdberatelu2"));
 
         verticalLayout_11->addWidget(seznamOdberatelu2);
@@ -1327,14 +1316,14 @@ public:
         palette4.setBrush(QPalette::Disabled, QPalette::PlaceholderText, brush19);
 #endif
         poleLinkyTurnus->setPalette(palette4);
-        poleLinkyTurnus->setFont(font2);
+        poleLinkyTurnus->setFont(font4);
         poleLinkyTurnus->setAutoFillBackground(false);
 
         formLayout_2->setWidget(0, QFormLayout::FieldRole, poleLinkyTurnus);
 
         poleSpojeTurnus = new QLineEdit(page_turnus);
         poleSpojeTurnus->setObjectName(QString::fromUtf8("poleSpojeTurnus"));
-        poleSpojeTurnus->setFont(font2);
+        poleSpojeTurnus->setFont(font4);
 
         formLayout_2->setWidget(1, QFormLayout::FieldRole, poleSpojeTurnus);
 
@@ -1363,7 +1352,7 @@ public:
         prikazTlacitkoTurnus->setObjectName(QString::fromUtf8("prikazTlacitkoTurnus"));
         sizePolicy2.setHeightForWidth(prikazTlacitkoTurnus->sizePolicy().hasHeightForWidth());
         prikazTlacitkoTurnus->setSizePolicy(sizePolicy2);
-        prikazTlacitkoTurnus->setFont(font2);
+        prikazTlacitkoTurnus->setFont(font4);
 
         verticalLayout_19->addWidget(prikazTlacitkoTurnus);
 
@@ -1593,12 +1582,12 @@ public:
         tableWidgetCastiTestu = new QTableWidget(page_prubehTestu);
         if (tableWidgetCastiTestu->columnCount() < 3)
             tableWidgetCastiTestu->setColumnCount(3);
-        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
-        tableWidgetCastiTestu->setHorizontalHeaderItem(0, __qtablewidgetitem6);
-        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
-        tableWidgetCastiTestu->setHorizontalHeaderItem(1, __qtablewidgetitem7);
-        QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
-        tableWidgetCastiTestu->setHorizontalHeaderItem(2, __qtablewidgetitem8);
+        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
+        tableWidgetCastiTestu->setHorizontalHeaderItem(0, __qtablewidgetitem10);
+        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
+        tableWidgetCastiTestu->setHorizontalHeaderItem(1, __qtablewidgetitem11);
+        QTableWidgetItem *__qtablewidgetitem12 = new QTableWidgetItem();
+        tableWidgetCastiTestu->setHorizontalHeaderItem(2, __qtablewidgetitem12);
         tableWidgetCastiTestu->setObjectName(QString::fromUtf8("tableWidgetCastiTestu"));
 
         horizontalLayout_15->addWidget(tableWidgetCastiTestu);
@@ -1856,7 +1845,7 @@ public:
         retranslateUi(MainWindow);
 
         stackedWidget_hlavni->setCurrentIndex(0);
-        prepinadloStran->setCurrentIndex(4);
+        prepinadloStran->setCurrentIndex(0);
         stackedWidget_testy->setCurrentIndex(0);
 
 
@@ -1877,8 +1866,14 @@ public:
         quitTlacitko->setText(QCoreApplication::translate("MainWindow", "QUIT", nullptr));
         labelAktZastJmeno->setText(QCoreApplication::translate("MainWindow", "AktZast", nullptr));
         labelAktZastCas->setText(QCoreApplication::translate("MainWindow", "99:99", nullptr));
-        prikazovyvysledek->setText(QCoreApplication::translate("MainWindow", "seznam zastavek", nullptr));
-        prikazovyvysledek_cas->setText(QCoreApplication::translate("MainWindow", "12:01", nullptr));
+        QTableWidgetItem *___qtablewidgetitem = tableWidgetNasledujiciZastavky->horizontalHeaderItem(0);
+        ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "jmeno", nullptr));
+        QTableWidgetItem *___qtablewidgetitem1 = tableWidgetNasledujiciZastavky->horizontalHeaderItem(1);
+        ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "cas", nullptr));
+        QTableWidgetItem *___qtablewidgetitem2 = tableWidgetNasledujiciZastavky->horizontalHeaderItem(2);
+        ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "znam", nullptr));
+        QTableWidgetItem *___qtablewidgetitem3 = tableWidgetNasledujiciZastavky->horizontalHeaderItem(3);
+        ___qtablewidgetitem3->setText(QCoreApplication::translate("MainWindow", "p\303\241sma", nullptr));
         label_aktLinka->setText(QCoreApplication::translate("MainWindow", "Linka", nullptr));
         label_aktSpoj->setText(QCoreApplication::translate("MainWindow", "Spoj", nullptr));
         popisek->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
@@ -2160,19 +2155,19 @@ public:
         tlacitkoSmazOkno->setText(QCoreApplication::translate("MainWindow", "Vyma\305\276 okno", nullptr));
         tlacitkoOdesliXml->setText(QCoreApplication::translate("MainWindow", "ode\305\241li na panely", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "Odberatele 1.0", nullptr));
-        QTableWidgetItem *___qtablewidgetitem = seznamOdberatelu->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "Adresa", nullptr));
-        QTableWidgetItem *___qtablewidgetitem1 = seznamOdberatelu->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "Struktura", nullptr));
-        QTableWidgetItem *___qtablewidgetitem2 = seznamOdberatelu->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QCoreApplication::translate("MainWindow", "Interval", nullptr));
+        QTableWidgetItem *___qtablewidgetitem4 = seznamOdberatelu->horizontalHeaderItem(0);
+        ___qtablewidgetitem4->setText(QCoreApplication::translate("MainWindow", "Adresa", nullptr));
+        QTableWidgetItem *___qtablewidgetitem5 = seznamOdberatelu->horizontalHeaderItem(1);
+        ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Struktura", nullptr));
+        QTableWidgetItem *___qtablewidgetitem6 = seznamOdberatelu->horizontalHeaderItem(2);
+        ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "Interval", nullptr));
         label_15->setText(QCoreApplication::translate("MainWindow", "Odberatele V2.2CZ1.0", nullptr));
-        QTableWidgetItem *___qtablewidgetitem3 = seznamOdberatelu2->horizontalHeaderItem(0);
-        ___qtablewidgetitem3->setText(QCoreApplication::translate("MainWindow", "Adresa", nullptr));
-        QTableWidgetItem *___qtablewidgetitem4 = seznamOdberatelu2->horizontalHeaderItem(1);
-        ___qtablewidgetitem4->setText(QCoreApplication::translate("MainWindow", "Struktura", nullptr));
-        QTableWidgetItem *___qtablewidgetitem5 = seznamOdberatelu2->horizontalHeaderItem(2);
-        ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Interval", nullptr));
+        QTableWidgetItem *___qtablewidgetitem7 = seznamOdberatelu2->horizontalHeaderItem(0);
+        ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "Adresa", nullptr));
+        QTableWidgetItem *___qtablewidgetitem8 = seznamOdberatelu2->horizontalHeaderItem(1);
+        ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "Struktura", nullptr));
+        QTableWidgetItem *___qtablewidgetitem9 = seznamOdberatelu2->horizontalHeaderItem(2);
+        ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "Interval", nullptr));
         lineEdit_ipadresaOdberatele->setText(QCoreApplication::translate("MainWindow", "http://127.0.0.1:48479", nullptr));
         lineEdit_strukturaOdberu->setText(QCoreApplication::translate("MainWindow", "AllData", nullptr));
         label_13->setText(QCoreApplication::translate("MainWindow", "V1.0", nullptr));
@@ -2204,12 +2199,12 @@ public:
         pushButton_test2->setText(QCoreApplication::translate("MainWindow", "Test odberu", nullptr));
         pushButton_test3->setText(QCoreApplication::translate("MainWindow", "Test Bonjour", nullptr));
         pushButton_test4->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        QTableWidgetItem *___qtablewidgetitem6 = tableWidgetCastiTestu->horizontalHeaderItem(0);
-        ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "N\303\241zev \304\215\303\241sti testu", nullptr));
-        QTableWidgetItem *___qtablewidgetitem7 = tableWidgetCastiTestu->horizontalHeaderItem(1);
-        ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "Pr\305\257b\304\233h", nullptr));
-        QTableWidgetItem *___qtablewidgetitem8 = tableWidgetCastiTestu->horizontalHeaderItem(2);
-        ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "V\303\275sledek", nullptr));
+        QTableWidgetItem *___qtablewidgetitem10 = tableWidgetCastiTestu->horizontalHeaderItem(0);
+        ___qtablewidgetitem10->setText(QCoreApplication::translate("MainWindow", "N\303\241zev \304\215\303\241sti testu", nullptr));
+        QTableWidgetItem *___qtablewidgetitem11 = tableWidgetCastiTestu->horizontalHeaderItem(1);
+        ___qtablewidgetitem11->setText(QCoreApplication::translate("MainWindow", "Pr\305\257b\304\233h", nullptr));
+        QTableWidgetItem *___qtablewidgetitem12 = tableWidgetCastiTestu->horizontalHeaderItem(2);
+        ___qtablewidgetitem12->setText(QCoreApplication::translate("MainWindow", "V\303\275sledek", nullptr));
         tlacitko_StartTest->setText(QCoreApplication::translate("MainWindow", "Spustit test", nullptr));
         TlacitkoStopTest->setText(QCoreApplication::translate("MainWindow", "Zastavit test", nullptr));
         label_nazevSluzby_2->setText(QCoreApplication::translate("MainWindow", "DeviceManagementService 1.0", nullptr));

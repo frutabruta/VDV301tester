@@ -267,7 +267,7 @@ int MainWindow::on_prikaztlacitko_clicked()
     if (vysledek==0)
     {
         textDoPole="spoj neexistuje";
-        ui->prikazovyvysledek->setText(textDoPole);
+      //  ui->prikazovyvysledek->setText(textDoPole);
         return 0;
 
     }
@@ -347,7 +347,7 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
     if (vysledek==0)
     {
         textDoPole="spoj neexistuje";
-        ui->prikazovyvysledek->setText(textDoPole);
+       // ui->prikazovyvysledek->setText(textDoPole);
         return 0;
 
     }
@@ -674,12 +674,12 @@ void MainWindow::AktualizaceDispleje()
     QString textPoleCasuNasl="";
     sqlPraceRopid.vytvorDisplejRidiceAktualniZastavka(textDoPoleAkt,casDoPoleAkt,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
     sqlPraceRopid.vytvorDisplejRidiceSeznamZastavek(textDoPoleNasl,textPoleCasuNasl,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
-
+    vypisZastavkyTabulka(stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
 
     ui->labelAktZastJmeno->setText(textDoPoleAkt);
     ui->labelAktZastCas->setText(casDoPoleAkt);
-    ui->prikazovyvysledek->setText(textDoPoleNasl);
-    ui->prikazovyvysledek_cas->setText(textPoleCasuNasl);
+    //ui->prikazovyvysledek->setText(textDoPoleNasl);
+    //ui->prikazovyvysledek_cas->setText(textPoleCasuNasl);
     ui->label_aktLinka->setText(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek.at(stavSystemu.indexAktZastavky).linka.LineNumber);
     ui->label_aktSpoj->setText(QString::number(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).cisloRopid));
 
@@ -1764,3 +1764,69 @@ QString MainWindow::vyrobMaskuKalendareJizd()
 
 
 
+
+
+
+
+void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState)
+{
+
+    qDebug()<< "MainWindow::vypisZastavkyTabulka";
+    ui->tableWidgetNasledujiciZastavky->setRowCount(0);
+
+
+    int i=0;
+    int posunIndexu=0;
+    if (locationState=="AtStop")
+    {
+        posunIndexu=1;
+    }
+    for (i=cisloporadi+posunIndexu;i<(docasnySeznamZastavek.count());i++)
+    {
+        QString cisloZastavky = QString::number(i);
+        QString nazevZastavky2 = docasnySeznamZastavek.at(i).zastavka.StopName;
+        QString odjezdZeZastavky =  sqlPraceRopid.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).zastavka.DepartureTime);
+        QString pasma= sqlPraceRopid.pasmaDoStringu(docasnySeznamZastavek.at(i).zastavka.seznamPasem,",");
+        QString znameni="";
+        if (docasnySeznamZastavek.at(i).zastavka.naZnameni==true)
+        {
+            znameni="(x)";
+        }
+
+        //------------------------
+        qint32 row;
+        QTableWidgetItem *cell;
+        row = ui->tableWidgetNasledujiciZastavky->rowCount();
+        ui->tableWidgetNasledujiciZastavky->insertRow(row);
+        cell = new QTableWidgetItem(nazevZastavky2);
+        ui->tableWidgetNasledujiciZastavky->setItem(row, 0, cell);
+
+
+        cell = new QTableWidgetItem(odjezdZeZastavky);
+        ui->tableWidgetNasledujiciZastavky->setItem(row, 1, cell);
+        ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
+
+
+        cell = new QTableWidgetItem(znameni);
+        ui->tableWidgetNasledujiciZastavky->setItem(row, 2, cell);
+        ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
+
+        cell = new QTableWidgetItem(pasma);
+        ui->tableWidgetNasledujiciZastavky->setItem(row, 3, cell);
+        ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
+
+        //--------------------------
+
+        /*
+        textPoleObsah+=cisloZastavky+" "+nazevZastavky2+znameni+"|"+pasma+"\n";
+        textPoleCasu+=odjezdZeZastavky+"\n";
+*/
+
+        qDebug()<<cisloZastavky<<" "<<nazevZastavky2<<odjezdZeZastavky<<"\n";
+        //textPoleCasu+=necum+"\n";
+    }
+    qDebug()<< "SQLpraceRopid::TestDotaz konec";
+
+
+
+}
