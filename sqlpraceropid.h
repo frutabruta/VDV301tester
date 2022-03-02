@@ -51,6 +51,7 @@ public:
     QString maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti);
     bool jeDatumVRozsahu(QDate datum, QDate zacatek, QDate konec);
 
+    QString pasmaDoStringu(QVector<Pasmo> pasma, QString delimiter);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:

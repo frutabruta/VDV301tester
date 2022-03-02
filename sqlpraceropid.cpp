@@ -568,12 +568,13 @@ void SqlPraceRopid::vytvorDisplejRidiceAktualniZastavka(QString &textPoleObsah,Q
         QString cisloZastavky = QString::number(i);
         QString jmenoZastavky = docasnySeznamZastavek.at(i).zastavka.StopName;
         QString casOdjezdu =  vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).zastavka.DepartureTime);
+        QString pasma= pasmaDoStringu(docasnySeznamZastavek.at(i).zastavka.seznamPasem,",");
         QString znameni="";
         if (docasnySeznamZastavek.at(i).zastavka.naZnameni==true)
         {
             znameni="(x)";
         }
-        textPoleObsah+=cisloZastavky+" "+jmenoZastavky+znameni;
+        textPoleObsah+=cisloZastavky+" "+jmenoZastavky+znameni+pasma;
         qDebug()<<cisloZastavky<<" "<<jmenoZastavky<<" "<<casOdjezdu<<"\n";
         textPoleCasu+=casOdjezdu;
     }
@@ -582,6 +583,25 @@ void SqlPraceRopid::vytvorDisplejRidiceAktualniZastavka(QString &textPoleObsah,Q
     qDebug()<< "SQLpraceRopid::TestDotaz konec";
 
 }
+
+QString SqlPraceRopid::pasmaDoStringu(QVector<Pasmo> pasma, QString delimiter)
+{
+    QString vysledek="";
+
+    if (pasma.count()==0)
+    {
+        return "";
+    }
+    for(int i=0; i<pasma.count()-1;i++)
+    {
+        vysledek+=pasma.at(i).nazev;
+        vysledek+=delimiter;
+    }
+    vysledek+=pasma.last().nazev;
+    return vysledek;
+}
+
+
 
 
 /*!
@@ -603,13 +623,14 @@ void SqlPraceRopid::vytvorDisplejRidiceSeznamZastavek (QString &textPoleObsah,QS
         QString cisloZastavky = QString::number(i);
         QString nazevZastavky2 = docasnySeznamZastavek.at(i).zastavka.StopName;
         QString odjezdZeZastavky =  vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).zastavka.DepartureTime);
+        QString pasma= pasmaDoStringu(docasnySeznamZastavek.at(i).zastavka.seznamPasem,",");
         QString znameni="";
         if (docasnySeznamZastavek.at(i).zastavka.naZnameni==true)
         {
             znameni="(x)";
         }
 
-        textPoleObsah+=cisloZastavky+" "+nazevZastavky2+znameni+"\n";
+        textPoleObsah+=cisloZastavky+" "+nazevZastavky2+znameni+"|"+pasma+"\n";
         textPoleCasu+=odjezdZeZastavky+"\n";
 
 
