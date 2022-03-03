@@ -235,6 +235,7 @@ private slots:
     void on_tlacitkoXmlVyberCestu_clicked();
 
     void on_tlacitkoDnes_clicked();
+    void on_tableWidgetNasledujiciZastavky_cellClicked(int row, int column);
 };
 
 #endif // MAINWINDOW_H

@@ -969,7 +969,7 @@ int SqlPraceRopid::VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka d
 */
 QString SqlPraceRopid::vytvorCasHodinyMinuty(QString vstup)
 {
-    qDebug()<<"SqlPraceRopid::vytvorCas";
+   // qDebug()<<"SqlPraceRopid::vytvorCas";
     int cislo=vstup.toInt();
     cislo=cislo%86400; //oprava pro spoje jedoucí přes půlnoc
     int hodiny=cislo/3600;
@@ -1001,7 +1001,7 @@ QString SqlPraceRopid::vytvorCasHodinyMinutySekundy(QString vstup)
 */
 QString SqlPraceRopid::doplnNulu(int cislo,int pocetMist)
 {
-    qDebug()<<"SqlPraceRopid::doplnNulu";
+    //qDebug()<<"SqlPraceRopid::doplnNulu";
     QString konverze= QString::number(cislo);
     while (konverze.length()<pocetMist)
     {

@@ -267,7 +267,7 @@ int MainWindow::on_prikaztlacitko_clicked()
     if (vysledek==0)
     {
         textDoPole="spoj neexistuje";
-      //  ui->prikazovyvysledek->setText(textDoPole);
+        //  ui->prikazovyvysledek->setText(textDoPole);
         return 0;
 
     }
@@ -347,7 +347,7 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
     if (vysledek==0)
     {
         textDoPole="spoj neexistuje";
-       // ui->prikazovyvysledek->setText(textDoPole);
+        // ui->prikazovyvysledek->setText(textDoPole);
         return 0;
 
     }
@@ -668,16 +668,19 @@ void MainWindow::vymazSeznam(QListWidget *vstup)
 void MainWindow::AktualizaceDispleje()
 {
     qDebug()<<"MainWindow::AktualizaceDispleje()";
-    QString textDoPoleAkt="";
-    QString casDoPoleAkt="";
-    QString textDoPoleNasl="";
-    QString textPoleCasuNasl="";
-    sqlPraceRopid.vytvorDisplejRidiceAktualniZastavka(textDoPoleAkt,casDoPoleAkt,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
-    sqlPraceRopid.vytvorDisplejRidiceSeznamZastavek(textDoPoleNasl,textPoleCasuNasl,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
+   // QString textDoPoleAkt="";
+   // QString casDoPoleAkt="";
+    //QString textDoPoleNasl="";
+    //QString textPoleCasuNasl="";
+   // sqlPraceRopid.vytvorDisplejRidiceAktualniZastavka(textDoPoleAkt,casDoPoleAkt,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
+   // sqlPraceRopid.vytvorDisplejRidiceSeznamZastavek(textDoPoleNasl,textPoleCasuNasl,stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
+
+
+
     vypisZastavkyTabulka(stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek,stavSystemu.locationState);
 
-    ui->labelAktZastJmeno->setText(textDoPoleAkt);
-    ui->labelAktZastCas->setText(casDoPoleAkt);
+  //  ui->labelAktZastJmeno->setText(textDoPoleAkt);
+  //  ui->labelAktZastCas->setText(casDoPoleAkt);
     //ui->prikazovyvysledek->setText(textDoPoleNasl);
     //ui->prikazovyvysledek_cas->setText(textPoleCasuNasl);
     ui->label_aktLinka->setText(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek.at(stavSystemu.indexAktZastavky).linka.LineNumber);
@@ -1777,11 +1780,14 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
 
     int i=0;
     int posunIndexu=0;
-    if (locationState=="AtStop")
+    if ((locationState=="AtStop")&&(cisloporadi>1))
     {
-        posunIndexu=1;
+        //  posunIndexu=-1;
     }
-    for (i=cisloporadi+posunIndexu;i<(docasnySeznamZastavek.count());i++)
+
+    //for (i=cisloporadi+posunIndexu;i<(docasnySeznamZastavek.count());i++)
+
+    for (i=0;i<(docasnySeznamZastavek.count());i++)
     {
         QString cisloZastavky = QString::number(i);
         QString nazevZastavky2 = docasnySeznamZastavek.at(i).zastavka.StopName;
@@ -1793,27 +1799,31 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
             znameni="(x)";
         }
 
-        //------------------------
+
         qint32 row;
         QTableWidgetItem *cell;
         row = ui->tableWidgetNasledujiciZastavky->rowCount();
         ui->tableWidgetNasledujiciZastavky->insertRow(row);
-        cell = new QTableWidgetItem(nazevZastavky2);
+
+        cell = new QTableWidgetItem(cisloZastavky);
         ui->tableWidgetNasledujiciZastavky->setItem(row, 0, cell);
+
+        cell = new QTableWidgetItem(nazevZastavky2);
+        ui->tableWidgetNasledujiciZastavky->setItem(row, 1, cell);
 
 
         cell = new QTableWidgetItem(odjezdZeZastavky);
-        ui->tableWidgetNasledujiciZastavky->setItem(row, 1, cell);
-        ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
+        ui->tableWidgetNasledujiciZastavky->setItem(row, 2, cell);
+    //    ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
 
 
         cell = new QTableWidgetItem(znameni);
-        ui->tableWidgetNasledujiciZastavky->setItem(row, 2, cell);
-        ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
+        ui->tableWidgetNasledujiciZastavky->setItem(row, 3, cell);
+    //    ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
 
         cell = new QTableWidgetItem(pasma);
-        ui->tableWidgetNasledujiciZastavky->setItem(row, 3, cell);
-        ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
+        ui->tableWidgetNasledujiciZastavky->setItem(row, 4, cell);
+     //   ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
 
         //--------------------------
 
@@ -1822,11 +1832,48 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
         textPoleCasu+=odjezdZeZastavky+"\n";
 */
 
+
+
         qDebug()<<cisloZastavky<<" "<<nazevZastavky2<<odjezdZeZastavky<<"\n";
         //textPoleCasu+=necum+"\n";
     }
+
+    int zabarvenySloupec=1;
+    if (locationState=="AtStop")
+    {
+
+        QBrush cyan(Qt::cyan);
+        ui->tableWidgetNasledujiciZastavky->item(cisloporadi+posunIndexu,zabarvenySloupec)->setBackground(cyan);
+    }
+    else
+    {
+        QBrush gray(Qt::gray);
+        ui->tableWidgetNasledujiciZastavky->item(cisloporadi+posunIndexu,zabarvenySloupec)->setBackground(gray);
+    }
+
+    ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
+    ui->tableWidgetNasledujiciZastavky->scrollToItem(ui->tableWidgetNasledujiciZastavky->item(cisloporadi+posunIndexu,0));
+
+
     qDebug()<< "SQLpraceRopid::TestDotaz konec";
 
 
 
 }
+
+void MainWindow::on_tableWidgetNasledujiciZastavky_cellClicked(int row, int column)
+{
+    qDebug()<<"on_tableWidgetNasledujiciZastavky_cellClicked";
+
+
+
+    stavSystemu.locationState="AtStop";
+    ui->AtStop_2->setChecked(true);
+    stavSystemu.indexAktZastavky=row;
+    priPrijezdu();
+    AktualizaceDispleje();
+    stavSystemu.doorState="AllDoorsClosed";
+    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
+    xmlVdv301HromadnyUpdate();
+}
+
