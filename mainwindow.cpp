@@ -919,6 +919,7 @@ int MainWindow::priPrijezdu()
         hlasic.kompletKonecna(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexTripu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis );
     }
     stavSystemu.locationState="AtStop";
+    AktualizaceDispleje();
     xmlVdv301HromadnyUpdate();
 
     return 1;

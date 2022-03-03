@@ -101,7 +101,7 @@ int SqlPraceRopid::zavriDB()
 */
 int SqlPraceRopid::StahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje,QVector<Spoj> &seznamSpoju , QString kj )
 {
-    qDebug()<< "SQLprace::StahniSeznam";
+    qDebug()<< "SQLprace::StahniSeznamLinkospoj";
     this->otevriDB();
     seznamSpoju.clear();
     Spoj aktualniTrip;
@@ -110,18 +110,22 @@ int SqlPraceRopid::StahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje,QVec
 
 
     QString queryString2("SELECT DISTINCT   ");
-    queryString2+=("z.n, z.tp, z.cis, z.ois, ");
+    queryString2+=("z.n, z.tp, z.tp2, z.cis, z.ois, ");
     queryString2+=("t.ri,t.hl, ");
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
     queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, ");
     queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, ");
-    queryString2+=("s.ns, s.c ");
+    queryString2+=("s.ns, s.c, ");
+    queryString2+=("ids.z AS pz1, ");
+    queryString2+=("ids2.z AS pz2 ");
     queryString2+=("FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
     queryString2+=("LEFT JOIN t ON t.u=x.u AND t.z=x.z " );
+    queryString2+=("LEFT JOIN ids ON z.ids=ids.c " );
+    queryString2+=("LEFT JOIN ids AS ids2 ON z.ids2=ids2.c " );
     queryString2+=("WHERE l.c=");
     queryString2+=( QString::number(docasnaLinka.c));
     //290664
@@ -192,7 +196,16 @@ dbManager->query.exec();
             aktZast.cisloCis=query.value( query.record().indexOf("z.cis")).toInt() ;
             aktZast.cisloOis=query.value(query.record().indexOf("z.ois")).toUInt();
             xmlGenerator xmlgen;
-            aktZast.seznamPasem=xmlgen.pasmoStringDoVectoru(query.value(query.record().indexOf("z.tp")).toString(),"PID");
+            //aktZast.seznamPasem= xmlgen.pasmoStringDoVectoru(query.value(query.record().indexOf("z.tp")).toString(),"PID");
+
+            QVector<Pasmo> pasma1= xmlgen.pasmoStringDoVectoru(query.value(query.record().indexOf("z.tp")).toString(), query.value(query.record().indexOf("pz1")).toString() );
+            QVector<Pasmo> pasma2= xmlgen.pasmoStringDoVectoru(query.value(query.record().indexOf("z.tp2")).toString(), query.value(query.record().indexOf("pz2")).toString() );
+
+            aktZast.seznamPasem.append(pasma1);
+            aktZast.seznamPasem.append(pasma2);
+
+
+
             qDebug()<<"pasmo"<<query.value(query.record().indexOf("z.tp")).toString();
 
             aktZast.StopName=query.value(query.record().indexOf("t.ri")).toString();

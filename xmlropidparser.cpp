@@ -658,7 +658,10 @@ int XmlRopidParser::vlozZ(QDomElement koren)
         polozky.push_back(inicializujPolozku("no",element.attribute("no"),"String"));
         polozky.push_back(inicializujPolozku("spz",element.attribute("spz"),"String"));
         polozky.push_back(inicializujPolozku("ids",element.attribute("ids"),"Integer"));
+        polozky.push_back(inicializujPolozku("ids2",element.attribute("ids2"),"Integer"));
         polozky.push_back(inicializujPolozku("tp",element.attribute("tp"),"String"));
+        polozky.push_back(inicializujPolozku("tp2",element.attribute("tp2"),"String"));
+
         polozky.push_back(inicializujPolozku("sx",element.attribute("sx"),"String"));
         polozky.push_back(inicializujPolozku("sy",element.attribute("sx"),"String"));
         polozky.push_back(inicializujPolozku("lat",element.attribute("lat"),"String"));
