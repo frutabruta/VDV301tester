@@ -62,6 +62,7 @@ SOURCES += \
     logfile.cpp \
         main.cpp \
         mainwindow.cpp \
+    mainwindowpomocne.cpp \
     prestupmpv.cpp \
     VDV301struktury/spoj.cpp \
     VDV301struktury/pasmo.cpp \
@@ -92,6 +93,7 @@ HEADERS += \
     konfigurace.h \
     logfile.h \
         mainwindow.h \
+    mainwindowpomocne.h \
     prestupmpv.h \
     VDV301struktury/spoj.h \
     VDV301struktury/pasmo.h \

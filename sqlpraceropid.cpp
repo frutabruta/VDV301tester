@@ -332,7 +332,8 @@ dbManager->query.exec();
 */
 int SqlPraceRopid::StahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,int indexSpoje,QString kj)
 {
-    qDebug()<< "SQLprace::StahniSeznamCelySpoj";
+    qDebug()<< "StahniSeznamCelySpojTurnus";
+    qDebug()<<"delka seznamu spoju: "<<seznamSpoju.length()<<" indexSpoje:"<<indexSpoje<<" kj:"<<kj;
     this->otevriDB();
     //seznamTripu.clear();
     Spoj docasnySpoj;

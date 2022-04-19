@@ -148,6 +148,9 @@ private:
 
 
     void vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
+    void dalsiSpoj();
+    void dalsiSpojNavazujici();
+    int natahniSeznamSpojeKomplet();
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);

@@ -21,6 +21,7 @@ release/konfigurace.o
 release/logfile.o
 release/main.o
 release/mainwindow.o
+release/mainwindowpomocne.o
 release/prestupmpv.o
 release/spoj.o
 release/pasmo.o
@@ -43,6 +44,7 @@ release/moc_httpsluzba.o
 release/moc_konfigurace.o
 release/moc_logfile.o
 release/moc_mainwindow.o
+release/moc_mainwindowpomocne.o
 release/moc_xmlgenerator.o
 release/moc_xmlmpvparser.o
 release/moc_sqlpraceropid.o
