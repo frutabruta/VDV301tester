@@ -63,6 +63,7 @@ private:
 
 
 
+    QVector<Pasmo> vyrobPasmaMezikraj(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc, QString cids, QString tl);
 };
 
 #endif // SQLPRACEROPID_H

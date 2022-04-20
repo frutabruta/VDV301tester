@@ -936,7 +936,7 @@ QDomElement xmlGenerator::TimeStampTag1_0(QDomDocument xmlko)
 
 }
 
-QVector<Pasmo> xmlGenerator::pasmoStringDoVectoru(QString vstup,QString system)
+QVector<Pasmo> xmlGenerator::pasmoStringDoVectoru(QString vstup,QString system,QString tl)
 {
     QStringList stringPasma = vstup.split(',');
     QVector<Pasmo> seznamPasem;
@@ -946,7 +946,11 @@ QVector<Pasmo> xmlGenerator::pasmoStringDoVectoru(QString vstup,QString system)
         Pasmo intPasmo;
         intPasmo.nazev=stringPasma.at(i);
         intPasmo.system=system;
-        seznamPasem.append(intPasmo);
+        if (!((intPasmo.nazev=="P")&&(tl!="A"))&&(intPasmo.nazev!="-"))
+        {
+           seznamPasem.append(intPasmo);
+        }
+
     }
     return seznamPasem;
 }

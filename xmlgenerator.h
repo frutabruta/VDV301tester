@@ -21,7 +21,7 @@ public:
     QString devStatus();
     QString createTimestamp();
     QString CurrentDisplayContent1_0(int poradi, QVector<ZastavkaCil> docasnySeznamZastavek, CestaUdaje stav);
-    QVector<Pasmo> pasmoStringDoVectoru(QString vstup, QString system);
+    static QVector<Pasmo> pasmoStringDoVectoru(QString vstup, QString system, QString tl);
     QDomElement internationalTextType(QString name, QString value, QString language);
     QDomElement fareZone1_0(QString shortName, QString longName, QString type, QString language);
     QDomElement stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<prestupMPV> seznamPrestupu, QString language, int currentStopIndex, CestaUdaje stav);
@@ -57,7 +57,7 @@ private:
     QDomElement ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
     QDomElement TimeStampTag1_0(QDomDocument xmlko);
     QDomElement additionalTextMessage1_0(QString obsahZpravy);
-   QDomElement rawInsert(QString vstup);
+    QDomElement rawInsert(QString vstup);
     QDomElement additionalTextMessage2_2CZ1_0(QString obsahZpravy);
     QString defaultniJazyk1_0="de";
     QString defaultniJazyk2_2CZ1_0="cz";

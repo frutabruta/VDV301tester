@@ -558,6 +558,8 @@ int XmlRopidParser::vlozL(QDomElement koren)
         polozky.push_back(inicializujPolozku("noc",element.attribute("noc"),"Boolean"));
         polozky.push_back(inicializujPolozku("aois",element.attribute("aois"),"String"));
         polozky.push_back(inicializujPolozku("a",element.attribute("a"),"String"));
+        polozky.push_back(inicializujPolozku("kli",element.attribute("kli"),"Integer"));
+        polozky.push_back(inicializujPolozku("cids",element.attribute("cids"),"String"));
         QString queryString=this->slozInsert("l",polozky);
         qDebug()<<"l2 "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
@@ -659,9 +661,10 @@ int XmlRopidParser::vlozZ(QDomElement koren)
         polozky.push_back(inicializujPolozku("spz",element.attribute("spz"),"String"));
         polozky.push_back(inicializujPolozku("ids",element.attribute("ids"),"Integer"));
         polozky.push_back(inicializujPolozku("ids2",element.attribute("ids2"),"Integer"));
+        polozky.push_back(inicializujPolozku("ids3",element.attribute("ids3"),"Integer"));
         polozky.push_back(inicializujPolozku("tp",element.attribute("tp"),"String"));
         polozky.push_back(inicializujPolozku("tp2",element.attribute("tp2"),"String"));
-
+        polozky.push_back(inicializujPolozku("tp3",element.attribute("tp3"),"String"));
         polozky.push_back(inicializujPolozku("sx",element.attribute("sx"),"String"));
         polozky.push_back(inicializujPolozku("sy",element.attribute("sx"),"String"));
         polozky.push_back(inicializujPolozku("lat",element.attribute("lat"),"String"));
