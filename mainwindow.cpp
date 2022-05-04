@@ -218,7 +218,7 @@ void MainWindow::xmlVdv301HromadnyUpdate()
         Zastavka aktZastavka=stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka;
         xmlMpvParser.StahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
     }
-    qDebug()<<QString::number(stavSystemu.indexAktZastavky);
+   // qDebug()<<QString::number(stavSystemu.indexAktZastavky);
     QVector<prestupMPV> prestupy;
     customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
@@ -1793,7 +1793,7 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
     ui->tableWidgetNasledujiciZastavky->setRowCount(0);
 
 
-    qDebug()<<"A";
+   // qDebug()<<"A";
     /* int posunIndexu=0;
     if ((locationState=="AtStop")&&(cisloporadi>1))
     {
@@ -1851,14 +1851,14 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
 
 
 
-        qDebug()<<cisloZastavky<<" "<<nazevZastavky2<<odjezdZeZastavky<<"\n";
+     //   qDebug()<<cisloZastavky<<" "<<nazevZastavky2<<odjezdZeZastavky<<"\n";
         //textPoleCasu+=necum+"\n";
     }
 
 
 
     int zabarvenySloupec=1;
-    qDebug()<<"B "<<"Tabulka ma tolik sloupcu: "<<ui->tableWidgetNasledujiciZastavky->rowCount()<<" poradi je"<<cisloporadi;
+  //  qDebug()<<"B "<<"Tabulka ma tolik sloupcu: "<<ui->tableWidgetNasledujiciZastavky->rowCount()<<" poradi je"<<cisloporadi;
 
     int pocetRadkuTabulky=ui->tableWidgetNasledujiciZastavky->rowCount();
     if (pocetRadkuTabulky<=0)
@@ -1879,7 +1879,7 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
             QBrush gray(Qt::gray);
             ui->tableWidgetNasledujiciZastavky->item(cisloporadi,zabarvenySloupec)->setBackground(gray);
         }
-        qDebug()<<"C";
+    //    qDebug()<<"C";
         ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
         ui->tableWidgetNasledujiciZastavky->scrollToItem(ui->tableWidgetNasledujiciZastavky->item(cisloporadi,0));
     }
@@ -1887,7 +1887,7 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
 
 
 
-    qDebug()<< "SQLpraceRopid::TestDotaz konec";
+ //   qDebug()<< "SQLpraceRopid::TestDotaz konec";
 
 
 
