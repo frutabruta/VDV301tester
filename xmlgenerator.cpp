@@ -91,6 +91,9 @@ QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, 
     qDebug()<<"zaSpecOzn";
 
 
+
+
+
     //stop sequence
     dTripInformation.appendChild(StopSequence1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,prestupy,stav));
     //dTripInformation.appendChild(dStopSequence);
@@ -292,6 +295,14 @@ QDomElement xmlGenerator::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpo
     dTripInformation.appendChild(StopSequence2_2CZ1_0(xmlko,docasnySeznamZastavek,language,currentStopIndex,prestupy));
     //dTripInformation.appendChild(dStopSequence);
 
+    if((currentStopIndex+1)<docasnySeznamZastavek.length())
+    {
+        if(podminkaHlasitZmenuPasma(docasnySeznamZastavek.at(currentStopIndex).zastavka.seznamPasem,docasnySeznamZastavek.at(currentStopIndex+1).zastavka.seznamPasem))
+        {
+            dTripInformation.appendChild(FareZoneChange2_2CZ1_0(docasnySeznamZastavek.at(currentStopIndex).zastavka.seznamPasem,docasnySeznamZastavek.at(currentStopIndex+1).zastavka.seznamPasem,language));
+
+        }
+    }
 
     if (navazny==false)
     {
@@ -308,6 +319,60 @@ QDomElement xmlGenerator::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpo
     }
     return dTripInformation;
 
+}
+
+bool xmlGenerator::podminkaHlasitZmenuPasma(QVector<Pasmo> seznamPasem1, QVector<Pasmo> seznamPasem2)
+{
+    qDebug()<<"xmlGenerator::podminkaHlasitZmenuPasma";
+    //porovnává pásma s následující zastávkou a vrátí hodnotu, zda se změna pásma má zobrazit
+    bool vysledek=false;
+
+    QVector<Pasmo> pidPasma1=vratPidPasma(seznamPasem1,"PID");
+    QVector<Pasmo> pidPasma2=vratPidPasma(seznamPasem2,"PID");
+
+    if(pidPasma1.isEmpty()||pidPasma2.isEmpty())
+    {
+        qDebug()<<"jedna zastavka nema pasma";
+        return false;
+    }
+
+
+    if (pidPasma1.count()>pidPasma2.count())
+    {
+        qDebug()<<"pasma ubyvaji";
+        return true;
+    }
+    else
+    {
+        if(pidPasma1.first().nazev==pidPasma2.first().nazev)
+        {
+            qDebug()<<"pasma stejne zacinaji";
+            return false;
+        }
+        else
+        {
+            qDebug()<<"prvni pasma se lisi";
+            return true;
+        }
+    }
+
+
+    return vysledek;
+}
+
+QVector<Pasmo> xmlGenerator::vratPidPasma(QVector<Pasmo> vstup,QString hledanePasmo)
+{
+    QVector<Pasmo> vystup;
+
+    foreach(Pasmo pasmo,vstup )
+    {
+        if(pasmo.system==hledanePasmo)
+        {
+            vystup.push_back(pasmo);
+        }
+    }
+    qDebug()<<"pocet PID pasem "<<vystup.count();
+    return vystup;
 }
 
 
@@ -668,7 +733,7 @@ QDomElement xmlGenerator::DisplayContent2_2CZ1_0(QString tagName,QVector<Zastavk
     ZastavkaCil aktZastavkaCil=docasnySeznamZastavek.at(iteracniIndex);
     QString lineNumber=aktZastavkaCil.linka.LineNumber;
     QString lineName=aktZastavkaCil.linka.LineName;
-   // QString destinationName=aktZastavkaCil.cil.StopName;
+    // QString destinationName=aktZastavkaCil.cil.StopName;
 
 
     bool pridatPristi=true;
@@ -948,7 +1013,7 @@ QVector<Pasmo> xmlGenerator::pasmoStringDoVectoru(QString vstup,QString system,Q
         intPasmo.system=system;
         if (!((intPasmo.nazev=="P")&&(tl!="A"))&&(intPasmo.nazev!="-"))
         {
-           seznamPasem.append(intPasmo);
+            seznamPasem.append(intPasmo);
         }
 
     }
@@ -987,9 +1052,39 @@ QVector<QDomElement> xmlGenerator::FareZoneInformationStructure2_2CZ1_0(QVector<
     }
     return seznamFareZone;
 }
+///////////////////////////////
+
+QDomElement xmlGenerator::FareZoneChange2_2CZ1_0(QVector<Pasmo> seznamPasemZ,QVector<Pasmo> seznamPasemNa,QString language)
+{
+    QDomDocument xmlko;
+
+    QDomElement fareZoneChange=xmlko.createElement("FareZoneChange");
+    QDomElement fromZones=xmlko.createElement("FromZones");
+    QDomElement toZones=xmlko.createElement("toZones");
+
+    foreach (Pasmo aktPasmo, seznamPasemZ)
+    {
+        QDomElement pasmo=fareZone2_2CZ1_0(aktPasmo.nazev,aktPasmo.nazev,aktPasmo.system,language );
+        fromZones.appendChild(pasmo);
+    }
+    fareZoneChange.appendChild(fromZones);
+
+
+    foreach (Pasmo aktPasmo, seznamPasemNa)
+    {
+        QDomElement pasmo=fareZone2_2CZ1_0(aktPasmo.nazev,aktPasmo.nazev,aktPasmo.system,language );
+        toZones.appendChild(pasmo);
+    }
+    fareZoneChange.appendChild(toZones);
+
+
+    return fareZoneChange;
 
 
 
+}
+
+/////////////////////////////////////////////
 QDomElement xmlGenerator::fareZone1_0(QString shortName,QString longName, QString type, QString language)
 {
     QDomDocument xmlko;
@@ -1132,7 +1227,7 @@ QString xmlGenerator::AllDataEmpty2_2CZ1_0( )
     qDebug()<<"mezera  ";
     QString language="cz";
     QString deflanguage="cz";
-   // QString lineNumber=QByteArray::number(docasLinka);
+    // QString lineNumber=QByteArray::number(docasLinka);
     //QString lineName=lineNumber.right(3);
     QString vehicleref="33";
     int currentStopIndex= poradi;
@@ -1179,7 +1274,7 @@ QString xmlGenerator::AllDataEmpty2_2CZ1_0( )
     /*QDomElement dDoorState = xmlko.createElement("DoorState");
     dDoorState.appendChild(xmlko.createTextNode(doorState));
     dAllData.appendChild(dDoorState);*/
-   /* QDomElement dVehicleStopRequested=xmlko.createElement("VehicleStopRequested");
+    /* QDomElement dVehicleStopRequested=xmlko.createElement("VehicleStopRequested");
     dVehicleStopRequested.appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode(vehicleStopRequested));
     dAllData.appendChild(dVehicleStopRequested);
     */
