@@ -538,7 +538,7 @@ void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
 
 
 
-    qDebug()<<"vymazano";
+    //qDebug()<<"vymazano";
     for (int i = 0; i < docasnySeznamLinek.length(); ++i)
     {
         QListWidgetItem *newItem = new QListWidgetItem;
