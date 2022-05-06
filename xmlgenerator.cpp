@@ -920,23 +920,23 @@ QDomElement xmlGenerator::FareZoneChange2_2CZ1_0(QVector<Pasmo> seznamPasemZ,QVe
     QDomDocument xmlko;
 
     QDomElement fareZoneChange=xmlko.createElement("FareZoneChange");
-    QDomElement fromZones=xmlko.createElement("FromZones");
-    QDomElement toZones=xmlko.createElement("toZones");
+    QDomElement fromFareZones=xmlko.createElement("FromFareZones");
+    QDomElement toFareZones=xmlko.createElement("ToFareZones");
 
     foreach (Pasmo aktPasmo, seznamPasemZ)
     {
         QDomElement pasmo=fareZone2_2CZ1_0(aktPasmo.nazev,aktPasmo.nazev,aktPasmo.system,language );
-        fromZones.appendChild(pasmo);
+        fromFareZones.appendChild(pasmo);
     }
-    fareZoneChange.appendChild(fromZones);
+    fareZoneChange.appendChild(fromFareZones);
 
 
     foreach (Pasmo aktPasmo, seznamPasemNa)
     {
         QDomElement pasmo=fareZone2_2CZ1_0(aktPasmo.nazev,aktPasmo.nazev,aktPasmo.system,language );
-        toZones.appendChild(pasmo);
+        toFareZones.appendChild(pasmo);
     }
-    fareZoneChange.appendChild(toZones);
+    fareZoneChange.appendChild(toFareZones);
 
 
     return fareZoneChange;
