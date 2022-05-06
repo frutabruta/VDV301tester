@@ -159,7 +159,7 @@ dbManager->query.exec();
     QSqlQuery query(queryString2,this->mojeDatabaze);
     int pocetZastavek=0;
     qDebug()<<queryString2;
-    qDebug()<<"DebugPointB";
+
     Zastavka cilovaZastavka;
     int navazujiciSpoj=0;
     int citacD=0;
@@ -226,7 +226,7 @@ dbManager->query.exec();
 
 
 
-            qDebug()<<"pasmo"<<query.value(query.record().indexOf("z.tp")).toString();
+            //qDebug()<<"pasmo"<<query.value(query.record().indexOf("z.tp")).toString();
 
             aktZast.StopName=query.value(query.record().indexOf("t.ri")).toString();
             aktZast.ids ="PID";
@@ -280,10 +280,10 @@ dbManager->query.exec();
             {
                 qDebug()<<"additionalVlozeno "<<aktZast.additionalTextMessage;
             }
-            qInfo()<<"DebugPointC";
+            //qInfo()<<"DebugPointC";
             pocetZastavek++;
-            qDebug()<<"citac: "<<pocetZastavek     ;
-            qDebug()<<aktZast.StopName;
+          //  qDebug()<<"citac: "<<pocetZastavek     ;
+          //  qDebug()<<aktZast.StopName;
 
 
             //aktZastCil.spoj=aktSpoj;
@@ -292,25 +292,25 @@ dbManager->query.exec();
             aktZastCil.zastavka=aktZast;
             if (ignorovat==false)
             {
-                qInfo()<<"DebugPointC3"<<" pridavam zastavku "<<aktZastCil.zastavka.StopName;
+           //     qInfo()<<"DebugPointC3"<<" pridavam zastavku "<<aktZastCil.zastavka.StopName;
                 docasnySeznamZastavek.push_back(aktZastCil);
             }
-            qInfo()<<"DebugPointC5";
+            //qInfo()<<"DebugPointC5";
         }
     }
-    qDebug()<<"pred pocitanim zastavek";
+  //  qDebug()<<"pred pocitanim zastavek";
     pocetZastavek=docasnySeznamZastavek.length();
-    qDebug()<<"po pocitani zastavek";
+  //  qDebug()<<"po pocitani zastavek";
     this->zavriDB();
     if (pocetZastavek ==0)
     {
 
         return 0;
     }
-    qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(pocetZastavek);
+  //  qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(pocetZastavek);
     cilovaZastavka=docasnySeznamZastavek.at(docasnySeznamZastavek.length()-1).zastavka;
 
-    qInfo()<<"DebugPointD5";
+  //  qInfo()<<"DebugPointD5";
 
     for (int i=docasnySeznamZastavek.size()-1;i>=0;i--)
     {
@@ -328,9 +328,9 @@ dbManager->query.exec();
         //docasnySeznamZastavek[i].zastavka.DestinationCis=cilovaZastavka.cisloCis;
         docasnySeznamZastavek[i].cil=cilovaZastavka;
     }*/
-    qInfo()<<"DebugPointF";
+  //  qInfo()<<"DebugPointF";
     // VypisPole(docasnySeznamZastavek,counter);
-    qInfo()<<"pocetzastavek je"<<QString::number(docasnySeznamZastavek.length());
+  //  qInfo()<<"pocetzastavek je"<<QString::number(docasnySeznamZastavek.length());
 
     aktualniTrip.globalniSeznamZastavek=docasnySeznamZastavek;
     aktualniTrip.cisloRopid=cisloSpoje;
@@ -409,7 +409,7 @@ dbManager->query.exec();
     QSqlQuery query(queryString2,this->mojeDatabaze);
     int counter=0;
     qDebug()<<queryString2;
-    qDebug()<<"DebugPointB";
+  //  qDebug()<<"DebugPointB";
 
     //int navazujiciSpoj=0;
     int citacD=0;
@@ -460,19 +460,19 @@ dbManager->query.exec();
             tp.append(query.value(query.record().indexOf("z.tp3")).toString());
 
             QVector<QString> pz;
-            pz.append( query.value(query.record().indexOf("pz1")).toString());
-            pz.append( query.value(query.record().indexOf("pz2")).toString());
-            pz.append( query.value(query.record().indexOf("pz3")).toString());
+            pz.append(query.value(query.record().indexOf("pz1")).toString());
+            pz.append(query.value(query.record().indexOf("pz2")).toString());
+            pz.append(query.value(query.record().indexOf("pz3")).toString());
             QVector<QString> pc;
-            pc.append( query.value(query.record().indexOf("pc1")).toString());
-            pc.append( query.value(query.record().indexOf("pc2")).toString());
-            pc.append( query.value(query.record().indexOf("pc3")).toString());
+            pc.append(query.value(query.record().indexOf("pc1")).toString());
+            pc.append(query.value(query.record().indexOf("pc2")).toString());
+            pc.append(query.value(query.record().indexOf("pc3")).toString());
 
             aktZast.seznamPasem.append(vyrobPasmaMezikraj(tp,pz,pc,query.value(query.record().indexOf("l.cids")).toString(),query.value(query.record().indexOf("l.tl")).toString()));
 
 
 
-            qDebug()<<"pasmo"<<query.value(query.record().indexOf("z.tp")).toString();
+       //     qDebug()<<"pasmo"<<query.value(query.record().indexOf("z.tp")).toString();
 
             aktZast.StopName=query.value(query.record().indexOf("t.ri")).toString();
             aktZast.ids ="PID";
@@ -528,10 +528,10 @@ dbManager->query.exec();
             {
                 qDebug()<<"additionalVlozeno "<<aktZast.additionalTextMessage;
             }
-            qInfo()<<"DebugPointC";
+          //  qInfo()<<"DebugPointC";
             counter++;
-            qDebug()<<"citac: "<<counter     ;
-            qDebug()<<aktZast.StopName;
+        //    qDebug()<<"citac: "<<counter     ;
+        //    qDebug()<<aktZast.StopName;
 
 
             //aktZastCil.spoj=aktSpoj;
@@ -540,22 +540,22 @@ dbManager->query.exec();
             aktZastCil.zastavka=aktZast;
             if (ignorovat==false)
             {
-                qInfo()<<"DebugPointC3"<<" pridavam zastavku "<<aktZastCil.zastavka.StopName;
+         //       qInfo()<<"DebugPointC3"<<" pridavam zastavku "<<aktZastCil.zastavka.StopName;
                 docasnySeznamZastavek.push_back(aktZastCil);
             }
-            qInfo()<<"DebugPointC5";
+         //   qInfo()<<"DebugPointC5";
         }
     }
-    qDebug()<<"pred pocitanim zastavek";
+  //  qDebug()<<"pred pocitanim zastavek";
     counter=docasnySeznamZastavek.length();
-    qDebug()<<"po pocitani zastavek";
+  //  qDebug()<<"po pocitani zastavek";
     this->zavriDB();
     if (counter ==0)
     {
 
         return 0;
     }
-    qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(counter);
+  //  qInfo()<<"DebugPointD"<<"velikost counteru je "<<QString::number(counter);
 
 
 
@@ -573,7 +573,7 @@ dbManager->query.exec();
     }
 
 
-    qInfo()<<"DebugPointD5";
+  //  qInfo()<<"DebugPointD5";
     for (int i=docasnySeznamZastavek.size()-1;i>=0;i--)
     {
         if (docasnySeznamZastavek.at(i).zastavka.zsol==true)
@@ -584,9 +584,9 @@ dbManager->query.exec();
 
         docasnySeznamZastavek[i].cil=cilovaZastavka;
     }
-    qInfo()<<"DebugPointF";
+  //  qInfo()<<"DebugPointF";
     // VypisPole(docasnySeznamZastavek,counter);
-    qInfo()<<"pocetzastavek je"<<QString::number(docasnySeznamZastavek.length());
+  //  qInfo()<<"pocetzastavek je"<<QString::number(docasnySeznamZastavek.length());
 
 
 
@@ -763,7 +763,6 @@ int SqlPraceRopid::VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek
 
     qDebug()<< "SqlPraceRopid::VytvorSeznamKmenovychLinek";
     this->otevriDB();
-    bool platnost=true;
     docasnySeznamLinek.clear();
     QString queryString2("SELECT DISTINCT o.l,l.c,l.lc,l.n FROM o ");
     queryString2+=("LEFT JOIN l ON o.l=l.c ");
@@ -1203,7 +1202,7 @@ QVector<Pasmo> SqlPraceRopid::vyrobPasmaMezikraj(QVector<QString> tp, QVector<QS
    for(int i=0;i<tp.length();i++)
    {
         QVector<Pasmo> pasma= xmlGenerator::pasmoStringDoVectoru(tp.at(i), pz.at(i),tl);
-        qDebug()<<"zpracovavam pasma "<<tp.at(i)<<" "<<pz.at(i);
+       // qDebug()<<"zpracovavam pasma "<<tp.at(i)<<" "<<pz.at(i);
         if(povoleneSystemy.contains(pc.at(i)))
         {
             vystup.append(pasma);
