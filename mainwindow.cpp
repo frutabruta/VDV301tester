@@ -215,7 +215,7 @@ void MainWindow::xmlVdv301HromadnyUpdate()
     QDomDocument vstupniDomXmlPrestupy;
     if (stavSystemu.prestupy==true)
     {
-        Zastavka aktZastavka=stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka;
+        Zastavka aktZastavka=stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka;
         xmlMpvParser.StahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
     }
     QVector<prestupMPV> prestupy;
@@ -270,7 +270,7 @@ int MainWindow::on_prikaztlacitko_clicked()
 
 
     xmlVdv301HromadnyUpdate();
-    if(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek.empty()==1)
+    if(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek.empty()==1)
     {
         qDebug()<<"seznam zastavek  je prazdny";
         return 0;
@@ -330,7 +330,7 @@ int MainWindow::natahniSeznamSpojeKomplet()
     vysledek=sqlPraceRopid.StahniSeznamCelySpojTurnus(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexSpojeNaObehu,this->vyrobMaskuKalendareJizd());
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
-    if (stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).navazujici==true)
+    if (stavSystemu.aktualniSpojNaObehu().navazujici==true)
     {
         vysledek=sqlPraceRopid.StahniSeznamCelySpojTurnus(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexSpojeNaObehu+1,this->vyrobMaskuKalendareJizd());
         qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
@@ -351,7 +351,7 @@ int MainWindow::natahniSeznamSpojeKomplet()
 
     }
     xmlVdv301HromadnyUpdate();
-    if(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek.empty()==1)
+    if(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek.empty()==1)
     {
         qDebug()<<"seznam zastavek  je prazdny";
         return 0;
@@ -373,9 +373,9 @@ int MainWindow::natahniSeznamSpojeKomplet()
 void MainWindow::on_sipkaNahoru_clicked()
 {
     qDebug()<<"\n MainWindow::on_sipkaNahoru_clicked() \n";
-    if (stavSystemu.indexAktZastavky<(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek.count()-1))
+    if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()))
     {
-        if(stavSystemu.locationState=="AtStop")
+        if((stavSystemu.locationState=="AtStop")&&((stavSystemu.indexAktZastavky<(stavSystemu.pocetZastavekAktualnihoSpoje()-1) )))
         {
             stavSystemu.locationState="AfterStop";
             ui->AfterStop->setChecked(true);
@@ -671,8 +671,8 @@ void MainWindow::AktualizaceDispleje()
         return;
     }
 
-   vypisZastavkyTabulka(stavSystemu.indexAktZastavky,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek,stavSystemu.locationState);
-   int delkaGlobalnihoSeznamu= this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek.length();
+   vypisZastavkyTabulka(stavSystemu.indexAktZastavky,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.locationState);
+   int delkaGlobalnihoSeznamu= this->stavSystemu.pocetZastavekAktualnihoSpoje();
    int indexZastavky=stavSystemu.indexAktZastavky;
    qDebug()<<"delka seznamu spoju "<<this->stavSystemu.aktObeh.seznamSpoju.length()<<" index "<<stavSystemu.indexSpojeNaObehu<<" delka globsezzast "<< delkaGlobalnihoSeznamu  << " indexAktZast "<<indexZastavky   ;
 
@@ -683,8 +683,8 @@ void MainWindow::AktualizaceDispleje()
    }
 
 
-    ui->label_aktLinka->setText(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek.at(stavSystemu.indexAktZastavky).linka.LineNumber);
-    ui->label_aktSpoj->setText(QString::number(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).cisloRopid));
+    ui->label_aktLinka->setText(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek.at(stavSystemu.indexAktZastavky).linka.LineNumber);
+    ui->label_aktSpoj->setText(QString::number(this->stavSystemu.aktualniSpojNaObehu().cisloRopid));
 
 
     ui->locationStateIndicator->setText(stavSystemu.locationState);
@@ -699,7 +699,7 @@ void MainWindow::AktualizaceDispleje()
 void MainWindow::on_pridatTlacitko_clicked()
 {
     qDebug()<<"\n on_pridatTlacitko_clicked \n";
-    if (stavSystemu.indexAktZastavky<(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek.count()-1))
+    if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()-1))
     {
         stavSystemu.indexAktZastavky++;
     }
@@ -893,12 +893,12 @@ void MainWindow::on_tlacitkoIBIS_clicked()
 {
     qDebug()<<"on_tlacitkoIBIS_clicked()";
     ibisOvladani.dopocetCelni("xC2");
-    ibisOvladani.odesliFrontKomplet(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek,stavSystemu.indexAktZastavky);
-    ibisOvladani.odesliSideKomplet(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliFrontKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliSideKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
     //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
-    ibisOvladani.odesliJKZKomplet(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek,stavSystemu.indexAktZastavky);
-    ibisOvladani.odeslikompletBUSEjednoradekAA(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek,stavSystemu.indexAktZastavky);
-    ibisOvladani.odesliRearKomplet(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliJKZKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odeslikompletBUSEjednoradekAA(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliRearKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
 }
 
 
@@ -914,13 +914,13 @@ int MainWindow::eventPrijezd()
     stavSystemu.doorState="DoorsOpen";
 
 
-    if (stavSystemu.indexAktZastavky<(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek.length()-1))
+    if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()-1))
     {
-        hlasic.kompletZastavka(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka.cisloCis,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka.cisloOis);
+        hlasic.kompletZastavka(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka.cisloCis,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka.cisloOis);
     }
     else
     {
-        hlasic.kompletKonecna(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis );
+        hlasic.kompletKonecna(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis );
     }
     stavSystemu.locationState="AtStop";
     AktualizaceDispleje();
@@ -938,9 +938,9 @@ int MainWindow::eventOdjezd()
 {
     qDebug()<<"MainWindow::priOdjezdu()";
 
-    if(Pasmo::podminkaHlasitZmenuPasma(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.seznamPasem,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.seznamPasem))
+    if(Pasmo::podminkaHlasitZmenuPasma(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.seznamPasem,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.seznamPasem))
     {
-        qDebug()<<"srovnani pasem zastavek "<<this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.StopName<<" a "<<this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.StopName;
+        qDebug()<<"srovnani pasem zastavek "<<this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.StopName<<" a "<<this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.StopName;
         eventZmenaTarifnihoPasma();
     }
     else
@@ -1321,7 +1321,7 @@ void MainWindow::on_tlacitkoHlaseniSlozka_clicked()
 */
 void MainWindow::vypisDiagnostika(QString vstup)
 {
-    qDebug()<<"subscribe diag "<<vstup;
+    qDebug()<<" MainWindow::vypisDiagnostika "<<vstup;
     ui->label_diagnostika_manual->clear();
     ui->label_diagnostika_manual->setText(vstup);
     ui->statusBar->showMessage(vstup);
