@@ -117,6 +117,10 @@ void MainWindow::vsechnyConnecty()
 
     //konfigurace
     connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
+
+
+    //casovace
+    connect(timerTrvaniZmenyPasma,&QTimer::timeout,this,&MainWindow::eventSkryjZmenuTarifnihoPasma);
 }
 
 
@@ -375,8 +379,9 @@ void MainWindow::on_sipkaNahoru_clicked()
         {
             stavSystemu.locationState="AfterStop";
             ui->AfterStop->setChecked(true);
+
             stavSystemu.indexAktZastavky++;
-            priOdjezdu();
+            eventOdjezd();
         }
         else
         {
@@ -384,7 +389,7 @@ void MainWindow::on_sipkaNahoru_clicked()
             {
                 stavSystemu.locationState="AtStop";
                 ui->AtStop_2->setChecked(true);
-                priPrijezdu();
+                eventPrijezd();
             }
 
             if(stavSystemu.locationState=="BetweenStop")
@@ -419,7 +424,7 @@ void MainWindow::on_sipkaDolu_clicked()
         {
             stavSystemu.locationState="AtStop";
             stavSystemu.indexAktZastavky--;
-            priPrijezdu();
+            eventPrijezd();
         }
         else
         {
@@ -764,7 +769,7 @@ void MainWindow::on_BeforeStop_clicked()
 void MainWindow::on_AtStop_2_clicked()
 {
     qDebug()<<"";
-    priPrijezdu();
+    eventPrijezd();
 
 }
 
@@ -902,7 +907,7 @@ void MainWindow::on_tlacitkoIBIS_clicked()
 /*!
 
 */
-int MainWindow::priPrijezdu()
+int MainWindow::eventPrijezd()
 {
     qDebug()<<"MainWindow::priPrijezdu";
 
@@ -929,9 +934,20 @@ int MainWindow::priPrijezdu()
 /*!
 
 */
-int MainWindow::priOdjezdu()
+int MainWindow::eventOdjezd()
 {
     qDebug()<<"MainWindow::priOdjezdu()";
+
+    if(Pasmo::podminkaHlasitZmenuPasma(this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.seznamPasem,this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.seznamPasem))
+    {
+        qDebug()<<"srovnani pasem zastavek "<<this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.StopName<<" a "<<this->stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu).globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.StopName;
+        eventZmenaTarifnihoPasma();
+    }
+    else
+    {
+        eventSkryjZmenuTarifnihoPasma();
+    }
+
 
     return 1;
 }
@@ -1768,7 +1784,7 @@ void MainWindow::on_tableWidgetNasledujiciZastavky_cellClicked(int row, int colu
     stavSystemu.locationState="AtStop";
     ui->AtStop_2->setChecked(true);
     stavSystemu.indexAktZastavky=row;
-    priPrijezdu();
+    eventPrijezd();
     AktualizaceDispleje();
     stavSystemu.doorState="AllDoorsClosed";
     ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
@@ -1821,4 +1837,23 @@ void MainWindow::dalsiSpojNavazujici()
     {
         qDebug()<<"posledni spoj ze seznamu, nelze se dale posouvat";
     }
+}
+
+void MainWindow::eventZmenaTarifnihoPasma()
+{
+    qDebug()<<"MainWindow::eventZmenaTarifnihoPasma()";
+    stavSystemu.zobrazZmenuPasma=true;
+    xmlVdv301HromadnyUpdate();
+
+    timerTrvaniZmenyPasma->setInterval(10000);
+    timerTrvaniZmenyPasma->setSingleShot(true);
+    timerTrvaniZmenyPasma->start();
+
+}
+
+void MainWindow::eventSkryjZmenuTarifnihoPasma()
+{
+   qDebug()<<"MainWindow::eventSkryjZmenuTarifnihoPasma()";
+   stavSystemu.zobrazZmenuPasma=false;
+   xmlVdv301HromadnyUpdate();
 }

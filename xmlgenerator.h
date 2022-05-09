@@ -47,8 +47,8 @@ public:
     QVector<QDomElement> FareZoneInformationStructure2_2CZ1_0(QVector<Pasmo> seznamPasem, QString language);
     QVector<QDomElement> FareZoneInformationStructure1_0(QVector<Pasmo> seznamPasem);
     QDomElement FareZoneChange2_2CZ1_0(QVector<Pasmo> seznamPasemZ, QVector<Pasmo> seznamPasemNa, QString language);
-    QVector<Pasmo> vratPidPasma(QVector<Pasmo> vstup,QString hledanePasmo);
-    bool podminkaHlasitZmenuPasma(QVector<Pasmo> seznamPasem1, QVector<Pasmo> seznamPasem2);
+   // QVector<Pasmo> vratPidPasma(QVector<Pasmo> vstup,QString hledanePasmo);
+    //bool podminkaHlasitZmenuPasma(QVector<Pasmo> seznamPasem1, QVector<Pasmo> seznamPasem2);
 
     QDomElement stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<prestupMPV> seznamPrestupu, QString language, int currentStopIndex, CestaUdaje stav);
     QDomElement stopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<prestupMPV> seznamPrestupu, QString language, int currentStopIndex);

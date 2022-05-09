@@ -81,12 +81,10 @@ private:
     //promenne
 
 
-
-
     //udalosti
 
-    int priPrijezdu();
-    int priOdjezdu();
+    int eventPrijezd();
+    int eventOdjezd();
     void vsechnyConnecty();
     void testNaplnOkno(int index);
     void xmlVdv301HromadnyUpdate();
@@ -136,9 +134,6 @@ private:
     void nastartujVsechnyVdv301Sluzby();
     void zastavSluzby();
 
-
-
-
     //kalendar jizd
     void pracovniDatumDnes();
     void pracovniDatumPrvniDenDat();
@@ -151,6 +146,13 @@ private:
     void dalsiSpoj();
     void dalsiSpojNavazujici();
     int natahniSeznamSpojeKomplet();
+    void eventZmenaTarifnihoPasma();
+
+
+    //timery
+    QTimer *timerTrvaniZmenyPasma = new QTimer(this); //po pvyprseni casovace zmizi zmena pasma
+
+
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
@@ -239,6 +241,10 @@ private slots:
 
     void on_tlacitkoDnes_clicked();
     void on_tableWidgetNasledujiciZastavky_cellClicked(int row, int column);
+
+
+    //eventy zobrazeni na periferiích
+    void eventSkryjZmenuTarifnihoPasma();
 };
 
 #endif // MAINWINDOW_H
