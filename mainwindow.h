@@ -45,16 +45,21 @@ public:
     //konstanty
     QString umisteniProgramu=QCoreApplication::applicationDirPath();
 
+
+
+
+private:
+
     //datove struktury
     CestaUdaje stavSystemu;
     QVector <Linka> seznamLinek;
     QVector <Spoj> seznamSpoju;
     QVector <Obeh> seznamObehu;
 
-    bool platnostSpoje=1;
+
 
     //SQLprace mojesql;
-    SqlPraceRopid mojesql;
+    SqlPraceRopid sqlPraceRopid;
 
     //instance knihoven
     XmlMpvParser xmlMpvParser;
@@ -62,20 +67,29 @@ public:
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
     Logfile logfile;
+    QFile souborLogu;
+
 
     //VDV301testy
     TestDemo vzorovyTest;
     TestOdberuServer testOdberuServer;
     int testIndex=0;
 
-    QFile log;
+    void testStart(int index);
+    void testStop(int index);
+
+    //promenne
+
 
     //udalosti
-    void xmlHromadnyUpdate();
-    int priPrijezdu();
-    int priOdjezdu();
+
+    int eventPrijezd();
+    int eventOdjezd();
     void vsechnyConnecty();
     void testNaplnOkno(int index);
+    void xmlVdv301HromadnyUpdate();
+
+
 
     //IBIS-IP lsuzby
     HttpSluzba deviceManagementService1_0;
@@ -90,31 +104,59 @@ public:
     void NaplnVyberLinky(QVector<Linka> docasnySeznamLinek);
     void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
     void NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek);
-
-    void testStart(int index);
-    void testStop(int index);
-
-    QString otevriSouborXmlDialog();
-    void nastavLabelCestyXml();
-private:
-    Ui::MainWindow *ui;
-    //void replyFinished(QNetworkReply *);
-    void AktualizaceDispleje();
-    void startDatabaze();
-    void inicializacePoli();
-    void vypisSubscribery(QVector<Subscriber> adresy);
-
-    void vypisSubscribery2(QVector<Subscriber> adresy);
     void NaplnVyberPoradi(QVector<Obeh> docasnySeznamObehu);
     void NaplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju);
-    void zastavSluzby();
+    void vymazSeznam(QListWidget *vstup);
+
+
+    //prace s XML
+    QString otevriSouborXmlDialog();
+    void nastavLabelCestyXml();
+    void AktualizacePracovnihoData();
+
+
+    //prace s oknem
+    Ui::MainWindow *ui;
+    void AktualizaceDispleje();
     void toggleFullscreen();
-    void nastartujVsechnySluzby();
+
+
+
+    //void replyFinished(QNetworkReply *);
+
+    void inicializaceVyberovychPoli();
+    void inicializacePoli();
+
+
+    //VDV301
+    void vypisSubscribery1_0(QVector<Subscriber> adresy);
+    void vypisSubscribery2_2CZ(QVector<Subscriber> adresy);
+    void nastartujVsechnyVdv301Sluzby();
+    void zastavSluzby();
+
+    //kalendar jizd
+    void pracovniDatumDnes();
+    void pracovniDatumPrvniDenDat();
+    void aktualizaceKalendare();
+    QString vyrobMaskuKalendareJizd();
+
+
+
+    void vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
+    void dalsiSpoj();
+    void dalsiSpojNavazujici();
+    int natahniSeznamSpojeKomplet();
+    void eventZmenaTarifnihoPasma();
+
+
+    //timery
+    QTimer *timerTrvaniZmenyPasma = new QTimer(this); //po pvyprseni casovace zmizi zmena pasma
 
 
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
+    void slotAktualizacePracData();
 private slots:
     //tlacitka
     int on_prikaztlacitko_clicked();
@@ -173,7 +215,7 @@ private slots:
     void radio1(bool stav);
     void radio2(bool stav);
     void radio3(bool stav);
-     void radio4(bool stav);
+    void radio4(bool stav);
 
     //zmeny seznamu
     void on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
@@ -182,14 +224,27 @@ private slots:
     void on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
-    //vlatni signaly
-    void MpvNetReady();
+
+    //kalendar
+    void on_calendarWidget_selectionChanged();
+
+
+
+    //vlatni sloty
+    void slotMpvNetReady();
     void vypisDiagnostika(QString vstup);
 
 
 
 
     void on_tlacitkoXmlVyberCestu_clicked();
+
+    void on_tlacitkoDnes_clicked();
+    void on_tableWidgetNasledujiciZastavky_cellClicked(int row, int column);
+
+
+    //eventy zobrazeni na periferiích
+    void eventSkryjZmenuTarifnihoPasma();
 };
 
 #endif // MAINWINDOW_H

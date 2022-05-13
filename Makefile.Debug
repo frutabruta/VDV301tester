@@ -14,8 +14,8 @@ EQ            = =
 CC            = gcc
 CXX           = g++
 DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DQZEROCONF_STATIC -DWIN32 -DNDEBUG -D_WINDOWS -D_USRDLL -DMDNS_DEBUGMSGS=0 -DWIN32_LEAN_AND_MEAN -DUSE_TCP_LOOPBACK -D_CRT_SECURE_NO_DEPRECATE -D_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1 -DNOT_HAVE_SA_LEN -DQT_DEPRECATED_WARNINGS -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_HTTPSERVER_LIB -DQT_WEBSOCKETS_LIB -DQT_SSLSERVER_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_XML_LIB -DQT_SERIALPORT_LIB -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN
-CFLAGS        = -fno-keep-inline-dllexport -IC:/Users/adame/github/VDV301tester/qtzeroconf/bonjour-sdk -g -Wall -Wextra -Wextra $(DEFINES)
-CXXFLAGS      = -fno-keep-inline-dllexport -IC:/Users/adame/github/VDV301tester/qtzeroconf/bonjour-sdk -IC:/Users/adame/github/VDV301tester/qtzeroconf -g -Wall -Wextra -Wextra -fexceptions -mthreads $(DEFINES)
+CFLAGS        = -fno-keep-inline-dllexport -IC:/Users/Eichler536/github/VDV301tester/qtzeroconf/bonjour-sdk -g -Wall -Wextra -Wextra $(DEFINES)
+CXXFLAGS      = -fno-keep-inline-dllexport -IC:/Users/Eichler536/github/VDV301tester/qtzeroconf/bonjour-sdk -IC:/Users/Eichler536/github/VDV301tester/qtzeroconf -g -Wall -Wextra -Wextra -fexceptions -mthreads $(DEFINES)
 INCPATH       = -I. -I..\..\..\..\Qt\5.15.2\mingw81_32\include -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtMultimedia -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtWidgets -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtGui -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtANGLE -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtHttpServer -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtWebSockets -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtSslServer -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtNetwork -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtSql -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtXml -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtSerialPort -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtConcurrent -I..\..\..\..\Qt\5.15.2\mingw81_32\include\QtCore -Idebug -I. -I..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-subsystem,windows -mthreads
@@ -73,6 +73,7 @@ SOURCES       = qtzeroconf\bonjour.cpp \
 		logfile.cpp \
 		main.cpp \
 		mainwindow.cpp \
+		mainwindowpomocne.cpp \
 		prestupmpv.cpp \
 		VDV301struktury\spoj.cpp \
 		VDV301struktury\pasmo.cpp \
@@ -94,6 +95,7 @@ SOURCES       = qtzeroconf\bonjour.cpp \
 		debug\moc_konfigurace.cpp \
 		debug\moc_logfile.cpp \
 		debug\moc_mainwindow.cpp \
+		debug\moc_mainwindowpomocne.cpp \
 		debug\moc_xmlgenerator.cpp \
 		debug\moc_xmlmpvparser.cpp \
 		debug\moc_sqlpraceropid.cpp \
@@ -121,6 +123,7 @@ OBJECTS       = debug/bonjour.o \
 		debug/logfile.o \
 		debug/main.o \
 		debug/mainwindow.o \
+		debug/mainwindowpomocne.o \
 		debug/prestupmpv.o \
 		debug/spoj.o \
 		debug/pasmo.o \
@@ -143,6 +146,7 @@ OBJECTS       = debug/bonjour.o \
 		debug/moc_konfigurace.o \
 		debug/moc_logfile.o \
 		debug/moc_mainwindow.o \
+		debug/moc_mainwindowpomocne.o \
 		debug/moc_xmlgenerator.o \
 		debug/moc_xmlmpvparser.o \
 		debug/moc_sqlpraceropid.o \
@@ -169,6 +173,7 @@ DIST          =  qtzeroconf\qzeroconf.h \
 		konfigurace.h \
 		logfile.h \
 		mainwindow.h \
+		mainwindowpomocne.h \
 		prestupmpv.h \
 		VDV301struktury\spoj.h \
 		VDV301struktury\pasmo.h \
@@ -201,6 +206,7 @@ DIST          =  qtzeroconf\qzeroconf.h \
 		logfile.cpp \
 		main.cpp \
 		mainwindow.cpp \
+		mainwindowpomocne.cpp \
 		prestupmpv.cpp \
 		VDV301struktury\spoj.cpp \
 		VDV301struktury\pasmo.cpp \
@@ -230,10 +236,10 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) VDV301tester.zip $(SOURCES) $(DIST) VDV301tester.pro ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\spec_pre.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\qdevice.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\device_config.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\sanitize.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\gcc-base.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\g++-base.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\angle.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\win32\windows_vulkan_sdk.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\windows-vulkan.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\g++-win32.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\windows-desktop.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\qconfig.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3danimation.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3danimation_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dcore.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dcore_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dextras.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dextras_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dinput.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dinput_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dlogic.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dlogic_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquick.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquick_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickanimation.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickanimation_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickextras.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickextras_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickinput.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickinput_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickrender.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickrender_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickscene2d.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickscene2d_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3drender.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3drender_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_accessibility_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axbase.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axbase_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axcontainer.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axserver.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axserver_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_bluetooth.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_core.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_core_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_dbus.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_dbus_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_designer.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_devicediscovery_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_edid_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_egl_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_fb_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_fontdatabase_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_gamepad.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_gamepad_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_gui.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_help.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_help_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_httpserver.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_httpserver_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_location.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_location_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_multimedia.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_network.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_network_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_nfc.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_nfc_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_opengl.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_openglextensions.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_packetprotocol_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_platformcompositor_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_positioning.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_positioning_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_positioningquick.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_positioningquick_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qml.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmldebug_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmlmodels.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmlmodels_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmlworkerscript.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmlworkerscript_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quick.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickcontrols2.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickshapes_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quicktemplates2.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_remoteobjects.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_remoteobjects_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_repparser.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_repparser_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_scxml.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_scxml_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sensors.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sensors_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_serialbus.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_serialbus_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_serialport.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_serialport_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sql.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sslserver.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sslserver_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_svg.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_testlib.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_texttospeech.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_texttospeech_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_theme_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_uiplugin.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_uitools.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_webchannel.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_webchannel_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_websockets.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_websockets_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_widgets.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_windowsuiautomation_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_winextras.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_winextras_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_xml.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_zlib_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\qt_functions.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\qt_config.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\win32-g++\qmake.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\spec_post.prf .qmake.stash ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\exclusive_builds.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\toolchain.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\default_pre.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\win32\default_pre.prf qtzeroconf\qtzeroconf.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\resolve_config.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\exclusive_builds_post.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\default_post.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\build_pass.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\qtquickcompiler.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\precompile_header.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\warn_on.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\qt.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\resources_functions.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\resources.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\moc.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\win32\opengl.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\uic.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\qmake_use.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\file_copies.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\win32\windows.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\testcase_targets.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\exceptions.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\yacc.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\lex.prf VDV301tester.pro ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Multimedia.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Widgets.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Gui.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5HttpServer.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5WebSockets.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5SslServer.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Network.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Sql.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Xml.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5SerialPort.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Concurrent.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Core.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\qtmain.prl    ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\data\dummy.cpp qtzeroconf\qzeroconf.h qtzeroconf\bonjour_p.h qtzeroconf\qzeroconfservice.h qtzeroconf\qzeroconfglobal.h VDV301publisher\newhttpserver.h VDV301publisher\ticketvalidationservice.h VDV301struktury\linka.h VDV301publisher\customerinformationservice.h VDV301struktury\obeh.h VDV301struktury\zastavka.h VDV301struktury\zastavkacil.h VDV301testy\polozkatestu.h VDV301testy\testdemo.h VDV301testy\testdetekcebonjour.h VDV301testy\testodberuserver.h VDV301testy\vdv301testy.h hlasic.h VDV301publisher\httpsluzba.h konfigurace.h logfile.h mainwindow.h prestupmpv.h VDV301struktury\spoj.h VDV301struktury\pasmo.h subscriber.h xmlgenerator.h VDV301struktury\cestaudaje.h xmlmpvparser.h sqlpraceropid.h xmlropidparser.h ibisovladani.h  qtzeroconf\bonjour.cpp qtzeroconf\bonjour-sdk\dnssd_clientlib.c qtzeroconf\bonjour-sdk\dnssd_clientstub.c qtzeroconf\bonjour-sdk\dnssd_ipc.c qtzeroconf\qzeroconfservice.cpp VDV301publisher\newhttpserver.cpp VDV301publisher\ticketvalidationservice.cpp VDV301struktury\linka.cpp VDV301publisher\customerinformationservice.cpp VDV301struktury\obeh.cpp VDV301struktury\zastavka.cpp VDV301struktury\zastavkacil.cpp VDV301testy\polozkatestu.cpp VDV301testy\testdemo.cpp VDV301testy\testdetekcebonjour.cpp VDV301testy\testodberuserver.cpp VDV301testy\vdv301testy.cpp hlasic.cpp VDV301publisher\httpsluzba.cpp konfigurace.cpp logfile.cpp main.cpp mainwindow.cpp prestupmpv.cpp VDV301struktury\spoj.cpp VDV301struktury\pasmo.cpp subscriber.cpp xmlgenerator.cpp VDV301struktury\cestaudaje.cpp xmlmpvparser.cpp sqlpraceropid.cpp xmlropidparser.cpp ibisovladani.cpp mainwindow.ui    
+	$(ZIP) VDV301tester.zip $(SOURCES) $(DIST) VDV301tester.pro ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\spec_pre.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\qdevice.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\device_config.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\sanitize.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\gcc-base.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\g++-base.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\angle.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\win32\windows_vulkan_sdk.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\windows-vulkan.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\g++-win32.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\common\windows-desktop.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\qconfig.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3danimation.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3danimation_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dcore.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dcore_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dextras.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dextras_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dinput.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dinput_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dlogic.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dlogic_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquick.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquick_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickanimation.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickanimation_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickextras.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickextras_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickinput.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickinput_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickrender.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickrender_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickscene2d.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3dquickscene2d_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3drender.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_3drender_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_accessibility_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axbase.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axbase_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axcontainer.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axserver.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_axserver_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_bluetooth.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_concurrent.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_core.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_core_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_dbus.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_dbus_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_designer.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_designer_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_devicediscovery_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_edid_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_egl_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_fb_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_fontdatabase_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_gamepad.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_gamepad_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_gui.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_gui_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_help.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_help_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_httpserver.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_httpserver_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_location.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_location_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_multimedia.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_network.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_network_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_nfc.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_nfc_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_opengl.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_opengl_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_openglextensions.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_packetprotocol_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_platformcompositor_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_positioning.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_positioning_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_positioningquick.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_positioningquick_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_printsupport.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qml.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qml_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmldebug_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmlmodels.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmlmodels_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmltest.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmlworkerscript.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qmlworkerscript_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quick.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quick_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickcontrols2.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickshapes_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quicktemplates2.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_remoteobjects.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_remoteobjects_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_repparser.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_repparser_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_scxml.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_scxml_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sensors.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sensors_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_serialbus.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_serialbus_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_serialport.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_serialport_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sql.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sql_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sslserver.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_sslserver_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_svg.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_svg_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_testlib.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_testlib_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_texttospeech.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_texttospeech_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_theme_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_uiplugin.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_uitools.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_uitools_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_webchannel.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_webchannel_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_websockets.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_websockets_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_widgets.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_widgets_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_windowsuiautomation_support_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_winextras.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_winextras_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_xml.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_xml_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\modules\qt_lib_zlib_private.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\qt_functions.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\qt_config.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\win32-g++\qmake.conf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\spec_post.prf .qmake.stash ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\exclusive_builds.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\toolchain.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\default_pre.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\win32\default_pre.prf qtzeroconf\qtzeroconf.pri ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\resolve_config.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\exclusive_builds_post.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\default_post.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\build_pass.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\qtquickcompiler.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\precompile_header.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\warn_on.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\qt.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\resources_functions.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\resources.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\moc.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\win32\opengl.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\uic.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\qmake_use.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\file_copies.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\win32\windows.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\testcase_targets.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\exceptions.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\yacc.prf ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\lex.prf VDV301tester.pro ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Multimedia.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Widgets.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Gui.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5HttpServer.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5WebSockets.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5SslServer.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Network.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Sql.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Xml.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5SerialPort.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Concurrent.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\Qt5Core.prl ..\..\..\..\Qt\5.15.2\mingw81_32\lib\qtmain.prl    ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\data\dummy.cpp qtzeroconf\qzeroconf.h qtzeroconf\bonjour_p.h qtzeroconf\qzeroconfservice.h qtzeroconf\qzeroconfglobal.h VDV301publisher\newhttpserver.h VDV301publisher\ticketvalidationservice.h VDV301struktury\linka.h VDV301publisher\customerinformationservice.h VDV301struktury\obeh.h VDV301struktury\zastavka.h VDV301struktury\zastavkacil.h VDV301testy\polozkatestu.h VDV301testy\testdemo.h VDV301testy\testdetekcebonjour.h VDV301testy\testodberuserver.h VDV301testy\vdv301testy.h hlasic.h VDV301publisher\httpsluzba.h konfigurace.h logfile.h mainwindow.h mainwindowpomocne.h prestupmpv.h VDV301struktury\spoj.h VDV301struktury\pasmo.h subscriber.h xmlgenerator.h VDV301struktury\cestaudaje.h xmlmpvparser.h sqlpraceropid.h xmlropidparser.h ibisovladani.h  qtzeroconf\bonjour.cpp qtzeroconf\bonjour-sdk\dnssd_clientlib.c qtzeroconf\bonjour-sdk\dnssd_clientstub.c qtzeroconf\bonjour-sdk\dnssd_ipc.c qtzeroconf\qzeroconfservice.cpp VDV301publisher\newhttpserver.cpp VDV301publisher\ticketvalidationservice.cpp VDV301struktury\linka.cpp VDV301publisher\customerinformationservice.cpp VDV301struktury\obeh.cpp VDV301struktury\zastavka.cpp VDV301struktury\zastavkacil.cpp VDV301testy\polozkatestu.cpp VDV301testy\testdemo.cpp VDV301testy\testdetekcebonjour.cpp VDV301testy\testodberuserver.cpp VDV301testy\vdv301testy.cpp hlasic.cpp VDV301publisher\httpsluzba.cpp konfigurace.cpp logfile.cpp main.cpp mainwindow.cpp mainwindowpomocne.cpp prestupmpv.cpp VDV301struktury\spoj.cpp VDV301struktury\pasmo.cpp subscriber.cpp xmlgenerator.cpp VDV301struktury\cestaudaje.cpp xmlmpvparser.cpp sqlpraceropid.cpp xmlropidparser.cpp ibisovladani.cpp mainwindow.ui    
 
 clean: compiler_clean 
-	-$(DEL_FILE) debug\bonjour.o debug\dnssd_clientlib.o debug\dnssd_clientstub.o debug\dnssd_ipc.o debug\qzeroconfservice.o debug\newhttpserver.o debug\ticketvalidationservice.o debug\linka.o debug\customerinformationservice.o debug\obeh.o debug\zastavka.o debug\zastavkacil.o debug\polozkatestu.o debug\testdemo.o debug\testdetekcebonjour.o debug\testodberuserver.o debug\vdv301testy.o debug\hlasic.o debug\httpsluzba.o debug\konfigurace.o debug\logfile.o debug\main.o debug\mainwindow.o debug\prestupmpv.o debug\spoj.o debug\pasmo.o debug\subscriber.o debug\xmlgenerator.o debug\cestaudaje.o debug\xmlmpvparser.o debug\sqlpraceropid.o debug\xmlropidparser.o debug\ibisovladani.o debug\moc_qzeroconf.o debug\moc_bonjour_p.o debug\moc_qzeroconfservice.o debug\moc_newhttpserver.o debug\moc_testdemo.o debug\moc_testodberuserver.o debug\moc_vdv301testy.o debug\moc_hlasic.o debug\moc_httpsluzba.o debug\moc_konfigurace.o debug\moc_logfile.o debug\moc_mainwindow.o debug\moc_xmlgenerator.o debug\moc_xmlmpvparser.o debug\moc_sqlpraceropid.o debug\moc_xmlropidparser.o
+	-$(DEL_FILE) debug\bonjour.o debug\dnssd_clientlib.o debug\dnssd_clientstub.o debug\dnssd_ipc.o debug\qzeroconfservice.o debug\newhttpserver.o debug\ticketvalidationservice.o debug\linka.o debug\customerinformationservice.o debug\obeh.o debug\zastavka.o debug\zastavkacil.o debug\polozkatestu.o debug\testdemo.o debug\testdetekcebonjour.o debug\testodberuserver.o debug\vdv301testy.o debug\hlasic.o debug\httpsluzba.o debug\konfigurace.o debug\logfile.o debug\main.o debug\mainwindow.o debug\mainwindowpomocne.o debug\prestupmpv.o debug\spoj.o debug\pasmo.o debug\subscriber.o debug\xmlgenerator.o debug\cestaudaje.o debug\xmlmpvparser.o debug\sqlpraceropid.o debug\xmlropidparser.o debug\ibisovladani.o debug\moc_qzeroconf.o debug\moc_bonjour_p.o debug\moc_qzeroconfservice.o debug\moc_newhttpserver.o debug\moc_testdemo.o debug\moc_testodberuserver.o debug\moc_vdv301testy.o debug\moc_hlasic.o debug\moc_httpsluzba.o debug\moc_konfigurace.o debug\moc_logfile.o debug\moc_mainwindow.o debug\moc_mainwindowpomocne.o debug\moc_xmlgenerator.o debug\moc_xmlmpvparser.o debug\moc_sqlpraceropid.o debug\moc_xmlropidparser.o
 
 distclean: clean 
 	-$(DEL_FILE) .qmake.stash
@@ -256,11 +262,11 @@ compiler_moc_predefs_make_all: debug/moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) debug\moc_predefs.h
 debug/moc_predefs.h: ../../../../Qt/5.15.2/mingw81_32/mkspecs/features/data/dummy.cpp
-	g++ -fno-keep-inline-dllexport -IC:/Users/adame/github/VDV301tester/qtzeroconf/bonjour-sdk -IC:/Users/adame/github/VDV301tester/qtzeroconf -g -Wall -Wextra -Wextra -dM -E -o debug\moc_predefs.h ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\data\dummy.cpp
+	g++ -fno-keep-inline-dllexport -IC:/Users/Eichler536/github/VDV301tester/qtzeroconf/bonjour-sdk -IC:/Users/Eichler536/github/VDV301tester/qtzeroconf -g -Wall -Wextra -Wextra -dM -E -o debug\moc_predefs.h ..\..\..\..\Qt\5.15.2\mingw81_32\mkspecs\features\data\dummy.cpp
 
-compiler_moc_header_make_all: debug/moc_qzeroconf.cpp debug/moc_bonjour_p.cpp debug/moc_qzeroconfservice.cpp debug/moc_newhttpserver.cpp debug/moc_testdemo.cpp debug/moc_testodberuserver.cpp debug/moc_vdv301testy.cpp debug/moc_hlasic.cpp debug/moc_httpsluzba.cpp debug/moc_konfigurace.cpp debug/moc_logfile.cpp debug/moc_mainwindow.cpp debug/moc_xmlgenerator.cpp debug/moc_xmlmpvparser.cpp debug/moc_sqlpraceropid.cpp debug/moc_xmlropidparser.cpp
+compiler_moc_header_make_all: debug/moc_qzeroconf.cpp debug/moc_bonjour_p.cpp debug/moc_qzeroconfservice.cpp debug/moc_newhttpserver.cpp debug/moc_testdemo.cpp debug/moc_testodberuserver.cpp debug/moc_vdv301testy.cpp debug/moc_hlasic.cpp debug/moc_httpsluzba.cpp debug/moc_konfigurace.cpp debug/moc_logfile.cpp debug/moc_mainwindow.cpp debug/moc_mainwindowpomocne.cpp debug/moc_xmlgenerator.cpp debug/moc_xmlmpvparser.cpp debug/moc_sqlpraceropid.cpp debug/moc_xmlropidparser.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) debug\moc_qzeroconf.cpp debug\moc_bonjour_p.cpp debug\moc_qzeroconfservice.cpp debug\moc_newhttpserver.cpp debug\moc_testdemo.cpp debug\moc_testodberuserver.cpp debug\moc_vdv301testy.cpp debug\moc_hlasic.cpp debug\moc_httpsluzba.cpp debug\moc_konfigurace.cpp debug\moc_logfile.cpp debug\moc_mainwindow.cpp debug\moc_xmlgenerator.cpp debug\moc_xmlmpvparser.cpp debug\moc_sqlpraceropid.cpp debug\moc_xmlropidparser.cpp
+	-$(DEL_FILE) debug\moc_qzeroconf.cpp debug\moc_bonjour_p.cpp debug\moc_qzeroconfservice.cpp debug\moc_newhttpserver.cpp debug\moc_testdemo.cpp debug\moc_testodberuserver.cpp debug\moc_vdv301testy.cpp debug\moc_hlasic.cpp debug\moc_httpsluzba.cpp debug\moc_konfigurace.cpp debug\moc_logfile.cpp debug\moc_mainwindow.cpp debug\moc_mainwindowpomocne.cpp debug\moc_xmlgenerator.cpp debug\moc_xmlmpvparser.cpp debug\moc_sqlpraceropid.cpp debug\moc_xmlropidparser.cpp
 debug/moc_qzeroconf.cpp: qtzeroconf/qzeroconf.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobject.h \
@@ -340,7 +346,7 @@ debug/moc_qzeroconf.cpp: qtzeroconf/qzeroconf.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QSharedPointer \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include qtzeroconf\qzeroconf.h -o debug\moc_qzeroconf.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include qtzeroconf\qzeroconf.h -o debug\moc_qzeroconf.cpp
 
 debug/moc_bonjour_p.cpp: qtzeroconf/bonjour_p.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QSocketNotifier \
@@ -428,7 +434,7 @@ debug/moc_bonjour_p.cpp: qtzeroconf/bonjour_p.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include qtzeroconf\bonjour_p.h -o debug\moc_bonjour_p.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include qtzeroconf\bonjour_p.h -o debug\moc_bonjour_p.cpp
 
 debug/moc_qzeroconfservice.cpp: qtzeroconf/qzeroconfservice.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QHostAddress \
@@ -506,7 +512,7 @@ debug/moc_qzeroconfservice.cpp: qtzeroconf/qzeroconfservice.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtGlobal \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include qtzeroconf\qzeroconfservice.h -o debug\moc_qzeroconfservice.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include qtzeroconf\qzeroconfservice.h -o debug\moc_qzeroconfservice.cpp
 
 debug/moc_newhttpserver.cpp: VDV301publisher/newhttpserver.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
@@ -858,7 +864,7 @@ debug/moc_newhttpserver.cpp: VDV301publisher/newhttpserver.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtHttpServer/qthttpserverversion.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include VDV301publisher\newhttpserver.h -o debug\moc_newhttpserver.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include VDV301publisher\newhttpserver.h -o debug\moc_newhttpserver.cpp
 
 debug/moc_testdemo.cpp: VDV301testy/testdemo.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QTimer \
@@ -921,7 +927,7 @@ debug/moc_testdemo.cpp: VDV301testy/testdemo.h \
 		VDV301testy/polozkatestu.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include VDV301testy\testdemo.h -o debug\moc_testdemo.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include VDV301testy\testdemo.h -o debug\moc_testdemo.cpp
 
 debug/moc_testodberuserver.cpp: VDV301testy/testodberuserver.h \
 		VDV301testy/vdv301testy.h \
@@ -1295,13 +1301,14 @@ debug/moc_testodberuserver.cpp: VDV301testy/testodberuserver.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
 		subscriber.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include VDV301testy\testodberuserver.h -o debug\moc_testodberuserver.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include VDV301testy\testodberuserver.h -o debug\moc_testodberuserver.cpp
 
 debug/moc_vdv301testy.cpp: VDV301testy/vdv301testy.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
@@ -1363,7 +1370,7 @@ debug/moc_vdv301testy.cpp: VDV301testy/vdv301testy.h \
 		VDV301testy/polozkatestu.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include VDV301testy\vdv301testy.h -o debug\moc_vdv301testy.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include VDV301testy\vdv301testy.h -o debug\moc_vdv301testy.cpp
 
 debug/moc_hlasic.cpp: hlasic.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
@@ -1498,7 +1505,7 @@ debug/moc_hlasic.cpp: hlasic.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfileinfo.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include hlasic.h -o debug\moc_hlasic.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include hlasic.h -o debug\moc_hlasic.cpp
 
 debug/moc_httpsluzba.cpp: VDV301publisher/httpsluzba.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
@@ -1868,13 +1875,14 @@ debug/moc_httpsluzba.cpp: VDV301publisher/httpsluzba.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
 		subscriber.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include VDV301publisher\httpsluzba.h -o debug\moc_httpsluzba.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include VDV301publisher\httpsluzba.h -o debug\moc_httpsluzba.cpp
 
 debug/moc_konfigurace.cpp: konfigurace.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
@@ -2086,7 +2094,7 @@ debug/moc_konfigurace.cpp: konfigurace.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qtxmlversion.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include konfigurace.h -o debug\moc_konfigurace.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include konfigurace.h -o debug\moc_konfigurace.cpp
 
 debug/moc_logfile.cpp: logfile.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
@@ -2148,7 +2156,7 @@ debug/moc_logfile.cpp: logfile.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qiodevice.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include logfile.h -o debug\moc_logfile.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include logfile.h -o debug\moc_logfile.cpp
 
 debug/moc_mainwindow.cpp: mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QVector \
@@ -2308,6 +2316,7 @@ debug/moc_mainwindow.cpp: mainwindow.h \
 		VDV301struktury/linka.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		VDV301struktury/zastavkacil.h \
@@ -2594,7 +2603,121 @@ debug/moc_mainwindow.cpp: mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QFile \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include mainwindow.h -o debug\moc_mainwindow.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include mainwindow.h -o debug\moc_mainwindow.cpp
+
+debug/moc_mainwindowpomocne.cpp: mainwindowpomocne.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QMainWindow \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmainwindow.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtwidgetsglobal.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtguiglobal.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qglobal.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qconfig-bootstrapped.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qconfig.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtcore-config.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsystemdetection.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qprocessordetection.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcompilerdetection.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtypeinfo.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsysinfo.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlogging.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qflags.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qatomic.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qbasicatomic.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qatomic_bootstrap.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qgenericatomic.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qatomic_msvc.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qglobalstatic.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmutex.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qnumeric.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qversiontagging.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtgui-config.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtwidgets-config.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qwidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qwindowdefs.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobjectdefs.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qnamespace.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobjectdefs_impl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qwindowdefs_win.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobject.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstring.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qchar.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qbytearray.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qrefcount.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qarraydata.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringliteral.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringalgorithms.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringview.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringbuilder.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlist.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qalgorithms.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qiterator.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qhashfunctions.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qpair.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qvector.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcontainertools_impl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qpoint.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qbytearraylist.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringlist.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qregexp.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringmatcher.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcoreevent.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qscopedpointer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmetatype.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qvarlengtharray.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcontainerfwd.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobject_impl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmargins.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpaintdevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qrect.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsize.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpalette.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qcolor.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qrgb.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qrgba64.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qbrush.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qmatrix.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpolygon.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qregion.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdatastream.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qiodevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qline.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtransform.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qimage.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpixelformat.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpixmap.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsharedpointer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qshareddata.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qhash.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsharedpointer_impl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qfont.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qfontmetrics.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qfontinfo.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qsizepolicy.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qcursor.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qkeysequence.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qevent.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qvariant.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmap.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdebug.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtextstream.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlocale.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qset.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcontiguouscache.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qurl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qurlquery.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfile.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfiledevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qvector2d.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtouchdevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtabwidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qicon.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
+		subscriber.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QUrl \
+		debug/moc_predefs.h \
+		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include mainwindowpomocne.h -o debug\moc_mainwindowpomocne.cpp
 
 debug/moc_xmlgenerator.cpp: xmlgenerator.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QMainWindow \
@@ -2717,12 +2840,14 @@ debug/moc_xmlgenerator.cpp: xmlgenerator.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qtxmlglobal.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qtxml-config.h \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdatetime.h \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlgenerator.h -o debug\moc_xmlgenerator.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlgenerator.h -o debug\moc_xmlgenerator.cpp
 
 debug/moc_xmlmpvparser.cpp: xmlmpvparser.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QMainWindow \
@@ -2994,7 +3119,7 @@ debug/moc_xmlmpvparser.cpp: xmlmpvparser.h \
 		prestupmpv.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlmpvparser.h -o debug\moc_xmlmpvparser.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlmpvparser.h -o debug\moc_xmlmpvparser.cpp
 
 debug/moc_sqlpraceropid.cpp: sqlpraceropid.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QMainWindow \
@@ -3272,7 +3397,7 @@ debug/moc_sqlpraceropid.cpp: sqlpraceropid.h \
 		VDV301struktury/obeh.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include sqlpraceropid.h -o debug\moc_sqlpraceropid.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include sqlpraceropid.h -o debug\moc_sqlpraceropid.cpp
 
 debug/moc_xmlropidparser.cpp: xmlropidparser.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QMainWindow \
@@ -3558,7 +3683,7 @@ debug/moc_xmlropidparser.cpp: xmlropidparser.h \
 		VDV301struktury/obeh.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
-	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlropidparser.h -o debug\moc_xmlropidparser.cpp
+	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlropidparser.h -o debug\moc_xmlropidparser.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -4476,6 +4601,7 @@ debug/ticketvalidationservice.o: VDV301publisher/ticketvalidationservice.cpp VDV
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
@@ -4958,6 +5084,7 @@ debug/customerinformationservice.o: VDV301publisher/customerinformationservice.c
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
@@ -5868,6 +5995,7 @@ debug/testodberuserver.o: VDV301testy/testodberuserver.cpp VDV301testy/testodber
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
@@ -6448,6 +6576,7 @@ debug/httpsluzba.o: VDV301publisher/httpsluzba.cpp VDV301publisher/httpsluzba.h 
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
@@ -7042,6 +7171,7 @@ debug/main.o: main.cpp mainwindow.h \
 		VDV301struktury/linka.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		VDV301struktury/zastavkacil.h \
@@ -7492,6 +7622,7 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		VDV301struktury/linka.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		VDV301struktury/zastavkacil.h \
@@ -7777,60 +7908,490 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		logfile.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QFile \
 		ui_mainwindow.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QApplication \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QCheckBox \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcheckbox.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qabstractbutton.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QFormLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qformlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgridlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QGridLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QHBoxLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QHeaderView \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qheaderview.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QLabel \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlabel.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QLineEdit \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlineedit.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextcursor.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QFileDialog \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qfiledialog.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdialog.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
+
+debug/mainwindowpomocne.o: mainwindowpomocne.cpp mainwindowpomocne.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QMainWindow \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmainwindow.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtwidgetsglobal.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtguiglobal.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qglobal.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qconfig-bootstrapped.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qconfig.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtcore-config.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsystemdetection.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qprocessordetection.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcompilerdetection.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtypeinfo.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsysinfo.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlogging.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qflags.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qatomic.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qbasicatomic.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qatomic_bootstrap.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qgenericatomic.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qatomic_cxx11.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qatomic_msvc.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qglobalstatic.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmutex.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qnumeric.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qversiontagging.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtgui-config.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtwidgets-config.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qwidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qwindowdefs.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobjectdefs.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qnamespace.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobjectdefs_impl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qwindowdefs_win.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobject.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstring.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qchar.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qbytearray.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qrefcount.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qarraydata.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringliteral.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringalgorithms.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringview.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringbuilder.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlist.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qalgorithms.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qiterator.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qhashfunctions.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qpair.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qvector.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcontainertools_impl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qpoint.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qbytearraylist.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringlist.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qregexp.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringmatcher.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcoreevent.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qscopedpointer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmetatype.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qvarlengtharray.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcontainerfwd.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobject_impl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmargins.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpaintdevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qrect.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsize.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpalette.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qcolor.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qrgb.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qrgba64.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qbrush.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qmatrix.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpolygon.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qregion.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdatastream.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qiodevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qline.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtransform.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qimage.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpixelformat.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpixmap.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsharedpointer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qshareddata.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qhash.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsharedpointer_impl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qfont.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qfontmetrics.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qfontinfo.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qsizepolicy.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qcursor.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qkeysequence.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qevent.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qvariant.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmap.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdebug.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtextstream.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlocale.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qset.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcontiguouscache.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qurl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qurlquery.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfile.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfiledevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qvector2d.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtouchdevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtabwidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qicon.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
+		subscriber.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QUrl \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QtWidgets \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QtWidgetsDepends \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtCore \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtCoreDepends \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qabstractanimation.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qabstracteventdispatcher.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qeventloop.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qabstractitemmodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qabstractnativeeventfilter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qabstractproxymodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qabstractstate.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qabstracttransition.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qanimationgroup.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qarraydataops.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qarraydatapointer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qbasictimer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qbitarray.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qbuffer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qbytearraymatcher.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcache.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcalendar.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcborarray.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcborvalue.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdatetime.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcborcommon.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qregularexpression.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/quuid.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcbormap.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcborstream.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcborstreamreader.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfloat16.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcborstreamwriter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcollator.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcommandlineoption.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcommandlineparser.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcoreapplication.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qconcatenatetablesproxymodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcryptographichash.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdeadlinetimer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qelapsedtimer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdir.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfileinfo.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdiriterator.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qeasingcurve.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qendian.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qeventtransition.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qexception.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfactoryinterface.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfileselector.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QStringList \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfilesystemwatcher.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfinalstate.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfuture.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfutureinterface.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qrunnable.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qresultstore.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfuturesynchronizer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qfuturewatcher.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qhistorystate.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qidentityproxymodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qisenum.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qitemselectionmodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qjsonarray.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qjsonvalue.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qjsondocument.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qjsonobject.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlibrary.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlibraryinfo.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qversionnumber.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlinkedlist.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlockfile.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qloggingcategory.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmath.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmessageauthenticationcode.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmetaobject.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmimedata.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmimedatabase.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmimetype.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobjectcleanuphandler.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qoperatingsystemversion.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qparallelanimationgroup.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qpauseanimation.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qplugin.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qpointer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qpluginloader.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qprocess.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qpropertyanimation.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qvariantanimation.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qqueue.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qrandom.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qreadwritelock.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qresource.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsavefile.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qscopedvaluerollback.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qscopeguard.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsemaphore.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsequentialanimationgroup.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsettings.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsharedmemory.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsignalmapper.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsignaltransition.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsocketnotifier.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsortfilterproxymodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstack.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstandardpaths.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstate.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstatemachine.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstorageinfo.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qstringlistmodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsystemsemaphore.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtemporarydir.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtemporaryfile.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtextboundaryfinder.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtextcodec.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qthread.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qthreadpool.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qthreadstorage.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtimeline.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtimer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtimezone.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtranslator.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtransposeproxymodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtypetraits.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qwaitcondition.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDeadlineTimer \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qwineventnotifier.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qxmlstream.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtcoreversion.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QtGui \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QtGuiDepends \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qabstracttextdocumentlayout.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextlayout.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextformat.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpen.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextoption.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QMenuBar \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmenubar.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmenu.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qaction.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qactiongroup.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QPlainTextEdit \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qplaintextedit.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtextedit.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextdocument.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qabstracttextdocumentlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextlayout.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qglyphrun.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qrawfont.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qfontdatabase.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QPushButton \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextcursor.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextdocument.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qaccessible.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qaccessiblebridge.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qaccessibleobject.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qaccessibleplugin.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qbackingstore.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qwindow.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QEvent \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QMargins \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QRect \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qsurface.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qsurfaceformat.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qbitmap.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qclipboard.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qcolorspace.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qcolortransform.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qdesktopservices.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qdrag.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qgenericmatrix.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qgenericplugin.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qgenericpluginfactory.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qguiapplication.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qinputmethod.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qiconengine.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qiconengineplugin.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qimageiohandler.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qimagereader.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qimagewriter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qmatrix4x4.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qvector3d.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qvector4d.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qquaternion.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qmovie.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qoffscreensurface.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopengl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qt_windows.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtANGLE/GLES3/gl3.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtANGLE/GLES3/gl3platform.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtANGLE/KHR/khrplatform.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtANGLE/GLES2/gl2.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtANGLE/GLES2/gl2platform.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopengles2ext.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglext.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglbuffer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglcontext.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QScopedPointer \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QSurfaceFormat \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglversionfunctions.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopengldebug.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglextrafunctions.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglfunctions.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglframebufferobject.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglpaintdevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglpixeltransferoptions.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QSharedDataPointer \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglshaderprogram.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopengltexture.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopengltextureblitter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QMatrix3x3 \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QMatrix4x4 \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopengltimerquery.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglvertexarrayobject.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qopenglwindow.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QPaintDeviceWindow \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpaintdevicewindow.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QWindow \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QPaintDevice \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QOpenGLContext \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QImage \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpagedpaintdevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpagelayout.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpagesize.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpaintengine.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpainter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpainterpath.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpdfwriter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpicture.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpictureformatplugin.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpixmapcache.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qrasterwindow.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qscreen.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QList \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QSize \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QSizeF \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QTransform \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qsessionmanager.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qstandarditemmodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qstatictext.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qstylehints.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qsyntaxhighlighter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextobject.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextdocumentfragment.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextdocumentwriter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextlist.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtexttable.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qvalidator.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtguiversion.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qabstractbutton.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qabstractitemdelegate.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstyleoption.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qabstractspinbox.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qslider.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qabstractslider.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstyle.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtabbar.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qrubberband.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qframe.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qabstractitemview.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qabstractscrollarea.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qaccessiblewidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qaction.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qactiongroup.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qapplication.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdesktopwidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qboxlayout.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlayout.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlayoutitem.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgridlayout.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qbuttongroup.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcalendarwidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcheckbox.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcolordialog.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdialog.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcolormap.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcolumnview.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcombobox.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcommandlinkbutton.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qpushbutton.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QRadioButton \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcommonstyle.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcompleter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdatawidgetmapper.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdatetimeedit.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdial.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdialogbuttonbox.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdirmodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qfileiconprovider.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdockwidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdrawutil.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qerrormessage.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qfiledialog.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qfilesystemmodel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qfocusframe.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qfontcombobox.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qfontdialog.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qformlayout.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QLayout \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgesture.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgesturerecognizer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicsanchorlayout.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicsitem.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicslayout.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicslayoutitem.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicseffect.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicsgridlayout.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicsitemanimation.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicslinearlayout.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicsproxywidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicswidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicsscene.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicssceneevent.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicstransform.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/QVector3D \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgraphicsview.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qscrollarea.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgroupbox.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qheaderview.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qinputdialog.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlineedit.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qitemdelegate.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qitemeditorfactory.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qkeyeventtransition.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qkeysequenceedit.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlabel.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlcdnumber.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlistview.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlistwidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmdiarea.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmdisubwindow.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmenu.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmenubar.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmessagebox.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmouseeventtransition.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qopenglwidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qplaintextedit.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtextedit.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qprogressbar.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qprogressdialog.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qproxystyle.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QCommonStyle \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qradiobutton.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QStackedWidget \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qscrollbar.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qscroller.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QPointF \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QScrollerProperties \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qscrollerproperties.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QMetaType \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QVariant \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qshortcut.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qsizegrip.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qspinbox.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qsplashscreen.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qsplitter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstackedlayout.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstackedwidget.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QStatusBar \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstatusbar.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QTableWidget \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtablewidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstyleditemdelegate.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstylefactory.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstylepainter.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstyleplugin.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qsystemtrayicon.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtableview.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QVBoxLayout
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtablewidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtextbrowser.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtoolbar.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtoolbox.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtoolbutton.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtooltip.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtreeview.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtreewidget.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtreewidgetitemiterator.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qundogroup.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qundostack.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qundoview.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qwhatsthis.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qwidgetaction.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qwizard.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtwidgetsversion.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindowpomocne.o mainwindowpomocne.cpp
 
 debug/prestupmpv.o: prestupmpv.cpp prestupmpv.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QMainWindow \
@@ -8295,11 +8856,12 @@ debug/xmlgenerator.o: xmlgenerator.cpp xmlgenerator.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qtxmlglobal.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qtxml-config.h \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdatetime.h \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QTime \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdatetime.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtDebug \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QtXml \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QtXmlDepends \
@@ -8566,6 +9128,8 @@ debug/cestaudaje.o: VDV301struktury/cestaudaje.cpp VDV301struktury/cestaudaje.h 
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qicon.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdatetime.h \
 		VDV301struktury/linka.h \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
@@ -9128,6 +9692,7 @@ debug/sqlpraceropid.o: sqlpraceropid.cpp sqlpraceropid.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qtxmlglobal.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qtxml-config.h \
 		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
 		prestupmpv.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\sqlpraceropid.o sqlpraceropid.cpp
 
@@ -9574,6 +10139,9 @@ debug/moc_logfile.o: debug/moc_logfile.cpp
 
 debug/moc_mainwindow.o: debug/moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\moc_mainwindow.o debug\moc_mainwindow.cpp
+
+debug/moc_mainwindowpomocne.o: debug/moc_mainwindowpomocne.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\moc_mainwindowpomocne.o debug\moc_mainwindowpomocne.cpp
 
 debug/moc_xmlgenerator.o: debug/moc_xmlgenerator.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\moc_xmlgenerator.o debug\moc_xmlgenerator.cpp

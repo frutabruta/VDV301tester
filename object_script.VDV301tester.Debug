@@ -21,6 +21,7 @@ debug/konfigurace.o
 debug/logfile.o
 debug/main.o
 debug/mainwindow.o
+debug/mainwindowpomocne.o
 debug/prestupmpv.o
 debug/spoj.o
 debug/pasmo.o
@@ -43,6 +44,7 @@ debug/moc_httpsluzba.o
 debug/moc_konfigurace.o
 debug/moc_logfile.o
 debug/moc_mainwindow.o
+debug/moc_mainwindowpomocne.o
 debug/moc_xmlgenerator.o
 debug/moc_xmlmpvparser.o
 debug/moc_sqlpraceropid.o
