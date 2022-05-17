@@ -51,7 +51,7 @@ public:
     //bool podminkaHlasitZmenuPasma(QVector<Pasmo> seznamPasem1, QVector<Pasmo> seznamPasem2);
 
     QDomElement stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<prestupMPV> seznamPrestupu, QString language, int currentStopIndex, CestaUdaje stav);
-    QDomElement stopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<prestupMPV> seznamPrestupu, QString language, int currentStopIndex);
+    QDomElement StopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek, int indexZpracZastavky, QVector<prestupMPV> seznamPrestupu, QString language, int currentStopIndex);
 
     QDomElement StopSequence2_2CZ1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<prestupMPV> seznamPrestupu);
     QDomElement ViaPoint2_2CZ1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
@@ -63,16 +63,16 @@ public:
     QDomElement DoorOpenState(QDomDocument xmlko, QString obsah);
     QDomElement VehicleMode(QDomDocument xmlko, QString mode, QString subMode);
 
-    QDomDocument connections1_0(QVector<prestupMPV>  lokPrestupy);
-    QDomDocument connections2_2CZ1_0(QVector<prestupMPV> seznamPrestupu);
+    QDomDocument Connections1_0(QVector<prestupMPV>  lokPrestupy);
+    QDomDocument Connections2_2CZ1_0(QVector<prestupMPV> seznamPrestupu);
 
 private:
     QDomElement StopSequence1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<prestupMPV> prestupy, CestaUdaje stav);
     QDomElement ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);
     QDomElement TimeStampTag1_0(QDomDocument xmlko);
-    QDomElement additionalTextMessage1_0(QString obsahZpravy);
+    QDomElement AdditionalTextMessage1_0(QString obsahZpravy);
     QDomElement rawInsert(QString vstup);
-    QDomElement additionalTextMessage2_2CZ1_0(QString obsahZpravy);
+    QDomElement AdditionalTextMessage2_2CZ1_0(QString obsahZpravy);
     QString defaultniJazyk1_0="de";
     QString defaultniJazyk2_2CZ1_0="cz";
 signals:
