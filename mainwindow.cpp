@@ -798,16 +798,6 @@ void MainWindow::on_BetweenStop_clicked()
 }
 
 
-/*!
-
-*/
-void MainWindow::on_prestupyCheckbox_stateChanged(int arg1)
-{
-    arg1=1;
-    qDebug()<<"MainWindow::on_prestupyCheckbox_stateChanged";
-}
-
-
 
 /*!
 
@@ -825,7 +815,7 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 */
 void MainWindow::on_tlacitkoNactiXMLropid_clicked()
 {
-    qDebug()<<"";
+    qDebug()<<"MainWindow::on_tlacitkoNactiXMLropid_clicked";
     xmlRopidParser.otevriSoubor(xmlRopidParser.vstupniXmlSouborCesta);
     this->pracovniDatumPrvniDenDat();
     this->inicializaceVyberovychPoli();
@@ -837,7 +827,7 @@ void MainWindow::on_tlacitkoNactiXMLropid_clicked()
 */
 void MainWindow::on_tlacitkoNastaveni_clicked()
 {
-    qDebug()<<"";
+    qDebug()<<"MainWindow::on_tlacitkoNastaveni_clicked()";
     ui->prepinadloStran->setCurrentIndex(2);
 }
 
@@ -1856,4 +1846,27 @@ void MainWindow::eventSkryjZmenuTarifnihoPasma()
    qDebug()<<"MainWindow::eventSkryjZmenuTarifnihoPasma()";
    stavSystemu.zobrazZmenuPasma=false;
    xmlVdv301HromadnyUpdate();
+}
+
+//není implementováno
+void MainWindow::eventZmenaTarifnihoSystemu()
+{
+    qDebug()<<"MainWindow::eventZmenaTarifnihoSystemu()";
+    /*stavSystemu.zobrazZmenuPasma=true;
+    xmlVdv301HromadnyUpdate();
+
+    timerTrvaniZmenyPasma->setInterval(10000);
+    timerTrvaniZmenyPasma->setSingleShot(true);
+    timerTrvaniZmenyPasma->start();
+    */
+
+}
+
+//není implementováno
+void MainWindow::eventSkryjZmenuTarifnihoSystemu()
+{
+   qDebug()<<"MainWindow::eventSkryjZmenuTarifnihoSystemu()";
+   /* stavSystemu.zobrazZmenuPasma=false;
+   xmlVdv301HromadnyUpdate();
+   */
 }

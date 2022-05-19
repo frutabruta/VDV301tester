@@ -561,6 +561,7 @@ public:
         tableWidgetNasledujiciZastavky->setObjectName(QString::fromUtf8("tableWidgetNasledujiciZastavky"));
         tableWidgetNasledujiciZastavky->setMinimumSize(QSize(500, 250));
         tableWidgetNasledujiciZastavky->setFont(font);
+        tableWidgetNasledujiciZastavky->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         tableWidgetNasledujiciZastavky->setSelectionBehavior(QAbstractItemView::SelectRows);
         tableWidgetNasledujiciZastavky->horizontalHeader()->setVisible(true);
         tableWidgetNasledujiciZastavky->verticalHeader()->setVisible(false);

@@ -8671,7 +8671,20 @@ release/pasmo.o: VDV301struktury/pasmo.cpp VDV301struktury/pasmo.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmetatype.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qvarlengtharray.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcontainerfwd.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobject_impl.h
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qobject_impl.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdebug.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qhash.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qmap.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qtextstream.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qiodevice.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qlocale.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qvariant.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qshareddata.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qset.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qcontiguouscache.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsharedpointer.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qsharedpointer_impl.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\pasmo.o VDV301struktury\pasmo.cpp
 
 release/subscriber.o: subscriber.cpp subscriber.h \
