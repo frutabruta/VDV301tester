@@ -563,7 +563,7 @@ public:
         tableWidgetNasledujiciZastavky->setFont(font);
         tableWidgetNasledujiciZastavky->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         tableWidgetNasledujiciZastavky->setSelectionBehavior(QAbstractItemView::SelectRows);
-        tableWidgetNasledujiciZastavky->horizontalHeader()->setVisible(true);
+        tableWidgetNasledujiciZastavky->horizontalHeader()->setVisible(false);
         tableWidgetNasledujiciZastavky->verticalHeader()->setVisible(false);
 
         verticalLayout_13->addWidget(tableWidgetNasledujiciZastavky);
