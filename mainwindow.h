@@ -27,6 +27,7 @@
 #include "hlasic.h"
 #include "konfigurace.h"
 #include "logfile.h"
+#include "mainwindowpomocne.h"
 
 
 
@@ -44,6 +45,7 @@ public:
 
     //konstanty
     QString umisteniProgramu=QCoreApplication::applicationDirPath();
+
 
 private:
 

@@ -7,6 +7,7 @@
 #include "VDV301struktury/zastavka.h"
 #include "VDV301testy/vdv301testy.h"
 #include "QFileDialog"
+#include "QMessageBox"
 //koment
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -247,11 +248,13 @@ void MainWindow::slotMpvNetReady()
 int MainWindow::on_prikaztlacitko_clicked()
 {
     qDebug()<<"MainWindow::on_prikaztlacitko_clicked";
+     stavSystemu.vymaz();
     stavSystemu.doorState="AllDoorsClosed";
     stavSystemu.aktspoj.linka.c =ui->polelinky->text().toInt();
     stavSystemu.aktspoj.cisloRopid=ui->polespoje->text().toInt();
 
     stavSystemu.indexAktZastavky=0;
+
 
     QString textDoPole="";
 
@@ -1056,12 +1059,21 @@ void MainWindow::on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current,
             int zvolenaPolozka=ui->listTurnusSpoje->currentRow();
             qDebug()<<"current row "<<zvolenaPolozka;
             qDebug()<<"delka seznamu spoju"<<stavSystemu.aktObeh.seznamSpoju.size()<<" zvolena polozka "<<zvolenaPolozka;
+
+            if(! MainWindowPomocne::jeVRozsahu(zvolenaPolozka,stavSystemu.aktObeh.seznamSpoju.size()))
+            {
+
+                return;
+            }
+
+
             stavSystemu.aktspoj=stavSystemu.aktObeh.seznamSpoju.at(zvolenaPolozka);
             ui->poleLinkyTurnus->setText(QString::number(stavSystemu.aktspoj.linka.c));
             ui->poleSpojeTurnus->setText(QString::number(stavSystemu.aktspoj.cisloRopid));
         }
     }
 }
+
 
 
 

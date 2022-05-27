@@ -10,7 +10,8 @@ class MainWindowPomocne: public QObject
     Q_OBJECT
 public:
     MainWindowPomocne();
-   // void vypisSubscribery2_2CZ(QVector<Subscriber> adresy);
+    // void vypisSubscribery2_2CZ(QVector<Subscriber> adresy);
+    static int jeVRozsahu(int index, int pocetHodnot);
 };
 
 #endif // MAINWINDOWPOMOCNE_H

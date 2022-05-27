@@ -8,6 +8,27 @@ MainWindowPomocne::MainWindowPomocne()
 }
 
 
+
+int MainWindowPomocne::jeVRozsahu(int index, int pocetHodnot)
+{
+    if(index<pocetHodnot)
+    {
+
+        return 1;
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("hodnota "+QString::number(index)+" je mimo rozsah "+ QString::number(pocetHodnot));
+        msgBox.exec();
+        qDebug()<<" hodnota mimo rozsah";
+
+       return 0;
+    }
+
+}
+
+
 /*
 void MainWindowPomocne::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
 {
