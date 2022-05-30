@@ -685,7 +685,7 @@ void MainWindow::AktualizaceDispleje()
        return;
    }
 
-
+    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky+1));
     ui->label_aktLinka->setText(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek.at(stavSystemu.indexAktZastavky).linka.LineNumber);
     ui->label_aktSpoj->setText(QString::number(this->stavSystemu.aktualniSpojNaObehu().cisloRopid));
 
@@ -1719,7 +1719,7 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
 
     for (int i=0;i<(docasnySeznamZastavek.count());i++)
     {
-        QString cisloZastavky = QString::number(i);
+        QString cisloZastavky = QString::number(i+1);
         QString nazevZastavky2 = docasnySeznamZastavek.at(i).zastavka.StopName;
         QString odjezdZeZastavky =  sqlPraceRopid.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).zastavka.DepartureTime);
         QString pasma= sqlPraceRopid.pasmaDoStringu(docasnySeznamZastavek.at(i).zastavka.seznamPasem,",");
@@ -1789,7 +1789,7 @@ void MainWindow::on_tableWidgetNasledujiciZastavky_cellClicked(int row, int colu
     eventPrijezd();
     AktualizaceDispleje();
     stavSystemu.doorState="AllDoorsClosed";
-    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
+
     xmlVdv301HromadnyUpdate();
 }
 

@@ -161,7 +161,7 @@ QString xmlGenerator::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<prestup
 
     QString deflanguage="cz";
     QString vehicleref=QString::number(stav.cisloVozu);
-    int currentStopIndex= stav.indexAktZastavky;
+    int currentStopIndex= stav.indexAktZastavky+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
     QString routeDeviation="onroute";
     QString vehicleStopRequested="0";
     QString exitSide="right";
