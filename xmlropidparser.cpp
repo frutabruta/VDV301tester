@@ -418,7 +418,7 @@ int XmlRopidParser::vlozSpPo(QDomElement koren)
 
 
     QString spoje="";
-            //2971 2972 2973 2974 2975 2976 2977 2978 2979 2980 2981 2982 2983 2984 2985 2986 2987 2988 2989 2990 2991 2992 2993 2994 2995 2996 2997 2998 2999 3000 3001";
+    //2971 2972 2973 2974 2975 2976 2977 2978 2979 2980 2981 2982 2983 2984 2985 2986 2987 2988 2989 2990 2991 2992 2993 2994 2995 2996 2997 2998 2999 3000 3001";
     spoje=element.attribute("sp");
     QStringList seznam=spoje.split(" ");
 
@@ -919,7 +919,5 @@ QString XmlRopidParser::vytvorCas(QString vstup)
     vstup=QString::number(hodiny)+""+QString::number(minuty)+""+QString::number(sekundy);
     return vstup;
 }
-
-
 
 

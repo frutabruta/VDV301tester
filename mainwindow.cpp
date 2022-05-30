@@ -376,6 +376,8 @@ int MainWindow::natahniSeznamSpojeKomplet()
 void MainWindow::on_sipkaNahoru_clicked()
 {
     qDebug()<<"\n MainWindow::on_sipkaNahoru_clicked() \n";
+
+
     if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()))
     {
         if((stavSystemu.locationState=="AtStop")&&((stavSystemu.indexAktZastavky<(stavSystemu.pocetZastavekAktualnihoSpoje()-1) )))
@@ -388,6 +390,13 @@ void MainWindow::on_sipkaNahoru_clicked()
         }
         else
         {
+            qDebug()<<"dalsi? index:"<<stavSystemu.indexAktZastavky<<" pocetZastavek:"<<stavSystemu.pocetZastavekAktualnihoSpoje();
+            if((stavSystemu.locationState=="AtStop")&&((stavSystemu.indexAktZastavky+1)==stavSystemu.pocetZastavekAktualnihoSpoje()))
+            {
+                this->dalsiSpoj();
+            }
+
+
             if(stavSystemu.locationState=="BeforeStop")
             {
                 stavSystemu.locationState="AtStop";
@@ -405,11 +414,18 @@ void MainWindow::on_sipkaNahoru_clicked()
             {stavSystemu.locationState="BetweenStop";
                 ui->BetweenStop->setChecked(true);
             }
+
+
+
+
         }
     }
+
+
+
     AktualizaceDispleje();
     stavSystemu.doorState="AllDoorsClosed";
-    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
+   // ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky+1));
     xmlVdv301HromadnyUpdate();
 }
 

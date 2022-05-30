@@ -264,7 +264,9 @@ QDomElement xmlGenerator::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpo
     //změna tarifního pásma
     if((currentStopIndex+1)<docasnySeznamZastavek.length()&&(stav.zobrazZmenuPasma==true))
     {
+        qDebug()<<"pred bum";
         dTripInformation.appendChild(FareZoneChange2_2CZ1_0(docasnySeznamZastavek.at(currentStopIndex-1).zastavka.seznamPasem,docasnySeznamZastavek.at(currentStopIndex).zastavka.seznamPasem,language));
+           qDebug()<<"bum";
     }
 
     return dTripInformation;
