@@ -56,6 +56,8 @@ public:
     QString vytvorCasHodinyMinuty(QString vstup);
     QString doplnNulu(int cislo, int pocetMist = 2);
     QString StahniSeznamSpolecnaCastDotazu();
+    int najdiTurnusZeSpoje(Spoj spoj, int &kmenovaLinka, int &poradi, int &order, QString kj);
+    int poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju, Spoj spoj);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:

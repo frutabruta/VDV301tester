@@ -251,6 +251,8 @@ int MainWindow::on_prikaztlacitko_clicked()
     qDebug()<<"MainWindow::on_prikaztlacitko_clicked";
     stavSystemu.vymaz();
     stavSystemu.doorState="AllDoorsClosed";
+
+    /*
     stavSystemu.aktspoj.linka.c =ui->polelinky->text().toInt();
     stavSystemu.aktspoj.cisloRopid=ui->polespoje->text().toInt();
 
@@ -287,7 +289,63 @@ int MainWindow::on_prikaztlacitko_clicked()
         ui->tlacitkoZpetVydej->setChecked(1);
         ui->prepinadloStran->setCurrentIndex(0);
     }
-    return 1;
+*/
+
+
+    /*
+     * odeslani spoje doplneneho na turnus
+*/
+
+    stavSystemu.aktspoj.linka.c =ui->polelinky->text().toInt();
+    stavSystemu.aktspoj.cisloRopid=ui->polespoje->text().toInt();
+
+    int kmenovaLinka=0;;
+    int poradi=0;
+    int order=0;
+    sqlPraceRopid.najdiTurnusZeSpoje( stavSystemu.aktspoj,kmenovaLinka,poradi,order, this->vyrobMaskuKalendareJizd() );
+
+    stavSystemu.indexAktZastavky=0;
+
+
+     //on_listKmenovychLinek_currentItemChanged
+    ui->poleLinkyTurnus->setText(QString::number(kmenovaLinka));
+    stavSystemu.aktObeh.kmenovaLinka.c=kmenovaLinka;
+    //ui->listPoradi->clear();
+   // ui->listTurnusSpoje->clear();
+
+    if (sqlPraceRopid.VytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
+    {
+        NaplnVyberPoradi(seznamObehu);
+    }
+
+
+
+    //on_listPoradi_currentItemChanged
+    stavSystemu.aktObeh.p=poradi ;
+    if (sqlPraceRopid.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
+    {
+        NaplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
+    }
+
+    Spoj hledanySpoj=stavSystemu.aktspoj;
+    stavSystemu.indexSpojeNaObehu=sqlPraceRopid.poziceSpojeNaSeznamu(stavSystemu.aktObeh.seznamSpoju,hledanySpoj);
+
+     if(! MainWindowPomocne::jeVRozsahu(stavSystemu.indexSpojeNaObehu,stavSystemu.aktObeh.seznamSpoju.size(),"MainWindow::on_prikaztlacitko_clicked"))
+    {
+        return 0;
+    }
+
+
+    stavSystemu.aktspoj=stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu);
+    ui->poleLinkyTurnus->setText(QString::number(stavSystemu.aktspoj.linka.c));
+    ui->poleSpojeTurnus->setText(QString::number(stavSystemu.aktspoj.cisloRopid));
+    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text().toInt();
+    //on_listTurnusSpoje_currentItemChanged
+
+    stavSystemu.indexAktZastavky=0;
+
+    return natahniSeznamSpojeKomplet();
+
 }
 
 
@@ -307,7 +365,10 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
     return natahniSeznamSpojeKomplet();
 }
 
-
+/*!
+ * \brief MainWindow::natahniSeznamSpojeKomplet
+ * \return
+ */
 int MainWindow::natahniSeznamSpojeKomplet()
 {
     qDebug()<<"MainWindow::natahniSeznamSpojeKomplet";
@@ -1063,11 +1124,17 @@ void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QList
     {
         if(ui->listSpoje->currentRow()!=-1)
         {
+
             qDebug()<<"xx"+ QString::number( ui->listSpoje->currentRow());
             qDebug()<<"current item:"+ui->listSpoje->currentItem()->data(Qt::UserRole).toString();
             ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
             int indexVyberu=ui->listSpoje->currentRow();
             stavSystemu.aktspoj=seznamSpoju.at(indexVyberu);
+            int kmenovaLinka=0;
+            int poradi=0;
+            int order=0;
+            sqlPraceRopid.najdiTurnusZeSpoje(stavSystemu.aktspoj, kmenovaLinka,poradi, order,this->vyrobMaskuKalendareJizd());
+            qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
         }
 
     }
@@ -1091,7 +1158,7 @@ void MainWindow::on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current,
             qDebug()<<"current row "<<zvolenaPolozka;
             qDebug()<<"delka seznamu spoju"<<stavSystemu.aktObeh.seznamSpoju.size()<<" zvolena polozka "<<zvolenaPolozka;
 
-            if(! MainWindowPomocne::jeVRozsahu(zvolenaPolozka,stavSystemu.aktObeh.seznamSpoju.size()))
+            if(! MainWindowPomocne::jeVRozsahu(zvolenaPolozka,stavSystemu.aktObeh.seznamSpoju.size(),"MainWindow::on_listTurnusSpoje_currentItemChanged"))
             {
 
                 return;

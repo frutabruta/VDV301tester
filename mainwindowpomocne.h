@@ -11,7 +11,7 @@ class MainWindowPomocne: public QObject
 public:
     MainWindowPomocne();
     // void vypisSubscribery2_2CZ(QVector<Subscriber> adresy);
-    static int jeVRozsahu(int index, int pocetHodnot);
+    static int jeVRozsahu(int index, int pocetHodnot, QString funkce);
 };
 
 #endif // MAINWINDOWPOMOCNE_H

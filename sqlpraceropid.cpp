@@ -102,10 +102,10 @@ int SqlPraceRopid::StahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje,QVec
     this->otevriDB();
     seznamSpoju.clear();
     Spoj aktualniTrip;
-     QVector<ZastavkaCil> docasnySeznamZastavek;
+    QVector<ZastavkaCil> docasnySeznamZastavek;
 
 
-   QString queryString2=StahniSeznamSpolecnaCastDotazu();
+    QString queryString2=StahniSeznamSpolecnaCastDotazu();
 
     queryString2+=("WHERE l.c=");
     queryString2+=( QString::number(docasnaLinka.c));
@@ -296,7 +296,7 @@ int SqlPraceRopid::StahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,int in
 
     queryString2+=("WHERE s.s=");
     queryString2+=( QString::number(seznamSpoju.at(indexSpoje).cislo));
-  //  queryString2+=(" AND  x.s2=0 ");
+    //  queryString2+=(" AND  x.s2=0 ");
 
 
     queryString2+=(" AND  s.kj LIKE '");
@@ -757,6 +757,76 @@ int SqlPraceRopid::VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka do
 }
 
 
+
+int SqlPraceRopid::najdiTurnusZeSpoje(Spoj spoj,int &kmenovaLinka,int &poradi,int &order, QString kj)
+{
+    qDebug()<< "SqlPraceRopid::najdiTurnusZeSpoje";
+    // docasnySeznamSpoju.clear();
+    this->Pripoj();
+    //bool platnost = true;
+    qInfo()<<"DebugPointA";
+    QString queryString2("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord FROM s ");
+    queryString2+=("LEFT JOIN sp_po ON sp_po.s=s.s ");
+    queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("WHERE l.c=");
+    queryString2+=(QString::number(spoj.linka.c));
+    queryString2+=(" AND s.c=");
+    queryString2+=(QString::number(spoj.cisloRopid));
+    queryString2+=(" AND  s.man !=1 ");
+    queryString2+=(" AND s.kj LIKE '");
+    queryString2+=(kj);
+    queryString2+=("' ");
+    queryString2+=(" ORDER BY s.c");
+    QSqlQuery query;
+    query.exec(queryString2);
+    qDebug()<<"lasterror "<<query.lastError();
+    qDebug()<<queryString2;
+    qDebug()<<"DebugPointB";
+    int citacMaximum=0;
+    while (query.next())
+    {
+        if (query.value(0).toString()!="")
+        {
+            /*
+            Spoj docasnySpoj;
+            docasnySpoj.cislo=query.value(query.record().indexOf("s.s")).toInt();
+            docasnySpoj.cisloRopid=query.value(query.record().indexOf("s.c")).toInt();
+            docasnySpoj.linka.lc=query.value(query.record().indexOf("l.lc")).toInt();
+            QString alias=query.value(query.record().indexOf("l.aois")).toString();
+            if(alias=="")
+            {
+                docasnySpoj.linka.LineName=docasnySpoj.linka.c;
+            }
+            else
+            {
+                docasnySpoj.linka.LineName=alias;
+            }
+
+            docasnySpoj.linka.c=query.value(query.record().indexOf("l.c")).toInt();
+             qDebug()<<docasnySpoj.cisloRopid;
+
+            */
+            //    docasnySeznamSpoju.push_back(docasnySpoj);
+            citacMaximum++;
+            kmenovaLinka=query.value(query.record().indexOf("sp_po.l")).toInt();
+            poradi=query.value(query.record().indexOf("sp_po.p")).toInt();
+            order=query.value(query.record().indexOf("sp_po.ord")).toInt()-1;
+        }
+    }
+
+    qDebug()<<"Spoj "<<spoj.linka.c<<"/"<<spoj.cisloRopid<<" spada pod kurz "<<kmenovaLinka<<"/"<<poradi<<" order:"<<order;
+    this->zavriDB();
+    if (citacMaximum==0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+
 /*!
 
 */
@@ -769,7 +839,6 @@ int SqlPraceRopid::VytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
     // bool platnost = true;
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.aois FROM sp_po ");
-
     queryString2+=("LEFT JOIN s ON sp_po.s=s.s ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
     queryString2+=("WHERE sp_po.l=");
@@ -876,6 +945,25 @@ int SqlPraceRopid::VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka d
     {
         return 1;
     }
+}
+
+
+
+int SqlPraceRopid::poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju,Spoj spoj)
+{
+    qDebug()<<"SqlPraceRopid::poziceSpojeNaSeznamu";
+    for(int i=0;i<seznamSpoju.count();i++)
+    {
+        if((seznamSpoju.at(i).linka.c==spoj.linka.c)&&(seznamSpoju.at(i).cisloRopid)==spoj.cisloRopid)
+        {
+            return i;
+        }
+    }
+
+
+
+    return -1;
+
 }
 
 
