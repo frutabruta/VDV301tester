@@ -15,12 +15,19 @@ class Hlasic: public QObject
 public:
     Hlasic();
     void gong();
+
+
+    //nepouzite
     int vyhlasZastavku(int kodOis, int kodCis);
     int vyhlasZastavku2(int kodOis, int kodCis);
 
+
     QMediaPlaylist * playlist = new QMediaPlaylist;
+
+
     bool kompletZastavka(int cis1, int ois1, int cis2, int ois2);    
     bool kompletKonecna(int cis1, int ois1);
+
     QString cestaProgramu="";
     QString cesta=cestaProgramu+"/hlaseni";
     //+"/hlaseni";
@@ -33,6 +40,8 @@ public:
     void nastavCestu(QString vstup);
     void zmenUmisteniProgramu(QString umisteni);
     void prehrajJedenZvuk(QUrl soubor2);
+    void pridejDoFrontyVyhlas(QVector<QUrl> vstup);
+    void kompletZmenaTarifnihoPasma();
 public slots:
     void zmenaStavuHlaseni(QMediaPlayer::State state);
     void vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres);
@@ -46,6 +55,9 @@ private:
     QUrl zvukGong;
     QUrl zvukKonecna;
     QUrl zvukProsimeVystupte;
+    QUrl zvukZmenaPasma;
+    QUrl zvukProsimPozor;
+
     void aktualizujCestyZvuku(QString cestaVnitrni);
     void prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres);
     QVector<QUrl> frontaZvuku;

@@ -400,7 +400,7 @@ QDomElement xmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastave
     if (cCurrentStopIndex.toInt()==currentStopIndex)
     {
         QDomDocument Connections=this->Connections1_0(seznamPrestupu);
-        qDebug()<<" prestupy "<<Connections.toString();
+       // qDebug()<<" prestupy "<<Connections.toString();
 
         QDomNodeList seznamPrestupu = Connections.elementsByTagName("Connection");
         for (int j=0;j<seznamPrestupu.count();j++)
@@ -428,7 +428,8 @@ QDomElement xmlGenerator::StopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZa
     }
     ZastavkaCil aktZastavka=docasnySeznamZastavek.at(indexZpracZastavky);
 
-    QByteArray cCurrentStopIndex=QByteArray::number(aktZastavka.zastavka.StopIndex+1);
+    QByteArray cCurrentStopIndex=QByteArray::number(indexZpracZastavky+1);
+    //QByteArray cCurrentStopIndex=QByteArray::number(aktZastavka.zastavka.StopIndex+1);
     QString cStopName= aktZastavka.zastavka.StopName;
     //STOP
 
@@ -494,18 +495,26 @@ nedodelane priznaky:
 
 
 
+    qDebug()<<"cCurrentStopIndex.toInt() "<< cCurrentStopIndex.toInt()<<" (currentStopIndex+1) " << (currentStopIndex+1);
 
-    if (cCurrentStopIndex.toInt()==currentStopIndex)
+    if (cCurrentStopIndex.toInt()==(currentStopIndex+1))
     {
-        QDomDocument Connections=Connections2_2CZ1_0(seznamPrestupu);
+
+        QVector<QDomElement> prestupy=Connections2_2CZ1_0(seznamPrestupu);
+        foreach(QDomElement elementPrestupu,prestupy)
+        {
+              dStopPoint.appendChild(elementPrestupu );
+        }
 
 
+        /*
         QDomNodeList seznamPrestupu = Connections.elementsByTagName("Connection");
 
         for (int j=0;j<seznamPrestupu.count();j++)
         {
             dStopPoint.appendChild(seznamPrestupu.at(indexZpracZastavky).toElement() );
         }
+        */
     }
     return dStopPoint;
 }
@@ -1263,7 +1272,7 @@ QDomDocument xmlGenerator::Connections1_0( QVector<prestupMPV> lokPrestupy)
 
 }
 
-QDomDocument xmlGenerator::Connections2_2CZ1_0( QVector<prestupMPV> seznamPrestupu)
+QVector<QDomElement> xmlGenerator::Connections2_2CZ1_0( QVector<prestupMPV> seznamPrestupu)
 {
     qDebug()<<"xmlGenerator::connections2_2CZ1_0";
     QDomDocument xmlko;
@@ -1271,6 +1280,7 @@ QDomDocument xmlGenerator::Connections2_2CZ1_0( QVector<prestupMPV> seznamPrestu
     QString language ="cs";
     QString mainMode="";
     QString subMode="";
+    QVector<QDomElement> vystup;
     for (int i=0;i<seznamPrestupu.count();i++)
     {
         prestupMPV aktualniPrestup=seznamPrestupu.at(i);
@@ -1355,7 +1365,8 @@ QDomDocument xmlGenerator::Connections2_2CZ1_0( QVector<prestupMPV> seznamPrestu
         dExpectedDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  aktualniPrestup.odj ));
         dConnection.appendChild(dExpectedDepartureTime);
 
+        vystup.push_back(dConnection);
     }
 
-    return xmlko;
+    return vystup;
 }

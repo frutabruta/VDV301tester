@@ -55,6 +55,7 @@ public:
     QString vytvorCasHodinyMinutySekundy(QString vstup);
     QString vytvorCasHodinyMinuty(QString vstup);
     QString doplnNulu(int cislo, int pocetMist = 2);
+    QString StahniSeznamSpolecnaCastDotazu();
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:

@@ -8,8 +8,11 @@ release/ticketvalidationservice.o
 release/linka.o
 release/customerinformationservice.o
 release/obeh.o
+release/prestup.o
 release/zastavka.o
 release/zastavkacil.o
+release/spoj.o
+release/pasmo.o
 release/polozkatestu.o
 release/testdemo.o
 release/testdetekcebonjour.o
@@ -23,8 +26,6 @@ release/main.o
 release/mainwindow.o
 release/mainwindowpomocne.o
 release/prestupmpv.o
-release/spoj.o
-release/pasmo.o
 release/subscriber.o
 release/xmlgenerator.o
 release/cestaudaje.o

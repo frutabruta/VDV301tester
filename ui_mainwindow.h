@@ -172,8 +172,8 @@ public:
     QLineEdit *poleSpojeTurnus;
     QLabel *label_17;
     QVBoxLayout *verticalLayout_19;
-    QCheckBox *checkBox_3;
     QCheckBox *checkBox_4;
+    QCheckBox *checkBox_MpvTurnusy;
     QPushButton *prikazTlacitkoTurnus;
     QHBoxLayout *horizontalLayout_11;
     QHBoxLayout *horizontalLayout_12;
@@ -1363,15 +1363,15 @@ public:
         verticalLayout_19 = new QVBoxLayout();
         verticalLayout_19->setSpacing(6);
         verticalLayout_19->setObjectName(QString::fromUtf8("verticalLayout_19"));
-        checkBox_3 = new QCheckBox(page_turnus);
-        checkBox_3->setObjectName(QString::fromUtf8("checkBox_3"));
-
-        verticalLayout_19->addWidget(checkBox_3);
-
         checkBox_4 = new QCheckBox(page_turnus);
         checkBox_4->setObjectName(QString::fromUtf8("checkBox_4"));
 
         verticalLayout_19->addWidget(checkBox_4);
+
+        checkBox_MpvTurnusy = new QCheckBox(page_turnus);
+        checkBox_MpvTurnusy->setObjectName(QString::fromUtf8("checkBox_MpvTurnusy"));
+
+        verticalLayout_19->addWidget(checkBox_MpvTurnusy);
 
         prikazTlacitkoTurnus = new QPushButton(page_turnus);
         prikazTlacitkoTurnus->setObjectName(QString::fromUtf8("prikazTlacitkoTurnus"));
@@ -1849,8 +1849,7 @@ public:
         QWidget::setTabOrder(tlacitkoAddsubscriber_2, tlacitkoRemoveSubscriber_2);
         QWidget::setTabOrder(tlacitkoRemoveSubscriber_2, poleLinkyTurnus);
         QWidget::setTabOrder(poleLinkyTurnus, poleSpojeTurnus);
-        QWidget::setTabOrder(poleSpojeTurnus, checkBox_3);
-        QWidget::setTabOrder(checkBox_3, checkBox_4);
+        QWidget::setTabOrder(poleSpojeTurnus, checkBox_4);
         QWidget::setTabOrder(checkBox_4, listKmenovychLinek);
         QWidget::setTabOrder(listKmenovychLinek, listPoradi);
         QWidget::setTabOrder(listPoradi, listTurnusSpoje);
@@ -1934,7 +1933,7 @@ public:
         tlacitkoDnes->setText(QCoreApplication::translate("MainWindow", "DNES", nullptr));
         hlaseniLabel->setText(QCoreApplication::translate("MainWindow", "Slozka hlaseni", nullptr));
         tlacitkoHlaseniSlozka->setText(QCoreApplication::translate("MainWindow", "nastav slozku", nullptr));
-        lineEditHlaseniCesta->setText(QCoreApplication::translate("MainWindow", "C:/Users/adam/Desktop/HLASENI", nullptr));
+        lineEditHlaseniCesta->setText(QCoreApplication::translate("MainWindow", "C:/Users/Eichler536/Desktop/HLASENI", nullptr));
         label_3->setText(QCoreApplication::translate("MainWindow", "Stav p\305\231ipojen\303\255:", nullptr));
         NazevVysledku->setText(QCoreApplication::translate("MainWindow", "stav pripojeni", nullptr));
         pripojeniTlacitko->setText(QCoreApplication::translate("MainWindow", "SQL Connect", nullptr));
@@ -2208,8 +2207,8 @@ public:
         poleLinkyTurnus->setText(QCoreApplication::translate("MainWindow", "100952", nullptr));
         poleSpojeTurnus->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));
         label_17->setText(QCoreApplication::translate("MainWindow", "Spoj", nullptr));
-        checkBox_3->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
         checkBox_4->setText(QCoreApplication::translate("MainWindow", "StopRequested", nullptr));
+        checkBox_MpvTurnusy->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
         prikazTlacitkoTurnus->setText(QCoreApplication::translate("MainWindow", "OK", nullptr));
         label_18->setText(QCoreApplication::translate("MainWindow", "Kmenov\303\241\n"
 " linka", nullptr));

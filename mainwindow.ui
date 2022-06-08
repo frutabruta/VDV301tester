@@ -1940,7 +1940,7 @@ Stop</string>
                     <item>
                      <widget class="QLineEdit" name="lineEditHlaseniCesta">
                       <property name="text">
-                       <string>C:/Users/adam/Desktop/HLASENI</string>
+                       <string>C:/Users/Eichler536/Desktop/HLASENI</string>
                       </property>
                      </widget>
                     </item>
@@ -3180,16 +3180,16 @@ Stop</string>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_19">
                   <item>
-                   <widget class="QCheckBox" name="checkBox_3">
+                   <widget class="QCheckBox" name="checkBox_4">
                     <property name="text">
-                     <string>MPV přestupy</string>
+                     <string>StopRequested</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QCheckBox" name="checkBox_4">
+                   <widget class="QCheckBox" name="checkBox_MpvTurnusy">
                     <property name="text">
-                     <string>StopRequested</string>
+                     <string>MPV přestupy</string>
                     </property>
                    </widget>
                   </item>
@@ -4064,7 +4064,6 @@ Stop</string>
   <tabstop>tlacitkoRemoveSubscriber_2</tabstop>
   <tabstop>poleLinkyTurnus</tabstop>
   <tabstop>poleSpojeTurnus</tabstop>
-  <tabstop>checkBox_3</tabstop>
   <tabstop>checkBox_4</tabstop>
   <tabstop>listKmenovychLinek</tabstop>
   <tabstop>listPoradi</tabstop>

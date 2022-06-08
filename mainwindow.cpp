@@ -122,6 +122,7 @@ void MainWindow::vsechnyConnecty()
 
     //casovace
     connect(timerTrvaniZmenyPasma,&QTimer::timeout,this,&MainWindow::eventSkryjZmenuTarifnihoPasma);
+    connect(timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
 }
 
 
@@ -248,10 +249,11 @@ void MainWindow::slotMpvNetReady()
 int MainWindow::on_prikaztlacitko_clicked()
 {
     qDebug()<<"MainWindow::on_prikaztlacitko_clicked";
-     stavSystemu.vymaz();
+    stavSystemu.vymaz();
     stavSystemu.doorState="AllDoorsClosed";
     stavSystemu.aktspoj.linka.c =ui->polelinky->text().toInt();
     stavSystemu.aktspoj.cisloRopid=ui->polespoje->text().toInt();
+
 
     stavSystemu.indexAktZastavky=0;
 
@@ -413,6 +415,7 @@ void MainWindow::on_sipkaNahoru_clicked()
             if(stavSystemu.locationState=="AfterStop")
             {stavSystemu.locationState="BetweenStop";
                 ui->BetweenStop->setChecked(true);
+                eventAfterStopToBetweenStop();
             }
 
 
@@ -425,7 +428,7 @@ void MainWindow::on_sipkaNahoru_clicked()
 
     AktualizaceDispleje();
     stavSystemu.doorState="AllDoorsClosed";
-   // ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky+1));
+    // ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky+1));
     xmlVdv301HromadnyUpdate();
 }
 
@@ -474,6 +477,7 @@ void MainWindow::on_pripojeniTlacitko_clicked()
 
 
 }
+
 
 
 
@@ -690,16 +694,16 @@ void MainWindow::AktualizaceDispleje()
         return;
     }
 
-   vypisZastavkyTabulka(stavSystemu.indexAktZastavky,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.locationState);
-   int delkaGlobalnihoSeznamu= this->stavSystemu.pocetZastavekAktualnihoSpoje();
-   int indexZastavky=stavSystemu.indexAktZastavky;
-   qDebug()<<"delka seznamu spoju "<<this->stavSystemu.aktObeh.seznamSpoju.length()<<" index "<<stavSystemu.indexSpojeNaObehu<<" delka globsezzast "<< delkaGlobalnihoSeznamu  << " indexAktZast "<<indexZastavky   ;
+    vypisZastavkyTabulka(stavSystemu.indexAktZastavky,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.locationState);
+    int delkaGlobalnihoSeznamu= this->stavSystemu.pocetZastavekAktualnihoSpoje();
+    int indexZastavky=stavSystemu.indexAktZastavky;
+    qDebug()<<"delka seznamu spoju "<<this->stavSystemu.aktObeh.seznamSpoju.length()<<" index "<<stavSystemu.indexSpojeNaObehu<<" delka globsezzast "<< delkaGlobalnihoSeznamu  << " indexAktZast "<<indexZastavky   ;
 
-   if (indexZastavky>=delkaGlobalnihoSeznamu)
-   {
-       qDebug()<<"index zastavky je mimo rozsah";
-       return;
-   }
+    if (indexZastavky>=delkaGlobalnihoSeznamu)
+    {
+        qDebug()<<"index zastavky je mimo rozsah";
+        return;
+    }
 
     ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky+1));
     ui->label_aktLinka->setText(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek.at(stavSystemu.indexAktZastavky).linka.LineNumber);
@@ -825,7 +829,7 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 {
     arg1=1;
     qDebug()<<"MainWindow::on_checkBox_stateChanged";
-    stavSystemu.prestupy= ui->checkBox->checkState();
+    stavSystemu.prestupy= ui->checkBox->isChecked();
 }
 
 
@@ -947,6 +951,19 @@ int MainWindow::eventOdjezd()
 {
     qDebug()<<"MainWindow::priOdjezdu()";
 
+
+
+    timerAfterStopToBetweenStop->setInterval(20000);
+    timerAfterStopToBetweenStop->setSingleShot(true);
+    timerAfterStopToBetweenStop->start();
+
+
+    return 1;
+}
+
+void MainWindow::eventAfterStopToBetweenStop()
+{
+    qDebug()<<"MainWindow::eventAfterStopToBetweenStop()";
     if(Pasmo::podminkaHlasitZmenuPasma(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.seznamPasem,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.seznamPasem))
     {
         qDebug()<<"srovnani pasem zastavek "<<this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.StopName<<" a "<<this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.StopName;
@@ -957,8 +974,6 @@ int MainWindow::eventOdjezd()
         eventSkryjZmenuTarifnihoPasma();
     }
 
-
-    return 1;
 }
 
 
@@ -1330,7 +1345,8 @@ void MainWindow::on_tlacitkoRemoveSubscriber_2_clicked()
 void MainWindow::on_tlacitkoHlaseniSlozka_clicked()
 {
     qDebug()<<"nastavena cesta k hlaseni na "<<ui->lineEditHlaseniCesta->text();
-    hlasic.cesta=ui->lineEditHlaseniCesta->text();
+    //hlasic.cesta=ui->lineEditHlaseniCesta->text();
+    hlasic.nastavCestu(ui->lineEditHlaseniCesta->text());
 }
 
 
@@ -1776,7 +1792,7 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
     if (pocetRadkuTabulky<=0)
     {
         qDebug()<<"tabulku nelze obarvit, je prazdna";
-       // return;
+        // return;
     }
     else
     {
@@ -1862,6 +1878,7 @@ void MainWindow::eventZmenaTarifnihoPasma()
     qDebug()<<"MainWindow::eventZmenaTarifnihoPasma()";
     stavSystemu.zobrazZmenuPasma=true;
     xmlVdv301HromadnyUpdate();
+    hlasic.kompletZmenaTarifnihoPasma();
 
     timerTrvaniZmenyPasma->setInterval(10000);
     timerTrvaniZmenyPasma->setSingleShot(true);
@@ -1871,9 +1888,9 @@ void MainWindow::eventZmenaTarifnihoPasma()
 
 void MainWindow::eventSkryjZmenuTarifnihoPasma()
 {
-   qDebug()<<"MainWindow::eventSkryjZmenuTarifnihoPasma()";
-   stavSystemu.zobrazZmenuPasma=false;
-   xmlVdv301HromadnyUpdate();
+    qDebug()<<"MainWindow::eventSkryjZmenuTarifnihoPasma()";
+    stavSystemu.zobrazZmenuPasma=false;
+    xmlVdv301HromadnyUpdate();
 }
 
 //není implementováno
@@ -1893,8 +1910,18 @@ void MainWindow::eventZmenaTarifnihoSystemu()
 //není implementováno
 void MainWindow::eventSkryjZmenuTarifnihoSystemu()
 {
-   qDebug()<<"MainWindow::eventSkryjZmenuTarifnihoSystemu()";
-   /* stavSystemu.zobrazZmenuPasma=false;
+    qDebug()<<"MainWindow::eventSkryjZmenuTarifnihoSystemu()";
+    /* stavSystemu.zobrazZmenuPasma=false;
    xmlVdv301HromadnyUpdate();
    */
 }
+
+
+
+void MainWindow::on_checkBox_MpvTurnusy_stateChanged(int arg1)
+{
+    arg1=1;
+    qDebug()<<"MainWindow::on_checkBox_MpvTurnusy_stateChanged";
+    stavSystemu.prestupy= ui->checkBox->isChecked();
+}
+

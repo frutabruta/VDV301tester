@@ -12,6 +12,7 @@
 #include "VDV301struktury/cestaudaje.h"
 #include "VDV301struktury/zastavkacil.h"
 
+
 #include "VDV301publisher/httpsluzba.h"
 #include "VDV301publisher/customerinformationservice.h"
 #include "VDV301publisher/ticketvalidationservice.h"
@@ -47,6 +48,7 @@ public:
     QString umisteniProgramu=QCoreApplication::applicationDirPath();
 
 
+    void ahoj();
 private:
 
     //datove struktury
@@ -138,8 +140,10 @@ private:
 
     //timery
     QTimer *timerTrvaniZmenyPasma = new QTimer(this); //po pvyprseni casovace zmizi zmena pasma
+    QTimer *timerAfterStopToBetweenStop = new QTimer(this);
 
 
+    void eventAfterStopToBetweenStop();
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
@@ -245,6 +249,7 @@ private slots:
     void eventSkryjZmenuTarifnihoPasma();
     void eventSkryjZmenuTarifnihoSystemu();
 
+    void on_checkBox_MpvTurnusy_stateChanged(int arg1);
 };
 
 #endif // MAINWINDOW_H

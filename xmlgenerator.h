@@ -64,7 +64,7 @@ public:
     QDomElement VehicleMode(QDomDocument xmlko, QString mode, QString subMode);
 
     QDomDocument Connections1_0(QVector<prestupMPV>  lokPrestupy);
-    QDomDocument Connections2_2CZ1_0(QVector<prestupMPV> seznamPrestupu);
+    QVector<QDomElement> Connections2_2CZ1_0(QVector<prestupMPV> seznamPrestupu);
 
 private:
     QDomElement StopSequence1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<prestupMPV> prestupy, CestaUdaje stav);

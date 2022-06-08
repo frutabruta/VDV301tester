@@ -49,8 +49,11 @@ SOURCES += \
     VDV301struktury/linka.cpp \
     VDV301publisher/customerinformationservice.cpp \
     VDV301struktury/obeh.cpp \
+    VDV301struktury/prestup.cpp \
     VDV301struktury/zastavka.cpp \
     VDV301struktury/zastavkacil.cpp \
+    VDV301struktury/spoj.cpp \
+    VDV301struktury/pasmo.cpp \
     VDV301testy/polozkatestu.cpp \
     VDV301testy/testdemo.cpp \
     VDV301testy/testdetekcebonjour.cpp \
@@ -64,8 +67,6 @@ SOURCES += \
         mainwindow.cpp \
     mainwindowpomocne.cpp \
     prestupmpv.cpp \
-    VDV301struktury/spoj.cpp \
-    VDV301struktury/pasmo.cpp \
     subscriber.cpp \
     xmlgenerator.cpp \
     VDV301struktury/cestaudaje.cpp \
@@ -81,6 +82,7 @@ HEADERS += \
     VDV301struktury/linka.h \
     VDV301publisher/customerinformationservice.h \
     VDV301struktury/obeh.h \
+    VDV301struktury/prestup.h \
     VDV301struktury/zastavka.h \
     VDV301struktury/zastavkacil.h \
     VDV301testy/polozkatestu.h \

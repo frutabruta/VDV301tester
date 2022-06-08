@@ -8,8 +8,11 @@ debug/ticketvalidationservice.o
 debug/linka.o
 debug/customerinformationservice.o
 debug/obeh.o
+debug/prestup.o
 debug/zastavka.o
 debug/zastavkacil.o
+debug/spoj.o
+debug/pasmo.o
 debug/polozkatestu.o
 debug/testdemo.o
 debug/testdetekcebonjour.o
@@ -23,8 +26,6 @@ debug/main.o
 debug/mainwindow.o
 debug/mainwindowpomocne.o
 debug/prestupmpv.o
-debug/spoj.o
-debug/pasmo.o
 debug/subscriber.o
 debug/xmlgenerator.o
 debug/cestaudaje.o

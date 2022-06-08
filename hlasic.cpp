@@ -239,9 +239,6 @@ bool Hlasic::kompletZastavka(int cis1,int ois1, int cis2, int ois2)
 
     // QMediaPlayer * player =  new QMediaPlayer(NULL, QMediaPlayer::StreamPlayback);
 
-
-
-
   //  QUrl zvukPristiZastavka=QUrl::fromLocalFile(cesta+"/special/H001.mp3");
   //  QUrl zvukGong=QUrl::fromLocalFile(cesta+"/special/H000.mp3");
 /*
@@ -262,26 +259,42 @@ bool Hlasic::kompletZastavka(int cis1,int ois1, int cis2, int ois2)
     kratkaFronta.push_back(dilciVyhlaseni(ois2,cis2));
 
 
+    pridejDoFrontyVyhlas(kratkaFronta);
+
+    return 1;
+}
+
+
+
+void Hlasic::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
+{
+
     if (frontaZvuku.isEmpty())
     {
-       frontaZvuku.append(kratkaFronta);
+        qDebug()<<"fronta zvuku byla prazdna";
+       frontaZvuku.append(vstup);
       prehrajPolozkuZeSeznamu(frontaZvuku);
     }
     else
 
     {
-        frontaZvuku.append(kratkaFronta);
+        qDebug()<<"fronta zvuku nebyla prazdna";
+        frontaZvuku.append(vstup);
     }
-
-
-
-
-
-
-
-    return 1;
 }
 
+
+
+void Hlasic::kompletZmenaTarifnihoPasma()
+{
+    qDebug()<<"Hlasic::kompletZmenaTarifnihoPasma()";
+    QVector<QUrl> kratkaFronta;
+    kratkaFronta.push_back(zvukProsimPozor);
+    kratkaFronta.push_back(zvukZmenaPasma);
+
+
+    pridejDoFrontyVyhlas(kratkaFronta);
+}
 bool Hlasic::kompletKonecna(int cis1,int ois1)
 {
     qDebug()<<"Hlasic::kompletKonecna";
@@ -328,7 +341,7 @@ QByteArray* Hlasic::pridejDoBufferu(QUrl cesta2, QByteArray *pole)
 
 void Hlasic::zmenaStavuHlaseni(QMediaPlayer::State state)
 {
-    qDebug()<<"stav hlaseni"<<state;
+    qDebug()<<"Hlasic::zmenaStavuHlaseni "<<state;
     vyhodPolozkuZeSeznamu(frontaZvuku);
 
 }
@@ -336,7 +349,7 @@ void Hlasic::zmenaStavuHlaseni(QMediaPlayer::State state)
 void Hlasic::prehrajCelySeznamUrl(QVector<QUrl> zasobnikAdres)
 {
     // https://stackoverflow.com/questions/48167960/what-is-the-fastest-way-to-start-playing-audio-in-qt-application
-
+    //nepoužívat, pokus o přehrávání bez časového zpoždění mezi segmenty, problém s odlišným bitrate nahrávek
     qDebug()<<"Hlasic::prehrajCelySeznamUrl";
     QByteArray *ba = new QByteArray();
     for(int i=0;i<zasobnikAdres.count();i++)
@@ -377,7 +390,7 @@ void Hlasic::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
 }
 void Hlasic::prehrajJedenZvuk(QUrl soubor2)
 {
-    qDebug()<<"Hlasic::prehrajJedenZvuk";
+    qDebug()<<"Hlasic::prehrajJedenZvuk "<<soubor2.toString();
     player->setMedia(soubor2);
     player->play();
 }
@@ -397,6 +410,17 @@ void Hlasic::aktualizujCestyZvuku(QString cestaVnitrni)
     zvukGong=QUrl::fromLocalFile(cestaVnitrni+"/special/H000.mp3");
     zvukKonecna= QUrl::fromLocalFile(cestaVnitrni+"/special/H113.mp3");
     zvukProsimeVystupte= QUrl::fromLocalFile(cestaVnitrni+"/special/H114.mp3");
+    zvukZmenaPasma= QUrl::fromLocalFile(cestaVnitrni+"/special/H170.mp3");
+    zvukProsimPozor= QUrl::fromLocalFile(cestaVnitrni+"/special/H178.mp3");
+
+    //H178 prosím pozor
+    //H170 změna tarifního pásma
+    //H143 nástup postiženého
+    // 144 linka
+    //145 směr
+
+
+
 }
 
 
