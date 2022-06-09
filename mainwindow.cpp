@@ -220,7 +220,7 @@ void MainWindow::xmlVdv301HromadnyUpdate()
         Zastavka aktZastavka=stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka;
         xmlMpvParser.StahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
     }
-    QVector<prestupMPV> prestupy;
+    QVector<PrestupMPV> prestupy;
     customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
@@ -234,7 +234,11 @@ void MainWindow::slotMpvNetReady()
 {
     qDebug()<<"MainWindow::MpvNetReady";
     xmlMpvParser.naplnVstupDokument(xmlMpvParser.stazenaData);
-    QVector<prestupMPV> prestupy=xmlMpvParser.parsujDomDokument();
+    QVector<PrestupMPV> prestupy=xmlMpvParser.parsujDomDokument();
+    if(filtrovatPrestupy)
+    {
+        prestupy=xmlMpvParser.vyfiltrujPrestupy(prestupy,stavSystemu.aktlinka);
+    }
     customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu );
     customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
 }

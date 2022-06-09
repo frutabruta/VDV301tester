@@ -1,11 +1,11 @@
 #include "prestupmpv.h"
 
-prestupMPV::prestupMPV()
+PrestupMPV::PrestupMPV()
 {
 
 }
 
-void prestupMPV::setLin(int pLin)
+void PrestupMPV::setLin(int pLin)
 {
     this->lin= pLin;
 }

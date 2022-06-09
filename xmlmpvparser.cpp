@@ -23,7 +23,7 @@ void XmlMpvParser::naplnVstupDokument(QByteArray vstup)
     vstupniDomDokument.setContent(llooll);
 }
 
-QVector<prestupMPV> XmlMpvParser::parsujDomDokument()
+QVector<PrestupMPV> XmlMpvParser::parsujDomDokument()
 {
     qDebug()<<"XmlMpvParser::parsujDomDokument";
     QDomElement root = vstupniDomDokument.firstChildElement();
@@ -31,7 +31,7 @@ QVector<prestupMPV> XmlMpvParser::parsujDomDokument()
     seznamPrestupu.clear();
     for (int i=0; i<nodes.count();i++)
     {
-        prestupMPV novy;
+        PrestupMPV novy;
         novy.stan=nodes.at(i).attributes().namedItem("stan").nodeValue();
         novy.lin=nodes.at(i).attributes().namedItem("lin").nodeValue();
         novy.alias=nodes.at(i).attributes().namedItem("alias").nodeValue();
@@ -52,12 +52,16 @@ QVector<prestupMPV> XmlMpvParser::parsujDomDokument()
         qDebug()<<novy.smer;
 
     }
+
+
+
+
     return seznamPrestupu;
 }
 
 
 // zdroj https://stackoverflow.com/questions/7218851/making-an-http-get-under-qt
-    //manager->get(QNetworkRequest(QUrl("http://www.mpvnet.cz/PID/x/21619?pocet=15&pz=true&t=true")));
+//manager->get(QNetworkRequest(QUrl("http://www.mpvnet.cz/PID/x/21619?pocet=15&pz=true&t=true")));
 
 void XmlMpvParser::StahniMpvXml(int cisloCis, QString Ids)
 {
@@ -84,5 +88,47 @@ QByteArray XmlMpvParser::requestReceived(QNetworkReply* replyoo)
     emit stazeniHotovo();
     return rawData;
 }
+
+QVector<PrestupMPV> XmlMpvParser::vyfiltrujPrestupy(QVector<PrestupMPV> vstupniPrestupy, Linka linka)
+{
+    qDebug()<<"XmlMpvParser::vyfiltrujPrestupy";
+    QVector<PrestupMPV> vyfiltrovanePrestupy;
+
+    foreach(PrestupMPV aktualniPrestup, vstupniPrestupy)
+    {
+        if(aktualniPrestup.alias!=linka.LineName)
+        {
+            if(!jePrestupNaSeznamu(aktualniPrestup,vyfiltrovanePrestupy))
+            {
+                vyfiltrovanePrestupy.push_back(aktualniPrestup);
+            }
+        }
+    }
+    return vyfiltrovanePrestupy;
+}
+
+
+
+bool XmlMpvParser::jePrestupNaSeznamu(PrestupMPV prestup, QVector<PrestupMPV> seznamPrestupu)
+{
+    qDebug()<<"XmlMpvParser::jePrestupNaSeznamu";
+
+
+    foreach(PrestupMPV testPrestup, seznamPrestupu)
+    {
+        if(testPrestup.alias==prestup.alias)
+        {
+            if(testPrestup.smer_c==prestup.smer_c)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+
+}
+
+
+
 
 

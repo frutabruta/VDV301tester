@@ -51,6 +51,8 @@ public:
     void ahoj();
 private:
 
+    //konstanty
+    bool filtrovatPrestupy=true;
     //datove struktury
     CestaUdaje stavSystemu;
     QVector <Linka> seznamLinek;

@@ -5,10 +5,10 @@
 #include <QObject>
 
 
-class prestupMPV
+class PrestupMPV
 {
 public:
-    prestupMPV();
+    PrestupMPV();
 
     void setLin(int pLin);
     QString stan="";
