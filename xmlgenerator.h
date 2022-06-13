@@ -11,12 +11,12 @@
 //#include "VDV301struktury/trip.h"
 #include "prestupmpv.h"
 
-class xmlGenerator : public QMainWindow
+class XmlGenerator : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit xmlGenerator(QWidget *parent = nullptr);
+    explicit XmlGenerator(QWidget *parent = nullptr);
 
     QString devStatus();
     QString createTimestamp();
@@ -61,11 +61,13 @@ public:
 
     QDomElement RouteDeviation(QDomDocument xmlko, QString obsah);
     QDomElement DoorOpenState(QDomDocument xmlko, QString obsah);
-    QDomElement VehicleMode(QDomDocument xmlko, QString mode, QString subMode);
+    QDomElement MyOwnVehicleMode(QDomDocument xmlko, QString mode, QString subMode);
 
     QDomDocument Connections1_0(QVector<PrestupMPV>  lokPrestupy);
     QVector<QDomElement> Connections2_2CZ1_0(QVector<PrestupMPV> seznamPrestupu);
 
+    static void ddDoVehicleMode(int dd, QString &mainMode, QString &subMode, Linka linka);
+    QDomElement MyOwnVehicleMode2_2CZ1_0(QString mainMode, QString subMode);
 private:
     QDomElement StopSequence1_0(QDomDocument xmlko, QVector<ZastavkaCil> docasnySeznamZastavek, QString language, int currentStopIndex, QVector<PrestupMPV> prestupy, CestaUdaje stav);
     QDomElement ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka, QString language);

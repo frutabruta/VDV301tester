@@ -4,7 +4,7 @@
 #include "VDV301struktury/zastavkacil.h"
 //#include "VDV301struktury/trip.h"
 #include "VDV301struktury/obeh.h"
-
+#include "xmlgenerator.h"
 SqlPraceRopid::SqlPraceRopid()
 {
 
@@ -153,6 +153,8 @@ int SqlPraceRopid::StahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje,QVec
             aktLinka.LineNumber=query.value(query.record().indexOf("l.lc")).toString();
             aktLinka.typLinky=query.value(query.record().indexOf("l.tl")).toString();
             aktLinka.isNight=query.value(query.record().indexOf("l.noc")).toBool();
+            aktLinka.kli=query.value(query.record().indexOf("l.kli")).toInt();
+            qDebug()<<"nacitam kategorii linky"<<aktLinka.kli;
 
 
             aktSpoj.cisloRopid=query.value(query.record().indexOf("s.c")).toInt();
@@ -392,6 +394,11 @@ int SqlPraceRopid::StahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,int in
             aktZast.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
 
 
+            aktLinka.kli=query.value(query.record().indexOf("l.kli")).toInt();
+          //  qDebug()<<"nacitam kategorii linky"<<aktLinka.kli;
+
+           // XmlGenerator::ddDoVehicleMode(dd,);
+
 
             if(  query.value(query.record().indexOf("x.t")).toString() =="Majak")
             {
@@ -476,7 +483,7 @@ dbManager->query.exec();
     queryString2+=("t.ri,t.hl, ");
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
-    queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, l.cids, l.tl, ");
+    queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, l.cids, l.tl, l.kli, ");
     queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, ");
     queryString2+=("s.ns, s.c, ");
     queryString2+=("ids.z AS pz1, ");
@@ -1110,7 +1117,7 @@ QVector<Pasmo> SqlPraceRopid::vyrobPasmaMezikraj(QVector<QString> tp, QVector<QS
 
     for(int i=0;i<tp.length();i++)
     {
-        QVector<Pasmo> pasma= xmlGenerator::pasmoStringDoVectoru(tp.at(i), pz.at(i),tl);
+        QVector<Pasmo> pasma= XmlGenerator::pasmoStringDoVectoru(tp.at(i), pz.at(i),tl);
         if(povoleneSystemy.contains(pc.at(i)))
         {
             vystup.append(pasma);

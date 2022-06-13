@@ -14,7 +14,7 @@
 #include "VDV301struktury/zastavkacil.h"
 //#include "VDV301struktury/trip.h"
 #include "VDV301struktury/obeh.h"
-
+#include "xmlgenerator.h"
 class SqlPraceRopid: public QObject
 {
     Q_OBJECT

@@ -13,17 +13,17 @@
 #include "VDV301struktury/pasmo.h"
 
 
-xmlGenerator::xmlGenerator(QWidget *parent) : QMainWindow(parent)
+XmlGenerator::XmlGenerator(QWidget *parent) : QMainWindow(parent)
 {
-    qDebug()<<"xmlGenerator::xmlGenerator";
+    qDebug()<<"XmlGenerator::xmlGenerator";
     QDomDocument dokument;
 }
 
 
 
-QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, QString doorState, QString locationState, QVector<PrestupMPV> prestupy, CestaUdaje stav )
+QString XmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, QString doorState, QString locationState, QVector<PrestupMPV> prestupy, CestaUdaje stav )
 {
-    qDebug()<<" xmlGenerator::AllData1_0 ";
+    qDebug()<<" XmlGenerator::AllData1_0 ";
     int poradi=stav.indexAktZastavky;
     Zastavka cilovaZastavka;
     if (docasnySeznamZastavek.size()==0)
@@ -105,9 +105,9 @@ QString xmlGenerator::AllData1_0(  QVector <ZastavkaCil> docasnySeznamZastavek, 
     return xmlko.toString();
 }
 
-QString xmlGenerator::devStatus()
+QString XmlGenerator::devStatus()
 {
-    qDebug()<<" xmlGenerator::devStatus ";
+    qDebug()<<" XmlGenerator::devStatus ";
     QString  pozadavek ="";
     QString  hlavicka="";
     QString  telo="";
@@ -131,18 +131,18 @@ QString xmlGenerator::devStatus()
     return pozadavek;
 }
 
-QString xmlGenerator::createTimestamp()
+QString XmlGenerator::createTimestamp()
 {
-    qDebug()<<" xmlGenerator::createTimestamp  ";
+    qDebug()<<" XmlGenerator::createTimestamp  ";
     QDateTime casovaZnacka = QDateTime::currentDateTime();
     QString casnaformatovanoString= casovaZnacka.toString("yyyy-MM-ddThh:mm:ss");
     return casnaformatovanoString;
 }
 
 
-QString xmlGenerator::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav )
+QString XmlGenerator::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav )
 {
-    qDebug()<<"xmlGenerator::AllData2_2CZ1_0";
+    qDebug()<<"XmlGenerator::AllData2_2CZ1_0";
     QVector<ZastavkaCil> docasnySeznamZastavek=seznamSpoju.at(stav.indexSpojeNaObehu).globalniSeznamZastavek;
 
     if (docasnySeznamZastavek.size()>0)
@@ -217,11 +217,13 @@ QString xmlGenerator::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<Prestup
     QDomElement dExitSide = xmlko.createElement("ExitSide");
     dExitSide.appendChild(xmlko.createTextNode(exitSide));
     dAllData.appendChild(dExitSide);
+    ddDoVehicleMode(docasnySeznamZastavek.at(stav.indexAktZastavky).linka.kli,stav.vehicleMode,stav.vehicleSubMode,docasnySeznamZastavek.at(stav.indexAktZastavky).linka);
+    dAllData.appendChild(this->MyOwnVehicleMode(xmlko,stav.vehicleMode,stav.vehicleSubMode));
 
     return xmlko.toString();
 }
 
-QDomElement xmlGenerator::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav, int indexSpoje, bool navazny)
+QDomElement XmlGenerator::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpoju, QVector<PrestupMPV> prestupy, CestaUdaje stav, int indexSpoje, bool navazny)
 {
     QVector<ZastavkaCil> docasnySeznamZastavek=docasnySeznamSpoju.at(indexSpoje).globalniSeznamZastavek;
     QDomDocument xmlko;
@@ -278,9 +280,9 @@ QDomElement xmlGenerator::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpo
 
 
 
-QString xmlGenerator::CurrentDisplayContent1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, CestaUdaje stav )
+QString XmlGenerator::CurrentDisplayContent1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, CestaUdaje stav )
 {
-    qDebug()<<"xmlGenerator::CurrentDisplayContent1_0";
+    qDebug()<<"XmlGenerator::CurrentDisplayContent1_0";
     Zastavka cilovaZastavka;
     if (docasnySeznamZastavek.size()==0)
     {
@@ -316,7 +318,7 @@ QString xmlGenerator::CurrentDisplayContent1_0(int poradi, QVector <ZastavkaCil>
 }
 
 
-QDomElement xmlGenerator::StopSequence1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QVector<PrestupMPV> prestupy,CestaUdaje stav)
+QDomElement XmlGenerator::StopSequence1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QVector<PrestupMPV> prestupy,CestaUdaje stav)
 {
     QDomElement dStopSequence=xmlko.createElement("StopSequence");
     for (int i=0 ; i<docasnySeznamZastavek.count();i++)
@@ -328,7 +330,7 @@ QDomElement xmlGenerator::StopSequence1_0(QDomDocument xmlko,QVector<ZastavkaCil
     return dStopSequence;
 }
 
-QDomElement xmlGenerator::StopSequence2_2CZ1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QVector<PrestupMPV> seznamPrestupu)
+QDomElement XmlGenerator::StopSequence2_2CZ1_0(QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek,QString language, int currentStopIndex, QVector<PrestupMPV> seznamPrestupu)
 {
     QDomElement dStopSequence=xmlko.createElement("StopSequence");
     for (int i=0 ; i<docasnySeznamZastavek.count();i++)
@@ -342,9 +344,9 @@ QDomElement xmlGenerator::StopSequence2_2CZ1_0(QDomDocument xmlko,QVector<Zastav
 }
 
 
-QDomElement xmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QVector<PrestupMPV> seznamPrestupu, QString language,int currentStopIndex,CestaUdaje stav)
+QDomElement XmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QVector<PrestupMPV> seznamPrestupu, QString language,int currentStopIndex,CestaUdaje stav)
 {
-    qDebug()<<"xmlGenerator::stopPoint1_0";
+    qDebug()<<"XmlGenerator::stopPoint1_0";
     ZastavkaCil aktZastavka=docasnySeznamZastavek.at(indexZpracZastavky);
     QDomDocument xmlko;
     QByteArray cCurrentStopIndex=QByteArray::number(indexZpracZastavky);
@@ -411,9 +413,9 @@ QDomElement xmlGenerator::stopPoint1_0(QVector<ZastavkaCil> docasnySeznamZastave
     return dStopPoint;
 }
 
-QDomElement xmlGenerator::StopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QVector<PrestupMPV> seznamPrestupu, QString language,int currentStopIndex)
+QDomElement XmlGenerator::StopPoint2_2CZ1_0(QVector<ZastavkaCil> docasnySeznamZastavek,int indexZpracZastavky, QVector<PrestupMPV> seznamPrestupu, QString language,int currentStopIndex)
 {
-    qDebug()<<"xmlGenerator::stopPoint2_2CZ1_0";
+    qDebug()<<"XmlGenerator::stopPoint2_2CZ1_0";
     QDomDocument xmlko;
     QDomElement dStopPoint=xmlko.createElement("StopPoint");
     if (docasnySeznamZastavek.isEmpty())
@@ -519,7 +521,7 @@ nedodelane priznaky:
     return dStopPoint;
 }
 
-QDomElement xmlGenerator::DisplayContent1_0(QString tagName,QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek, QString language,  CestaUdaje stav)
+QDomElement XmlGenerator::DisplayContent1_0(QString tagName,QDomDocument xmlko,QVector<ZastavkaCil> docasnySeznamZastavek, QString language,  CestaUdaje stav)
 {
 
     int indexAktZastavky=stav.indexAktZastavky;
@@ -607,7 +609,7 @@ QDomElement xmlGenerator::DisplayContent1_0(QString tagName,QDomDocument xmlko,Q
     return dDisplayContent;
 }
 
-QDomElement xmlGenerator::DisplayContent2_2CZ1_0(QString tagName,QVector<ZastavkaCil> docasnySeznamZastavek, QString language,int iteracniIndex,int currentStopIndex)
+QDomElement XmlGenerator::DisplayContent2_2CZ1_0(QString tagName,QVector<ZastavkaCil> docasnySeznamZastavek, QString language,int iteracniIndex,int currentStopIndex)
 {
     QDomDocument xmlko;
     ZastavkaCil aktZastavkaCil=docasnySeznamZastavek.at(iteracniIndex);
@@ -763,7 +765,7 @@ nedodelane priznaky:
     return dDisplayContent;
 }
 
-QDomElement xmlGenerator::ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka,QString language)
+QDomElement XmlGenerator::ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka,QString language)
 {
     QDomElement dViaPoint=xmlko.createElement("ViaPoint");
     dViaPoint.appendChild(ref("ViaPointRef",QString::number(nacestnaZastavka.cisloCis)));
@@ -776,7 +778,7 @@ QDomElement xmlGenerator::ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZasta
     return dViaPoint;
 }
 
-QDomElement xmlGenerator::ViaPoint2_2CZ1_0(QDomDocument xmlko, Zastavka nacestnaZastavka,QString language)
+QDomElement XmlGenerator::ViaPoint2_2CZ1_0(QDomDocument xmlko, Zastavka nacestnaZastavka,QString language)
 {
     QDomElement dViaPoint=xmlko.createElement("ViaPoint");
     dViaPoint.appendChild(xxxProperty2_2CZ1_0("ViaPointProperty",nacestnaZastavka.naZnameni,"RequestStop"));
@@ -818,7 +820,7 @@ nedodelane priznaky:
     return dViaPoint;
 }
 
-QDomElement xmlGenerator::TimeStampTag1_0(QDomDocument xmlko)
+QDomElement XmlGenerator::TimeStampTag1_0(QDomDocument xmlko)
 {
     QDomElement dTimeStamp=xmlko.createElement("TimeStamp");
     QDomElement dTimeStampValue =xmlko.createElement("Value");
@@ -829,7 +831,7 @@ QDomElement xmlGenerator::TimeStampTag1_0(QDomDocument xmlko)
 
 }
 
-QVector<Pasmo> xmlGenerator::pasmoStringDoVectoru(QString vstup,QString system,QString tl)
+QVector<Pasmo> XmlGenerator::pasmoStringDoVectoru(QString vstup,QString system,QString tl)
 {
     QStringList stringPasma = vstup.split(',');
     QVector<Pasmo> seznamPasem;
@@ -848,7 +850,7 @@ QVector<Pasmo> xmlGenerator::pasmoStringDoVectoru(QString vstup,QString system,Q
     return seznamPasem;
 }
 
-QVector<QDomElement> xmlGenerator::FareZoneInformationStructure1_0(QVector<Pasmo> seznamPasem)
+QVector<QDomElement> XmlGenerator::FareZoneInformationStructure1_0(QVector<Pasmo> seznamPasem)
 {
     QDomDocument xmlko;
 
@@ -864,7 +866,7 @@ QVector<QDomElement> xmlGenerator::FareZoneInformationStructure1_0(QVector<Pasmo
     }
     return seznamFareZone;
 }
-QVector<QDomElement> xmlGenerator::FareZoneInformationStructure2_2CZ1_0(QVector<Pasmo> seznamPasem,QString language)
+QVector<QDomElement> XmlGenerator::FareZoneInformationStructure2_2CZ1_0(QVector<Pasmo> seznamPasem,QString language)
 {
     QDomDocument xmlko;
 
@@ -880,7 +882,7 @@ QVector<QDomElement> xmlGenerator::FareZoneInformationStructure2_2CZ1_0(QVector<
 }
 ///////////////////////////////
 
-QDomElement xmlGenerator::FareZoneChange2_2CZ1_0(QVector<Pasmo> seznamPasemZ,QVector<Pasmo> seznamPasemNa,QString language)
+QDomElement XmlGenerator::FareZoneChange2_2CZ1_0(QVector<Pasmo> seznamPasemZ,QVector<Pasmo> seznamPasemNa,QString language)
 {
     QDomDocument xmlko;
 
@@ -911,7 +913,7 @@ QDomElement xmlGenerator::FareZoneChange2_2CZ1_0(QVector<Pasmo> seznamPasemZ,QVe
 }
 
 /////////////////////////////////////////////
-QDomElement xmlGenerator::fareZone1_0(QString shortName)
+QDomElement XmlGenerator::fareZone1_0(QString shortName)
 {
     QDomDocument xmlko;
 
@@ -921,7 +923,7 @@ QDomElement xmlGenerator::fareZone1_0(QString shortName)
     return pasmo;
 }
 
-QDomElement xmlGenerator::fareZone2_2CZ1_0(QString shortName,QString longName, QString type, QString language)
+QDomElement XmlGenerator::fareZone2_2CZ1_0(QString shortName,QString longName, QString type, QString language)
 {
     QDomDocument xmlko;
 
@@ -944,7 +946,7 @@ QDomElement xmlGenerator::fareZone2_2CZ1_0(QString shortName,QString longName, Q
     return pasmo;
 }
 
-QDomElement xmlGenerator::internationalTextType(QString name,QString value,QString language)
+QDomElement XmlGenerator::internationalTextType(QString name,QString value,QString language)
 {
     QDomDocument xmlko;
     QDomElement vysledek=xmlko.createElement(name);
@@ -957,7 +959,7 @@ QDomElement xmlGenerator::internationalTextType(QString name,QString value,QStri
     return vysledek;
 }
 
-QDomElement xmlGenerator::ref(QString name, QString value)
+QDomElement XmlGenerator::ref(QString name, QString value)
 {
     QDomDocument xmlko;
     QDomElement ref=xmlko.createElement(name);
@@ -968,7 +970,7 @@ QDomElement xmlGenerator::ref(QString name, QString value)
 }
 
 
-QDomElement xmlGenerator::xxxProperty2_2CZ1_0(QString nazev,bool vysledek,QString hodnota)
+QDomElement XmlGenerator::xxxProperty2_2CZ1_0(QString nazev,bool vysledek,QString hodnota)
 {
     QDomDocument xmlko;
     if(vysledek)
@@ -982,7 +984,7 @@ QDomElement xmlGenerator::xxxProperty2_2CZ1_0(QString nazev,bool vysledek,QStrin
     return prazdny;
 }
 
-QDomElement xmlGenerator::AdditionalTextMessage1_0(QString obsahZpravy)
+QDomElement XmlGenerator::AdditionalTextMessage1_0(QString obsahZpravy)
 {
     QDomDocument xmlko;
     QDomElement TextMessage=xmlko.createElement("AdditionalTextMessage");
@@ -996,7 +998,7 @@ QDomElement xmlGenerator::AdditionalTextMessage1_0(QString obsahZpravy)
 
 
 
-QDomElement xmlGenerator::AdditionalTextMessage2_2CZ1_0(QString obsahZpravy)
+QDomElement XmlGenerator::AdditionalTextMessage2_2CZ1_0(QString obsahZpravy)
 {
     QDomDocument xmlko;
     QDomElement TextMessage=xmlko.createElement("AdditionalTextMessage");
@@ -1007,7 +1009,7 @@ QDomElement xmlGenerator::AdditionalTextMessage2_2CZ1_0(QString obsahZpravy)
 }
 
 
-QString xmlGenerator::AllData_empty_1_0()
+QString XmlGenerator::AllData_empty_1_0()
 {
     QDomDocument xmlko;
     QDomElement vysledek;
@@ -1018,9 +1020,9 @@ QString xmlGenerator::AllData_empty_1_0()
 }
 
 
-QString xmlGenerator::AllDataEmpty2_2CZ1_0( )
+QString XmlGenerator::AllDataEmpty2_2CZ1_0( )
 {
-    qDebug()<<"xmlGenerator::AllData2_2CZ1_0";
+    qDebug()<<"XmlGenerator::AllData2_2CZ1_0";
     int poradi=1;
     QString deflanguage="cz";
     QString vehicleref="33";
@@ -1066,7 +1068,7 @@ QString xmlGenerator::AllDataEmpty2_2CZ1_0( )
 }
 
 
-QDomElement xmlGenerator::rawInsert(QString vstup)
+QDomElement XmlGenerator::rawInsert(QString vstup)
 {
     QDomElement vystup;
     QDomDocument novy;
@@ -1082,9 +1084,9 @@ QDomElement xmlGenerator::rawInsert(QString vstup)
 }
 
 
-QString xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, QString doorState, QString locationState, QVector<PrestupMPV> prestupy)
+QString XmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0(int poradi, QVector <ZastavkaCil> docasnySeznamZastavek, QString doorState, QString locationState, QVector<PrestupMPV> prestupy)
 {
-    qDebug()<<"xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0";
+    qDebug()<<"XmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1_0";
     QDomDocument xmlko;
     QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
     xmlko.appendChild(dHlavicka);
@@ -1100,9 +1102,9 @@ QString xmlGenerator::TicketValidationService_GetCurrentTariffStopResponse2_2CZ1
 }
 
 
-QString xmlGenerator::TicketValidationService_GetVehicleDataResponse2_2CZ1_0( CestaUdaje stav)
+QString XmlGenerator::TicketValidationService_GetVehicleDataResponse2_2CZ1_0( CestaUdaje stav)
 {
-    qDebug()<<"xmlGenerator::TicketValidationService_GetVehicleDataResponse2_2CZ1_0";
+    qDebug()<<"XmlGenerator::TicketValidationService_GetVehicleDataResponse2_2CZ1_0";
     QDomDocument xmlko;
     QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
     xmlko.appendChild(dHlavicka);
@@ -1112,7 +1114,7 @@ QString xmlGenerator::TicketValidationService_GetVehicleDataResponse2_2CZ1_0( Ce
     dVehicleData.appendChild(this->ref("VehicleRef",QString::number(stav.cisloVozu)));
     dVehicleData.appendChild(this->RouteDeviation(xmlko,stav.routeDeviation));
     dVehicleData.appendChild(this->DoorOpenState(xmlko,stav.doorState));
-    dVehicleData.appendChild(this->VehicleMode(xmlko,stav.vehicleSubMode,stav.vehicleMode));
+    dVehicleData.appendChild(this->MyOwnVehicleMode(xmlko,stav.vehicleSubMode,stav.vehicleMode));
 
     dGetVehicleDataResponse.appendChild(dVehicleData);
     xmlko.appendChild(dGetVehicleDataResponse);
@@ -1129,14 +1131,14 @@ QString xmlGenerator::TicketValidationService_GetVehicleDataResponse2_2CZ1_0( Ce
 }
 
 
-QDomElement xmlGenerator::RouteDeviation(QDomDocument xmlko,QString obsah)
+QDomElement XmlGenerator::RouteDeviation(QDomDocument xmlko,QString obsah)
 {
     QDomElement dRouteDeviation = xmlko.createElement("RouteDeviation");
     dRouteDeviation.appendChild(xmlko.createTextNode(obsah));
     return dRouteDeviation;
 }
 
-QDomElement xmlGenerator::DoorOpenState(QDomDocument xmlko,QString obsah)
+QDomElement XmlGenerator::DoorOpenState(QDomDocument xmlko,QString obsah)
 {
     QDomElement dRouteDeviation = xmlko.createElement("DoorOpenState");
     dRouteDeviation.appendChild(xmlko.createTextNode(obsah));
@@ -1144,9 +1146,9 @@ QDomElement xmlGenerator::DoorOpenState(QDomDocument xmlko,QString obsah)
 }
 
 
-QDomElement xmlGenerator::VehicleMode(QDomDocument xmlko,QString subMode, QString mode)
+QDomElement XmlGenerator::MyOwnVehicleMode(QDomDocument xmlko,QString subMode, QString mode)
 {
-    QDomElement vystup=xmlko.createElement("VehicleMode");
+    QDomElement vystup=xmlko.createElement("MyOwnVehicleMode");
     QDomElement dPtMainMode=xmlko.createElement("PtMainMode");
     dPtMainMode.appendChild(xmlko.createTextNode(subMode));
     vystup.appendChild(dPtMainMode);
@@ -1159,9 +1161,9 @@ QDomElement xmlGenerator::VehicleMode(QDomDocument xmlko,QString subMode, QStrin
 
 
 
-QString xmlGenerator::TicketValidationService_GetRazziaResponse2_2CZ1_0( CestaUdaje stav)
+QString XmlGenerator::TicketValidationService_GetRazziaResponse2_2CZ1_0( CestaUdaje stav)
 {
-    qDebug()<<"xmlGenerator::TicketValidationService_GetRazziaResponse2_2CZ1_0";
+    qDebug()<<"XmlGenerator::TicketValidationService_GetRazziaResponse2_2CZ1_0";
     QDomDocument xmlko;
     QDomProcessingInstruction dHlavicka=xmlko.createProcessingInstruction("xml","version=\"1.0\" encoding=\"utf-8\" ");
     xmlko.appendChild(dHlavicka);
@@ -1182,10 +1184,10 @@ QString xmlGenerator::TicketValidationService_GetRazziaResponse2_2CZ1_0( CestaUd
 }
 
 
-QDomDocument xmlGenerator::Connections1_0( QVector<PrestupMPV> lokPrestupy)
+QDomDocument XmlGenerator::Connections1_0( QVector<PrestupMPV> lokPrestupy)
 {
 
-    qDebug()<<"xmlGenerator::connections1_0";
+    qDebug()<<"XmlGenerator::connections1_0";
     QDomDocument xmlko;
     QDomElement root=xmlko.createElement("wrapper");
 
@@ -1272,9 +1274,9 @@ QDomDocument xmlGenerator::Connections1_0( QVector<PrestupMPV> lokPrestupy)
 
 }
 
-QVector<QDomElement> xmlGenerator::Connections2_2CZ1_0( QVector<PrestupMPV> seznamPrestupu)
+QVector<QDomElement> XmlGenerator::Connections2_2CZ1_0( QVector<PrestupMPV> seznamPrestupu)
 {
-    qDebug()<<"xmlGenerator::connections2_2CZ1_0";
+    qDebug()<<"XmlGenerator::connections2_2CZ1_0";
     QDomDocument xmlko;
     QDomElement root=xmlko.createElement("wrapper");
     QString language ="cs";
@@ -1287,121 +1289,11 @@ QVector<QDomElement> xmlGenerator::Connections2_2CZ1_0( QVector<PrestupMPV> sezn
         aktualniPrestup.lin=aktualniPrestup.lin.number(10);
         QDomElement dConnectionMode = xmlko.createElement("ConnectionMode");
 
+        QString mainMode="";
+        QString subMode="";
+        Linka linka;
+        ddDoVehicleMode(aktualniPrestup.dd,mainMode,subMode,linka);
 
-        switch(aktualniPrestup.dd)
-        {
-        case 1: //Metro
-            mainMode="MetroSubmode";
-            subMode="metro";
-
-            break;
-        case 2: //Denní tramvaj
-            mainMode="TramSubmode";
-            subMode="localTram";
-
-            break;
-
-        case 3: //Denní městská autobusová linka
-            mainMode="BusSubmode";
-            subMode="localBus";
-
-            break;
-        case 4: //Denní příměstská nebo regionální linka
-            mainMode="BusSubmode";
-            subMode="regionalBus";
-
-            break;
-        case 5: //Noční městská autobusová linka
-            mainMode="BusSubmode";
-            subMode="nightBus";
-
-            break;
-        case 6: //Noční tramvaj
-            mainMode="TramSubmode";
-            subMode="localTram";
-
-            break;
-        case 7: //Linka náhradní dopravy, městský autobus
-            mainMode="BusSubmode";
-            subMode="localBus";
-
-            break;
-
-        case 8: //Lanovka
-            mainMode="FunicularSubmode";
-            subMode="funicular";
-
-            break;
-        case 9: //Školní linka
-            mainMode="BusSubmode";
-            subMode="schoolBus";
-
-            break;
-
-        case 10: //Invalidní
-            mainMode="BusSubmode";
-            subMode="specialNeedsBus";
-
-            break;
-        case 11: //Smluvni
-            mainMode="BusSubmode";
-            subMode="undefined";
-
-
-            break;
-        case 12: //Přívoz
-            mainMode="WaterSubmode";
-            subMode="localPassengerFerry";
-
-            break;
-        case 13: //Vlaky PID – linky S nebo R
-            mainMode="RailSubmode";
-            subMode="regionalRail";
-
-            break;
-        case 14: //Linka náhradní dopravy, NAD za vlak
-            mainMode="BusSubmode";
-            subMode="railReplacementBus";
-
-            break;
-        case 15: //Linka náhradní dopravy, Tram
-            mainMode="TramSubmode";
-            subMode="localTram";
-
-            break;
-
-        case 16: //Noční příměstská nebo regionální linka
-            mainMode="BusSubmode";
-            subMode="regionalBus";
-
-            break;
-
-        case 17: //Linka mimo systém PID (3 znaky)
-            mainMode="BusSubmode";
-            subMode="undefined";
-
-            break;
-        case 18: //Denní trolejbusová linka
-            mainMode="TrolleybusSubmode";
-            subMode="localTrolleybus";
-
-            break;
-
-          /*
-        case XX: //Lanovka do Bohnic
-            mainMode="TelecabinSubmode";
-            subMode="telecabin";
-
-            break;
-            */
-
-
-        default:
-            mainMode="BusSubmode";
-            subMode="undefined";
-            break;
-
-        }
 
 
 
@@ -1457,4 +1349,151 @@ QVector<QDomElement> xmlGenerator::Connections2_2CZ1_0( QVector<PrestupMPV> sezn
     }
 
     return vystup;
+}
+
+QDomElement XmlGenerator::MyOwnVehicleMode2_2CZ1_0(QString mainMode, QString subMode)
+{
+    QDomDocument xmlko;
+    QDomElement myOwnVehicleMode=xmlko.createElement("MyOwnVehicleMode");
+    QDomElement ptMainModeElement=xmlko.createElement("PtMainMode");
+    ptMainModeElement.appendChild( xmlko.createTextNode( mainMode  ));
+    QDomElement subModeElement=xmlko.createElement(mainMode);
+    subModeElement.appendChild( xmlko.createTextNode( subMode ));
+    myOwnVehicleMode.appendChild(ptMainModeElement);
+    myOwnVehicleMode.appendChild(subModeElement);
+
+
+}
+void XmlGenerator::ddDoVehicleMode(int dd, QString &mainMode, QString &subMode, Linka linka)
+{
+    qDebug()<<"XmlGenerator::ddDoVehicleMode "<<dd;
+
+    /*
+    bool isDiversion=false;
+    bool isNight=false;
+    bool isReplacement=false;
+*/
+
+
+
+
+    switch(dd)
+    {
+    case 1: //Metro
+        mainMode="MetroSubmode";
+        subMode="metro";
+
+        break;
+    case 2: //Denní tramvaj
+        mainMode="TramSubmode";
+        subMode="localTram";
+
+        break;
+
+    case 3: //Denní městská autobusová linka
+        mainMode="BusSubmode";
+        subMode="localBus";
+
+        break;
+    case 4: //Denní příměstská nebo regionální linka
+        mainMode="BusSubmode";
+        subMode="regionalBus";
+
+        break;
+    case 5: //Noční městská autobusová linka
+        mainMode="BusSubmode";
+        subMode="localBus";
+        linka.isNight=true;
+
+        break;
+    case 6: //Noční tramvaj
+        mainMode="TramSubmode";
+        subMode="localTram";
+        linka.isNight=true;
+
+        break;
+    case 7: //Linka náhradní dopravy, městský autobus
+        mainMode="BusSubmode";
+        subMode="localBus";
+
+        break;
+
+    case 8: //Lanovka
+        mainMode="FunicularSubmode";
+        subMode="funicular";
+
+        break;
+    case 9: //Školní linka
+        mainMode="BusSubmode";
+        subMode="schoolBus";
+        linka.isSchool=true;
+
+        break;
+
+    case 10: //Invalidní
+        mainMode="BusSubmode";
+        subMode="specialNeedsBus";
+        linka.isWheelchair=true;
+
+        break;
+    case 11: //Smluvni
+        mainMode="BusSubmode";
+        subMode="undefined";
+        linka.isSpecial=true;
+
+
+        break;
+    case 12: //Přívoz
+        mainMode="WaterSubmode";
+        subMode="localPassengerFerry";
+
+        break;
+    case 13: //Vlaky PID – linky S nebo R
+        mainMode="RailSubmode";
+        subMode="regionalRail";
+
+        break;
+    case 14: //Linka náhradní dopravy, NAD za vlak
+        mainMode="BusSubmode";
+        subMode="railReplacementBus";
+
+        break;
+    case 15: //Linka náhradní dopravy, Tram
+        mainMode="TramSubmode";
+        subMode="localTram";
+
+        break;
+
+    case 16: //Noční příměstská nebo regionální linka
+        mainMode="BusSubmode";
+        subMode="regionalBus";
+
+        break;
+
+    case 17: //Linka mimo systém PID (3 znaky)
+        mainMode="BusSubmode";
+        subMode="undefined";
+
+        break;
+    case 18: //Denní trolejbusová linka
+        mainMode="TrolleybusSubmode";
+        subMode="localTrolleybus";
+
+        break;
+
+        /*
+    case XX: //Lanovka do Bohnic
+        mainMode="TelecabinSubmode";
+        subMode="telecabin";
+
+        break;
+        */
+
+
+    default:
+        mainMode="BusSubmode";
+        subMode="undefined";
+        break;
+
+    }
 }
