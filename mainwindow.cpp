@@ -123,6 +123,7 @@ void MainWindow::vsechnyConnecty()
     //casovace
     connect(timerTrvaniZmenyPasma,&QTimer::timeout,this,&MainWindow::eventSkryjZmenuTarifnihoPasma);
     connect(timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
+    connect(&timerStahniPrestupy,&QTimer::timeout,this,&MainWindow::slotStahniPrestupyAktZastavky);
 }
 
 
@@ -217,13 +218,25 @@ void MainWindow::xmlVdv301HromadnyUpdate()
     QDomDocument vstupniDomXmlPrestupy;
     if (stavSystemu.prestupy==true)
     {
-        Zastavka aktZastavka=stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka;
-        xmlMpvParser.StahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
+       slotStahniPrestupyAktZastavky();
+       timerStahniPrestupy.start(intervalStahovaniPrestupu*1000);
     }
+    else
+    {
+        timerStahniPrestupy.stop();
+    }
+
     QVector<PrestupMPV> prestupy;
     customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
+}
+
+void MainWindow::slotStahniPrestupyAktZastavky()
+{
+    qDebug()<<"MainWindow::slotStahniPrestupyAktZastavky";
+    Zastavka aktZastavka=stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka;
+    xmlMpvParser.StahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
 }
 
 

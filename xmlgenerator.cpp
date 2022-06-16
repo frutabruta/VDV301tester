@@ -217,7 +217,7 @@ QString XmlGenerator::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<Prestup
     QDomElement dExitSide = xmlko.createElement("ExitSide");
     dExitSide.appendChild(xmlko.createTextNode(exitSide));
     dAllData.appendChild(dExitSide);
-    ddDoVehicleMode(docasnySeznamZastavek.at(stav.indexAktZastavky).linka.kli,stav.vehicleMode,stav.vehicleSubMode,docasnySeznamZastavek.at(stav.indexAktZastavky).linka);
+    PrestupMPV::ddDoVehicleMode(docasnySeznamZastavek.at(stav.indexAktZastavky).linka.kli,stav.vehicleMode,stav.vehicleSubMode,docasnySeznamZastavek.at(stav.indexAktZastavky).linka);
     dAllData.appendChild(this->MyOwnVehicleMode(xmlko,stav.vehicleMode,stav.vehicleSubMode));
 
     return xmlko.toString();
@@ -1266,7 +1266,7 @@ QDomDocument XmlGenerator::Connections1_0( QVector<PrestupMPV> lokPrestupy)
         dConnection.appendChild(dConnectionMode);
         QDomElement dExpectedDepartureTime=xmlko.createElement("ExpectedDepatureTime"); //verze 1.0
         // QDomElement dExpectedDepartureTime=xmlko.createElement("ExpectedDepartureTime"); verze 2.0
-        dExpectedDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  prestup.odj ));
+        dExpectedDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  PrestupMPV::qDateTimeToString(prestup.odj)));
         dConnection.appendChild(dExpectedDepartureTime);
 
     }
@@ -1280,23 +1280,32 @@ QVector<QDomElement> XmlGenerator::Connections2_2CZ1_0( QVector<PrestupMPV> sezn
     QDomDocument xmlko;
     QDomElement root=xmlko.createElement("wrapper");
     QString language ="cs";
-    QString mainMode="";
-    QString subMode="";
+
     QVector<QDomElement> vystup;
+
+
+    seznamPrestupu=PrestupMPV::seradPrestupyExpectedDeparture(seznamPrestupu);
+
+
+
     for (int i=0;i<seznamPrestupu.count();i++)
     {
         PrestupMPV aktualniPrestup=seznamPrestupu.at(i);
         aktualniPrestup.lin=aktualniPrestup.lin.number(10);
-        QDomElement dConnectionMode = xmlko.createElement("ConnectionMode");
 
+        /*
         QString mainMode="";
         QString subMode="";
         Linka linka;
-        ddDoVehicleMode(aktualniPrestup.dd,mainMode,subMode,linka);
+      */
+
+        Prestup vdv301prestup=aktualniPrestup.toPrestup();
 
 
+        QDomElement dConnectionMode = xmlko.createElement("ConnectionMode");
 
 
+       // PrestupMPV::ddDoVehicleMode(aktualniPrestup.dd,mainMode,subMode,linka);
 
         QDomElement dConnection=xmlko.createElement("Connection");
         xmlko.appendChild(dConnection);
@@ -1315,7 +1324,7 @@ QVector<QDomElement> XmlGenerator::Connections2_2CZ1_0( QVector<PrestupMPV> sezn
 
         QDomElement dLineName=xmlko.createElement("LineName");
         dLineName.appendChild(xmlko.createElement("Value"));
-        dLineName.firstChildElement("Value").appendChild(xmlko.createTextNode(aktualniPrestup.alias));
+        dLineName.firstChildElement("Value").appendChild(xmlko.createTextNode(vdv301prestup.line.LineName));
         dLineInformation.appendChild(dLineName);
         dLineName.appendChild(xmlko.createElement("Language"));
         dLineName.firstChildElement("Language").appendChild(xmlko.createTextNode(language));
@@ -1328,7 +1337,7 @@ QVector<QDomElement> XmlGenerator::Connections2_2CZ1_0( QVector<PrestupMPV> sezn
 
         QDomElement dDestinationName=xmlko.createElement("DestinationName");
         dDestinationName.appendChild(xmlko.createElement("Value"));
-        dDestinationName.firstChildElement("Value").appendChild(xmlko.createTextNode(aktualniPrestup.smer));
+        dDestinationName.firstChildElement("Value").appendChild(xmlko.createTextNode(vdv301prestup.destinationName));
         dDestination.appendChild(dDestinationName);
 
         dDestinationName.appendChild(xmlko.createElement("Language"));
@@ -1336,14 +1345,28 @@ QVector<QDomElement> XmlGenerator::Connections2_2CZ1_0( QVector<PrestupMPV> sezn
 
         dConnection.appendChild(xmlko.createElement("Platform")).appendChild(xmlko.createElement("Value")).appendChild(xmlko.createTextNode(aktualniPrestup.stan));
 
-        dConnectionMode.appendChild(xmlko.createElement("PtMainMode")).appendChild(xmlko.createTextNode(mainMode));
-        dConnectionMode.appendChild(xmlko.createElement(mainMode)).appendChild(xmlko.createTextNode(subMode));
+        dConnectionMode.appendChild(xmlko.createElement("PtMainMode")).appendChild(xmlko.createTextNode(vdv301prestup.mainMode));
+        dConnectionMode.appendChild(xmlko.createElement(vdv301prestup.mainMode)).appendChild(xmlko.createTextNode(vdv301prestup.subMode));
         dConnection.appendChild(dConnectionMode);
 
         //  QDomElement dExpectedDepartureTime=xmlko.createElement("ExpectedDepatureTime"); verze 1.0
+
+
+
+        qDebug()<<"přestup "<<vdv301prestup.line.LineName<<" "<<vdv301prestup.destinationName<<" ma zpozdeni"<<aktualniPrestup.zpoz<<" cas:"<<aktualniPrestup.odjReal;
+
+
+
+        //QString expectedTime= cas.toString(Qt::ISODate);
+
+
         QDomElement dExpectedDepartureTime=xmlko.createElement("ExpectedDepartureTime"); //verze 2.2CZ1.0
-        dExpectedDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  aktualniPrestup.odj ));
+        dExpectedDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  vdv301prestup.expectedDepartureTime ));
         dConnection.appendChild(dExpectedDepartureTime);
+
+        QDomElement dScheduledDepartureTime=xmlko.createElement("ScheduledDepartureTime"); //verze 2.2CZ1.0
+        dScheduledDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  vdv301prestup.scheduledDepartureTime ));
+        dConnection.appendChild(dScheduledDepartureTime);
 
         vystup.push_back(dConnection);
     }
@@ -1361,139 +1384,8 @@ QDomElement XmlGenerator::MyOwnVehicleMode2_2CZ1_0(QString mainMode, QString sub
     subModeElement.appendChild( xmlko.createTextNode( subMode ));
     myOwnVehicleMode.appendChild(ptMainModeElement);
     myOwnVehicleMode.appendChild(subModeElement);
-
+    return myOwnVehicleMode;
 
 }
-void XmlGenerator::ddDoVehicleMode(int dd, QString &mainMode, QString &subMode, Linka linka)
-{
-    qDebug()<<"XmlGenerator::ddDoVehicleMode "<<dd;
-
-    /*
-    bool isDiversion=false;
-    bool isNight=false;
-    bool isReplacement=false;
-*/
 
 
-
-
-    switch(dd)
-    {
-    case 1: //Metro
-        mainMode="MetroSubmode";
-        subMode="metro";
-
-        break;
-    case 2: //Denní tramvaj
-        mainMode="TramSubmode";
-        subMode="localTram";
-
-        break;
-
-    case 3: //Denní městská autobusová linka
-        mainMode="BusSubmode";
-        subMode="localBus";
-
-        break;
-    case 4: //Denní příměstská nebo regionální linka
-        mainMode="BusSubmode";
-        subMode="regionalBus";
-
-        break;
-    case 5: //Noční městská autobusová linka
-        mainMode="BusSubmode";
-        subMode="localBus";
-        linka.isNight=true;
-
-        break;
-    case 6: //Noční tramvaj
-        mainMode="TramSubmode";
-        subMode="localTram";
-        linka.isNight=true;
-
-        break;
-    case 7: //Linka náhradní dopravy, městský autobus
-        mainMode="BusSubmode";
-        subMode="localBus";
-
-        break;
-
-    case 8: //Lanovka
-        mainMode="FunicularSubmode";
-        subMode="funicular";
-
-        break;
-    case 9: //Školní linka
-        mainMode="BusSubmode";
-        subMode="schoolBus";
-        linka.isSchool=true;
-
-        break;
-
-    case 10: //Invalidní
-        mainMode="BusSubmode";
-        subMode="specialNeedsBus";
-        linka.isWheelchair=true;
-
-        break;
-    case 11: //Smluvni
-        mainMode="BusSubmode";
-        subMode="undefined";
-        linka.isSpecial=true;
-
-
-        break;
-    case 12: //Přívoz
-        mainMode="WaterSubmode";
-        subMode="localPassengerFerry";
-
-        break;
-    case 13: //Vlaky PID – linky S nebo R
-        mainMode="RailSubmode";
-        subMode="regionalRail";
-
-        break;
-    case 14: //Linka náhradní dopravy, NAD za vlak
-        mainMode="BusSubmode";
-        subMode="railReplacementBus";
-
-        break;
-    case 15: //Linka náhradní dopravy, Tram
-        mainMode="TramSubmode";
-        subMode="localTram";
-
-        break;
-
-    case 16: //Noční příměstská nebo regionální linka
-        mainMode="BusSubmode";
-        subMode="regionalBus";
-
-        break;
-
-    case 17: //Linka mimo systém PID (3 znaky)
-        mainMode="BusSubmode";
-        subMode="undefined";
-
-        break;
-    case 18: //Denní trolejbusová linka
-        mainMode="TrolleybusSubmode";
-        subMode="localTrolleybus";
-
-        break;
-
-        /*
-    case XX: //Lanovka do Bohnic
-        mainMode="TelecabinSubmode";
-        subMode="telecabin";
-
-        break;
-        */
-
-
-    default:
-        mainMode="BusSubmode";
-        subMode="undefined";
-        break;
-
-    }
-}

@@ -37,8 +37,10 @@ QVector<PrestupMPV> XmlMpvParser::parsujDomDokument()
         novy.alias=nodes.at(i).attributes().namedItem("alias").nodeValue();
         novy.spoj=nodes.at(i).attributes().namedItem("spoj").nodeValue().toInt();
         novy.smer=nodes.at(i).attributes().namedItem("smer").nodeValue();
-        novy.odj=nodes.at(i).attributes().namedItem("odj").nodeValue();
         novy.zpoz=nodes.at(i).attributes().namedItem("zpoz").nodeValue().toInt();
+        QDateTime odjezd=PrestupMPV::qStringDoQDateTime( nodes.at(i).attributes().namedItem("odj").nodeValue());
+        novy.odj=odjezd;
+         novy.odjReal=PrestupMPV::posunTimeStampZpozdeni( odjezd, novy.zpoz );
         novy.sled=nodes.at(i).attributes().namedItem("sled").nodeValue().toInt();
         if (nodes.at(i).attributes().namedItem("np").nodeValue()=="true")
         {novy.np=1;}

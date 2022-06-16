@@ -53,6 +53,7 @@ private:
 
     //konstanty
     bool filtrovatPrestupy=true;
+    int intervalStahovaniPrestupu=20; //ve vterinach
     //datove struktury
     CestaUdaje stavSystemu;
     QVector <Linka> seznamLinek;
@@ -143,6 +144,7 @@ private:
     //timery
     QTimer *timerTrvaniZmenyPasma = new QTimer(this); //po pvyprseni casovace zmizi zmena pasma
     QTimer *timerAfterStopToBetweenStop = new QTimer(this);
+    QTimer timerStahniPrestupy;
 
 
     void eventAfterStopToBetweenStop();
@@ -252,6 +254,7 @@ private slots:
     void eventSkryjZmenuTarifnihoSystemu();
 
     void on_checkBox_MpvTurnusy_stateChanged(int arg1);
+    void slotStahniPrestupyAktZastavky();
 };
 
 #endif // MAINWINDOW_H
