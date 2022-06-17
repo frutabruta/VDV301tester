@@ -159,7 +159,7 @@ QString XmlGenerator::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<Prestup
     QString doorState=stav.doorState;
 
 
-    QString deflanguage="cz";
+    QString deflanguage=defaultniJazyk2_2CZ1_0;
     QString vehicleref=QString::number(stav.cisloVozu);
     int currentStopIndex= stav.indexAktZastavky+1; //úprava pro indexování zastávek od 1 vs od 0 pro pole
     QString routeDeviation="onroute";
@@ -230,7 +230,7 @@ QDomElement XmlGenerator::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpo
     QString locationState=stav.locationState;
 
     QString tripRef=QString::number(docasnySeznamSpoju.at(indexSpoje).cisloRopid);
-    QString language="cz";
+    QString language=defaultniJazyk2_2CZ1_0;
 
     int currentStopIndex= stav.indexAktZastavky;
 
@@ -1024,7 +1024,7 @@ QString XmlGenerator::AllDataEmpty2_2CZ1_0( )
 {
     qDebug()<<"XmlGenerator::AllData2_2CZ1_0";
     int poradi=1;
-    QString deflanguage="cz";
+    QString deflanguage=defaultniJazyk2_2CZ1_0;
     QString vehicleref="33";
     int currentStopIndex= poradi;
     QString routeDeviation="onroute";

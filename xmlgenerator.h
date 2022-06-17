@@ -76,7 +76,7 @@ private:
     QDomElement rawInsert(QString vstup);
     QDomElement AdditionalTextMessage2_2CZ1_0(QString obsahZpravy);
     QString defaultniJazyk1_0="de";
-    QString defaultniJazyk2_2CZ1_0="cz";
+    QString defaultniJazyk2_2CZ1_0="cs";
 signals:
 
 public slots:

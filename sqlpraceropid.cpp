@@ -340,6 +340,7 @@ int SqlPraceRopid::StahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,int in
             aktLinka.LineNumber=query.value(query.record().indexOf("l.lc")).toString();
             aktLinka.typLinky=query.value(query.record().indexOf("l.tl")).toString();
             aktLinka.isNight=query.value(query.record().indexOf("l.noc")).toBool();
+            aktLinka.isDiversion=query.value(query.record().indexOf("s.vy")).toBool();
 
 
             aktSpoj.cisloRopid=query.value(query.record().indexOf("s.c")).toInt();
@@ -485,7 +486,7 @@ dbManager->query.exec();
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
     queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, l.cids, l.tl, l.kli, ");
     queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, ");
-    queryString2+=("s.ns, s.c, ");
+    queryString2+=("s.ns, s.c, s.vy, ");
     queryString2+=("ids.z AS pz1, ");
     queryString2+=("ids2.z AS pz2, ");
     queryString2+=("ids3.z AS pz3, ");
