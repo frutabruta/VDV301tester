@@ -49,6 +49,7 @@ public:
 
 
     void ahoj();
+
 private:
 
     //konstanty
@@ -88,6 +89,9 @@ private:
     int eventPrijezd();
     int eventOdjezd();
     void eventZmenaTarifnihoPasma();
+    void eventAfterStopToBetweenStop();
+    void eventOpusteniVydeje();
+    void eventVstupDoVydeje();
 
     void vsechnyConnecty();
     void testNaplnOkno(int index);
@@ -147,7 +151,7 @@ private:
     QTimer timerStahniPrestupy;
 
 
-    void eventAfterStopToBetweenStop();
+    void resetSeznamuSpoju();
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);

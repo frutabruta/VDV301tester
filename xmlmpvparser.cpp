@@ -71,8 +71,8 @@ void XmlMpvParser::StahniMpvXml(int cisloCis, QString Ids)
 
 
     // QString adresa = "http://www.mpvnet.cz/"+Ids+"/x/"+QString::number(cisloCis)+"?pocet=15&pz=true&t=true";
+   // QString adresa = "http://www.mpvnet.cz/"+Ids+"/x/"+QString::number(cisloCis)+"?unite=true&ko=12702&pocet=24&t=true&ts=396"; //timeshift nočky
     QString adresa = "http://www.mpvnet.cz/"+Ids+"/x/"+QString::number(cisloCis)+"?unite=true&ko=12702&pocet=24&t=true";
-
     qDebug()<<adresa;
     manager->get(QNetworkRequest(QUrl(adresa)));
 

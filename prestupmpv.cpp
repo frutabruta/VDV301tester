@@ -16,32 +16,23 @@ Prestup PrestupMPV::toPrestup()
 {
 
     Prestup vystup;
-
     /*
     void setLin(int pLin);
     QString lin="";
-
     int spoj=0;
-
     QString odj="";
     int zpoz=0;
     bool np=false;
     bool nad=false;
     QString t="";
     int smer_c=0;
-    bool sled=false;
-    */
-
-
+    bool sled=false;   */
 
 /*
     QString connectionProperty="";
     QString connectionType="";
     QString destination="";
-    Linka line;
-*/
-
-
+    Linka line;*/
 
     vystup.line.LineName=this->alias;
     vystup.destinationName=this->smer;
@@ -77,7 +68,7 @@ QString PrestupMPV::qDateTimeToString(QDateTime vstup)
 
 
 
-void PrestupMPV::ddDoVehicleMode(int dd, QString &mainMode, QString &subMode, Linka linka)
+void PrestupMPV::ddDoVehicleMode(int dd, QString &mainMode, QString &subMode, Linka &linka)
 {
     qDebug()<<"PrestupMPV::ddDoVehicleMode "<<dd;
 
@@ -128,6 +119,7 @@ void PrestupMPV::ddDoVehicleMode(int dd, QString &mainMode, QString &subMode, Li
     case 7: //Linka náhradní dopravy, městský autobus
         mainMode="BusSubmode";
         subMode="localBus";
+        linka.isReplacement=true;
 
         break;
 
@@ -151,8 +143,9 @@ void PrestupMPV::ddDoVehicleMode(int dd, QString &mainMode, QString &subMode, Li
         break;
     case 11: //Smluvni
         mainMode="BusSubmode";
-        subMode="undefined";
+        subMode="localBus";
         linka.isSpecial=true;
+        qDebug()<<"linka je specialni";
 
 
         break;
@@ -169,17 +162,20 @@ void PrestupMPV::ddDoVehicleMode(int dd, QString &mainMode, QString &subMode, Li
     case 14: //Linka náhradní dopravy, NAD za vlak
         mainMode="BusSubmode";
         subMode="railReplacementBus";
+        linka.isReplacement=true;
 
         break;
     case 15: //Linka náhradní dopravy, Tram
         mainMode="TramSubmode";
         subMode="localTram";
+        linka.isReplacement=true;
 
         break;
 
     case 16: //Noční příměstská nebo regionální linka
         mainMode="BusSubmode";
         subMode="regionalBus";
+        linka.isNight=true;
 
         break;
 

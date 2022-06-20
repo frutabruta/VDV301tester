@@ -1209,6 +1209,7 @@ void MainWindow::on_tlacitkoZpetVydej_clicked()
 */
 void MainWindow::on_tlacitkoLinkospoj_clicked()
 {
+    eventOpusteniVydeje();
     ui->prepinadloStran->setCurrentIndex(1);
 }
 
@@ -1462,6 +1463,7 @@ void MainWindow::vypisSqlVysledek(QString vstup)
 */
 void MainWindow::on_tlacitkoTurnus_clicked()
 {
+    eventOpusteniVydeje();
     ui->prepinadloStran->setCurrentIndex(4);
 }
 
@@ -2009,3 +2011,28 @@ void MainWindow::on_checkBox_MpvTurnusy_stateChanged(int arg1)
     stavSystemu.prestupy= ui->checkBox->isChecked();
 }
 
+
+void MainWindow::eventVstupDoVydeje()
+{
+qDebug()<<"eventVstupDoVydeje()";
+}
+
+void MainWindow::eventOpusteniVydeje()
+{
+qDebug()<<"eventOpusteniVydeje()";
+
+timerAfterStopToBetweenStop->stop();
+timerStahniPrestupy.stop();
+timerTrvaniZmenyPasma->stop();
+resetSeznamuSpoju();
+customerInformationService1_0.mimoVydej();
+customerInformationService2_2CZ1_0.mimoVydej();
+xmlVdv301HromadnyUpdate();
+inicializaceVyberovychPoli();
+}
+
+void MainWindow::resetSeznamuSpoju()
+{
+    qDebug()<<"MainWindow::resetSeznamuSpoju";
+    stavSystemu.vymaz();
+}

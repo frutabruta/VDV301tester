@@ -31,7 +31,7 @@ public:
     int dd=0;
     int smer_c=0;
     bool sled=false;
-    static void ddDoVehicleMode(int dd, QString &mainMode, QString &subMode, Linka linka);
+    static void ddDoVehicleMode(int dd, QString &mainMode, QString &subMode, Linka &linka);
     Prestup toPrestup();
     static QDateTime posunTimeStampZpozdeni(QDateTime vstupniTimestamp, int zpozdeni);
     static   bool srovnejPrestupy(const PrestupMPV &d1, const PrestupMPV &d2);

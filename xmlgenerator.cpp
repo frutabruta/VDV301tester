@@ -217,7 +217,7 @@ QString XmlGenerator::AllData2_2CZ1_0(QVector<Spoj> seznamSpoju, QVector<Prestup
     QDomElement dExitSide = xmlko.createElement("ExitSide");
     dExitSide.appendChild(xmlko.createTextNode(exitSide));
     dAllData.appendChild(dExitSide);
-    PrestupMPV::ddDoVehicleMode(docasnySeznamZastavek.at(stav.indexAktZastavky).linka.kli,stav.vehicleMode,stav.vehicleSubMode,docasnySeznamZastavek.at(stav.indexAktZastavky).linka);
+    PrestupMPV::ddDoVehicleMode(docasnySeznamZastavek.at(stav.indexAktZastavky).linka.kli,stav.vehicleMode,stav.vehicleSubMode,docasnySeznamZastavek[stav.indexAktZastavky].linka);
     dAllData.appendChild(this->MyOwnVehicleMode(xmlko,stav.vehicleMode,stav.vehicleSubMode));
 
     return xmlko.toString();
@@ -627,14 +627,22 @@ QDomElement XmlGenerator::DisplayContent2_2CZ1_0(QString tagName,QVector<Zastavk
     QDomElement dLineInformation=xmlko.createElement("LineInformation");
     dDisplayContent.appendChild(dLineInformation);
 
-    QDomElement dLineProperty=xmlko.createElement("LineProperty");
+   // QDomElement dLineProperty=xmlko.createElement("LineProperty");
 
-    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",aktZastavkaCil.linka.isDiversion ,"Diversion"));
-    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",!aktZastavkaCil.linka.isNight ,"Day"));
-    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",aktZastavkaCil.linka.isNight ,"Night"));
-    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",aktZastavkaCil.linka.isReplacement ,"Replacement"));
-    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",aktZastavkaCil.linka.isSpecial ,"Special"));
-    dLineInformation.appendChild(xxxProperty2_2CZ1_0("LineProperty",aktZastavkaCil.linka.isWheelchair ,"WheelChair"));
+
+    QString dummy1="";
+    QString dummy2="";
+    PrestupMPV::ddDoVehicleMode(aktZastavkaCil.linka.kli,dummy1,dummy2,aktZastavkaCil.linka );
+    QVector<QDomElement> priznakyLinky=linkaToLineProperties( aktZastavkaCil.linka);
+
+
+    foreach(QDomElement priznak,priznakyLinky)
+    {
+        dLineInformation.appendChild(priznak);
+    }
+
+
+
 
 
     QDomElement dLineName;
@@ -765,6 +773,23 @@ nedodelane priznaky:
     return dDisplayContent;
 }
 
+QVector<QDomElement> XmlGenerator::linkaToLineProperties(Linka linka)
+{
+    QVector<QDomElement> vystup;
+
+
+
+    vystup.push_back(xxxProperty2_2CZ1_0("LineProperty",linka.isDiversion ,"Diversion"));
+    vystup.push_back(xxxProperty2_2CZ1_0("LineProperty",!linka.isNight ,"Day"));
+    vystup.push_back(xxxProperty2_2CZ1_0("LineProperty",linka.isNight ,"Night"));
+    vystup.push_back(xxxProperty2_2CZ1_0("LineProperty",linka.isReplacement ,"Replacement"));
+    vystup.push_back(xxxProperty2_2CZ1_0("LineProperty",linka.isSpecial ,"Special"));
+    vystup.push_back(xxxProperty2_2CZ1_0("LineProperty",linka.isWheelchair ,"WheelChair"));
+
+
+    return vystup;
+}
+
 QDomElement XmlGenerator::ViaPoint1_0(QDomDocument xmlko, Zastavka nacestnaZastavka,QString language)
 {
     QDomElement dViaPoint=xmlko.createElement("ViaPoint");
@@ -841,10 +866,28 @@ QVector<Pasmo> XmlGenerator::pasmoStringDoVectoru(QString vstup,QString system,Q
         Pasmo intPasmo;
         intPasmo.nazev=stringPasma.at(i);
         intPasmo.system=system;
-        if (!((intPasmo.nazev=="P")&&(tl!="A"))&&(intPasmo.nazev!="-"))
+
+        if(intPasmo.nazev!="-")
         {
-            seznamPasem.append(intPasmo);
+            if(tl=="A")
+            {
+                if(intPasmo.nazev=="P")
+                {
+                    seznamPasem.append(intPasmo);
+                }
+            }
+            else
+            {
+                if (intPasmo.nazev!="P")
+                {
+                    seznamPasem.append(intPasmo);
+                }
+            }
         }
+
+
+
+
 
     }
     return seznamPasem;
@@ -975,7 +1018,7 @@ QDomElement XmlGenerator::xxxProperty2_2CZ1_0(QString nazev,bool vysledek,QStrin
     QDomDocument xmlko;
     if(vysledek)
     {
-        QDomElement stopProperty =xmlko.createElement(nazev);
+        QDomElement stopProperty=xmlko.createElement(nazev);
         stopProperty.appendChild(xmlko.createTextNode(hodnota));
         return stopProperty;
     }
@@ -1332,6 +1375,14 @@ QVector<QDomElement> XmlGenerator::Connections2_2CZ1_0( QVector<PrestupMPV> sezn
         dLineNumber.appendChild(xmlko.createElement("Value"));
         dLineNumber.firstChildElement("Value").appendChild(xmlko.createTextNode("1"));
         dLineInformation.appendChild(dLineNumber);
+        QVector<QDomElement> priznakyLinky=linkaToLineProperties( vdv301prestup.line);
+
+
+        foreach(QDomElement priznak,priznakyLinky)
+        {
+            dLineInformation.appendChild(priznak);
+        }
+
         QDomElement dDestination=xmlko.createElement("Destination");
         dDisplayContent.appendChild(dDestination);
 

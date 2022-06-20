@@ -1310,6 +1310,8 @@ release/moc_testodberuserver.cpp: VDV301testy/testodberuserver.h \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		subscriber.h \
 		release/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
@@ -1885,6 +1887,8 @@ release/moc_httpsluzba.cpp: VDV301publisher/httpsluzba.h \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		subscriber.h \
 		release/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
@@ -2556,6 +2560,8 @@ release/moc_mainwindow.cpp: mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		subscriber.h \
 		VDV301publisher/customerinformationservice.h \
 		mainwindowpomocne.h \
@@ -2854,6 +2860,8 @@ release/moc_xmlgenerator.cpp: xmlgenerator.h \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		release/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
 	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/release/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlgenerator.h -o release\moc_xmlgenerator.cpp
@@ -3126,6 +3134,11 @@ release/moc_xmlmpvparser.cpp: xmlmpvparser.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QIODevice \
 		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkRequest \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		VDV301struktury/prestup.h \
+		VDV301struktury/linka.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		release/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
 	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/release/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlmpvparser.h -o release\moc_xmlmpvparser.cpp
@@ -3405,6 +3418,17 @@ release/moc_sqlpraceropid.cpp: sqlpraceropid.h \
 		VDV301struktury/spoj.h \
 		VDV301struktury/zastavkacil.h \
 		VDV301struktury/obeh.h \
+		xmlgenerator.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
+		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
+		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qdom.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qtxmlglobal.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qtxml-config.h \
+		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
+		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		release/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
 	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/release/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include sqlpraceropid.h -o release\moc_sqlpraceropid.cpp
@@ -3692,6 +3716,14 @@ release/moc_xmlropidparser.cpp: xmlropidparser.h \
 		VDV301struktury/spoj.h \
 		VDV301struktury/zastavkacil.h \
 		VDV301struktury/obeh.h \
+		xmlgenerator.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
+		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
+		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
+		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		release/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
 	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/Eichler536/github/VDV301tester/release/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/Eichler536/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include xmlropidparser.h -o release\moc_xmlropidparser.cpp
@@ -4617,6 +4649,8 @@ release/ticketvalidationservice.o: VDV301publisher/ticketvalidationservice.cpp V
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		subscriber.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\ticketvalidationservice.o VDV301publisher\ticketvalidationservice.cpp
 
@@ -5101,6 +5135,8 @@ release/customerinformationservice.o: VDV301publisher/customerinformationservice
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		subscriber.h \
 		mainwindowpomocne.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\customerinformationservice.o VDV301publisher\customerinformationservice.cpp
@@ -6312,6 +6348,8 @@ release/testodberuserver.o: VDV301testy/testodberuserver.cpp VDV301testy/testodb
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		subscriber.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\testodberuserver.o VDV301testy\testodberuserver.cpp
 
@@ -6894,6 +6932,8 @@ release/httpsluzba.o: VDV301publisher/httpsluzba.cpp VDV301publisher/httpsluzba.
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		subscriber.h \
 		qtzeroconf/qzeroconf.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QMap \
@@ -7719,6 +7759,8 @@ release/main.o: main.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		subscriber.h \
 		VDV301publisher/customerinformationservice.h \
 		mainwindowpomocne.h \
@@ -7776,8 +7818,7 @@ release/main.o: main.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qapplication.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdesktopwidget.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug
+		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qinputmethod.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o main.cpp
 
 release/mainwindow.o: mainwindow.cpp mainwindow.h \
@@ -8172,6 +8213,8 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		subscriber.h \
 		VDV301publisher/customerinformationservice.h \
 		mainwindowpomocne.h \
@@ -8820,7 +8863,13 @@ release/prestupmpv.o: prestupmpv.cpp prestupmpv.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtouchdevice.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtabwidget.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qicon.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QObject \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		VDV301struktury/prestup.h \
+		VDV301struktury/linka.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/qdatetime.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\prestupmpv.o prestupmpv.cpp
 
 release/subscriber.o: subscriber.cpp subscriber.h \
@@ -9011,6 +9060,8 @@ release/xmlgenerator.o: xmlgenerator.cpp xmlgenerator.h \
 		VDV301struktury/obeh.h \
 		VDV301struktury/spoj.h \
 		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QTime \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtDebug \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QtXml \
@@ -9559,6 +9610,10 @@ release/xmlmpvparser.o: xmlmpvparser.cpp xmlmpvparser.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkRequest \
 		prestupmpv.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		VDV301struktury/prestup.h \
+		VDV301struktury/linka.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\xmlmpvparser.o xmlmpvparser.cpp
 
@@ -9845,7 +9900,9 @@ release/sqlpraceropid.o: sqlpraceropid.cpp sqlpraceropid.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/qtxml-config.h \
 		VDV301struktury/cestaudaje.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
-		prestupmpv.h
+		prestupmpv.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\sqlpraceropid.o sqlpraceropid.cpp
 
 release/xmlropidparser.o: xmlropidparser.cpp ../../../../Qt/5.15.2/mingw81_32/include/QtSql/QtSql \
@@ -10131,8 +10188,14 @@ release/xmlropidparser.o: xmlropidparser.cpp ../../../../Qt/5.15.2/mingw81_32/in
 		VDV301struktury/spoj.h \
 		VDV301struktury/zastavkacil.h \
 		VDV301struktury/obeh.h \
+		xmlgenerator.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
+		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
+		VDV301struktury/cestaudaje.h \
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDate \
+		prestupmpv.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\xmlropidparser.o xmlropidparser.cpp
 
 release/ibisovladani.o: ibisovladani.cpp ibisovladani.h \
