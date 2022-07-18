@@ -10,3 +10,6 @@ Requirements:
         Avahi
     
 The program is now only available in Czech.
+
+Loading of new XML data:
+ (Nast.->vymazat data z DB, Vyber cestu XML, nactiXML  )
