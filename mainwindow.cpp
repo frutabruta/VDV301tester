@@ -269,45 +269,6 @@ int MainWindow::on_prikaztlacitko_clicked()
     stavSystemu.vymaz();
     stavSystemu.doorState="AllDoorsClosed";
 
-    /*
-    stavSystemu.aktspoj.linka.c =ui->polelinky->text().toInt();
-    stavSystemu.aktspoj.cisloRopid=ui->polespoje->text().toInt();
-
-
-    stavSystemu.indexAktZastavky=0;
-
-
-    QString textDoPole="";
-
-    int vysledek=sqlPraceRopid.StahniSeznamLinkospoj( stavSystemu.aktspoj.linka,stavSystemu.aktspoj.cisloRopid,stavSystemu.aktObeh.seznamSpoju,this->vyrobMaskuKalendareJizd());
-    if (vysledek==2)
-    {
-        qDebug()<<"existuje navazujici spoj";
-    }
-
-    if (vysledek==0)
-    {
-        textDoPole="spoj neexistuje";
-        return 0;
-
-    }
-
-
-    xmlVdv301HromadnyUpdate();
-    if(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek.empty()==1)
-    {
-        qDebug()<<"seznam zastavek  je prazdny";
-        return 0;
-    }
-    else
-    {
-        AktualizaceDispleje();
-        stavSystemu.locationState="AtStop";
-        ui->tlacitkoZpetVydej->setChecked(1);
-        ui->prepinadloStran->setCurrentIndex(0);
-    }
-*/
-
 
     /*
      * odeslani spoje doplneneho na turnus
@@ -324,11 +285,10 @@ int MainWindow::on_prikaztlacitko_clicked()
     stavSystemu.indexAktZastavky=0;
 
 
-     //on_listKmenovychLinek_currentItemChanged
+
     ui->poleLinkyTurnus->setText(QString::number(kmenovaLinka));
     stavSystemu.aktObeh.kmenovaLinka.c=kmenovaLinka;
-    //ui->listPoradi->clear();
-   // ui->listTurnusSpoje->clear();
+
 
     if (sqlPraceRopid.VytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
     {
@@ -336,8 +296,6 @@ int MainWindow::on_prikaztlacitko_clicked()
     }
 
 
-
-    //on_listPoradi_currentItemChanged
     stavSystemu.aktObeh.p=poradi ;
     if (sqlPraceRopid.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
     {
@@ -352,12 +310,10 @@ int MainWindow::on_prikaztlacitko_clicked()
         return 0;
     }
 
-
     stavSystemu.aktspoj=stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu);
     ui->poleLinkyTurnus->setText(QString::number(stavSystemu.aktspoj.linka.c));
     ui->poleSpojeTurnus->setText(QString::number(stavSystemu.aktspoj.cisloRopid));
-    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text().toInt();
-    //on_listTurnusSpoje_currentItemChanged
+    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text().toInt();   
 
     stavSystemu.indexAktZastavky=0;
 
@@ -495,13 +451,8 @@ void MainWindow::on_sipkaNahoru_clicked()
                 ui->BetweenStop->setChecked(true);
                 eventAfterStopToBetweenStop();
             }
-
-
-
-
         }
     }
-
 
 
     AktualizaceDispleje();
