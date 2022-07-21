@@ -46,6 +46,7 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 SOURCES += \
     VDV301publisher/newhttpserver.cpp \
     VDV301publisher/ticketvalidationservice.cpp \
+    VDV301publisher/subscriber.cpp \
     VDV301struktury/linka.cpp \
     VDV301publisher/customerinformationservice.cpp \
     VDV301struktury/obeh.cpp \
@@ -67,7 +68,6 @@ SOURCES += \
         mainwindow.cpp \
     mainwindowpomocne.cpp \
     prestupmpv.cpp \
-    subscriber.cpp \
     xmlgenerator.cpp \
     VDV301struktury/cestaudaje.cpp \
     xmlmpvparser.cpp \
@@ -79,6 +79,7 @@ SOURCES += \
 HEADERS += \
     VDV301publisher/newhttpserver.h \
     VDV301publisher/ticketvalidationservice.h \
+    VDV301publisher/subscriber.h \
     VDV301struktury/linka.h \
     VDV301publisher/customerinformationservice.h \
     VDV301struktury/obeh.h \
@@ -99,7 +100,6 @@ HEADERS += \
     prestupmpv.h \
     VDV301struktury/spoj.h \
     VDV301struktury/pasmo.h \
-    subscriber.h \
     xmlgenerator.h \
     VDV301struktury/cestaudaje.h \
     xmlmpvparser.h \

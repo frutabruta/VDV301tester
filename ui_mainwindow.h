@@ -137,31 +137,27 @@ public:
     QLabel *label_build;
     QLabel *label_12;
     QWidget *page_customXML;
-    QWidget *verticalLayoutWidget_9;
-    QVBoxLayout *verticalLayout_10;
-    QLabel *label_10;
-    QPlainTextEdit *plainTextEditCustomXml;
-    QPushButton *tlacitkoSmazOkno;
-    QPushButton *tlacitkoOdesliXml;
-    QWidget *verticalLayoutWidget_10;
+    QGridLayout *gridLayout;
+    QLineEdit *lineEdit_strukturaOdberu;
     QVBoxLayout *verticalLayout_11;
     QLabel *label_11;
     QTableWidget *seznamOdberatelu;
     QLabel *label_15;
     QTableWidget *seznamOdberatelu2;
+    QLabel *label_diagnostika_manual;
     QLineEdit *lineEdit_ipadresaOdberatele;
-    QLineEdit *lineEdit_strukturaOdberu;
-    QWidget *horizontalLayoutWidget;
-    QHBoxLayout *horizontalLayout_5;
-    QVBoxLayout *verticalLayout_12;
-    QLabel *label_13;
+    QVBoxLayout *verticalLayout_10;
+    QLabel *label_10;
+    QPlainTextEdit *plainTextEditCustomXml;
+    QGridLayout *gridLayout_7;
     QPushButton *tlacitkoAddsubscriber;
+    QPushButton *tlacitkoRemoveSubscriber_2;
     QPushButton *tlacitkoRemoveSubscriber;
-    QVBoxLayout *verticalLayout_15;
+    QLabel *label_13;
     QLabel *label_14;
     QPushButton *tlacitkoAddsubscriber_2;
-    QPushButton *tlacitkoRemoveSubscriber_2;
-    QLabel *label_diagnostika_manual;
+    QPushButton *tlacitkoSmazOkno;
+    QPushButton *tlacitkoOdesliXml;
     QWidget *page_turnus;
     QGridLayout *gridLayout_4;
     QVBoxLayout *verticalLayout_16;
@@ -1126,44 +1122,24 @@ public:
         prepinadloStran->addWidget(page_nastaveni);
         page_customXML = new QWidget();
         page_customXML->setObjectName(QString::fromUtf8("page_customXML"));
-        verticalLayoutWidget_9 = new QWidget(page_customXML);
-        verticalLayoutWidget_9->setObjectName(QString::fromUtf8("verticalLayoutWidget_9"));
-        verticalLayoutWidget_9->setGeometry(QRect(380, 20, 301, 371));
-        verticalLayout_10 = new QVBoxLayout(verticalLayoutWidget_9);
-        verticalLayout_10->setSpacing(6);
-        verticalLayout_10->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_10->setObjectName(QString::fromUtf8("verticalLayout_10"));
-        verticalLayout_10->setContentsMargins(0, 0, 0, 0);
-        label_10 = new QLabel(verticalLayoutWidget_9);
-        label_10->setObjectName(QString::fromUtf8("label_10"));
+        gridLayout = new QGridLayout(page_customXML);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        lineEdit_strukturaOdberu = new QLineEdit(page_customXML);
+        lineEdit_strukturaOdberu->setObjectName(QString::fromUtf8("lineEdit_strukturaOdberu"));
 
-        verticalLayout_10->addWidget(label_10);
+        gridLayout->addWidget(lineEdit_strukturaOdberu, 1, 1, 1, 1);
 
-        plainTextEditCustomXml = new QPlainTextEdit(verticalLayoutWidget_9);
-        plainTextEditCustomXml->setObjectName(QString::fromUtf8("plainTextEditCustomXml"));
-
-        verticalLayout_10->addWidget(plainTextEditCustomXml);
-
-        tlacitkoSmazOkno = new QPushButton(page_customXML);
-        tlacitkoSmazOkno->setObjectName(QString::fromUtf8("tlacitkoSmazOkno"));
-        tlacitkoSmazOkno->setGeometry(QRect(210, 310, 151, 31));
-        tlacitkoOdesliXml = new QPushButton(page_customXML);
-        tlacitkoOdesliXml->setObjectName(QString::fromUtf8("tlacitkoOdesliXml"));
-        tlacitkoOdesliXml->setGeometry(QRect(190, 360, 181, 31));
-        verticalLayoutWidget_10 = new QWidget(page_customXML);
-        verticalLayoutWidget_10->setObjectName(QString::fromUtf8("verticalLayoutWidget_10"));
-        verticalLayoutWidget_10->setGeometry(QRect(20, 20, 351, 246));
-        verticalLayout_11 = new QVBoxLayout(verticalLayoutWidget_10);
+        verticalLayout_11 = new QVBoxLayout();
         verticalLayout_11->setSpacing(6);
-        verticalLayout_11->setContentsMargins(11, 11, 11, 11);
         verticalLayout_11->setObjectName(QString::fromUtf8("verticalLayout_11"));
-        verticalLayout_11->setContentsMargins(0, 0, 0, 0);
-        label_11 = new QLabel(verticalLayoutWidget_10);
+        label_11 = new QLabel(page_customXML);
         label_11->setObjectName(QString::fromUtf8("label_11"));
 
         verticalLayout_11->addWidget(label_11);
 
-        seznamOdberatelu = new QTableWidget(verticalLayoutWidget_10);
+        seznamOdberatelu = new QTableWidget(page_customXML);
         if (seznamOdberatelu->columnCount() < 3)
             seznamOdberatelu->setColumnCount(3);
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
@@ -1176,12 +1152,12 @@ public:
 
         verticalLayout_11->addWidget(seznamOdberatelu);
 
-        label_15 = new QLabel(verticalLayoutWidget_10);
+        label_15 = new QLabel(page_customXML);
         label_15->setObjectName(QString::fromUtf8("label_15"));
 
         verticalLayout_11->addWidget(label_15);
 
-        seznamOdberatelu2 = new QTableWidget(verticalLayoutWidget_10);
+        seznamOdberatelu2 = new QTableWidget(page_customXML);
         if (seznamOdberatelu2->columnCount() < 3)
             seznamOdberatelu2->setColumnCount(3);
         QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
@@ -1194,65 +1170,88 @@ public:
 
         verticalLayout_11->addWidget(seznamOdberatelu2);
 
-        lineEdit_ipadresaOdberatele = new QLineEdit(page_customXML);
-        lineEdit_ipadresaOdberatele->setObjectName(QString::fromUtf8("lineEdit_ipadresaOdberatele"));
-        lineEdit_ipadresaOdberatele->setGeometry(QRect(30, 270, 201, 20));
-        lineEdit_strukturaOdberu = new QLineEdit(page_customXML);
-        lineEdit_strukturaOdberu->setObjectName(QString::fromUtf8("lineEdit_strukturaOdberu"));
-        lineEdit_strukturaOdberu->setGeometry(QRect(240, 270, 113, 20));
-        horizontalLayoutWidget = new QWidget(page_customXML);
-        horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(10, 310, 223, 89));
-        horizontalLayout_5 = new QHBoxLayout(horizontalLayoutWidget);
-        horizontalLayout_5->setSpacing(6);
-        horizontalLayout_5->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
-        horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
-        verticalLayout_12 = new QVBoxLayout();
-        verticalLayout_12->setSpacing(6);
-        verticalLayout_12->setObjectName(QString::fromUtf8("verticalLayout_12"));
-        label_13 = new QLabel(horizontalLayoutWidget);
-        label_13->setObjectName(QString::fromUtf8("label_13"));
 
-        verticalLayout_12->addWidget(label_13);
-
-        tlacitkoAddsubscriber = new QPushButton(horizontalLayoutWidget);
-        tlacitkoAddsubscriber->setObjectName(QString::fromUtf8("tlacitkoAddsubscriber"));
-
-        verticalLayout_12->addWidget(tlacitkoAddsubscriber);
-
-        tlacitkoRemoveSubscriber = new QPushButton(horizontalLayoutWidget);
-        tlacitkoRemoveSubscriber->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber"));
-
-        verticalLayout_12->addWidget(tlacitkoRemoveSubscriber);
-
-
-        horizontalLayout_5->addLayout(verticalLayout_12);
-
-        verticalLayout_15 = new QVBoxLayout();
-        verticalLayout_15->setSpacing(6);
-        verticalLayout_15->setObjectName(QString::fromUtf8("verticalLayout_15"));
-        label_14 = new QLabel(horizontalLayoutWidget);
-        label_14->setObjectName(QString::fromUtf8("label_14"));
-
-        verticalLayout_15->addWidget(label_14);
-
-        tlacitkoAddsubscriber_2 = new QPushButton(horizontalLayoutWidget);
-        tlacitkoAddsubscriber_2->setObjectName(QString::fromUtf8("tlacitkoAddsubscriber_2"));
-
-        verticalLayout_15->addWidget(tlacitkoAddsubscriber_2);
-
-        tlacitkoRemoveSubscriber_2 = new QPushButton(horizontalLayoutWidget);
-        tlacitkoRemoveSubscriber_2->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber_2"));
-
-        verticalLayout_15->addWidget(tlacitkoRemoveSubscriber_2);
-
-
-        horizontalLayout_5->addLayout(verticalLayout_15);
+        gridLayout->addLayout(verticalLayout_11, 0, 0, 1, 4);
 
         label_diagnostika_manual = new QLabel(page_customXML);
         label_diagnostika_manual->setObjectName(QString::fromUtf8("label_diagnostika_manual"));
-        label_diagnostika_manual->setGeometry(QRect(20, 390, 541, 16));
+        QFont font6;
+        font6.setPointSize(16);
+        label_diagnostika_manual->setFont(font6);
+
+        gridLayout->addWidget(label_diagnostika_manual, 6, 5, 1, 1);
+
+        lineEdit_ipadresaOdberatele = new QLineEdit(page_customXML);
+        lineEdit_ipadresaOdberatele->setObjectName(QString::fromUtf8("lineEdit_ipadresaOdberatele"));
+
+        gridLayout->addWidget(lineEdit_ipadresaOdberatele, 1, 0, 1, 1);
+
+        verticalLayout_10 = new QVBoxLayout();
+        verticalLayout_10->setSpacing(6);
+        verticalLayout_10->setObjectName(QString::fromUtf8("verticalLayout_10"));
+        label_10 = new QLabel(page_customXML);
+        label_10->setObjectName(QString::fromUtf8("label_10"));
+
+        verticalLayout_10->addWidget(label_10);
+
+        plainTextEditCustomXml = new QPlainTextEdit(page_customXML);
+        plainTextEditCustomXml->setObjectName(QString::fromUtf8("plainTextEditCustomXml"));
+
+        verticalLayout_10->addWidget(plainTextEditCustomXml);
+
+
+        gridLayout->addLayout(verticalLayout_10, 0, 5, 6, 1);
+
+        gridLayout_7 = new QGridLayout();
+        gridLayout_7->setSpacing(6);
+        gridLayout_7->setObjectName(QString::fromUtf8("gridLayout_7"));
+        tlacitkoAddsubscriber = new QPushButton(page_customXML);
+        tlacitkoAddsubscriber->setObjectName(QString::fromUtf8("tlacitkoAddsubscriber"));
+        tlacitkoAddsubscriber->setFont(font6);
+
+        gridLayout_7->addWidget(tlacitkoAddsubscriber, 1, 0, 1, 1);
+
+        tlacitkoRemoveSubscriber_2 = new QPushButton(page_customXML);
+        tlacitkoRemoveSubscriber_2->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber_2"));
+        tlacitkoRemoveSubscriber_2->setFont(font6);
+
+        gridLayout_7->addWidget(tlacitkoRemoveSubscriber_2, 2, 1, 1, 1);
+
+        tlacitkoRemoveSubscriber = new QPushButton(page_customXML);
+        tlacitkoRemoveSubscriber->setObjectName(QString::fromUtf8("tlacitkoRemoveSubscriber"));
+        tlacitkoRemoveSubscriber->setFont(font6);
+
+        gridLayout_7->addWidget(tlacitkoRemoveSubscriber, 2, 0, 1, 1);
+
+        label_13 = new QLabel(page_customXML);
+        label_13->setObjectName(QString::fromUtf8("label_13"));
+
+        gridLayout_7->addWidget(label_13, 0, 0, 1, 1);
+
+        label_14 = new QLabel(page_customXML);
+        label_14->setObjectName(QString::fromUtf8("label_14"));
+
+        gridLayout_7->addWidget(label_14, 0, 1, 1, 1);
+
+        tlacitkoAddsubscriber_2 = new QPushButton(page_customXML);
+        tlacitkoAddsubscriber_2->setObjectName(QString::fromUtf8("tlacitkoAddsubscriber_2"));
+        tlacitkoAddsubscriber_2->setFont(font6);
+
+        gridLayout_7->addWidget(tlacitkoAddsubscriber_2, 1, 1, 1, 1);
+
+        tlacitkoSmazOkno = new QPushButton(page_customXML);
+        tlacitkoSmazOkno->setObjectName(QString::fromUtf8("tlacitkoSmazOkno"));
+
+        gridLayout_7->addWidget(tlacitkoSmazOkno, 1, 2, 1, 1);
+
+        tlacitkoOdesliXml = new QPushButton(page_customXML);
+        tlacitkoOdesliXml->setObjectName(QString::fromUtf8("tlacitkoOdesliXml"));
+
+        gridLayout_7->addWidget(tlacitkoOdesliXml, 2, 2, 1, 1);
+
+
+        gridLayout->addLayout(gridLayout_7, 4, 0, 3, 2);
+
         prepinadloStran->addWidget(page_customXML);
         page_turnus = new QWidget();
         page_turnus->setObjectName(QString::fromUtf8("page_turnus"));
@@ -1837,17 +1836,9 @@ public:
         QWidget::setTabOrder(pripojeniTlacitko, tlacitkoHlaseniSlozka);
         QWidget::setTabOrder(tlacitkoHlaseniSlozka, lineEditHlaseniCesta);
         QWidget::setTabOrder(lineEditHlaseniCesta, plainTextEditCustomXml);
-        QWidget::setTabOrder(plainTextEditCustomXml, tlacitkoSmazOkno);
-        QWidget::setTabOrder(tlacitkoSmazOkno, tlacitkoOdesliXml);
-        QWidget::setTabOrder(tlacitkoOdesliXml, seznamOdberatelu);
+        QWidget::setTabOrder(plainTextEditCustomXml, seznamOdberatelu);
         QWidget::setTabOrder(seznamOdberatelu, seznamOdberatelu2);
-        QWidget::setTabOrder(seznamOdberatelu2, lineEdit_ipadresaOdberatele);
-        QWidget::setTabOrder(lineEdit_ipadresaOdberatele, lineEdit_strukturaOdberu);
-        QWidget::setTabOrder(lineEdit_strukturaOdberu, tlacitkoAddsubscriber);
-        QWidget::setTabOrder(tlacitkoAddsubscriber, tlacitkoRemoveSubscriber);
-        QWidget::setTabOrder(tlacitkoRemoveSubscriber, tlacitkoAddsubscriber_2);
-        QWidget::setTabOrder(tlacitkoAddsubscriber_2, tlacitkoRemoveSubscriber_2);
-        QWidget::setTabOrder(tlacitkoRemoveSubscriber_2, poleLinkyTurnus);
+        QWidget::setTabOrder(seznamOdberatelu2, poleLinkyTurnus);
         QWidget::setTabOrder(poleLinkyTurnus, poleSpojeTurnus);
         QWidget::setTabOrder(poleSpojeTurnus, checkBox_4);
         QWidget::setTabOrder(checkBox_4, listKmenovychLinek);
@@ -1869,7 +1860,7 @@ public:
         retranslateUi(MainWindow);
 
         stackedWidget_hlavni->setCurrentIndex(0);
-        prepinadloStran->setCurrentIndex(1);
+        prepinadloStran->setCurrentIndex(3);
         stackedWidget_testy->setCurrentIndex(0);
 
 
@@ -1950,6 +1941,23 @@ public:
         label_diagnostika_sql->setText(QCoreApplication::translate("MainWindow", "Diagnostick\303\275 \305\231\303\241dek importu dat", nullptr));
         label_build->setText(QCoreApplication::translate("MainWindow", "cisloBuildu", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "build", nullptr));
+        lineEdit_strukturaOdberu->setText(QCoreApplication::translate("MainWindow", "AllData", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "Odberatele 1.0", nullptr));
+        QTableWidgetItem *___qtablewidgetitem5 = seznamOdberatelu->horizontalHeaderItem(0);
+        ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Adresa", nullptr));
+        QTableWidgetItem *___qtablewidgetitem6 = seznamOdberatelu->horizontalHeaderItem(1);
+        ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "Struktura", nullptr));
+        QTableWidgetItem *___qtablewidgetitem7 = seznamOdberatelu->horizontalHeaderItem(2);
+        ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "Interval", nullptr));
+        label_15->setText(QCoreApplication::translate("MainWindow", "Odberatele V2.2CZ1.0", nullptr));
+        QTableWidgetItem *___qtablewidgetitem8 = seznamOdberatelu2->horizontalHeaderItem(0);
+        ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "Adresa", nullptr));
+        QTableWidgetItem *___qtablewidgetitem9 = seznamOdberatelu2->horizontalHeaderItem(1);
+        ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "Struktura", nullptr));
+        QTableWidgetItem *___qtablewidgetitem10 = seznamOdberatelu2->horizontalHeaderItem(2);
+        ___qtablewidgetitem10->setText(QCoreApplication::translate("MainWindow", "Interval", nullptr));
+        label_diagnostika_manual->setText(QCoreApplication::translate("MainWindow", "subscribe diagnostika", nullptr));
+        lineEdit_ipadresaOdberatele->setText(QCoreApplication::translate("MainWindow", "http://127.0.0.1:48479", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "CustomXML", nullptr));
         plainTextEditCustomXml->setPlainText(QCoreApplication::translate("MainWindow", "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n"
 "<CustomerInformationService.GetAllDataResponse>\n"
@@ -2178,31 +2186,14 @@ public:
 " </AllData>\n"
 ""
                         "</CustomerInformationService.GetAllDataResponse>", nullptr));
-        tlacitkoSmazOkno->setText(QCoreApplication::translate("MainWindow", "Vyma\305\276 okno", nullptr));
-        tlacitkoOdesliXml->setText(QCoreApplication::translate("MainWindow", "ode\305\241li na panely", nullptr));
-        label_11->setText(QCoreApplication::translate("MainWindow", "Odberatele 1.0", nullptr));
-        QTableWidgetItem *___qtablewidgetitem5 = seznamOdberatelu->horizontalHeaderItem(0);
-        ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "Adresa", nullptr));
-        QTableWidgetItem *___qtablewidgetitem6 = seznamOdberatelu->horizontalHeaderItem(1);
-        ___qtablewidgetitem6->setText(QCoreApplication::translate("MainWindow", "Struktura", nullptr));
-        QTableWidgetItem *___qtablewidgetitem7 = seznamOdberatelu->horizontalHeaderItem(2);
-        ___qtablewidgetitem7->setText(QCoreApplication::translate("MainWindow", "Interval", nullptr));
-        label_15->setText(QCoreApplication::translate("MainWindow", "Odberatele V2.2CZ1.0", nullptr));
-        QTableWidgetItem *___qtablewidgetitem8 = seznamOdberatelu2->horizontalHeaderItem(0);
-        ___qtablewidgetitem8->setText(QCoreApplication::translate("MainWindow", "Adresa", nullptr));
-        QTableWidgetItem *___qtablewidgetitem9 = seznamOdberatelu2->horizontalHeaderItem(1);
-        ___qtablewidgetitem9->setText(QCoreApplication::translate("MainWindow", "Struktura", nullptr));
-        QTableWidgetItem *___qtablewidgetitem10 = seznamOdberatelu2->horizontalHeaderItem(2);
-        ___qtablewidgetitem10->setText(QCoreApplication::translate("MainWindow", "Interval", nullptr));
-        lineEdit_ipadresaOdberatele->setText(QCoreApplication::translate("MainWindow", "http://127.0.0.1:48479", nullptr));
-        lineEdit_strukturaOdberu->setText(QCoreApplication::translate("MainWindow", "AllData", nullptr));
-        label_13->setText(QCoreApplication::translate("MainWindow", "V1.0", nullptr));
         tlacitkoAddsubscriber->setText(QCoreApplication::translate("MainWindow", "P\305\231idat odb\304\233ratele", nullptr));
+        tlacitkoRemoveSubscriber_2->setText(QCoreApplication::translate("MainWindow", "Zrusit odber", nullptr));
         tlacitkoRemoveSubscriber->setText(QCoreApplication::translate("MainWindow", "Zrusit odber", nullptr));
+        label_13->setText(QCoreApplication::translate("MainWindow", "V1.0", nullptr));
         label_14->setText(QCoreApplication::translate("MainWindow", "V2.2CZ1.0", nullptr));
         tlacitkoAddsubscriber_2->setText(QCoreApplication::translate("MainWindow", "P\305\231idat odb\304\233ratele", nullptr));
-        tlacitkoRemoveSubscriber_2->setText(QCoreApplication::translate("MainWindow", "Zrusit odber", nullptr));
-        label_diagnostika_manual->setText(QCoreApplication::translate("MainWindow", "subscribe diagnostika", nullptr));
+        tlacitkoSmazOkno->setText(QCoreApplication::translate("MainWindow", "Vyma\305\276 okno", nullptr));
+        tlacitkoOdesliXml->setText(QCoreApplication::translate("MainWindow", "ode\305\241li na panely", nullptr));
         label_16->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Linka</span></p></body></html>", nullptr));
         poleLinkyTurnus->setText(QCoreApplication::translate("MainWindow", "100952", nullptr));
         poleSpojeTurnus->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));

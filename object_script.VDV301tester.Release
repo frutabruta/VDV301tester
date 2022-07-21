@@ -5,6 +5,7 @@ release/dnssd_ipc.o
 release/qzeroconfservice.o
 release/newhttpserver.o
 release/ticketvalidationservice.o
+release/subscriber.o
 release/linka.o
 release/customerinformationservice.o
 release/obeh.o
@@ -26,7 +27,6 @@ release/main.o
 release/mainwindow.o
 release/mainwindowpomocne.o
 release/prestupmpv.o
-release/subscriber.o
 release/xmlgenerator.o
 release/cestaudaje.o
 release/xmlmpvparser.o

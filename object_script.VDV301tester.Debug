@@ -5,6 +5,7 @@ debug/dnssd_ipc.o
 debug/qzeroconfservice.o
 debug/newhttpserver.o
 debug/ticketvalidationservice.o
+debug/subscriber.o
 debug/linka.o
 debug/customerinformationservice.o
 debug/obeh.o
@@ -26,7 +27,6 @@ debug/main.o
 debug/mainwindow.o
 debug/mainwindowpomocne.o
 debug/prestupmpv.o
-debug/subscriber.o
 debug/xmlgenerator.o
 debug/cestaudaje.o
 debug/xmlmpvparser.o
