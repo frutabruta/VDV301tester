@@ -17,7 +17,7 @@ XmlRopidParser::XmlRopidParser()
 
 int XmlRopidParser::databazeStart(QString adresaServeru)
 {
-    return   ropidSQL.Pripoj();
+    return   ropidSQL.pripoj();
 }
 
 
@@ -841,7 +841,7 @@ int XmlRopidParser::truncateTable(QString tabulka)
 
 int XmlRopidParser::truncateAll()
 {
-    ropidSQL.Pripoj();
+    ropidSQL.pripoj();
 
     //  truncateTable("``");
 

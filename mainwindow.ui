@@ -77,7 +77,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="page_3">
+      <widget class="QWidget" name="page_palPc">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -102,7 +102,7 @@
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
             <item>
-             <widget class="QPushButton" name="tlacitkoLinkospoj">
+             <widget class="QPushButton" name="pushButton_menu_linkospoj">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -142,7 +142,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="tlacitkoTurnus">
+             <widget class="QPushButton" name="pushButton_menu_turnus">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -181,7 +181,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="tlacitkoZpetVydej">
+             <widget class="QPushButton" name="pushButton_menu_jizda">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -206,7 +206,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Výdej</string>
+               <string>Jízda</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -217,7 +217,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="tlacitkoTestRozhrani">
+             <widget class="QPushButton" name="pushButton_menu_testRozhrani">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -247,7 +247,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="tlacitkoNastaveni">
+             <widget class="QPushButton" name="pushButton_menu_nastaveni">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -283,7 +283,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="tlacitkoManual">
+             <widget class="QPushButton" name="pushButton_menu_manual">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -319,7 +319,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="tlacitkoFullscreen">
+             <widget class="QPushButton" name="pushButton_menu_fullscreen">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -355,7 +355,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="quitTlacitko">
+             <widget class="QPushButton" name="pushButton_menu_quit">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
                 <horstretch>0</horstretch>
@@ -388,7 +388,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QStackedWidget" name="prepinadloStran">
+           <widget class="QStackedWidget" name="stackedWidget_palPc">
             <property name="enabled">
              <bool>true</bool>
             </property>
@@ -853,58 +853,12 @@
             <property name="currentIndex">
              <number>3</number>
             </property>
-            <widget class="QWidget" name="page_vydej">
+            <widget class="QWidget" name="page_jizda">
              <layout class="QGridLayout" name="gridLayout_3">
-              <item row="3" column="0">
+              <item row="2" column="0">
                <layout class="QHBoxLayout" name="displej_hor_layout">
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_13">
-                  <item>
-                   <layout class="QHBoxLayout" name="Akt_Hor_Layout">
-                    <item>
-                     <widget class="QLabel" name="labelAktZastJmeno">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>350</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>30</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>AktZast</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="labelAktZastCas">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>30</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>99:99</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_8">
                     <item>
@@ -1006,7 +960,7 @@
                          <number>0</number>
                         </property>
                         <item>
-                         <widget class="QPushButton" name="pridatTlacitko">
+                         <widget class="QPushButton" name="pushButton_jizda_pridat">
                           <property name="enabled">
                            <bool>true</bool>
                           </property>
@@ -1027,7 +981,7 @@
                          </widget>
                         </item>
                         <item>
-                         <widget class="QPushButton" name="ubratTlacitko">
+                         <widget class="QPushButton" name="pushButton_jizda_ubrat">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                             <horstretch>0</horstretch>
@@ -1081,7 +1035,7 @@
                      </layout>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="tlacitkoIBIS">
+                     <widget class="QPushButton" name="pushButton_jizda_IBIS">
                       <property name="font">
                        <font>
                         <pointsize>18</pointsize>
@@ -1094,15 +1048,12 @@
                     </item>
                    </layout>
                   </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="pristiHorLAyout"/>
-                  </item>
                  </layout>
                 </item>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_sipky">
                   <item>
-                   <widget class="QPushButton" name="sipkaNahoru">
+                   <widget class="QPushButton" name="pushButton_jizda_sipkaNahoru">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1127,7 +1078,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="sipkaDolu">
+                   <widget class="QPushButton" name="pushButton_jizda_sipkaDolu">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1153,7 +1104,7 @@
                    <enum>QLayout::SetNoConstraint</enum>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="BeforeStop">
+                   <widget class="QPushButton" name="pushButton_jizda_beforeStop">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1178,7 +1129,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="AtStop_2">
+                   <widget class="QPushButton" name="pushButton_jizda_atStop">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1206,7 +1157,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="AfterStop">
+                   <widget class="QPushButton" name="pushButton_jizda_afterStop">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1231,7 +1182,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="BetweenStop">
+                   <widget class="QPushButton" name="pushButton_jizda_betweenStop">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1272,9 +1223,6 @@ Stop</string>
                 </item>
                </layout>
               </item>
-              <item row="0" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_4"/>
-              </item>
              </layout>
             </widget>
             <widget class="QWidget" name="page_linkaspoj">
@@ -1287,7 +1235,7 @@ Stop</string>
                </widget>
               </item>
               <item row="5" column="0">
-               <widget class="QPushButton" name="prikaztlacitko">
+               <widget class="QPushButton" name="pushButton_prikaz">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -1877,7 +1825,7 @@ Stop</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="tlacitkoDnes">
+                     <widget class="QPushButton" name="pushButton_nast_dnes">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1925,7 +1873,7 @@ Stop</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="tlacitkoHlaseniSlozka">
+                     <widget class="QPushButton" name="pushButton_nast_hlaseniSlozka">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -1970,7 +1918,7 @@ Stop</string>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="pripojeniTlacitko">
+                       <widget class="QPushButton" name="pushButton_nast_pripojeni">
                         <property name="enabled">
                          <bool>false</bool>
                         </property>
@@ -2030,7 +1978,7 @@ Stop</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="tlacitkoTruncate">
+                     <widget class="QPushButton" name="pushButton_nast_truncate">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
@@ -2043,7 +1991,7 @@ Stop</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="tlacitkoXmlVyberCestu">
+                     <widget class="QPushButton" name="pushButton_nast_xmlVyberCestu">
                       <property name="enabled">
                        <bool>true</bool>
                       </property>
@@ -2059,7 +2007,7 @@ Stop</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="tlacitkoNactiXMLropid">
+                     <widget class="QPushButton" name="pushButton_nast_nactiXMLropid">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
@@ -2186,7 +2134,7 @@ Stop</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="tlacitkoNastavPort">
+                     <widget class="QPushButton" name="pushButton_nast_nastavPort">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
@@ -2199,7 +2147,7 @@ Stop</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="tlacitkoOdesliPrikaz">
+                     <widget class="QPushButton" name="pushButton_nast_odesliPrikaz">
                       <property name="minimumSize">
                        <size>
                         <width>0</width>
@@ -2225,16 +2173,16 @@ Stop</string>
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_2">
                   <item>
-                   <widget class="QLabel" name="label_build">
+                   <widget class="QLabel" name="label_12">
                     <property name="text">
-                     <string>cisloBuildu</string>
+                     <string>build</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_12">
+                   <widget class="QLabel" name="label_build">
                     <property name="text">
-                     <string>build</string>
+                     <string>cisloBuildu</string>
                     </property>
                    </widget>
                   </item>
@@ -2244,7 +2192,7 @@ Stop</string>
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="page_customXML">
+            <widget class="QWidget" name="page_manual">
              <layout class="QGridLayout" name="gridLayout">
               <item row="1" column="1">
                <widget class="QLineEdit" name="lineEdit_strukturaOdberu">
@@ -2569,7 +2517,7 @@ Stop</string>
               <item row="4" column="0" rowspan="3" colspan="2">
                <layout class="QGridLayout" name="gridLayout_7">
                 <item row="1" column="0">
-                 <widget class="QPushButton" name="tlacitkoAddsubscriber">
+                 <widget class="QPushButton" name="pushButton_manual_addsubscriber">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -2581,7 +2529,7 @@ Stop</string>
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QPushButton" name="tlacitkoRemoveSubscriber_2">
+                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -2593,7 +2541,7 @@ Stop</string>
                  </widget>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QPushButton" name="tlacitkoRemoveSubscriber">
+                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -2619,7 +2567,7 @@ Stop</string>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QPushButton" name="tlacitkoAddsubscriber_2">
+                 <widget class="QPushButton" name="pushButton_manual_addsubscriber_2">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -2631,14 +2579,14 @@ Stop</string>
                  </widget>
                 </item>
                 <item row="1" column="2">
-                 <widget class="QPushButton" name="tlacitkoSmazOkno">
+                 <widget class="QPushButton" name="pushButton_manual_smazOkno">
                   <property name="text">
                    <string>Vymaž okno</string>
                   </property>
                  </widget>
                 </item>
                 <item row="2" column="2">
-                 <widget class="QPushButton" name="tlacitkoOdesliXml">
+                 <widget class="QPushButton" name="pushButton_manual_odesliXml">
                   <property name="text">
                    <string>odešli na panely</string>
                   </property>
@@ -2652,9 +2600,6 @@ Stop</string>
              <layout class="QGridLayout" name="gridLayout_4">
               <item row="0" column="0">
                <layout class="QVBoxLayout" name="verticalLayout_16">
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_10"/>
-                </item>
                 <item>
                  <layout class="QFormLayout" name="formLayout_2">
                   <item row="0" column="0">
@@ -3159,7 +3104,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="prikazTlacitkoTurnus">
+                   <widget class="QPushButton" name="pushButton_turnus_prikaz">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -3177,9 +3122,6 @@ Stop</string>
                    </widget>
                   </item>
                  </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_11"/>
                 </item>
                </layout>
               </item>
@@ -3271,14 +3213,14 @@ Stop</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_4">
+      <widget class="QWidget" name="page_test">
        <layout class="QHBoxLayout" name="horizontalLayout_18">
         <item>
          <layout class="QFormLayout" name="formLayout_3">
           <item row="0" column="0">
            <layout class="QVBoxLayout" name="verticalLayout_21">
             <item>
-             <widget class="QPushButton" name="tlacitkoSluzby">
+             <widget class="QPushButton" name="pushButton_menu2_sluzby">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -3317,7 +3259,7 @@ Stop</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="tlacitkoPrubehTestu">
+             <widget class="QPushButton" name="pushButton_menu2_prubehTestu">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -3357,7 +3299,7 @@ Stop</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="tlacitkoTurnus_2">
+             <widget class="QPushButton" name="pushButton_menu2_rezerva">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -3396,7 +3338,7 @@ Stop</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="tlacitkoPalubniPc">
+             <widget class="QPushButton" name="pushButton_menu2_palPc">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -3432,7 +3374,7 @@ Stop</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="tlacitkoFullscreen2">
+             <widget class="QPushButton" name="pushButton_menu2_fullscreen">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -3468,7 +3410,7 @@ Stop</string>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="quitTlacitko_2">
+             <widget class="QPushButton" name="pushButton_menu2_quit">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -3637,28 +3579,40 @@ Stop</string>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_22">
                   <item>
-                   <widget class="QPushButton" name="tlacitko_StartTest">
+                   <widget class="QPushButton" name="pushButton_startTest">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
-                     <string>Spustit test</string>
+                     <string>Spustit
+ test</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="TlacitkoStopTest">
+                   <widget class="QPushButton" name="pushButton_stopTest">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
-                     <string>Zastavit test</string>
+                     <string>Zastavit
+test</string>
                     </property>
                    </widget>
                   </item>
@@ -3669,289 +3623,259 @@ Stop</string>
              </layout>
             </widget>
             <widget class="QWidget" name="page_prepinaceSluzby">
-             <widget class="QWidget" name="layoutWidget">
-              <property name="geometry">
-               <rect>
-                <x>71</x>
-                <y>128</y>
-                <width>340</width>
-                <height>72</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_26">
-               <item>
-                <widget class="QLabel" name="label_nazevSluzby_2">
-                 <property name="font">
-                  <font>
-                   <pointsize>15</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>DeviceManagementService 1.0</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_16">
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_ON2">
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777206</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>15</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>ON</string>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_OFF2">
-                   <property name="font">
-                    <font>
-                     <pointsize>15</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>OFF</string>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>90</width>
-                     <height>90</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="layoutWidget_3">
-              <property name="geometry">
-               <rect>
-                <x>71</x>
-                <y>195</y>
-                <width>365</width>
-                <height>72</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_27">
-               <item>
-                <widget class="QLabel" name="label_nazevSluzby_3">
-                 <property name="font">
-                  <font>
-                   <pointsize>15</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>TicketValidationService 2.2CZ1.0</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_17">
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_ON3">
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777206</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>15</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>ON</string>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                   <property name="autoExclusive">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_OFF3">
-                   <property name="font">
-                    <font>
-                     <pointsize>15</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>OFF</string>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>90</width>
-                     <height>90</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="layoutWidget">
-              <property name="geometry">
-               <rect>
-                <x>71</x>
-                <y>61</y>
-                <width>435</width>
-                <height>72</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_24">
-               <item>
-                <widget class="QLabel" name="label_nazevSluzby">
-                 <property name="font">
-                  <font>
-                   <pointsize>15</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Customer Informaton Service 2.2CZ1.0</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_14">
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_ON1">
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777206</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>15</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>ON</string>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_OFF1">
-                   <property name="font">
-                    <font>
-                     <pointsize>15</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>OFF</string>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>90</width>
-                     <height>90</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="layoutWidget_4">
-              <property name="geometry">
-               <rect>
-                <x>70</x>
-                <y>270</y>
-                <width>370</width>
-                <height>72</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_25">
-               <item>
-                <widget class="QLabel" name="label_nazevSluzby_4">
-                 <property name="font">
-                  <font>
-                   <pointsize>15</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Customer Informaton Service 1.0</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_19">
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_ON4">
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777206</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="font">
-                    <font>
-                     <pointsize>15</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>ON</string>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>30</width>
-                     <height>30</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QRadioButton" name="radioButton_OFF4">
-                   <property name="font">
-                    <font>
-                     <pointsize>15</pointsize>
-                    </font>
-                   </property>
-                   <property name="text">
-                    <string>OFF</string>
-                   </property>
-                   <property name="iconSize">
-                    <size>
-                     <width>90</width>
-                     <height>90</height>
-                    </size>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
+             <layout class="QGridLayout" name="gridLayout_6">
+              <item row="0" column="0">
+               <layout class="QVBoxLayout" name="verticalLayout_24">
+                <item>
+                 <widget class="QLabel" name="label_nazevSluzby">
+                  <property name="font">
+                   <font>
+                    <pointsize>15</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Customer Informaton Service 2.2CZ1.0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_14">
+                  <item>
+                   <widget class="QRadioButton" name="radioButton_ON1">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777206</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>ON</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>30</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="radioButton_OFF1">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>OFF</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>90</width>
+                      <height>90</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <layout class="QVBoxLayout" name="verticalLayout_26">
+                <item>
+                 <widget class="QLabel" name="label_nazevSluzby_2">
+                  <property name="font">
+                   <font>
+                    <pointsize>15</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>DeviceManagementService 1.0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_16">
+                  <item>
+                   <widget class="QRadioButton" name="radioButton_ON2">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777206</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>ON</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>30</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="radioButton_OFF2">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>OFF</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>90</width>
+                      <height>90</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item row="2" column="0">
+               <layout class="QVBoxLayout" name="verticalLayout_27">
+                <item>
+                 <widget class="QLabel" name="label_nazevSluzby_3">
+                  <property name="font">
+                   <font>
+                    <pointsize>15</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>TicketValidationService 2.2CZ1.0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_17">
+                  <item>
+                   <widget class="QRadioButton" name="radioButton_ON3">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777206</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>ON</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>30</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                    <property name="autoExclusive">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="radioButton_OFF3">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>OFF</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>90</width>
+                      <height>90</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item row="3" column="0">
+               <layout class="QVBoxLayout" name="verticalLayout_25">
+                <item>
+                 <widget class="QLabel" name="label_nazevSluzby_4">
+                  <property name="font">
+                   <font>
+                    <pointsize>15</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Customer Informaton Service 1.0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_19">
+                  <item>
+                   <widget class="QRadioButton" name="radioButton_ON4">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777206</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>ON</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>30</width>
+                      <height>30</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="radioButton_OFF4">
+                    <property name="font">
+                     <font>
+                      <pointsize>15</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>OFF</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>90</width>
+                      <height>90</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </widget>
            </widget>
           </item>
@@ -3984,37 +3908,37 @@ Stop</string>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>tlacitkoLinkospoj</tabstop>
-  <tabstop>tlacitkoTurnus</tabstop>
-  <tabstop>tlacitkoZpetVydej</tabstop>
-  <tabstop>tlacitkoTestRozhrani</tabstop>
-  <tabstop>tlacitkoNastaveni</tabstop>
-  <tabstop>tlacitkoManual</tabstop>
-  <tabstop>tlacitkoFullscreen</tabstop>
-  <tabstop>quitTlacitko</tabstop>
-  <tabstop>sipkaNahoru</tabstop>
-  <tabstop>sipkaDolu</tabstop>
-  <tabstop>pridatTlacitko</tabstop>
-  <tabstop>ubratTlacitko</tabstop>
-  <tabstop>BeforeStop</tabstop>
-  <tabstop>AtStop_2</tabstop>
-  <tabstop>AfterStop</tabstop>
-  <tabstop>BetweenStop</tabstop>
+  <tabstop>pushButton_menu_linkospoj</tabstop>
+  <tabstop>pushButton_menu_turnus</tabstop>
+  <tabstop>pushButton_menu_jizda</tabstop>
+  <tabstop>pushButton_menu_testRozhrani</tabstop>
+  <tabstop>pushButton_menu_nastaveni</tabstop>
+  <tabstop>pushButton_menu_manual</tabstop>
+  <tabstop>pushButton_menu_fullscreen</tabstop>
+  <tabstop>pushButton_menu_quit</tabstop>
+  <tabstop>pushButton_jizda_sipkaNahoru</tabstop>
+  <tabstop>pushButton_jizda_sipkaDolu</tabstop>
+  <tabstop>pushButton_jizda_pridat</tabstop>
+  <tabstop>pushButton_jizda_ubrat</tabstop>
+  <tabstop>pushButton_jizda_beforeStop</tabstop>
+  <tabstop>pushButton_jizda_atStop</tabstop>
+  <tabstop>pushButton_jizda_afterStop</tabstop>
+  <tabstop>pushButton_jizda_betweenStop</tabstop>
   <tabstop>radioButton</tabstop>
   <tabstop>radioButton_2</tabstop>
   <tabstop>radioButton_3</tabstop>
   <tabstop>radioButton_4</tabstop>
-  <tabstop>tlacitkoIBIS</tabstop>
+  <tabstop>pushButton_jizda_IBIS</tabstop>
   <tabstop>listLinek</tabstop>
   <tabstop>listSpoje</tabstop>
-  <tabstop>prikaztlacitko</tabstop>
-  <tabstop>tlacitkoNactiXMLropid</tabstop>
+  <tabstop>pushButton_prikaz</tabstop>
+  <tabstop>pushButton_nast_nactiXMLropid</tabstop>
   <tabstop>lineEdit_jmenoPortu</tabstop>
-  <tabstop>tlacitkoOdesliPrikaz</tabstop>
-  <tabstop>tlacitkoNastavPort</tabstop>
+  <tabstop>pushButton_nast_odesliPrikaz</tabstop>
+  <tabstop>pushButton_nast_nastavPort</tabstop>
   <tabstop>polelinky</tabstop>
-  <tabstop>pripojeniTlacitko</tabstop>
-  <tabstop>tlacitkoHlaseniSlozka</tabstop>
+  <tabstop>pushButton_nast_pripojeni</tabstop>
+  <tabstop>pushButton_nast_hlaseniSlozka</tabstop>
   <tabstop>lineEditHlaseniCesta</tabstop>
   <tabstop>plainTextEditCustomXml</tabstop>
   <tabstop>seznamOdberatelu</tabstop>
@@ -4025,11 +3949,11 @@ Stop</string>
   <tabstop>listKmenovychLinek</tabstop>
   <tabstop>listPoradi</tabstop>
   <tabstop>listTurnusSpoje</tabstop>
-  <tabstop>tlacitkoSluzby</tabstop>
-  <tabstop>tlacitkoTurnus_2</tabstop>
-  <tabstop>tlacitkoPalubniPc</tabstop>
-  <tabstop>tlacitkoFullscreen2</tabstop>
-  <tabstop>quitTlacitko_2</tabstop>
+  <tabstop>pushButton_menu2_sluzby</tabstop>
+  <tabstop>pushButton_menu2_rezerva</tabstop>
+  <tabstop>pushButton_menu2_palPc</tabstop>
+  <tabstop>pushButton_menu2_fullscreen</tabstop>
+  <tabstop>pushButton_menu2_quit</tabstop>
   <tabstop>polespoje</tabstop>
   <tabstop>radioButton_OFF1</tabstop>
   <tabstop>radioButton_ON1</tabstop>

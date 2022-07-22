@@ -65,7 +65,7 @@ QVector<PrestupMPV> XmlMpvParser::parsujDomDokument()
 // zdroj https://stackoverflow.com/questions/7218851/making-an-http-get-under-qt
 //manager->get(QNetworkRequest(QUrl("http://www.mpvnet.cz/PID/x/21619?pocet=15&pz=true&t=true")));
 
-void XmlMpvParser::StahniMpvXml(int cisloCis, QString Ids)
+void XmlMpvParser::stahniMpvXml(int cisloCis, QString Ids)
 {
     qDebug()<<"XmlMpvParser::StahniMpvXml";
 

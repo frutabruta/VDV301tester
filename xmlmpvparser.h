@@ -26,7 +26,7 @@ public:
     QVector<PrestupMPV> parsujDomDokument();
     //QByteArray vlozitDoXml="";
     QVector<PrestupMPV> seznamPrestupu;
-    void StahniMpvXml(int cisloCis, QString Ids);
+    void stahniMpvXml(int cisloCis, QString Ids);
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     ~XmlMpvParser();
 

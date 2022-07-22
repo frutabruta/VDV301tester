@@ -107,21 +107,21 @@ private:
     Konfigurace konfigurace;
 
     //vyberove dialogy
-    void NaplnVyberLinky(QVector<Linka> docasnySeznamLinek);
-    void NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
-    void NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek);
-    void NaplnVyberPoradi(QVector<Obeh> docasnySeznamObehu);
-    void NaplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju);
+    void naplnVyberLinky(QVector<Linka> docasnySeznamLinek);
+    void naplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
+    void naplnKmenoveLinky(QVector<Linka> docasnySeznamLinek);
+    void naplnVyberPoradi(QVector<Obeh> docasnySeznamObehu);
+    void naplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju);
     void vymazSeznam(QListWidget *vstup);
 
     //prace s XML
     QString otevriSouborXmlDialog();
     void nastavLabelCestyXml();
-    void AktualizacePracovnihoData();
+    void aktualizacePracovnihoData();
 
     //prace s oknem
     Ui::MainWindow *ui;
-    void AktualizaceDispleje();
+    void aktualizaceDispleje();
     void toggleFullscreen();
 
     //void replyFinished(QNetworkReply *);
@@ -160,85 +160,90 @@ private slots:
     //tlacitka
 
     //tlacitka Menu
-    void on_tlacitkoLinkospoj_clicked();
-    void on_tlacitkoTurnus_clicked();
-    void on_tlacitkoZpetVydej_clicked();
-    void on_tlacitkoTestRozhrani_clicked();
-    void on_tlacitkoNastaveni_clicked();
-    void on_tlacitkoManual_clicked();
-    void on_tlacitkoFullscreen_clicked();
-    void on_quitTlacitko_clicked();
+
+    void on_pushButton_menu_turnus_clicked();
+    void on_pushButton_menu_jizda_clicked();
+    void on_pushButton_menu_testRozhrani_clicked();
+
+    void on_pushButton_menu_fullscreen_clicked();
+    void on_pushButton_menu_linkospoj_clicked();
+    void on_pushButton_menu_manual_clicked();
+    void on_pushButton_menu_nastaveni_clicked();
+
+    void on_pushButton_menu_quit_clicked();
+
 
     //tlacitka Menu2
-    void on_quitTlacitko_2_clicked();
-    void on_tlacitkoPalubniPc_clicked();
-
-    void on_tlacitkoFullscreen2_clicked();
-
+    void on_pushButton_menu2_quit_clicked();
+    void on_pushButton_menu2_palPc_clicked();
+    void on_pushButton_menu2_fullscreen_clicked();
+    void on_pushButton_menu2_sluzby_clicked();
+    void on_pushButton_menu2_prubehTestu_clicked();
 
     //tlacitka Linka/spoj
-    int on_prikaztlacitko_clicked();
+    int on_pushButton_prikaz_clicked();
 
     void on_checkBox_stateChanged(int arg1); //zapnuti MPV prestupu
     void on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
     //tlacitka Turnus
-    int on_prikazTlacitkoTurnus_clicked();
+    int on_pushButton_turnus_prikaz_clicked();
 
     void on_listKmenovychLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
-    //tlacitka Výdej
-    void on_sipkaNahoru_clicked();
-    void on_sipkaDolu_clicked();
+    //tlacitka jizda
+    void on_pushButton_jizda_sipkaNahoru_clicked();
+    void on_pushButton_jizda_sipkaDolu_clicked();
 
-    void on_pridatTlacitko_clicked();
-    void on_ubratTlacitko_clicked();
+    void on_pushButton_jizda_pridat_clicked();
+    void on_pushButton_jizda_ubrat_clicked();
 
-    void on_tlacitkoIBIS_clicked();
+    void on_pushButton_jizda_IBIS_clicked();
 
-    void on_BeforeStop_clicked();
-    void on_AtStop_2_clicked();
-    void on_AfterStop_clicked();
-    void on_BetweenStop_clicked();
+    void on_pushButton_jizda_beforeStop_clicked();
+    void on_pushButton_jizda_atStop_clicked();
+    void on_pushButton_jizda_afterStop_clicked();
+    void on_pushButton_jizda_betweenStop_clicked();
 
     void on_tableWidgetNasledujiciZastavky_cellClicked(int row, int column);
 
     //tlacitka Test
-    void on_tlacitkoPrubehTestu_clicked();
-    void on_tlacitko_StartTest_clicked();
-    void on_TlacitkoStopTest_clicked();
+
+    void on_pushButton_startTest_clicked();
+    void on_pushButton_stopTest_clicked();
     void on_pushButton_test1_clicked();
     void on_pushButton_test2_clicked();
     void on_pushButton_test3_clicked();
     void on_pushButton_test4_clicked();
-    void on_tlacitkoSluzby_clicked();
+
 
     //tlacitka Nast.
-    void on_tlacitkoDnes_clicked();
     void on_calendarWidget_selectionChanged();
-    void on_tlacitkoHlaseniSlozka_clicked();
-    void on_pripojeniTlacitko_clicked();
 
-    void on_tlacitkoTruncate_clicked();
-    void on_tlacitkoXmlVyberCestu_clicked();
-    void on_tlacitkoNactiXMLropid_clicked();
+     void on_pushButton_nast_dnes_clicked();
+    void on_pushButton_nast_hlaseniSlozka_clicked();
+    void on_pushButton_nast_pripojeni_clicked();
 
-    void on_tlacitkoNastavPort_clicked();
-    void on_tlacitkoOdesliPrikaz_clicked();
+    void on_pushButton_nast_truncate_clicked();
+    void on_pushButton_nast_xmlVyberCestu_clicked();
+    void on_pushButton_nast_nactiXMLropid_clicked();
+
+    void on_pushButton_nast_nastavPort_clicked();
+    void on_pushButton_nast_odesliPrikaz_clicked();
+
     //tlacitka Manual
-    void on_tlacitkoAddsubscriber_clicked();
-    void on_tlacitkoRemoveSubscriber_clicked();
+    void on_pushButton_manual_addsubscriber_clicked();
+    void on_pushButton_manual_removeSubscriber_clicked();
 
-    void on_tlacitkoAddsubscriber_2_clicked();
-    void on_tlacitkoRemoveSubscriber_2_clicked();
+    void on_pushButton_manual_addsubscriber_2_clicked();
+    void on_pushButton_manual_removeSubscriber_2_clicked();
 
-    void on_tlacitkoSmazOkno_clicked();
+    void on_pushButton_manual_smazOkno_clicked();
 
-    void on_tlacitkoOdesliXml_clicked();
-
+    void on_pushButton_manual_odesliXml_clicked();
 
 
     //radio buttons
@@ -259,6 +264,9 @@ private slots:
 
     void on_checkBox_MpvTurnusy_stateChanged(int arg1);
     void slotStahniPrestupyAktZastavky();
+
+
+
 };
 
 #endif // MAINWINDOW_H

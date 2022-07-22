@@ -37,8 +37,8 @@ Prestup PrestupMPV::toPrestup()
     vystup.line.LineName=this->alias;
     vystup.destinationName=this->smer;
     vystup.platform=this->stan;
-    vystup.expectedDepartureTime=PrestupMPV::qDateTimeToString( posunTimeStampZpozdeni(this->odj,  this->zpoz ));
-    vystup.scheduledDepartureTime=PrestupMPV::qDateTimeToString( this->odj);
+    vystup.expectedDepartureTime=posunTimeStampZpozdeni(this->odj,  this->zpoz );
+    vystup.scheduledDepartureTime= this->odj;
     ddDoVehicleMode(this->dd,vystup.mainMode,vystup.subMode,vystup.line);
 
     return vystup;

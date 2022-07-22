@@ -26,25 +26,25 @@ public:
 
 
 
-    int Pripoj();
+    int pripoj();
     //QVector<Linka> seznamLinek;
 
     //  int StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
     int otevriDB();
     int zavriDB();
 
-    int StahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje, QVector<Spoj> &seznamSpoju, QString kj);
-    int StahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju, int indexSpoje, QString kj);
+    int stahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje, QVector<Spoj> &seznamSpoju, QString kj);
+    int stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju, int indexSpoje, QString kj);
     void vytvorDisplejRidiceAktualniZastavka(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
     void vytvorDisplejRidiceSeznamZastavek(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
 
 
-    int VytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek, QString kj);
-    int VytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka, QString kj);
+    int vytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek, QString kj);
+    int vytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka, QString kj);
 
-    int VytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek, QString kj);
-    int VytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka, QString kj);
-    int VytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj);
+    int vytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek, QString kj);
+    int vytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka, QString kj);
+    int vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj);
 
     // kalendář jízdenek
     int nactiPlatnost(QDate &platnostOd, QDate &platnostDo);
@@ -55,13 +55,13 @@ public:
     QString vytvorCasHodinyMinutySekundy(QString vstup);
     QString vytvorCasHodinyMinuty(QString vstup);
     QString doplnNulu(int cislo, int pocetMist = 2);
-    QString StahniSeznamSpolecnaCastDotazu();
+    QString stahniSeznamSpolecnaCastDotazu();
     int najdiTurnusZeSpoje(Spoj spoj, int &kmenovaLinka, int &poradi, int &order, QString kj);
     int poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju, Spoj spoj);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:
-    void VypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek);
+    void vypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek);
 
 
 

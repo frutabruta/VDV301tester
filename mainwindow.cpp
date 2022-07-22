@@ -20,10 +20,13 @@ MainWindow::MainWindow(QWidget *parent) :
     konfigurace(QCoreApplication::applicationDirPath()),
     ui(new Ui::MainWindow)
 {
-    qDebug()<<"MainWindow::MainWindow";
+    qDebug() <<  Q_FUNC_INFO;
     ui->setupUi(this);
-    ui->prepinadloStran->setCurrentIndex(1);
-    ui->prepinadloStran->setWindowState(Qt::WindowFullScreen);
+
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
+
+    ui->stackedWidget_palPc->setWindowState(Qt::WindowFullScreen);
+
 
     //inicializace databaze
     inicializaceVyberovychPoli();
@@ -133,7 +136,7 @@ void MainWindow::vsechnyConnecty()
 */
 void MainWindow::testNaplnOkno(int index)
 {
-    qDebug()<<"MainWindow::testNaplnOkno";
+    qDebug() <<  Q_FUNC_INFO;
     switch (index)
     {
     case 0:
@@ -154,7 +157,7 @@ start vzorového testu
 */
 void MainWindow::testStart(int index)
 {
-    qDebug()<<"MainWindow::testStart";
+    qDebug() <<  Q_FUNC_INFO;
     switch (index)
     {
     case 0:
@@ -175,7 +178,7 @@ void MainWindow::testStart(int index)
 */
 void MainWindow::testStop(int index)
 {
-    qDebug()<<"MainWindow::testStop";
+    qDebug() <<  Q_FUNC_INFO;
     switch (index)
     {
     case 0:
@@ -208,7 +211,7 @@ void MainWindow::nastartujVsechnyVdv301Sluzby()
 */
 void MainWindow::xmlVdv301HromadnyUpdate()
 {
-    qDebug()<<"MainWindow::xmlVdv301HromadnyUpdate()";
+    qDebug() <<  Q_FUNC_INFO;
     qDebug()<<"delka seznamu tripu "<<stavSystemu.aktObeh.seznamSpoju.length();
     if (stavSystemu.aktObeh.seznamSpoju.isEmpty())
     {
@@ -218,8 +221,8 @@ void MainWindow::xmlVdv301HromadnyUpdate()
     QDomDocument vstupniDomXmlPrestupy;
     if (stavSystemu.prestupy==true)
     {
-       slotStahniPrestupyAktZastavky();
-       timerStahniPrestupy.start(intervalStahovaniPrestupu*1000);
+        slotStahniPrestupyAktZastavky();
+        timerStahniPrestupy.start(intervalStahovaniPrestupu*1000);
     }
     else
     {
@@ -234,9 +237,9 @@ void MainWindow::xmlVdv301HromadnyUpdate()
 
 void MainWindow::slotStahniPrestupyAktZastavky()
 {
-    qDebug()<<"MainWindow::slotStahniPrestupyAktZastavky";
+    qDebug() <<  Q_FUNC_INFO;
     Zastavka aktZastavka=stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka;
-    xmlMpvParser.StahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
+    xmlMpvParser.stahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
 }
 
 
@@ -245,7 +248,7 @@ void MainWindow::slotStahniPrestupyAktZastavky()
 */
 void MainWindow::slotMpvNetReady()
 {
-    qDebug()<<"MainWindow::MpvNetReady";
+    qDebug() <<  Q_FUNC_INFO;
     xmlMpvParser.naplnVstupDokument(xmlMpvParser.stazenaData);
     QVector<PrestupMPV> prestupy=xmlMpvParser.parsujDomDokument();
     if(filtrovatPrestupy)
@@ -263,9 +266,9 @@ void MainWindow::slotMpvNetReady()
 /*!
 
 */
-int MainWindow::on_prikaztlacitko_clicked()
+int MainWindow::on_pushButton_prikaz_clicked()
 {
-    qDebug()<<"MainWindow::on_prikaztlacitko_clicked";
+    qDebug() <<  Q_FUNC_INFO;
     stavSystemu.vymaz();
     stavSystemu.doorState="AllDoorsClosed";
 
@@ -290,22 +293,22 @@ int MainWindow::on_prikaztlacitko_clicked()
     stavSystemu.aktObeh.kmenovaLinka.c=kmenovaLinka;
 
 
-    if (sqlPraceRopid.VytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
+    if (sqlPraceRopid.vytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
     {
-        NaplnVyberPoradi(seznamObehu);
+        naplnVyberPoradi(seznamObehu);
     }
 
 
     stavSystemu.aktObeh.p=poradi ;
-    if (sqlPraceRopid.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
+    if (sqlPraceRopid.vytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
     {
-        NaplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
+        naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
     }
 
     Spoj hledanySpoj=stavSystemu.aktspoj;
     stavSystemu.indexSpojeNaObehu=sqlPraceRopid.poziceSpojeNaSeznamu(stavSystemu.aktObeh.seznamSpoju,hledanySpoj);
 
-     if(! MainWindowPomocne::jeVRozsahu(stavSystemu.indexSpojeNaObehu,stavSystemu.aktObeh.seznamSpoju.size(),"MainWindow::on_prikaztlacitko_clicked"))
+    if(! MainWindowPomocne::jeVRozsahu(stavSystemu.indexSpojeNaObehu,stavSystemu.aktObeh.seznamSpoju.size(),"MainWindow::on_prikaztlacitko_clicked"))
     {
         return 0;
     }
@@ -313,7 +316,7 @@ int MainWindow::on_prikaztlacitko_clicked()
     stavSystemu.aktspoj=stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu);
     ui->poleLinkyTurnus->setText(QString::number(stavSystemu.aktspoj.linka.c));
     ui->poleSpojeTurnus->setText(QString::number(stavSystemu.aktspoj.cisloRopid));
-    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text().toInt();   
+    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text().toInt();
 
     stavSystemu.indexAktZastavky=0;
 
@@ -327,9 +330,9 @@ int MainWindow::on_prikaztlacitko_clicked()
 /*!
 
 */
-int MainWindow::on_prikazTlacitkoTurnus_clicked()
+int MainWindow::on_pushButton_turnus_prikaz_clicked()
 {
-    qDebug()<<"MainWindow::on_prikazTurnuslacitko_clicked";
+    qDebug() <<  Q_FUNC_INFO;
     stavSystemu.doorState="AllDoorsClosed";
     stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text().toInt();
 
@@ -344,7 +347,7 @@ int MainWindow::on_prikazTlacitkoTurnus_clicked()
  */
 int MainWindow::natahniSeznamSpojeKomplet()
 {
-    qDebug()<<"MainWindow::natahniSeznamSpojeKomplet";
+    qDebug() <<  Q_FUNC_INFO;
     QString textDoPole="";
     int vysledek=0;
     Spoj iterSpoj;
@@ -366,12 +369,12 @@ int MainWindow::natahniSeznamSpojeKomplet()
     }
 
 
-    vysledek=sqlPraceRopid.StahniSeznamCelySpojTurnus(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexSpojeNaObehu,this->vyrobMaskuKalendareJizd());
+    vysledek=sqlPraceRopid.stahniSeznamCelySpojTurnus(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexSpojeNaObehu,this->vyrobMaskuKalendareJizd());
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     if (stavSystemu.aktualniSpojNaObehu().navazujici==true)
     {
-        vysledek=sqlPraceRopid.StahniSeznamCelySpojTurnus(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexSpojeNaObehu+1,this->vyrobMaskuKalendareJizd());
+        vysledek=sqlPraceRopid.stahniSeznamCelySpojTurnus(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexSpojeNaObehu+1,this->vyrobMaskuKalendareJizd());
         qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     }
@@ -397,10 +400,10 @@ int MainWindow::natahniSeznamSpojeKomplet()
     }
     else
     {
-        AktualizaceDispleje();
+        aktualizaceDispleje();
         stavSystemu.locationState="AtStop";
-        ui->tlacitkoZpetVydej->setChecked(1);
-        ui->prepinadloStran->setCurrentIndex(0);
+        ui->pushButton_menu_jizda->setChecked(1);
+        ui->stackedWidget_palPc->setCurrentWidget(ui->page_jizda);
     }
     return 1;
 }
@@ -409,9 +412,9 @@ int MainWindow::natahniSeznamSpojeKomplet()
 /*!
 
 */
-void MainWindow::on_sipkaNahoru_clicked()
+void MainWindow::on_pushButton_jizda_sipkaNahoru_clicked()
 {
-    qDebug()<<"\n MainWindow::on_sipkaNahoru_clicked() \n";
+    qDebug() <<  Q_FUNC_INFO;
 
 
     if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()))
@@ -419,7 +422,7 @@ void MainWindow::on_sipkaNahoru_clicked()
         if((stavSystemu.locationState=="AtStop")&&((stavSystemu.indexAktZastavky<(stavSystemu.pocetZastavekAktualnihoSpoje()-1) )))
         {
             stavSystemu.locationState="AfterStop";
-            ui->AfterStop->setChecked(true);
+            ui->pushButton_jizda_afterStop->setChecked(true);
 
             stavSystemu.indexAktZastavky++;
             eventOdjezd();
@@ -436,26 +439,26 @@ void MainWindow::on_sipkaNahoru_clicked()
             if(stavSystemu.locationState=="BeforeStop")
             {
                 stavSystemu.locationState="AtStop";
-                ui->AtStop_2->setChecked(true);
+                ui->pushButton_jizda_atStop->setChecked(true);
                 eventPrijezd();
             }
 
             if(stavSystemu.locationState=="BetweenStop")
             {
                 stavSystemu.locationState="BeforeStop";
-                ui->BeforeStop->setChecked(true);
+                ui->pushButton_jizda_beforeStop->setChecked(true);
             }
 
             if(stavSystemu.locationState=="AfterStop")
             {stavSystemu.locationState="BetweenStop";
-                ui->BetweenStop->setChecked(true);
+                ui->pushButton_jizda_betweenStop->setChecked(true);
                 eventAfterStopToBetweenStop();
             }
         }
     }
 
 
-    AktualizaceDispleje();
+    aktualizaceDispleje();
     stavSystemu.doorState="AllDoorsClosed";
     // ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky+1));
     xmlVdv301HromadnyUpdate();
@@ -466,9 +469,9 @@ void MainWindow::on_sipkaNahoru_clicked()
 /*!
 
 */
-void MainWindow::on_sipkaDolu_clicked()
+void MainWindow::on_pushButton_jizda_sipkaDolu_clicked()
 {
-    qDebug()<<"\n on_sipkaDolu_clicked \n";
+    qDebug() <<  Q_FUNC_INFO;
     if (stavSystemu.indexAktZastavky>=1)
     {
         if(stavSystemu.locationState=="AfterStop")
@@ -488,7 +491,7 @@ void MainWindow::on_sipkaDolu_clicked()
             if(stavSystemu.locationState=="AtStop")
             {stavSystemu.locationState="BeforeStop";}
         }
-        AktualizaceDispleje();
+        aktualizaceDispleje();
     }
     ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
     xmlVdv301HromadnyUpdate();
@@ -499,9 +502,9 @@ void MainWindow::on_sipkaDolu_clicked()
 /*!
 
 */
-void MainWindow::on_pripojeniTlacitko_clicked()
+void MainWindow::on_pushButton_nast_pripojeni_clicked()
 {
-    qDebug()<<"\n on_pripojeniTlacitko_clicked \n";
+    qDebug() <<  Q_FUNC_INFO;
     inicializaceVyberovychPoli();
 
 
@@ -518,8 +521,8 @@ pripoji se k databazi a naplni okna pro vyber spoju
 */
 void MainWindow::inicializaceVyberovychPoli()
 {
-    qDebug()<<"inicializaceVyberovychPoli()";
-    sqlPraceRopid.Pripoj();
+    qDebug() <<  Q_FUNC_INFO;
+    sqlPraceRopid.pripoj();
     vymazSeznam(ui->listLinek);
     vymazSeznam(ui->listSpoje);
 
@@ -527,14 +530,14 @@ void MainWindow::inicializaceVyberovychPoli()
     vymazSeznam(ui->listPoradi);
     vymazSeznam(ui->listTurnusSpoje);
 
-    if (sqlPraceRopid.VytvorSeznamLinek(seznamLinek,this->vyrobMaskuKalendareJizd())==1)
+    if (sqlPraceRopid.vytvorSeznamLinek(seznamLinek,this->vyrobMaskuKalendareJizd())==1)
     {
 
-        NaplnVyberLinky(seznamLinek);
+        naplnVyberLinky(seznamLinek);
 
         QVector<Linka> kmenoveLinky;
-        sqlPraceRopid.VytvorSeznamKmenovychLinek(kmenoveLinky,vyrobMaskuKalendareJizd());
-        NaplnKmenoveLinky(kmenoveLinky);
+        sqlPraceRopid.vytvorSeznamKmenovychLinek(kmenoveLinky,vyrobMaskuKalendareJizd());
+        naplnKmenoveLinky(kmenoveLinky);
 
         aktualizaceKalendare();
         ui->NazevVysledku->setText("OK2");
@@ -553,7 +556,7 @@ načte platnost a nastaví rozsahy klikatelných oblastí kalendáře
 */
 void MainWindow::aktualizaceKalendare()
 {
-    qDebug()<<"MainWindow::aktualizaceKalendare";
+    qDebug() <<  Q_FUNC_INFO;
     if(sqlPraceRopid.nactiPlatnost(xmlRopidParser.platnostOd,xmlRopidParser.platnostDo))
     {
         ui->calendarWidget->setMinimumDate(xmlRopidParser.platnostOd);
@@ -572,9 +575,9 @@ void MainWindow::aktualizaceKalendare()
 /*!
 
 */
-void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
+void MainWindow::naplnVyberLinky(QVector<Linka> docasnySeznamLinek)
 {
-    qDebug()<<"MainWindow::NaplnVyberLinky";
+    qDebug() <<  Q_FUNC_INFO;
     vymazSeznam(ui->listLinek);
 
 
@@ -600,10 +603,9 @@ void MainWindow::NaplnVyberLinky(QVector<Linka> docasnySeznamLinek)
 /*!
 naplní seznam kmenových linek
 */
-void MainWindow::NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek)
+void MainWindow::naplnKmenoveLinky(QVector<Linka> docasnySeznamLinek)
 {
-    qDebug()<<"MainWindow::NaplnKmenoveLinky";
-
+    qDebug() <<  Q_FUNC_INFO;
 
     vymazSeznam(ui->listKmenovychLinek);
 
@@ -620,9 +622,9 @@ void MainWindow::NaplnKmenoveLinky(QVector<Linka> docasnySeznamLinek)
 /*!
 
 */
-void MainWindow::NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
+void MainWindow::naplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
 {
-    qDebug()<<"MainWindow::NaplnVyberSpoje";
+    qDebug() <<  Q_FUNC_INFO;
 
 
     vymazSeznam(ui->listSpoje);
@@ -646,9 +648,9 @@ void MainWindow::NaplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
 /*!
 
 */
-void MainWindow::NaplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju)
+void MainWindow::naplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju)
 {
-    qDebug()<<"MainWindow::NaplnVyberTurnusSpoje";
+    qDebug() <<  Q_FUNC_INFO;
     if (ui->listTurnusSpoje->count()!=0)
     {
         ui->listTurnusSpoje->clear();
@@ -674,9 +676,9 @@ void MainWindow::NaplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju)
 /*!
 
 */
-void MainWindow::NaplnVyberPoradi(QVector<Obeh> docasnySeznamObehu)
+void MainWindow::naplnVyberPoradi(QVector<Obeh> docasnySeznamObehu)
 {
-    qDebug()<<"MainWindow::NaplnVyberPoradi";
+    qDebug() <<  Q_FUNC_INFO;
     if (ui->listPoradi->count()!=0)
     {
         ui->listPoradi->clear();
@@ -713,9 +715,9 @@ void MainWindow::vymazSeznam(QListWidget *vstup)
 /*!
 
 */
-void MainWindow::AktualizaceDispleje()
+void MainWindow::aktualizaceDispleje()
 {
-    qDebug()<<"MainWindow::AktualizaceDispleje()";
+    qDebug() <<  Q_FUNC_INFO;
 
     if(this->stavSystemu.aktObeh.seznamSpoju.length()<=stavSystemu.indexSpojeNaObehu)
     {
@@ -748,40 +750,19 @@ void MainWindow::AktualizaceDispleje()
 /*!
 
 */
-void MainWindow::on_pridatTlacitko_clicked()
+void MainWindow::on_pushButton_jizda_ubrat_clicked()
 {
-    qDebug()<<"\n on_pridatTlacitko_clicked \n";
-    if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()-1))
-    {
-        stavSystemu.indexAktZastavky++;
-    }
-    else
-    {
-        this->dalsiSpoj();
-    }
-    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
-    AktualizaceDispleje();
-    xmlVdv301HromadnyUpdate();
-}
-
-
-
-
-
-/*!
-
-*/
-void MainWindow::on_ubratTlacitko_clicked()
-{
-    qDebug()<<"\n on_ubratTlacitko_clicked \n";
+    qDebug() <<  Q_FUNC_INFO;
     if (stavSystemu.indexAktZastavky>=2)
     {
         stavSystemu.indexAktZastavky--;
     }
     ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
-    AktualizaceDispleje();
+    aktualizaceDispleje();
     xmlVdv301HromadnyUpdate();
+
 }
+
 
 
 
@@ -789,9 +770,18 @@ void MainWindow::on_ubratTlacitko_clicked()
 /*!
 
 */
-void MainWindow::on_quitTlacitko_clicked()
+
+
+
+
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_menu_quit_clicked()
 {
-    qDebug()<<"\n on_quitTlacitko_clicked \n";
+    qDebug() <<  Q_FUNC_INFO;
     MainWindow::close();
     QApplication::exit(0);
     //QCoreApplication::exit(0);
@@ -805,7 +795,7 @@ void MainWindow::on_quitTlacitko_clicked()
 
 */
 
-void MainWindow::on_BeforeStop_clicked()
+void MainWindow::on_pushButton_jizda_beforeStop_clicked()
 {
 
     stavSystemu.locationState="BeforeStop";
@@ -818,9 +808,9 @@ void MainWindow::on_BeforeStop_clicked()
 /*!
 
 */
-void MainWindow::on_AtStop_2_clicked()
+void MainWindow::on_pushButton_jizda_atStop_clicked()
 {
-    qDebug()<<"";
+
     eventPrijezd();
 
 }
@@ -830,9 +820,9 @@ void MainWindow::on_AtStop_2_clicked()
 /*!
 
 */
-void MainWindow::on_AfterStop_clicked()
+void MainWindow::on_pushButton_jizda_afterStop_clicked()
 {
-    qDebug()<<"";
+
     stavSystemu.locationState="AfterStop";
     xmlVdv301HromadnyUpdate();
 }
@@ -842,9 +832,9 @@ void MainWindow::on_AfterStop_clicked()
 /*!
 
 */
-void MainWindow::on_BetweenStop_clicked()
+void MainWindow::on_pushButton_jizda_betweenStop_clicked()
 {
-    qDebug()<<"";
+
     stavSystemu.locationState="BetweenStop";
     xmlVdv301HromadnyUpdate();
 }
@@ -856,7 +846,7 @@ void MainWindow::on_BetweenStop_clicked()
 */
 void MainWindow::on_checkBox_stateChanged(int arg1)
 {
-    arg1=1;
+
     qDebug()<<"MainWindow::on_checkBox_stateChanged";
     stavSystemu.prestupy= ui->checkBox->isChecked();
 }
@@ -865,9 +855,9 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 /*!
 
 */
-void MainWindow::on_tlacitkoNactiXMLropid_clicked()
+void MainWindow::on_pushButton_nast_nactiXMLropid_clicked()
 {
-    qDebug()<<"MainWindow::on_tlacitkoNactiXMLropid_clicked";
+    qDebug() <<  Q_FUNC_INFO;
     xmlRopidParser.otevriSoubor(xmlRopidParser.vstupniXmlSouborCesta);
     this->pracovniDatumPrvniDenDat();
     this->inicializaceVyberovychPoli();
@@ -877,10 +867,11 @@ void MainWindow::on_tlacitkoNactiXMLropid_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoNastaveni_clicked()
+void MainWindow::on_pushButton_menu_nastaveni_clicked()
 {
-    qDebug()<<"MainWindow::on_tlacitkoNastaveni_clicked()";
-    ui->prepinadloStran->setCurrentIndex(2);
+    qDebug() <<  Q_FUNC_INFO;
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_nastaveni);
+
 }
 
 
@@ -889,9 +880,9 @@ void MainWindow::on_tlacitkoNastaveni_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoTruncate_clicked()
+void MainWindow::on_pushButton_nast_truncate_clicked()
 {
-    qDebug()<<"";
+    qDebug() <<  Q_FUNC_INFO;
     xmlRopidParser.truncateAll();
 }
 
@@ -901,9 +892,9 @@ void MainWindow::on_tlacitkoTruncate_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoOdesliPrikaz_clicked()
+void MainWindow::on_pushButton_nast_odesliPrikaz_clicked()
 {
-    qDebug()<<"";
+    qDebug() <<  Q_FUNC_INFO;
     // ibisOvladani.dopocetCelni("l006");
 }
 
@@ -913,11 +904,9 @@ void MainWindow::on_tlacitkoOdesliPrikaz_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoNastavPort_clicked()
+void MainWindow::on_pushButton_nast_nastavPort_clicked()
 {
-    qDebug()<<"on_tlacitkoNastavPort_clicked()";
-
-
+    qDebug() <<  Q_FUNC_INFO;
     ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
     ibisOvladani.dopocetCelni("l006");
     ibisOvladani.dopocetCelni("aA1 ahoj");
@@ -931,9 +920,9 @@ void MainWindow::on_tlacitkoNastavPort_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoIBIS_clicked()
+void MainWindow::on_pushButton_jizda_IBIS_clicked()
 {
-    qDebug()<<"on_tlacitkoIBIS_clicked()";
+    qDebug() <<  Q_FUNC_INFO;
     ibisOvladani.dopocetCelni("xC2");
     ibisOvladani.odesliFrontKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
     ibisOvladani.odesliSideKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
@@ -951,7 +940,7 @@ void MainWindow::on_tlacitkoIBIS_clicked()
 */
 int MainWindow::eventPrijezd()
 {
-    qDebug()<<"MainWindow::priPrijezdu";
+    qDebug() <<  Q_FUNC_INFO;
 
     stavSystemu.doorState="DoorsOpen";
 
@@ -965,7 +954,7 @@ int MainWindow::eventPrijezd()
         hlasic.kompletKonecna(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloCis,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.cisloOis );
     }
     stavSystemu.locationState="AtStop";
-    AktualizaceDispleje();
+    aktualizaceDispleje();
     xmlVdv301HromadnyUpdate();
 
     return 1;
@@ -978,7 +967,7 @@ int MainWindow::eventPrijezd()
 */
 int MainWindow::eventOdjezd()
 {
-    qDebug()<<"MainWindow::priOdjezdu()";
+    qDebug() <<  Q_FUNC_INFO;
 
 
 
@@ -992,7 +981,7 @@ int MainWindow::eventOdjezd()
 
 void MainWindow::eventAfterStopToBetweenStop()
 {
-    qDebug()<<"MainWindow::eventAfterStopToBetweenStop()";
+    qDebug() <<  Q_FUNC_INFO;
     if(Pasmo::podminkaHlasitZmenuPasma(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.seznamPasem,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.seznamPasem))
     {
         qDebug()<<"srovnani pasem zastavek "<<this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.StopName<<" a "<<this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.StopName;
@@ -1012,7 +1001,7 @@ void MainWindow::eventAfterStopToBetweenStop()
 */
 void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
-    qDebug()<<"MainWindow::on_listLinek_currentItemChanged ";
+    qDebug() <<  Q_FUNC_INFO;
     if (ui->listLinek->count()<=0)
     {
         qDebug()<<"seznam je prazdny";
@@ -1023,9 +1012,9 @@ void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QList
     qDebug()<<"tady budu vypisovat vybrane spoje";
     qDebug()<<"raw "<<ui->listLinek->currentItem()->data(Qt::UserRole)<<" int "<<ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
     ui->listSpoje->clear();
-    if (sqlPraceRopid.VytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd())==1)
+    if (sqlPraceRopid.vytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd())==1)
     {
-        NaplnVyberSpoje(seznamSpoju);
+        naplnVyberSpoje(seznamSpoju);
     }
 }
 
@@ -1035,7 +1024,7 @@ void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QList
 */
 void MainWindow::on_listKmenovychLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
-    qDebug()<<"on_listKmenovychLinek_currentItemChanged";
+    qDebug() <<  Q_FUNC_INFO;
     ui->poleLinkyTurnus->setText(ui->listKmenovychLinek->currentItem()->data(Qt::UserRole ).toString() );
 
     stavSystemu.aktObeh.kmenovaLinka.c=ui->listKmenovychLinek->currentItem()->data(Qt::UserRole).toInt();
@@ -1044,10 +1033,10 @@ void MainWindow::on_listKmenovychLinek_currentItemChanged(QListWidgetItem *curre
 
     ui->listTurnusSpoje->clear();
 
-    if (sqlPraceRopid.VytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
+    if (sqlPraceRopid.vytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
     {
 
-        NaplnVyberPoradi(seznamObehu);
+        naplnVyberPoradi(seznamObehu);
 
 
     }
@@ -1060,7 +1049,7 @@ void MainWindow::on_listKmenovychLinek_currentItemChanged(QListWidgetItem *curre
 */
 void MainWindow::on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
-    qDebug()<<"MainWindow::on_listPoradi_currentItemChanged";
+    qDebug() <<  Q_FUNC_INFO;
     if (ui->listPoradi->count()!=0)
     {
         if(ui->listPoradi->currentRow()!=-1)
@@ -1068,9 +1057,9 @@ void MainWindow::on_listPoradi_currentItemChanged(QListWidgetItem *current, QLis
             qDebug()<<"xx"+ QString::number( ui->listPoradi->currentRow());
             qDebug()<<"current item:"+ui->listPoradi->currentItem()->data(Qt::UserRole).toString();
             stavSystemu.aktObeh.p=ui->listPoradi->currentItem()->data(Qt::UserRole).toInt() ;
-            if (sqlPraceRopid.VytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
+            if (sqlPraceRopid.vytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
             {
-                NaplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
+                naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
             }
 
 
@@ -1087,7 +1076,7 @@ void MainWindow::on_listPoradi_currentItemChanged(QListWidgetItem *current, QLis
 */
 void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
-    qDebug()<<"MainWindow::on_listSpoje_currentItemChanged";
+    qDebug() <<  Q_FUNC_INFO;
     if (ui->listSpoje->count()!=0)
     {
         if(ui->listSpoje->currentRow()!=-1)
@@ -1115,7 +1104,7 @@ void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QList
 */
 void MainWindow::on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
 {
-    qDebug()<<"MainWindow::on_listTurnusSpoje_currentItemChanged";
+    qDebug() <<  Q_FUNC_INFO;
     if (ui->listTurnusSpoje->count()!=0)
     {
         if(ui->listTurnusSpoje->currentRow()!=-1)
@@ -1147,22 +1136,13 @@ void MainWindow::on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current,
 /*!
 
 */
-
-
-void MainWindow::on_tlacitkoZpetVydej_clicked()
+void MainWindow::on_pushButton_menu_jizda_clicked()
 {
-    ui->prepinadloStran->setCurrentIndex(0);
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_jizda );
+
 }
 
 
-/*!
-
-*/
-void MainWindow::on_tlacitkoLinkospoj_clicked()
-{
-    eventOpusteniVydeje();
-    ui->prepinadloStran->setCurrentIndex(1);
-}
 
 
 /*!
@@ -1170,6 +1150,7 @@ void MainWindow::on_tlacitkoLinkospoj_clicked()
 */
 void MainWindow::inicializacePoli()
 {
+    qDebug() <<  Q_FUNC_INFO;
     stavSystemu.aktObeh.seznamSpoju.clear();
     seznamLinek.clear();
     seznamSpoju.clear();
@@ -1178,18 +1159,18 @@ void MainWindow::inicializacePoli()
 
 
 
-
 /*!
 
 */
-void MainWindow::on_tlacitkoSmazOkno_clicked()
+void MainWindow::on_pushButton_manual_smazOkno_clicked()
 {
     ui->plainTextEditCustomXml->clear();
 }
 
-void MainWindow::on_tlacitkoManual_clicked()
+void MainWindow::on_pushButton_menu_manual_clicked()
 {
-    ui->prepinadloStran->setCurrentIndex(3);
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_manual );
+
 }
 
 
@@ -1197,9 +1178,9 @@ void MainWindow::on_tlacitkoManual_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoOdesliXml_clicked()
+void MainWindow::on_pushButton_manual_odesliXml_clicked()
 {
-    qDebug()<<"on_tlacitkoOdesliXml_clicked()";
+    qDebug() <<  Q_FUNC_INFO;
     QByteArray vysledek2="";
     vysledek2=vysledek2+ui->plainTextEditCustomXml->toPlainText().toUtf8();
     customerInformationService1_0.nastavObsahTela("AllData",vysledek2);
@@ -1213,13 +1194,12 @@ void MainWindow::on_tlacitkoOdesliXml_clicked()
 
 
 
-
 /*!
 
 */
 void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
 {
-    qDebug()<<"MainWindow::vypisSubscribery1_0";
+    qDebug() <<  Q_FUNC_INFO;
     ui->seznamOdberatelu->setRowCount(0);
     qDebug()<<"smazano"<<" adresy.size="<<adresy.size();
     if (adresy.size()==0)
@@ -1261,7 +1241,7 @@ void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
 
 void MainWindow::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
 {
-    qDebug()<<"MainWindow::vypisSubscribery2_2CZ";
+    qDebug() <<  Q_FUNC_INFO;
 
     ui->seznamOdberatelu2->setRowCount(0);
 
@@ -1299,7 +1279,7 @@ void MainWindow::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
 /*!
 
 */
-void MainWindow::on_tlacitkoAddsubscriber_clicked()
+void MainWindow::on_pushButton_manual_addsubscriber_clicked()
 {
     vypisDiagnostika(customerInformationService1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
 }
@@ -1309,7 +1289,7 @@ void MainWindow::on_tlacitkoAddsubscriber_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoAddsubscriber_2_clicked()
+void MainWindow::on_pushButton_manual_addsubscriber_2_clicked()
 {
     vypisDiagnostika( customerInformationService2_2CZ1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
 }
@@ -1318,7 +1298,7 @@ void MainWindow::on_tlacitkoAddsubscriber_2_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoRemoveSubscriber_clicked()
+void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 {
     if (ui->seznamOdberatelu->rowCount()==0)
     {
@@ -1348,7 +1328,7 @@ void MainWindow::on_tlacitkoRemoveSubscriber_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoRemoveSubscriber_2_clicked()
+void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
 {
     if (ui->seznamOdberatelu2->rowCount()==0)
     {
@@ -1378,7 +1358,7 @@ void MainWindow::on_tlacitkoRemoveSubscriber_2_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoHlaseniSlozka_clicked()
+void MainWindow::on_pushButton_nast_hlaseniSlozka_clicked()
 {
     qDebug()<<"nastavena cesta k hlaseni na "<<ui->lineEditHlaseniCesta->text();
     //hlasic.cesta=ui->lineEditHlaseniCesta->text();
@@ -1412,19 +1392,20 @@ void MainWindow::vypisSqlVysledek(QString vstup)
 /*!
 
 */
-void MainWindow::on_tlacitkoTurnus_clicked()
+void MainWindow::on_pushButton_menu_turnus_clicked()
 {
     eventOpusteniVydeje();
-    ui->prepinadloStran->setCurrentIndex(4);
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
+
 }
 
 /*!
 
 */
-void MainWindow::on_quitTlacitko_2_clicked()
+void MainWindow::on_pushButton_menu2_quit_clicked()
 {
-    qDebug()<<"\n on_quitTlacitko_2_clicked \n";
-    this->on_quitTlacitko_clicked();
+    qDebug() <<  Q_FUNC_INFO;
+    this->on_pushButton_menu_quit_clicked();
 }
 
 
@@ -1439,7 +1420,7 @@ void MainWindow::zastavSluzby()
 /*!
 
 */
-void MainWindow::on_tlacitkoPalubniPc_clicked()
+void MainWindow::on_pushButton_menu2_palPc_clicked()
 {
     ui->stackedWidget_hlavni->setCurrentIndex(0);
 }
@@ -1448,7 +1429,7 @@ void MainWindow::on_tlacitkoPalubniPc_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoTestRozhrani_clicked()
+void MainWindow::on_pushButton_menu_testRozhrani_clicked()
 {
     ui->stackedWidget_hlavni->setCurrentIndex(1);
 }
@@ -1457,9 +1438,9 @@ void MainWindow::on_tlacitkoTestRozhrani_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoFullscreen_clicked()
+void MainWindow::on_pushButton_menu_fullscreen_clicked()
 {
-    qDebug()<< "on_tlacitkoFullscreen_clicked";
+    qDebug() <<  Q_FUNC_INFO;
     this->toggleFullscreen();
 }
 
@@ -1467,9 +1448,9 @@ void MainWindow::on_tlacitkoFullscreen_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoFullscreen2_clicked()
+void MainWindow::on_pushButton_menu2_fullscreen_clicked()
 {
-    qDebug()<< "on_tlacitkoFullscreen2_clicked";
+    qDebug() <<  Q_FUNC_INFO;
     this->toggleFullscreen();
 }
 
@@ -1539,7 +1520,7 @@ void MainWindow::toggleFullscreen()
 void MainWindow::testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek)
 {
 
-    qDebug()<<"MainWindow::testyVykresliCasti";
+    qDebug() <<  Q_FUNC_INFO;
     for(int i =0;i<seznamPolozek.size();i++)
     {
         qDebug()<<i<<" "<<seznamPolozek.at(i).nazev<<" "<<seznamPolozek.at(i).vysledek;
@@ -1580,7 +1561,7 @@ void MainWindow::testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek)
 /*!
 
 */
-void MainWindow::on_tlacitkoPrubehTestu_clicked()
+void MainWindow::on_pushButton_menu2_prubehTestu_clicked()
 {
     ui->stackedWidget_testy->setCurrentIndex(0);
 }
@@ -1589,7 +1570,7 @@ void MainWindow::on_tlacitkoPrubehTestu_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitko_StartTest_clicked()
+void MainWindow::on_pushButton_startTest_clicked()
 {
     testStart(testIndex);
     //vzorovyTest.start();
@@ -1600,7 +1581,7 @@ void MainWindow::on_tlacitko_StartTest_clicked()
 /*!
 
 */
-void MainWindow::on_TlacitkoStopTest_clicked()
+void MainWindow::on_pushButton_stopTest_clicked()
 {
     vzorovyTest.stop();
 }
@@ -1652,7 +1633,7 @@ void MainWindow::on_pushButton_test4_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoSluzby_clicked()
+void MainWindow::on_pushButton_menu2_sluzby_clicked()
 {
     ui->stackedWidget_testy->setCurrentIndex(1);
 }
@@ -1661,7 +1642,7 @@ void MainWindow::on_tlacitkoSluzby_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoXmlVyberCestu_clicked()
+void MainWindow::on_pushButton_nast_xmlVyberCestu_clicked()
 {
     xmlRopidParser.vstupniXmlSouborCesta=otevriSouborXmlDialog();
     nastavLabelCestyXml();
@@ -1671,11 +1652,10 @@ void MainWindow::on_tlacitkoXmlVyberCestu_clicked()
 /*!
 
 */
-void MainWindow::on_tlacitkoDnes_clicked()
+void MainWindow::on_pushButton_nast_dnes_clicked()
 {
     pracovniDatumDnes();
 }
-
 
 
 /*!
@@ -1694,7 +1674,7 @@ void MainWindow::nastavLabelCestyXml()
 */
 QString MainWindow::otevriSouborXmlDialog()
 {
-    qDebug()<<"MainWindow::otevriSouborXmlDialog()";
+    qDebug() <<  Q_FUNC_INFO;
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Otevři soubor"), "",
                                                     tr("XML Ropid JŘ (*.xml);;All Files (*)"));
@@ -1707,9 +1687,9 @@ QString MainWindow::otevriSouborXmlDialog()
 */
 void MainWindow::on_calendarWidget_selectionChanged()
 {
-    qDebug()<<"MainWindow::on_calendarWidget_selectionChanged()";
+    qDebug() <<  Q_FUNC_INFO;
     stavSystemu.pracovniDatum=ui->calendarWidget->selectedDate();
-    AktualizacePracovnihoData();
+    aktualizacePracovnihoData();
 }
 
 
@@ -1717,9 +1697,9 @@ void MainWindow::on_calendarWidget_selectionChanged()
 /*!
 
 */
-void MainWindow::AktualizacePracovnihoData()
+void MainWindow::aktualizacePracovnihoData()
 {
-    qDebug()<<"MainWindow::AktualizacePracovnihoData";
+    qDebug() <<  Q_FUNC_INFO;
     ui->dateEdit->setDate(stavSystemu.pracovniDatum);
     ui->calendarWidget->setSelectedDate(stavSystemu.pracovniDatum);
 
@@ -1738,9 +1718,9 @@ void MainWindow::AktualizacePracovnihoData()
 */
 void MainWindow::pracovniDatumDnes()
 {
-    qDebug()<<"MainWindow::pracovniDatumDnes()";
+    qDebug() <<  Q_FUNC_INFO;
     stavSystemu.pracovniDatum=QDate::currentDate();
-    AktualizacePracovnihoData();
+    aktualizacePracovnihoData();
 }
 
 
@@ -1749,11 +1729,12 @@ void MainWindow::pracovniDatumDnes()
 */
 void MainWindow::pracovniDatumPrvniDenDat()
 {
+    qDebug() <<  Q_FUNC_INFO;
     aktualizaceKalendare();
 
-    qDebug()<<"MainWindow::pracovniDatumPrvniDenDat()";
+
     stavSystemu.pracovniDatum=xmlRopidParser.platnostOd;
-    AktualizacePracovnihoData();
+    aktualizacePracovnihoData();
 }
 
 
@@ -1772,7 +1753,7 @@ void MainWindow::slotAktualizacePracData()
 */
 QString MainWindow::vyrobMaskuKalendareJizd()
 {
-    qDebug()<<"MainWindow::vyrobMaskuKalendareJizd()";
+    qDebug() <<  Q_FUNC_INFO;
     return sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidParser.platnostOd, xmlRopidParser.platnostDo);
 }
 
@@ -1781,7 +1762,7 @@ QString MainWindow::vyrobMaskuKalendareJizd()
 void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState)
 {
 
-    qDebug()<< "MainWindow::vypisZastavkyTabulka";
+    qDebug() <<  Q_FUNC_INFO;
     ui->tableWidgetNasledujiciZastavky->setRowCount(0);
 
 
@@ -1853,10 +1834,10 @@ void MainWindow::on_tableWidgetNasledujiciZastavky_cellClicked(int row, int colu
 {
     qDebug()<<"on_tableWidgetNasledujiciZastavky_cellClicked";
     stavSystemu.locationState="AtStop";
-    ui->AtStop_2->setChecked(true);
+    ui->pushButton_jizda_atStop->setChecked(true);
     stavSystemu.indexAktZastavky=row;
     eventPrijezd();
-    AktualizaceDispleje();
+    aktualizaceDispleje();
     stavSystemu.doorState="AllDoorsClosed";
 
     xmlVdv301HromadnyUpdate();
@@ -1869,7 +1850,7 @@ void MainWindow::on_tableWidgetNasledujiciZastavky_cellClicked(int row, int colu
 */
 void MainWindow::dalsiSpoj()
 {
-    qDebug()<<"void MainWindow::dalsiSpoj()";
+    qDebug() <<  Q_FUNC_INFO;
 
     qDebug()<<"index "<<stavSystemu.indexSpojeNaObehu<<" pocetSpoju "<<stavSystemu.aktObeh.seznamSpoju.count();
     if ((stavSystemu.indexSpojeNaObehu)<(stavSystemu.aktObeh.seznamSpoju.count()-1))
@@ -1895,7 +1876,7 @@ void MainWindow::dalsiSpoj()
  */
 void MainWindow::dalsiSpojNavazujici()
 {
-    qDebug()<<"void MainWindow::Navazujici()";
+    qDebug() <<  Q_FUNC_INFO;
 
     qDebug()<<"index "<<stavSystemu.indexSpojeNaObehu<<" pocetSpoju "<<stavSystemu.aktObeh.seznamSpoju.count();
     if ((stavSystemu.indexSpojeNaObehu)<(stavSystemu.aktObeh.seznamSpoju.count()-1))
@@ -1912,7 +1893,7 @@ void MainWindow::dalsiSpojNavazujici()
 
 void MainWindow::eventZmenaTarifnihoPasma()
 {
-    qDebug()<<"MainWindow::eventZmenaTarifnihoPasma()";
+    qDebug() <<  Q_FUNC_INFO;
     stavSystemu.zobrazZmenuPasma=true;
     xmlVdv301HromadnyUpdate();
     hlasic.kompletZmenaTarifnihoPasma();
@@ -1925,7 +1906,7 @@ void MainWindow::eventZmenaTarifnihoPasma()
 
 void MainWindow::eventSkryjZmenuTarifnihoPasma()
 {
-    qDebug()<<"MainWindow::eventSkryjZmenuTarifnihoPasma()";
+    qDebug() <<  Q_FUNC_INFO;
     stavSystemu.zobrazZmenuPasma=false;
     xmlVdv301HromadnyUpdate();
 }
@@ -1933,7 +1914,7 @@ void MainWindow::eventSkryjZmenuTarifnihoPasma()
 //není implementováno
 void MainWindow::eventZmenaTarifnihoSystemu()
 {
-    qDebug()<<"MainWindow::eventZmenaTarifnihoSystemu()";
+    qDebug() <<  Q_FUNC_INFO;
     /*stavSystemu.zobrazZmenuPasma=true;
     xmlVdv301HromadnyUpdate();
 
@@ -1947,7 +1928,7 @@ void MainWindow::eventZmenaTarifnihoSystemu()
 //není implementováno
 void MainWindow::eventSkryjZmenuTarifnihoSystemu()
 {
-    qDebug()<<"MainWindow::eventSkryjZmenuTarifnihoSystemu()";
+    qDebug() <<  Q_FUNC_INFO;
     /* stavSystemu.zobrazZmenuPasma=false;
    xmlVdv301HromadnyUpdate();
    */
@@ -1957,33 +1938,65 @@ void MainWindow::eventSkryjZmenuTarifnihoSystemu()
 
 void MainWindow::on_checkBox_MpvTurnusy_stateChanged(int arg1)
 {
+    qDebug() <<  Q_FUNC_INFO;
     arg1=1;
-    qDebug()<<"MainWindow::on_checkBox_MpvTurnusy_stateChanged";
-    stavSystemu.prestupy= ui->checkBox->isChecked();
+
+    stavSystemu.prestupy= ui->checkBox_MpvTurnusy->isChecked();
 }
 
 
 void MainWindow::eventVstupDoVydeje()
 {
-qDebug()<<"eventVstupDoVydeje()";
+    qDebug() <<  Q_FUNC_INFO;
 }
 
 void MainWindow::eventOpusteniVydeje()
 {
-qDebug()<<"eventOpusteniVydeje()";
+    qDebug() <<  Q_FUNC_INFO;
 
-timerAfterStopToBetweenStop->stop();
-timerStahniPrestupy.stop();
-timerTrvaniZmenyPasma->stop();
-resetSeznamuSpoju();
-customerInformationService1_0.mimoVydej();
-customerInformationService2_2CZ1_0.mimoVydej();
-xmlVdv301HromadnyUpdate();
-inicializaceVyberovychPoli();
+    timerAfterStopToBetweenStop->stop();
+    timerStahniPrestupy.stop();
+    timerTrvaniZmenyPasma->stop();
+    resetSeznamuSpoju();
+    customerInformationService1_0.mimoVydej();
+    customerInformationService2_2CZ1_0.mimoVydej();
+    xmlVdv301HromadnyUpdate();
+    inicializaceVyberovychPoli();
 }
 
 void MainWindow::resetSeznamuSpoju()
 {
-    qDebug()<<"MainWindow::resetSeznamuSpoju";
+    qDebug() <<  Q_FUNC_INFO;
     stavSystemu.vymaz();
 }
+
+/*!
+
+*/
+void MainWindow::on_pushButton_menu_linkospoj_clicked()
+{
+    eventOpusteniVydeje();
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_linkaspoj );
+
+}
+
+
+
+
+
+void MainWindow::on_pushButton_jizda_pridat_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()-1))
+    {
+        stavSystemu.indexAktZastavky++;
+    }
+    else
+    {
+        this->dalsiSpoj();
+    }
+    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
+    aktualizaceDispleje();
+    xmlVdv301HromadnyUpdate();
+}
+

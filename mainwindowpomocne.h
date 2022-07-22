@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include <QObject>
-#include "subscriber.h"
+#include "VDV301publisher/subscriber.h"
+
 
 class MainWindowPomocne: public QObject
 {

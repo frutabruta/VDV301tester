@@ -1412,11 +1412,11 @@ QVector<QDomElement> XmlGenerator::Connections2_2CZ1_0( QVector<PrestupMPV> sezn
 
 
         QDomElement dExpectedDepartureTime=xmlko.createElement("ExpectedDepartureTime"); //verze 2.2CZ1.0
-        dExpectedDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  vdv301prestup.expectedDepartureTime ));
+        dExpectedDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  vdv301prestup.expectedDepartureTimeQString()));
         dConnection.appendChild(dExpectedDepartureTime);
 
         QDomElement dScheduledDepartureTime=xmlko.createElement("ScheduledDepartureTime"); //verze 2.2CZ1.0
-        dScheduledDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  vdv301prestup.scheduledDepartureTime ));
+        dScheduledDepartureTime.appendChild(xmlko.createElement("Value")).appendChild( xmlko.createTextNode(  vdv301prestup.scheduledDepartureTimeQString() ));
         dConnection.appendChild(dScheduledDepartureTime);
 
         vystup.push_back(dConnection);
