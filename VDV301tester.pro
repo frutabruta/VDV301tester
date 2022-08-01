@@ -68,6 +68,7 @@ SOURCES += \
         mainwindow.cpp \
     mainwindowpomocne.cpp \
     prestupmpv.cpp \
+    VDV301struktury/specialnihlaseni.cpp \
     xmlgenerator.cpp \
     VDV301struktury/cestaudaje.cpp \
     xmlmpvparser.cpp \
@@ -100,6 +101,7 @@ HEADERS += \
     prestupmpv.h \
     VDV301struktury/spoj.h \
     VDV301struktury/pasmo.h \
+    VDV301struktury/specialnihlaseni.h \
     xmlgenerator.h \
     VDV301struktury/cestaudaje.h \
     xmlmpvparser.h \

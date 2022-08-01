@@ -48,13 +48,13 @@ public:
     QString umisteniProgramu=QCoreApplication::applicationDirPath();
 
 
-    void ahoj();
+
 
 private:
 
     //konstanty
     bool filtrovatPrestupy=true;
-    int intervalStahovaniPrestupu=20; //ve vterinach
+     //ve vterinach
     //datove struktury
     CestaUdaje stavSystemu;
     QVector <Linka> seznamLinek;
@@ -149,9 +149,11 @@ private:
     QTimer *timerTrvaniZmenyPasma = new QTimer(this); //po pvyprseni casovace zmizi zmena pasma
     QTimer *timerAfterStopToBetweenStop = new QTimer(this);
     QTimer timerStahniPrestupy;
+    QTimer timerSpecialniOznameniSmazat;
 
 
     void resetSeznamuSpoju();
+    void eventZobrazOznameni(int index, QVector<SpecialniHlaseni> seznamHlaseni);
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
@@ -267,6 +269,10 @@ private slots:
 
 
 
+    void on_pushButton_menu_oznameni_clicked();
+
+    void on_tableWidget_oznameni_cellClicked(int row, int column);
+    void slotVymazatSpecialniOznameni();
 };
 
 #endif // MAINWINDOW_H

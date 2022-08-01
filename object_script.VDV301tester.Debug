@@ -27,6 +27,7 @@ debug/main.o
 debug/mainwindow.o
 debug/mainwindowpomocne.o
 debug/prestupmpv.o
+debug/specialnihlaseni.o
 debug/xmlgenerator.o
 debug/cestaudaje.o
 debug/xmlmpvparser.o

@@ -27,6 +27,7 @@ release/main.o
 release/mainwindow.o
 release/mainwindowpomocne.o
 release/prestupmpv.o
+release/specialnihlaseni.o
 release/xmlgenerator.o
 release/cestaudaje.o
 release/xmlmpvparser.o

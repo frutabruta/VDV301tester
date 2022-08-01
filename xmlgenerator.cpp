@@ -257,6 +257,12 @@ QDomElement XmlGenerator::TripInformation2_2CZ1_0(QVector<Spoj> docasnySeznamSpo
 
         QString specialniOznameni=docasnySeznamZastavek.at(currentStopIndex).zastavka.additionalTextMessage;
         qDebug()<<"spec oznameni="<<specialniOznameni;
+
+        if(stav.jeSpecialniHlaseni)
+        {
+            dTripInformation.appendChild(AdditionalTextMessage2_2CZ1_0(stav.aktivniSpecialniHlaseni.type, stav.aktivniSpecialniHlaseni.title, stav.aktivniSpecialniHlaseni.text));
+        }
+
         if (specialniOznameni!="")
         {
             dTripInformation.appendChild(AdditionalTextMessage2_2CZ1_0(specialniOznameni));
@@ -1047,6 +1053,27 @@ QDomElement XmlGenerator::AdditionalTextMessage2_2CZ1_0(QString obsahZpravy)
     QDomElement TextMessage=xmlko.createElement("AdditionalTextMessage");
     QDomElement value=internationalTextType("AdditionalTextMessageText",obsahZpravy,defaultniJazyk2_2CZ1_0);
     TextMessage.appendChild(value);
+    //<TextMessage> <Value>$LS$This is  text message Šg (Umlaute ÄÖÜäöüß), which could be long...</Value></TextMessage>
+    return TextMessage;
+}
+
+
+QDomElement XmlGenerator::AdditionalTextMessage2_2CZ1_0(QString type, QString headline, QString text)
+{
+    QDomDocument xmlko;
+    QDomElement TextMessage=xmlko.createElement("AdditionalTextMessage");
+
+
+
+
+
+    QDomElement TextMessageType=internationalTextType("AdditionalTextMessageType",type,defaultniJazyk2_2CZ1_0);
+     QDomElement TextMessageHeadline=internationalTextType("AdditionalTextMessageHeadline",headline,defaultniJazyk2_2CZ1_0);
+    QDomElement TextMessageText=internationalTextType("AdditionalTextMessageText",text,defaultniJazyk2_2CZ1_0);
+    TextMessage.appendChild(TextMessageType);
+    TextMessage.appendChild(TextMessageHeadline);
+    TextMessage.appendChild(TextMessageText);
+
     //<TextMessage> <Value>$LS$This is  text message Šg (Umlaute ÄÖÜäöüß), which could be long...</Value></TextMessage>
     return TextMessage;
 }

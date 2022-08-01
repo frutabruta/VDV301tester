@@ -48,6 +48,12 @@ MainWindow::MainWindow(QWidget *parent) :
     konfigurace.vytvorDefaultniKonfiguraci();
     konfigurace.otevriSoubor();
 
+    MainWindowPomocne::naplnTabulkuHlaseni(ui->tableWidget_oznameni,konfigurace.specialniHlaseni);
+
+    //hlasic.nastavCestu(konfigurace.cestaHlaseni);
+
+
+
     logfile.defaultniLog(souborLogu);
     logfile.novySoubor(souborLogu);
     logfile.pridejNaKonecSouboru(souborLogu,QDateTime::currentDateTime().toString()+" program spuštěn");
@@ -56,6 +62,18 @@ MainWindow::MainWindow(QWidget *parent) :
     //zobrazeni
     nastavLabelCestyXml();
     ui->statusBar->showMessage("test");
+
+    //inicializace timeru
+    timerTrvaniZmenyPasma->setInterval(konfigurace.trvaniZobrazeniPasma);
+    timerTrvaniZmenyPasma->setSingleShot(true);
+
+    timerSpecialniOznameniSmazat.setSingleShot(true);
+    timerSpecialniOznameniSmazat.setInterval(konfigurace.trvaniZobrazeniOznameni);
+
+    timerStahniPrestupy.setInterval(konfigurace.intervalStahovaniPrestupu);
+
+    timerAfterStopToBetweenStop->setInterval(konfigurace.intervalAfterStopToBetweenStop);
+    timerAfterStopToBetweenStop->setSingleShot(true);
 }
 
 
@@ -127,6 +145,8 @@ void MainWindow::vsechnyConnecty()
     connect(timerTrvaniZmenyPasma,&QTimer::timeout,this,&MainWindow::eventSkryjZmenuTarifnihoPasma);
     connect(timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
     connect(&timerStahniPrestupy,&QTimer::timeout,this,&MainWindow::slotStahniPrestupyAktZastavky);
+    connect(&timerSpecialniOznameniSmazat,&QTimer::timeout,this,&MainWindow::slotVymazatSpecialniOznameni);
+
 }
 
 
@@ -222,7 +242,7 @@ void MainWindow::xmlVdv301HromadnyUpdate()
     if (stavSystemu.prestupy==true)
     {
         slotStahniPrestupyAktZastavky();
-        timerStahniPrestupy.start(intervalStahovaniPrestupu*1000);
+        timerStahniPrestupy.start();
     }
     else
     {
@@ -971,8 +991,7 @@ int MainWindow::eventOdjezd()
 
 
 
-    timerAfterStopToBetweenStop->setInterval(20000);
-    timerAfterStopToBetweenStop->setSingleShot(true);
+
     timerAfterStopToBetweenStop->start();
 
 
@@ -1898,9 +1917,31 @@ void MainWindow::eventZmenaTarifnihoPasma()
     xmlVdv301HromadnyUpdate();
     hlasic.kompletZmenaTarifnihoPasma();
 
-    timerTrvaniZmenyPasma->setInterval(10000);
-    timerTrvaniZmenyPasma->setSingleShot(true);
+
     timerTrvaniZmenyPasma->start();
+
+}
+
+void MainWindow::eventZobrazOznameni(int index, QVector<SpecialniHlaseni> seznamHlaseni)
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    if((index>=0)&&(index<seznamHlaseni.count()))
+    {
+
+        stavSystemu.aktivniSpecialniHlaseni=seznamHlaseni.at(index);
+        stavSystemu.jeSpecialniHlaseni=true;
+        //zobraz na panely
+        xmlVdv301HromadnyUpdate();
+        timerSpecialniOznameniSmazat.start();
+    //spust hlaseni
+        hlasic.kompletSpecialniHlaseni(stavSystemu.aktivniSpecialniHlaseni);
+
+
+    }
+
+
+
 
 }
 
@@ -2000,3 +2041,28 @@ void MainWindow::on_pushButton_jizda_pridat_clicked()
     xmlVdv301HromadnyUpdate();
 }
 
+
+void MainWindow::on_pushButton_menu_oznameni_clicked()
+{
+   ui->stackedWidget_palPc->setCurrentWidget(ui->page_oznameni);
+
+}
+
+
+
+
+
+
+void MainWindow::on_tableWidget_oznameni_cellClicked(int row, int column)
+{
+      qDebug() <<  Q_FUNC_INFO;
+    eventZobrazOznameni(row,konfigurace.specialniHlaseni);
+}
+
+
+void MainWindow::slotVymazatSpecialniOznameni()
+{
+     qDebug() <<  Q_FUNC_INFO;
+     stavSystemu.jeSpecialniHlaseni=false;
+     xmlVdv301HromadnyUpdate();
+}

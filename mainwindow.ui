@@ -247,6 +247,36 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="pushButton_menu_oznameni">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>200</width>
+                <height>200</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>15</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Oznameni</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="pushButton_menu_nastaveni">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
@@ -851,7 +881,7 @@
 *{padding: 0 0 0}</string>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>5</number>
             </property>
             <widget class="QWidget" name="page_jizda">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -3206,6 +3236,58 @@ Stop</string>
                </layout>
               </item>
              </layout>
+            </widget>
+            <widget class="QWidget" name="page_oznameni">
+             <widget class="QTableWidget" name="tableWidget_oznameni">
+              <property name="geometry">
+               <rect>
+                <x>30</x>
+                <y>20</y>
+                <width>621</width>
+                <height>361</height>
+               </rect>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>30</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <column>
+               <property name="text">
+                <string>Název</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>20</pointsize>
+                </font>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>AnnouncementType</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Nadpis</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>MP3</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Text</string>
+               </property>
+              </column>
+             </widget>
             </widget>
            </widget>
           </item>

@@ -29,6 +29,56 @@ int MainWindowPomocne::jeVRozsahu(int index, int pocetHodnot, QString funkce)
 
 }
 
+void MainWindowPomocne::naplnTabulkuHlaseni(QTableWidget *vstup, QVector<SpecialniHlaseni> seznamHlaseni )
+{
+
+    qDebug() <<  Q_FUNC_INFO;
+    vstup->setRowCount(0);
+    qDebug()<<"smazano"<<" adresy.size="<<seznamHlaseni .size();
+    if (seznamHlaseni.size()==0)
+    {
+        qDebug()<<"vracim 0";
+    }
+    else
+    {
+        for (int i = 0;  i < seznamHlaseni.count(); i++)
+        {
+            SpecialniHlaseni hlaseni=seznamHlaseni .at(i);
+
+            qint32 row;
+            QTableWidgetItem *cell;
+            row = vstup->rowCount();
+            vstup->insertRow(row);
+            cell = new QTableWidgetItem(hlaseni.displayName);
+            vstup->setItem(row, 0, cell);
+
+
+            cell = new QTableWidgetItem(hlaseni.type);
+            vstup->setItem(row, 1, cell);
+
+            cell = new QTableWidgetItem(hlaseni.title);
+            vstup->setItem(row, 2, cell);
+
+
+            if(hlaseni.mp3.count()>0)
+            {
+            cell = new QTableWidgetItem(hlaseni.mp3.first());
+            vstup->setItem(row, 3, cell);
+            }
+            cell = new QTableWidgetItem(hlaseni.text);
+            vstup->setItem(row, 4, cell);
+
+
+            vstup->resizeColumnsToContents();
+            vstup->resizeRowsToContents();
+        }
+        qDebug()<<"vracim 1";
+    }
+
+
+
+}
+
 
 /*
 void MainWindowPomocne::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)

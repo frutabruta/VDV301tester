@@ -1,0 +1,23 @@
+<konfigurace>
+ <hlaseni>
+  <cesta>/hlaseni</cesta>
+ <special>
+   <polozka><displayName>Funkčnost klimatizace</displayName><headline></headline><type></type><text>Vážení cestující, pro správnou funkčnost klimatizace v tomto vozidle, která je nyní v provozu, prosíme neotevírejte boční okna ani stropní poklopy. Děkujeme Vám za pochopení.</text><mp3>H350.mp3</mp3></polozka>
+   <polozka><displayName>Potraviny</displayName><headline></headline><type>NoFood</type><text>Upozorňujeme cestující, že konzumace potravin není ve vozidlech MHD povolena.</text><mp3>H340.mp3</mp3></polozka>
+   <polozka><displayName>Nastupujte předními dveřmi</displayName><headline></headline><type></type><text>Prosíme, nastupujte předními dveřmi.</text><mp3>H205.mp3</mp3></polozka>
+   <polozka><displayName>Nepokládat zavazadla</displayName><headline></headline><type>Luggage</type><text>Žádáme cestující, aby neodkládali svá zavazadla na sedadla.</text><mp3>H239.mp3</mp3></polozka>
+   <polozka><displayName>Neprůjezdnost, linka ukončena</displayName><headline></headline><type></type><text>Linka je z důvodu neprůjezdnosti trasy dočasně zkrácena.</text><mp3>H162.mp3</mp3></polozka>
+   <polozka><displayName>Neprůjezdnost, odklon</displayName><headline></headline><type>Diversion</type><text>Z důvodu neprůjezdnosti je linka vedena po odklonové trase.</text><mp3>H164.mp3</mp3></polozka>
+   <polozka><displayName>Prostor pro invalidní vozík</displayName><headline></headline><type>WheelChair</type><text>Vážení cestující, uvolněte prosím prostor pro invalidní vozík. Děkujeme.</text><mp3>H260.mp3</mp3></polozka>
+   <polozka><displayName>Prostor pro kočárek</displayName><headline></headline><type>Pram</type><text>Vážení cestující, uvolněte prosím prostor pro kočárek. Děkujeme.</text><mp3>H240.mp3</mp3></polozka>
+   <polozka><displayName>Přední dveře, předložte doklad</displayName><headline></headline><type></type><text>Nástup předními dveřmi. Předložte prosím jízdní doklad.</text><mp3>H183.mp3</mp3></polozka>
+   <polozka><displayName>Uvolněte přední dveře</displayName><headline></headline><type></type><text>Uvolněte prosím prostor předních dveří.</text><mp3>H182.mp3</mp3></polozka>
+   <polozka><displayName>Vozidlo obsazeno</displayName><headline>Vozidlo obsazeno</headline><type>Info</type><text>Vozidlo plně obsazeno. Vyčkejte prosím na další spoj.</text><mp3>H201.mp3</mp3></polozka>
+   <polozka><displayName>Vyčkáváme na vzájemný přestup</displayName><headline></headline><type></type><text>Vyčkáváme na vzájemný přestup.</text><mp3>H284.mp3</mp3></polozka>
+   <polozka><displayName>Silná IAD, odklon</displayName><headline>Odklon</headline><type>Diversion</type><text>Vážení cestující, z důvodvodu silné automobilové dopravy pojede tato linka odklonem.</text><mp3>H279.mp3</mp3></polozka>
+   <polozka><displayName>Čad odjezdu dle JŘ</displayName><headline></headline><type>Pid</type><text>Vážení cestující, vyčkáváme na přesný čas odjezdu dle jízdního řádu.</text><mp3>H281.mp3</mp3></polozka>
+   <polozka><displayName>zpoždění IAD</displayName><headline></headline><type>Congestion</type><text>Vážení cestující, omlouváme se za zpoždění linky, které je zapříčiněno silnou individuální dopravou a špatnou průjezdností trasy.</text><mp3>H280.mp3</mp3></polozka>
+   <polozka><displayName>postupte dále</displayName><headline></headline><type>GoFurther</type><text>Postupte prosím dále do vozu.</text><mp3>H179.mp3</mp3></polozka>
+</special>
+ </hlaseni>
+</konfigurace>

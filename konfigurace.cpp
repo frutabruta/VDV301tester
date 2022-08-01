@@ -4,7 +4,10 @@
 
 Konfigurace::Konfigurace(QString cestaProgramu)
 {
-cesta=cestaProgramu;
+    cesta=cestaProgramu;
+
+
+
 }
 
 
@@ -13,11 +16,15 @@ cesta=cestaProgramu;
 
 void Konfigurace::otevriSoubor()
 {
-    qDebug()<<"Konfigurace::otevriSoubor";
-    QDomDocument doc("mydocument");
-   // QFile file("xml_zdroje/XML_Zlicin_20200702_20200705.xml");
+    qDebug() <<  Q_FUNC_INFO;
+    QDomDocument doc;//("mydocument");
+    // QFile file("xml_zdroje/XML_Zlicin_20200702_20200705.xml");
 
-    QFile file(cesta+"/konfigurace/konfigurace.xml");
+
+    QString kompletCesta=cesta+"/konfigurace/konfigurace.xml";
+    QFile file(kompletCesta);
+
+    qDebug()<<" oteviram soubor "<<kompletCesta;
 
 
 
@@ -27,21 +34,34 @@ void Konfigurace::otevriSoubor()
     {
         emit odesliChybovouHlasku("soubor konfigurace se nepovedlo otevrit");
         qDebug()<<"fail1";
+         file.close();
         return;
     }
-    if (!doc.setContent(&file))
+    qDebug()<<"velikost souboru konfigurace je "<<file.size();
+
+    // https://stackoverflow.com/questions/42117178/qdomdocument-setcontent-return-false
+    QString errorStr;
+    int errorLine;
+    int errorColumn;
+    if(!doc.setContent(&file, false, &errorStr, &errorLine, &errorColumn))
     {
-         emit odesliChybovouHlasku("soubor konfigurace se nepovedlo otevrit2");
-        qDebug()<<"fail2";
+
+        emit odesliChybovouHlasku("soubor konfigurace je vadný:"+errorStr+" at line "+QString::number(errorLine)+" column "+QString::number(errorColumn ));
+
         file.close();
         return;
+
     }
-    file.close();
+
+
+
 
     qDebug()<<"uspech";
     QDomElement koren=doc.firstChildElement();
 
-    najdiCestaHlaseni(doc);
+    cestaHlaseni=natahniCestaHlaseni(doc);
+    natahniSpecialniHlaseni(doc);
+    file.close();
 
 
 
@@ -50,7 +70,16 @@ void Konfigurace::otevriSoubor()
 
 void Konfigurace::vytvorDefaultniKonfiguraci()
 {
-    qDebug()<<"Konfigurace::vytvorDefaultniKonfiguraci";
+    qDebug() <<  Q_FUNC_INFO;
+
+
+      QString filename=cesta+"/konfigurace/konfigurace.xml";
+     if(souborExistuje(filename))
+     {
+         qDebug()<<"soubor uz existuje";
+         return;
+     }
+
     QDomDocument xmlko;
     QDomElement parent=xmlko.createElement("konfigurace");
     xmlko.appendChild(parent);
@@ -64,14 +93,14 @@ void Konfigurace::vytvorDefaultniKonfiguraci()
     parent.appendChild(hlaseni);
 
 
-    QString filename=cesta+"/konfigurace/konfigurace.xml";
+
     qDebug()<<"cesta ke konfiguraci "<<filename;
     QFile file( filename );
     if ( file.open(QIODevice::ReadWrite) )
     {
         QTextStream stream( &file );
         stream << xmlko.toString();
-                 // "something" << Qt::endl;
+        // "something" << Qt::endl;
     }
     else
     {
@@ -85,7 +114,8 @@ void Konfigurace::vytvorDefaultniKonfiguraci()
 
 bool Konfigurace::souborExistuje(QString path)
 {
-    qDebug()<<"Konfigurace::souborExistuje";
+    qDebug() <<  Q_FUNC_INFO;
+
     QFileInfo check_file(path); //zdroj:: https://stackoverflow.com/questions/10273816/how-to-check-whether-file-exists-in-qt-in-c
     // check if file exists and if yes: Is it really a file and no directory?
     if (check_file.exists() && check_file.isFile()) {
@@ -98,14 +128,57 @@ bool Konfigurace::souborExistuje(QString path)
 }
 
 
-QString Konfigurace::najdiCestaHlaseni(QDomDocument xmlko)
+QString Konfigurace::natahniCestaHlaseni(QDomDocument xmlko)
 {
-    qDebug()<<" Konfigurace::najdiCestaHlaseni";
+    qDebug() <<  Q_FUNC_INFO;
     QString vysledek=xmlko.firstChildElement("konfigurace").firstChildElement("hlaseni").firstChildElement("cesta").firstChild().nodeValue() ;
 
     qDebug()<<vysledek;
 
     return vysledek;
+}
+
+int Konfigurace::natahniSpecialniHlaseni(QDomDocument xmlko)
+{
+    QDomNodeList seznamHlaseni=xmlko.firstChildElement("konfigurace").firstChildElement("hlaseni").firstChildElement("special").elementsByTagName("polozka");
+    specialniHlaseni.clear();
+    if(seznamHlaseni.isEmpty())
+    {
+        return 0;
+    }
+
+    for(int i=0; i<seznamHlaseni.count(); i++)
+    {
+        QDomElement element=seznamHlaseni.at(i).toElement();
+        SpecialniHlaseni polozka;
+        polozka.type=element.firstChildElement("type").text();
+        polozka.text=element.firstChildElement("text").text();
+        polozka.title=element.firstChildElement("headline").text();
+        polozka.displayName=element.firstChildElement("displayName").text();
+
+        QDomNodeList segmentyMp3=element.elementsByTagName("mp3");
+        for(int j=0;j<segmentyMp3.count();j++)
+        {
+            QString mp3soubor=segmentyMp3.at(j).firstChild().nodeValue();
+            qDebug()<<"nactena MP3: "<<mp3soubor;
+            polozka.mp3.push_back(mp3soubor);
+        }
+
+        specialniHlaseni.push_back(polozka);
+
+        qDebug()<<"nacteno specialni hlaseni "<<polozka.type<<" "<<polozka.title<<" "<<polozka.displayName<<" "<<polozka.text<<" pocetMP3:"<<polozka.mp3.count();
+
+
+
+    }
+
+
+    QString vysledek=xmlko.firstChildElement("konfigurace").firstChildElement("hlaseni").firstChildElement("cesta").firstChild().nodeValue() ;
+
+
+    return 1;
+
+
 }
 
 
