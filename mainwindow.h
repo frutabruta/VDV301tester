@@ -47,14 +47,11 @@ public:
     //konstanty
     QString umisteniProgramu=QCoreApplication::applicationDirPath();
 
-
-
-
 private:
 
     //konstanty
     bool filtrovatPrestupy=true;
-     //ve vterinach
+    //ve vterinach
     //datove struktury
     CestaUdaje stavSystemu;
     QVector <Linka> seznamLinek;
@@ -72,7 +69,6 @@ private:
     Logfile logfile;
     QFile souborLogu;
 
-
     //VDV301testy
     TestDemo vzorovyTest;
     TestOdberuServer testOdberuServer;
@@ -82,7 +78,6 @@ private:
     void testStop(int index);
 
     //promenne
-
 
     //udalosti
 
@@ -164,20 +159,14 @@ private slots:
     //tlacitka Menu
 
     void on_pushButton_menu_turnus_clicked();
-    void on_pushButton_menu_jizda_clicked();
-    void on_pushButton_menu_testRozhrani_clicked();
-
-    void on_pushButton_menu_fullscreen_clicked();
     void on_pushButton_menu_linkospoj_clicked();
-    void on_pushButton_menu_manual_clicked();
-    void on_pushButton_menu_nastaveni_clicked();
-
+    void on_pushButton_menu_jizda_clicked();
+    void on_pushButton_menu_oznameni_clicked();
+    void on_pushButton_menu_fullscreen_clicked();
     void on_pushButton_menu_quit_clicked();
-
 
     //tlacitka Menu2
     void on_pushButton_menu2_quit_clicked();
-    void on_pushButton_menu2_palPc_clicked();
     void on_pushButton_menu2_fullscreen_clicked();
     void on_pushButton_menu2_sluzby_clicked();
     void on_pushButton_menu2_prubehTestu_clicked();
@@ -196,6 +185,8 @@ private slots:
     void on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
+     void on_checkBox_MpvTurnusy_stateChanged(int arg1);
+
     //tlacitka jizda
     void on_pushButton_jizda_sipkaNahoru_clicked();
     void on_pushButton_jizda_sipkaDolu_clicked();
@@ -212,6 +203,12 @@ private slots:
 
     void on_tableWidgetNasledujiciZastavky_cellClicked(int row, int column);
 
+    //checkboxy jizda
+    void on_radioButton_singleDoorOpen_clicked();
+    void on_radioButton_allDoorsClosed_clicked();
+    void on_radioButton_doorsOpen_clicked();
+    void on_radioButton_singleDoorCloser_clicked();
+
     //tlacitka Test
 
     void on_pushButton_startTest_clicked();
@@ -225,8 +222,7 @@ private slots:
     //tlacitka Nast.
     void on_calendarWidget_selectionChanged();
 
-     void on_pushButton_nast_dnes_clicked();
-    void on_pushButton_nast_hlaseniSlozka_clicked();
+    void on_pushButton_nast_dnes_clicked();
     void on_pushButton_nast_pripojeni_clicked();
 
     void on_pushButton_nast_truncate_clicked();
@@ -247,13 +243,11 @@ private slots:
 
     void on_pushButton_manual_odesliXml_clicked();
 
-
     //radio buttons
     void radio1(bool stav);
     void radio2(bool stav);
     void radio3(bool stav);
     void radio4(bool stav);
-
 
     //vlatni sloty
     void slotMpvNetReady();
@@ -264,15 +258,11 @@ private slots:
     void eventSkryjZmenuTarifnihoPasma();
     void eventSkryjZmenuTarifnihoSystemu();
 
-    void on_checkBox_MpvTurnusy_stateChanged(int arg1);
-    void slotStahniPrestupyAktZastavky();
+    //nezarazeno
+     void slotStahniPrestupyAktZastavky();
 
-
-
-    void on_pushButton_menu_oznameni_clicked();
-
-    void on_tableWidget_oznameni_cellClicked(int row, int column);
-    void slotVymazatSpecialniOznameni();
+     void on_tableWidget_oznameni_cellClicked(int row, int column);
+     void slotVymazatSpecialniOznameni();
 };
 
 #endif // MAINWINDOW_H

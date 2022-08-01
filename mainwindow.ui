@@ -32,7 +32,7 @@
    <string>VDV301 Tester</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">*{padding: 0px;margin: 0px;}</string>
+   <string notr="true">padding: 0px;margin: 0px;</string>
   </property>
   <property name="animated">
    <bool>true</bool>
@@ -55,36 +55,44 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_21">
     <item>
-     <widget class="QStackedWidget" name="stackedWidget_hlavni">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>16777215</height>
-       </size>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">*{margin: 0 0 0 0}</string>
+       <string notr="true">margin=0px; padding= 0 px;</string>
       </property>
-      <property name="lineWidth">
-       <number>1</number>
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="page_palPc">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QWidget" name="tab_palPC">
+       <property name="styleSheet">
+        <string notr="true">padding: 0px; margin:0px;</string>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_20">
+       <attribute name="title">
+        <string>PalPC</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_9">
           <property name="spacing">
@@ -217,36 +225,6 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_menu_testRozhrani">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>15</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Test</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QPushButton" name="pushButton_menu_oznameni">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
@@ -269,82 +247,18 @@
               <property name="font">
                <font>
                 <pointsize>15</pointsize>
+                <kerning>true</kerning>
                </font>
               </property>
               <property name="text">
-               <string>Oznameni</string>
+               <string>spec. 
+hlášení</string>
               </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_menu_nastaveni">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
+              <property name="autoDefault">
+               <bool>false</bool>
               </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>15</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Nast.</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-              <property name="autoExclusive">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_menu_manual">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>15</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Manual</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-              <property name="autoExclusive">
-               <bool>true</bool>
+              <property name="flat">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -387,7 +301,7 @@
             <item>
              <widget class="QPushButton" name="pushButton_menu_quit">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -877,11 +791,11 @@
              </palette>
             </property>
             <property name="styleSheet">
-             <string notr="true">/*background-color:rgb(52, 101, 164); */
-*{padding: 0 0 0}</string>
+             <string notr="true">margin:0px;
+padding: 0 px;</string>
             </property>
             <property name="currentIndex">
-             <number>5</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_jizda">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -893,6 +807,11 @@
                    <layout class="QHBoxLayout" name="horizontalLayout_8">
                     <item>
                      <widget class="QLabel" name="label_aktLinka">
+                      <property name="font">
+                       <font>
+                        <pointsize>15</pointsize>
+                       </font>
+                      </property>
                       <property name="text">
                        <string>Linka</string>
                       </property>
@@ -900,6 +819,11 @@
                     </item>
                     <item>
                      <widget class="QLabel" name="label_aktSpoj">
+                      <property name="font">
+                       <font>
+                        <pointsize>15</pointsize>
+                       </font>
+                      </property>
                       <property name="text">
                        <string>Spoj</string>
                       </property>
@@ -911,13 +835,13 @@
                    <widget class="QTableWidget" name="tableWidgetNasledujiciZastavky">
                     <property name="minimumSize">
                      <size>
-                      <width>500</width>
-                      <height>250</height>
+                      <width>0</width>
+                      <height>0</height>
                      </size>
                     </property>
                     <property name="font">
                      <font>
-                      <pointsize>15</pointsize>
+                      <pointsize>20</pointsize>
                      </font>
                     </property>
                     <property name="horizontalScrollBarPolicy">
@@ -960,119 +884,52 @@
                    </widget>
                   </item>
                   <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <layout class="QHBoxLayout" name="horizontalLayout_18">
                     <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout">
-                      <property name="leftMargin">
-                       <number>0</number>
-                      </property>
-                      <item>
-                       <widget class="QLabel" name="popisek">
-                        <property name="font">
-                         <font>
-                          <pointsize>24</pointsize>
-                         </font>
-                        </property>
-                        <property name="text">
-                         <string>0</string>
-                        </property>
-                        <property name="textFormat">
-                         <enum>Qt::PlainText</enum>
-                        </property>
-                        <property name="alignment">
-                         <set>Qt::AlignCenter</set>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <layout class="QVBoxLayout" name="verticalLayout">
-                        <property name="leftMargin">
-                         <number>0</number>
-                        </property>
-                        <item>
-                         <widget class="QPushButton" name="pushButton_jizda_pridat">
-                          <property name="enabled">
-                           <bool>true</bool>
-                          </property>
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="font">
-                           <font>
-                            <pointsize>14</pointsize>
-                           </font>
-                          </property>
-                          <property name="text">
-                           <string>Přidat</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QPushButton" name="pushButton_jizda_ubrat">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="font">
-                           <font>
-                            <pointsize>14</pointsize>
-                           </font>
-                          </property>
-                          <property name="text">
-                           <string>Ubrat</string>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </item>
-                      <item>
-                       <layout class="QVBoxLayout" name="verticalLayout_6">
-                        <item>
-                         <widget class="QRadioButton" name="radioButton">
-                          <property name="text">
-                           <string>DoorsOpen</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QRadioButton" name="radioButton_2">
-                          <property name="text">
-                           <string>AllDoorsClosed</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QRadioButton" name="radioButton_3">
-                          <property name="text">
-                           <string>SingleDoorOpen</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QRadioButton" name="radioButton_4">
-                          <property name="text">
-                           <string>SingleDoorClosed</string>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_jizda_IBIS">
+                     <widget class="QRadioButton" name="radioButton_singleDoorOpen">
                       <property name="font">
                        <font>
-                        <pointsize>18</pointsize>
+                        <pointsize>12</pointsize>
                        </font>
                       </property>
                       <property name="text">
-                       <string>IBIS</string>
+                       <string>SingleDoorOpen</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QRadioButton" name="radioButton_allDoorsClosed">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>AllDoorsClosed</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QRadioButton" name="radioButton_doorsOpen">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>DoorsOpen</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QRadioButton" name="radioButton_singleDoorCloser">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>SingleDoorClosed</string>
                       </property>
                      </widget>
                     </item>
@@ -1082,10 +939,41 @@
                 </item>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_sipky">
+                  <property name="sizeConstraint">
+                   <enum>QLayout::SetDefaultConstraint</enum>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_jizda_pridat">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>▲
+▲</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item>
                    <widget class="QPushButton" name="pushButton_jizda_sipkaNahoru">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
@@ -1110,7 +998,7 @@
                   <item>
                    <widget class="QPushButton" name="pushButton_jizda_sipkaDolu">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
@@ -1126,6 +1014,49 @@
                     </property>
                    </widget>
                   </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_jizda_ubrat">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>14</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>▼
+▼</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="popisek">
+                    <property name="font">
+                     <font>
+                      <pointsize>24</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>0</string>
+                    </property>
+                    <property name="textFormat">
+                     <enum>Qt::PlainText</enum>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignCenter</set>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </item>
                 <item>
@@ -1134,7 +1065,32 @@
                    <enum>QLayout::SetNoConstraint</enum>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_beforeStop">
+                   <widget class="QPushButton" name="pushButton_jizda_betweenStop">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>18</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Between
+Stop</string>
+                    </property>
+                    <property name="checkable">
+                     <bool>true</bool>
+                    </property>
+                    <property name="autoExclusive">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_jizda_afterStop">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1147,7 +1103,7 @@
                      </font>
                     </property>
                     <property name="text">
-                     <string>Before
+                     <string>After
 Stop</string>
                     </property>
                     <property name="checkable">
@@ -1187,7 +1143,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_afterStop">
+                   <widget class="QPushButton" name="pushButton_jizda_beforeStop">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1200,32 +1156,7 @@ Stop</string>
                      </font>
                     </property>
                     <property name="text">
-                     <string>After
-Stop</string>
-                    </property>
-                    <property name="checkable">
-                     <bool>true</bool>
-                    </property>
-                    <property name="autoExclusive">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_jizda_betweenStop">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>18</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Between
+                     <string>Before
 Stop</string>
                     </property>
                     <property name="checkable">
@@ -1249,6 +1180,18 @@ Stop</string>
                     </property>
                    </widget>
                   </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_jizda_IBIS">
+                    <property name="font">
+                     <font>
+                      <pointsize>18</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>IBIS</string>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </item>
                </layout>
@@ -1259,6 +1202,11 @@ Stop</string>
              <layout class="QGridLayout" name="gridLayout_2">
               <item row="2" column="0">
                <widget class="QCheckBox" name="checkBox_2">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
+                </property>
                 <property name="text">
                  <string>StopRequested</string>
                 </property>
@@ -1793,7 +1741,7 @@ Stop</string>
                    <widget class="QListWidget" name="listLinek">
                     <property name="font">
                      <font>
-                      <pointsize>15</pointsize>
+                      <pointsize>20</pointsize>
                      </font>
                     </property>
                    </widget>
@@ -1818,7 +1766,7 @@ Stop</string>
                    <widget class="QListWidget" name="listSpoje">
                     <property name="font">
                      <font>
-                      <pointsize>15</pointsize>
+                      <pointsize>20</pointsize>
                      </font>
                     </property>
                    </widget>
@@ -1829,800 +1777,15 @@ Stop</string>
               </item>
               <item row="3" column="0">
                <widget class="QCheckBox" name="checkBox">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
+                </property>
                 <property name="text">
                  <string>MPV přestupy</string>
                 </property>
                </widget>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="page_nastaveni">
-             <layout class="QVBoxLayout" name="verticalLayout_23">
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_3">
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_6">
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_14">
-                    <item>
-                     <widget class="QDateEdit" name="dateEdit">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_nast_dnes">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="text">
-                       <string>DNES</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QCalendarWidget" name="calendarWidget">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>100</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="firstDayOfWeek">
-                       <enum>Qt::Monday</enum>
-                      </property>
-                      <property name="selectionMode">
-                       <enum>QCalendarWidget::SingleSelection</enum>
-                      </property>
-                      <property name="horizontalHeaderFormat">
-                       <enum>QCalendarWidget::ShortDayNames</enum>
-                      </property>
-                      <property name="verticalHeaderFormat">
-                       <enum>QCalendarWidget::NoVerticalHeader</enum>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="hlaseniLabel">
-                      <property name="text">
-                       <string>Slozka hlaseni</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_nast_hlaseniSlozka">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="text">
-                       <string>nastav slozku</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="lineEditHlaseniCesta">
-                      <property name="text">
-                       <string>C:/Users/Eichler536/Desktop/HLASENI</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <layout class="QVBoxLayout" name="verticalLayout_2">
-                      <property name="leftMargin">
-                       <number>20</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>0</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>20</number>
-                      </property>
-                      <item>
-                       <widget class="QLabel" name="label_3">
-                        <property name="text">
-                         <string>Stav připojení:</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="NazevVysledku">
-                        <property name="text">
-                         <string>stav pripojeni</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QPushButton" name="pushButton_nast_pripojeni">
-                        <property name="enabled">
-                         <bool>false</bool>
-                        </property>
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="text">
-                         <string>SQL Connect</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayoutvstupniData">
-                    <item>
-                     <widget class="QLabel" name="label_6">
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>Vstupní data</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_4">
-                      <property name="maximumSize">
-                       <size>
-                        <width>200</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>cesta k souboru</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_cestaXml">
-                      <property name="maximumSize">
-                       <size>
-                        <width>200</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>cesta_obsah</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_nast_truncate">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>80</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Vymazat data z DB</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_nast_xmlVyberCestu">
-                      <property name="enabled">
-                       <bool>true</bool>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>80</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Vyber cestu XML</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_nast_nactiXMLropid">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>80</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>nactiXML</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QVBoxLayout" name="verticalLayoutseriovyPort">
-                    <item>
-                     <widget class="QLabel" name="label_7">
-                      <property name="font">
-                       <font>
-                        <pointsize>20</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>Sériový port</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="lineEdit_jmenoPortu">
-                      <property name="palette">
-                       <palette>
-                        <active>
-                         <colorrole role="Button">
-                          <brush brushstyle="SolidPattern">
-                           <color alpha="255">
-                            <red>255</red>
-                            <green>255</green>
-                            <blue>255</blue>
-                           </color>
-                          </brush>
-                         </colorrole>
-                         <colorrole role="Base">
-                          <brush brushstyle="SolidPattern">
-                           <color alpha="255">
-                            <red>255</red>
-                            <green>255</green>
-                            <blue>255</blue>
-                           </color>
-                          </brush>
-                         </colorrole>
-                         <colorrole role="Window">
-                          <brush brushstyle="SolidPattern">
-                           <color alpha="255">
-                            <red>52</red>
-                            <green>101</green>
-                            <blue>164</blue>
-                           </color>
-                          </brush>
-                         </colorrole>
-                        </active>
-                        <inactive>
-                         <colorrole role="Button">
-                          <brush brushstyle="SolidPattern">
-                           <color alpha="255">
-                            <red>255</red>
-                            <green>255</green>
-                            <blue>255</blue>
-                           </color>
-                          </brush>
-                         </colorrole>
-                         <colorrole role="Base">
-                          <brush brushstyle="SolidPattern">
-                           <color alpha="255">
-                            <red>255</red>
-                            <green>255</green>
-                            <blue>255</blue>
-                           </color>
-                          </brush>
-                         </colorrole>
-                         <colorrole role="Window">
-                          <brush brushstyle="SolidPattern">
-                           <color alpha="255">
-                            <red>52</red>
-                            <green>101</green>
-                            <blue>164</blue>
-                           </color>
-                          </brush>
-                         </colorrole>
-                        </inactive>
-                        <disabled>
-                         <colorrole role="Button">
-                          <brush brushstyle="SolidPattern">
-                           <color alpha="255">
-                            <red>255</red>
-                            <green>255</green>
-                            <blue>255</blue>
-                           </color>
-                          </brush>
-                         </colorrole>
-                         <colorrole role="Base">
-                          <brush brushstyle="SolidPattern">
-                           <color alpha="255">
-                            <red>52</red>
-                            <green>101</green>
-                            <blue>164</blue>
-                           </color>
-                          </brush>
-                         </colorrole>
-                         <colorrole role="Window">
-                          <brush brushstyle="SolidPattern">
-                           <color alpha="255">
-                            <red>52</red>
-                            <green>101</green>
-                            <blue>164</blue>
-                           </color>
-                          </brush>
-                         </colorrole>
-                        </disabled>
-                       </palette>
-                      </property>
-                      <property name="text">
-                       <string>ttyUSB0</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_nast_nastavPort">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>80</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>nastav číslo portu</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="pushButton_nast_odesliPrikaz">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>80</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>odesliPrikaz</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_diagnostika_sql">
-                  <property name="text">
-                   <string>Diagnostický řádek importu dat</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_2">
-                  <item>
-                   <widget class="QLabel" name="label_12">
-                    <property name="text">
-                     <string>build</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_build">
-                    <property name="text">
-                     <string>cisloBuildu</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-            <widget class="QWidget" name="page_manual">
-             <layout class="QGridLayout" name="gridLayout">
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEdit_strukturaOdberu">
-                <property name="text">
-                 <string>AllData</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0" colspan="4">
-               <layout class="QVBoxLayout" name="verticalLayout_11">
-                <item>
-                 <widget class="QLabel" name="label_11">
-                  <property name="text">
-                   <string>Odberatele 1.0</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QTableWidget" name="seznamOdberatelu">
-                  <column>
-                   <property name="text">
-                    <string>Adresa</string>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>Struktura</string>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>Interval</string>
-                   </property>
-                  </column>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_15">
-                  <property name="text">
-                   <string>Odberatele V2.2CZ1.0</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QTableWidget" name="seznamOdberatelu2">
-                  <column>
-                   <property name="text">
-                    <string>Adresa</string>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>Struktura</string>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>Interval</string>
-                   </property>
-                  </column>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="6" column="5">
-               <widget class="QLabel" name="label_diagnostika_manual">
-                <property name="font">
-                 <font>
-                  <pointsize>16</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>subscribe diagnostika</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLineEdit" name="lineEdit_ipadresaOdberatele">
-                <property name="text">
-                 <string>http://127.0.0.1:48479</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="5" rowspan="6">
-               <layout class="QVBoxLayout" name="verticalLayout_10">
-                <item>
-                 <widget class="QLabel" name="label_10">
-                  <property name="text">
-                   <string>CustomXML</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPlainTextEdit" name="plainTextEditCustomXml">
-                  <property name="plainText">
-                   <string>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-&lt;CustomerInformationService.GetAllDataResponse&gt;
- &lt;AllData&gt;
-  &lt;TimeStamp&gt;
-   &lt;Value&gt;2021-03-07T02:51:28&lt;/Value&gt;
-  &lt;/TimeStamp&gt;
-  &lt;VehicleRef&gt;
-   &lt;Value&gt;33&lt;/Value&gt;
-  &lt;/VehicleRef&gt;
-  &lt;DefaultLanguage&gt;
-   &lt;Value&gt;cz&lt;/Value&gt;
-  &lt;/DefaultLanguage&gt;
-  &lt;TripInformation&gt;
-   &lt;TripRef&gt;
-    &lt;Value&gt;3&lt;/Value&gt;
-   &lt;/TripRef&gt;
-   &lt;StopSequence&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;0&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:0&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Sídliště Radotín&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;1&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:1&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Sídliště Radotín&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;2&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:2&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Černošice,U Vodárny&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;3&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:3&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Černošice,Žel.zast.&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;4&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:4&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Zdická&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-   &lt;/StopSequence&gt;
-   &lt;LocationState&gt;AtStop&lt;/LocationState&gt;
-  &lt;/TripInformation&gt;
-  &lt;CurrentStopIndex&gt;
-   &lt;Value&gt;0&lt;/Value&gt;
-  &lt;/CurrentStopIndex&gt;
-  &lt;RouteDeviation&gt;onroute&lt;/RouteDeviation&gt;
-  &lt;DoorState&gt;AllDoorsClosed&lt;/DoorState&gt;
-  &lt;VehicleStopRequested&gt;
-   &lt;Value&gt;0&lt;/Value&gt;
-  &lt;/VehicleStopRequested&gt;
-  &lt;ExitSide&gt;right&lt;/ExitSide&gt;
- &lt;/AllData&gt;
-&lt;/CustomerInformationService.GetAllDataResponse&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item row="4" column="0" rowspan="3" colspan="2">
-               <layout class="QGridLayout" name="gridLayout_7">
-                <item row="1" column="0">
-                 <widget class="QPushButton" name="pushButton_manual_addsubscriber">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Přidat odběratele</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Zrusit odber</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Zrusit odber</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_13">
-                  <property name="text">
-                   <string>V1.0</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QLabel" name="label_14">
-                  <property name="text">
-                   <string>V2.2CZ1.0</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QPushButton" name="pushButton_manual_addsubscriber_2">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Přidat odběratele</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QPushButton" name="pushButton_manual_smazOkno">
-                  <property name="text">
-                   <string>Vymaž okno</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="2">
-                 <widget class="QPushButton" name="pushButton_manual_odesliXml">
-                  <property name="text">
-                   <string>odešli na panely</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
               </item>
              </layout>
             </widget>
@@ -3121,6 +2284,11 @@ Stop</string>
                  <layout class="QVBoxLayout" name="verticalLayout_19">
                   <item>
                    <widget class="QCheckBox" name="checkBox_4">
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>StopRequested</string>
                     </property>
@@ -3128,8 +2296,19 @@ Stop</string>
                   </item>
                   <item>
                    <widget class="QCheckBox" name="checkBox_MpvTurnusy">
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>MPV přestupy</string>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>16</width>
+                      <height>16</height>
+                     </size>
                     </property>
                    </widget>
                   </item>
@@ -3167,8 +2346,7 @@ Stop</string>
                      </font>
                     </property>
                     <property name="text">
-                     <string>Kmenová
- linka</string>
+                     <string>Kmenová linka</string>
                     </property>
                    </widget>
                   </item>
@@ -3176,7 +2354,7 @@ Stop</string>
                    <widget class="QListWidget" name="listKmenovychLinek">
                     <property name="font">
                      <font>
-                      <pointsize>15</pointsize>
+                      <pointsize>20</pointsize>
                      </font>
                     </property>
                    </widget>
@@ -3201,7 +2379,7 @@ Stop</string>
                    <widget class="QListWidget" name="listPoradi">
                     <property name="font">
                      <font>
-                      <pointsize>15</pointsize>
+                      <pointsize>20</pointsize>
                      </font>
                     </property>
                    </widget>
@@ -3226,7 +2404,7 @@ Stop</string>
                    <widget class="QListWidget" name="listTurnusSpoje">
                     <property name="font">
                      <font>
-                      <pointsize>15</pointsize>
+                      <pointsize>20</pointsize>
                      </font>
                     </property>
                    </widget>
@@ -3238,56 +2416,52 @@ Stop</string>
              </layout>
             </widget>
             <widget class="QWidget" name="page_oznameni">
-             <widget class="QTableWidget" name="tableWidget_oznameni">
-              <property name="geometry">
-               <rect>
-                <x>30</x>
-                <y>20</y>
-                <width>621</width>
-                <height>361</height>
-               </rect>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>30</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <column>
-               <property name="text">
-                <string>Název</string>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>AnnouncementType</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Nadpis</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>MP3</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Text</string>
-               </property>
-              </column>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_23">
+              <item>
+               <widget class="QTableWidget" name="tableWidget_oznameni">
+                <property name="font">
+                 <font>
+                  <pointsize>30</pointsize>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
+                </property>
+                <column>
+                 <property name="text">
+                  <string>Název</string>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                  </font>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>AnnouncementType</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Nadpis</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>MP3</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Text</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </widget>
           </item>
@@ -3295,8 +2469,839 @@ Stop</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_test">
-       <layout class="QHBoxLayout" name="horizontalLayout_18">
+      <widget class="QWidget" name="tab_moznosti">
+       <attribute name="title">
+        <string>Možnosti</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <item>
+         <widget class="QTabWidget" name="tabWidget_2">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="tab_moznosti_nast">
+           <attribute name="title">
+            <string>Nast.</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_20">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_14">
+                  <item>
+                   <widget class="QDateEdit" name="dateEdit">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_nast_dnes">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>DNES</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCalendarWidget" name="calendarWidget">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="firstDayOfWeek">
+                     <enum>Qt::Monday</enum>
+                    </property>
+                    <property name="selectionMode">
+                     <enum>QCalendarWidget::SingleSelection</enum>
+                    </property>
+                    <property name="horizontalHeaderFormat">
+                     <enum>QCalendarWidget::ShortDayNames</enum>
+                    </property>
+                    <property name="verticalHeaderFormat">
+                     <enum>QCalendarWidget::NoVerticalHeader</enum>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayoutvstupniData">
+                  <item>
+                   <widget class="QLabel" name="label_6">
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Vstupní data</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_4">
+                    <property name="maximumSize">
+                     <size>
+                      <width>200</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>cesta k souboru</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_cestaXml">
+                    <property name="maximumSize">
+                     <size>
+                      <width>200</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>cesta_obsah</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_nast_truncate">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Vymazat DB</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_nast_xmlVyberCestu">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>XML cesta</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_nast_nactiXMLropid">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>načtení XML</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayoutseriovyPort">
+                  <item>
+                   <widget class="QLabel" name="label_7">
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Sériový port IBIS</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit_jmenoPortu">
+                    <property name="palette">
+                     <palette>
+                      <active>
+                       <colorrole role="Button">
+                        <brush brushstyle="SolidPattern">
+                         <color alpha="255">
+                          <red>255</red>
+                          <green>255</green>
+                          <blue>255</blue>
+                         </color>
+                        </brush>
+                       </colorrole>
+                       <colorrole role="Base">
+                        <brush brushstyle="SolidPattern">
+                         <color alpha="255">
+                          <red>255</red>
+                          <green>255</green>
+                          <blue>255</blue>
+                         </color>
+                        </brush>
+                       </colorrole>
+                       <colorrole role="Window">
+                        <brush brushstyle="SolidPattern">
+                         <color alpha="255">
+                          <red>52</red>
+                          <green>101</green>
+                          <blue>164</blue>
+                         </color>
+                        </brush>
+                       </colorrole>
+                      </active>
+                      <inactive>
+                       <colorrole role="Button">
+                        <brush brushstyle="SolidPattern">
+                         <color alpha="255">
+                          <red>255</red>
+                          <green>255</green>
+                          <blue>255</blue>
+                         </color>
+                        </brush>
+                       </colorrole>
+                       <colorrole role="Base">
+                        <brush brushstyle="SolidPattern">
+                         <color alpha="255">
+                          <red>255</red>
+                          <green>255</green>
+                          <blue>255</blue>
+                         </color>
+                        </brush>
+                       </colorrole>
+                       <colorrole role="Window">
+                        <brush brushstyle="SolidPattern">
+                         <color alpha="255">
+                          <red>52</red>
+                          <green>101</green>
+                          <blue>164</blue>
+                         </color>
+                        </brush>
+                       </colorrole>
+                      </inactive>
+                      <disabled>
+                       <colorrole role="Button">
+                        <brush brushstyle="SolidPattern">
+                         <color alpha="255">
+                          <red>255</red>
+                          <green>255</green>
+                          <blue>255</blue>
+                         </color>
+                        </brush>
+                       </colorrole>
+                       <colorrole role="Base">
+                        <brush brushstyle="SolidPattern">
+                         <color alpha="255">
+                          <red>52</red>
+                          <green>101</green>
+                          <blue>164</blue>
+                         </color>
+                        </brush>
+                       </colorrole>
+                       <colorrole role="Window">
+                        <brush brushstyle="SolidPattern">
+                         <color alpha="255">
+                          <red>52</red>
+                          <green>101</green>
+                          <blue>164</blue>
+                         </color>
+                        </brush>
+                       </colorrole>
+                      </disabled>
+                     </palette>
+                    </property>
+                    <property name="text">
+                     <string>ttyUSB0</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_nast_nastavPort">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>80</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>nastav port</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="pushButton_nast_odesliPrikaz">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>80</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>odešli testovací příkaz</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_diagnostika_sql">
+                <property name="text">
+                 <string>Diagnostický řádek importu dat</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QLabel" name="label_12">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>build</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_build">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>cisloBuildu</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_moznosti_manual">
+           <attribute name="title">
+            <string>Manual</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="10" column="4">
+             <widget class="QLabel" name="label_diagnostika_manual">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>subscribe diagnostika</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="0" rowspan="3" colspan="3">
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <item>
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Odberatele 1.0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="seznamOdberatelu">
+                <column>
+                 <property name="text">
+                  <string>Adresa</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Struktura</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Interval</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>Odberatele V2.2CZ1.0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="seznamOdberatelu2">
+                <column>
+                 <property name="text">
+                  <string>Adresa</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Struktura</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Interval</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_10">
+                <item>
+                 <layout class="QGridLayout" name="gridLayout_7">
+                  <item row="3" column="1">
+                   <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2">
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Zrusit odber</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_13">
+                    <property name="text">
+                     <string>V1.0</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QLabel" name="label_14">
+                    <property name="text">
+                     <string>V2.2CZ1.0</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QPushButton" name="pushButton_manual_removeSubscriber">
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Zrusit odber</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QPushButton" name="pushButton_manual_addsubscriber">
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Přidat odběratele</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QPushButton" name="pushButton_manual_addsubscriber_2">
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Přidat odběratele</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLineEdit" name="lineEdit_strukturaOdberu">
+                    <property name="text">
+                     <string>AllData</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLineEdit" name="lineEdit_ipadresaOdberatele">
+                    <property name="text">
+                     <string>http://127.0.0.1:48479</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item row="8" column="4">
+             <layout class="QVBoxLayout" name="verticalLayout_28">
+              <item>
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>CustomXML</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPlainTextEdit" name="plainTextEditCustomXml">
+                <property name="plainText">
+                 <string>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+&lt;CustomerInformationService.GetAllDataResponse&gt;
+ &lt;AllData&gt;
+  &lt;TimeStamp&gt;
+   &lt;Value&gt;2021-03-07T02:51:28&lt;/Value&gt;
+  &lt;/TimeStamp&gt;
+  &lt;VehicleRef&gt;
+   &lt;Value&gt;33&lt;/Value&gt;
+  &lt;/VehicleRef&gt;
+  &lt;DefaultLanguage&gt;
+   &lt;Value&gt;cz&lt;/Value&gt;
+  &lt;/DefaultLanguage&gt;
+  &lt;TripInformation&gt;
+   &lt;TripRef&gt;
+    &lt;Value&gt;3&lt;/Value&gt;
+   &lt;/TripRef&gt;
+   &lt;StopSequence&gt;
+    &lt;StopPoint&gt;
+     &lt;StopIndex&gt;
+      &lt;Value&gt;0&lt;/Value&gt;
+     &lt;/StopIndex&gt;
+     &lt;StopRef&gt;
+      &lt;Value&gt;Ref:0&lt;/Value&gt;
+     &lt;/StopRef&gt;
+     &lt;StopName&gt;
+      &lt;Value&gt;Sídliště Radotín&lt;/Value&gt;
+      &lt;Language&gt;cz&lt;/Language&gt;
+     &lt;/StopName&gt;
+     &lt;DisplayContent&gt;
+      &lt;DisplayContentRef&gt;
+       &lt;Value&gt;1234&lt;/Value&gt;
+      &lt;/DisplayContentRef&gt;
+      &lt;LineInformation&gt;
+       &lt;LineRef&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineRef&gt;
+       &lt;LineName&gt;
+        &lt;Value&gt;315&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/LineName&gt;
+       &lt;LineNumber&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineNumber&gt;
+      &lt;/LineInformation&gt;
+      &lt;Destination&gt;
+       &lt;DestinationRef&gt;
+        &lt;Value&gt;22&lt;/Value&gt;
+       &lt;/DestinationRef&gt;
+       &lt;DestinationName&gt;
+        &lt;Value&gt;Zdická&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/DestinationName&gt;
+      &lt;/Destination&gt;
+     &lt;/DisplayContent&gt;
+    &lt;/StopPoint&gt;
+    &lt;StopPoint&gt;
+     &lt;StopIndex&gt;
+      &lt;Value&gt;1&lt;/Value&gt;
+     &lt;/StopIndex&gt;
+     &lt;StopRef&gt;
+      &lt;Value&gt;Ref:1&lt;/Value&gt;
+     &lt;/StopRef&gt;
+     &lt;StopName&gt;
+      &lt;Value&gt;Sídliště Radotín&lt;/Value&gt;
+      &lt;Language&gt;cz&lt;/Language&gt;
+     &lt;/StopName&gt;
+     &lt;DisplayContent&gt;
+      &lt;DisplayContentRef&gt;
+       &lt;Value&gt;1234&lt;/Value&gt;
+      &lt;/DisplayContentRef&gt;
+      &lt;LineInformation&gt;
+       &lt;LineRef&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineRef&gt;
+       &lt;LineName&gt;
+        &lt;Value&gt;315&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/LineName&gt;
+       &lt;LineNumber&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineNumber&gt;
+      &lt;/LineInformation&gt;
+      &lt;Destination&gt;
+       &lt;DestinationRef&gt;
+        &lt;Value&gt;22&lt;/Value&gt;
+       &lt;/DestinationRef&gt;
+       &lt;DestinationName&gt;
+        &lt;Value&gt;Zdická&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/DestinationName&gt;
+      &lt;/Destination&gt;
+     &lt;/DisplayContent&gt;
+    &lt;/StopPoint&gt;
+    &lt;StopPoint&gt;
+     &lt;StopIndex&gt;
+      &lt;Value&gt;2&lt;/Value&gt;
+     &lt;/StopIndex&gt;
+     &lt;StopRef&gt;
+      &lt;Value&gt;Ref:2&lt;/Value&gt;
+     &lt;/StopRef&gt;
+     &lt;StopName&gt;
+      &lt;Value&gt;Černošice,U Vodárny&lt;/Value&gt;
+      &lt;Language&gt;cz&lt;/Language&gt;
+     &lt;/StopName&gt;
+     &lt;DisplayContent&gt;
+      &lt;DisplayContentRef&gt;
+       &lt;Value&gt;1234&lt;/Value&gt;
+      &lt;/DisplayContentRef&gt;
+      &lt;LineInformation&gt;
+       &lt;LineRef&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineRef&gt;
+       &lt;LineName&gt;
+        &lt;Value&gt;315&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/LineName&gt;
+       &lt;LineNumber&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineNumber&gt;
+      &lt;/LineInformation&gt;
+      &lt;Destination&gt;
+       &lt;DestinationRef&gt;
+        &lt;Value&gt;22&lt;/Value&gt;
+       &lt;/DestinationRef&gt;
+       &lt;DestinationName&gt;
+        &lt;Value&gt;Zdická&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/DestinationName&gt;
+      &lt;/Destination&gt;
+     &lt;/DisplayContent&gt;
+    &lt;/StopPoint&gt;
+    &lt;StopPoint&gt;
+     &lt;StopIndex&gt;
+      &lt;Value&gt;3&lt;/Value&gt;
+     &lt;/StopIndex&gt;
+     &lt;StopRef&gt;
+      &lt;Value&gt;Ref:3&lt;/Value&gt;
+     &lt;/StopRef&gt;
+     &lt;StopName&gt;
+      &lt;Value&gt;Černošice,Žel.zast.&lt;/Value&gt;
+      &lt;Language&gt;cz&lt;/Language&gt;
+     &lt;/StopName&gt;
+     &lt;DisplayContent&gt;
+      &lt;DisplayContentRef&gt;
+       &lt;Value&gt;1234&lt;/Value&gt;
+      &lt;/DisplayContentRef&gt;
+      &lt;LineInformation&gt;
+       &lt;LineRef&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineRef&gt;
+       &lt;LineName&gt;
+        &lt;Value&gt;315&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/LineName&gt;
+       &lt;LineNumber&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineNumber&gt;
+      &lt;/LineInformation&gt;
+      &lt;Destination&gt;
+       &lt;DestinationRef&gt;
+        &lt;Value&gt;22&lt;/Value&gt;
+       &lt;/DestinationRef&gt;
+       &lt;DestinationName&gt;
+        &lt;Value&gt;Zdická&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/DestinationName&gt;
+      &lt;/Destination&gt;
+     &lt;/DisplayContent&gt;
+    &lt;/StopPoint&gt;
+    &lt;StopPoint&gt;
+     &lt;StopIndex&gt;
+      &lt;Value&gt;4&lt;/Value&gt;
+     &lt;/StopIndex&gt;
+     &lt;StopRef&gt;
+      &lt;Value&gt;Ref:4&lt;/Value&gt;
+     &lt;/StopRef&gt;
+     &lt;StopName&gt;
+      &lt;Value&gt;Zdická&lt;/Value&gt;
+      &lt;Language&gt;cz&lt;/Language&gt;
+     &lt;/StopName&gt;
+     &lt;DisplayContent&gt;
+      &lt;DisplayContentRef&gt;
+       &lt;Value&gt;1234&lt;/Value&gt;
+      &lt;/DisplayContentRef&gt;
+      &lt;LineInformation&gt;
+       &lt;LineRef&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineRef&gt;
+       &lt;LineName&gt;
+        &lt;Value&gt;315&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/LineName&gt;
+       &lt;LineNumber&gt;
+        &lt;Value&gt;100315&lt;/Value&gt;
+       &lt;/LineNumber&gt;
+      &lt;/LineInformation&gt;
+      &lt;Destination&gt;
+       &lt;DestinationRef&gt;
+        &lt;Value&gt;22&lt;/Value&gt;
+       &lt;/DestinationRef&gt;
+       &lt;DestinationName&gt;
+        &lt;Value&gt;Zdická&lt;/Value&gt;
+        &lt;Language&gt;cz&lt;/Language&gt;
+       &lt;/DestinationName&gt;
+      &lt;/Destination&gt;
+     &lt;/DisplayContent&gt;
+    &lt;/StopPoint&gt;
+   &lt;/StopSequence&gt;
+   &lt;LocationState&gt;AtStop&lt;/LocationState&gt;
+  &lt;/TripInformation&gt;
+  &lt;CurrentStopIndex&gt;
+   &lt;Value&gt;0&lt;/Value&gt;
+  &lt;/CurrentStopIndex&gt;
+  &lt;RouteDeviation&gt;onroute&lt;/RouteDeviation&gt;
+  &lt;DoorState&gt;AllDoorsClosed&lt;/DoorState&gt;
+  &lt;VehicleStopRequested&gt;
+   &lt;Value&gt;0&lt;/Value&gt;
+  &lt;/VehicleStopRequested&gt;
+  &lt;ExitSide&gt;right&lt;/ExitSide&gt;
+ &lt;/AllData&gt;
+&lt;/CustomerInformationService.GetAllDataResponse&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_22">
+                <item>
+                 <widget class="QPushButton" name="pushButton_manual_odesliXml">
+                  <property name="font">
+                   <font>
+                    <pointsize>20</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>odeslat
+ na panely</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_manual_smazOkno">
+                  <property name="font">
+                   <font>
+                    <pointsize>20</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>vymazat
+ okno</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_test">
+       <attribute name="title">
+        <string>Testování</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
          <layout class="QFormLayout" name="formLayout_3">
           <item row="0" column="0">
@@ -3413,42 +3418,6 @@ Stop</string>
               </property>
               <property name="checked">
                <bool>false</bool>
-              </property>
-              <property name="autoExclusive">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_menu2_palPc">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>200</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>15</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>PalPC</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
               </property>
               <property name="autoExclusive">
                <bool>true</bool>
@@ -3993,38 +3962,15 @@ test</string>
   <tabstop>pushButton_menu_linkospoj</tabstop>
   <tabstop>pushButton_menu_turnus</tabstop>
   <tabstop>pushButton_menu_jizda</tabstop>
-  <tabstop>pushButton_menu_testRozhrani</tabstop>
-  <tabstop>pushButton_menu_nastaveni</tabstop>
-  <tabstop>pushButton_menu_manual</tabstop>
   <tabstop>pushButton_menu_fullscreen</tabstop>
   <tabstop>pushButton_menu_quit</tabstop>
   <tabstop>pushButton_jizda_sipkaNahoru</tabstop>
   <tabstop>pushButton_jizda_sipkaDolu</tabstop>
-  <tabstop>pushButton_jizda_pridat</tabstop>
-  <tabstop>pushButton_jizda_ubrat</tabstop>
-  <tabstop>pushButton_jizda_beforeStop</tabstop>
-  <tabstop>pushButton_jizda_atStop</tabstop>
-  <tabstop>pushButton_jizda_afterStop</tabstop>
   <tabstop>pushButton_jizda_betweenStop</tabstop>
-  <tabstop>radioButton</tabstop>
-  <tabstop>radioButton_2</tabstop>
-  <tabstop>radioButton_3</tabstop>
-  <tabstop>radioButton_4</tabstop>
-  <tabstop>pushButton_jizda_IBIS</tabstop>
   <tabstop>listLinek</tabstop>
   <tabstop>listSpoje</tabstop>
   <tabstop>pushButton_prikaz</tabstop>
-  <tabstop>pushButton_nast_nactiXMLropid</tabstop>
-  <tabstop>lineEdit_jmenoPortu</tabstop>
-  <tabstop>pushButton_nast_odesliPrikaz</tabstop>
-  <tabstop>pushButton_nast_nastavPort</tabstop>
   <tabstop>polelinky</tabstop>
-  <tabstop>pushButton_nast_pripojeni</tabstop>
-  <tabstop>pushButton_nast_hlaseniSlozka</tabstop>
-  <tabstop>lineEditHlaseniCesta</tabstop>
-  <tabstop>plainTextEditCustomXml</tabstop>
-  <tabstop>seznamOdberatelu</tabstop>
-  <tabstop>seznamOdberatelu2</tabstop>
   <tabstop>poleLinkyTurnus</tabstop>
   <tabstop>poleSpojeTurnus</tabstop>
   <tabstop>checkBox_4</tabstop>
@@ -4033,7 +3979,6 @@ test</string>
   <tabstop>listTurnusSpoje</tabstop>
   <tabstop>pushButton_menu2_sluzby</tabstop>
   <tabstop>pushButton_menu2_rezerva</tabstop>
-  <tabstop>pushButton_menu2_palPc</tabstop>
   <tabstop>pushButton_menu2_fullscreen</tabstop>
   <tabstop>pushButton_menu2_quit</tabstop>
   <tabstop>polespoje</tabstop>

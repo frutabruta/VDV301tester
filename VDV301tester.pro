@@ -44,28 +44,30 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 //LIBS += -lqhttpserver
 
 SOURCES += \
-    VDV301publisher/newhttpserver.cpp \
-    VDV301publisher/ticketvalidationservice.cpp \
-    VDV301publisher/subscriber.cpp \
-    VDV301struktury/linka.cpp \
     VDV301publisher/customerinformationservice.cpp \
+    VDV301publisher/httpsluzba.cpp \
+    VDV301publisher/newhttpserver.cpp \
+    VDV301publisher/subscriber.cpp \
+    VDV301publisher/ticketvalidationservice.cpp \
+    #  VDV301subscriber/newhttpserver.cpp \
+    VDV301subscriber/ibisipsubscriber.cpp \
+    VDV301struktury/linka.cpp \
     VDV301struktury/obeh.cpp \
+    VDV301struktury/pasmo.cpp \
     VDV301struktury/prestup.cpp \
+    VDV301struktury/spoj.cpp \
     VDV301struktury/zastavka.cpp \
     VDV301struktury/zastavkacil.cpp \
-    VDV301struktury/spoj.cpp \
-    VDV301struktury/pasmo.cpp \
     VDV301testy/polozkatestu.cpp \
     VDV301testy/testdemo.cpp \
     VDV301testy/testdetekcebonjour.cpp \
     VDV301testy/testodberuserver.cpp \
-    VDV301testy/vdv301testy.cpp \
+    VDV301testy/vdv301testy.cpp \    
     hlasic.cpp \
-    VDV301publisher/httpsluzba.cpp \
     konfigurace.cpp \
     logfile.cpp \
-        main.cpp \
-        mainwindow.cpp \
+    main.cpp \
+    mainwindow.cpp \
     mainwindowpomocne.cpp \
     prestupmpv.cpp \
     VDV301struktury/specialnihlaseni.cpp \
@@ -76,17 +78,18 @@ SOURCES += \
     xmlropidparser.cpp \
     ibisovladani.cpp
 
-
 HEADERS += \
     VDV301publisher/newhttpserver.h \
     VDV301publisher/ticketvalidationservice.h \
     VDV301publisher/subscriber.h \
-    VDV301struktury/linka.h \
     VDV301publisher/customerinformationservice.h \
+    VDV301struktury/linka.h \   
     VDV301struktury/obeh.h \
     VDV301struktury/prestup.h \
     VDV301struktury/zastavka.h \
     VDV301struktury/zastavkacil.h \
+    VDV301subscriber/ibisipsubscriber.h \
+    VDV301subscriber/newhttpserver.h \
     VDV301testy/polozkatestu.h \
     VDV301testy/testdemo.h \
     VDV301testy/testdetekcebonjour.h \
@@ -96,7 +99,7 @@ HEADERS += \
     VDV301publisher/httpsluzba.h \
     konfigurace.h \
     logfile.h \
-        mainwindow.h \
+    mainwindow.h \
     mainwindowpomocne.h \
     prestupmpv.h \
     VDV301struktury/spoj.h \

@@ -560,11 +560,11 @@ void MainWindow::inicializaceVyberovychPoli()
         naplnKmenoveLinky(kmenoveLinky);
 
         aktualizaceKalendare();
-        ui->NazevVysledku->setText("OK2");
+
     }
     else
     {
-        ui->NazevVysledku->setText("FAIL2");
+
         qDebug()<<"chyba nacitani linek";
     }
 }
@@ -887,12 +887,7 @@ void MainWindow::on_pushButton_nast_nactiXMLropid_clicked()
 /*!
 
 */
-void MainWindow::on_pushButton_menu_nastaveni_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    ui->stackedWidget_palPc->setCurrentWidget(ui->page_nastaveni);
 
-}
 
 
 
@@ -1186,11 +1181,7 @@ void MainWindow::on_pushButton_manual_smazOkno_clicked()
     ui->plainTextEditCustomXml->clear();
 }
 
-void MainWindow::on_pushButton_menu_manual_clicked()
-{
-    ui->stackedWidget_palPc->setCurrentWidget(ui->page_manual );
 
-}
 
 
 
@@ -1374,15 +1365,6 @@ void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
 }
 
 
-/*!
-
-*/
-void MainWindow::on_pushButton_nast_hlaseniSlozka_clicked()
-{
-    qDebug()<<"nastavena cesta k hlaseni na "<<ui->lineEditHlaseniCesta->text();
-    //hlasic.cesta=ui->lineEditHlaseniCesta->text();
-    hlasic.nastavCestu(ui->lineEditHlaseniCesta->text());
-}
 
 
 /*!
@@ -1436,22 +1418,7 @@ void MainWindow::zastavSluzby()
     //customerInformationService1_0.
 }
 
-/*!
 
-*/
-void MainWindow::on_pushButton_menu2_palPc_clicked()
-{
-    ui->stackedWidget_hlavni->setCurrentIndex(0);
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_menu_testRozhrani_clicked()
-{
-    ui->stackedWidget_hlavni->setCurrentIndex(1);
-}
 
 
 /*!
@@ -1820,6 +1787,7 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
 
         cell = new QTableWidgetItem(pasma);
         ui->tableWidgetNasledujiciZastavky->setItem(row, 4, cell);
+
         //   ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
 
     }
@@ -1845,6 +1813,7 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
             ui->tableWidgetNasledujiciZastavky->item(cisloporadi,zabarvenySloupec)->setBackground(gray);
         }
         ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
+         ui->tableWidgetNasledujiciZastavky->resizeRowsToContents();
         ui->tableWidgetNasledujiciZastavky->scrollToItem(ui->tableWidgetNasledujiciZastavky->item(cisloporadi,0));
     }
 }
@@ -2066,3 +2035,31 @@ void MainWindow::slotVymazatSpecialniOznameni()
      stavSystemu.jeSpecialniHlaseni=false;
      xmlVdv301HromadnyUpdate();
 }
+
+void MainWindow::on_radioButton_singleDoorOpen_clicked()
+{
+    stavSystemu.doorState="SingleDoorOpen";
+    xmlVdv301HromadnyUpdate();
+}
+
+
+void MainWindow::on_radioButton_allDoorsClosed_clicked()
+{
+    stavSystemu.doorState="AllDoorsClosed";
+    xmlVdv301HromadnyUpdate();
+}
+
+
+void MainWindow::on_radioButton_doorsOpen_clicked()
+{
+    stavSystemu.doorState="DoorsOpen";
+    xmlVdv301HromadnyUpdate();
+}
+
+
+void MainWindow::on_radioButton_singleDoorCloser_clicked()
+{
+    stavSystemu.doorState="SingleDoorClosed";
+    xmlVdv301HromadnyUpdate();
+}
+

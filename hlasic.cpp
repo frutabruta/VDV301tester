@@ -9,14 +9,6 @@ Hlasic::Hlasic()
 }
 
 
-void Hlasic::gong()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    QMediaPlayer * player = new QMediaPlayer;
-    player->setMedia(QUrl::fromLocalFile(cesta+"1141.mp3"));
-    player->play();
-    player->playlist();
-}
 
 
 
