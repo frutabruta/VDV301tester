@@ -9,6 +9,7 @@
 
 #include <QFileInfo>
 #include <VDV301struktury/specialnihlaseni.h>
+#include <VDV301struktury/zastavka.h>
 
 class Hlasic: public QObject
 {
@@ -18,10 +19,11 @@ public:
 
     QMediaPlayer * player =  new QMediaPlayer(NULL, QMediaPlayer::StreamPlayback);
 
-    bool kompletZastavka(int cis1, int ois1, int cis2, int ois2);    
-    bool kompletKonecna(int cis1, int ois1);
+
+    bool kompletKonecna(Zastavka vstup);
     void kompletZmenaTarifnihoPasma();
     bool kompletSpecialniHlaseni(SpecialniHlaseni specialniHlaseni);
+    bool kompletZastavka(Zastavka zastavka1, Zastavka zastavka2);
 
     QString cestaProgramu="";
     QString cesta=cestaProgramu+"/hlaseni";
@@ -31,6 +33,8 @@ public:
     void prehrajJedenZvuk(QUrl soubor2);
     void pridejDoFrontyVyhlas(QVector<QUrl> vstup);
 
+
+    bool kompletOdjezdPrvniZastavka(Zastavka zastavka2);
 public slots:
     void zmenaStavuHlaseni(QMediaPlayer::State state);
     void vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres);
@@ -45,10 +49,28 @@ private:
     QUrl zvukZmenaPasma;
     QUrl zvukProsimPozor;
 
+    QUrl zvukNaZnameni;
+    QUrl zvukPrestupNaLinkyS;
+    QUrl zvukPrestupNaMetro;
+    QUrl zvukPrestupNaPrivoz;
+    QUrl zvukMA;
+    QUrl zvukMB;
+    QUrl zvukMC;
+    QUrl zvukMD;
+
+    QUrl zvukMAaB;
+    QUrl zvukMAaC;
+    QUrl zvukMAaD;
+    QUrl zvukMBaC;
+    QUrl zvukMBaD;
+    QUrl zvukMCaD;
+
+
     void aktualizujCestyZvuku(QString cestaVnitrni);
     void prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres);
     QVector<QUrl> frontaZvuku;
     QUrl najdiCestuSpecial(QString nazevSouboru);
+    QVector<QUrl> priznakyDoSeznamu(Zastavka vstup);
 };
 
 #endif // HLASIC_H

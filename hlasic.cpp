@@ -8,13 +8,6 @@ Hlasic::Hlasic()
     this->aktualizujCestyZvuku(cesta);
 }
 
-
-
-
-
-
-
-
 bool Hlasic::souborExistuje(QString path)
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -30,11 +23,9 @@ bool Hlasic::souborExistuje(QString path)
 }
 
 
-
-
 QUrl Hlasic::najdiCestuZastavka(int kodOis, int kodCis)
 {
-     qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
     QString slozka=cesta+"/zastavky/";
     QString testOis="";
     QString testCis="";
@@ -49,10 +40,8 @@ QUrl Hlasic::najdiCestuZastavka(int kodOis, int kodCis)
 
     if(souborExistuje(testCis))
     {
-
         qDebug()<<"soubor s cis existuje,cislo:"<<QString::number(kodCis);
         return QUrl::fromLocalFile(testCis);
-
     }
     else
     {
@@ -61,7 +50,6 @@ QUrl Hlasic::najdiCestuZastavka(int kodOis, int kodCis)
             qDebug()<<"soubor  cis "<<testCis<<" neexistuje, pouzivam cislo OIS:"<<testOis;
             return QUrl::fromLocalFile(testOis);
         }
-
 
     }
     return QUrl::fromLocalFile("");
@@ -74,11 +62,8 @@ QUrl Hlasic::najdiCestuSpecial(QString nazevSouboru)
     QString slozka=cesta+"/special/";
     QString cestaSouboru="";
 
-
     cestaSouboru+=slozka;
     cestaSouboru+=nazevSouboru;
-
-
 
     if(souborExistuje(cestaSouboru))
     {
@@ -92,33 +77,139 @@ QUrl Hlasic::najdiCestuSpecial(QString nazevSouboru)
 }
 
 
-bool Hlasic::kompletZastavka(int cis1,int ois1, int cis2, int ois2)
+
+
+bool Hlasic::kompletZastavka(Zastavka zastavka1, Zastavka zastavka2)
 {
-  qDebug() <<  Q_FUNC_INFO;
-
-
-
+    qDebug() <<  Q_FUNC_INFO;
 
     qDebug()<<"zvuk gong adresa "<<zvukGong;
 
     QVector<QUrl> kratkaFronta;
 
     kratkaFronta.push_back(zvukGong);
-    kratkaFronta.push_back(najdiCestuZastavka(ois1,cis1));
+    kratkaFronta.push_back(najdiCestuZastavka(zastavka1.cisloOis,zastavka1.cisloCis));
+    kratkaFronta.append(priznakyDoSeznamu(zastavka1));
     kratkaFronta.push_back(zvukPristiZastavka);
-    kratkaFronta.push_back(najdiCestuZastavka(ois2,cis2));
+    kratkaFronta.push_back(najdiCestuZastavka(zastavka2.cisloOis,zastavka2.cisloCis));
 
+    if(zastavka2.naZnameni)
+    {
+        kratkaFronta.push_back(zvukNaZnameni);
+    }
 
     pridejDoFrontyVyhlas(kratkaFronta);
 
     return 1;
 }
 
+bool Hlasic::kompletOdjezdPrvniZastavka( Zastavka zastavka2)
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    qDebug()<<"zvuk gong adresa "<<zvukGong;
+
+    QVector<QUrl> kratkaFronta;
+
+    kratkaFronta.push_back(zvukPristiZastavka);
+    kratkaFronta.push_back(najdiCestuZastavka(zastavka2.cisloOis,zastavka2.cisloCis));
+
+    if(zastavka2.naZnameni)
+    {
+        kratkaFronta.push_back(zvukNaZnameni);
+    }
+
+    pridejDoFrontyVyhlas(kratkaFronta);
+
+    return 1;
+}
+
+QVector<QUrl> Hlasic::priznakyDoSeznamu(Zastavka vstup)
+{
+    QVector<QUrl> vystup;
+    if(vstup.naZnameni==true)
+    {
+        vystup.push_back(zvukNaZnameni);
+    }
+
+    if(vstup.prestupMetroA)
+    {
+        vystup.push_back(zvukPrestupNaMetro );
+
+        if(vstup.prestupMetroB)
+        {
+            vystup.push_back(zvukMAaB);
+        }
+        else if(vstup.prestupMetroC)
+        {
+            vystup.push_back(zvukMAaC);
+        }
+        else if(vstup.prestupMetroD)
+        {
+            vystup.push_back(zvukMAaD);
+        }
+        else
+        {
+            vystup.push_back(zvukMA);
+        }
+    }
+    else if(vstup.prestupMetroB)
+    {
+        vystup.push_back(zvukPrestupNaMetro );
+
+        if(vstup.prestupMetroC)
+        {
+            vystup.push_back(zvukMBaC);
+        }
+        else if(vstup.prestupMetroD)
+        {
+            vystup.push_back(zvukMBaD);
+        }
+        else
+        {
+            vystup.push_back(zvukMB);
+        }
+    }
+    else if(vstup.prestupMetroC)
+    {
+        vystup.push_back(zvukPrestupNaMetro );
+        if(vstup.prestupMetroD)
+        {
+            vystup.push_back(zvukMCaD);
+        }
+        else
+        {
+            vystup.push_back(zvukMC);
+        }
+    }
+    else if(vstup.prestupMetroD)
+    {
+        vystup.push_back(zvukPrestupNaMetro );
+        vystup.push_back(zvukMD);
+    }
+
+
+    if(vstup.prestupVlak)
+    {
+        vystup.push_back(zvukPrestupNaLinkyS );
+    }
+    if(vstup.prestupPrivoz)
+    {
+        vystup.push_back(zvukPrestupNaPrivoz );
+    }
+
+
+
+
+    return vystup;
+
+}
+
 
 
 void Hlasic::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
 {
- qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
     if (frontaZvuku.isEmpty())
     {
         qDebug()<<"fronta zvuku byla prazdna";
@@ -160,7 +251,7 @@ bool Hlasic::kompletSpecialniHlaseni(SpecialniHlaseni specialniHlaseni)
         QUrl adresa= najdiCestuSpecial(segment);
         if(!adresa.isEmpty())
         {
-        seznamAdres.push_back(adresa);
+            seznamAdres.push_back(adresa);
         }
     }
 
@@ -174,16 +265,17 @@ bool Hlasic::kompletSpecialniHlaseni(SpecialniHlaseni specialniHlaseni)
 }
 
 
-bool Hlasic::kompletKonecna(int cis1,int ois1)
+bool Hlasic::kompletKonecna(Zastavka vstup)
 {
-     qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
 
     QVector<QUrl> zasobnikAdres;
 
-    zasobnikAdres.append(zvukGong);
-    zasobnikAdres.append(najdiCestuZastavka(ois1,cis1));
-    zasobnikAdres.append(zvukKonecna);
-    zasobnikAdres.append(zvukProsimeVystupte);
+    zasobnikAdres.push_back(zvukGong);
+    zasobnikAdres.push_back(najdiCestuZastavka(vstup.cisloOis, vstup.cisloCis));
+    zasobnikAdres.append(priznakyDoSeznamu(vstup));
+    zasobnikAdres.push_back(zvukKonecna);
+    zasobnikAdres.push_back(zvukProsimeVystupte);
 
     pridejDoFrontyVyhlas(zasobnikAdres);
     // prehrajCelySeznamUrl(zasobnikAdres);
@@ -196,7 +288,7 @@ bool Hlasic::kompletKonecna(int cis1,int ois1)
 
 void Hlasic::zmenaStavuHlaseni(QMediaPlayer::State state)
 {
-     qDebug() <<  Q_FUNC_INFO <<state;
+    qDebug() <<  Q_FUNC_INFO <<state;
     vyhodPolozkuZeSeznamu(frontaZvuku);
 
 }
@@ -205,7 +297,7 @@ void Hlasic::zmenaStavuHlaseni(QMediaPlayer::State state)
 
 void Hlasic::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
 {
- qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
     if(!zasobnikAdres.isEmpty())
     {
         prehrajJedenZvuk(zasobnikAdres.first());
@@ -216,7 +308,7 @@ void Hlasic::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
 
 void Hlasic::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
 {
-  qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
     if(!zasobnikAdres.isEmpty()&&(player->state()==QMediaPlayer::StoppedState) )
     {
         qDebug()<<"pocet polozek "<<zasobnikAdres.size();
@@ -227,7 +319,7 @@ void Hlasic::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
 }
 void Hlasic::prehrajJedenZvuk(QUrl soubor2)
 {
-     qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
+    qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
     player->setMedia(soubor2);
     player->play();
 }
@@ -250,6 +342,24 @@ void Hlasic::aktualizujCestyZvuku(QString cestaVnitrni)
     zvukZmenaPasma= QUrl::fromLocalFile(cestaVnitrni+"/special/H170.mp3");
     zvukProsimPozor= QUrl::fromLocalFile(cestaVnitrni+"/special/H178.mp3");
 
+    zvukNaZnameni= QUrl::fromLocalFile(cestaVnitrni+"/special/H002.mp3");
+    zvukPrestupNaLinkyS=QUrl::fromLocalFile(cestaVnitrni+"/special/H184.mp3");
+    zvukPrestupNaMetro=QUrl::fromLocalFile(cestaVnitrni+"/special/H103.mp3");
+    zvukPrestupNaPrivoz=QUrl::fromLocalFile(cestaVnitrni+"/special/H103.mp3");
+    zvukMA=QUrl::fromLocalFile(cestaVnitrni+"/special/H104.mp3");
+    zvukMB=QUrl::fromLocalFile(cestaVnitrni+"/special/H105.mp3");
+    zvukMC=QUrl::fromLocalFile(cestaVnitrni+"/special/H106.mp3");
+    zvukMD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3"); //MP3 zatím neexistuje!
+
+
+    zvukMAaB=QUrl::fromLocalFile(cestaVnitrni+"/special/H107.mp3");
+    zvukMAaC=QUrl::fromLocalFile(cestaVnitrni+"/special/H108.mp3");
+    zvukMAaD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3");
+    zvukMBaC=QUrl::fromLocalFile(cestaVnitrni+"/special/H109.mp3");
+    zvukMBaD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3");
+    zvukMCaD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3");
+
+
     //H178 prosím pozor
     //H170 změna tarifního pásma
     //H143 nástup postiženého
@@ -263,7 +373,7 @@ void Hlasic::aktualizujCestyZvuku(QString cestaVnitrni)
 
 void Hlasic::zmenUmisteniProgramu(QString umisteni)
 {
-     qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
     cestaProgramu=umisteni;
     cesta=cestaProgramu+"/hlaseni";
     aktualizujCestyZvuku(cesta);
