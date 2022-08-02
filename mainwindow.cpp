@@ -432,7 +432,7 @@ int MainWindow::natahniSeznamSpojeKomplet()
 /*!
 
 */
-void MainWindow::on_pushButton_jizda_sipkaNahoru_clicked()
+void MainWindow::on_pushButton_jizda_sipkaDal_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -489,7 +489,7 @@ void MainWindow::on_pushButton_jizda_sipkaNahoru_clicked()
 /*!
 
 */
-void MainWindow::on_pushButton_jizda_sipkaDolu_clicked()
+void MainWindow::on_pushButton_jizda_sipkaZpet_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     if (stavSystemu.indexAktZastavky>=1)
@@ -770,7 +770,7 @@ void MainWindow::aktualizaceDispleje()
 /*!
 
 */
-void MainWindow::on_pushButton_jizda_ubrat_clicked()
+void MainWindow::on_pushButton_jizda_sipkaZpetSkok_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     if (stavSystemu.indexAktZastavky>=2)
@@ -1994,7 +1994,7 @@ void MainWindow::on_pushButton_menu_linkospoj_clicked()
 
 
 
-void MainWindow::on_pushButton_jizda_pridat_clicked()
+void MainWindow::on_pushButton_jizda_sipkaDalSkok_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()-1))

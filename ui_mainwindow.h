@@ -66,16 +66,16 @@ public:
     QRadioButton *radioButton_doorsOpen;
     QRadioButton *radioButton_singleDoorCloser;
     QVBoxLayout *verticalLayout_sipky;
-    QPushButton *pushButton_jizda_pridat;
-    QPushButton *pushButton_jizda_sipkaNahoru;
-    QPushButton *pushButton_jizda_sipkaDolu;
-    QPushButton *pushButton_jizda_ubrat;
+    QPushButton *pushButton_jizda_sipkaZpetSkok;
+    QPushButton *pushButton_jizda_sipkaZpet;
+    QPushButton *pushButton_jizda_sipkaDal;
+    QPushButton *pushButton_jizda_sipkaDalSkok;
     QLabel *popisek;
     QVBoxLayout *verticalLayout_5;
-    QPushButton *pushButton_jizda_betweenStop;
-    QPushButton *pushButton_jizda_afterStop;
-    QPushButton *pushButton_jizda_atStop;
     QPushButton *pushButton_jizda_beforeStop;
+    QPushButton *pushButton_jizda_atStop;
+    QPushButton *pushButton_jizda_afterStop;
+    QPushButton *pushButton_jizda_betweenStop;
     QLabel *locationStateIndicator;
     QPushButton *pushButton_jizda_IBIS;
     QWidget *page_linkaspoj;
@@ -539,49 +539,51 @@ public:
         verticalLayout_sipky->setSpacing(6);
         verticalLayout_sipky->setObjectName(QString::fromUtf8("verticalLayout_sipky"));
         verticalLayout_sipky->setSizeConstraint(QLayout::SetDefaultConstraint);
-        pushButton_jizda_pridat = new QPushButton(page_jizda);
-        pushButton_jizda_pridat->setObjectName(QString::fromUtf8("pushButton_jizda_pridat"));
-        pushButton_jizda_pridat->setEnabled(true);
+        pushButton_jizda_sipkaZpetSkok = new QPushButton(page_jizda);
+        pushButton_jizda_sipkaZpetSkok->setObjectName(QString::fromUtf8("pushButton_jizda_sipkaZpetSkok"));
         QSizePolicy sizePolicy4(QSizePolicy::Minimum, QSizePolicy::Maximum);
         sizePolicy4.setHorizontalStretch(0);
         sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(pushButton_jizda_pridat->sizePolicy().hasHeightForWidth());
-        pushButton_jizda_pridat->setSizePolicy(sizePolicy4);
-        pushButton_jizda_pridat->setMinimumSize(QSize(0, 50));
+        sizePolicy4.setHeightForWidth(pushButton_jizda_sipkaZpetSkok->sizePolicy().hasHeightForWidth());
+        pushButton_jizda_sipkaZpetSkok->setSizePolicy(sizePolicy4);
+        pushButton_jizda_sipkaZpetSkok->setMinimumSize(QSize(0, 50));
         QFont font4;
         font4.setPointSize(14);
-        pushButton_jizda_pridat->setFont(font4);
+        pushButton_jizda_sipkaZpetSkok->setFont(font4);
 
-        verticalLayout_sipky->addWidget(pushButton_jizda_pridat);
+        verticalLayout_sipky->addWidget(pushButton_jizda_sipkaZpetSkok);
 
-        pushButton_jizda_sipkaNahoru = new QPushButton(page_jizda);
-        pushButton_jizda_sipkaNahoru->setObjectName(QString::fromUtf8("pushButton_jizda_sipkaNahoru"));
+        pushButton_jizda_sipkaZpet = new QPushButton(page_jizda);
+        pushButton_jizda_sipkaZpet->setObjectName(QString::fromUtf8("pushButton_jizda_sipkaZpet"));
         QSizePolicy sizePolicy5(QSizePolicy::Maximum, QSizePolicy::Expanding);
         sizePolicy5.setHorizontalStretch(0);
         sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(pushButton_jizda_sipkaNahoru->sizePolicy().hasHeightForWidth());
-        pushButton_jizda_sipkaNahoru->setSizePolicy(sizePolicy5);
-        pushButton_jizda_sipkaNahoru->setMinimumSize(QSize(70, 0));
-        pushButton_jizda_sipkaNahoru->setMaximumSize(QSize(100, 16777215));
+        sizePolicy5.setHeightForWidth(pushButton_jizda_sipkaZpet->sizePolicy().hasHeightForWidth());
+        pushButton_jizda_sipkaZpet->setSizePolicy(sizePolicy5);
+        pushButton_jizda_sipkaZpet->setMaximumSize(QSize(100, 16777215));
+        pushButton_jizda_sipkaZpet->setFont(font4);
 
-        verticalLayout_sipky->addWidget(pushButton_jizda_sipkaNahoru);
+        verticalLayout_sipky->addWidget(pushButton_jizda_sipkaZpet);
 
-        pushButton_jizda_sipkaDolu = new QPushButton(page_jizda);
-        pushButton_jizda_sipkaDolu->setObjectName(QString::fromUtf8("pushButton_jizda_sipkaDolu"));
-        sizePolicy5.setHeightForWidth(pushButton_jizda_sipkaDolu->sizePolicy().hasHeightForWidth());
-        pushButton_jizda_sipkaDolu->setSizePolicy(sizePolicy5);
-        pushButton_jizda_sipkaDolu->setMaximumSize(QSize(100, 16777215));
+        pushButton_jizda_sipkaDal = new QPushButton(page_jizda);
+        pushButton_jizda_sipkaDal->setObjectName(QString::fromUtf8("pushButton_jizda_sipkaDal"));
+        sizePolicy5.setHeightForWidth(pushButton_jizda_sipkaDal->sizePolicy().hasHeightForWidth());
+        pushButton_jizda_sipkaDal->setSizePolicy(sizePolicy5);
+        pushButton_jizda_sipkaDal->setMinimumSize(QSize(70, 0));
+        pushButton_jizda_sipkaDal->setMaximumSize(QSize(100, 16777215));
+        pushButton_jizda_sipkaDal->setFont(font4);
 
-        verticalLayout_sipky->addWidget(pushButton_jizda_sipkaDolu);
+        verticalLayout_sipky->addWidget(pushButton_jizda_sipkaDal);
 
-        pushButton_jizda_ubrat = new QPushButton(page_jizda);
-        pushButton_jizda_ubrat->setObjectName(QString::fromUtf8("pushButton_jizda_ubrat"));
-        sizePolicy4.setHeightForWidth(pushButton_jizda_ubrat->sizePolicy().hasHeightForWidth());
-        pushButton_jizda_ubrat->setSizePolicy(sizePolicy4);
-        pushButton_jizda_ubrat->setMinimumSize(QSize(0, 50));
-        pushButton_jizda_ubrat->setFont(font4);
+        pushButton_jizda_sipkaDalSkok = new QPushButton(page_jizda);
+        pushButton_jizda_sipkaDalSkok->setObjectName(QString::fromUtf8("pushButton_jizda_sipkaDalSkok"));
+        pushButton_jizda_sipkaDalSkok->setEnabled(true);
+        sizePolicy4.setHeightForWidth(pushButton_jizda_sipkaDalSkok->sizePolicy().hasHeightForWidth());
+        pushButton_jizda_sipkaDalSkok->setSizePolicy(sizePolicy4);
+        pushButton_jizda_sipkaDalSkok->setMinimumSize(QSize(0, 50));
+        pushButton_jizda_sipkaDalSkok->setFont(font4);
 
-        verticalLayout_sipky->addWidget(pushButton_jizda_ubrat);
+        verticalLayout_sipky->addWidget(pushButton_jizda_sipkaDalSkok);
 
         popisek = new QLabel(page_jizda);
         popisek->setObjectName(QString::fromUtf8("popisek"));
@@ -600,27 +602,15 @@ public:
         verticalLayout_5->setSpacing(6);
         verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
         verticalLayout_5->setSizeConstraint(QLayout::SetNoConstraint);
-        pushButton_jizda_betweenStop = new QPushButton(page_jizda);
-        pushButton_jizda_betweenStop->setObjectName(QString::fromUtf8("pushButton_jizda_betweenStop"));
-        sizePolicy2.setHeightForWidth(pushButton_jizda_betweenStop->sizePolicy().hasHeightForWidth());
-        pushButton_jizda_betweenStop->setSizePolicy(sizePolicy2);
-        QFont font6;
-        font6.setPointSize(18);
-        pushButton_jizda_betweenStop->setFont(font6);
-        pushButton_jizda_betweenStop->setCheckable(true);
-        pushButton_jizda_betweenStop->setAutoExclusive(true);
+        pushButton_jizda_beforeStop = new QPushButton(page_jizda);
+        pushButton_jizda_beforeStop->setObjectName(QString::fromUtf8("pushButton_jizda_beforeStop"));
+        sizePolicy2.setHeightForWidth(pushButton_jizda_beforeStop->sizePolicy().hasHeightForWidth());
+        pushButton_jizda_beforeStop->setSizePolicy(sizePolicy2);
+        pushButton_jizda_beforeStop->setFont(font);
+        pushButton_jizda_beforeStop->setCheckable(true);
+        pushButton_jizda_beforeStop->setAutoExclusive(true);
 
-        verticalLayout_5->addWidget(pushButton_jizda_betweenStop);
-
-        pushButton_jizda_afterStop = new QPushButton(page_jizda);
-        pushButton_jizda_afterStop->setObjectName(QString::fromUtf8("pushButton_jizda_afterStop"));
-        sizePolicy2.setHeightForWidth(pushButton_jizda_afterStop->sizePolicy().hasHeightForWidth());
-        pushButton_jizda_afterStop->setSizePolicy(sizePolicy2);
-        pushButton_jizda_afterStop->setFont(font);
-        pushButton_jizda_afterStop->setCheckable(true);
-        pushButton_jizda_afterStop->setAutoExclusive(true);
-
-        verticalLayout_5->addWidget(pushButton_jizda_afterStop);
+        verticalLayout_5->addWidget(pushButton_jizda_beforeStop);
 
         pushButton_jizda_atStop = new QPushButton(page_jizda);
         pushButton_jizda_atStop->setObjectName(QString::fromUtf8("pushButton_jizda_atStop"));
@@ -633,15 +623,27 @@ public:
 
         verticalLayout_5->addWidget(pushButton_jizda_atStop);
 
-        pushButton_jizda_beforeStop = new QPushButton(page_jizda);
-        pushButton_jizda_beforeStop->setObjectName(QString::fromUtf8("pushButton_jizda_beforeStop"));
-        sizePolicy2.setHeightForWidth(pushButton_jizda_beforeStop->sizePolicy().hasHeightForWidth());
-        pushButton_jizda_beforeStop->setSizePolicy(sizePolicy2);
-        pushButton_jizda_beforeStop->setFont(font);
-        pushButton_jizda_beforeStop->setCheckable(true);
-        pushButton_jizda_beforeStop->setAutoExclusive(true);
+        pushButton_jizda_afterStop = new QPushButton(page_jizda);
+        pushButton_jizda_afterStop->setObjectName(QString::fromUtf8("pushButton_jizda_afterStop"));
+        sizePolicy2.setHeightForWidth(pushButton_jizda_afterStop->sizePolicy().hasHeightForWidth());
+        pushButton_jizda_afterStop->setSizePolicy(sizePolicy2);
+        pushButton_jizda_afterStop->setFont(font);
+        pushButton_jizda_afterStop->setCheckable(true);
+        pushButton_jizda_afterStop->setAutoExclusive(true);
 
-        verticalLayout_5->addWidget(pushButton_jizda_beforeStop);
+        verticalLayout_5->addWidget(pushButton_jizda_afterStop);
+
+        pushButton_jizda_betweenStop = new QPushButton(page_jizda);
+        pushButton_jizda_betweenStop->setObjectName(QString::fromUtf8("pushButton_jizda_betweenStop"));
+        sizePolicy2.setHeightForWidth(pushButton_jizda_betweenStop->sizePolicy().hasHeightForWidth());
+        pushButton_jizda_betweenStop->setSizePolicy(sizePolicy2);
+        QFont font6;
+        font6.setPointSize(18);
+        pushButton_jizda_betweenStop->setFont(font6);
+        pushButton_jizda_betweenStop->setCheckable(true);
+        pushButton_jizda_betweenStop->setAutoExclusive(true);
+
+        verticalLayout_5->addWidget(pushButton_jizda_betweenStop);
 
         locationStateIndicator = new QLabel(page_jizda);
         locationStateIndicator->setObjectName(QString::fromUtf8("locationStateIndicator"));
@@ -1738,10 +1740,8 @@ public:
         QWidget::setTabOrder(pushButton_menu_turnus, pushButton_menu_jizda);
         QWidget::setTabOrder(pushButton_menu_jizda, pushButton_menu_fullscreen);
         QWidget::setTabOrder(pushButton_menu_fullscreen, pushButton_menu_quit);
-        QWidget::setTabOrder(pushButton_menu_quit, pushButton_jizda_sipkaNahoru);
-        QWidget::setTabOrder(pushButton_jizda_sipkaNahoru, pushButton_jizda_sipkaDolu);
-        QWidget::setTabOrder(pushButton_jizda_sipkaDolu, pushButton_jizda_betweenStop);
-        QWidget::setTabOrder(pushButton_jizda_betweenStop, listLinek);
+        QWidget::setTabOrder(pushButton_menu_quit, pushButton_jizda_sipkaDal);
+        QWidget::setTabOrder(pushButton_jizda_sipkaDal, listLinek);
         QWidget::setTabOrder(listLinek, listSpoje);
         QWidget::setTabOrder(listSpoje, pushButton_prikaz);
         QWidget::setTabOrder(pushButton_prikaz, polelinky);
@@ -1801,20 +1801,20 @@ public:
         radioButton_allDoorsClosed->setText(QCoreApplication::translate("MainWindow", "AllDoorsClosed", nullptr));
         radioButton_doorsOpen->setText(QCoreApplication::translate("MainWindow", "DoorsOpen", nullptr));
         radioButton_singleDoorCloser->setText(QCoreApplication::translate("MainWindow", "SingleDoorClosed", nullptr));
-        pushButton_jizda_pridat->setText(QCoreApplication::translate("MainWindow", "\342\226\262\n"
+        pushButton_jizda_sipkaZpetSkok->setText(QCoreApplication::translate("MainWindow", "\342\226\262\n"
 "\342\226\262", nullptr));
-        pushButton_jizda_sipkaNahoru->setText(QCoreApplication::translate("MainWindow", "\342\226\262", nullptr));
-        pushButton_jizda_sipkaDolu->setText(QCoreApplication::translate("MainWindow", "\342\226\274", nullptr));
-        pushButton_jizda_ubrat->setText(QCoreApplication::translate("MainWindow", "\342\226\274\n"
+        pushButton_jizda_sipkaZpet->setText(QCoreApplication::translate("MainWindow", "\342\226\262", nullptr));
+        pushButton_jizda_sipkaDal->setText(QCoreApplication::translate("MainWindow", "\342\226\274", nullptr));
+        pushButton_jizda_sipkaDalSkok->setText(QCoreApplication::translate("MainWindow", "\342\226\274\n"
 "\342\226\274", nullptr));
         popisek->setText(QCoreApplication::translate("MainWindow", "0", nullptr));
-        pushButton_jizda_betweenStop->setText(QCoreApplication::translate("MainWindow", "Between\n"
-"Stop", nullptr));
-        pushButton_jizda_afterStop->setText(QCoreApplication::translate("MainWindow", "After\n"
+        pushButton_jizda_beforeStop->setText(QCoreApplication::translate("MainWindow", "Before\n"
 "Stop", nullptr));
         pushButton_jizda_atStop->setText(QCoreApplication::translate("MainWindow", "At\n"
 "Stop", nullptr));
-        pushButton_jizda_beforeStop->setText(QCoreApplication::translate("MainWindow", "Before\n"
+        pushButton_jizda_afterStop->setText(QCoreApplication::translate("MainWindow", "After\n"
+"Stop", nullptr));
+        pushButton_jizda_betweenStop->setText(QCoreApplication::translate("MainWindow", "Between\n"
 "Stop", nullptr));
         locationStateIndicator->setText(QCoreApplication::translate("MainWindow", "locationState", nullptr));
         pushButton_jizda_IBIS->setText(QCoreApplication::translate("MainWindow", "IBIS", nullptr));

@@ -188,11 +188,11 @@ private slots:
      void on_checkBox_MpvTurnusy_stateChanged(int arg1);
 
     //tlacitka jizda
-    void on_pushButton_jizda_sipkaNahoru_clicked();
-    void on_pushButton_jizda_sipkaDolu_clicked();
+    void on_pushButton_jizda_sipkaDal_clicked();
+    void on_pushButton_jizda_sipkaZpet_clicked();
 
-    void on_pushButton_jizda_pridat_clicked();
-    void on_pushButton_jizda_ubrat_clicked();
+    void on_pushButton_jizda_sipkaDalSkok_clicked();
+    void on_pushButton_jizda_sipkaZpetSkok_clicked();
 
     void on_pushButton_jizda_IBIS_clicked();
 
