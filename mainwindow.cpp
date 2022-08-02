@@ -64,16 +64,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->showMessage("test");
 
     //inicializace timeru
+     timerTrvaniZmenyPasma->setSingleShot(true);
     timerTrvaniZmenyPasma->setInterval(konfigurace.trvaniZobrazeniPasma);
-    timerTrvaniZmenyPasma->setSingleShot(true);
 
     timerSpecialniOznameniSmazat.setSingleShot(true);
     timerSpecialniOznameniSmazat.setInterval(konfigurace.trvaniZobrazeniOznameni);
 
     timerStahniPrestupy.setInterval(konfigurace.intervalStahovaniPrestupu);
 
-    timerAfterStopToBetweenStop->setInterval(konfigurace.intervalAfterStopToBetweenStop);
-    timerAfterStopToBetweenStop->setSingleShot(true);
+    timerAfterStopToBetweenStop.setSingleShot(true);
+    timerAfterStopToBetweenStop.setInterval(konfigurace.intervalAfterStopToBetweenStop);
+
 }
 
 
@@ -143,7 +144,7 @@ void MainWindow::vsechnyConnecty()
 
     //casovace
     connect(timerTrvaniZmenyPasma,&QTimer::timeout,this,&MainWindow::eventSkryjZmenuTarifnihoPasma);
-    connect(timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
+    connect(&timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
     connect(&timerStahniPrestupy,&QTimer::timeout,this,&MainWindow::slotStahniPrestupyAktZastavky);
     connect(&timerSpecialniOznameniSmazat,&QTimer::timeout,this,&MainWindow::slotVymazatSpecialniOznameni);
 
@@ -442,8 +443,6 @@ void MainWindow::on_pushButton_jizda_sipkaDal_clicked()
         if((stavSystemu.locationState=="AtStop")&&((stavSystemu.indexAktZastavky<(stavSystemu.pocetZastavekAktualnihoSpoje()-1) )))
         {
             stavSystemu.locationState="AfterStop";
-            ui->pushButton_jizda_afterStop->setChecked(true);
-
             stavSystemu.indexAktZastavky++;
             eventOdjezd();
         }
@@ -459,19 +458,18 @@ void MainWindow::on_pushButton_jizda_sipkaDal_clicked()
             if(stavSystemu.locationState=="BeforeStop")
             {
                 stavSystemu.locationState="AtStop";
-                ui->pushButton_jizda_atStop->setChecked(true);
+
                 eventPrijezd();
             }
 
             if(stavSystemu.locationState=="BetweenStop")
             {
                 stavSystemu.locationState="BeforeStop";
-                ui->pushButton_jizda_beforeStop->setChecked(true);
             }
 
             if(stavSystemu.locationState=="AfterStop")
-            {stavSystemu.locationState="BetweenStop";
-                ui->pushButton_jizda_betweenStop->setChecked(true);
+            {
+                stavSystemu.locationState="BetweenStop";
                 eventAfterStopToBetweenStop();
             }
         }
@@ -482,6 +480,30 @@ void MainWindow::on_pushButton_jizda_sipkaDal_clicked()
     stavSystemu.doorState="AllDoorsClosed";
     // ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky+1));
     xmlVdv301HromadnyUpdate();
+}
+
+
+
+void MainWindow::vykresliStav(QString stav)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    if(stav=="BeforeStop")
+    {
+        ui->pushButton_jizda_beforeStop->setChecked(true);
+    }
+    if(stav=="AtStop")
+    {
+        ui->pushButton_jizda_atStop->setChecked(true);
+    }
+    if(stav=="AfterStop")
+    {
+        ui->pushButton_jizda_afterStop->setChecked(true);
+    }
+    if(stav=="BetweenStop")
+    {
+        ui->pushButton_jizda_betweenStop->setChecked(true);
+    }
+    ui->locationStateIndicator->setText(stavSystemu.locationState);
 }
 
 
@@ -761,7 +783,7 @@ void MainWindow::aktualizaceDispleje()
     ui->label_aktSpoj->setText(QString::number(this->stavSystemu.aktualniSpojNaObehu().cisloRopid));
 
 
-    ui->locationStateIndicator->setText(stavSystemu.locationState);
+    vykresliStav(stavSystemu.locationState);
 }
 
 
@@ -987,7 +1009,7 @@ int MainWindow::eventOdjezd()
 
 
 
-    timerAfterStopToBetweenStop->start();
+    timerAfterStopToBetweenStop.start();
 
 
     return 1;
@@ -1005,6 +1027,9 @@ void MainWindow::eventAfterStopToBetweenStop()
     {
         eventSkryjZmenuTarifnihoPasma();
     }
+    stavSystemu.locationState="BetweenStop";
+    aktualizaceDispleje();
+    xmlVdv301HromadnyUpdate();
 
 }
 
@@ -1964,7 +1989,7 @@ void MainWindow::eventOpusteniVydeje()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    timerAfterStopToBetweenStop->stop();
+    timerAfterStopToBetweenStop.stop();
     timerStahniPrestupy.stop();
     timerTrvaniZmenyPasma->stop();
     resetSeznamuSpoju();

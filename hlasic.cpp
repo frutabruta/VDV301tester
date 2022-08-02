@@ -142,6 +142,8 @@ void Hlasic::kompletZmenaTarifnihoPasma()
     kratkaFronta.push_back(zvukProsimPozor);
     kratkaFronta.push_back(zvukZmenaPasma);
 
+    pridejDoFrontyVyhlas(kratkaFronta);
+
 
 
 }

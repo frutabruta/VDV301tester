@@ -142,13 +142,15 @@ private:
 
     //timery
     QTimer *timerTrvaniZmenyPasma = new QTimer(this); //po pvyprseni casovace zmizi zmena pasma
-    QTimer *timerAfterStopToBetweenStop = new QTimer(this);
+   // QTimer *timerAfterStopToBetweenStop = new QTimer(this);
+    QTimer timerAfterStopToBetweenStop;
     QTimer timerStahniPrestupy;
     QTimer timerSpecialniOznameniSmazat;
 
 
     void resetSeznamuSpoju();
     void eventZobrazOznameni(int index, QVector<SpecialniHlaseni> seznamHlaseni);
+    void vykresliStav(QString stav);
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
