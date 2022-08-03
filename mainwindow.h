@@ -6,16 +6,20 @@
 #include <QtSerialPort/QSerialPort>
 #include <QNetworkAccessManager>
 #include <QMainWindow>
+#include <QNetworkReply>
+#include <QFileDialog>
+#include <QMessageBox>
 
 #include "VDV301struktury/zastavka.h"
 #include "VDV301struktury/linka.h"
 #include "VDV301struktury/cestaudaje.h"
 #include "VDV301struktury/zastavkacil.h"
 
-
 #include "VDV301publisher/httpsluzba.h"
 #include "VDV301publisher/customerinformationservice.h"
 #include "VDV301publisher/ticketvalidationservice.h"
+
+#include "VDV301subscriber/ibisipsubscriber.h"
 
 #include "VDV301testy/vdv301testy.h"
 #include "VDV301testy/testodberuserver.h"
@@ -97,6 +101,9 @@ private:
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_2CZ1_0;
     TicketValidationService ticketValidationService2_3CZ1_0;
+
+    //IBIS-IP subscriber
+    IbisIpSubscriber deviceManagementServiceSubscriber;
 
     //konfiguracni soubor
     Konfigurace konfigurace;

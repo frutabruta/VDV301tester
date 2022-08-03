@@ -1,13 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "VDV301struktury/cestaudaje.h"
-#include "xmlgenerator.h"
 
-#include <QNetworkReply>
-#include "VDV301struktury/zastavka.h"
-#include "VDV301testy/vdv301testy.h"
-#include "QFileDialog"
-#include "QMessageBox"
+
+
 //koment
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -17,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47481,"2.2CZ1.0"),
+    deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48479),//puvodni port 48479, novy 59631
     konfigurace(QCoreApplication::applicationDirPath()),
     ui(new Ui::MainWindow)
 {

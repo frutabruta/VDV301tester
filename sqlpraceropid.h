@@ -14,7 +14,9 @@
 #include "VDV301struktury/zastavkacil.h"
 //#include "VDV301struktury/trip.h"
 #include "VDV301struktury/obeh.h"
-#include "xmlgenerator.h"
+
+
+
 class SqlPraceRopid: public QObject
 {
     Q_OBJECT
@@ -58,6 +60,7 @@ public:
     QString stahniSeznamSpolecnaCastDotazu();
     int najdiTurnusZeSpoje(Spoj spoj, int &kmenovaLinka, int &poradi, int &order, QString kj);
     int poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju, Spoj spoj);
+    QVector<Pasmo> pasmoStringDoVectoru(QString vstup, QString system, QString tl);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:

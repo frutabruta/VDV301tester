@@ -172,6 +172,13 @@ public:
     QHBoxLayout *horizontalLayout_22;
     QPushButton *pushButton_manual_odesliXml;
     QPushButton *pushButton_manual_smazOkno;
+    QWidget *tab;
+    QHBoxLayout *horizontalLayout;
+    QTableWidget *tableWidget_seznamZarizeni;
+    QVBoxLayout *verticalLayout;
+    QPushButton *pushButton;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton_3;
     QWidget *tab_test;
     QHBoxLayout *horizontalLayout_5;
     QFormLayout *formLayout_3;
@@ -230,7 +237,7 @@ public:
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
         MainWindow->setMinimumSize(QSize(800, 100));
-        MainWindow->setMaximumSize(QSize(800, 538));
+        MainWindow->setMaximumSize(QSize(2000, 2000));
         MainWindow->setStyleSheet(QString::fromUtf8("padding: 0px;margin: 0px;"));
         MainWindow->setAnimated(true);
         centralWidget = new QWidget(MainWindow);
@@ -1112,11 +1119,8 @@ public:
 
         calendarWidget = new QCalendarWidget(tab_moznosti_nast);
         calendarWidget->setObjectName(QString::fromUtf8("calendarWidget"));
-        QSizePolicy sizePolicy8(QSizePolicy::Fixed, QSizePolicy::Expanding);
-        sizePolicy8.setHorizontalStretch(0);
-        sizePolicy8.setVerticalStretch(0);
-        sizePolicy8.setHeightForWidth(calendarWidget->sizePolicy().hasHeightForWidth());
-        calendarWidget->setSizePolicy(sizePolicy8);
+        sizePolicy3.setHeightForWidth(calendarWidget->sizePolicy().hasHeightForWidth());
+        calendarWidget->setSizePolicy(sizePolicy3);
         calendarWidget->setMinimumSize(QSize(100, 0));
         calendarWidget->setFirstDayOfWeek(Qt::Monday);
         calendarWidget->setSelectionMode(QCalendarWidget::SingleSelection);
@@ -1185,12 +1189,22 @@ public:
         verticalLayoutseriovyPort->setObjectName(QString::fromUtf8("verticalLayoutseriovyPort"));
         label_7 = new QLabel(tab_moznosti_nast);
         label_7->setObjectName(QString::fromUtf8("label_7"));
+        QSizePolicy sizePolicy8(QSizePolicy::Maximum, QSizePolicy::Preferred);
+        sizePolicy8.setHorizontalStretch(0);
+        sizePolicy8.setVerticalStretch(0);
+        sizePolicy8.setHeightForWidth(label_7->sizePolicy().hasHeightForWidth());
+        label_7->setSizePolicy(sizePolicy8);
         label_7->setFont(font);
 
         verticalLayoutseriovyPort->addWidget(label_7);
 
         lineEdit_jmenoPortu = new QLineEdit(tab_moznosti_nast);
         lineEdit_jmenoPortu->setObjectName(QString::fromUtf8("lineEdit_jmenoPortu"));
+        QSizePolicy sizePolicy9(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        sizePolicy9.setHorizontalStretch(0);
+        sizePolicy9.setVerticalStretch(0);
+        sizePolicy9.setHeightForWidth(lineEdit_jmenoPortu->sizePolicy().hasHeightForWidth());
+        lineEdit_jmenoPortu->setSizePolicy(sizePolicy9);
         QPalette palette4;
         palette4.setBrush(QPalette::Active, QPalette::Button, brush);
         palette4.setBrush(QPalette::Active, QPalette::Base, brush);
@@ -1207,6 +1221,11 @@ public:
 
         pushButton_nast_nastavPort = new QPushButton(tab_moznosti_nast);
         pushButton_nast_nastavPort->setObjectName(QString::fromUtf8("pushButton_nast_nastavPort"));
+        QSizePolicy sizePolicy10(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy10.setHorizontalStretch(0);
+        sizePolicy10.setVerticalStretch(0);
+        sizePolicy10.setHeightForWidth(pushButton_nast_nastavPort->sizePolicy().hasHeightForWidth());
+        pushButton_nast_nastavPort->setSizePolicy(sizePolicy10);
         pushButton_nast_nastavPort->setMinimumSize(QSize(0, 80));
         pushButton_nast_nastavPort->setFont(font);
 
@@ -1214,6 +1233,8 @@ public:
 
         pushButton_nast_odesliPrikaz = new QPushButton(tab_moznosti_nast);
         pushButton_nast_odesliPrikaz->setObjectName(QString::fromUtf8("pushButton_nast_odesliPrikaz"));
+        sizePolicy10.setHeightForWidth(pushButton_nast_odesliPrikaz->sizePolicy().hasHeightForWidth());
+        pushButton_nast_odesliPrikaz->setSizePolicy(sizePolicy10);
         pushButton_nast_odesliPrikaz->setMinimumSize(QSize(0, 80));
         pushButton_nast_odesliPrikaz->setFont(font);
 
@@ -1399,6 +1420,51 @@ public:
         gridLayout_8->addLayout(verticalLayout_28, 8, 4, 1, 1);
 
         tabWidget_2->addTab(tab_moznosti_manual, QString());
+        tab = new QWidget();
+        tab->setObjectName(QString::fromUtf8("tab"));
+        horizontalLayout = new QHBoxLayout(tab);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        tableWidget_seznamZarizeni = new QTableWidget(tab);
+        if (tableWidget_seznamZarizeni->columnCount() < 5)
+            tableWidget_seznamZarizeni->setColumnCount(5);
+        QTableWidgetItem *__qtablewidgetitem16 = new QTableWidgetItem();
+        tableWidget_seznamZarizeni->setHorizontalHeaderItem(0, __qtablewidgetitem16);
+        QTableWidgetItem *__qtablewidgetitem17 = new QTableWidgetItem();
+        tableWidget_seznamZarizeni->setHorizontalHeaderItem(1, __qtablewidgetitem17);
+        QTableWidgetItem *__qtablewidgetitem18 = new QTableWidgetItem();
+        tableWidget_seznamZarizeni->setHorizontalHeaderItem(2, __qtablewidgetitem18);
+        QTableWidgetItem *__qtablewidgetitem19 = new QTableWidgetItem();
+        tableWidget_seznamZarizeni->setHorizontalHeaderItem(3, __qtablewidgetitem19);
+        QTableWidgetItem *__qtablewidgetitem20 = new QTableWidgetItem();
+        tableWidget_seznamZarizeni->setHorizontalHeaderItem(4, __qtablewidgetitem20);
+        tableWidget_seznamZarizeni->setObjectName(QString::fromUtf8("tableWidget_seznamZarizeni"));
+
+        horizontalLayout->addWidget(tableWidget_seznamZarizeni);
+
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setSpacing(6);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        pushButton = new QPushButton(tab);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+
+        verticalLayout->addWidget(pushButton);
+
+        pushButton_2 = new QPushButton(tab);
+        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+
+        verticalLayout->addWidget(pushButton_2);
+
+        pushButton_3 = new QPushButton(tab);
+        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+
+        verticalLayout->addWidget(pushButton_3);
+
+
+        horizontalLayout->addLayout(verticalLayout);
+
+        tabWidget_2->addTab(tab, QString());
 
         horizontalLayout_10->addWidget(tabWidget_2);
 
@@ -1493,11 +1559,11 @@ public:
         horizontalLayout_13->setObjectName(QString::fromUtf8("horizontalLayout_13"));
         pushButton_test1 = new QPushButton(page_prubehTestu);
         pushButton_test1->setObjectName(QString::fromUtf8("pushButton_test1"));
-        QSizePolicy sizePolicy9(QSizePolicy::Expanding, QSizePolicy::Minimum);
-        sizePolicy9.setHorizontalStretch(0);
-        sizePolicy9.setVerticalStretch(0);
-        sizePolicy9.setHeightForWidth(pushButton_test1->sizePolicy().hasHeightForWidth());
-        pushButton_test1->setSizePolicy(sizePolicy9);
+        QSizePolicy sizePolicy11(QSizePolicy::Expanding, QSizePolicy::Minimum);
+        sizePolicy11.setHorizontalStretch(0);
+        sizePolicy11.setVerticalStretch(0);
+        sizePolicy11.setHeightForWidth(pushButton_test1->sizePolicy().hasHeightForWidth());
+        pushButton_test1->setSizePolicy(sizePolicy11);
         pushButton_test1->setMinimumSize(QSize(0, 0));
         pushButton_test1->setMaximumSize(QSize(16777215, 50));
         pushButton_test1->setFont(font1);
@@ -1506,8 +1572,8 @@ public:
 
         pushButton_test2 = new QPushButton(page_prubehTestu);
         pushButton_test2->setObjectName(QString::fromUtf8("pushButton_test2"));
-        sizePolicy9.setHeightForWidth(pushButton_test2->sizePolicy().hasHeightForWidth());
-        pushButton_test2->setSizePolicy(sizePolicy9);
+        sizePolicy11.setHeightForWidth(pushButton_test2->sizePolicy().hasHeightForWidth());
+        pushButton_test2->setSizePolicy(sizePolicy11);
         pushButton_test2->setMaximumSize(QSize(16777215, 50));
         pushButton_test2->setFont(font1);
 
@@ -1515,8 +1581,8 @@ public:
 
         pushButton_test3 = new QPushButton(page_prubehTestu);
         pushButton_test3->setObjectName(QString::fromUtf8("pushButton_test3"));
-        sizePolicy9.setHeightForWidth(pushButton_test3->sizePolicy().hasHeightForWidth());
-        pushButton_test3->setSizePolicy(sizePolicy9);
+        sizePolicy11.setHeightForWidth(pushButton_test3->sizePolicy().hasHeightForWidth());
+        pushButton_test3->setSizePolicy(sizePolicy11);
         pushButton_test3->setMaximumSize(QSize(16777215, 50));
         pushButton_test3->setFont(font1);
 
@@ -1524,8 +1590,8 @@ public:
 
         pushButton_test4 = new QPushButton(page_prubehTestu);
         pushButton_test4->setObjectName(QString::fromUtf8("pushButton_test4"));
-        sizePolicy9.setHeightForWidth(pushButton_test4->sizePolicy().hasHeightForWidth());
-        pushButton_test4->setSizePolicy(sizePolicy9);
+        sizePolicy11.setHeightForWidth(pushButton_test4->sizePolicy().hasHeightForWidth());
+        pushButton_test4->setSizePolicy(sizePolicy11);
         pushButton_test4->setMaximumSize(QSize(16777215, 50));
         pushButton_test4->setFont(font1);
 
@@ -1540,12 +1606,12 @@ public:
         tableWidgetCastiTestu = new QTableWidget(page_prubehTestu);
         if (tableWidgetCastiTestu->columnCount() < 3)
             tableWidgetCastiTestu->setColumnCount(3);
-        QTableWidgetItem *__qtablewidgetitem16 = new QTableWidgetItem();
-        tableWidgetCastiTestu->setHorizontalHeaderItem(0, __qtablewidgetitem16);
-        QTableWidgetItem *__qtablewidgetitem17 = new QTableWidgetItem();
-        tableWidgetCastiTestu->setHorizontalHeaderItem(1, __qtablewidgetitem17);
-        QTableWidgetItem *__qtablewidgetitem18 = new QTableWidgetItem();
-        tableWidgetCastiTestu->setHorizontalHeaderItem(2, __qtablewidgetitem18);
+        QTableWidgetItem *__qtablewidgetitem21 = new QTableWidgetItem();
+        tableWidgetCastiTestu->setHorizontalHeaderItem(0, __qtablewidgetitem21);
+        QTableWidgetItem *__qtablewidgetitem22 = new QTableWidgetItem();
+        tableWidgetCastiTestu->setHorizontalHeaderItem(1, __qtablewidgetitem22);
+        QTableWidgetItem *__qtablewidgetitem23 = new QTableWidgetItem();
+        tableWidgetCastiTestu->setHorizontalHeaderItem(2, __qtablewidgetitem23);
         tableWidgetCastiTestu->setObjectName(QString::fromUtf8("tableWidgetCastiTestu"));
 
         horizontalLayout_15->addWidget(tableWidgetCastiTestu);
@@ -1765,9 +1831,9 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
         stackedWidget_palPc->setCurrentIndex(0);
-        tabWidget_2->setCurrentIndex(1);
+        tabWidget_2->setCurrentIndex(0);
         stackedWidget_testy->setCurrentIndex(0);
 
 
@@ -1858,7 +1924,8 @@ public:
         label_7->setText(QCoreApplication::translate("MainWindow", "S\303\251riov\303\275 port IBIS", nullptr));
         lineEdit_jmenoPortu->setText(QCoreApplication::translate("MainWindow", "ttyUSB0", nullptr));
         pushButton_nast_nastavPort->setText(QCoreApplication::translate("MainWindow", "nastav port", nullptr));
-        pushButton_nast_odesliPrikaz->setText(QCoreApplication::translate("MainWindow", "ode\305\241li testovac\303\255 p\305\231\303\255kaz", nullptr));
+        pushButton_nast_odesliPrikaz->setText(QCoreApplication::translate("MainWindow", "ode\305\241li\n"
+" testovac\303\255 p\305\231\303\255kaz", nullptr));
         label_diagnostika_sql->setText(QCoreApplication::translate("MainWindow", "Diagnostick\303\275 \305\231\303\241dek importu dat", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "build", nullptr));
         label_build->setText(QCoreApplication::translate("MainWindow", "cisloBuildu", nullptr));
@@ -2119,6 +2186,20 @@ public:
         pushButton_manual_smazOkno->setText(QCoreApplication::translate("MainWindow", "vymazat\n"
 " okno", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_moznosti_manual), QCoreApplication::translate("MainWindow", "Manual", nullptr));
+        QTableWidgetItem *___qtablewidgetitem16 = tableWidget_seznamZarizeni->horizontalHeaderItem(0);
+        ___qtablewidgetitem16->setText(QCoreApplication::translate("MainWindow", "N\303\241zev", nullptr));
+        QTableWidgetItem *___qtablewidgetitem17 = tableWidget_seznamZarizeni->horizontalHeaderItem(1);
+        ___qtablewidgetitem17->setText(QCoreApplication::translate("MainWindow", "IP", nullptr));
+        QTableWidgetItem *___qtablewidgetitem18 = tableWidget_seznamZarizeni->horizontalHeaderItem(2);
+        ___qtablewidgetitem18->setText(QCoreApplication::translate("MainWindow", "verze", nullptr));
+        QTableWidgetItem *___qtablewidgetitem19 = tableWidget_seznamZarizeni->horizontalHeaderItem(3);
+        ___qtablewidgetitem19->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
+        QTableWidgetItem *___qtablewidgetitem20 = tableWidget_seznamZarizeni->horizontalHeaderItem(4);
+        ___qtablewidgetitem20->setText(QCoreApplication::translate("MainWindow", "DeviceClass", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        pushButton_3->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab), QCoreApplication::translate("MainWindow", "Strana", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_moznosti), QCoreApplication::translate("MainWindow", "Mo\305\276nosti", nullptr));
         pushButton_menu2_sluzby->setText(QCoreApplication::translate("MainWindow", "Slu\305\276by", nullptr));
         pushButton_menu2_prubehTestu->setText(QCoreApplication::translate("MainWindow", "Pr\305\257beh\n"
@@ -2130,12 +2211,12 @@ public:
         pushButton_test2->setText(QCoreApplication::translate("MainWindow", "Test odberu", nullptr));
         pushButton_test3->setText(QCoreApplication::translate("MainWindow", "Test Bonjour", nullptr));
         pushButton_test4->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        QTableWidgetItem *___qtablewidgetitem16 = tableWidgetCastiTestu->horizontalHeaderItem(0);
-        ___qtablewidgetitem16->setText(QCoreApplication::translate("MainWindow", "N\303\241zev \304\215\303\241sti testu", nullptr));
-        QTableWidgetItem *___qtablewidgetitem17 = tableWidgetCastiTestu->horizontalHeaderItem(1);
-        ___qtablewidgetitem17->setText(QCoreApplication::translate("MainWindow", "Pr\305\257b\304\233h", nullptr));
-        QTableWidgetItem *___qtablewidgetitem18 = tableWidgetCastiTestu->horizontalHeaderItem(2);
-        ___qtablewidgetitem18->setText(QCoreApplication::translate("MainWindow", "V\303\275sledek", nullptr));
+        QTableWidgetItem *___qtablewidgetitem21 = tableWidgetCastiTestu->horizontalHeaderItem(0);
+        ___qtablewidgetitem21->setText(QCoreApplication::translate("MainWindow", "N\303\241zev \304\215\303\241sti testu", nullptr));
+        QTableWidgetItem *___qtablewidgetitem22 = tableWidgetCastiTestu->horizontalHeaderItem(1);
+        ___qtablewidgetitem22->setText(QCoreApplication::translate("MainWindow", "Pr\305\257b\304\233h", nullptr));
+        QTableWidgetItem *___qtablewidgetitem23 = tableWidgetCastiTestu->horizontalHeaderItem(2);
+        ___qtablewidgetitem23->setText(QCoreApplication::translate("MainWindow", "V\303\275sledek", nullptr));
         pushButton_startTest->setText(QCoreApplication::translate("MainWindow", "Spustit\n"
 " test", nullptr));
         pushButton_stopTest->setText(QCoreApplication::translate("MainWindow", "Zastavit\n"

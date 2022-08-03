@@ -45,47 +45,62 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 
 SOURCES += \
     VDV301publisher/customerinformationservice.cpp \
+    VDV301publisher/devicemanagementservice.cpp\
     VDV301publisher/httpsluzba.cpp \
     VDV301publisher/newhttpserver.cpp \
     VDV301publisher/subscriber.cpp \
-    VDV301publisher/ticketvalidationservice.cpp \
-    #  VDV301subscriber/newhttpserver.cpp \
+    VDV301publisher/ticketvalidationservice.cpp \    
+    VDV301publisher/xmlcommon.cpp \
+    VDV301publisher/xmlcustomerinformationservice.cpp \
+    VDV301publisher/xmldevicemanagementservice.cpp \
+    VDV301publisher/xmlticketvalidationservice.cpp \    
     VDV301subscriber/ibisipsubscriber.cpp \
+    VDV301struktury/cestaudaje.cpp \
     VDV301struktury/linka.cpp \
     VDV301struktury/obeh.cpp \
     VDV301struktury/pasmo.cpp \
     VDV301struktury/prestup.cpp \
+    VDV301struktury/prestupmpv.cpp \
     VDV301struktury/spoj.cpp \
     VDV301struktury/zastavka.cpp \
     VDV301struktury/zastavkacil.cpp \
+    VDV301struktury/specialnihlaseni.cpp \
     VDV301testy/polozkatestu.cpp \
     VDV301testy/testdemo.cpp \
     VDV301testy/testdetekcebonjour.cpp \
     VDV301testy/testodberuserver.cpp \
-    VDV301testy/vdv301testy.cpp \    
+    VDV301testy/vdv301testy.cpp \
     hlasic.cpp \
+    ibisovladani.cpp \
     konfigurace.cpp \
     logfile.cpp \
     main.cpp \
     mainwindow.cpp \
-    mainwindowpomocne.cpp \
-    prestupmpv.cpp \
-    VDV301struktury/specialnihlaseni.cpp \
-    xmlgenerator.cpp \
-    VDV301struktury/cestaudaje.cpp \
-    xmlmpvparser.cpp \
+    mainwindowpomocne.cpp \   
     sqlpraceropid.cpp \
-    xmlropidparser.cpp \
-    ibisovladani.cpp
+    xmlmpvparser.cpp \
+    xmlropidparser.cpp
+
 
 HEADERS += \
-    VDV301publisher/newhttpserver.h \
-    VDV301publisher/ticketvalidationservice.h \
-    VDV301publisher/subscriber.h \
     VDV301publisher/customerinformationservice.h \
-    VDV301struktury/linka.h \   
+    VDV301publisher/devicemanagementservice.h \
+    VDV301publisher/httpsluzba.h \
+    VDV301publisher/newhttpserver.h \
+    VDV301publisher/subscriber.h \
+    VDV301publisher/ticketvalidationservice.h \
+    VDV301publisher/xmlcommon.h \
+    VDV301publisher/xmlcustomerinformationservice.h \
+    VDV301publisher/xmldevicemanagementservice.h \
+    VDV301publisher/xmlticketvalidationservice.h \    
+    VDV301struktury/cestaudaje.h \
+    VDV301struktury/linka.h \
     VDV301struktury/obeh.h \
     VDV301struktury/prestup.h \
+    VDV301struktury/pasmo.h \
+    VDV301struktury/prestupmpv.h \
+    VDV301struktury/specialnihlaseni.h \
+    VDV301struktury/spoj.h \
     VDV301struktury/zastavka.h \
     VDV301struktury/zastavkacil.h \
     VDV301subscriber/ibisipsubscriber.h \
@@ -95,22 +110,15 @@ HEADERS += \
     VDV301testy/testdetekcebonjour.h \
     VDV301testy/testodberuserver.h \
     VDV301testy/vdv301testy.h \
-    hlasic.h \
-    VDV301publisher/httpsluzba.h \
+    hlasic.h \    
+    ibisovladani.h \
     konfigurace.h \
     logfile.h \
     mainwindow.h \
-    mainwindowpomocne.h \
-    prestupmpv.h \
-    VDV301struktury/spoj.h \
-    VDV301struktury/pasmo.h \
-    VDV301struktury/specialnihlaseni.h \
-    xmlgenerator.h \
-    VDV301struktury/cestaudaje.h \
-    xmlmpvparser.h \
+    mainwindowpomocne.h \    
     sqlpraceropid.h \
-    xmlropidparser.h \
-    ibisovladani.h
+    xmlmpvparser.h \    
+    xmlropidparser.h
 
 FORMS += \
         mainwindow.ui

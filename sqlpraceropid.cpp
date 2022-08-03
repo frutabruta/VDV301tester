@@ -1,10 +1,8 @@
 #include "sqlpraceropid.h"
 #include "VDV301struktury/zastavka.h"
-#include "xmlgenerator.h"
 #include "VDV301struktury/zastavkacil.h"
-//#include "VDV301struktury/trip.h"
 #include "VDV301struktury/obeh.h"
-#include "xmlgenerator.h"
+
 SqlPraceRopid::SqlPraceRopid()
 {
 
@@ -1118,12 +1116,44 @@ QVector<Pasmo> SqlPraceRopid::vyrobPasmaMezikraj(QVector<QString> tp, QVector<QS
 
     for(int i=0;i<tp.length();i++)
     {
-        QVector<Pasmo> pasma= XmlGenerator::pasmoStringDoVectoru(tp.at(i), pz.at(i),tl);
+        QVector<Pasmo> pasma= pasmoStringDoVectoru(tp.at(i), pz.at(i),tl);
         if(povoleneSystemy.contains(pc.at(i)))
         {
             vystup.append(pasma);
         }
     }
     return vystup;
+}
+
+QVector<Pasmo> SqlPraceRopid::pasmoStringDoVectoru(QString vstup,QString system,QString tl)
+{
+    QStringList stringPasma = vstup.split(',');
+    QVector<Pasmo> seznamPasem;
+
+    for (int i=0;i<stringPasma.length();i++)
+    {
+        Pasmo intPasmo;
+        intPasmo.nazev=stringPasma.at(i);
+        intPasmo.system=system;
+
+        if(intPasmo.nazev!="-")
+        {
+            if(tl=="A")
+            {
+                if(intPasmo.nazev=="P")
+                {
+                    seznamPasem.append(intPasmo);
+                }
+            }
+            else
+            {
+                if (intPasmo.nazev!="P")
+                {
+                    seznamPasem.append(intPasmo);
+                }
+            }
+        }
+    }
+    return seznamPasem;
 }
 

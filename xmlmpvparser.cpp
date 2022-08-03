@@ -1,8 +1,5 @@
 #include "xmlmpvparser.h"
-#include <QDebug>
-#include <QMainWindow>
-#include "prestupmpv.h"
-#include <QCoreApplication>
+
 
 
 XmlMpvParser::XmlMpvParser()
@@ -82,7 +79,6 @@ void XmlMpvParser::stahniMpvXml(int cisloCis, QString Ids)
 QByteArray XmlMpvParser::requestReceived(QNetworkReply* replyoo)
 {
     qDebug()<<"XmlMpvParser::requestReceived";
-    QString replyText;
     QByteArray rawData = replyoo->readAll();
     QString textData(rawData);
     qDebug() << textData;
