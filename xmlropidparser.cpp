@@ -7,9 +7,6 @@
 #include <QCoreApplication>
 
 
-
-
-
 XmlRopidParser::XmlRopidParser()
 {
     vstupniXmlSouborCesta="xml_zdroje/XML_X926_20211006_20211012";
@@ -28,10 +25,6 @@ void XmlRopidParser::otevriSoubor(QString cesta)
     // QFile file("xml_zdroje/XML_Zlicin_20200702_20200705.xml");
 
     QFile file(cesta);
-
-
-
-
 
     if (!file.open(QIODevice::ReadOnly))
     {
@@ -102,7 +95,6 @@ void XmlRopidParser::otevriSoubor(QString cesta)
     }
     ropidSQL.zavriDB();
 
-
 }
 
 
@@ -157,10 +149,6 @@ int XmlRopidParser::vlozDd(QDomElement koren)
     qDebug()<<"konecImportuDd";
     return 1;
 }
-
-
-
-
 
 
 int XmlRopidParser::vlozCh(QDomElement koren)
@@ -263,11 +251,6 @@ int XmlRopidParser::vlozM(QDomElement koren)
     emit odesliChybovouHlasku("dokoncen import "+nazevElementu);
     return 1;
 }
-
-
-
-
-
 
 int XmlRopidParser::vlozTv(QDomElement koren)
 {
@@ -635,9 +618,6 @@ int XmlRopidParser::vlozP(QDomElement koren)
 }
 
 
-
-
-
 int XmlRopidParser::vlozZ(QDomElement koren)
 {
     qDebug()<<"zacatekImportuZ";
@@ -697,10 +677,6 @@ int XmlRopidParser::vlozS(QDomElement koren)
     int pocetPrvku=m.count();
     qDebug()<<"pocet prvku S je "<<pocetPrvku;
 
-
-
-
-
     for (int i=0;i<pocetPrvku;i++)
     {
         QDomElement element = m.at(i).toElement();
@@ -722,8 +698,6 @@ int XmlRopidParser::vlozS(QDomElement koren)
         polozky.push_back(inicializujPolozku("c",element.attribute("c"),"Integer"));
         polozky.push_back(inicializujPolozku("neve",element.attribute("neve"),"Boolean"));
         polozky.push_back(inicializujPolozku("ns",element.attribute("ns"),"Integer"));
-
-
         QString queryString=this->slozInsert("s",polozky);
         //qDebug()<<"s2 "<<queryString;
 
@@ -735,7 +709,6 @@ int XmlRopidParser::vlozS(QDomElement koren)
     qDebug()<<"konecImportuS";
     return 1;
 }
-
 
 
 int XmlRopidParser::vlozT(QDomElement koren)
@@ -768,10 +741,7 @@ int XmlRopidParser::vlozT(QDomElement koren)
         polozky.push_back(inicializujPolozku("lcdn",element.attribute("lcdn"),"String"));
         polozky.push_back(inicializujPolozku("hl",element.attribute("hl"),"String"));
 
-
-
         QString queryString=this->slozInsert("t",polozky);
-        // qDebug()<<"t2 "<<queryString;
         QSqlQuery query(queryString,ropidSQL.mojeDatabaze);
     }
     emit odesliChybovouHlasku("dokoncen import T");
@@ -814,9 +784,6 @@ int XmlRopidParser::vlozX(QDomElement koren)
         polozky.push_back(inicializujPolozku("zsol",element.attribute("zsol"),"Boolean"));
         polozky.push_back(inicializujPolozku("s1",element.attribute("s1"),"Boolean"));
         polozky.push_back(inicializujPolozku("s2",element.attribute("s2"),"Boolean"));
-        //polozky.push_back(inicializujPolozku("AA","BB","String"));
-
-
 
         QString queryString=this->slozInsert("x",polozky);
         //qDebug()<<"x2 "<<queryString;

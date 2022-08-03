@@ -13,9 +13,7 @@ QT += multimedia
 QT+= httpserver
 
 DEFINES+= QZEROCONF_STATIC
-
-include(qtzeroconf/qtzeroconf.pri)
-
+include(VDV301publisher/QtZeroConf/qtzeroconf.pri)
 
 
 #include <QtXml>
