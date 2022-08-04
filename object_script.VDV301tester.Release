@@ -6,7 +6,7 @@ release/qzeroconfservice.o
 release/customerinformationservice.o
 release/devicemanagementservice.o
 release/httpsluzba.o
-release/newhttpserver.o
+release/httpserverpublisher.o
 release/subscriber.o
 release/ticketvalidationservice.o
 release/xmlcommon.o
@@ -14,6 +14,7 @@ release/xmlcustomerinformationservice.o
 release/xmldevicemanagementservice.o
 release/xmlticketvalidationservice.o
 release/ibisipsubscriber.o
+release/httpserversubscriber.o
 release/cestaudaje.o
 release/linka.o
 release/obeh.o
@@ -43,8 +44,9 @@ release/moc_qzeroconf.o
 release/moc_bonjour_p.o
 release/moc_qzeroconfservice.o
 release/moc_httpsluzba.o
-release/moc_newhttpserver.o
+release/moc_httpserverpublisher.o
 release/moc_ibisipsubscriber.o
+release/moc_httpserversubscriber.o
 release/moc_testdemo.o
 release/moc_testodberuserver.o
 release/moc_vdv301testy.o

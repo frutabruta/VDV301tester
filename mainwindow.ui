@@ -55,7 +55,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_21">
     <item>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="QTabWidget" name="tabWidget_hlavni">
       <property name="font">
        <font>
         <pointsize>20</pointsize>
@@ -2485,7 +2485,7 @@ Stop</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
         <item>
-         <widget class="QTabWidget" name="tabWidget_2">
+         <widget class="QTabWidget" name="tabWidget_moznosti">
           <property name="font">
            <font>
             <pointsize>12</pointsize>

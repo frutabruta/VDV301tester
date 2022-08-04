@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47481,"2.2CZ1.0"),
-    deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48479),//puvodni port 48479, novy 59631
+    deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
     konfigurace(QCoreApplication::applicationDirPath()),
     ui(new Ui::MainWindow)
 {
@@ -20,8 +20,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
+    ui->tabWidget_hlavni->setCurrentWidget(ui->tab_palPC);
+    ui->pushButton_menu_turnus->setChecked(true);
 
-    ui->stackedWidget_palPc->setWindowState(Qt::WindowFullScreen);
+
+
+    //ui->stackedWidget_palPc->setWindowState(Qt::WindowFullScreen);
 
 
     //inicializace databaze
@@ -33,7 +37,8 @@ MainWindow::MainWindow(QWidget *parent) :
     nastartujVsechnyVdv301Sluzby();
 
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
-    QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
+    //QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
+    QString compilationTime = QString("%1T%2").arg(__DATE__,__TIME__);
     ui->label_build->setText(compilationTime);
 
     //kalendarJizd
@@ -136,7 +141,6 @@ void MainWindow::vsechnyConnecty()
 
     //konfigurace
     connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
-
 
     //casovace
     connect(timerTrvaniZmenyPasma,&QTimer::timeout,this,&MainWindow::eventSkryjZmenuTarifnihoPasma);

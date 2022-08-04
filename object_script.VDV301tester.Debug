@@ -6,7 +6,7 @@ debug/qzeroconfservice.o
 debug/customerinformationservice.o
 debug/devicemanagementservice.o
 debug/httpsluzba.o
-debug/newhttpserver.o
+debug/httpserverpublisher.o
 debug/subscriber.o
 debug/ticketvalidationservice.o
 debug/xmlcommon.o
@@ -14,6 +14,7 @@ debug/xmlcustomerinformationservice.o
 debug/xmldevicemanagementservice.o
 debug/xmlticketvalidationservice.o
 debug/ibisipsubscriber.o
+debug/httpserversubscriber.o
 debug/cestaudaje.o
 debug/linka.o
 debug/obeh.o
@@ -43,8 +44,9 @@ debug/moc_qzeroconf.o
 debug/moc_bonjour_p.o
 debug/moc_qzeroconfservice.o
 debug/moc_httpsluzba.o
-debug/moc_newhttpserver.o
+debug/moc_httpserverpublisher.o
 debug/moc_ibisipsubscriber.o
+debug/moc_httpserversubscriber.o
 debug/moc_testdemo.o
 debug/moc_testodberuserver.o
 debug/moc_vdv301testy.o

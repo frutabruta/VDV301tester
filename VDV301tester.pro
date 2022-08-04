@@ -45,7 +45,7 @@ SOURCES += \
     VDV301publisher/customerinformationservice.cpp \
     VDV301publisher/devicemanagementservice.cpp\
     VDV301publisher/httpsluzba.cpp \
-    VDV301publisher/newhttpserver.cpp \
+    VDV301publisher/httpserverpublisher.cpp \
     VDV301publisher/subscriber.cpp \
     VDV301publisher/ticketvalidationservice.cpp \    
     VDV301publisher/xmlcommon.cpp \
@@ -53,6 +53,7 @@ SOURCES += \
     VDV301publisher/xmldevicemanagementservice.cpp \
     VDV301publisher/xmlticketvalidationservice.cpp \    
     VDV301subscriber/ibisipsubscriber.cpp \
+    VDV301subscriber/httpserversubscriber.cpp \
     VDV301struktury/cestaudaje.cpp \
     VDV301struktury/linka.cpp \
     VDV301struktury/obeh.cpp \
@@ -84,7 +85,7 @@ HEADERS += \
     VDV301publisher/customerinformationservice.h \
     VDV301publisher/devicemanagementservice.h \
     VDV301publisher/httpsluzba.h \
-    VDV301publisher/newhttpserver.h \
+    VDV301publisher/httpserverpublisher.h \
     VDV301publisher/subscriber.h \
     VDV301publisher/ticketvalidationservice.h \
     VDV301publisher/xmlcommon.h \
@@ -102,7 +103,7 @@ HEADERS += \
     VDV301struktury/zastavka.h \
     VDV301struktury/zastavkacil.h \
     VDV301subscriber/ibisipsubscriber.h \
-    VDV301subscriber/newhttpserver.h \
+    VDV301subscriber/httpserversubscriber.h \
     VDV301testy/polozkatestu.h \
     VDV301testy/testdemo.h \
     VDV301testy/testdetekcebonjour.h \
