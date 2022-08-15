@@ -541,16 +541,7 @@ void MainWindow::on_pushButton_jizda_sipkaZpet_clicked()
 
 
 
-/*!
 
-*/
-void MainWindow::on_pushButton_nast_pripojeni_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    inicializaceVyberovychPoli();
-
-
-}
 
 
 

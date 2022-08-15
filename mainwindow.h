@@ -232,7 +232,6 @@ private slots:
     void on_calendarWidget_selectionChanged();
 
     void on_pushButton_nast_dnes_clicked();
-    void on_pushButton_nast_pripojeni_clicked();
 
     void on_pushButton_nast_truncate_clicked();
     void on_pushButton_nast_xmlVyberCestu_clicked();

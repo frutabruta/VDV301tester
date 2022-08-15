@@ -71,7 +71,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -2486,6 +2486,9 @@ Stop</string>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
         <item>
          <widget class="QTabWidget" name="tabWidget_moznosti">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="font">
            <font>
             <pointsize>12</pointsize>
@@ -3328,9 +3331,12 @@ Stop</string>
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab">
+          <widget class="QWidget" name="tab_moznosti_zarizeni">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <attribute name="title">
-            <string>Strana</string>
+            <string>Detekce zařízení</string>
            </attribute>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>

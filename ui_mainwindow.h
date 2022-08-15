@@ -172,7 +172,7 @@ public:
     QHBoxLayout *horizontalLayout_22;
     QPushButton *pushButton_manual_odesliXml;
     QPushButton *pushButton_manual_smazOkno;
-    QWidget *tab;
+    QWidget *tab_moznosti_zarizeni;
     QHBoxLayout *horizontalLayout;
     QTableWidget *tableWidget_seznamZarizeni;
     QVBoxLayout *verticalLayout;
@@ -1082,6 +1082,7 @@ public:
         horizontalLayout_10->setObjectName(QString::fromUtf8("horizontalLayout_10"));
         tabWidget_moznosti = new QTabWidget(tab_moznosti);
         tabWidget_moznosti->setObjectName(QString::fromUtf8("tabWidget_moznosti"));
+        tabWidget_moznosti->setEnabled(true);
         tabWidget_moznosti->setFont(font3);
         tab_moznosti_nast = new QWidget();
         tab_moznosti_nast->setObjectName(QString::fromUtf8("tab_moznosti_nast"));
@@ -1420,13 +1421,14 @@ public:
         gridLayout_8->addLayout(verticalLayout_28, 8, 4, 1, 1);
 
         tabWidget_moznosti->addTab(tab_moznosti_manual, QString());
-        tab = new QWidget();
-        tab->setObjectName(QString::fromUtf8("tab"));
-        horizontalLayout = new QHBoxLayout(tab);
+        tab_moznosti_zarizeni = new QWidget();
+        tab_moznosti_zarizeni->setObjectName(QString::fromUtf8("tab_moznosti_zarizeni"));
+        tab_moznosti_zarizeni->setEnabled(false);
+        horizontalLayout = new QHBoxLayout(tab_moznosti_zarizeni);
         horizontalLayout->setSpacing(6);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        tableWidget_seznamZarizeni = new QTableWidget(tab);
+        tableWidget_seznamZarizeni = new QTableWidget(tab_moznosti_zarizeni);
         if (tableWidget_seznamZarizeni->columnCount() < 5)
             tableWidget_seznamZarizeni->setColumnCount(5);
         QTableWidgetItem *__qtablewidgetitem16 = new QTableWidgetItem();
@@ -1446,17 +1448,17 @@ public:
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        pushButton = new QPushButton(tab);
+        pushButton = new QPushButton(tab_moznosti_zarizeni);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
 
         verticalLayout->addWidget(pushButton);
 
-        pushButton_2 = new QPushButton(tab);
+        pushButton_2 = new QPushButton(tab_moznosti_zarizeni);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
 
         verticalLayout->addWidget(pushButton_2);
 
-        pushButton_3 = new QPushButton(tab);
+        pushButton_3 = new QPushButton(tab_moznosti_zarizeni);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
 
         verticalLayout->addWidget(pushButton_3);
@@ -1464,7 +1466,7 @@ public:
 
         horizontalLayout->addLayout(verticalLayout);
 
-        tabWidget_moznosti->addTab(tab, QString());
+        tabWidget_moznosti->addTab(tab_moznosti_zarizeni, QString());
 
         horizontalLayout_10->addWidget(tabWidget_moznosti);
 
@@ -1831,7 +1833,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_hlavni->setCurrentIndex(1);
+        tabWidget_hlavni->setCurrentIndex(0);
         stackedWidget_palPc->setCurrentIndex(0);
         tabWidget_moznosti->setCurrentIndex(0);
         stackedWidget_testy->setCurrentIndex(0);
@@ -2199,7 +2201,7 @@ public:
         pushButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        tabWidget_moznosti->setTabText(tabWidget_moznosti->indexOf(tab), QCoreApplication::translate("MainWindow", "Strana", nullptr));
+        tabWidget_moznosti->setTabText(tabWidget_moznosti->indexOf(tab_moznosti_zarizeni), QCoreApplication::translate("MainWindow", "Detekce za\305\231\303\255zen\303\255", nullptr));
         tabWidget_hlavni->setTabText(tabWidget_hlavni->indexOf(tab_moznosti), QCoreApplication::translate("MainWindow", "Mo\305\276nosti", nullptr));
         pushButton_menu2_sluzby->setText(QCoreApplication::translate("MainWindow", "Slu\305\276by", nullptr));
         pushButton_menu2_prubehTestu->setText(QCoreApplication::translate("MainWindow", "Pr\305\257beh\n"
