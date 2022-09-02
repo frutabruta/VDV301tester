@@ -10,7 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
     logfile(QCoreApplication::applicationDirPath()),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"),
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
-    customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
+    customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0"),
+    //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47481,"2.2CZ1.0"),
     deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
     konfigurace(QCoreApplication::applicationDirPath()),
@@ -35,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
     vsechnyConnecty();
 
     nastartujVsechnyVdv301Sluzby();
+
+     deviceManagementServiceSubscriber.novePrihlaseniOdberu();
 
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
     //QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
@@ -97,6 +100,15 @@ void MainWindow::vsechnyConnecty()
     this->vypisSubscribery1_0(customerInformationService1_0.seznamSubscriberu);
     this->vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);
     connect(&xmlMpvParser,SIGNAL(stazeniHotovo()),this,SLOT(slotMpvNetReady()));
+
+    //vypis deviceMAnagementServices publisheru
+   // connect(&deviceManagementServiceSubscriber, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::slotXmlDoPromenne);
+    connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
+    //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
+   // connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
+
+
+
 
     //vypis stavu testu
     connect(&vzorovyTest,&Vdv301testy::update,this,&MainWindow::testyVykresliCasti);
@@ -2081,3 +2093,100 @@ void MainWindow::on_radioButton_singleDoorCloser_clicked()
     xmlVdv301HromadnyUpdate();
 }
 
+void MainWindow::slotAktualizaceTabulkySluzeb()
+{
+    qDebug()<<"MainWindow::slotAktualizaceTabulkySluzeb";
+    vykresliSluzbyDoTabulky(deviceManagementServiceSubscriber.seznamSluzeb);
+}
+
+void MainWindow::vykresliSluzbyDoTabulky(QVector<QZeroConfService> seznamSluzeb)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    // ui->tabulkaSubscriberu->setRowCount(0);
+    vymazTabulkuSubscriberu(ui->tableWidget_seznamZarizeni);
+
+
+    foreach(QZeroConfService sluzba, seznamSluzeb)
+    {
+        sluzbaDoTabulky(sluzba);
+    }
+}
+
+void MainWindow::vymazTabulkuSubscriberu(QTableWidget *tableWidget)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    //  https://stackoverflow.com/a/31564541
+    tableWidget->clearSelection();
+
+    // Disconnect all signals from table widget ! important !
+    tableWidget->disconnect();
+
+    // Remove all items
+    tableWidget->clearContents();
+
+    // Set row count to 0 (remove rows)
+    tableWidget->setRowCount(0);
+
+}
+
+
+//vypis detekovanych sluzeb do tabulky
+void MainWindow::sluzbaDoTabulky(QZeroConfService zcs)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    qint32 row;
+    QTableWidgetItem *cell;
+
+    QString sluzbaNazev=zcs->name();
+    QString ipadresa=zcs->ip().toString();
+    QString hostName=zcs->host();
+    QString verze=zcs.data()->txt().value("ver");
+    QString deviceClass="dc";
+    QString id="id";
+    int port=zcs->port();
+    /*
+    qDebug() <<"nazev sluzby "<<nazev<<" ip adresa "<<ipadresa<<" port "<<QString::number(port)<<" data" <<verze ;
+
+ */
+
+
+
+
+
+
+
+
+
+    row = ui->tableWidget_seznamZarizeni->rowCount();
+    ui->tableWidget_seznamZarizeni->insertRow(row);
+
+
+  cell = new QTableWidgetItem(deviceClass);
+    ui->tableWidget_seznamZarizeni->setItem(row, 0, cell);
+
+     cell = new QTableWidgetItem(id);
+    ui->tableWidget_seznamZarizeni->setItem(row, 1, cell);
+
+    cell = new QTableWidgetItem(hostName);
+    ui->tableWidget_seznamZarizeni->setItem(row, 2, cell);
+
+   cell = new QTableWidgetItem(ipadresa);
+    ui->tableWidget_seznamZarizeni->setItem(row, 3, cell);
+
+    cell = new QTableWidgetItem(QString::number(port));
+    ui->tableWidget_seznamZarizeni->setItem(row, 4, cell);
+
+
+    cell = new QTableWidgetItem(sluzbaNazev);
+    ui->tableWidget_seznamZarizeni->setItem(row, 5, cell);
+
+    cell = new QTableWidgetItem(verze);
+    ui->tableWidget_seznamZarizeni->setItem(row, 6, cell);
+
+
+    ui->tableWidget_seznamZarizeni->resizeColumnsToContents();
+
+
+    qDebug()<<"sluzbaDoTabulky_konec";
+
+}

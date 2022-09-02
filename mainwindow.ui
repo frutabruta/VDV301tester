@@ -71,7 +71,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -2495,7 +2495,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -3333,7 +3333,7 @@ Stop</string>
           </widget>
           <widget class="QWidget" name="tab_moznosti_zarizeni">
            <property name="enabled">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <attribute name="title">
             <string>Detekce zařízení</string>
@@ -3341,19 +3341,12 @@ Stop</string>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
              <widget class="QTableWidget" name="tableWidget_seznamZarizeni">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <column>
                <property name="text">
-                <string>Název</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>IP</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>verze</string>
+                <string>DeviceClass</string>
                </property>
               </column>
               <column>
@@ -3363,7 +3356,27 @@ Stop</string>
               </column>
               <column>
                <property name="text">
-                <string>DeviceClass</string>
+                <string>Hostname</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>IP</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>port</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>serviceName</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>verze</string>
                </property>
               </column>
              </widget>

@@ -18,6 +18,7 @@
 #include "VDV301publisher/httpsluzba.h"
 #include "VDV301publisher/customerinformationservice.h"
 #include "VDV301publisher/ticketvalidationservice.h"
+#include "VDV301publisher/devicemanagementservice.h"
 
 #include "VDV301subscriber/ibisipsubscriber.h"
 
@@ -97,7 +98,7 @@ private:
     void xmlVdv301HromadnyUpdate();
 
     //IBIS-IP lsuzby
-    HttpSluzba deviceManagementService1_0;
+    DeviceManagementService deviceManagementService1_0;
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_2CZ1_0;
     TicketValidationService ticketValidationService2_3CZ1_0;
@@ -158,6 +159,9 @@ private:
     void resetSeznamuSpoju();
     void eventZobrazOznameni(int index, QVector<SpecialniHlaseni> seznamHlaseni);
     void vykresliStav(QString stav);
+    void vykresliSluzbyDoTabulky(QVector<QZeroConfService> seznamSluzeb);
+    void sluzbaDoTabulky(QZeroConfService zcs);
+    void vymazTabulkuSubscriberu(QTableWidget *tableWidget);
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
@@ -271,6 +275,7 @@ private slots:
 
      void on_tableWidget_oznameni_cellClicked(int row, int column);
      void slotVymazatSpecialniOznameni();
+     void slotAktualizaceTabulkySluzeb();
 };
 
 #endif // MAINWINDOW_H
