@@ -51,6 +51,7 @@ debug/moc_testdemo.o
 debug/moc_testodberuserver.o
 debug/moc_vdv301testy.o
 debug/moc_hlasic.o
+debug/moc_ibisovladani.o
 debug/moc_konfigurace.o
 debug/moc_logfile.o
 debug/moc_mainwindow.o

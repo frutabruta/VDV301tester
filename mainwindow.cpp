@@ -948,12 +948,12 @@ void MainWindow::on_pushButton_nast_nastavPort_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
-    ibisOvladani.dopocetCelni("l006");
-    ibisOvladani.dopocetCelni("aA1 ahoj");
-    ibisOvladani.dopocetCelni("v povel v\\");
-    ibisOvladani.dopocetCelni("zA povel zA");
-    ibisOvladani.dopocetCelni("zN povel zN");
-    ibisOvladani.dopocetCelni("xC2");
+    ibisOvladani.dopocetKontrolnihoZnaku("l006");
+   // ibisOvladani.dopocetKontrolnihoZnaku("aA1 ahoj");
+   // ibisOvladani.dopocetKontrolnihoZnaku("v povel v\\");
+   // ibisOvladani.dopocetKontrolnihoZnaku("zA povel zA");
+   // ibisOvladani.dopocetKontrolnihoZnaku("zN povel zN");
+   // ibisOvladani.dopocetKontrolnihoZnaku("xC2");
 }
 
 
@@ -963,7 +963,7 @@ void MainWindow::on_pushButton_nast_nastavPort_clicked()
 void MainWindow::on_pushButton_jizda_IBIS_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    ibisOvladani.dopocetCelni("xC2");
+    ibisOvladani.dopocetKontrolnihoZnaku("xC2");
     ibisOvladani.odesliFrontKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
     ibisOvladani.odesliSideKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
     //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);

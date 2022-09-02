@@ -51,6 +51,7 @@ release/moc_testdemo.o
 release/moc_testodberuserver.o
 release/moc_vdv301testy.o
 release/moc_hlasic.o
+release/moc_ibisovladani.o
 release/moc_konfigurace.o
 release/moc_logfile.o
 release/moc_mainwindow.o
