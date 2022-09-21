@@ -27,6 +27,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //ui->stackedWidget_palPc->setWindowState(Qt::WindowFullScreen);
+    QString compilationTime = QString("%1T%2").arg(__DATE__,__TIME__);
+
+    deviceManagementService1_0.deviceName="VDV301tester";
+    deviceManagementService1_0.deviceManufacturer="ROPID";
+    deviceManagementService1_0.deviceSerialNumber="123456";
+    deviceManagementService1_0.deviceClass="OnBoardUnit";
+    deviceManagementService1_0.deviceId="1";
+    deviceManagementService1_0.swVersion=compilationTime;
+    deviceManagementService1_0.slotAktualizaceDat();
 
 
     //inicializace databaze
@@ -41,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
     //QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
-    QString compilationTime = QString("%1T%2").arg(__DATE__,__TIME__);
+
     ui->label_build->setText(compilationTime);
 
     //kalendarJizd
@@ -266,6 +275,7 @@ void MainWindow::xmlVdv301HromadnyUpdate()
     customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
+    deviceManagementService1_0.aktualizaceObsahuSluzby();
 }
 
 void MainWindow::slotStahniPrestupyAktZastavky()
