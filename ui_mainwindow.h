@@ -1838,7 +1838,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_hlavni->setCurrentIndex(1);
+        tabWidget_hlavni->setCurrentIndex(0);
         stackedWidget_palPc->setCurrentIndex(0);
         tabWidget_moznosti->setCurrentIndex(2);
         stackedWidget_testy->setCurrentIndex(0);
