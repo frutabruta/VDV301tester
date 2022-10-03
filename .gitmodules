@@ -7,3 +7,6 @@
 [submodule "VDV301subscriber"]
 	path = VDV301subscriber
 	url = https://github.com/frutabruta/VDV301subscriber
+[submodule "XmlRopidImportStream"]
+	path = XmlRopidImportStream
+	url = https://github.com/frutabruta/XmlRopidImportStream

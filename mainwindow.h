@@ -28,7 +28,7 @@
 
 #include "sqlpraceropid.h"
 #include "xmlmpvparser.h"
-#include "xmlropidparser.h"
+#include "XmlRopidImportStream/xmlropidimportstream.h"
 #include "ibisovladani.h"
 #include "hlasic.h"
 #include "konfigurace.h"
@@ -68,7 +68,7 @@ private:
 
     //instance knihoven
     XmlMpvParser xmlMpvParser;
-    XmlRopidParser xmlRopidParser;
+    XmlRopidImportStream xmlRopidImportStream;
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
     Logfile logfile;

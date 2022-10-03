@@ -30,6 +30,7 @@ release/testdemo.o
 release/testdetekcebonjour.o
 release/testodberuserver.o
 release/vdv301testy.o
+release/xmlropidimportstream.o
 release/hlasic.o
 release/ibisovladani.o
 release/konfigurace.o
@@ -39,7 +40,6 @@ release/mainwindow.o
 release/mainwindowpomocne.o
 release/sqlpraceropid.o
 release/xmlmpvparser.o
-release/xmlropidparser.o
 release/moc_qzeroconf.o
 release/moc_bonjour_p.o
 release/moc_qzeroconfservice.o
@@ -50,6 +50,7 @@ release/moc_httpserversubscriber.o
 release/moc_testdemo.o
 release/moc_testodberuserver.o
 release/moc_vdv301testy.o
+release/moc_xmlropidimportstream.o
 release/moc_hlasic.o
 release/moc_konfigurace.o
 release/moc_logfile.o
@@ -57,4 +58,3 @@ release/moc_mainwindow.o
 release/moc_mainwindowpomocne.o
 release/moc_sqlpraceropid.o
 release/moc_xmlmpvparser.o
-release/moc_xmlropidparser.o

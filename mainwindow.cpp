@@ -142,7 +142,7 @@ void MainWindow::vsechnyConnecty()
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
     connect(&sqlPraceRopid,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
     connect(&sqlPraceRopid,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
-    connect(&xmlRopidParser,&XmlRopidParser::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
+    connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
 
 
     //prepinani stavu radio prepinacu podle stavu sluzeb
@@ -602,10 +602,10 @@ načte platnost a nastaví rozsahy klikatelných oblastí kalendáře
 void MainWindow::aktualizaceKalendare()
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(sqlPraceRopid.nactiPlatnost(xmlRopidParser.platnostOd,xmlRopidParser.platnostDo))
+    if(sqlPraceRopid.nactiPlatnost(xmlRopidImportStream.platnostOd,xmlRopidImportStream.platnostDo))
     {
-        ui->calendarWidget->setMinimumDate(xmlRopidParser.platnostOd);
-        ui->calendarWidget->setMaximumDate(xmlRopidParser.platnostDo);
+        ui->calendarWidget->setMinimumDate(xmlRopidImportStream.platnostOd);
+        ui->calendarWidget->setMaximumDate(xmlRopidImportStream.platnostDo);
     }
     else
     {
@@ -671,9 +671,7 @@ void MainWindow::naplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
 {
     qDebug() <<  Q_FUNC_INFO;
 
-
     vymazSeznam(ui->listSpoje);
-
 
     qDebug()<<"MainWindow::NaplnVyberSpoje_dp1";
     for (int i = 0; i < docasnySeznamSpoju.length(); ++i)
@@ -903,15 +901,10 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 void MainWindow::on_pushButton_nast_nactiXMLropid_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    xmlRopidParser.otevriSoubor(xmlRopidParser.vstupniXmlSouborCesta);
+    xmlRopidImportStream.otevriSoubor(xmlRopidImportStream.vstupniXmlSouborCesta);
     this->pracovniDatumPrvniDenDat();
     this->inicializaceVyberovychPoli();
 }
-
-
-/*!
-
-*/
 
 
 
@@ -923,7 +916,7 @@ void MainWindow::on_pushButton_nast_nactiXMLropid_clicked()
 void MainWindow::on_pushButton_nast_truncate_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    xmlRopidParser.truncateAll();
+    xmlRopidImportStream.truncateAll();
 }
 
 
@@ -1660,7 +1653,7 @@ void MainWindow::on_pushButton_menu2_sluzby_clicked()
 */
 void MainWindow::on_pushButton_nast_xmlVyberCestu_clicked()
 {
-    xmlRopidParser.vstupniXmlSouborCesta=otevriSouborXmlDialog();
+    xmlRopidImportStream.vstupniXmlSouborCesta=otevriSouborXmlDialog();
     nastavLabelCestyXml();
 }
 
@@ -1679,8 +1672,8 @@ void MainWindow::on_pushButton_nast_dnes_clicked()
 */
 void MainWindow::nastavLabelCestyXml()
 {
-    qDebug()<<"MainWindow::nastavLabelCestyXml()";
-    ui->label_cestaXml->setText(xmlRopidParser.vstupniXmlSouborCesta);
+    qDebug() <<  Q_FUNC_INFO;
+    ui->label_cestaXml->setText(xmlRopidImportStream.vstupniXmlSouborCesta);
 
 }
 
@@ -1719,12 +1712,12 @@ void MainWindow::aktualizacePracovnihoData()
     ui->dateEdit->setDate(stavSystemu.pracovniDatum);
     ui->calendarWidget->setSelectedDate(stavSystemu.pracovniDatum);
 
-    qDebug()<<"od "<<xmlRopidParser.platnostOd<<" do "<<xmlRopidParser.platnostDo<<" pracovni "<<stavSystemu.pracovniDatum ;
-    qDebug()<<"dnu do pracovnihodata "<< stavSystemu.pracovniDatum.daysTo(xmlRopidParser.platnostOd) <<" dnu do zacatku platnosti " << stavSystemu.pracovniDatum.daysTo(xmlRopidParser.platnostDo);
+    qDebug()<<"od "<<xmlRopidImportStream.platnostOd<<" do "<<xmlRopidImportStream.platnostDo<<" pracovni "<<stavSystemu.pracovniDatum ;
+    qDebug()<<"dnu do pracovnihodata "<< stavSystemu.pracovniDatum.daysTo(xmlRopidImportStream.platnostOd) <<" dnu do zacatku platnosti " << stavSystemu.pracovniDatum.daysTo(xmlRopidImportStream.platnostDo);
 
 
     this->vyrobMaskuKalendareJizd();
-    sqlPraceRopid.maskaKalendarJizd(this->stavSystemu.pracovniDatum,xmlRopidParser.platnostOd,xmlRopidParser.platnostDo);
+    sqlPraceRopid.maskaKalendarJizd(this->stavSystemu.pracovniDatum,xmlRopidImportStream.platnostOd,xmlRopidImportStream.platnostDo);
 
     inicializaceVyberovychPoli();
 }
@@ -1749,7 +1742,7 @@ void MainWindow::pracovniDatumPrvniDenDat()
     aktualizaceKalendare();
 
 
-    stavSystemu.pracovniDatum=xmlRopidParser.platnostOd;
+    stavSystemu.pracovniDatum=xmlRopidImportStream.platnostOd;
     aktualizacePracovnihoData();
 }
 
@@ -1770,7 +1763,7 @@ void MainWindow::slotAktualizacePracData()
 QString MainWindow::vyrobMaskuKalendareJizd()
 {
     qDebug() <<  Q_FUNC_INFO;
-    return sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidParser.platnostOd, xmlRopidParser.platnostDo);
+    return sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidImportStream.platnostOd, xmlRopidImportStream.platnostDo);
 }
 
 

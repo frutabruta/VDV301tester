@@ -39,7 +39,7 @@ QT += network
 QT_MULTIMEDIA_PREFERRED_PLUGINS=
 # QT       += core
 
-//LIBS += -lqhttpserver
+#LIBS += -lqhttpserver
 
 SOURCES += \
     VDV301publisher/customerinformationservice.cpp \
@@ -47,11 +47,11 @@ SOURCES += \
     VDV301publisher/httpsluzba.cpp \
     VDV301publisher/httpserverpublisher.cpp \
     VDV301publisher/subscriber.cpp \
-    VDV301publisher/ticketvalidationservice.cpp \    
+    VDV301publisher/ticketvalidationservice.cpp \
     VDV301publisher/xmlcommon.cpp \
     VDV301publisher/xmlcustomerinformationservice.cpp \
     VDV301publisher/xmldevicemanagementservice.cpp \
-    VDV301publisher/xmlticketvalidationservice.cpp \    
+    VDV301publisher/xmlticketvalidationservice.cpp \
     VDV301subscriber/ibisipsubscriber.cpp \
     VDV301subscriber/httpserversubscriber.cpp \
     VDV301struktury/cestaudaje.cpp \
@@ -69,6 +69,7 @@ SOURCES += \
     VDV301testy/testdetekcebonjour.cpp \
     VDV301testy/testodberuserver.cpp \
     VDV301testy/vdv301testy.cpp \
+    XmlRopidImportStream/xmlropidimportstream.cpp \
     hlasic.cpp \
     ibisovladani.cpp \
     konfigurace.cpp \
@@ -77,9 +78,7 @@ SOURCES += \
     mainwindow.cpp \
     mainwindowpomocne.cpp \   
     sqlpraceropid.cpp \
-    xmlmpvparser.cpp \
-    xmlropidparser.cpp
-
+    xmlmpvparser.cpp
 
 HEADERS += \
     VDV301publisher/customerinformationservice.h \
@@ -91,7 +90,7 @@ HEADERS += \
     VDV301publisher/xmlcommon.h \
     VDV301publisher/xmlcustomerinformationservice.h \
     VDV301publisher/xmldevicemanagementservice.h \
-    VDV301publisher/xmlticketvalidationservice.h \    
+    VDV301publisher/xmlticketvalidationservice.h \
     VDV301struktury/cestaudaje.h \
     VDV301struktury/linka.h \
     VDV301struktury/obeh.h \
@@ -109,6 +108,7 @@ HEADERS += \
     VDV301testy/testdetekcebonjour.h \
     VDV301testy/testodberuserver.h \
     VDV301testy/vdv301testy.h \
+    XmlRopidImportStream/xmlropidimportstream.h \
     hlasic.h \    
     ibisovladani.h \
     konfigurace.h \
@@ -116,8 +116,7 @@ HEADERS += \
     mainwindow.h \
     mainwindowpomocne.h \    
     sqlpraceropid.h \
-    xmlmpvparser.h \    
-    xmlropidparser.h
+    xmlmpvparser.h
 
 FORMS += \
         mainwindow.ui
