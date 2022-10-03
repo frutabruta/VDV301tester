@@ -9,36 +9,45 @@
 #include <VDV301struktury/zastavkacil.h>
 
 
+#include <QDebug>
+#include <QCoreApplication>
 
-class IbisOvladani
+
+
+
+class IbisOvladani: public QObject
 {
+    Q_OBJECT
 public:
     IbisOvladani();
     void smazPanely();
-    QString dopocetCelni(QString puvodniPrikaz);
-    int odesliDoPortu(QString vstup);
-    int inicializujSeriovyPort(QString port);
-    int zapisDoSeriovehoPortu(QString obsah, QString port);
-    QString globalniSeriovyPort="ttyUSB0";
-    // QSerialPort serial;
-    QVector<Zastavka> vytvorNacestne(QVector<ZastavkaCil> vstup, int index);
+    QString dopocetKontrolnihoZnaku(QString puvodniPrikaz);
+  //  int sendToPortOld(QString vstup);
+
+    QString globalniSeriovyPort="COM9";
+
 
     int odesliInnerKomplet(QVector<ZastavkaCil> zastavky, int index);
     int odesliFrontKomplet(QVector<ZastavkaCil> zastavky, int index);
     int odesliSideKomplet(QVector<ZastavkaCil> zastavky, int index);
-    QString nahradZobacek(QString vstup);
-    QString slozeniTextuSideZN(QVector<Zastavka> nacestne);
     int odesliJKZKomplet(QVector<ZastavkaCil> zastavky, int index);
-
-
-    //QString odeslikompletBUSEjednoradekAA(QVector<SeznamZastavek> nacestne, QString DestinationName, QString LineName);
-    //QString odeslikompletBUSEjednoradekAA(QVector<SeznamZastavek> zastavky, int index);
     int odeslikompletBUSEjednoradekAA(QVector<ZastavkaCil> zastavky, int index);
     int odesliRearKomplet(QVector<ZastavkaCil> zastavky, int index);
+
+
+    //nove
+
+
+    void sendToPortNew(QString obsah);
+    void vypisStringPoBytech(QString vstup);
+private slots:
+    void slotBytesWritten();
 private:
     QString nahradDiakritiku(QString vstup);
+    QString nahradZobacek(QString vstup);
     QString slozBUSEjednoradekAA(QString DestinationName, QString LineName);
     QString slozeniTextuSideAA(QVector<Zastavka> nacestne, QString LineName, QString DestinationName);
+    QString slozeniTextuSideZN(QVector<Zastavka> nacestne);
     QString slozeniTextuFront(QString LineName, QString DestinationName);
     QString slozeniTextuInnerZA(QString DestinationName);
     QString slozeniTextuInnerZN(QVector<Zastavka> nacestne);
@@ -47,7 +56,26 @@ private:
     QString slozeniTextuJKZr1(QVector<Zastavka> nacestne, QString LineName);
     QString slozeniTextuJKZr2(QString DestinationName, QString LineName);
     QString slozeniTextuRear(QString LineName);
+    QVector<Zastavka> vytvorNacestne(QVector<ZastavkaCil> vstup, int index);
+
     QString currentPortName="";
+    //instance knihoven
+
+
+    /*          nove               */
+    QSerialPort serial;
+
+    bool odesilaniBezi=false;
+    int m_waitTimeout = 0;
+    //int adresniBit=1;
+    QVector<QString> zasobnikZprav;
+
+    void odesliAdresu(QSerialPort &port, QString adresa);
+//    void odesliZbytek(QSerialPort &port, QString zbytek);
+    void startPortu(QSerialPort &port);
+signals:
+    //new
+    void timeout(const QString &s);
 };
 
 #endif // IBISOVLADANI_H
