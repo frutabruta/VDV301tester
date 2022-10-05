@@ -92,6 +92,7 @@ private:
     void eventAfterStopToBetweenStop();
     void eventOpusteniVydeje();
     void eventVstupDoVydeje();
+    void eventPoznamkaRidici(QString poznamka);
 
     void vsechnyConnecty();
     void testNaplnOkno(int index);
@@ -162,6 +163,8 @@ private:
     void vykresliSluzbyDoTabulky(QVector<QZeroConfService> seznamSluzeb);
     void sluzbaDoTabulky(QZeroConfService zcs);
     void vymazTabulkuSubscriberu(QTableWidget *tableWidget);
+
+    QString nahradZnacky(QString vstup);
 public slots:
     void vypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);

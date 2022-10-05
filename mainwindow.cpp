@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     nastartujVsechnyVdv301Sluzby();
 
-     deviceManagementServiceSubscriber.novePrihlaseniOdberu();
+    deviceManagementServiceSubscriber.novePrihlaseniOdberu();
 
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
     //QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->showMessage("test");
 
     //inicializace timeru
-     timerTrvaniZmenyPasma->setSingleShot(true);
+    timerTrvaniZmenyPasma->setSingleShot(true);
     timerTrvaniZmenyPasma->setInterval(konfigurace.trvaniZobrazeniPasma);
 
     timerSpecialniOznameniSmazat.setSingleShot(true);
@@ -111,10 +111,10 @@ void MainWindow::vsechnyConnecty()
     connect(&xmlMpvParser,SIGNAL(stazeniHotovo()),this,SLOT(slotMpvNetReady()));
 
     //vypis deviceMAnagementServices publisheru
-   // connect(&deviceManagementServiceSubscriber, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::slotXmlDoPromenne);
+    // connect(&deviceManagementServiceSubscriber, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::slotXmlDoPromenne);
     connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
     //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
-   // connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
+    // connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
 
 
 
@@ -952,11 +952,11 @@ void MainWindow::on_pushButton_nast_nastavPort_clicked()
     qDebug() <<  Q_FUNC_INFO;
     ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
     ibisOvladani.dopocetKontrolnihoZnaku("l006");
-   // ibisOvladani.dopocetKontrolnihoZnaku("aA1 ahoj");
-   // ibisOvladani.dopocetKontrolnihoZnaku("v povel v\\");
-   // ibisOvladani.dopocetKontrolnihoZnaku("zA povel zA");
-   // ibisOvladani.dopocetKontrolnihoZnaku("zN povel zN");
-   // ibisOvladani.dopocetKontrolnihoZnaku("xC2");
+    // ibisOvladani.dopocetKontrolnihoZnaku("aA1 ahoj");
+    // ibisOvladani.dopocetKontrolnihoZnaku("v povel v\\");
+    // ibisOvladani.dopocetKontrolnihoZnaku("zA povel zA");
+    // ibisOvladani.dopocetKontrolnihoZnaku("zN povel zN");
+    // ibisOvladani.dopocetKontrolnihoZnaku("xC2");
 }
 
 
@@ -988,6 +988,9 @@ int MainWindow::eventPrijezd()
     stavSystemu.doorState="DoorsOpen";
 
 
+
+
+
     if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()-1))
     {
         hlasic.kompletZastavka(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka);
@@ -996,9 +999,19 @@ int MainWindow::eventPrijezd()
     {
         hlasic.kompletKonecna(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka);
     }
+
+
+
     stavSystemu.locationState="AtStop";
     aktualizaceDispleje();
     xmlVdv301HromadnyUpdate();
+
+    QVector<QString> poznamky=this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.seznamPoznamek;
+    qDebug()<<"poznamek je tolik: "<<QString::number(poznamky.count());
+    foreach(QString poznamka, poznamky)
+    {
+        eventPoznamkaRidici(poznamka);
+    }
 
     return 1;
 }
@@ -1846,7 +1859,7 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
             ui->tableWidgetNasledujiciZastavky->item(cisloporadi,zabarvenySloupec)->setBackground(gray);
         }
         ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
-         ui->tableWidgetNasledujiciZastavky->resizeRowsToContents();
+        ui->tableWidgetNasledujiciZastavky->resizeRowsToContents();
         ui->tableWidgetNasledujiciZastavky->scrollToItem(ui->tableWidgetNasledujiciZastavky->item(cisloporadi,0));
     }
 }
@@ -1936,15 +1949,23 @@ void MainWindow::eventZobrazOznameni(int index, QVector<SpecialniHlaseni> seznam
         //zobraz na panely
         xmlVdv301HromadnyUpdate();
         timerSpecialniOznameniSmazat.start();
-    //spust hlaseni
+        //spust hlaseni
         hlasic.kompletSpecialniHlaseni(stavSystemu.aktivniSpecialniHlaseni);
-
-
     }
 
+}
 
-
-
+void MainWindow::eventPoznamkaRidici(QString poznamka)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    QMessageBox msgBox;
+    msgBox.setText(nahradZnacky(poznamka));
+    QFont font;
+    //font.setBold(true);
+    font.setPointSize(30);
+    msgBox.setFont(font);
+    // msgBox.setStyleSheet("font-size: 30px;");
+    msgBox.exec();
 }
 
 void MainWindow::eventSkryjZmenuTarifnihoPasma()
@@ -2046,7 +2067,7 @@ void MainWindow::on_pushButton_jizda_sipkaDalSkok_clicked()
 
 void MainWindow::on_pushButton_menu_oznameni_clicked()
 {
-   ui->stackedWidget_palPc->setCurrentWidget(ui->page_oznameni);
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_oznameni);
 
 }
 
@@ -2057,16 +2078,16 @@ void MainWindow::on_pushButton_menu_oznameni_clicked()
 
 void MainWindow::on_tableWidget_oznameni_cellClicked(int row, int column)
 {
-      qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
     eventZobrazOznameni(row,konfigurace.specialniHlaseni);
 }
 
 
 void MainWindow::slotVymazatSpecialniOznameni()
 {
-     qDebug() <<  Q_FUNC_INFO;
-     stavSystemu.jeSpecialniHlaseni=false;
-     xmlVdv301HromadnyUpdate();
+    qDebug() <<  Q_FUNC_INFO;
+    stavSystemu.jeSpecialniHlaseni=false;
+    xmlVdv301HromadnyUpdate();
 }
 
 void MainWindow::on_radioButton_singleDoorOpen_clicked()
@@ -2164,16 +2185,16 @@ void MainWindow::sluzbaDoTabulky(QZeroConfService zcs)
     ui->tableWidget_seznamZarizeni->insertRow(row);
 
 
-  cell = new QTableWidgetItem(deviceClass);
+    cell = new QTableWidgetItem(deviceClass);
     ui->tableWidget_seznamZarizeni->setItem(row, 0, cell);
 
-     cell = new QTableWidgetItem(id);
+    cell = new QTableWidgetItem(id);
     ui->tableWidget_seznamZarizeni->setItem(row, 1, cell);
 
     cell = new QTableWidgetItem(hostName);
     ui->tableWidget_seznamZarizeni->setItem(row, 2, cell);
 
-   cell = new QTableWidgetItem(ipadresa);
+    cell = new QTableWidgetItem(ipadresa);
     ui->tableWidget_seznamZarizeni->setItem(row, 3, cell);
 
     cell = new QTableWidgetItem(QString::number(port));
@@ -2192,4 +2213,21 @@ void MainWindow::sluzbaDoTabulky(QZeroConfService zcs)
 
     qDebug()<<"sluzbaDoTabulky_konec";
 
+}
+
+
+QString MainWindow::nahradZnacky(QString vstup)
+{
+    QString vysledek="";
+
+    qDebug().noquote()<<"retezec pred: "<<vstup;
+    //  vysledek=vstup.replace(QRegExp("a"),"b");
+    QRegExp vyraz=QRegExp("\\\\([^<]*)\\\\");
+    vyraz.setMinimal(true);
+    vysledek=vstup.replace(vyraz,"<b>\\1</b>");
+    qDebug().noquote()<<"retezec po: "<<vysledek;
+
+
+
+    return vysledek;
 }

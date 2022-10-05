@@ -16,7 +16,7 @@ SqlPraceRopid::SqlPraceRopid()
 int SqlPraceRopid::pripoj()
 
 {
-    qDebug()<< "SQLpraceRopid::Pripoj";
+    qDebug()<< Q_FUNC_INFO;
     this->mojeDatabaze = QSqlDatabase::addDatabase("QSQLITE");
     //this->mojeDatabaze.setHostName(adresa);
     //this->mojeDatabaze.setPort(3306);
@@ -45,7 +45,7 @@ int SqlPraceRopid::pripoj()
 */
 int SqlPraceRopid::otevriDB()
 {
-    qDebug()<< "SQLpraceRopid::otevriDB";
+    qDebug()<< Q_FUNC_INFO;
     if(this->mojeDatabaze.open())
     {
         qDebug()<<"podarilo se pripojit k databazi ROPID";
@@ -69,7 +69,7 @@ int SqlPraceRopid::otevriDB()
 */
 int SqlPraceRopid::zavriDB()
 {
-    qDebug()<< "SQLpraceRopid::zavriDB";
+    qDebug()<< Q_FUNC_INFO;
     this->mojeDatabaze.close();
     if(1)
     {
@@ -96,7 +96,7 @@ int SqlPraceRopid::zavriDB()
 */
 int SqlPraceRopid::stahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje,QVector<Spoj> &seznamSpoju , QString kj )
 {
-    qDebug()<< "SQLprace::StahniSeznamLinkospoj";
+    qDebug()<< Q_FUNC_INFO;
     this->otevriDB();
     seznamSpoju.clear();
     Spoj aktualniTrip;
@@ -206,6 +206,8 @@ int SqlPraceRopid::stahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje,QVec
             aktZast.prestupPrivoz =query.value(query.record().indexOf("x.xLod")).toBool();
             aktZast.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
 
+            aktZast.seznamPoznamek=StahniPoznamky(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
+
 
 
             if(  query.value(query.record().indexOf("x.t")).toString() =="Majak")
@@ -225,6 +227,7 @@ int SqlPraceRopid::stahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje,QVec
             aktZastCil.zastavka=aktZast;
 
             bool s2=query.value(query.record().indexOf("x.s2")).toBool();
+
 
             if((citacD!=1)&&(s2==true))
             {
@@ -275,13 +278,9 @@ int SqlPraceRopid::stahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje,QVec
 /*!
 
 */
-
-
-
-
 int SqlPraceRopid::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,int indexSpoje,QString kj)
 {
-    qDebug()<< "StahniSeznamCelySpojTurnus";
+    qDebug()<< Q_FUNC_INFO;
     qDebug()<<"delka seznamu spoju: "<<seznamSpoju.length()<<" indexSpoje:"<<indexSpoje<<" kj:"<<kj;
     this->otevriDB();
     Spoj docasnySpoj;
@@ -393,7 +392,14 @@ int SqlPraceRopid::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,int in
             aktZast.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
 
 
+            aktZast.seznamPoznamek=StahniPoznamky(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
+
+            qDebug()<<"pocetPoznamek "<<QString::number(aktZast.seznamPoznamek.count());
+
+
             aktLinka.kli=query.value(query.record().indexOf("l.kli")).toInt();
+
+
           //  qDebug()<<"nacitam kategorii linky"<<aktLinka.kli;
 
            // XmlGenerator::ddDoVehicleMode(dd,);
@@ -466,6 +472,7 @@ int SqlPraceRopid::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,int in
 
 QString SqlPraceRopid::stahniSeznamSpolecnaCastDotazu()
 {
+    qDebug()<< Q_FUNC_INFO;
     /*
    Mozna nahrada!
 
@@ -483,7 +490,7 @@ dbManager->query.exec();
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
     queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, l.cids, l.tl, l.kli, ");
-    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, ");
+    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, x.s_id, ");
     queryString2+=("s.ns, s.c, s.vy, ");
     queryString2+=("ids.z AS pz1, ");
     queryString2+=("ids2.z AS pz2, ");
@@ -500,6 +507,7 @@ dbManager->query.exec();
     queryString2+=("LEFT JOIN ids AS ids2 ON z.ids2=ids2.c " );
     queryString2+=("LEFT JOIN ids AS ids3 ON z.ids3=ids3.c " );
 
+
     return queryString2;
 }
 
@@ -508,7 +516,7 @@ dbManager->query.exec();
 */
 void SqlPraceRopid::vypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek)
 {
-    qDebug()<< "SQLprace::VypisPole";
+    qDebug()<< Q_FUNC_INFO;
     for (int i=0;i<pocetZastavek;i++)
     {
         qInfo()<<QString::number(docasnySeznamZastavek[i].zastavka.StopIndex)+"  "+docasnySeznamZastavek[i].zastavka.StopName+" cil:  "+docasnySeznamZastavek[i].cil.StopName+" linka"+docasnySeznamZastavek[i].linka.LineName+"\n";
@@ -521,7 +529,7 @@ void SqlPraceRopid::vypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &p
 */
 void SqlPraceRopid::vytvorDisplejRidiceAktualniZastavka(QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek,QString locationState)
 {
-    qDebug()<< "SqlPraceRopid::vytvorHlavniAktualni";
+   qDebug()<< Q_FUNC_INFO;
     int i=0;
     textPoleObsah="";
     textPoleCasu="";
@@ -572,7 +580,7 @@ vytvoří seznam následujících zastávek pro zobrazení na displeji řidiče
 */
 void SqlPraceRopid::vytvorDisplejRidiceSeznamZastavek (QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState)
 {
-    qDebug()<< "SqlPraceRopid::vytvorHlavniText";
+    qDebug()<< Q_FUNC_INFO;
     textPoleObsah="";
     textPoleCasu="";
     int i=0;
@@ -609,8 +617,7 @@ void SqlPraceRopid::vytvorDisplejRidiceSeznamZastavek (QString &textPoleObsah,QS
 */
 int SqlPraceRopid::vytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek, QString kj)
 {
-
-    qDebug()<< "SqlPraceRopid::VytvorSeznamLinek";
+    qDebug()<< Q_FUNC_INFO;
     this->otevriDB();
     docasnySeznamLinek.clear();
     QString queryString2("SELECT DISTINCT l.c,l.lc,l.n FROM l ");
@@ -654,13 +661,54 @@ int SqlPraceRopid::vytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek, QString
 
 
 
+QVector<QString> SqlPraceRopid::StahniPoznamky(int idSpoje, int xorder)
+{
+    qDebug()<< Q_FUNC_INFO;
+    //this->otevriDB();
+    QVector<QString> seznamPoznamek;
+
+
+    QString queryString2("");
+    queryString2+=("SELECT x_po.s, x_po.xorder, x_po.po,  po.c, po.t, po.ois ");
+    queryString2+=("FROM  x_po  ");
+    queryString2+=("LEFT JOIN po ON x_po.po=po.c ");
+    queryString2+=("WHERE po.t<>\"\" ");
+    queryString2+=("AND po.ois=1 ");
+    queryString2+=("AND  x_po.s=");
+    queryString2+=QString::number(idSpoje);
+    queryString2+=(" AND x_po.xorder=");
+    queryString2+=QString::number(xorder);
+
+
+    QSqlQuery query;
+    query.exec(queryString2);
+    qDebug()<<"lasterror"<<  query.lastError();
+    qDebug().noquote()<<queryString2;
+  //  qDebug()<<"DebugPointB";
+    int citacMaximum=0;
+    while (query.next())
+    {
+
+            QString poznamka=query.value(query.record().indexOf("po.t")).toString();
+            seznamPoznamek.push_back(poznamka);
+            citacMaximum++;
+
+    }
+   // this->zavriDB();
+
+
+    return seznamPoznamek;
+}
+
+
+
 /*!
 
 */
 int SqlPraceRopid::vytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek, QString kj)
 {
 
-    qDebug()<< "SqlPraceRopid::VytvorSeznamKmenovychLinek";
+    qDebug()<< Q_FUNC_INFO;
     this->otevriDB();
     docasnySeznamLinek.clear();
     QString queryString2("SELECT DISTINCT o.l,l.c,l.lc,l.n FROM o ");
@@ -706,7 +754,7 @@ int SqlPraceRopid::vytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek
 */
 int SqlPraceRopid::vytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka, QString kj)
 {
-    qDebug()<< "SqlPraceRopid::vytvorSeznamSpoju";
+    qDebug()<< Q_FUNC_INFO;
     docasnySeznamSpoju.clear();
     this->pripoj();
     //bool platnost = true;
@@ -766,7 +814,7 @@ int SqlPraceRopid::vytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka do
 
 int SqlPraceRopid::najdiTurnusZeSpoje(Spoj spoj,int &kmenovaLinka,int &poradi,int &order, QString kj)
 {
-    qDebug()<< "SqlPraceRopid::najdiTurnusZeSpoje";
+    qDebug()<< Q_FUNC_INFO;
     // docasnySeznamSpoju.clear();
     this->pripoj();
     //bool platnost = true;
@@ -839,7 +887,7 @@ int SqlPraceRopid::najdiTurnusZeSpoje(Spoj spoj,int &kmenovaLinka,int &poradi,in
 int SqlPraceRopid::vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
 {
     //QVector<Spoj> &docasnySeznamSpoju,
-    qDebug()<< "SqlPraceRopid::VytvorSeznamTurnusSpoju";
+    qDebug()<< Q_FUNC_INFO;
     docasnyObeh.seznamSpoju.clear();
     this->pripoj();
     // bool platnost = true;
@@ -911,7 +959,7 @@ int SqlPraceRopid::vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
 */
 int SqlPraceRopid::vytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka, QString kj)
 {
-    qDebug()<< "SqlPraceRopid::VytvorSeznamPoradi";
+    qDebug()<< Q_FUNC_INFO;
     docasnySeznamObehu.clear();
     this->pripoj();
     qInfo()<<"DebugPointA";
@@ -957,7 +1005,7 @@ int SqlPraceRopid::vytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka d
 
 int SqlPraceRopid::poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju,Spoj spoj)
 {
-    qDebug()<<"SqlPraceRopid::poziceSpojeNaSeznamu";
+    qDebug()<< Q_FUNC_INFO;
     for(int i=0;i<seznamSpoju.count();i++)
     {
         if((seznamSpoju.at(i).linka.c==spoj.linka.c)&&(seznamSpoju.at(i).cisloRopid)==spoj.cisloRopid)
@@ -994,7 +1042,7 @@ QString SqlPraceRopid::vytvorCasHodinyMinuty(QString vstup)
 */
 QString SqlPraceRopid::vytvorCasHodinyMinutySekundy(QString vstup)
 {
-    qDebug()<<"SqlPraceRopid::vytvorCas";
+    qDebug()<< Q_FUNC_INFO;
     int cislo=vstup.toInt();
     int hodiny=cislo/3600;
     int minuty=(cislo%3600)/60;
@@ -1026,7 +1074,7 @@ int SqlPraceRopid::nactiPlatnost(QDate &platnostOd, QDate &platnostDo)
 {
 
 
-    qDebug()<< "SqlPraceRopid::nactiPlatnost";
+    qDebug()<< Q_FUNC_INFO;
 
     this->pripoj();
 
@@ -1093,7 +1141,7 @@ QString SqlPraceRopid::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnost
 bool SqlPraceRopid::jeDatumVRozsahu(QDate datum, QDate zacatek, QDate konec)
 {
 
-    qDebug()<<"SqlPraceRopid::jeDatumVRozsahu";
+    qDebug()<< Q_FUNC_INFO;
     int rozdilZacatek=datum.daysTo(zacatek);
     int rozdilKonec=datum.daysTo(konec);
     qDebug()<<"pocet dni ZACATEK "<<rozdilZacatek<<" pocet dni KONEC "<<rozdilKonec;

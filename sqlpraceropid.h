@@ -29,6 +29,7 @@ public:
 
 
     int pripoj();
+
     //QVector<Linka> seznamLinek;
 
     //  int StahniSeznamNavazSpoj(int idSpoje, QVector<ZastavkaCil> &docasnySeznamZastavek, bool platnost);
@@ -61,6 +62,7 @@ public:
     int najdiTurnusZeSpoje(Spoj spoj, int &kmenovaLinka, int &poradi, int &order, QString kj);
     int poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju, Spoj spoj);
     QVector<Pasmo> pasmoStringDoVectoru(QString vstup, QString system, QString tl);
+    QVector<QString> StahniPoznamky(int idSpoje, int xorder);
 signals:
     void odesliChybovouHlasku(QString chybovaHlaska);
 private:
