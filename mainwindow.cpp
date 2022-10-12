@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
     ui->tabWidget_hlavni->setCurrentWidget(ui->tab_palPC);
     ui->pushButton_menu_turnus->setChecked(true);
+     ui->pushButton_nast_nactiXMLropid->setDisabled(true);
 
 
 
@@ -149,9 +150,13 @@ void MainWindow::vsechnyConnecty()
 
 
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
-    connect(&sqlPraceRopid,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
-    connect(&sqlPraceRopid,&SqlPraceRopid::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
-    connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::vypisSqlVysledek);
+    connect(&sqlPraceRopid,&SqlRopidXmlDotazy::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
+    connect(&sqlPraceRopid,&SqlRopidXmlDotazy::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
+
+  //  connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
+
+   // connect(this,&MainWindow::signalZahajImport, &xmlRopidImportStream,&XmlRopidImportStream::slotOtevriSoubor);
+
 
 
     //prepinani stavu radio prepinacu podle stavu sluzeb
@@ -363,8 +368,12 @@ int MainWindow::on_pushButton_prikaz_clicked()
 
     stavSystemu.indexAktZastavky=0;
 
-    return natahniSeznamSpojeKomplet();
-
+    int vysledek=natahniSeznamSpojeKomplet();
+    if (vysledek==1)
+    {
+        eventVstupDoVydeje();
+    }
+    return vysledek;
 }
 
 
@@ -447,6 +456,7 @@ int MainWindow::natahniSeznamSpojeKomplet()
         stavSystemu.locationState="AtStop";
         ui->pushButton_menu_jizda->setChecked(1);
         ui->stackedWidget_palPc->setCurrentWidget(ui->page_jizda);
+        eventVstupDoVydeje();
     }
     return 1;
 }
@@ -612,10 +622,10 @@ načte platnost a nastaví rozsahy klikatelných oblastí kalendáře
 void MainWindow::aktualizaceKalendare()
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(sqlPraceRopid.nactiPlatnost(xmlRopidImportStream.platnostOd,xmlRopidImportStream.platnostDo))
+    if(sqlPraceRopid.nactiPlatnost(platnostOd,platnostDo))
     {
-        ui->calendarWidget->setMinimumDate(xmlRopidImportStream.platnostOd);
-        ui->calendarWidget->setMaximumDate(xmlRopidImportStream.platnostDo);
+        ui->calendarWidget->setMinimumDate(platnostOd);
+        ui->calendarWidget->setMaximumDate(platnostDo);
     }
     else
     {
@@ -911,13 +921,69 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 void MainWindow::on_pushButton_nast_nactiXMLropid_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    xmlRopidImportStream.otevriSoubor(xmlRopidImportStream.vstupniXmlSouborCesta);
+ //   emit signalZahajImport(xmlRopidImportStream.vstupniXmlSouborCesta);
+
+    eventOpusteniVydeje();
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
+
+
+    XmlRopidImportStream *xmlRopidImportStream =  new XmlRopidImportStream();
+
+    xmlRopidImportStream->truncateAll();
+
+    xmlRopidImportStream->vstupniXmlSouborCesta=cestaXml;
+
+    connect(xmlRopidImportStream,&XmlRopidImportStream::resultReady, this, &MainWindow::slotImportDokoncen);
+    connect(xmlRopidImportStream,&XmlRopidImportStream::finished, xmlRopidImportStream, &QObject::deleteLater);
+    connect(xmlRopidImportStream,&XmlRopidImportStream::finished, this, &MainWindow::slotImportAktivujTlacitka);
+
+    connect(xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
+    connect(xmlRopidImportStream,&XmlRopidImportStream::signalNastavProgress,this,&MainWindow::slotNastavProgress);
+    connect(xmlRopidImportStream,&XmlRopidImportStream::signalNastavProgressMax,this,&MainWindow::slotNastavProgressMax);
+
+    xmlRopidImportStream->start();
+
+
+    //xmlRopidImportStream.otevriSoubor(xmlRopidImportStream.vstupniXmlSouborCesta);
+
+}
+
+
+
+
+void MainWindow::slotNastavProgress(int hodnota)
+{
+    ui->progressBar_importXml->setValue(hodnota);
+    // qDebug()<<QString::number(hodnota)<<"/"<<QString::number(ui->progressBar->maximum());
+}
+
+
+void MainWindow::slotNastavProgressMax(int hodnota)
+{
+    //resetujProgressBar();
+    qDebug()<<Q_FUNC_INFO<<" "<<QString::number(hodnota);
+    ui->progressBar_importXml->setMaximum(hodnota);
+}
+
+void MainWindow::slotImportDokoncen()
+{
+    qDebug() <<  Q_FUNC_INFO;
     this->pracovniDatumPrvniDenDat();
     this->inicializaceVyberovychPoli();
 }
 
 
+void MainWindow::slotImportDeaktivujTlacitka()
+{
+    qDebug() <<  Q_FUNC_INFO;
 
+}
+
+void MainWindow::slotImportAktivujTlacitka()
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+}
 
 
 /*!
@@ -926,10 +992,9 @@ void MainWindow::on_pushButton_nast_nactiXMLropid_clicked()
 void MainWindow::on_pushButton_nast_truncate_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    xmlRopidImportStream.truncateAll();
+     XmlRopidImportStream *xmlRopidImportStream =  new XmlRopidImportStream();
+    xmlRopidImportStream->truncateAll();
 }
-
-
 
 
 /*!
@@ -940,8 +1005,6 @@ void MainWindow::on_pushButton_nast_odesliPrikaz_clicked()
     qDebug() <<  Q_FUNC_INFO;
     // ibisOvladani.dopocetCelni("l006");
 }
-
-
 
 
 /*!
@@ -1430,7 +1493,7 @@ void MainWindow::vypisDiagnostika(QString vstup)
 /*!
 
 */
-void MainWindow::vypisSqlVysledek(QString vstup)
+void MainWindow::slotVypisSqlVysledek(QString vstup)
 {
     ui->label_diagnostika_sql->setText(vstup);
 }
@@ -1676,7 +1739,16 @@ void MainWindow::on_pushButton_menu2_sluzby_clicked()
 */
 void MainWindow::on_pushButton_nast_xmlVyberCestu_clicked()
 {
-    xmlRopidImportStream.vstupniXmlSouborCesta=otevriSouborXmlDialog();
+    cestaXml=otevriSouborXmlDialog();
+    if (cestaXml=="")
+    {
+              ui->pushButton_nast_nactiXMLropid->setDisabled(true);
+    }
+    else
+    {
+        ui->pushButton_nast_nactiXMLropid->setDisabled(false);
+
+    }
     nastavLabelCestyXml();
 }
 
@@ -1696,7 +1768,7 @@ void MainWindow::on_pushButton_nast_dnes_clicked()
 void MainWindow::nastavLabelCestyXml()
 {
     qDebug() <<  Q_FUNC_INFO;
-    ui->label_cestaXml->setText(xmlRopidImportStream.vstupniXmlSouborCesta);
+    ui->label_cestaXml->setText(cestaXml);
 
 }
 
@@ -1735,12 +1807,12 @@ void MainWindow::aktualizacePracovnihoData()
     ui->dateEdit->setDate(stavSystemu.pracovniDatum);
     ui->calendarWidget->setSelectedDate(stavSystemu.pracovniDatum);
 
-    qDebug()<<"od "<<xmlRopidImportStream.platnostOd<<" do "<<xmlRopidImportStream.platnostDo<<" pracovni "<<stavSystemu.pracovniDatum ;
-    qDebug()<<"dnu do pracovnihodata "<< stavSystemu.pracovniDatum.daysTo(xmlRopidImportStream.platnostOd) <<" dnu do zacatku platnosti " << stavSystemu.pracovniDatum.daysTo(xmlRopidImportStream.platnostDo);
+    qDebug()<<"od "<<platnostOd<<" do "<<platnostDo<<" pracovni "<<stavSystemu.pracovniDatum ;
+    qDebug()<<"dnu do pracovnihodata "<< stavSystemu.pracovniDatum.daysTo(platnostOd) <<" dnu do zacatku platnosti " << stavSystemu.pracovniDatum.daysTo(platnostDo);
 
 
     this->vyrobMaskuKalendareJizd();
-    sqlPraceRopid.maskaKalendarJizd(this->stavSystemu.pracovniDatum,xmlRopidImportStream.platnostOd,xmlRopidImportStream.platnostDo);
+    sqlPraceRopid.maskaKalendarJizd(this->stavSystemu.pracovniDatum,platnostOd,platnostDo);
 
     inicializaceVyberovychPoli();
 }
@@ -1765,7 +1837,7 @@ void MainWindow::pracovniDatumPrvniDenDat()
     aktualizaceKalendare();
 
 
-    stavSystemu.pracovniDatum=xmlRopidImportStream.platnostOd;
+    stavSystemu.pracovniDatum=platnostOd;
     aktualizacePracovnihoData();
 }
 
@@ -1786,7 +1858,7 @@ void MainWindow::slotAktualizacePracData()
 QString MainWindow::vyrobMaskuKalendareJizd()
 {
     qDebug() <<  Q_FUNC_INFO;
-    return sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,xmlRopidImportStream.platnostOd, xmlRopidImportStream.platnostDo);
+    return sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,platnostOd, platnostDo);
 }
 
 
@@ -2012,12 +2084,14 @@ void MainWindow::on_checkBox_MpvTurnusy_stateChanged(int arg1)
 void MainWindow::eventVstupDoVydeje()
 {
     qDebug() <<  Q_FUNC_INFO;
+     ui->pushButton_menu_jizda->setDisabled(false);
 }
 
 void MainWindow::eventOpusteniVydeje()
 {
     qDebug() <<  Q_FUNC_INFO;
 
+    ui->pushButton_menu_jizda->setDisabled(true);
     timerAfterStopToBetweenStop.stop();
     timerStahniPrestupy.stop();
     timerTrvaniZmenyPasma->stop();

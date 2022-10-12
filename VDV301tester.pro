@@ -76,8 +76,9 @@ SOURCES += \
     logfile.cpp \
     main.cpp \
     mainwindow.cpp \
-    mainwindowpomocne.cpp \   
-    sqlpraceropid.cpp \
+    mainwindowpomocne.cpp \
+    XmlRopidImportStream/sqlitezaklad.cpp \
+    sqlropidxmldotazy.cpp \
     xmlmpvparser.cpp
 
 HEADERS += \
@@ -109,13 +110,14 @@ HEADERS += \
     VDV301testy/testodberuserver.h \
     VDV301testy/vdv301testy.h \
     XmlRopidImportStream/xmlropidimportstream.h \
-    hlasic.h \    
+    hlasic.h \
+    XmlRopidImportStream/sqlitezaklad.h \
+    sqlropidxmldotazy.h \
     ibisovladani.h \
     konfigurace.h \
     logfile.h \
     mainwindow.h \
     mainwindowpomocne.h \    
-    sqlpraceropid.h \
     xmlmpvparser.h
 
 FORMS += \

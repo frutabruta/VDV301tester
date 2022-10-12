@@ -24,6 +24,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPlainTextEdit>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QStackedWidget>
@@ -139,12 +140,13 @@ public:
     QPushButton *pushButton_nast_truncate;
     QPushButton *pushButton_nast_xmlVyberCestu;
     QPushButton *pushButton_nast_nactiXMLropid;
+    QProgressBar *progressBar_importXml;
+    QLabel *label_diagnostika_sql;
     QVBoxLayout *verticalLayoutseriovyPort;
     QLabel *label_7;
     QLineEdit *lineEdit_jmenoPortu;
     QPushButton *pushButton_nast_nastavPort;
     QPushButton *pushButton_nast_odesliPrikaz;
-    QLabel *label_diagnostika_sql;
     QHBoxLayout *horizontalLayout_2;
     QLabel *label_12;
     QLabel *label_build;
@@ -1175,12 +1177,29 @@ public:
 
         pushButton_nast_nactiXMLropid = new QPushButton(tab_moznosti_nast);
         pushButton_nast_nactiXMLropid->setObjectName(QString::fromUtf8("pushButton_nast_nactiXMLropid"));
+        pushButton_nast_nactiXMLropid->setEnabled(true);
         sizePolicy2.setHeightForWidth(pushButton_nast_nactiXMLropid->sizePolicy().hasHeightForWidth());
         pushButton_nast_nactiXMLropid->setSizePolicy(sizePolicy2);
         pushButton_nast_nactiXMLropid->setMinimumSize(QSize(0, 0));
         pushButton_nast_nactiXMLropid->setFont(font);
 
         verticalLayoutvstupniData->addWidget(pushButton_nast_nactiXMLropid);
+
+        progressBar_importXml = new QProgressBar(tab_moznosti_nast);
+        progressBar_importXml->setObjectName(QString::fromUtf8("progressBar_importXml"));
+        QSizePolicy sizePolicy8(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy8.setHorizontalStretch(0);
+        sizePolicy8.setVerticalStretch(0);
+        sizePolicy8.setHeightForWidth(progressBar_importXml->sizePolicy().hasHeightForWidth());
+        progressBar_importXml->setSizePolicy(sizePolicy8);
+        progressBar_importXml->setValue(0);
+
+        verticalLayoutvstupniData->addWidget(progressBar_importXml);
+
+        label_diagnostika_sql = new QLabel(tab_moznosti_nast);
+        label_diagnostika_sql->setObjectName(QString::fromUtf8("label_diagnostika_sql"));
+
+        verticalLayoutvstupniData->addWidget(label_diagnostika_sql);
 
 
         horizontalLayout_6->addLayout(verticalLayoutvstupniData);
@@ -1190,22 +1209,22 @@ public:
         verticalLayoutseriovyPort->setObjectName(QString::fromUtf8("verticalLayoutseriovyPort"));
         label_7 = new QLabel(tab_moznosti_nast);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        QSizePolicy sizePolicy8(QSizePolicy::Maximum, QSizePolicy::Preferred);
-        sizePolicy8.setHorizontalStretch(0);
-        sizePolicy8.setVerticalStretch(0);
-        sizePolicy8.setHeightForWidth(label_7->sizePolicy().hasHeightForWidth());
-        label_7->setSizePolicy(sizePolicy8);
+        QSizePolicy sizePolicy9(QSizePolicy::Maximum, QSizePolicy::Preferred);
+        sizePolicy9.setHorizontalStretch(0);
+        sizePolicy9.setVerticalStretch(0);
+        sizePolicy9.setHeightForWidth(label_7->sizePolicy().hasHeightForWidth());
+        label_7->setSizePolicy(sizePolicy9);
         label_7->setFont(font);
 
         verticalLayoutseriovyPort->addWidget(label_7);
 
         lineEdit_jmenoPortu = new QLineEdit(tab_moznosti_nast);
         lineEdit_jmenoPortu->setObjectName(QString::fromUtf8("lineEdit_jmenoPortu"));
-        QSizePolicy sizePolicy9(QSizePolicy::Maximum, QSizePolicy::Fixed);
-        sizePolicy9.setHorizontalStretch(0);
-        sizePolicy9.setVerticalStretch(0);
-        sizePolicy9.setHeightForWidth(lineEdit_jmenoPortu->sizePolicy().hasHeightForWidth());
-        lineEdit_jmenoPortu->setSizePolicy(sizePolicy9);
+        QSizePolicy sizePolicy10(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        sizePolicy10.setHorizontalStretch(0);
+        sizePolicy10.setVerticalStretch(0);
+        sizePolicy10.setHeightForWidth(lineEdit_jmenoPortu->sizePolicy().hasHeightForWidth());
+        lineEdit_jmenoPortu->setSizePolicy(sizePolicy10);
         QPalette palette4;
         palette4.setBrush(QPalette::Active, QPalette::Button, brush);
         palette4.setBrush(QPalette::Active, QPalette::Base, brush);
@@ -1222,11 +1241,8 @@ public:
 
         pushButton_nast_nastavPort = new QPushButton(tab_moznosti_nast);
         pushButton_nast_nastavPort->setObjectName(QString::fromUtf8("pushButton_nast_nastavPort"));
-        QSizePolicy sizePolicy10(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy10.setHorizontalStretch(0);
-        sizePolicy10.setVerticalStretch(0);
-        sizePolicy10.setHeightForWidth(pushButton_nast_nastavPort->sizePolicy().hasHeightForWidth());
-        pushButton_nast_nastavPort->setSizePolicy(sizePolicy10);
+        sizePolicy8.setHeightForWidth(pushButton_nast_nastavPort->sizePolicy().hasHeightForWidth());
+        pushButton_nast_nastavPort->setSizePolicy(sizePolicy8);
         pushButton_nast_nastavPort->setMinimumSize(QSize(0, 80));
         pushButton_nast_nastavPort->setFont(font);
 
@@ -1234,8 +1250,8 @@ public:
 
         pushButton_nast_odesliPrikaz = new QPushButton(tab_moznosti_nast);
         pushButton_nast_odesliPrikaz->setObjectName(QString::fromUtf8("pushButton_nast_odesliPrikaz"));
-        sizePolicy10.setHeightForWidth(pushButton_nast_odesliPrikaz->sizePolicy().hasHeightForWidth());
-        pushButton_nast_odesliPrikaz->setSizePolicy(sizePolicy10);
+        sizePolicy8.setHeightForWidth(pushButton_nast_odesliPrikaz->sizePolicy().hasHeightForWidth());
+        pushButton_nast_odesliPrikaz->setSizePolicy(sizePolicy8);
         pushButton_nast_odesliPrikaz->setMinimumSize(QSize(0, 80));
         pushButton_nast_odesliPrikaz->setFont(font);
 
@@ -1246,11 +1262,6 @@ public:
 
 
         verticalLayout_3->addLayout(horizontalLayout_6);
-
-        label_diagnostika_sql = new QLabel(tab_moznosti_nast);
-        label_diagnostika_sql->setObjectName(QString::fromUtf8("label_diagnostika_sql"));
-
-        verticalLayout_3->addWidget(label_diagnostika_sql);
 
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
@@ -1838,9 +1849,9 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_hlavni->setCurrentIndex(0);
+        tabWidget_hlavni->setCurrentIndex(1);
         stackedWidget_palPc->setCurrentIndex(0);
-        tabWidget_moznosti->setCurrentIndex(2);
+        tabWidget_moznosti->setCurrentIndex(0);
         stackedWidget_testy->setCurrentIndex(0);
 
 
@@ -1928,12 +1939,12 @@ public:
         pushButton_nast_truncate->setText(QCoreApplication::translate("MainWindow", "Vymazat DB", nullptr));
         pushButton_nast_xmlVyberCestu->setText(QCoreApplication::translate("MainWindow", "XML cesta", nullptr));
         pushButton_nast_nactiXMLropid->setText(QCoreApplication::translate("MainWindow", "na\304\215ten\303\255 XML", nullptr));
+        label_diagnostika_sql->setText(QCoreApplication::translate("MainWindow", "Diagnostick\303\275 \305\231\303\241dek importu dat", nullptr));
         label_7->setText(QCoreApplication::translate("MainWindow", "S\303\251riov\303\275 port IBIS", nullptr));
         lineEdit_jmenoPortu->setText(QCoreApplication::translate("MainWindow", "ttyUSB0", nullptr));
         pushButton_nast_nastavPort->setText(QCoreApplication::translate("MainWindow", "nastav port", nullptr));
         pushButton_nast_odesliPrikaz->setText(QCoreApplication::translate("MainWindow", "ode\305\241li\n"
 " testovac\303\255 p\305\231\303\255kaz", nullptr));
-        label_diagnostika_sql->setText(QCoreApplication::translate("MainWindow", "Diagnostick\303\275 \305\231\303\241dek importu dat", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "build", nullptr));
         label_build->setText(QCoreApplication::translate("MainWindow", "cisloBuildu", nullptr));
         tabWidget_moznosti->setTabText(tabWidget_moznosti->indexOf(tab_moznosti_nast), QCoreApplication::translate("MainWindow", "Nast.", nullptr));

@@ -71,7 +71,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -2495,7 +2495,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -2664,6 +2664,9 @@ Stop</string>
                   </item>
                   <item>
                    <widget class="QPushButton" name="pushButton_nast_nactiXMLropid">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -2683,6 +2686,26 @@ Stop</string>
                     </property>
                     <property name="text">
                      <string>načtení XML</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QProgressBar" name="progressBar_importXml">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="value">
+                     <number>0</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_diagnostika_sql">
+                    <property name="text">
+                     <string>Diagnostický řádek importu dat</string>
                     </property>
                    </widget>
                   </item>
@@ -2864,13 +2887,6 @@ Stop</string>
                  </layout>
                 </item>
                </layout>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_diagnostika_sql">
-                <property name="text">
-                 <string>Diagnostický řádek importu dat</string>
-                </property>
-               </widget>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_2">

@@ -26,7 +26,7 @@
 #include "VDV301testy/testodberuserver.h"
 #include "VDV301testy/testdemo.h"
 
-#include "sqlpraceropid.h"
+#include "sqlropidxmldotazy.h"
 #include "xmlmpvparser.h"
 #include "XmlRopidImportStream/xmlropidimportstream.h"
 #include "ibisovladani.h"
@@ -64,11 +64,11 @@ private:
     QVector <Obeh> seznamObehu;
 
     //SQLprace mojesql;
-    SqlPraceRopid sqlPraceRopid;
+    SqlRopidXmlDotazy sqlPraceRopid;
 
     //instance knihoven
     XmlMpvParser xmlMpvParser;
-    XmlRopidImportStream xmlRopidImportStream;
+  //  XmlRopidImportStream xmlRopidImportStream;
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
     Logfile logfile;
@@ -83,6 +83,9 @@ private:
     void testStop(int index);
 
     //promenne
+    QString cestaXml="";
+    QDate platnostOd;
+    QDate platnostDo;
 
     //udalosti
 
@@ -166,7 +169,7 @@ private:
 
     QString nahradZnacky(QString vstup);
 public slots:
-    void vypisSqlVysledek(QString vstup);
+    void slotVypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
     void slotAktualizacePracData();
 private slots:
@@ -279,6 +282,14 @@ private slots:
      void on_tableWidget_oznameni_cellClicked(int row, int column);
      void slotVymazatSpecialniOznameni();
      void slotAktualizaceTabulkySluzeb();
+
+     void slotImportDokoncen();
+     void slotImportDeaktivujTlacitka();
+     void slotImportAktivujTlacitka();
+     void slotNastavProgress(int hodnota);
+     void slotNastavProgressMax(int hodnota);
+signals:
+     void signalZahajImport(QString cesta);
 };
 
 #endif // MAINWINDOW_H
