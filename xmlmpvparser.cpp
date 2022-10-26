@@ -14,9 +14,10 @@ void XmlMpvParser::naplnVstupDokument(QByteArray vstup)
 {
     qDebug()<<"XmlMpvParser::naplnVstupDokument\n";
     QByteArray llooll = vstup;
-    QString s = QString::fromUtf8(vstup);
-    QString str =QString::fromUtf8(vstup);
-    s = QString::fromUtf8(str.toLatin1());
+    //  QString s = QString::fromUtf8(vstup);
+    //  QString str =QString::fromUtf8(vstup);
+    // s = QString::fromUtf8(str.toLatin1());
+
     vstupniDomDokument.setContent(llooll);
 }
 
@@ -37,7 +38,7 @@ QVector<PrestupMPV> XmlMpvParser::parsujDomDokument()
         novy.zpoz=nodes.at(i).attributes().namedItem("zpoz").nodeValue().toInt();
         QDateTime odjezd=PrestupMPV::qStringDoQDateTime( nodes.at(i).attributes().namedItem("odj").nodeValue());
         novy.odj=odjezd;
-         novy.odjReal=PrestupMPV::posunTimeStampZpozdeni( odjezd, novy.zpoz );
+        novy.odjReal=PrestupMPV::posunTimeStampZpozdeni( odjezd, novy.zpoz );
         novy.sled=nodes.at(i).attributes().namedItem("sled").nodeValue().toInt();
         if (nodes.at(i).attributes().namedItem("np").nodeValue()=="true")
         {novy.np=1;}
@@ -52,27 +53,19 @@ QVector<PrestupMPV> XmlMpvParser::parsujDomDokument()
 
     }
 
-
-
-
     return seznamPrestupu;
 }
 
 
 // zdroj https://stackoverflow.com/questions/7218851/making-an-http-get-under-qt
-//manager->get(QNetworkRequest(QUrl("http://www.mpvnet.cz/PID/x/21619?pocet=15&pz=true&t=true")));
 
 void XmlMpvParser::stahniMpvXml(int cisloCis, QString Ids)
 {
     qDebug()<<"XmlMpvParser::StahniMpvXml";
 
-
-    // QString adresa = "http://www.mpvnet.cz/"+Ids+"/x/"+QString::number(cisloCis)+"?pocet=15&pz=true&t=true";
-   // QString adresa = "http://www.mpvnet.cz/"+Ids+"/x/"+QString::number(cisloCis)+"?unite=true&ko=12702&pocet=24&t=true&ts=396"; //timeshift nočky
-    QString adresa = "http://www.mpvnet.cz/"+Ids+"/x/"+QString::number(cisloCis)+"?unite=true&ko=12702&pocet=24&t=true";
+   QString adresa = "http://www.mpvnet.cz/"+Ids+"/x/"+QString::number(cisloCis)+"?unite=true&ko=12702&pocet=24&t=true";
     qDebug()<<adresa;
     manager->get(QNetworkRequest(QUrl(adresa)));
-
 }
 
 
@@ -106,7 +99,6 @@ QVector<PrestupMPV> XmlMpvParser::vyfiltrujPrestupy(QVector<PrestupMPV> vstupniP
 }
 
 
-
 bool XmlMpvParser::jePrestupNaSeznamu(PrestupMPV prestup, QVector<PrestupMPV> seznamPrestupu)
 {
     qDebug()<<"XmlMpvParser::jePrestupNaSeznamu";
@@ -125,8 +117,3 @@ bool XmlMpvParser::jePrestupNaSeznamu(PrestupMPV prestup, QVector<PrestupMPV> se
     return false;
 
 }
-
-
-
-
-

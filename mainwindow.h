@@ -21,6 +21,8 @@
 #include "VDV301publisher/devicemanagementservice.h"
 
 #include "VDV301subscriber/ibisipsubscriber.h"
+#include "VDV301subscriber/devmgmtsubscriber.h"
+#include "VDV301subscriber/devmgmtpublisherstruct.h"
 
 #include "VDV301testy/vdv301testy.h"
 #include "VDV301testy/testodberuserver.h"
@@ -108,7 +110,9 @@ private:
     TicketValidationService ticketValidationService2_3CZ1_0;
 
     //IBIS-IP subscriber
-    IbisIpSubscriber deviceManagementServiceSubscriber;
+    DevMgmtSubscriber deviceManagementServiceSubscriber;
+   // IbisIpSubscriber deviceManagementServiceSubscriber;
+
 
     //konfiguracni soubor
     Konfigurace konfigurace;
@@ -163,8 +167,8 @@ private:
     void resetSeznamuSpoju();
     void eventZobrazOznameni(int index, QVector<SpecialniHlaseni> seznamHlaseni);
     void vykresliStav(QString stav);
-    void vykresliSluzbyDoTabulky(QVector<QZeroConfService> seznamSluzeb);
-    void sluzbaDoTabulky(QZeroConfService zcs);
+    void vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamSluzeb);
+    void sluzbaDoTabulky(DevMgmtPublisherStruct zcs);
     void vymazTabulkuSubscriberu(QTableWidget *tableWidget);
 
     QString nahradZnacky(QString vstup);

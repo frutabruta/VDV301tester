@@ -494,6 +494,7 @@ public:
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
         tableWidgetNasledujiciZastavky->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        __qtablewidgetitem2->setTextAlignment(Qt::AlignTrailing|Qt::AlignVCenter);
         tableWidgetNasledujiciZastavky->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
         tableWidgetNasledujiciZastavky->setHorizontalHeaderItem(3, __qtablewidgetitem3);
@@ -1849,7 +1850,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_hlavni->setCurrentIndex(1);
+        tabWidget_hlavni->setCurrentIndex(0);
         stackedWidget_palPc->setCurrentIndex(0);
         tabWidget_moznosti->setCurrentIndex(0);
         stackedWidget_testy->setCurrentIndex(0);

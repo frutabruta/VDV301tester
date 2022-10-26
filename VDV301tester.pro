@@ -52,6 +52,8 @@ SOURCES += \
     VDV301publisher/xmlcustomerinformationservice.cpp \
     VDV301publisher/xmldevicemanagementservice.cpp \
     VDV301publisher/xmlticketvalidationservice.cpp \
+    VDV301subscriber/devmgmtpublisherstruct.cpp \
+    VDV301subscriber/devmgmtsubscriber.cpp \
     VDV301subscriber/ibisipsubscriber.cpp \
     VDV301subscriber/httpserversubscriber.cpp \
     VDV301struktury/cestaudaje.cpp \
@@ -64,6 +66,7 @@ SOURCES += \
     VDV301struktury/zastavka.cpp \
     VDV301struktury/zastavkacil.cpp \
     VDV301struktury/specialnihlaseni.cpp \
+    VDV301subscriber/ibisipsubscriberonepublisher.cpp \
     VDV301testy/polozkatestu.cpp \
     VDV301testy/testdemo.cpp \
     VDV301testy/testdetekcebonjour.cpp \
@@ -102,8 +105,11 @@ HEADERS += \
     VDV301struktury/spoj.h \
     VDV301struktury/zastavka.h \
     VDV301struktury/zastavkacil.h \
+    VDV301subscriber/devmgmtpublisherstruct.h \
+    VDV301subscriber/devmgmtsubscriber.h \
     VDV301subscriber/ibisipsubscriber.h \
     VDV301subscriber/httpserversubscriber.h \
+    VDV301subscriber/ibisipsubscriberonepublisher.h \
     VDV301testy/polozkatestu.h \
     VDV301testy/testdemo.h \
     VDV301testy/testdetekcebonjour.h \

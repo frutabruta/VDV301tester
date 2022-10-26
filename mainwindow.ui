@@ -71,7 +71,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -869,6 +869,9 @@ padding: 0 px;</string>
                     <column>
                      <property name="text">
                       <string>cas</string>
+                     </property>
+                     <property name="textAlignment">
+                      <set>AlignTrailing|AlignVCenter</set>
                      </property>
                     </column>
                     <column>

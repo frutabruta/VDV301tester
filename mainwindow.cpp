@@ -13,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47481,"2.2CZ1.0"),
-    deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
+    //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
+    deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),
     konfigurace(QCoreApplication::applicationDirPath()),
     ui(new Ui::MainWindow)
 {
@@ -47,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     nastartujVsechnyVdv301Sluzby();
 
-    deviceManagementServiceSubscriber.novePrihlaseniOdberu();
+    //deviceManagementServiceSubscriber.novePrihlaseniOdberu();
 
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
     //QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
@@ -113,7 +114,12 @@ void MainWindow::vsechnyConnecty()
 
     //vypis deviceMAnagementServices publisheru
     // connect(&deviceManagementServiceSubscriber, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::slotXmlDoPromenne);
+
+
+    //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
     connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
+
+
     //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
     // connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
 
@@ -2194,17 +2200,17 @@ void MainWindow::on_radioButton_singleDoorCloser_clicked()
 void MainWindow::slotAktualizaceTabulkySluzeb()
 {
     qDebug()<<"MainWindow::slotAktualizaceTabulkySluzeb";
-    vykresliSluzbyDoTabulky(deviceManagementServiceSubscriber.seznamSluzeb);
+    vykresliSluzbyDoTabulky(deviceManagementServiceSubscriber.seznamZarizeni);
 }
 
-void MainWindow::vykresliSluzbyDoTabulky(QVector<QZeroConfService> seznamSluzeb)
+void MainWindow::vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamSluzeb)
 {
     qDebug() <<  Q_FUNC_INFO;
     // ui->tabulkaSubscriberu->setRowCount(0);
     vymazTabulkuSubscriberu(ui->tableWidget_seznamZarizeni);
 
 
-    foreach(QZeroConfService sluzba, seznamSluzeb)
+    foreach(auto sluzba, seznamSluzeb)
     {
         sluzbaDoTabulky(sluzba);
     }
@@ -2229,30 +2235,24 @@ void MainWindow::vymazTabulkuSubscriberu(QTableWidget *tableWidget)
 
 
 //vypis detekovanych sluzeb do tabulky
-void MainWindow::sluzbaDoTabulky(QZeroConfService zcs)
+void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zcs)
 {
+    //QZeroConfService zcs
     qDebug() <<  Q_FUNC_INFO;
     qint32 row;
     QTableWidgetItem *cell;
 
-    QString sluzbaNazev=zcs->name();
-    QString ipadresa=zcs->ip().toString();
-    QString hostName=zcs->host();
-    QString verze=zcs.data()->txt().value("ver");
-    QString deviceClass="dc";
-    QString id="id";
-    int port=zcs->port();
+    QString sluzbaNazev=zcs.serviceName;
+    QString ipadresa=zcs.adresa.toString() ;
+    QString hostName=zcs.hostname;
+    QString verze=zcs.ibisIpVersion;
+    QString deviceClass=zcs.deviceClass;
+    QString id=zcs.deviceId;
+    int port=zcs.port;
     /*
     qDebug() <<"nazev sluzby "<<nazev<<" ip adresa "<<ipadresa<<" port "<<QString::number(port)<<" data" <<verze ;
 
  */
-
-
-
-
-
-
-
 
 
     row = ui->tableWidget_seznamZarizeni->rowCount();
