@@ -8,7 +8,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     logfile(QCoreApplication::applicationDirPath()),
-    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"),
+    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
@@ -133,7 +133,7 @@ void MainWindow::vsechnyConnecty()
     //jednotliveTesty
     connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalVypisSubscriberu,&testOdberuServer,&TestOdberuServer::slotAktualizaceSubscriberu);
     connect(&testOdberuServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotVymazSubscribery);
-    connect(&testOdberuServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStart);
+    connect(&testOdberuServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
     connect(&testOdberuServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotZastavCasovac);
     connect(&testOdberuServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotTedOdesliNaPanely);
 
@@ -141,16 +141,16 @@ void MainWindow::vsechnyConnecty()
     connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalOdpovedNaPost,&testOdberuServer,&TestOdberuServer::slotVypisOdpovedServeru);
 
     //vypinani sluzeb pomoci prepinacu
-    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::slotStart);
+    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::slotStartDnsSd);
     connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::slotStop);
 
-    connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpSluzba::slotStart);
+    connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpSluzba::slotStartDnsSd);
     connect(ui->radioButton_OFF2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpSluzba::slotStop);
 
-    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpSluzba::slotStart);
+    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpSluzba::slotStartDnsSd);
     connect(ui->radioButton_OFF3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpSluzba::slotStop);
 
-    connect(ui->radioButton_ON4,&QRadioButton::clicked,&customerInformationService1_0,&HttpSluzba::slotStart);
+    connect(ui->radioButton_ON4,&QRadioButton::clicked,&customerInformationService1_0,&HttpSluzba::slotStartDnsSd);
     connect(ui->radioButton_OFF4,&QRadioButton::clicked,&customerInformationService1_0,&HttpSluzba::slotStop);
 
 
@@ -252,10 +252,10 @@ void MainWindow::testStop(int index)
 */
 void MainWindow::nastartujVsechnyVdv301Sluzby()
 {
-    deviceManagementService1_0.slotStart(true);
-    customerInformationService1_0.slotStart(true);
-    customerInformationService2_2CZ1_0.slotStart(true);
-    ticketValidationService2_3CZ1_0.slotStart(true);
+    deviceManagementService1_0.slotStartServer();
+    customerInformationService1_0.slotStartServer();
+    customerInformationService2_2CZ1_0.slotStartServer();
+    ticketValidationService2_3CZ1_0.slotStartServer();
 }
 
 
@@ -831,16 +831,6 @@ void MainWindow::on_pushButton_jizda_sipkaZpetSkok_clicked()
     xmlVdv301HromadnyUpdate();
 
 }
-
-
-
-
-
-/*!
-
-*/
-
-
 
 
 
@@ -2123,9 +2113,6 @@ void MainWindow::on_pushButton_menu_linkospoj_clicked()
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_linkaspoj );
 
 }
-
-
-
 
 
 void MainWindow::on_pushButton_jizda_sipkaDalSkok_clicked()
