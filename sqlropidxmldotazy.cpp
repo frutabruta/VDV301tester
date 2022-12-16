@@ -4,7 +4,7 @@
 
 SqlRopidXmlDotazy::SqlRopidXmlDotazy()
 {
-
+    this->otevriDB();
 }
 
 //test Pridani Komentare prechodu na SQLITE
@@ -20,7 +20,7 @@ SqlRopidXmlDotazy::SqlRopidXmlDotazy()
 int SqlRopidXmlDotazy::stahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje,QVector<Spoj> &seznamSpoju , QString kj )
 {
     qDebug()<< Q_FUNC_INFO;
-    this->otevriDB();
+
     seznamSpoju.clear();
     Spoj aktualniTrip;
     QVector<ZastavkaCil> docasnySeznamZastavek;
@@ -446,7 +446,7 @@ void SqlRopidXmlDotazy::vypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, in
 */
 void SqlRopidXmlDotazy::vytvorDisplejRidiceAktualniZastavka(QString &textPoleObsah,QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek,QString locationState)
 {
-   qDebug()<< Q_FUNC_INFO;
+    qDebug()<< Q_FUNC_INFO;
     int i=0;
     textPoleObsah="";
     textPoleCasu="";
@@ -601,17 +601,17 @@ QVector<QString> SqlRopidXmlDotazy::StahniPoznamky(int idSpoje, int xorder)
     query.exec(queryString2);
     qDebug()<<"lasterror"<<  query.lastError();
     qDebug().noquote()<<queryString2;
-  //  qDebug()<<"DebugPointB";
+    //  qDebug()<<"DebugPointB";
     int citacMaximum=0;
     while (query.next())
     {
 
-            QString poznamka=query.value(query.record().indexOf("po.t")).toString();
-            seznamPoznamek.push_back(poznamka);
-            citacMaximum++;
+        QString poznamka=query.value(query.record().indexOf("po.t")).toString();
+        seznamPoznamek.push_back(poznamka);
+        citacMaximum++;
 
     }
-   // this->zavriDB();
+    // this->zavriDB();
 
 
     return seznamPoznamek;
@@ -689,7 +689,7 @@ int SqlRopidXmlDotazy::vytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Link
     query.exec(queryString2);
     qDebug()<<"lasterror "<<query.lastError();
     qDebug()<<queryString2;
-    qDebug()<<"DebugPointB";
+  //  qDebug()<<"DebugPointB";
     int citacMaximum=0;
     while (query.next())
     {
@@ -712,7 +712,7 @@ int SqlRopidXmlDotazy::vytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Link
             docasnySpoj.linka.c=query.value(query.record().indexOf("l.c")).toInt();
             docasnySeznamSpoju.push_back(docasnySpoj);
             citacMaximum++;
-            qDebug()<<docasnySpoj.cisloRopid;
+          //  qDebug()<<docasnySpoj.cisloRopid;
         }
     }
 
@@ -758,7 +758,7 @@ int SqlRopidXmlDotazy::najdiTurnusZeSpoje(Spoj spoj,int &kmenovaLinka,int &porad
     {
         if (query.value(0).toString()!="")
         {
-              citacMaximum++;
+            citacMaximum++;
             kmenovaLinka=query.value(query.record().indexOf("sp_po.l")).toInt();
             poradi=query.value(query.record().indexOf("sp_po.p")).toInt();
             order=query.value(query.record().indexOf("sp_po.ord")).toInt()-1;
@@ -903,6 +903,7 @@ int SqlRopidXmlDotazy::vytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Lin
 int SqlRopidXmlDotazy::poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju,Spoj spoj)
 {
     qDebug()<< Q_FUNC_INFO;
+    qDebug()<<"delka seznamu spoju: "<<seznamSpoju.count();
     for(int i=0;i<seznamSpoju.count();i++)
     {
         if((seznamSpoju.at(i).linka.c==spoj.linka.c)&&(seznamSpoju.at(i).cisloRopid)==spoj.cisloRopid)
@@ -1039,5 +1040,48 @@ QVector<Pasmo> SqlRopidXmlDotazy::pasmoStringDoVectoru(QString vstup,QString sys
         }
     }
     return seznamPasem;
+}
+
+
+// model view approach
+
+QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamLinekModel(QString kj)
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    QString queryString2("SELECT DISTINCT l.c,l.lc,l.n FROM l ");
+    queryString2+=("WHERE l.kj LIKE '");
+    queryString2+=(kj);
+    queryString2+=("' ");
+    queryString2+=("ORDER BY l.c;");
+
+    QSqlQueryModel *model= new QSqlTableModel ;
+    model->setQuery(queryString2);
+
+
+    return model;
+}
+
+QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznaSpojuModel(Linka docasnaLinka, QString kj)
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+
+    QString queryString2("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois FROM s ");
+    queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("WHERE l.c=");
+    queryString2+=( QString::number(docasnaLinka.c));
+    queryString2+=(" AND  s.man !=1 ");
+    queryString2+=(" AND s.kj LIKE '");
+    queryString2+=(kj);
+    queryString2+=("' ");
+    queryString2+=(" ORDER BY s.c");
+
+
+    QSqlQueryModel *model= new QSqlTableModel ;
+    model->setQuery(queryString2);
+
+
+    return model;
 }
 

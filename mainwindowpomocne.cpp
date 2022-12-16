@@ -11,6 +11,7 @@ MainWindowPomocne::MainWindowPomocne()
 
 int MainWindowPomocne::jeVRozsahu(int index, int pocetHodnot, QString funkce)
 {
+    qDebug()<<Q_FUNC_INFO;
     if((index<pocetHodnot)&&(index>=0))
     {
 
@@ -22,7 +23,7 @@ int MainWindowPomocne::jeVRozsahu(int index, int pocetHodnot, QString funkce)
         QMessageBox msgBox;
         msgBox.setText("hodnota "+QString::number(index)+" je mimo rozsah "+ QString::number(pocetHodnot)+" "+funkce);
         msgBox.exec();
-        qDebug()<<" hodnota mimo rozsah";
+        qDebug()<<"hodnota "+QString::number(index)+" je mimo rozsah "+ QString::number(pocetHodnot)+" "+funkce;
 
        return 0;
     }

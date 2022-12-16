@@ -46,6 +46,9 @@ public:
 
     int nactiPlatnost(QDate &platnostOd, QDate &platnostDo);
     QString maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti);
+
+    QSqlQueryModel *stahniSeznamLinekModel(QString kj);
+    QSqlQueryModel *stahniSeznaSpojuModel(Linka docasnaLinka, QString kj);
 private:
 
     void vypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek);

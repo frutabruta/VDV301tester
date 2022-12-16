@@ -89,6 +89,9 @@ private:
     QDate platnostOd;
     QDate platnostDo;
 
+    //modely
+    QSqlQueryModel *modelSpoje;
+
     //udalosti
 
     int eventPrijezd();
@@ -292,6 +295,12 @@ private slots:
      void slotImportAktivujTlacitka();
      void slotNastavProgress(int hodnota);
      void slotNastavProgressMax(int hodnota);
+
+
+     void on_listView_linky_clicked(const QModelIndex &index);
+
+     void on_listView_spoje_clicked(const QModelIndex &index);
+
 signals:
      void signalZahajImport(QString cesta);
 };

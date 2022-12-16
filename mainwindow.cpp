@@ -362,7 +362,7 @@ int MainWindow::on_pushButton_prikaz_clicked()
     Spoj hledanySpoj=stavSystemu.aktspoj;
     stavSystemu.indexSpojeNaObehu=sqlPraceRopid.poziceSpojeNaSeznamu(stavSystemu.aktObeh.seznamSpoju,hledanySpoj);
 
-    if(! MainWindowPomocne::jeVRozsahu(stavSystemu.indexSpojeNaObehu,stavSystemu.aktObeh.seznamSpoju.size(),"MainWindow::on_prikaztlacitko_clicked"))
+    if(! MainWindowPomocne::jeVRozsahu(stavSystemu.indexSpojeNaObehu,stavSystemu.aktObeh.seznamSpoju.size(),Q_FUNC_INFO))
     {
         return 0;
     }
@@ -605,6 +605,11 @@ void MainWindow::inicializaceVyberovychPoli()
     {
 
         naplnVyberLinky(seznamLinek);
+        QSqlQueryModel* model=sqlPraceRopid.stahniSeznamLinekModel(this->vyrobMaskuKalendareJizd());
+
+        ui->listView_linky->setModel(model);
+        ui->listView_linky->setModelColumn(model->record().indexOf("l.c"));
+
 
         QVector<Linka> kmenoveLinky;
         sqlPraceRopid.vytvorSeznamKmenovychLinek(kmenoveLinky,vyrobMaskuKalendareJizd());
@@ -706,9 +711,9 @@ void MainWindow::naplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
         newItem->setText(QString::number(docasnySeznamSpoju.at(i).cisloRopid));
         newItem->setData(Qt::UserRole, QString::number(docasnySeznamSpoju.at(i).cisloRopid ));
         ui->listSpoje->addItem( newItem);
-        qDebug()<<"MainWindow::NaplnVyberSpoje_"<<QString::number(i);
+     //   qDebug()<<"MainWindow::NaplnVyberSpoje_"<<QString::number(i);
     }
-    qDebug()<<"MainWindow::NaplnVyberSpoje_konec";
+   // qDebug()<<"MainWindow::NaplnVyberSpoje_konec";
 
 }
 
@@ -1126,6 +1131,11 @@ void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QList
         qDebug()<<"seznam je prazdny";
         return;
     }
+
+
+
+
+
     ui->polelinky->setText(ui->listLinek->currentItem()->data(Qt::UserRole ).toString() );
     stavSystemu.aktlinka.c=ui->listLinek->currentItem()->data(Qt::UserRole).toString().toInt();
     qDebug()<<"tady budu vypisovat vybrane spoje";
@@ -1134,6 +1144,11 @@ void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QList
     if (sqlPraceRopid.vytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd())==1)
     {
         naplnVyberSpoje(seznamSpoju);
+
+        QSqlQueryModel *model=sqlPraceRopid.stahniSeznaSpojuModel(stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd()) ;
+        ui->listView_spoje->setModel(model);
+        ui->listView_spoje->setModelColumn(model->record().indexOf("s.c"));
+
     }
 }
 
@@ -2292,3 +2307,81 @@ QString MainWindow::nahradZnacky(QString vstup)
 
     return vysledek;
 }
+
+
+
+
+void MainWindow::on_listView_linky_clicked(const QModelIndex &index)
+{
+    qDebug()<<Q_FUNC_INFO;
+    stavSystemu.aktlinka.c=index.data(Qt::DisplayRole).toString().toInt();
+    qDebug()<<"cislo linky:"<<stavSystemu.aktlinka.c;
+    modelSpoje=sqlPraceRopid.stahniSeznaSpojuModel(stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd()) ;
+    ui->listView_spoje->setModel(modelSpoje);
+    ui->listView_spoje->setModelColumn(modelSpoje->record().indexOf("s.c"));
+
+
+    ui->polelinky->setText(QString::number(stavSystemu.aktlinka.c ));
+
+
+
+}
+
+
+void MainWindow::on_listView_spoje_clicked(const QModelIndex &index)
+{
+
+
+    qDebug() <<  Q_FUNC_INFO;
+    Spoj docasnySpoj;
+
+
+
+
+     if (ui->listView_spoje->model()->rowCount()>0 )
+
+    {
+        if(index.isValid())
+        {
+            index.siblingAtColumn(1);
+            docasnySpoj.cislo=index.siblingAtColumn(modelSpoje->record().indexOf("s.s")).data().toInt();
+            docasnySpoj.cisloRopid=index.siblingAtColumn(modelSpoje->record().indexOf("s.c")).data().toInt();
+            docasnySpoj.linka.lc=index.siblingAtColumn(modelSpoje->record().indexOf("l.lc")).data().toInt();
+            docasnySpoj.linka.c=index.siblingAtColumn(modelSpoje->record().indexOf("l.c")).data().toInt();
+            QString alias=index.siblingAtColumn(modelSpoje->record().indexOf("l.aois")).data().toString();
+            if(alias=="")
+            {
+                docasnySpoj.linka.LineName=docasnySpoj.linka.c;
+            }
+            else
+            {
+                docasnySpoj.linka.LineName=alias;
+            }
+
+            //docasnySpoj.linka.c=index.siblingAtColumn(modelSpoje->record().indexOf("l.c")).data().toInt();
+
+
+
+             ui->polespoje->setText(QString::number(docasnySpoj.cisloRopid));
+
+            stavSystemu.aktspoj=docasnySpoj;
+            int kmenovaLinka=0;
+            int poradi=0;
+            int order=0;
+
+
+            sqlPraceRopid.najdiTurnusZeSpoje(stavSystemu.aktspoj, kmenovaLinka,poradi, order,this->vyrobMaskuKalendareJizd());
+            qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
+
+
+            qDebug()<<"vybrana polzoak spoje:"<<ui->listView_spoje->model()->data(ui->listView_spoje->currentIndex());
+
+            }
+
+    }
+
+     qDebug()<<"IDspoje:"<<docasnySpoj.cislo;
+
+
+}
+

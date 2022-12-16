@@ -20,6 +20,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QListView>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
@@ -81,22 +82,24 @@ public:
     QPushButton *pushButton_jizda_IBIS;
     QWidget *page_linkaspoj;
     QGridLayout *gridLayout_2;
-    QCheckBox *checkBox_2;
     QPushButton *pushButton_prikaz;
+    QCheckBox *checkBox;
     QVBoxLayout *verticalLayout_7;
     QFormLayout *formLayout;
     QLabel *label;
     QLineEdit *polelinky;
     QLineEdit *polespoje;
     QLabel *label_2;
+    QCheckBox *checkBox_2;
     QHBoxLayout *horizontalLayout_7;
     QVBoxLayout *verticalLayout_8;
     QLabel *label_8;
     QListWidget *listLinek;
+    QListView *listView_linky;
     QVBoxLayout *verticalLayout_9;
     QLabel *label_9;
     QListWidget *listSpoje;
-    QCheckBox *checkBox;
+    QListView *listView_spoje;
     QWidget *page_turnus;
     QGridLayout *gridLayout_4;
     QVBoxLayout *verticalLayout_16;
@@ -684,12 +687,6 @@ public:
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        checkBox_2 = new QCheckBox(page_linkaspoj);
-        checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
-        checkBox_2->setFont(font);
-
-        gridLayout_2->addWidget(checkBox_2, 2, 0, 1, 1);
-
         pushButton_prikaz = new QPushButton(page_linkaspoj);
         pushButton_prikaz->setObjectName(QString::fromUtf8("pushButton_prikaz"));
         sizePolicy3.setHeightForWidth(pushButton_prikaz->sizePolicy().hasHeightForWidth());
@@ -697,6 +694,12 @@ public:
         pushButton_prikaz->setFont(font);
 
         gridLayout_2->addWidget(pushButton_prikaz, 5, 0, 1, 1);
+
+        checkBox = new QCheckBox(page_linkaspoj);
+        checkBox->setObjectName(QString::fromUtf8("checkBox"));
+        checkBox->setFont(font);
+
+        gridLayout_2->addWidget(checkBox, 3, 0, 1, 1);
 
         verticalLayout_7 = new QVBoxLayout();
         verticalLayout_7->setSpacing(6);
@@ -799,6 +802,12 @@ public:
 
         gridLayout_2->addLayout(verticalLayout_7, 1, 0, 1, 2);
 
+        checkBox_2 = new QCheckBox(page_linkaspoj);
+        checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
+        checkBox_2->setFont(font);
+
+        gridLayout_2->addWidget(checkBox_2, 2, 0, 1, 1);
+
         horizontalLayout_7 = new QHBoxLayout();
         horizontalLayout_7->setSpacing(6);
         horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
@@ -820,6 +829,12 @@ public:
 
         horizontalLayout_7->addLayout(verticalLayout_8);
 
+        listView_linky = new QListView(page_linkaspoj);
+        listView_linky->setObjectName(QString::fromUtf8("listView_linky"));
+        listView_linky->setEditTriggers(QAbstractItemView::EditKeyPressed);
+
+        horizontalLayout_7->addWidget(listView_linky);
+
         verticalLayout_9 = new QVBoxLayout();
         verticalLayout_9->setSpacing(6);
         verticalLayout_9->setObjectName(QString::fromUtf8("verticalLayout_9"));
@@ -838,14 +853,13 @@ public:
 
         horizontalLayout_7->addLayout(verticalLayout_9);
 
+        listView_spoje = new QListView(page_linkaspoj);
+        listView_spoje->setObjectName(QString::fromUtf8("listView_spoje"));
+
+        horizontalLayout_7->addWidget(listView_spoje);
+
 
         gridLayout_2->addLayout(horizontalLayout_7, 0, 2, 7, 1);
-
-        checkBox = new QCheckBox(page_linkaspoj);
-        checkBox->setObjectName(QString::fromUtf8("checkBox"));
-        checkBox->setFont(font);
-
-        gridLayout_2->addWidget(checkBox, 3, 0, 1, 1);
 
         stackedWidget_palPc->addWidget(page_linkaspoj);
         page_turnus = new QWidget();
@@ -1851,7 +1865,7 @@ public:
         retranslateUi(MainWindow);
 
         tabWidget_hlavni->setCurrentIndex(0);
-        stackedWidget_palPc->setCurrentIndex(0);
+        stackedWidget_palPc->setCurrentIndex(1);
         tabWidget_moznosti->setCurrentIndex(0);
         stackedWidget_testy->setCurrentIndex(0);
 
@@ -1903,15 +1917,15 @@ public:
 "Stop", nullptr));
         locationStateIndicator->setText(QCoreApplication::translate("MainWindow", "locationState", nullptr));
         pushButton_jizda_IBIS->setText(QCoreApplication::translate("MainWindow", "IBIS", nullptr));
-        checkBox_2->setText(QCoreApplication::translate("MainWindow", "StopRequested", nullptr));
         pushButton_prikaz->setText(QCoreApplication::translate("MainWindow", "OK", nullptr));
+        checkBox->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Linka</span></p></body></html>", nullptr));
         polelinky->setText(QCoreApplication::translate("MainWindow", "100952", nullptr));
         polespoje->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Spoj", nullptr));
+        checkBox_2->setText(QCoreApplication::translate("MainWindow", "StopRequested", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "Seznam linek", nullptr));
         label_9->setText(QCoreApplication::translate("MainWindow", "Seznam spoj\305\257", nullptr));
-        checkBox->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
         label_16->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Linka</span></p></body></html>", nullptr));
         poleLinkyTurnus->setText(QCoreApplication::translate("MainWindow", "100952", nullptr));
         poleSpojeTurnus->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));

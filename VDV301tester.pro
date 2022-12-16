@@ -81,6 +81,7 @@ SOURCES += \
     mainwindow.cpp \
     mainwindowpomocne.cpp \
     XmlRopidImportStream/sqlitezaklad.cpp \
+    sqldotazymodel.cpp \
     sqlropidxmldotazy.cpp \
     xmlmpvparser.cpp
 
@@ -118,6 +119,7 @@ HEADERS += \
     XmlRopidImportStream/xmlropidimportstream.h \
     hlasic.h \
     XmlRopidImportStream/sqlitezaklad.h \
+    sqldotazymodel.h \
     sqlropidxmldotazy.h \
     ibisovladani.h \
     konfigurace.h \
