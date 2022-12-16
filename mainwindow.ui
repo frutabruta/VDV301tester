@@ -1213,6 +1213,80 @@ Stop</string>
             </widget>
             <widget class="QWidget" name="page_linkaspoj">
              <layout class="QGridLayout" name="gridLayout_2">
+              <item row="2" column="0">
+               <widget class="QCheckBox" name="checkBox_2">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>StopRequested</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QCheckBox" name="checkBox">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>MPV přestupy</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2" rowspan="7">
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <item>
+                   <widget class="QGroupBox" name="groupBox">
+                    <property name="title">
+                     <string>Seznam linek</string>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_2">
+                     <item>
+                      <widget class="QListView" name="listView_linky">
+                       <property name="font">
+                        <font>
+                         <pointsize>20</pointsize>
+                        </font>
+                       </property>
+                       <property name="editTriggers">
+                        <set>QAbstractItemView::EditKeyPressed</set>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QGroupBox" name="groupBox_2">
+                  <property name="title">
+                   <string>Seznam spojů</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_4">
+                   <item>
+                    <widget class="QListView" name="listView_spoje">
+                     <property name="font">
+                      <font>
+                       <pointsize>20</pointsize>
+                      </font>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_9"/>
+                </item>
+               </layout>
+              </item>
               <item row="5" column="0">
                <widget class="QPushButton" name="pushButton_prikaz">
                 <property name="sizePolicy">
@@ -1228,18 +1302,6 @@ Stop</string>
                 </property>
                 <property name="text">
                  <string>OK</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QCheckBox" name="checkBox">
-                <property name="font">
-                 <font>
-                  <pointsize>20</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>MPV přestupy</string>
                 </property>
                </widget>
               </item>
@@ -1731,82 +1793,6 @@ Stop</string>
                    </widget>
                   </item>
                  </layout>
-                </item>
-               </layout>
-              </item>
-              <item row="2" column="0">
-               <widget class="QCheckBox" name="checkBox_2">
-                <property name="font">
-                 <font>
-                  <pointsize>20</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>StopRequested</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="2" rowspan="7">
-               <layout class="QHBoxLayout" name="horizontalLayout_7">
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_8">
-                  <item>
-                   <widget class="QLabel" name="label_8">
-                    <property name="font">
-                     <font>
-                      <pointsize>15</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Seznam linek</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QListWidget" name="listLinek">
-                    <property name="font">
-                     <font>
-                      <pointsize>20</pointsize>
-                     </font>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QListView" name="listView_linky">
-                  <property name="editTriggers">
-                   <set>QAbstractItemView::EditKeyPressed</set>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_9">
-                  <item>
-                   <widget class="QLabel" name="label_9">
-                    <property name="font">
-                     <font>
-                      <pointsize>15</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Seznam spojů</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QListWidget" name="listSpoje">
-                    <property name="font">
-                     <font>
-                      <pointsize>20</pointsize>
-                     </font>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QListView" name="listView_spoje"/>
                 </item>
                </layout>
               </item>
@@ -4109,8 +4095,6 @@ test</string>
   <tabstop>pushButton_menu_fullscreen</tabstop>
   <tabstop>pushButton_menu_quit</tabstop>
   <tabstop>pushButton_jizda_sipkaDal</tabstop>
-  <tabstop>listLinek</tabstop>
-  <tabstop>listSpoje</tabstop>
   <tabstop>pushButton_prikaz</tabstop>
   <tabstop>polelinky</tabstop>
   <tabstop>poleLinkyTurnus</tabstop>

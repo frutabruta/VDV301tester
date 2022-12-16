@@ -16,6 +16,7 @@
 #include <QtWidgets/QDateEdit>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -82,24 +83,24 @@ public:
     QPushButton *pushButton_jizda_IBIS;
     QWidget *page_linkaspoj;
     QGridLayout *gridLayout_2;
-    QPushButton *pushButton_prikaz;
+    QCheckBox *checkBox_2;
     QCheckBox *checkBox;
+    QHBoxLayout *horizontalLayout_7;
+    QVBoxLayout *verticalLayout_8;
+    QGroupBox *groupBox;
+    QVBoxLayout *verticalLayout_2;
+    QListView *listView_linky;
+    QGroupBox *groupBox_2;
+    QVBoxLayout *verticalLayout_4;
+    QListView *listView_spoje;
+    QVBoxLayout *verticalLayout_9;
+    QPushButton *pushButton_prikaz;
     QVBoxLayout *verticalLayout_7;
     QFormLayout *formLayout;
     QLabel *label;
     QLineEdit *polelinky;
     QLineEdit *polespoje;
     QLabel *label_2;
-    QCheckBox *checkBox_2;
-    QHBoxLayout *horizontalLayout_7;
-    QVBoxLayout *verticalLayout_8;
-    QLabel *label_8;
-    QListWidget *listLinek;
-    QListView *listView_linky;
-    QVBoxLayout *verticalLayout_9;
-    QLabel *label_9;
-    QListWidget *listSpoje;
-    QListView *listView_spoje;
     QWidget *page_turnus;
     QGridLayout *gridLayout_4;
     QVBoxLayout *verticalLayout_16;
@@ -687,6 +688,67 @@ public:
         gridLayout_2->setSpacing(6);
         gridLayout_2->setContentsMargins(11, 11, 11, 11);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        checkBox_2 = new QCheckBox(page_linkaspoj);
+        checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
+        checkBox_2->setFont(font);
+
+        gridLayout_2->addWidget(checkBox_2, 2, 0, 1, 1);
+
+        checkBox = new QCheckBox(page_linkaspoj);
+        checkBox->setObjectName(QString::fromUtf8("checkBox"));
+        checkBox->setFont(font);
+
+        gridLayout_2->addWidget(checkBox, 3, 0, 1, 1);
+
+        horizontalLayout_7 = new QHBoxLayout();
+        horizontalLayout_7->setSpacing(6);
+        horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
+        verticalLayout_8 = new QVBoxLayout();
+        verticalLayout_8->setSpacing(6);
+        verticalLayout_8->setObjectName(QString::fromUtf8("verticalLayout_8"));
+        groupBox = new QGroupBox(page_linkaspoj);
+        groupBox->setObjectName(QString::fromUtf8("groupBox"));
+        verticalLayout_2 = new QVBoxLayout(groupBox);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        listView_linky = new QListView(groupBox);
+        listView_linky->setObjectName(QString::fromUtf8("listView_linky"));
+        listView_linky->setFont(font);
+        listView_linky->setEditTriggers(QAbstractItemView::EditKeyPressed);
+
+        verticalLayout_2->addWidget(listView_linky);
+
+
+        verticalLayout_8->addWidget(groupBox);
+
+
+        horizontalLayout_7->addLayout(verticalLayout_8);
+
+        groupBox_2 = new QGroupBox(page_linkaspoj);
+        groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
+        verticalLayout_4 = new QVBoxLayout(groupBox_2);
+        verticalLayout_4->setSpacing(6);
+        verticalLayout_4->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
+        listView_spoje = new QListView(groupBox_2);
+        listView_spoje->setObjectName(QString::fromUtf8("listView_spoje"));
+        listView_spoje->setFont(font);
+
+        verticalLayout_4->addWidget(listView_spoje);
+
+
+        horizontalLayout_7->addWidget(groupBox_2);
+
+        verticalLayout_9 = new QVBoxLayout();
+        verticalLayout_9->setSpacing(6);
+        verticalLayout_9->setObjectName(QString::fromUtf8("verticalLayout_9"));
+
+        horizontalLayout_7->addLayout(verticalLayout_9);
+
+
+        gridLayout_2->addLayout(horizontalLayout_7, 0, 2, 7, 1);
+
         pushButton_prikaz = new QPushButton(page_linkaspoj);
         pushButton_prikaz->setObjectName(QString::fromUtf8("pushButton_prikaz"));
         sizePolicy3.setHeightForWidth(pushButton_prikaz->sizePolicy().hasHeightForWidth());
@@ -694,12 +756,6 @@ public:
         pushButton_prikaz->setFont(font);
 
         gridLayout_2->addWidget(pushButton_prikaz, 5, 0, 1, 1);
-
-        checkBox = new QCheckBox(page_linkaspoj);
-        checkBox->setObjectName(QString::fromUtf8("checkBox"));
-        checkBox->setFont(font);
-
-        gridLayout_2->addWidget(checkBox, 3, 0, 1, 1);
 
         verticalLayout_7 = new QVBoxLayout();
         verticalLayout_7->setSpacing(6);
@@ -801,65 +857,6 @@ public:
 
 
         gridLayout_2->addLayout(verticalLayout_7, 1, 0, 1, 2);
-
-        checkBox_2 = new QCheckBox(page_linkaspoj);
-        checkBox_2->setObjectName(QString::fromUtf8("checkBox_2"));
-        checkBox_2->setFont(font);
-
-        gridLayout_2->addWidget(checkBox_2, 2, 0, 1, 1);
-
-        horizontalLayout_7 = new QHBoxLayout();
-        horizontalLayout_7->setSpacing(6);
-        horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
-        verticalLayout_8 = new QVBoxLayout();
-        verticalLayout_8->setSpacing(6);
-        verticalLayout_8->setObjectName(QString::fromUtf8("verticalLayout_8"));
-        label_8 = new QLabel(page_linkaspoj);
-        label_8->setObjectName(QString::fromUtf8("label_8"));
-        label_8->setFont(font1);
-
-        verticalLayout_8->addWidget(label_8);
-
-        listLinek = new QListWidget(page_linkaspoj);
-        listLinek->setObjectName(QString::fromUtf8("listLinek"));
-        listLinek->setFont(font);
-
-        verticalLayout_8->addWidget(listLinek);
-
-
-        horizontalLayout_7->addLayout(verticalLayout_8);
-
-        listView_linky = new QListView(page_linkaspoj);
-        listView_linky->setObjectName(QString::fromUtf8("listView_linky"));
-        listView_linky->setEditTriggers(QAbstractItemView::EditKeyPressed);
-
-        horizontalLayout_7->addWidget(listView_linky);
-
-        verticalLayout_9 = new QVBoxLayout();
-        verticalLayout_9->setSpacing(6);
-        verticalLayout_9->setObjectName(QString::fromUtf8("verticalLayout_9"));
-        label_9 = new QLabel(page_linkaspoj);
-        label_9->setObjectName(QString::fromUtf8("label_9"));
-        label_9->setFont(font1);
-
-        verticalLayout_9->addWidget(label_9);
-
-        listSpoje = new QListWidget(page_linkaspoj);
-        listSpoje->setObjectName(QString::fromUtf8("listSpoje"));
-        listSpoje->setFont(font);
-
-        verticalLayout_9->addWidget(listSpoje);
-
-
-        horizontalLayout_7->addLayout(verticalLayout_9);
-
-        listView_spoje = new QListView(page_linkaspoj);
-        listView_spoje->setObjectName(QString::fromUtf8("listView_spoje"));
-
-        horizontalLayout_7->addWidget(listView_spoje);
-
-
-        gridLayout_2->addLayout(horizontalLayout_7, 0, 2, 7, 1);
 
         stackedWidget_palPc->addWidget(page_linkaspoj);
         page_turnus = new QWidget();
@@ -1840,9 +1837,7 @@ public:
         QWidget::setTabOrder(pushButton_menu_jizda, pushButton_menu_fullscreen);
         QWidget::setTabOrder(pushButton_menu_fullscreen, pushButton_menu_quit);
         QWidget::setTabOrder(pushButton_menu_quit, pushButton_jizda_sipkaDal);
-        QWidget::setTabOrder(pushButton_jizda_sipkaDal, listLinek);
-        QWidget::setTabOrder(listLinek, listSpoje);
-        QWidget::setTabOrder(listSpoje, pushButton_prikaz);
+        QWidget::setTabOrder(pushButton_jizda_sipkaDal, pushButton_prikaz);
         QWidget::setTabOrder(pushButton_prikaz, polelinky);
         QWidget::setTabOrder(polelinky, poleLinkyTurnus);
         QWidget::setTabOrder(poleLinkyTurnus, poleSpojeTurnus);
@@ -1917,15 +1912,15 @@ public:
 "Stop", nullptr));
         locationStateIndicator->setText(QCoreApplication::translate("MainWindow", "locationState", nullptr));
         pushButton_jizda_IBIS->setText(QCoreApplication::translate("MainWindow", "IBIS", nullptr));
-        pushButton_prikaz->setText(QCoreApplication::translate("MainWindow", "OK", nullptr));
+        checkBox_2->setText(QCoreApplication::translate("MainWindow", "StopRequested", nullptr));
         checkBox->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("MainWindow", "Seznam linek", nullptr));
+        groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "Seznam spoj\305\257", nullptr));
+        pushButton_prikaz->setText(QCoreApplication::translate("MainWindow", "OK", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Linka</span></p></body></html>", nullptr));
         polelinky->setText(QCoreApplication::translate("MainWindow", "100952", nullptr));
         polespoje->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Spoj", nullptr));
-        checkBox_2->setText(QCoreApplication::translate("MainWindow", "StopRequested", nullptr));
-        label_8->setText(QCoreApplication::translate("MainWindow", "Seznam linek", nullptr));
-        label_9->setText(QCoreApplication::translate("MainWindow", "Seznam spoj\305\257", nullptr));
         label_16->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Linka</span></p></body></html>", nullptr));
         poleLinkyTurnus->setText(QCoreApplication::translate("MainWindow", "100952", nullptr));
         poleSpojeTurnus->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));

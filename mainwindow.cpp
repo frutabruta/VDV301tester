@@ -594,18 +594,20 @@ void MainWindow::inicializaceVyberovychPoli()
 {
     qDebug() <<  Q_FUNC_INFO;
     sqlPraceRopid.pripoj();
-    vymazSeznam(ui->listLinek);
-    vymazSeznam(ui->listSpoje);
+
+
 
     vymazSeznam(ui->listKmenovychLinek);
     vymazSeznam(ui->listPoradi);
     vymazSeznam(ui->listTurnusSpoje);
 
-    if (sqlPraceRopid.vytvorSeznamLinek(seznamLinek,this->vyrobMaskuKalendareJizd())==1)
+    QSqlQueryModel* model=sqlPraceRopid.stahniSeznamLinekModel(this->vyrobMaskuKalendareJizd());
+
+    if (model->rowCount()>0)
     {
 
-        naplnVyberLinky(seznamLinek);
-        QSqlQueryModel* model=sqlPraceRopid.stahniSeznamLinekModel(this->vyrobMaskuKalendareJizd());
+
+
 
         ui->listView_linky->setModel(model);
         ui->listView_linky->setModelColumn(model->record().indexOf("l.c"));
@@ -651,24 +653,7 @@ void MainWindow::aktualizaceKalendare()
 /*!
 
 */
-void MainWindow::naplnVyberLinky(QVector<Linka> docasnySeznamLinek)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    vymazSeznam(ui->listLinek);
 
-
-
-    //qDebug()<<"vymazano";
-    for (int i = 0; i < docasnySeznamLinek.length(); ++i)
-    {
-        QListWidgetItem *newItem = new QListWidgetItem;
-        newItem->setText(QString::number(docasnySeznamLinek.at(i).c));
-        //newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).lc));
-        newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).c));
-        ui->listLinek->addItem( newItem);
-    }
-
-}
 
 
 
@@ -698,24 +683,7 @@ void MainWindow::naplnKmenoveLinky(QVector<Linka> docasnySeznamLinek)
 /*!
 
 */
-void MainWindow::naplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju)
-{
-    qDebug() <<  Q_FUNC_INFO;
 
-    vymazSeznam(ui->listSpoje);
-
-    qDebug()<<"MainWindow::NaplnVyberSpoje_dp1";
-    for (int i = 0; i < docasnySeznamSpoju.length(); ++i)
-    {
-        QListWidgetItem *newItem = new QListWidgetItem;
-        newItem->setText(QString::number(docasnySeznamSpoju.at(i).cisloRopid));
-        newItem->setData(Qt::UserRole, QString::number(docasnySeznamSpoju.at(i).cisloRopid ));
-        ui->listSpoje->addItem( newItem);
-     //   qDebug()<<"MainWindow::NaplnVyberSpoje_"<<QString::number(i);
-    }
-   // qDebug()<<"MainWindow::NaplnVyberSpoje_konec";
-
-}
 
 
 
@@ -1120,38 +1088,6 @@ void MainWindow::eventAfterStopToBetweenStop()
 
 
 
-/*!
-
-*/
-void MainWindow::on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if (ui->listLinek->count()<=0)
-    {
-        qDebug()<<"seznam je prazdny";
-        return;
-    }
-
-
-
-
-
-    ui->polelinky->setText(ui->listLinek->currentItem()->data(Qt::UserRole ).toString() );
-    stavSystemu.aktlinka.c=ui->listLinek->currentItem()->data(Qt::UserRole).toString().toInt();
-    qDebug()<<"tady budu vypisovat vybrane spoje";
-    qDebug()<<"raw "<<ui->listLinek->currentItem()->data(Qt::UserRole)<<" int "<<ui->listLinek->currentItem()->data(Qt::UserRole).toInt();
-    ui->listSpoje->clear();
-    if (sqlPraceRopid.vytvorSeznamSpoju(seznamSpoju,stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd())==1)
-    {
-        naplnVyberSpoje(seznamSpoju);
-
-        QSqlQueryModel *model=sqlPraceRopid.stahniSeznaSpojuModel(stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd()) ;
-        ui->listView_spoje->setModel(model);
-        ui->listView_spoje->setModelColumn(model->record().indexOf("s.c"));
-
-    }
-}
-
 
 /*!
 
@@ -1205,31 +1141,7 @@ void MainWindow::on_listPoradi_currentItemChanged(QListWidgetItem *current, QLis
 
 
 
-/*!
 
-*/
-void MainWindow::on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if (ui->listSpoje->count()!=0)
-    {
-        if(ui->listSpoje->currentRow()!=-1)
-        {
-
-            qDebug()<<"xx"+ QString::number( ui->listSpoje->currentRow());
-            qDebug()<<"current item:"+ui->listSpoje->currentItem()->data(Qt::UserRole).toString();
-            ui->polespoje->setText(ui->listSpoje->currentItem()->data(Qt::UserRole).toString());
-            int indexVyberu=ui->listSpoje->currentRow();
-            stavSystemu.aktspoj=seznamSpoju.at(indexVyberu);
-            int kmenovaLinka=0;
-            int poradi=0;
-            int order=0;
-            sqlPraceRopid.najdiTurnusZeSpoje(stavSystemu.aktspoj, kmenovaLinka,poradi, order,this->vyrobMaskuKalendareJizd());
-            qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
-        }
-
-    }
-}
 
 
 

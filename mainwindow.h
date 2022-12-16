@@ -121,8 +121,8 @@ private:
     Konfigurace konfigurace;
 
     //vyberove dialogy
-    void naplnVyberLinky(QVector<Linka> docasnySeznamLinek);
-    void naplnVyberSpoje(QVector<Spoj> docasnySeznamSpoju);
+
+
     void naplnKmenoveLinky(QVector<Linka> docasnySeznamLinek);
     void naplnVyberPoradi(QVector<Obeh> docasnySeznamObehu);
     void naplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju);
@@ -201,8 +201,7 @@ private slots:
     int on_pushButton_prikaz_clicked();
 
     void on_checkBox_stateChanged(int arg1); //zapnuti MPV prestupu
-    void on_listSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-    void on_listLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+
 
     //tlacitka Turnus
     int on_pushButton_turnus_prikaz_clicked();
