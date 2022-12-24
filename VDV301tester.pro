@@ -52,6 +52,7 @@ SOURCES += \
     VDV301publisher/xmlcustomerinformationservice.cpp \
     VDV301publisher/xmldevicemanagementservice.cpp \
     VDV301publisher/xmlticketvalidationservice.cpp \
+    VDV301struktury/prestupgolemio.cpp \
     VDV301subscriber/devmgmtpublisherstruct.cpp \
     VDV301subscriber/devmgmtsubscriber.cpp \
     VDV301subscriber/ibisipsubscriber.cpp \
@@ -73,6 +74,7 @@ SOURCES += \
     VDV301testy/testodberuserver.cpp \
     VDV301testy/vdv301testy.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
+    golemio.cpp \
     hlasic.cpp \
     ibisovladani.cpp \
     konfigurace.cpp \
@@ -101,6 +103,7 @@ HEADERS += \
     VDV301struktury/obeh.h \
     VDV301struktury/prestup.h \
     VDV301struktury/pasmo.h \
+    VDV301struktury/prestupgolemio.h \
     VDV301struktury/prestupmpv.h \
     VDV301struktury/specialnihlaseni.h \
     VDV301struktury/spoj.h \
@@ -117,6 +120,7 @@ HEADERS += \
     VDV301testy/testodberuserver.h \
     VDV301testy/vdv301testy.h \
     XmlRopidImportStream/xmlropidimportstream.h \
+    golemio.h \
     hlasic.h \
     XmlRopidImportStream/sqlitezaklad.h \
     sqldotazymodel.h \

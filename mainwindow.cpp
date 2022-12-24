@@ -7,15 +7,18 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    logfile(QCoreApplication::applicationDirPath()),
+  xmlMpvParser(""),
+  logfile(QCoreApplication::applicationDirPath()),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
-    customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0"),
+   customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47481,"2.2CZ1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
     deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),
+
     konfigurace(QCoreApplication::applicationDirPath()),
+
     ui(new Ui::MainWindow)
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -303,6 +306,8 @@ void MainWindow::slotStahniPrestupyAktZastavky()
 void MainWindow::slotMpvNetReady()
 {
     qDebug() <<  Q_FUNC_INFO;
+    qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
+
     xmlMpvParser.naplnVstupDokument(xmlMpvParser.stazenaData);
     QVector<PrestupMPV> prestupy=xmlMpvParser.parsujDomDokument();
     if(filtrovatPrestupy)

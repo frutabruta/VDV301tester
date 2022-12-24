@@ -30,6 +30,7 @@
 
 #include "sqlropidxmldotazy.h"
 #include "xmlmpvparser.h"
+#include "golemio.h"
 #include "XmlRopidImportStream/xmlropidimportstream.h"
 #include "ibisovladani.h"
 #include "hlasic.h"
@@ -69,7 +70,9 @@ private:
     SqlRopidXmlDotazy sqlPraceRopid;
 
     //instance knihoven
-    XmlMpvParser xmlMpvParser;
+    //XmlMpvParser xmlMpvParser;
+    Golemio xmlMpvParser;
+
   //  XmlRopidImportStream xmlRopidImportStream;
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
