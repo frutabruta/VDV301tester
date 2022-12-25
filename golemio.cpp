@@ -1,4 +1,5 @@
 #include "golemio.h"
+#include "VDV301struktury/prestupgolemio.h"
 
 /*
  * Instalace https://
@@ -19,20 +20,6 @@ Golemio::Golemio(QByteArray klic)
 
     mKlic=klic ;
 
-    tabulka[0]=2; //tramvaj
-    tabulka[1]=1; //metro
-    tabulka[2]=13; //vlak
-    tabulka[3]=3; //bus
-    tabulka[4]=12; //privoz
-    //tabulka[5]=; lanová tramvaj
-    tabulka[6]=8; //lanovka
-    tabulka[7]=8; //pozemní lanovka
-    tabulka[11]=18; //trolejbus
-    //  tabulka[12]=; //jednokolejka
-
-
-
-
 }
 Golemio::~Golemio()
 {
@@ -47,25 +34,25 @@ void Golemio::naplnVstupDokument(QByteArray vstup)
     // s = QString::fromUtf8(str.toLatin1());
 
     //  vstupniDomDokument.setContent(llooll);
-    vstupniJson=vstupniJson.fromJson(llooll);
+    mVstupniJson=mVstupniJson.fromJson(llooll);
 }
 
-QVector<PrestupMPV> Golemio::parsujDomDokument()
+QVector<PrestupGolemio> Golemio::parsujDomDokument()
 {
     qDebug()<<Q_FUNC_INFO;
 
     //   qDebug()<<"vstup:"<<vstupniJson["departures"];
-    seznamPrestupu.clear();
+    seznamPrestupuGolemio.clear();
 
-    if(!vstupniJson["departures"].isArray())
+    if(!mVstupniJson["departures"].isArray())
     {
-        return seznamPrestupu;
+        return seznamPrestupuGolemio;
     }
-    QJsonArray odjezdy=vstupniJson["departures"].toArray();
+    QJsonArray odjezdy=mVstupniJson["departures"].toArray();
 
     if(odjezdy.isEmpty())
     {
-        return seznamPrestupu;
+        return seznamPrestupuGolemio;
     }
 
 
@@ -75,30 +62,31 @@ QVector<PrestupMPV> Golemio::parsujDomDokument()
 
         //var[""][""]
 
-        PrestupMPV novy;
+        PrestupGolemio novy;
 
 
         if(var.toObject().contains("stop") )
         {
-            novy.stan=var["stop"]["platform_code"].toString();
+            novy.stopPlatformCode=var["stop"]["platform_code"].toString();
         }
 
 
         if(var.toObject().contains("route") )
         {
-            novy.lin=var["route"]["short_name"].toString();
-            novy.alias=var["route"]["short_name"].toString();
-            novy.nad=var["route"]["is_substitute_transport"].toBool();
+            novy.routeShortName=var["route"]["short_name"].toString();
+
+            novy.routeIsSubstituteTransport=var["route"]["is_substitute_transport"].toBool();
+            novy.routeIsNight=var["route"]["is_night"].toBool();
+            novy.routeIsRegional=var["route"]["is_regional"].toBool();
+
             qDebug()<<"bum1";
             int type=var["route"]["type"].toInt();
             qDebug()<<"bum2";
 
-
-
             if(type<14)
             {
                 qDebug()<<" druh dopravy existuje:"<<QString::number(type);
-                novy.dd=tabulka[type]; //zmenit ciselnik!
+                novy.routeType=var["route"]["type"].toInt();
             }
             else
             {
@@ -108,67 +96,37 @@ QVector<PrestupMPV> Golemio::parsujDomDokument()
         }
 
 
-
         if(var.toObject().contains("trip") )
         {
 
-            novy.smer=var["trip"]["headsign"].toString();
-            novy.np=var["trip"]["is_wheelchair_accessible"].toBool();
+            novy.tripHeadsign=var["trip"]["headsign"].toString();
+            novy.tripIsWheelchairAccessible=var["trip"]["is_wheelchair_accessible"].toBool();
         }
 
         //     novy.t=nodes.at(i).attributes().namedItem("t").nodeValue();
+
         if(var.toObject().contains("delay") )
         {
-            novy.zpoz=var["delay"]["minutes"].toInt();
-            novy.sled=var["delay"]["is_available"].toBool();
+            novy.delayMinutes=var["delay"]["minutes"].toInt();
+            novy.delaySeconds=var["delay"]["seconds"].toInt();
+            novy.delayIsAvailable=var["delay"]["is_available"].toBool();
         }
 
+        novy.arrivalTimestampScheduled=PrestupMPV::qStringDoQDateTime(var["arrival_timestamp"]["scheduled"].toString());
+        novy.arrivalTimestampPredicted=PrestupMPV::qStringDoQDateTime(var["arrival_timestamp"]["predicted"].toString());
 
-        novy.odj=PrestupMPV::qStringDoQDateTime(var["arrival_timestamp"]["scheduled"].toString());
-        novy.odjReal=PrestupMPV::qStringDoQDateTime(var["arrival_timestamp"]["predicted"].toString());
-        //  novy.spoj=nodes.at(i).attributes().namedItem("spoj").nodeValue().toInt();
-
-
-        //  novy.smer_c=nodes.at(i).attributes().namedItem("smer_c").nodeValue().toInt();
-
-        seznamPrestupu.append(novy);
-        qDebug()<<novy.smer;
-    }
+        novy.departureTimestampScheduled=PrestupMPV::qStringDoQDateTime(var["departure_timestamp"]["scheduled"].toString());
+        novy.departureTimestampPredicted=PrestupMPV::qStringDoQDateTime(var["departure_timestamp"]["predicted"].toString());
 
 
-    /*
-    QDomElement root = vstupniDomDokument.firstChildElement();
-    QDomNodeList nodes = root.elementsByTagName("t").at(0).toElement().elementsByTagName("o");
-    seznamPrestupu.clear();
-    for (int i=0; i<nodes.count();i++)
-    {
-        PrestupMPV novy;
-        novy.stan=nodes.at(i).attributes().namedItem("stan").nodeValue();
-        novy.lin=nodes.at(i).attributes().namedItem("lin").nodeValue();
-        novy.alias=nodes.at(i).attributes().namedItem("alias").nodeValue();
-        novy.spoj=nodes.at(i).attributes().namedItem("spoj").nodeValue().toInt();
-        novy.smer=nodes.at(i).attributes().namedItem("smer").nodeValue();
-        novy.zpoz=nodes.at(i).attributes().namedItem("zpoz").nodeValue().toInt();
-        QDateTime odjezd=PrestupMPV::qStringDoQDateTime( nodes.at(i).attributes().namedItem("odj").nodeValue());
-        novy.odj=odjezd;
-        novy.odjReal=PrestupMPV::posunTimeStampZpozdeni( odjezd, novy.zpoz );
-        novy.sled=nodes.at(i).attributes().namedItem("sled").nodeValue().toInt();
-        if (nodes.at(i).attributes().namedItem("np").nodeValue()=="true")
-        {novy.np=1;}
-        else
-        {novy.np=0;}
-        novy.nad=nodes.at(i).attributes().namedItem("nad").nodeValue().toInt();
-        novy.t=nodes.at(i).attributes().namedItem("t").nodeValue();
-        novy.dd=nodes.at(i).attributes().namedItem("dd").nodeValue().toInt();
-        novy.smer_c=nodes.at(i).attributes().namedItem("smer_c").nodeValue().toInt();
-        seznamPrestupu.append(novy);
-        qDebug()<<novy.smer;
+        seznamPrestupuGolemio.append(novy);
 
     }
 
-    */
 
-    return seznamPrestupu;
+
+
+    return seznamPrestupuGolemio;
 }
 
 
@@ -183,7 +141,7 @@ void Golemio::stahniMpvXml(int cisloCis, QString Ids)
     QString adresa = "https://api.golemio.cz/v2/pid/departureboards/";
     adresa+="?cisIds="+QString::number(cisloCis);
     //adresa+="&minutesBefore=10"
-    adresa+="&minutesAfter=60";
+    adresa+="&minutesAfter=180";
     //adresa+= "&timeFrom=2021-01-21T06%3A00%3A00"
     adresa+="&includeMetroTrains=true";
     //adresa+= "&preferredTimezone=Europe%252FPrague"

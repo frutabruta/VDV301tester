@@ -3442,6 +3442,7 @@ debug/moc_golemio.cpp: golemio.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		VDV301struktury/linka.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
+		VDV301struktury/prestupgolemio.h \
 		debug/moc_predefs.h \
 		../../../../Qt/5.15.2/mingw81_32/bin/moc.exe
 	C:\Qt\5.15.2\mingw81_32\bin\moc.exe $(DEFINES) --include C:/Users/adame/github/VDV301tester/debug/moc_predefs.h -IC:/Qt/5.15.2/mingw81_32/mkspecs/win32-g++ -IC:/Users/adame/github/VDV301tester -IC:/Qt/5.15.2/mingw81_32/include -IC:/Qt/5.15.2/mingw81_32/include/QtMultimedia -IC:/Qt/5.15.2/mingw81_32/include/QtWidgets -IC:/Qt/5.15.2/mingw81_32/include/QtGui -IC:/Qt/5.15.2/mingw81_32/include/QtANGLE -IC:/Qt/5.15.2/mingw81_32/include/QtHttpServer -IC:/Qt/5.15.2/mingw81_32/include/QtWebSockets -IC:/Qt/5.15.2/mingw81_32/include/QtSslServer -IC:/Qt/5.15.2/mingw81_32/include/QtNetwork -IC:/Qt/5.15.2/mingw81_32/include/QtSql -IC:/Qt/5.15.2/mingw81_32/include/QtXml -IC:/Qt/5.15.2/mingw81_32/include/QtSerialPort -IC:/Qt/5.15.2/mingw81_32/include/QtConcurrent -IC:/Qt/5.15.2/mingw81_32/include/QtCore -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32 -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_32/i686-w64-mingw32/include golemio.h -o debug\moc_golemio.cpp
@@ -4957,7 +4958,6 @@ debug/moc_mainwindow.cpp: mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtDebug \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
-		xmlmpvparser.h \
 		VDV301publisher/ticketvalidationservice.h \
 		VDV301publisher/xmlticketvalidationservice.h \
 		VDV301publisher/devicemanagementservice.h \
@@ -4996,7 +4996,9 @@ debug/moc_mainwindow.cpp: mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtSql/qsqltablemodel.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtSql/qsqlresult.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtSql/qtsqlversion.h \
+		xmlmpvparser.h \
 		golemio.h \
+		VDV301struktury/prestupgolemio.h \
 		XmlRopidImportStream/xmlropidimportstream.h \
 		ibisovladani.h \
 		hlasic.h \
@@ -6020,9 +6022,7 @@ debug/customerinformationservice.o: VDV301publisher/customerinformationservice.c
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QTime \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtDebug \
-		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
-		xmlmpvparser.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkReply
+		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\customerinformationservice.o VDV301publisher\customerinformationservice.cpp
 
 debug/devicemanagementservice.o: VDV301publisher/devicemanagementservice.cpp VDV301publisher/devicemanagementservice.h \
@@ -6412,9 +6412,7 @@ debug/devicemanagementservice.o: VDV301publisher/devicemanagementservice.cpp VDV
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtDebug \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		VDV301struktury/prestupmpv.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
-		xmlmpvparser.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkReply
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\devicemanagementservice.o VDV301publisher\devicemanagementservice.cpp
 
 debug/httpsluzba.o: VDV301publisher/httpsluzba.cpp VDV301publisher/httpsluzba.h \
@@ -7566,9 +7564,7 @@ debug/ticketvalidationservice.o: VDV301publisher/ticketvalidationservice.cpp VDV
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtDebug \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
 		VDV301struktury/prestupmpv.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
-		xmlmpvparser.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkReply
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\ticketvalidationservice.o VDV301publisher\ticketvalidationservice.cpp
 
 debug/xmlcommon.o: VDV301publisher/xmlcommon.cpp VDV301publisher/xmlcommon.h \
@@ -7829,34 +7825,7 @@ debug/xmlcommon.o: VDV301publisher/xmlcommon.cpp VDV301publisher/xmlcommon.h \
 		VDV301struktury/spoj.h \
 		VDV301struktury/specialnihlaseni.h \
 		VDV301struktury/prestupmpv.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
-		xmlmpvparser.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkAccessManager \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkaccessmanager.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtnetworkglobal.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtnetwork-config.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkrequest.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QSharedDataPointer \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QString \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QUrl \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QVariant \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QVector \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QSslConfiguration \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslconfiguration.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtcpsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qabstractsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslerror.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslcertificate.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qssl.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QFlags \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QSslPreSharedKeyAuthenticator \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslpresharedkeyauthenticator.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QMetaType \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkReply \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkreply.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QIODevice \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkRequest
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\xmlcommon.o VDV301publisher\xmlcommon.cpp
 
 debug/xmlcustomerinformationservice.o: VDV301publisher/xmlcustomerinformationservice.cpp VDV301publisher/xmlcustomerinformationservice.h \
@@ -8118,34 +8087,7 @@ debug/xmlcustomerinformationservice.o: VDV301publisher/xmlcustomerinformationser
 		VDV301struktury/spoj.h \
 		VDV301struktury/specialnihlaseni.h \
 		VDV301struktury/prestupmpv.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
-		xmlmpvparser.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkAccessManager \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkaccessmanager.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtnetworkglobal.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtnetwork-config.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkrequest.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QSharedDataPointer \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QString \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QUrl \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QVariant \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QVector \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QSslConfiguration \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslconfiguration.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtcpsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qabstractsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslerror.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslcertificate.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qssl.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QFlags \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QSslPreSharedKeyAuthenticator \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslpresharedkeyauthenticator.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QMetaType \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkReply \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkreply.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QIODevice \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkRequest
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\xmlcustomerinformationservice.o VDV301publisher\xmlcustomerinformationservice.cpp
 
 debug/xmldevicemanagementservice.o: VDV301publisher/xmldevicemanagementservice.cpp VDV301publisher/xmldevicemanagementservice.h \
@@ -8407,34 +8349,7 @@ debug/xmldevicemanagementservice.o: VDV301publisher/xmldevicemanagementservice.c
 		VDV301struktury/spoj.h \
 		VDV301struktury/specialnihlaseni.h \
 		VDV301struktury/prestupmpv.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
-		xmlmpvparser.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkAccessManager \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkaccessmanager.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtnetworkglobal.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtnetwork-config.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkrequest.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QSharedDataPointer \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QString \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QUrl \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QVariant \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QVector \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QSslConfiguration \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslconfiguration.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtcpsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qabstractsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslerror.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslcertificate.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qssl.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QFlags \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QSslPreSharedKeyAuthenticator \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslpresharedkeyauthenticator.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QMetaType \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkReply \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkreply.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QIODevice \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkRequest
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\xmldevicemanagementservice.o VDV301publisher\xmldevicemanagementservice.cpp
 
 debug/xmlticketvalidationservice.o: VDV301publisher/xmlticketvalidationservice.cpp VDV301publisher/xmlticketvalidationservice.h \
@@ -8696,34 +8611,7 @@ debug/xmlticketvalidationservice.o: VDV301publisher/xmlticketvalidationservice.c
 		VDV301struktury/spoj.h \
 		VDV301struktury/specialnihlaseni.h \
 		VDV301struktury/prestupmpv.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug \
-		xmlmpvparser.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkAccessManager \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkaccessmanager.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtnetworkglobal.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtnetwork-config.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkrequest.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QSharedDataPointer \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QString \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QUrl \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QVariant \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QVector \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QSslConfiguration \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslconfiguration.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qtcpsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qabstractsocket.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslerror.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslcertificate.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qssl.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QFlags \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QSslPreSharedKeyAuthenticator \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qsslpresharedkeyauthenticator.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QMetaType \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkReply \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/qnetworkreply.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QIODevice \
-		../../../../Qt/5.15.2/mingw81_32/include/QtNetwork/QNetworkRequest
+		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\xmlticketvalidationservice.o VDV301publisher\xmlticketvalidationservice.cpp
 
 debug/prestupgolemio.o: VDV301struktury/prestupgolemio.cpp VDV301struktury/prestupgolemio.h \
@@ -12553,7 +12441,8 @@ debug/golemio.o: golemio.cpp golemio.h \
 		VDV301struktury/prestup.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QDateTime \
 		VDV301struktury/linka.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget
+		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QWidget \
+		VDV301struktury/prestupgolemio.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\golemio.o golemio.cpp
 
 debug/hlasic.o: hlasic.cpp hlasic.h \
@@ -13662,7 +13551,6 @@ debug/main.o: main.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtDebug \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
-		xmlmpvparser.h \
 		VDV301publisher/ticketvalidationservice.h \
 		VDV301publisher/xmlticketvalidationservice.h \
 		VDV301publisher/devicemanagementservice.h \
@@ -13701,7 +13589,9 @@ debug/main.o: main.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtSql/qsqltablemodel.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtSql/qsqlresult.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtSql/qtsqlversion.h \
+		xmlmpvparser.h \
 		golemio.h \
+		VDV301struktury/prestupgolemio.h \
 		XmlRopidImportStream/xmlropidimportstream.h \
 		ibisovladani.h \
 		hlasic.h \
@@ -14147,7 +14037,6 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QCoreApplication \
 		../../../../Qt/5.15.2/mingw81_32/include/QtCore/QtDebug \
 		../../../../Qt/5.15.2/mingw81_32/include/QtXml/QDomDocument \
-		xmlmpvparser.h \
 		VDV301publisher/ticketvalidationservice.h \
 		VDV301publisher/xmlticketvalidationservice.h \
 		VDV301publisher/devicemanagementservice.h \
@@ -14186,7 +14075,9 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtSql/qsqltablemodel.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtSql/qsqlresult.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtSql/qtsqlversion.h \
+		xmlmpvparser.h \
 		golemio.h \
+		VDV301struktury/prestupgolemio.h \
 		XmlRopidImportStream/xmlropidimportstream.h \
 		ibisovladani.h \
 		hlasic.h \
@@ -14212,67 +14103,7 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QTableWidget \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtablewidget.h \
 		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtableview.h \
-		ui_mainwindow.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QApplication \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qapplication.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdesktopwidget.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qinputmethod.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QCalendarWidget \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcalendarwidget.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QCheckBox \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qcheckbox.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qabstractbutton.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QDateEdit \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qdatetimeedit.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QFormLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qformlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlayoutitem.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qboxlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgridlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QGridLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QGroupBox \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qgroupbox.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QHBoxLayout \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QHeaderView \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qheaderview.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QLabel \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlabel.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QLineEdit \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qlineedit.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextcursor.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextformat.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qpen.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextoption.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QListView \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QMenuBar \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmenubar.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qmenu.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qaction.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qactiongroup.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QPlainTextEdit \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qplaintextedit.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qtextedit.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextdocument.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qabstracttextdocumentlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qtextlayout.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qglyphrun.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qrawfont.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtGui/qfontdatabase.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QProgressBar \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qprogressbar.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QPushButton \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qpushbutton.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QRadioButton \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qradiobutton.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QStackedWidget \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstackedwidget.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QStatusBar \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/qstatusbar.h \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QTabWidget \
-		../../../../Qt/5.15.2/mingw81_32/include/QtWidgets/QVBoxLayout
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
 
 debug/mainwindowpomocne.o: mainwindowpomocne.cpp mainwindowpomocne.h \

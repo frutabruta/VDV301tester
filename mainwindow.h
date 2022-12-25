@@ -59,6 +59,7 @@ private:
 
     //konstanty
     bool filtrovatPrestupy=true;
+    bool pouzitGolemio=true;
     //ve vterinach
     //datove struktury
     CestaUdaje stavSystemu;
@@ -71,7 +72,8 @@ private:
 
     //instance knihoven
     //XmlMpvParser xmlMpvParser;
-    Golemio xmlMpvParser;
+    XmlMpvParser xmlMpvParser;
+    Golemio golemio;
 
   //  XmlRopidImportStream xmlRopidImportStream;
     IbisOvladani ibisOvladani;
@@ -303,6 +305,7 @@ private slots:
 
      void on_listView_spoje_clicked(const QModelIndex &index);
 
+     void slotGolemioReady();
 signals:
      void signalZahajImport(QString cesta);
 };

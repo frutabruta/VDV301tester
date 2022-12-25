@@ -7,7 +7,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-  xmlMpvParser(""),
+  golemio("GOLEMIO_KLIC"), //klic do golemia
   logfile(QCoreApplication::applicationDirPath()),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
@@ -113,7 +113,10 @@ void MainWindow::vsechnyConnecty()
     connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery2_2CZ);
     this->vypisSubscribery1_0(customerInformationService1_0.seznamSubscriberu);
     this->vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);
-    connect(&xmlMpvParser,SIGNAL(stazeniHotovo()),this,SLOT(slotMpvNetReady()));
+
+    //connect(&xmlMpvParser,SIGNAL(stazeniHotovo()),this,SLOT(slotMpvNetReady()));
+    connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
+    connect(&golemio,&Golemio::stazeniHotovo,this,&MainWindow::slotGolemioReady);
 
     //vypis deviceMAnagementServices publisheru
     // connect(&deviceManagementServiceSubscriber, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::slotXmlDoPromenne);
@@ -285,7 +288,7 @@ void MainWindow::xmlVdv301HromadnyUpdate()
         timerStahniPrestupy.stop();
     }
 
-    QVector<PrestupMPV> prestupy;
+    QVector<Prestup> prestupy;
     customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
@@ -296,7 +299,16 @@ void MainWindow::slotStahniPrestupyAktZastavky()
 {
     qDebug() <<  Q_FUNC_INFO;
     Zastavka aktZastavka=stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka;
-    xmlMpvParser.stahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
+    if(pouzitGolemio)
+    {
+        golemio.stahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
+    }
+    else
+    {
+         xmlMpvParser.stahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
+    }
+
+
 }
 
 
@@ -309,11 +321,43 @@ void MainWindow::slotMpvNetReady()
     qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
 
     xmlMpvParser.naplnVstupDokument(xmlMpvParser.stazenaData);
-    QVector<PrestupMPV> prestupy=xmlMpvParser.parsujDomDokument();
+    QVector<PrestupMPV> prestupyMpv=xmlMpvParser.parsujDomDokument();
     if(filtrovatPrestupy)
     {
-        prestupy=xmlMpvParser.vyfiltrujPrestupy(prestupy,stavSystemu.aktlinka);
+        prestupyMpv=xmlMpvParser.vyfiltrujPrestupy(prestupyMpv,stavSystemu.aktlinka);
     }
+    QVector<Prestup> prestupy;
+    foreach(auto polozka, prestupyMpv)
+    {
+        prestupy.push_back(polozka.toPrestup());
+    }
+
+
+    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu );
+    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
+}
+
+void MainWindow::slotGolemioReady()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    //qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
+
+    golemio.naplnVstupDokument(golemio.stazenaData);
+    QVector<PrestupGolemio> prestupyGolemio=golemio.parsujDomDokument();
+
+    qDebug()<<"bum10";
+
+    QVector<Prestup> prestupy;
+    foreach(auto polozka,prestupyGolemio)
+    {
+        prestupy.push_back(polozka.toPrestup());
+    }
+    qDebug()<<"bum11";
+    if(filtrovatPrestupy)
+    {
+     //   prestupy=xmlMpvParser.vyfiltrujPrestupy(prestupy,stavSystemu.aktlinka);
+    }
+    qDebug()<<"pocet Prestupu ve vektoru: "<<prestupy.count();
     customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu );
     customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
 }
