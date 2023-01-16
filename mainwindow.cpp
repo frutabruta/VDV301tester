@@ -347,10 +347,12 @@ int MainWindow::on_pushButton_prikaz_clicked()
     stavSystemu.aktObeh.kmenovaLinka.c=kmenovaLinka;
 
 
+    /*
     if (sqlPraceRopid.vytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
     {
         naplnVyberPoradi(seznamObehu);
     }
+    */
 
 
     stavSystemu.aktObeh.p=poradi ;
@@ -578,13 +580,6 @@ void MainWindow::on_pushButton_jizda_sipkaZpet_clicked()
 }
 
 
-
-
-
-
-
-
-
 /*!
  \fn void MainWindow::inicializaceVyberovychPoli()
 
@@ -595,27 +590,29 @@ void MainWindow::inicializaceVyberovychPoli()
     qDebug() <<  Q_FUNC_INFO;
     sqlPraceRopid.pripoj();
 
-
-
-    vymazSeznam(ui->listKmenovychLinek);
-    vymazSeznam(ui->listPoradi);
     vymazSeznam(ui->listTurnusSpoje);
 
-    QSqlQueryModel* model=sqlPraceRopid.stahniSeznamLinekModel(this->vyrobMaskuKalendareJizd());
+    QSqlQueryModel* modelLinky=sqlPraceRopid.stahniSeznamLinekModel(this->vyrobMaskuKalendareJizd());
+    QSqlQueryModel* modelKmenoveLinky=sqlPraceRopid.stahniSeznamLinekModel(this->vyrobMaskuKalendareJizd());
 
-    if (model->rowCount()>0)
+    if (modelLinky->rowCount()>0)
     {
 
+        while ( modelLinky->canFetchMore())
+        {
+            modelLinky->fetchMore();
+        }
+        while ( modelKmenoveLinky->canFetchMore())
+        {
+            modelKmenoveLinky->fetchMore();
+        }
 
+        ui->listView_linky->setModel(modelLinky);
+        ui->listView_linky->setModelColumn(modelLinky->record().indexOf("l.c"));
 
+        ui->listView_kmenovaLinka->setModel(modelKmenoveLinky);
+        ui->listView_kmenovaLinka->setModelColumn(modelKmenoveLinky->record().indexOf("l.c"));
 
-        ui->listView_linky->setModel(model);
-        ui->listView_linky->setModelColumn(model->record().indexOf("l.c"));
-
-
-        QVector<Linka> kmenoveLinky;
-        sqlPraceRopid.vytvorSeznamKmenovychLinek(kmenoveLinky,vyrobMaskuKalendareJizd());
-        naplnKmenoveLinky(kmenoveLinky);
 
         aktualizaceKalendare();
 
@@ -653,43 +650,6 @@ void MainWindow::aktualizaceKalendare()
 /*!
 
 */
-
-
-
-
-
-
-
-
-/*!
-naplní seznam kmenových linek
-*/
-void MainWindow::naplnKmenoveLinky(QVector<Linka> docasnySeznamLinek)
-{
-    qDebug() <<  Q_FUNC_INFO;
-
-    vymazSeznam(ui->listKmenovychLinek);
-
-    for (int i = 0; i < docasnySeznamLinek.length(); ++i)
-    {
-        QListWidgetItem *newItem = new QListWidgetItem;
-        newItem->setText(QString::number(docasnySeznamLinek.at(i).c));
-        newItem->setData(Qt::UserRole, QString::number(docasnySeznamLinek.at(i).c));
-        ui->listKmenovychLinek->addItem( newItem);
-    }
-}
-
-
-/*!
-
-*/
-
-
-
-
-/*!
-
-*/
 void MainWindow::naplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju)
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -710,30 +670,6 @@ void MainWindow::naplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju)
         qDebug()<<"MainWindow::NaplnVyberTurnusSpoje_"<<QString::number(i);
     }
     qDebug()<<"MainWindow::NaplnVyberTurnusSpoje_konec";
-
-}
-
-
-
-/*!
-
-*/
-void MainWindow::naplnVyberPoradi(QVector<Obeh> docasnySeznamObehu)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if (ui->listPoradi->count()!=0)
-    {
-        ui->listPoradi->clear();
-    }
-    for (int i = 0; i < docasnySeznamObehu.length(); ++i)
-    {
-        QListWidgetItem *newItem = new QListWidgetItem;
-        newItem->setText(QString::number(docasnySeznamObehu.at(i).p));
-        newItem->setData(Qt::UserRole, QString::number(docasnySeznamObehu.at(i).p ));
-        ui->listPoradi->addItem( newItem);
-        qDebug()<<"MainWindow::NaplnVyberPoradi_"<<QString::number(i);
-    }
-    qDebug()<<"MainWindow::NaplnVyberPoradi_konec";
 
 }
 
@@ -821,8 +757,6 @@ void MainWindow::on_pushButton_menu_quit_clicked()
 }
 
 
-
-
 /*!
 
 */
@@ -833,9 +767,6 @@ void MainWindow::on_pushButton_jizda_beforeStop_clicked()
     stavSystemu.locationState="BeforeStop";
     xmlVdv301HromadnyUpdate();
 }
-
-
-
 
 /*!
 
@@ -1008,8 +939,6 @@ void MainWindow::on_pushButton_jizda_IBIS_clicked()
 }
 
 
-
-
 /*!
 
 */
@@ -1018,10 +947,6 @@ int MainWindow::eventPrijezd()
     qDebug() <<  Q_FUNC_INFO;
 
     stavSystemu.doorState="DoorsOpen";
-
-
-
-
 
     if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()-1))
     {
@@ -1088,63 +1013,6 @@ void MainWindow::eventAfterStopToBetweenStop()
 
 
 
-
-/*!
-
-*/
-void MainWindow::on_listKmenovychLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    ui->poleLinkyTurnus->setText(ui->listKmenovychLinek->currentItem()->data(Qt::UserRole ).toString() );
-
-    stavSystemu.aktObeh.kmenovaLinka.c=ui->listKmenovychLinek->currentItem()->data(Qt::UserRole).toInt();
-
-    ui->listPoradi->clear();
-
-    ui->listTurnusSpoje->clear();
-
-    if (sqlPraceRopid.vytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
-    {
-
-        naplnVyberPoradi(seznamObehu);
-
-
-    }
-}
-
-
-
-/*!
-
-*/
-void MainWindow::on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if (ui->listPoradi->count()!=0)
-    {
-        if(ui->listPoradi->currentRow()!=-1)
-        {
-            qDebug()<<"xx"+ QString::number( ui->listPoradi->currentRow());
-            qDebug()<<"current item:"+ui->listPoradi->currentItem()->data(Qt::UserRole).toString();
-            stavSystemu.aktObeh.p=ui->listPoradi->currentItem()->data(Qt::UserRole).toInt() ;
-            if (sqlPraceRopid.vytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
-            {
-                naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
-            }
-
-
-        }
-
-    }
-}
-
-
-
-
-
-
-
-
 /*!
 
 */
@@ -1176,9 +1044,6 @@ void MainWindow::on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current,
 }
 
 
-
-
-
 /*!
 
 */
@@ -1189,22 +1054,6 @@ void MainWindow::on_pushButton_menu_jizda_clicked()
 }
 
 
-
-
-/*!
-
-*/
-void MainWindow::inicializacePoli()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    stavSystemu.aktObeh.seznamSpoju.clear();
-    seznamLinek.clear();
-    seznamSpoju.clear();
-    stavSystemu.vymaz();
-}
-
-
-
 /*!
 
 */
@@ -1212,9 +1061,6 @@ void MainWindow::on_pushButton_manual_smazOkno_clicked()
 {
     ui->plainTextEditCustomXml->clear();
 }
-
-
-
 
 
 /*!
@@ -1895,30 +1741,9 @@ void MainWindow::dalsiSpoj()
         qDebug()<<"posledni spoj ze seznamu, nelze se dale posouvat";
     }
 
-
-
-
 }
 
-/*!
- * \brief MainWindow::dalsiSpojNavazujici přepnutí na další spoj na oběhu při existenci návazného spoje
- */
-void MainWindow::dalsiSpojNavazujici()
-{
-    qDebug() <<  Q_FUNC_INFO;
 
-    qDebug()<<"index "<<stavSystemu.indexSpojeNaObehu<<" pocetSpoju "<<stavSystemu.aktObeh.seznamSpoju.count();
-    if ((stavSystemu.indexSpojeNaObehu)<(stavSystemu.aktObeh.seznamSpoju.count()-1))
-    {
-        stavSystemu.indexSpojeNaObehu++;
-        stavSystemu.indexAktZastavky=0;
-        xmlVdv301HromadnyUpdate();
-    }
-    else
-    {
-        qDebug()<<"posledni spoj ze seznamu, nelze se dale posouvat";
-    }
-}
 
 void MainWindow::eventZmenaTarifnihoPasma()
 {
@@ -1926,8 +1751,6 @@ void MainWindow::eventZmenaTarifnihoPasma()
     stavSystemu.zobrazZmenuPasma=true;
     xmlVdv301HromadnyUpdate();
     hlasic.kompletZmenaTarifnihoPasma();
-
-
     timerTrvaniZmenyPasma->start();
 
 }
@@ -1993,8 +1816,6 @@ void MainWindow::eventSkryjZmenuTarifnihoSystemu()
    */
 }
 
-
-
 void MainWindow::on_checkBox_MpvTurnusy_stateChanged(int arg1)
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -2002,7 +1823,6 @@ void MainWindow::on_checkBox_MpvTurnusy_stateChanged(int arg1)
 
     stavSystemu.prestupy= ui->checkBox_MpvTurnusy->isChecked();
 }
-
 
 void MainWindow::eventVstupDoVydeje()
 {
@@ -2231,11 +2051,7 @@ void MainWindow::on_listView_linky_clicked(const QModelIndex &index)
     modelSpoje=sqlPraceRopid.stahniSeznaSpojuModel(stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd()) ;
     ui->listView_spoje->setModel(modelSpoje);
     ui->listView_spoje->setModelColumn(modelSpoje->record().indexOf("s.c"));
-
-
     ui->polelinky->setText(QString::number(stavSystemu.aktlinka.c ));
-
-
 
 }
 
@@ -2296,4 +2112,42 @@ void MainWindow::on_listView_spoje_clicked(const QModelIndex &index)
 
 
 }
+
+void MainWindow::on_listView_kmenovaLinka_clicked(const QModelIndex &index)
+{
+    qDebug()<<Q_FUNC_INFO;
+
+
+    stavSystemu.aktObeh.kmenovaLinka.c= index.data(Qt::DisplayRole).toString().toInt();
+
+    ui->poleLinkyTurnus->setText(QString::number(stavSystemu.aktObeh.kmenovaLinka.c));
+
+    QSqlQueryModel* modelPoradi=sqlPraceRopid.stahniSeznamPoradiModel(stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd());
+
+    ui->listView_poradi->setModel(modelPoradi);
+    ui->listView_poradi->setModelColumn(modelPoradi->record().indexOf("o.p"));
+    vymazSeznam(ui->listTurnusSpoje);
+
+
+
+}
+
+void MainWindow::on_listView_poradi_clicked(const QModelIndex &index)
+{
+       stavSystemu.aktlinka.c=index.data(Qt::DisplayRole).toString().toInt();
+
+    if (ui->listView_poradi->model()->rowCount()!=0)
+    {
+        if(index.row()>=0)
+        {
+           stavSystemu.aktObeh.p=index.data(Qt::DisplayRole).toString().toInt();
+
+            if (sqlPraceRopid.vytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
+            {
+                naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
+            }
+        }
+    }
+}
+
 

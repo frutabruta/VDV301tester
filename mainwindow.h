@@ -59,11 +59,10 @@ private:
     //konstanty
     bool filtrovatPrestupy=true;
     //ve vterinach
+
     //datove struktury
     CestaUdaje stavSystemu;
-    QVector <Linka> seznamLinek;
-    QVector <Spoj> seznamSpoju;
-    QVector <Obeh> seznamObehu;
+
 
     //SQLprace mojesql;
     SqlRopidXmlDotazy sqlPraceRopid;
@@ -88,9 +87,8 @@ private:
     QString cestaXml="";
     QDate platnostOd;
     QDate platnostDo;
+    QSqlQueryModel* modelSpoje;
 
-    //modely
-    QSqlQueryModel *modelSpoje;
 
     //udalosti
 
@@ -123,8 +121,7 @@ private:
     //vyberove dialogy
 
 
-    void naplnKmenoveLinky(QVector<Linka> docasnySeznamLinek);
-    void naplnVyberPoradi(QVector<Obeh> docasnySeznamObehu);
+
     void naplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju);
     void vymazSeznam(QListWidget *vstup);
 
@@ -140,13 +137,13 @@ private:
 
     //void replyFinished(QNetworkReply *);
     void inicializaceVyberovychPoli();
-    void inicializacePoli();
+
 
     //VDV301
     void vypisSubscribery1_0(QVector<Subscriber> adresy);
     void vypisSubscribery2_2CZ(QVector<Subscriber> adresy);
     void nastartujVsechnyVdv301Sluzby();
-    void zastavSluzby();
+    void zastavSluzby(); //neimplementovano
 
     //kalendar jizd
     void pracovniDatumDnes();
@@ -156,7 +153,6 @@ private:
 
     void vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
     void dalsiSpoj();
-    void dalsiSpojNavazujici();
     int natahniSeznamSpojeKomplet();
 
     //timery
@@ -206,9 +202,7 @@ private slots:
     //tlacitka Turnus
     int on_pushButton_turnus_prikaz_clicked();
 
-    void on_listKmenovychLinek_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-    void on_listPoradi_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-    void on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+     void on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
      void on_checkBox_MpvTurnusy_stateChanged(int arg1);
 
@@ -295,10 +289,10 @@ private slots:
      void slotNastavProgress(int hodnota);
      void slotNastavProgressMax(int hodnota);
 
-
      void on_listView_linky_clicked(const QModelIndex &index);
-
      void on_listView_spoje_clicked(const QModelIndex &index);
+     void on_listView_kmenovaLinka_clicked(const QModelIndex &index);
+     void on_listView_poradi_clicked(const QModelIndex &index);
 
 signals:
      void signalZahajImport(QString cesta);

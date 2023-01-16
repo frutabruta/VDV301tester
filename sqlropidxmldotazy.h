@@ -21,18 +21,10 @@ class SqlRopidXmlDotazy: public  SqLiteZaklad
 public:
 
     SqlRopidXmlDotazy();
-    bool vysledek;
-    int stahniSeznamLinkospoj(Linka docasnaLinka, int cisloSpoje, QVector<Spoj> &seznamSpoju, QString kj);
+
     int stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju, int indexSpoje, QString kj);
     QString stahniSeznamSpolecnaCastDotazu();
 
-    void vytvorDisplejRidiceAktualniZastavka(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
-    void vytvorDisplejRidiceSeznamZastavek(QString &textPoleObsah, QString &textPoleCasu, int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
-
-    int vytvorSeznamLinek(QVector<Linka> &docasnySeznamLinek, QString kj);
-    int vytvorSeznamSpoju(QVector<Spoj> &docasnySeznamSpoju, Linka docasnaLinka, QString kj);
-    int vytvorSeznamKmenovychLinek(QVector<Linka> &docasnySeznamLinek, QString kj);
-    int vytvorSeznamPoradi(QVector<Obeh> &docasnySeznamObehu, Linka docasnaLinka, QString kj);
     int vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj);
 
     QString pasmaDoStringu(QVector<Pasmo> pasma, QString delimiter);
@@ -49,6 +41,8 @@ public:
 
     QSqlQueryModel *stahniSeznamLinekModel(QString kj);
     QSqlQueryModel *stahniSeznaSpojuModel(Linka docasnaLinka, QString kj);
+    QSqlQueryModel *stahniSeznamKmenovychLinekModel(QString kj);
+    QSqlQueryModel *stahniSeznamPoradiModel(Linka docasnaLinka, QString kj);
 private:
 
     void vypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek);

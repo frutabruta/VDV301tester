@@ -32,6 +32,7 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -103,6 +104,19 @@ public:
     QLabel *label_2;
     QWidget *page_turnus;
     QGridLayout *gridLayout_4;
+    QHBoxLayout *horizontalLayout_12;
+    QVBoxLayout *verticalLayout_17;
+    QGroupBox *groupBox_3;
+    QVBoxLayout *verticalLayout_6;
+    QListView *listView_kmenovaLinka;
+    QVBoxLayout *verticalLayout_20;
+    QGroupBox *groupBox_4;
+    QVBoxLayout *verticalLayout_12;
+    QListView *listView_poradi;
+    QVBoxLayout *verticalLayout_18;
+    QLabel *label_19;
+    QListWidget *listTurnusSpoje;
+    QTableView *tableView_turnusSpoj;
     QVBoxLayout *verticalLayout_16;
     QFormLayout *formLayout_2;
     QLabel *label_16;
@@ -113,16 +127,6 @@ public:
     QCheckBox *checkBox_4;
     QCheckBox *checkBox_MpvTurnusy;
     QPushButton *pushButton_turnus_prikaz;
-    QHBoxLayout *horizontalLayout_12;
-    QVBoxLayout *verticalLayout_17;
-    QLabel *label_18;
-    QListWidget *listKmenovychLinek;
-    QVBoxLayout *verticalLayout_20;
-    QLabel *label_20;
-    QListWidget *listPoradi;
-    QVBoxLayout *verticalLayout_18;
-    QLabel *label_19;
-    QListWidget *listTurnusSpoje;
     QWidget *page_oznameni;
     QHBoxLayout *horizontalLayout_23;
     QTableWidget *tableWidget_oznameni;
@@ -865,6 +869,77 @@ public:
         gridLayout_4->setSpacing(6);
         gridLayout_4->setContentsMargins(11, 11, 11, 11);
         gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
+        horizontalLayout_12 = new QHBoxLayout();
+        horizontalLayout_12->setSpacing(6);
+        horizontalLayout_12->setObjectName(QString::fromUtf8("horizontalLayout_12"));
+        verticalLayout_17 = new QVBoxLayout();
+        verticalLayout_17->setSpacing(6);
+        verticalLayout_17->setObjectName(QString::fromUtf8("verticalLayout_17"));
+
+        horizontalLayout_12->addLayout(verticalLayout_17);
+
+        groupBox_3 = new QGroupBox(page_turnus);
+        groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
+        verticalLayout_6 = new QVBoxLayout(groupBox_3);
+        verticalLayout_6->setSpacing(6);
+        verticalLayout_6->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
+        listView_kmenovaLinka = new QListView(groupBox_3);
+        listView_kmenovaLinka->setObjectName(QString::fromUtf8("listView_kmenovaLinka"));
+        listView_kmenovaLinka->setFont(font);
+
+        verticalLayout_6->addWidget(listView_kmenovaLinka);
+
+
+        horizontalLayout_12->addWidget(groupBox_3);
+
+        verticalLayout_20 = new QVBoxLayout();
+        verticalLayout_20->setSpacing(6);
+        verticalLayout_20->setObjectName(QString::fromUtf8("verticalLayout_20"));
+
+        horizontalLayout_12->addLayout(verticalLayout_20);
+
+        groupBox_4 = new QGroupBox(page_turnus);
+        groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
+        verticalLayout_12 = new QVBoxLayout(groupBox_4);
+        verticalLayout_12->setSpacing(6);
+        verticalLayout_12->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_12->setObjectName(QString::fromUtf8("verticalLayout_12"));
+        listView_poradi = new QListView(groupBox_4);
+        listView_poradi->setObjectName(QString::fromUtf8("listView_poradi"));
+        listView_poradi->setFont(font);
+
+        verticalLayout_12->addWidget(listView_poradi);
+
+
+        horizontalLayout_12->addWidget(groupBox_4);
+
+        verticalLayout_18 = new QVBoxLayout();
+        verticalLayout_18->setSpacing(6);
+        verticalLayout_18->setObjectName(QString::fromUtf8("verticalLayout_18"));
+        label_19 = new QLabel(page_turnus);
+        label_19->setObjectName(QString::fromUtf8("label_19"));
+        label_19->setFont(font1);
+
+        verticalLayout_18->addWidget(label_19);
+
+        listTurnusSpoje = new QListWidget(page_turnus);
+        listTurnusSpoje->setObjectName(QString::fromUtf8("listTurnusSpoje"));
+        listTurnusSpoje->setFont(font);
+
+        verticalLayout_18->addWidget(listTurnusSpoje);
+
+
+        horizontalLayout_12->addLayout(verticalLayout_18);
+
+        tableView_turnusSpoj = new QTableView(page_turnus);
+        tableView_turnusSpoj->setObjectName(QString::fromUtf8("tableView_turnusSpoj"));
+
+        horizontalLayout_12->addWidget(tableView_turnusSpoj);
+
+
+        gridLayout_4->addLayout(horizontalLayout_12, 0, 1, 3, 1);
+
         verticalLayout_16 = new QVBoxLayout();
         verticalLayout_16->setSpacing(6);
         verticalLayout_16->setObjectName(QString::fromUtf8("verticalLayout_16"));
@@ -988,66 +1063,6 @@ public:
 
 
         gridLayout_4->addLayout(verticalLayout_16, 0, 0, 1, 1);
-
-        horizontalLayout_12 = new QHBoxLayout();
-        horizontalLayout_12->setSpacing(6);
-        horizontalLayout_12->setObjectName(QString::fromUtf8("horizontalLayout_12"));
-        verticalLayout_17 = new QVBoxLayout();
-        verticalLayout_17->setSpacing(6);
-        verticalLayout_17->setObjectName(QString::fromUtf8("verticalLayout_17"));
-        label_18 = new QLabel(page_turnus);
-        label_18->setObjectName(QString::fromUtf8("label_18"));
-        label_18->setFont(font1);
-
-        verticalLayout_17->addWidget(label_18);
-
-        listKmenovychLinek = new QListWidget(page_turnus);
-        listKmenovychLinek->setObjectName(QString::fromUtf8("listKmenovychLinek"));
-        listKmenovychLinek->setFont(font);
-
-        verticalLayout_17->addWidget(listKmenovychLinek);
-
-
-        horizontalLayout_12->addLayout(verticalLayout_17);
-
-        verticalLayout_20 = new QVBoxLayout();
-        verticalLayout_20->setSpacing(6);
-        verticalLayout_20->setObjectName(QString::fromUtf8("verticalLayout_20"));
-        label_20 = new QLabel(page_turnus);
-        label_20->setObjectName(QString::fromUtf8("label_20"));
-        label_20->setFont(font1);
-
-        verticalLayout_20->addWidget(label_20);
-
-        listPoradi = new QListWidget(page_turnus);
-        listPoradi->setObjectName(QString::fromUtf8("listPoradi"));
-        listPoradi->setFont(font);
-
-        verticalLayout_20->addWidget(listPoradi);
-
-
-        horizontalLayout_12->addLayout(verticalLayout_20);
-
-        verticalLayout_18 = new QVBoxLayout();
-        verticalLayout_18->setSpacing(6);
-        verticalLayout_18->setObjectName(QString::fromUtf8("verticalLayout_18"));
-        label_19 = new QLabel(page_turnus);
-        label_19->setObjectName(QString::fromUtf8("label_19"));
-        label_19->setFont(font1);
-
-        verticalLayout_18->addWidget(label_19);
-
-        listTurnusSpoje = new QListWidget(page_turnus);
-        listTurnusSpoje->setObjectName(QString::fromUtf8("listTurnusSpoje"));
-        listTurnusSpoje->setFont(font);
-
-        verticalLayout_18->addWidget(listTurnusSpoje);
-
-
-        horizontalLayout_12->addLayout(verticalLayout_18);
-
-
-        gridLayout_4->addLayout(horizontalLayout_12, 0, 1, 3, 1);
 
         stackedWidget_palPc->addWidget(page_turnus);
         page_oznameni = new QWidget();
@@ -1842,9 +1857,7 @@ public:
         QWidget::setTabOrder(polelinky, poleLinkyTurnus);
         QWidget::setTabOrder(poleLinkyTurnus, poleSpojeTurnus);
         QWidget::setTabOrder(poleSpojeTurnus, checkBox_4);
-        QWidget::setTabOrder(checkBox_4, listKmenovychLinek);
-        QWidget::setTabOrder(listKmenovychLinek, listPoradi);
-        QWidget::setTabOrder(listPoradi, listTurnusSpoje);
+        QWidget::setTabOrder(checkBox_4, listTurnusSpoje);
         QWidget::setTabOrder(listTurnusSpoje, pushButton_menu2_sluzby);
         QWidget::setTabOrder(pushButton_menu2_sluzby, pushButton_menu2_rezerva);
         QWidget::setTabOrder(pushButton_menu2_rezerva, pushButton_menu2_fullscreen);
@@ -1860,7 +1873,7 @@ public:
         retranslateUi(MainWindow);
 
         tabWidget_hlavni->setCurrentIndex(0);
-        stackedWidget_palPc->setCurrentIndex(1);
+        stackedWidget_palPc->setCurrentIndex(2);
         tabWidget_moznosti->setCurrentIndex(0);
         stackedWidget_testy->setCurrentIndex(0);
 
@@ -1921,6 +1934,9 @@ public:
         polelinky->setText(QCoreApplication::translate("MainWindow", "100952", nullptr));
         polespoje->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Spoj", nullptr));
+        groupBox_3->setTitle(QCoreApplication::translate("MainWindow", "Kmenov\303\241 linka", nullptr));
+        groupBox_4->setTitle(QCoreApplication::translate("MainWindow", "Po\305\231ad\303\255", nullptr));
+        label_19->setText(QCoreApplication::translate("MainWindow", "Spoje", nullptr));
         label_16->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Linka</span></p></body></html>", nullptr));
         poleLinkyTurnus->setText(QCoreApplication::translate("MainWindow", "100952", nullptr));
         poleSpojeTurnus->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));
@@ -1928,9 +1944,6 @@ public:
         checkBox_4->setText(QCoreApplication::translate("MainWindow", "StopRequested", nullptr));
         checkBox_MpvTurnusy->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
         pushButton_turnus_prikaz->setText(QCoreApplication::translate("MainWindow", "OK", nullptr));
-        label_18->setText(QCoreApplication::translate("MainWindow", "Kmenov\303\241 linka", nullptr));
-        label_20->setText(QCoreApplication::translate("MainWindow", "Po\305\231ad\303\255", nullptr));
-        label_19->setText(QCoreApplication::translate("MainWindow", "Spoje", nullptr));
         QTableWidgetItem *___qtablewidgetitem5 = tableWidget_oznameni->horizontalHeaderItem(0);
         ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "N\303\241zev", nullptr));
         QTableWidgetItem *___qtablewidgetitem6 = tableWidget_oznameni->horizontalHeaderItem(1);
