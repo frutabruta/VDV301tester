@@ -22,7 +22,6 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListView>
-#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPlainTextEdit>
@@ -113,10 +112,10 @@ public:
     QGroupBox *groupBox_4;
     QVBoxLayout *verticalLayout_12;
     QListView *listView_poradi;
-    QVBoxLayout *verticalLayout_18;
-    QLabel *label_19;
-    QListWidget *listTurnusSpoje;
+    QGroupBox *groupBox_5;
+    QVBoxLayout *verticalLayout_15;
     QTableView *tableView_turnusSpoj;
+    QVBoxLayout *verticalLayout_18;
     QVBoxLayout *verticalLayout_16;
     QFormLayout *formLayout_2;
     QLabel *label_16;
@@ -914,28 +913,29 @@ public:
 
         horizontalLayout_12->addWidget(groupBox_4);
 
+        groupBox_5 = new QGroupBox(page_turnus);
+        groupBox_5->setObjectName(QString::fromUtf8("groupBox_5"));
+        verticalLayout_15 = new QVBoxLayout(groupBox_5);
+        verticalLayout_15->setSpacing(6);
+        verticalLayout_15->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_15->setObjectName(QString::fromUtf8("verticalLayout_15"));
+        tableView_turnusSpoj = new QTableView(groupBox_5);
+        tableView_turnusSpoj->setObjectName(QString::fromUtf8("tableView_turnusSpoj"));
+        tableView_turnusSpoj->setFont(font);
+        tableView_turnusSpoj->setSelectionBehavior(QAbstractItemView::SelectRows);
+        tableView_turnusSpoj->horizontalHeader()->setVisible(false);
+        tableView_turnusSpoj->verticalHeader()->setVisible(false);
+
+        verticalLayout_15->addWidget(tableView_turnusSpoj);
+
+
+        horizontalLayout_12->addWidget(groupBox_5);
+
         verticalLayout_18 = new QVBoxLayout();
         verticalLayout_18->setSpacing(6);
         verticalLayout_18->setObjectName(QString::fromUtf8("verticalLayout_18"));
-        label_19 = new QLabel(page_turnus);
-        label_19->setObjectName(QString::fromUtf8("label_19"));
-        label_19->setFont(font1);
-
-        verticalLayout_18->addWidget(label_19);
-
-        listTurnusSpoje = new QListWidget(page_turnus);
-        listTurnusSpoje->setObjectName(QString::fromUtf8("listTurnusSpoje"));
-        listTurnusSpoje->setFont(font);
-
-        verticalLayout_18->addWidget(listTurnusSpoje);
-
 
         horizontalLayout_12->addLayout(verticalLayout_18);
-
-        tableView_turnusSpoj = new QTableView(page_turnus);
-        tableView_turnusSpoj->setObjectName(QString::fromUtf8("tableView_turnusSpoj"));
-
-        horizontalLayout_12->addWidget(tableView_turnusSpoj);
 
 
         gridLayout_4->addLayout(horizontalLayout_12, 0, 1, 3, 1);
@@ -1857,8 +1857,7 @@ public:
         QWidget::setTabOrder(polelinky, poleLinkyTurnus);
         QWidget::setTabOrder(poleLinkyTurnus, poleSpojeTurnus);
         QWidget::setTabOrder(poleSpojeTurnus, checkBox_4);
-        QWidget::setTabOrder(checkBox_4, listTurnusSpoje);
-        QWidget::setTabOrder(listTurnusSpoje, pushButton_menu2_sluzby);
+        QWidget::setTabOrder(checkBox_4, pushButton_menu2_sluzby);
         QWidget::setTabOrder(pushButton_menu2_sluzby, pushButton_menu2_rezerva);
         QWidget::setTabOrder(pushButton_menu2_rezerva, pushButton_menu2_fullscreen);
         QWidget::setTabOrder(pushButton_menu2_fullscreen, pushButton_menu2_quit);
@@ -1873,7 +1872,7 @@ public:
         retranslateUi(MainWindow);
 
         tabWidget_hlavni->setCurrentIndex(0);
-        stackedWidget_palPc->setCurrentIndex(2);
+        stackedWidget_palPc->setCurrentIndex(1);
         tabWidget_moznosti->setCurrentIndex(0);
         stackedWidget_testy->setCurrentIndex(0);
 
@@ -1936,7 +1935,7 @@ public:
         label_2->setText(QCoreApplication::translate("MainWindow", "Spoj", nullptr));
         groupBox_3->setTitle(QCoreApplication::translate("MainWindow", "Kmenov\303\241 linka", nullptr));
         groupBox_4->setTitle(QCoreApplication::translate("MainWindow", "Po\305\231ad\303\255", nullptr));
-        label_19->setText(QCoreApplication::translate("MainWindow", "Spoje", nullptr));
+        groupBox_5->setTitle(QCoreApplication::translate("MainWindow", "Spoje", nullptr));
         label_16->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" color:#000000;\">Linka</span></p></body></html>", nullptr));
         poleLinkyTurnus->setText(QCoreApplication::translate("MainWindow", "100952", nullptr));
         poleSpojeTurnus->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));

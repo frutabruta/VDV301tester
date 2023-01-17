@@ -68,7 +68,7 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,in
             Spoj aktSpoj;
             int cisloZast = pocetZastavek;
             aktZast.StopIndex=cisloZast;
-            qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(pocetZastavek);
+            //qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(pocetZastavek);
             QString aois=query.value(query.record().indexOf("l.aois")).toString();
             if (aois!="")
             {
@@ -321,17 +321,13 @@ QVector<QString> SqlRopidXmlDotazy::StahniPoznamky(int idSpoje, int xorder)
     return seznamPoznamek;
 }
 
-
-
-
-
 int SqlRopidXmlDotazy::najdiTurnusZeSpoje(Spoj spoj,int &kmenovaLinka,int &poradi,int &order, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
     // docasnySeznamSpoju.clear();
     this->pripoj();
     //bool platnost = true;
-    qInfo()<<"DebugPointA";
+    //qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord FROM s ");
     queryString2+=("LEFT JOIN sp_po ON sp_po.s=s.s ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
@@ -348,7 +344,7 @@ int SqlRopidXmlDotazy::najdiTurnusZeSpoje(Spoj spoj,int &kmenovaLinka,int &porad
     query.exec(queryString2);
     qDebug()<<"lasterror "<<query.lastError();
     qDebug()<<queryString2;
-    qDebug()<<"DebugPointB";
+   // qDebug()<<"DebugPointB";
     int citacMaximum=0;
     while (query.next())
     {
@@ -383,8 +379,6 @@ int SqlRopidXmlDotazy::vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
     qDebug()<< Q_FUNC_INFO;
     docasnyObeh.seznamSpoju.clear();
     this->pripoj();
-    // bool platnost = true;
-    qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.aois FROM sp_po ");
     queryString2+=("LEFT JOIN s ON sp_po.s=s.s ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
@@ -405,7 +399,7 @@ int SqlRopidXmlDotazy::vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
     query.exec(queryString2);
     qDebug()<<"lasterror "<<query.lastError();
     qDebug()<<queryString2;
-    qDebug()<<"DebugPointB";
+  //  qDebug()<<"DebugPointB";
     int citacMaximum=0;
     while (query.next())
     {
@@ -417,7 +411,7 @@ int SqlRopidXmlDotazy::vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
         docasnySpoj.navazujici=query.value(query.record().indexOf("sp_po.pokrac")).toBool();
 
         QString alias=query.value(query.record().indexOf("l.aois")).toString();
-        qDebug()<<"alias "<<alias<<" linka.c "<<docasnySpoj.linka.c;
+      //  qDebug()<<"alias "<<alias<<" linka.c "<<docasnySpoj.linka.c;
         if(alias.isEmpty())
         {
             docasnySpoj.linka.LineName=QString::number(docasnySpoj.linka.c);
@@ -427,10 +421,10 @@ int SqlRopidXmlDotazy::vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
             docasnySpoj.linka.LineName=alias;
         }
 
-        qDebug()<<"jmeno docasny spoj linky "<<docasnySpoj.linka.LineName;
+        //qDebug()<<"jmeno docasny spoj linky "<<docasnySpoj.linka.LineName;
         docasnyObeh.seznamSpoju.push_back(docasnySpoj);
         citacMaximum++;
-        qDebug()<<docasnySpoj.cisloRopid;
+       // qDebug()<<docasnySpoj.cisloRopid;
     }
 
     this->zavriDB();
@@ -457,12 +451,8 @@ int SqlRopidXmlDotazy::poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju,Spoj spoj)
         }
     }
 
-
-
     return -1;
-
 }
-
 
 
 /*!
@@ -534,8 +524,6 @@ QString SqlRopidXmlDotazy::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlat
 }
 
 
-
-
 QVector<Pasmo> SqlRopidXmlDotazy::vyrobPasmaMezikraj(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc,  QString cids,QString tl)
 {
     qDebug()<<"SqlPraceRopid::vyrobPasmaMezikraj";
@@ -603,7 +591,6 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamLinekModel(QString kj)
     QSqlQueryModel *model= new QSqlTableModel ;
     model->setQuery(queryString2);
 
-
     return model;
 }
 
@@ -643,7 +630,6 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznaSpojuModel(Linka docasnaLinka, QSt
     QSqlQueryModel *model= new QSqlTableModel ;
     model->setQuery(queryString2);
 
-
     return model;
 }
 
@@ -671,7 +657,40 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamPoradiModel( Linka docasnaLinka, 
     model->setQuery(queryString2);
 
     return model;
-
-
 }
 
+
+/*!
+
+*/
+QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamTurnusSpojuModel(Obeh &docasnyObeh, QString kj)
+{
+    //QVector<Spoj> &docasnySeznamSpoju,
+    qDebug()<< Q_FUNC_INFO;
+
+    this->pripoj();
+    // bool platnost = true;
+    qInfo()<<"DebugPointA";
+    QString queryString2("SELECT DISTINCT l.c, s.c FROM sp_po ");
+    queryString2+=("LEFT JOIN s ON sp_po.s=s.s ");
+    queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("WHERE sp_po.l=");
+    queryString2+=( QString::number(docasnyObeh.kmenovaLinka.c));
+    //queryString2+=(" AND  s.c !=1000 ");
+    queryString2+=(" AND  s.man !=1 ");
+    queryString2+=(" AND  sp_po.p=");
+    queryString2+=( QString::number(docasnyObeh.p));
+
+    queryString2+=(" AND sp_po.kj LIKE '");
+    queryString2+=(kj);
+    queryString2+=("' ");
+
+    queryString2+=(" ORDER BY sp_po.ord");
+    QSqlQuery query;
+    query.exec(queryString2);
+
+    QSqlQueryModel *model= new QSqlTableModel ;
+    model->setQuery(queryString2);
+
+    return model;
+}

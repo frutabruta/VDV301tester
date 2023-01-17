@@ -795,7 +795,7 @@ hlášení</string>
 padding: 0 px;</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page_jizda">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -1845,32 +1845,34 @@ Stop</string>
                  </widget>
                 </item>
                 <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_18">
-                  <item>
-                   <widget class="QLabel" name="label_19">
-                    <property name="font">
-                     <font>
-                      <pointsize>15</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Spoje</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QListWidget" name="listTurnusSpoje">
-                    <property name="font">
-                     <font>
-                      <pointsize>20</pointsize>
-                     </font>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+                 <widget class="QGroupBox" name="groupBox_5">
+                  <property name="title">
+                   <string>Spoje</string>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_15">
+                   <item>
+                    <widget class="QTableView" name="tableView_turnusSpoj">
+                     <property name="font">
+                      <font>
+                       <pointsize>20</pointsize>
+                      </font>
+                     </property>
+                     <property name="selectionBehavior">
+                      <enum>QAbstractItemView::SelectRows</enum>
+                     </property>
+                     <attribute name="horizontalHeaderVisible">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderVisible">
+                      <bool>false</bool>
+                     </attribute>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QTableView" name="tableView_turnusSpoj"/>
+                 <layout class="QVBoxLayout" name="verticalLayout_18"/>
                 </item>
                </layout>
               </item>
@@ -4095,7 +4097,6 @@ test</string>
   <tabstop>poleLinkyTurnus</tabstop>
   <tabstop>poleSpojeTurnus</tabstop>
   <tabstop>checkBox_4</tabstop>
-  <tabstop>listTurnusSpoje</tabstop>
   <tabstop>pushButton_menu2_sluzby</tabstop>
   <tabstop>pushButton_menu2_rezerva</tabstop>
   <tabstop>pushButton_menu2_fullscreen</tabstop>

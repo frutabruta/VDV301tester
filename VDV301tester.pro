@@ -61,6 +61,7 @@ SOURCES += \
     VDV301struktury/obeh.cpp \
     VDV301struktury/pasmo.cpp \
     VDV301struktury/prestup.cpp \
+    VDV301struktury/prestupgolemio.cpp \
     VDV301struktury/prestupmpv.cpp \
     VDV301struktury/spoj.cpp \
     VDV301struktury/zastavka.cpp \
@@ -73,6 +74,7 @@ SOURCES += \
     VDV301testy/testodberuserver.cpp \
     VDV301testy/vdv301testy.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
+    golemio.cpp \
     hlasic.cpp \
     ibisovladani.cpp \
     konfigurace.cpp \
@@ -101,6 +103,7 @@ HEADERS += \
     VDV301struktury/obeh.h \
     VDV301struktury/prestup.h \
     VDV301struktury/pasmo.h \
+    VDV301struktury/prestupgolemio.h \
     VDV301struktury/prestupmpv.h \
     VDV301struktury/specialnihlaseni.h \
     VDV301struktury/spoj.h \
@@ -117,15 +120,16 @@ HEADERS += \
     VDV301testy/testodberuserver.h \
     VDV301testy/vdv301testy.h \
     XmlRopidImportStream/xmlropidimportstream.h \
-    hlasic.h \
     XmlRopidImportStream/sqlitezaklad.h \
-    sqldotazymodel.h \
-    sqlropidxmldotazy.h \
+    golemio.h \
+    hlasic.h \
     ibisovladani.h \
     konfigurace.h \
     logfile.h \
     mainwindow.h \
-    mainwindowpomocne.h \    
+    mainwindowpomocne.h \
+    sqldotazymodel.h \
+    sqlropidxmldotazy.h \
     xmlmpvparser.h
 
 FORMS += \

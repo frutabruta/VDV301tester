@@ -30,6 +30,7 @@
 
 #include "sqlropidxmldotazy.h"
 #include "xmlmpvparser.h"
+#include "golemio.h"
 #include "XmlRopidImportStream/xmlropidimportstream.h"
 #include "ibisovladani.h"
 #include "hlasic.h"
@@ -58,6 +59,7 @@ private:
 
     //konstanty
     bool filtrovatPrestupy=true;
+    bool pouzitGolemio=true;
     //ve vterinach
 
     //datove struktury
@@ -69,6 +71,7 @@ private:
 
     //instance knihoven
     XmlMpvParser xmlMpvParser;
+       Golemio golemio;
   //  XmlRopidImportStream xmlRopidImportStream;
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
@@ -87,8 +90,10 @@ private:
     QString cestaXml="";
     QDate platnostOd;
     QDate platnostDo;
-    QSqlQueryModel* modelSpoje;
 
+    //modely
+    QSqlQueryModel *modelSpoje;
+    QSqlQueryModel prazdnyModel;
 
     //udalosti
 
@@ -122,7 +127,7 @@ private:
 
 
 
-    void naplnVyberTurnusSpoje(QVector<Spoj> docasnySeznamSpoju);
+
     void vymazSeznam(QListWidget *vstup);
 
     //prace s XML
@@ -171,6 +176,7 @@ private:
     void vymazTabulkuSubscriberu(QTableWidget *tableWidget);
 
     QString nahradZnacky(QString vstup);
+
 public slots:
     void slotVypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
@@ -201,8 +207,6 @@ private slots:
 
     //tlacitka Turnus
     int on_pushButton_turnus_prikaz_clicked();
-
-     void on_listTurnusSpoje_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
      void on_checkBox_MpvTurnusy_stateChanged(int arg1);
 
@@ -293,6 +297,9 @@ private slots:
      void on_listView_spoje_clicked(const QModelIndex &index);
      void on_listView_kmenovaLinka_clicked(const QModelIndex &index);
      void on_listView_poradi_clicked(const QModelIndex &index);
+
+     void on_tableView_turnusSpoj_clicked(const QModelIndex &index);
+     void slotGolemioReady();
 
 signals:
      void signalZahajImport(QString cesta);

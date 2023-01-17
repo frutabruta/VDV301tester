@@ -43,6 +43,7 @@ public:
     QSqlQueryModel *stahniSeznaSpojuModel(Linka docasnaLinka, QString kj);
     QSqlQueryModel *stahniSeznamKmenovychLinekModel(QString kj);
     QSqlQueryModel *stahniSeznamPoradiModel(Linka docasnaLinka, QString kj);
+    QSqlQueryModel *stahniSeznamTurnusSpojuModel(Obeh &docasnyObeh, QString kj);
 private:
 
     void vypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek);
