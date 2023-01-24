@@ -1,0 +1,2 @@
+24. 1. 2023:
+konfigurace přes nastaveni.ini

@@ -20,6 +20,19 @@ Golemio::Golemio(QByteArray klic)
 
     mKlic=klic ;
 
+    //adresa+="&minutesBefore=10"
+    mParametry+="&minutesAfter=180";
+    //adresa+= "&timeFrom=2021-01-21T06%3A00%3A00"
+    mParametry+="&includeMetroTrains=true";
+    //adresa+= "&preferredTimezone=Europe%252FPrague"
+    mParametry+="&mode=departures";
+    mParametry+="&order=real";
+    mParametry+="&filter=routeOnce";
+    mParametry+="&skip=canceled";
+    //adresa+="&limit=0"
+    //adresa+="&total=0"
+    //adresa+= "&offset=0";
+
 }
 Golemio::~Golemio()
 {
@@ -129,6 +142,21 @@ QVector<PrestupGolemio> Golemio::parsujDomDokument()
     return seznamPrestupuGolemio;
 }
 
+void Golemio::setKlic(const QByteArray &newKlic)
+{
+    mKlic = newKlic;
+}
+
+void Golemio::setParametry(const QString &newParametry)
+{
+    mParametry = newParametry;
+}
+
+void Golemio::setAdresa(const QString &newAdresa)
+{
+    mAdresa = newAdresa;
+}
+
 
 // zdroj https://stackoverflow.com/questions/7218851/making-an-http-get-under-qt
 
@@ -138,23 +166,12 @@ void Golemio::stahniMpvXml(int cisloCis, QString Ids)
 
     // QString adresa = "http://www.mpvnet.cz/"+Ids+"/x/"+QString::number(cisloCis)+"?unite=true&ko=12702&pocet=24&t=true";
 
-    QString adresa = "https://api.golemio.cz/v2/pid/departureboards/";
+    QString adresa=mAdresa;
     adresa+="?cisIds="+QString::number(cisloCis);
-    //adresa+="&minutesBefore=10"
-    adresa+="&minutesAfter=180";
-    //adresa+= "&timeFrom=2021-01-21T06%3A00%3A00"
-    adresa+="&includeMetroTrains=true";
-    //adresa+= "&preferredTimezone=Europe%252FPrague"
-    adresa+="&mode=departures";
-    adresa+="&order=real";
-    adresa+="&filter=routeOnce";
-    adresa+="&skip=canceled";
-    //adresa+="&limit=0"
-    //adresa+="&total=0"
-    //adresa+= "&offset=0";
+    adresa+=mParametry;
 
 
-    qDebug()<<adresa;
+    qDebug()<<"golemio adresa dotazu: "<<adresa;
     QNetworkRequest novyPozadavek;
     novyPozadavek.setSslConfiguration(QSslConfiguration::defaultConfiguration());
 

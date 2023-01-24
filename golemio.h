@@ -37,13 +37,22 @@ public:
     bool jePrestupNaSeznamu(PrestupMPV prestup, QVector<PrestupMPV> seznamPrestupu);
 
     QVector<PrestupGolemio> parsujDomDokument();
+    void setKlic(const QByteArray &newKlic);
+
+    void setParametry(const QString &newParametry);
+
+    void setAdresa(const QString &newAdresa);
+
 private:
     //instance
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
 
     //promenne
     QByteArray mKlic="";
+    QString mAdresa="http://api.golemio.cz/v2/pid/departureboards/";
+    QString mParametry="";
     QJsonDocument mVstupniJson;
+
 
 private slots:
     QByteArray requestReceived(QNetworkReply *replyoo);

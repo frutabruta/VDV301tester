@@ -9,7 +9,9 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    golemio("GOLEMIO_KLIC"), //klic do golemia
+    konfigurace(QCoreApplication::applicationDirPath()),
+    settings(QCoreApplication::applicationDirPath()+"/nastaveni.ini", QSettings::IniFormat),
+    golemio(""), //klic do golemia
     logfile(QCoreApplication::applicationDirPath()),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
@@ -18,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47481,"2.2CZ1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
     deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),
-    konfigurace(QCoreApplication::applicationDirPath()),
+
     ui(new Ui::MainWindow)
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -29,18 +31,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pushButton_menu_turnus->setChecked(true);
     ui->pushButton_nast_nactiXMLropid->setDisabled(true);
 
+    //QString konstantaPocetDni=settings.value("konstanty/pocetDni").toString();
+    //settings.setValue("golemio/api-key","XXX");
+
+    natahniKonstanty();
+
+
+
 
 
     //ui->stackedWidget_palPc->setWindowState(Qt::WindowFullScreen);
-    QString compilationTime = QString("%1T%2").arg(__DATE__,__TIME__);
 
-    deviceManagementService1_0.deviceName="VDV301tester";
-    deviceManagementService1_0.deviceManufacturer="ROPID";
-    deviceManagementService1_0.deviceSerialNumber="123456";
-    deviceManagementService1_0.deviceClass="OnBoardUnit";
-    deviceManagementService1_0.deviceId="1";
-    deviceManagementService1_0.swVersion=compilationTime;
-    deviceManagementService1_0.slotAktualizaceDat();
+
+
 
 
     //inicializace databaze
@@ -56,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
     //QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
 
-    ui->label_build->setText(compilationTime);
+
 
     //kalendarJizd
     pracovniDatumPrvniDenDat();
@@ -101,6 +104,46 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::natahniKonstanty()
+{
+    qDebug()<<Q_FUNC_INFO;
+
+
+    if(settings.value("golemio/adresa").isNull())
+    {
+        eventPoznamkaRidici("konfiguracni soubor neexistuje/je vadny");
+    }
+    else
+    {
+        qDebug()<<"konfiguracni soubor nacten";
+    }
+    qDebug()<<" konstanty status "<<settings.status();
+
+    if(settings.value("golemio/datovyZdroj").toString()=="mpvnet")
+    {
+        pouzitGolemio=false;
+    }
+    golemio.setKlic(settings.value("golemio/apiKey").toByteArray());
+    golemio.setAdresa(settings.value("golemio/adresa").toString());
+
+    QString compilationTime = QString("%1T%2").arg(__DATE__,__TIME__);
+    ui->label_build->setText(compilationTime);
+
+
+
+    golemio.setParametry(settings.value("golemio/parametry").toString());
+
+
+    deviceManagementService1_0.deviceName=settings.value("deviceManagementService1_0/deviceName").toString();
+    deviceManagementService1_0.deviceManufacturer=settings.value("deviceManagementService1_0/deviceManufacturer").toString();
+    deviceManagementService1_0.deviceSerialNumber=settings.value("deviceManagementService1_0/deviceSerialNumber").toString();
+    deviceManagementService1_0.deviceClass=settings.value("deviceManagementService1_0/deviceClass").toString();
+    deviceManagementService1_0.deviceId=settings.value("deviceManagementService1_0/deviceId").toString();
+    deviceManagementService1_0.swVersion=compilationTime;
+    deviceManagementService1_0.slotAktualizaceDat();
+
+}
+
 
 
 /*!
@@ -115,14 +158,16 @@ void MainWindow::vsechnyConnecty()
     this->vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);
 
 
-     connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
+    connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
     connect(&golemio,&Golemio::stazeniHotovo,this,&MainWindow::slotGolemioReady);
 
     //vypis deviceMAnagementServices publisheru
     // connect(&deviceManagementServiceSubscriber, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::slotXmlDoPromenne);
 
+
     //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
     connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalAktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
+
 
     //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
     // connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
@@ -394,7 +439,7 @@ int MainWindow::on_pushButton_prikaz_clicked()
     stavSystemu.aktObeh.p=poradi ;
     if (sqlPraceRopid.vytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
     {
-       // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
+        // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
     }
 
 

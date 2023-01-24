@@ -9,6 +9,7 @@
 #include <QNetworkReply>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QSettings>
 
 #include "VDV301struktury/zastavka.h"
 #include "VDV301struktury/linka.h"
@@ -70,6 +71,11 @@ private:
     SqlRopidXmlDotazy sqlPraceRopid;
 
     //instance knihoven
+
+
+    Konfigurace konfigurace;
+    QSettings settings;
+
     XmlMpvParser xmlMpvParser;
        Golemio golemio;
   //  XmlRopidImportStream xmlRopidImportStream;
@@ -109,7 +115,7 @@ private:
     void testNaplnOkno(int index);
     void xmlVdv301HromadnyUpdate();
 
-    //IBIS-IP lsuzby
+    //IBIS-IP sluzby
     DeviceManagementService deviceManagementService1_0;
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_2CZ1_0;
@@ -120,14 +126,8 @@ private:
    // IbisIpSubscriber deviceManagementServiceSubscriber;
 
 
-    //konfiguracni soubor
-    Konfigurace konfigurace;
 
     //vyberove dialogy
-
-
-
-
     void vymazSeznam(QListWidget *vstup);
 
     //prace s XML
@@ -177,6 +177,7 @@ private:
 
     QString nahradZnacky(QString vstup);
 
+    void natahniKonstanty();
 public slots:
     void slotVypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);

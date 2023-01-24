@@ -1841,7 +1841,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(false);
-        menuBar->setGeometry(QRect(0, 0, 800, 21));
+        menuBar->setGeometry(QRect(0, 0, 800, 20));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -1925,7 +1925,7 @@ public:
         locationStateIndicator->setText(QCoreApplication::translate("MainWindow", "locationState", nullptr));
         pushButton_jizda_IBIS->setText(QCoreApplication::translate("MainWindow", "IBIS", nullptr));
         checkBox_2->setText(QCoreApplication::translate("MainWindow", "StopRequested", nullptr));
-        checkBox->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
+        checkBox->setText(QCoreApplication::translate("MainWindow", "P\305\231estupy", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "Seznam linek", nullptr));
         groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "Seznam spoj\305\257", nullptr));
         pushButton_prikaz->setText(QCoreApplication::translate("MainWindow", "OK", nullptr));
@@ -1941,7 +1941,7 @@ public:
         poleSpojeTurnus->setText(QCoreApplication::translate("MainWindow", "1001", nullptr));
         label_17->setText(QCoreApplication::translate("MainWindow", "Spoj", nullptr));
         checkBox_4->setText(QCoreApplication::translate("MainWindow", "StopRequested", nullptr));
-        checkBox_MpvTurnusy->setText(QCoreApplication::translate("MainWindow", "MPV p\305\231estupy", nullptr));
+        checkBox_MpvTurnusy->setText(QCoreApplication::translate("MainWindow", "P\305\231estupy", nullptr));
         pushButton_turnus_prikaz->setText(QCoreApplication::translate("MainWindow", "OK", nullptr));
         QTableWidgetItem *___qtablewidgetitem5 = tableWidget_oznameni->horizontalHeaderItem(0);
         ___qtablewidgetitem5->setText(QCoreApplication::translate("MainWindow", "N\303\241zev", nullptr));
