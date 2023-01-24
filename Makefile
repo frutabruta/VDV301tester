@@ -266,7 +266,8 @@ Makefile: VDV301tester.pro ../../../../Qt/5.15.2/mingw81_64/mkspecs/win32-g++/qm
 		../../../../Qt/5.15.2/mingw81_64/lib/Qt5Concurrent.prl \
 		../../../../Qt/5.15.2/mingw81_64/lib/Qt5Core.prl \
 		../../../../Qt/5.15.2/mingw81_64/lib/qtmain.prl \
-		../../../../Qt/5.15.2/mingw81_64/mkspecs/features/build_pass.prf
+		../../../../Qt/5.15.2/mingw81_64/mkspecs/features/build_pass.prf \
+		lang.qrc
 	$(QMAKE) -o Makefile VDV301tester.pro -spec win32-g++ "CONFIG+=qtquickcompiler"
 ../../../../Qt/5.15.2/mingw81_64/mkspecs/features/spec_pre.prf:
 ../../../../Qt/5.15.2/mingw81_64/mkspecs/qdevice.pri:
@@ -465,6 +466,7 @@ VDV301tester.pro:
 ../../../../Qt/5.15.2/mingw81_64/lib/Qt5Core.prl:
 ../../../../Qt/5.15.2/mingw81_64/lib/qtmain.prl:
 ../../../../Qt/5.15.2/mingw81_64/mkspecs/features/build_pass.prf:
+lang.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile VDV301tester.pro -spec win32-g++ "CONFIG+=qtquickcompiler"
 

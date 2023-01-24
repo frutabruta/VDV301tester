@@ -134,3 +134,10 @@ HEADERS += \
 
 FORMS += \
         mainwindow.ui
+
+TRANSLATIONS += \
+        lang_cs.ts\
+        lang_en.ts
+
+RESOURCES += \
+    lang.qrc

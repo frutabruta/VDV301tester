@@ -1,2 +1,5 @@
+24.1.2023 18:50
+změna jazyka přes nastaveni.ini
+
 24. 1. 2023:
 konfigurace přes nastaveni.ini

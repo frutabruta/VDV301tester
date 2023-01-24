@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QTranslator>
 
 //MAIN
 
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     qDebug() <<  Q_FUNC_INFO;
     ui->setupUi(this);
 
+    ui->pushButton_menu_jizda->setEnabled(false);
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
     ui->tabWidget_hlavni->setCurrentWidget(ui->tab_palPC);
     ui->pushButton_menu_turnus->setChecked(true);
@@ -34,16 +36,28 @@ MainWindow::MainWindow(QWidget *parent) :
     //QString konstantaPocetDni=settings.value("konstanty/pocetDni").toString();
     //settings.setValue("golemio/api-key","XXX");
 
+
+
+
+    QTranslator translator;
+    //settings.setValue("General/language","en");
+    QString jazyk=settings.value("app/language").toString();
+
+    qDebug()<<" novy jazyk:"<<jazyk;
+    if (jazyk=="en")
+    {
+        qApp->removeTranslator(&translator);
+        translator.load(":/lang_en.qm");
+        qApp->installTranslator(&translator);
+        ui->calendarWidget->setLocale(QLocale::English);
+        qDebug()<<"zmena jazyka";
+    }
+    ui->retranslateUi(this);
+
+
     natahniKonstanty();
 
-
-
-
-
     //ui->stackedWidget_palPc->setWindowState(Qt::WindowFullScreen);
-
-
-
 
 
     //inicializace databaze
@@ -72,8 +86,6 @@ MainWindow::MainWindow(QWidget *parent) :
     MainWindowPomocne::naplnTabulkuHlaseni(ui->tableWidget_oznameni,konfigurace.specialniHlaseni);
 
     //hlasic.nastavCestu(konfigurace.cestaHlaseni);
-
-
 
     logfile.defaultniLog(souborLogu);
     logfile.novySoubor(souborLogu);
@@ -119,6 +131,9 @@ void MainWindow::natahniKonstanty()
     }
     qDebug()<<" konstanty status "<<settings.status();
 
+
+
+
     if(settings.value("golemio/datovyZdroj").toString()=="mpvnet")
     {
         pouzitGolemio=false;
@@ -129,10 +144,7 @@ void MainWindow::natahniKonstanty()
     QString compilationTime = QString("%1T%2").arg(__DATE__,__TIME__);
     ui->label_build->setText(compilationTime);
 
-
-
     golemio.setParametry(settings.value("golemio/parametry").toString());
-
 
     deviceManagementService1_0.deviceName=settings.value("deviceManagementService1_0/deviceName").toString();
     deviceManagementService1_0.deviceManufacturer=settings.value("deviceManagementService1_0/deviceManufacturer").toString();
@@ -141,7 +153,6 @@ void MainWindow::natahniKonstanty()
     deviceManagementService1_0.deviceId=settings.value("deviceManagementService1_0/deviceId").toString();
     deviceManagementService1_0.swVersion=compilationTime;
     deviceManagementService1_0.slotAktualizaceDat();
-
 }
 
 

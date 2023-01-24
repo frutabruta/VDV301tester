@@ -1089,7 +1089,6 @@ public:
         QFont font7;
         font7.setPointSize(30);
         font7.setBold(false);
-        font7.setWeight(50);
         tableWidget_oznameni->setFont(font7);
         tableWidget_oznameni->setStyleSheet(QString::fromUtf8(""));
 
@@ -1841,7 +1840,7 @@ public:
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
         menuBar->setEnabled(false);
-        menuBar->setGeometry(QRect(0, 0, 800, 20));
+        menuBar->setGeometry(QRect(0, 0, 800, 21));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -1871,9 +1870,9 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_hlavni->setCurrentIndex(0);
+        tabWidget_hlavni->setCurrentIndex(1);
         stackedWidget_palPc->setCurrentIndex(1);
-        tabWidget_moznosti->setCurrentIndex(0);
+        tabWidget_moznosti->setCurrentIndex(2);
         stackedWidget_testy->setCurrentIndex(0);
 
 

@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QSettings>
 
+
 #include "VDV301struktury/zastavka.h"
 #include "VDV301struktury/linka.h"
 #include "VDV301struktury/cestaudaje.h"
@@ -71,6 +72,7 @@ private:
     SqlRopidXmlDotazy sqlPraceRopid;
 
     //instance knihoven
+
 
 
     Konfigurace konfigurace;

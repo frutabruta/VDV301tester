@@ -22,9 +22,14 @@ Loading of new XML data:
 
 For HTTPS access to Golemio, OpenSSL needs to be installed with .
 
-OpenSSL install:
+##OpenSSL install:
 https://stackoverflow.com/a/68629557
 
+##QtHttpServer:
 git clone https://github.com/qt/qthttpserver/
-git checkout 5.15
+cd qthttpserver
 git submodule update --init --recursive
+
+qmake
+mingw32-make
+mingw32-make install
