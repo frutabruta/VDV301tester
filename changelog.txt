@@ -1,3 +1,8 @@
+8. 2. 2023 12:39
+oprava DB
+aktualizace XmlImportStream
+
+
 24.1.2023 18:50
 změna jazyka přes nastaveni.ini
 
