@@ -146,12 +146,12 @@ void MainWindow::natahniKonstanty()
 
     golemio.setParametry(settings.value("golemio/parametry").toString());
 
-    deviceManagementService1_0.deviceName=settings.value("deviceManagementService1_0/deviceName").toString();
-    deviceManagementService1_0.deviceManufacturer=settings.value("deviceManagementService1_0/deviceManufacturer").toString();
-    deviceManagementService1_0.deviceSerialNumber=settings.value("deviceManagementService1_0/deviceSerialNumber").toString();
-    deviceManagementService1_0.deviceClass=settings.value("deviceManagementService1_0/deviceClass").toString();
-    deviceManagementService1_0.deviceId=settings.value("deviceManagementService1_0/deviceId").toString();
-    deviceManagementService1_0.swVersion=compilationTime;
+    deviceManagementService1_0.setDeviceName(settings.value("deviceManagementService1_0/deviceName").toString());
+    deviceManagementService1_0.setDeviceManufacturer(settings.value("deviceManagementService1_0/deviceManufacturer").toString());
+    deviceManagementService1_0.setDeviceSerialNumber(settings.value("deviceManagementService1_0/deviceSerialNumber").toString());
+    deviceManagementService1_0.setDeviceClass(settings.value("deviceManagementService1_0/deviceClass").toString());
+    deviceManagementService1_0.setDeviceId(settings.value("deviceManagementService1_0/deviceId").toString());
+    deviceManagementService1_0.setSwVersion(compilationTime);
     deviceManagementService1_0.slotAktualizaceDat();
 }
 

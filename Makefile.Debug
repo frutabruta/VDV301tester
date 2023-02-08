@@ -4438,8 +4438,6 @@ debug/moc_mainwindow.cpp: mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtWidgets/qmessagebox.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/QSettings \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qsettings.h \
-		../../../../Qt/5.15.2/mingw81_64/include/QtCore/QTranslator \
-		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtranslator.h \
 		VDV301struktury/zastavka.h \
 		VDV301struktury/pasmo.h \
 		VDV301struktury/prestup.h \
@@ -4565,6 +4563,7 @@ debug/moc_mainwindow.cpp: mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtimeline.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtimer.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtimezone.h \
+		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtranslator.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtransposeproxymodel.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtypetraits.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qwaitcondition.h \
@@ -13378,8 +13377,6 @@ debug/main.o: main.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtWidgets/qmessagebox.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/QSettings \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qsettings.h \
-		../../../../Qt/5.15.2/mingw81_64/include/QtCore/QTranslator \
-		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtranslator.h \
 		VDV301struktury/zastavka.h \
 		VDV301struktury/pasmo.h \
 		VDV301struktury/prestup.h \
@@ -13505,6 +13502,7 @@ debug/main.o: main.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtimeline.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtimer.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtimezone.h \
+		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtranslator.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtransposeproxymodel.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtypetraits.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qwaitcondition.h \
@@ -13697,7 +13695,8 @@ debug/main.o: main.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtWidgets/qapplication.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtWidgets/qdesktopwidget.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtGui/qguiapplication.h \
-		../../../../Qt/5.15.2/mingw81_64/include/QtGui/qinputmethod.h
+		../../../../Qt/5.15.2/mingw81_64/include/QtGui/qinputmethod.h \
+		../../../../Qt/5.15.2/mingw81_64/include/QtCore/QTranslator
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o main.cpp
 
 debug/mainwindow.o: mainwindow.cpp mainwindow.h \
@@ -13866,8 +13865,6 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtWidgets/qmessagebox.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/QSettings \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qsettings.h \
-		../../../../Qt/5.15.2/mingw81_64/include/QtCore/QTranslator \
-		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtranslator.h \
 		VDV301struktury/zastavka.h \
 		VDV301struktury/pasmo.h \
 		VDV301struktury/prestup.h \
@@ -13993,6 +13990,7 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtimeline.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtimer.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtimezone.h \
+		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtranslator.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtransposeproxymodel.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qtypetraits.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtCore/qwaitcondition.h \
@@ -14242,7 +14240,8 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtWidgets/qstatusbar.h \
 		../../../../Qt/5.15.2/mingw81_64/include/QtWidgets/QTabWidget \
 		../../../../Qt/5.15.2/mingw81_64/include/QtWidgets/QTableView \
-		../../../../Qt/5.15.2/mingw81_64/include/QtWidgets/QVBoxLayout
+		../../../../Qt/5.15.2/mingw81_64/include/QtWidgets/QVBoxLayout \
+		../../../../Qt/5.15.2/mingw81_64/include/QtCore/QTranslator
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
 
 debug/mainwindowpomocne.o: mainwindowpomocne.cpp mainwindowpomocne.h \
