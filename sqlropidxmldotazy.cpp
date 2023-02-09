@@ -45,6 +45,8 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,in
     queryString2+=(" AND  s.kj LIKE '");
     queryString2+=(kj);
     queryString2+=("' ");
+    queryString2+=(" AND s.d=l.d ");
+
     queryString2+=("ORDER BY x.xorder");
 
 
@@ -82,7 +84,6 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,in
             aktLinka.typLinky=query.value(query.record().indexOf("l.tl")).toString();
             aktLinka.isNight=query.value(query.record().indexOf("l.noc")).toBool();
             aktLinka.isDiversion=query.value(query.record().indexOf("s.vy")).toBool();
-
 
             aktSpoj.cisloRopid=query.value(query.record().indexOf("s.c")).toInt();
             aktZast.cisloCis=query.value( query.record().indexOf("z.cis")).toInt();
@@ -588,6 +589,8 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamLinekModel(QString kj)
     queryString2+=("' ");
     queryString2+=("ORDER BY l.c;");
 
+    qDebug()<<queryString2;
+
     QSqlQueryModel *model= new QSqlTableModel ;
     model->setQuery(queryString2);
 
@@ -598,12 +601,16 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamKmenovychLinekModel(QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    QString queryString2("SELECT DISTINCT o.l,l.c,l.lc,l.n FROM o ");
+    QString queryString2("SELECT DISTINCT o.l,l.c,l.n ");
+    //QString queryString2("SELECT DISTINCT o.l,l.c,l.lc,l.n ");
+    queryString2+=("FROM o ");
     queryString2+=("LEFT JOIN l ON o.l=l.c ");
     queryString2+=("WHERE o.kj LIKE '");
     queryString2+=(kj);
     queryString2+=("' ");
     queryString2+=("ORDER BY l.c;");
+
+    qDebug()<<queryString2;
 
     QSqlQuery query;
     query.exec(queryString2);

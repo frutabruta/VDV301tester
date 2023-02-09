@@ -687,7 +687,7 @@ void MainWindow::inicializaceVyberovychPoli()
     ui->tableView_turnusSpoj->setModel(&prazdnyModel);
 
     QSqlQueryModel* modelLinky=sqlPraceRopid.stahniSeznamLinekModel(this->vyrobMaskuKalendareJizd());
-    QSqlQueryModel* modelKmenoveLinky=sqlPraceRopid.stahniSeznamLinekModel(this->vyrobMaskuKalendareJizd());
+    QSqlQueryModel* modelKmenoveLinky=sqlPraceRopid.stahniSeznamKmenovychLinekModel(this->vyrobMaskuKalendareJizd());
 
     if (modelLinky->rowCount()>0)
     {
@@ -1522,7 +1522,7 @@ void MainWindow::on_pushButton_menu2_sluzby_clicked()
 */
 void MainWindow::on_pushButton_nast_xmlVyberCestu_clicked()
 {
-    cestaXml=otevriSouborXmlDialog();
+    cestaXml=otevriSouborXmlDialog(cestaXml);
     if (cestaXml=="")
     {
         ui->pushButton_nast_nactiXMLropid->setDisabled(true);
@@ -1559,11 +1559,11 @@ void MainWindow::nastavLabelCestyXml()
 /*!
 
 */
-QString MainWindow::otevriSouborXmlDialog()
+QString MainWindow::otevriSouborXmlDialog(QString cesta)
 {
     qDebug() <<  Q_FUNC_INFO;
     QString fileName = QFileDialog::getOpenFileName(this,
-                                                    tr("Otevři soubor"), "",
+                                                    tr("Otevři soubor"), cesta,
                                                     tr("XML Ropid JŘ (*.xml);;All Files (*)"));
     return fileName;
 }

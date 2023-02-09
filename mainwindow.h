@@ -133,7 +133,7 @@ private:
     void vymazSeznam(QListWidget *vstup);
 
     //prace s XML
-    QString otevriSouborXmlDialog();
+    QString otevriSouborXmlDialog(QString cesta);
     void nastavLabelCestyXml();
     void aktualizacePracovnihoData();
 
