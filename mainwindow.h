@@ -72,9 +72,6 @@ private:
     SqlRopidXmlDotazy sqlPraceRopid;
 
     //instance knihoven
-
-
-
     Konfigurace konfigurace;
     QSettings settings;
 
