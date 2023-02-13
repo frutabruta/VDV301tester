@@ -71,7 +71,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -2490,7 +2490,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -3357,6 +3357,11 @@ Stop</string>
               </property>
               <column>
                <property name="text">
+                <string>HW</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
                 <string>DeviceClass</string>
                </property>
               </column>
@@ -3395,23 +3400,41 @@ Stop</string>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout">
               <item>
-               <widget class="QPushButton" name="pushButton">
+               <widget class="QPushButton" name="pushButton_refreshDetekce">
                 <property name="text">
-                 <string>PushButton</string>
+                 <string>Refresh</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_2">
+               <widget class="QPushButton" name="pushButton_nactiDetekce">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
                 <property name="text">
-                 <string>PushButton</string>
+                 <string>Načti 
+HW konfig</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_3">
+               <widget class="QPushButton" name="pushButton_ulozDetekce">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
                 <property name="text">
-                 <string>PushButton</string>
+                 <string>Ulož 
+HW config</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_detekceNastavAdresu">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>SetID</string>
                 </property>
                </widget>
               </item>

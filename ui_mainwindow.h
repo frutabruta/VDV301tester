@@ -185,9 +185,10 @@ public:
     QHBoxLayout *horizontalLayout;
     QTableWidget *tableWidget_seznamZarizeni;
     QVBoxLayout *verticalLayout;
-    QPushButton *pushButton;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton_3;
+    QPushButton *pushButton_refreshDetekce;
+    QPushButton *pushButton_nactiDetekce;
+    QPushButton *pushButton_ulozDetekce;
+    QPushButton *pushButton_detekceNastavAdresu;
     QWidget *tab_test;
     QHBoxLayout *horizontalLayout_5;
     QFormLayout *formLayout_3;
@@ -1466,8 +1467,8 @@ public:
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         tableWidget_seznamZarizeni = new QTableWidget(tab_moznosti_zarizeni);
-        if (tableWidget_seznamZarizeni->columnCount() < 7)
-            tableWidget_seznamZarizeni->setColumnCount(7);
+        if (tableWidget_seznamZarizeni->columnCount() < 8)
+            tableWidget_seznamZarizeni->setColumnCount(8);
         QTableWidgetItem *__qtablewidgetitem16 = new QTableWidgetItem();
         tableWidget_seznamZarizeni->setHorizontalHeaderItem(0, __qtablewidgetitem16);
         QTableWidgetItem *__qtablewidgetitem17 = new QTableWidgetItem();
@@ -1482,6 +1483,8 @@ public:
         tableWidget_seznamZarizeni->setHorizontalHeaderItem(5, __qtablewidgetitem21);
         QTableWidgetItem *__qtablewidgetitem22 = new QTableWidgetItem();
         tableWidget_seznamZarizeni->setHorizontalHeaderItem(6, __qtablewidgetitem22);
+        QTableWidgetItem *__qtablewidgetitem23 = new QTableWidgetItem();
+        tableWidget_seznamZarizeni->setHorizontalHeaderItem(7, __qtablewidgetitem23);
         tableWidget_seznamZarizeni->setObjectName(QString::fromUtf8("tableWidget_seznamZarizeni"));
         tableWidget_seznamZarizeni->setEnabled(true);
 
@@ -1490,20 +1493,28 @@ public:
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        pushButton = new QPushButton(tab_moznosti_zarizeni);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        pushButton_refreshDetekce = new QPushButton(tab_moznosti_zarizeni);
+        pushButton_refreshDetekce->setObjectName(QString::fromUtf8("pushButton_refreshDetekce"));
 
-        verticalLayout->addWidget(pushButton);
+        verticalLayout->addWidget(pushButton_refreshDetekce);
 
-        pushButton_2 = new QPushButton(tab_moznosti_zarizeni);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        pushButton_nactiDetekce = new QPushButton(tab_moznosti_zarizeni);
+        pushButton_nactiDetekce->setObjectName(QString::fromUtf8("pushButton_nactiDetekce"));
+        pushButton_nactiDetekce->setEnabled(true);
 
-        verticalLayout->addWidget(pushButton_2);
+        verticalLayout->addWidget(pushButton_nactiDetekce);
 
-        pushButton_3 = new QPushButton(tab_moznosti_zarizeni);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+        pushButton_ulozDetekce = new QPushButton(tab_moznosti_zarizeni);
+        pushButton_ulozDetekce->setObjectName(QString::fromUtf8("pushButton_ulozDetekce"));
+        pushButton_ulozDetekce->setEnabled(true);
 
-        verticalLayout->addWidget(pushButton_3);
+        verticalLayout->addWidget(pushButton_ulozDetekce);
+
+        pushButton_detekceNastavAdresu = new QPushButton(tab_moznosti_zarizeni);
+        pushButton_detekceNastavAdresu->setObjectName(QString::fromUtf8("pushButton_detekceNastavAdresu"));
+        pushButton_detekceNastavAdresu->setEnabled(false);
+
+        verticalLayout->addWidget(pushButton_detekceNastavAdresu);
 
 
         horizontalLayout->addLayout(verticalLayout);
@@ -1650,12 +1661,12 @@ public:
         tableWidgetCastiTestu = new QTableWidget(page_prubehTestu);
         if (tableWidgetCastiTestu->columnCount() < 3)
             tableWidgetCastiTestu->setColumnCount(3);
-        QTableWidgetItem *__qtablewidgetitem23 = new QTableWidgetItem();
-        tableWidgetCastiTestu->setHorizontalHeaderItem(0, __qtablewidgetitem23);
         QTableWidgetItem *__qtablewidgetitem24 = new QTableWidgetItem();
-        tableWidgetCastiTestu->setHorizontalHeaderItem(1, __qtablewidgetitem24);
+        tableWidgetCastiTestu->setHorizontalHeaderItem(0, __qtablewidgetitem24);
         QTableWidgetItem *__qtablewidgetitem25 = new QTableWidgetItem();
-        tableWidgetCastiTestu->setHorizontalHeaderItem(2, __qtablewidgetitem25);
+        tableWidgetCastiTestu->setHorizontalHeaderItem(1, __qtablewidgetitem25);
+        QTableWidgetItem *__qtablewidgetitem26 = new QTableWidgetItem();
+        tableWidgetCastiTestu->setHorizontalHeaderItem(2, __qtablewidgetitem26);
         tableWidgetCastiTestu->setObjectName(QString::fromUtf8("tableWidgetCastiTestu"));
 
         horizontalLayout_15->addWidget(tableWidgetCastiTestu);
@@ -1870,9 +1881,9 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_hlavni->setCurrentIndex(0);
+        tabWidget_hlavni->setCurrentIndex(1);
         stackedWidget_palPc->setCurrentIndex(2);
-        tabWidget_moznosti->setCurrentIndex(1);
+        tabWidget_moznosti->setCurrentIndex(2);
         stackedWidget_testy->setCurrentIndex(0);
 
 
@@ -2226,22 +2237,27 @@ public:
 " okno", nullptr));
         tabWidget_moznosti->setTabText(tabWidget_moznosti->indexOf(tab_moznosti_manual), QCoreApplication::translate("MainWindow", "Manual", nullptr));
         QTableWidgetItem *___qtablewidgetitem16 = tableWidget_seznamZarizeni->horizontalHeaderItem(0);
-        ___qtablewidgetitem16->setText(QCoreApplication::translate("MainWindow", "DeviceClass", nullptr));
+        ___qtablewidgetitem16->setText(QCoreApplication::translate("MainWindow", "HW", nullptr));
         QTableWidgetItem *___qtablewidgetitem17 = tableWidget_seznamZarizeni->horizontalHeaderItem(1);
-        ___qtablewidgetitem17->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
+        ___qtablewidgetitem17->setText(QCoreApplication::translate("MainWindow", "DeviceClass", nullptr));
         QTableWidgetItem *___qtablewidgetitem18 = tableWidget_seznamZarizeni->horizontalHeaderItem(2);
-        ___qtablewidgetitem18->setText(QCoreApplication::translate("MainWindow", "Hostname", nullptr));
+        ___qtablewidgetitem18->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
         QTableWidgetItem *___qtablewidgetitem19 = tableWidget_seznamZarizeni->horizontalHeaderItem(3);
-        ___qtablewidgetitem19->setText(QCoreApplication::translate("MainWindow", "IP", nullptr));
+        ___qtablewidgetitem19->setText(QCoreApplication::translate("MainWindow", "Hostname", nullptr));
         QTableWidgetItem *___qtablewidgetitem20 = tableWidget_seznamZarizeni->horizontalHeaderItem(4);
-        ___qtablewidgetitem20->setText(QCoreApplication::translate("MainWindow", "port", nullptr));
+        ___qtablewidgetitem20->setText(QCoreApplication::translate("MainWindow", "IP", nullptr));
         QTableWidgetItem *___qtablewidgetitem21 = tableWidget_seznamZarizeni->horizontalHeaderItem(5);
-        ___qtablewidgetitem21->setText(QCoreApplication::translate("MainWindow", "serviceName", nullptr));
+        ___qtablewidgetitem21->setText(QCoreApplication::translate("MainWindow", "port", nullptr));
         QTableWidgetItem *___qtablewidgetitem22 = tableWidget_seznamZarizeni->horizontalHeaderItem(6);
-        ___qtablewidgetitem22->setText(QCoreApplication::translate("MainWindow", "verze", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        pushButton_3->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
+        ___qtablewidgetitem22->setText(QCoreApplication::translate("MainWindow", "serviceName", nullptr));
+        QTableWidgetItem *___qtablewidgetitem23 = tableWidget_seznamZarizeni->horizontalHeaderItem(7);
+        ___qtablewidgetitem23->setText(QCoreApplication::translate("MainWindow", "verze", nullptr));
+        pushButton_refreshDetekce->setText(QCoreApplication::translate("MainWindow", "Refresh", nullptr));
+        pushButton_nactiDetekce->setText(QCoreApplication::translate("MainWindow", "Na\304\215ti \n"
+"HW konfig", nullptr));
+        pushButton_ulozDetekce->setText(QCoreApplication::translate("MainWindow", "Ulo\305\276 \n"
+"HW config", nullptr));
+        pushButton_detekceNastavAdresu->setText(QCoreApplication::translate("MainWindow", "SetID", nullptr));
         tabWidget_moznosti->setTabText(tabWidget_moznosti->indexOf(tab_moznosti_zarizeni), QCoreApplication::translate("MainWindow", "Detekce za\305\231\303\255zen\303\255", nullptr));
         tabWidget_hlavni->setTabText(tabWidget_hlavni->indexOf(tab_moznosti), QCoreApplication::translate("MainWindow", "Mo\305\276nosti", nullptr));
         pushButton_menu2_sluzby->setText(QCoreApplication::translate("MainWindow", "Slu\305\276by", nullptr));
@@ -2254,12 +2270,12 @@ public:
         pushButton_test2->setText(QCoreApplication::translate("MainWindow", "Test odberu", nullptr));
         pushButton_test3->setText(QCoreApplication::translate("MainWindow", "Test Bonjour", nullptr));
         pushButton_test4->setText(QCoreApplication::translate("MainWindow", "PushButton", nullptr));
-        QTableWidgetItem *___qtablewidgetitem23 = tableWidgetCastiTestu->horizontalHeaderItem(0);
-        ___qtablewidgetitem23->setText(QCoreApplication::translate("MainWindow", "N\303\241zev \304\215\303\241sti testu", nullptr));
-        QTableWidgetItem *___qtablewidgetitem24 = tableWidgetCastiTestu->horizontalHeaderItem(1);
-        ___qtablewidgetitem24->setText(QCoreApplication::translate("MainWindow", "Pr\305\257b\304\233h", nullptr));
-        QTableWidgetItem *___qtablewidgetitem25 = tableWidgetCastiTestu->horizontalHeaderItem(2);
-        ___qtablewidgetitem25->setText(QCoreApplication::translate("MainWindow", "V\303\275sledek", nullptr));
+        QTableWidgetItem *___qtablewidgetitem24 = tableWidgetCastiTestu->horizontalHeaderItem(0);
+        ___qtablewidgetitem24->setText(QCoreApplication::translate("MainWindow", "N\303\241zev \304\215\303\241sti testu", nullptr));
+        QTableWidgetItem *___qtablewidgetitem25 = tableWidgetCastiTestu->horizontalHeaderItem(1);
+        ___qtablewidgetitem25->setText(QCoreApplication::translate("MainWindow", "Pr\305\257b\304\233h", nullptr));
+        QTableWidgetItem *___qtablewidgetitem26 = tableWidgetCastiTestu->horizontalHeaderItem(2);
+        ___qtablewidgetitem26->setText(QCoreApplication::translate("MainWindow", "V\303\275sledek", nullptr));
         pushButton_startTest->setText(QCoreApplication::translate("MainWindow", "Spustit\n"
 " test", nullptr));
         pushButton_stopTest->setText(QCoreApplication::translate("MainWindow", "Zastavit\n"

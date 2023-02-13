@@ -66,6 +66,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //propojeni vsech slotu
     vsechnyConnecty();
 
+    on_pushButton_nactiDetekce_clicked();
     nastartujVsechnyVdv301Sluzby();
 
     //deviceManagementServiceSubscriber.novePrihlaseniOdberu();
@@ -1942,19 +1943,28 @@ void MainWindow::on_radioButton_singleDoorCloser_clicked()
 void MainWindow::slotAktualizaceTabulkySluzeb()
 {
     qDebug()<<"MainWindow::slotAktualizaceTabulkySluzeb";
-    vykresliSluzbyDoTabulky(deviceManagementServiceSubscriber.seznamZarizeni);
+    vykresliSluzbyDoTabulky(deviceManagementServiceSubscriber.seznamZarizeniDetekce, deviceManagementServiceSubscriber.seznamZarizeniKonfigurace);
 }
 
-void MainWindow::vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamSluzeb)
+void MainWindow::vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamSluzebDetekce, QVector<DevMgmtPublisherStruct> seznamSluzebKonfigurace)
 {
     qDebug() <<  Q_FUNC_INFO;
     // ui->tabulkaSubscriberu->setRowCount(0);
     vymazTabulkuSubscriberu(ui->tableWidget_seznamZarizeni);
 
 
-    foreach(auto sluzba, seznamSluzeb)
+    foreach(auto sluzba, seznamSluzebDetekce)
     {
         sluzbaDoTabulky(sluzba);
+    }
+
+    foreach(DevMgmtPublisherStruct sluzba, seznamSluzebKonfigurace)
+    {
+        if(!sluzba.isInListByIdClass(seznamSluzebDetekce))
+        {
+             sluzbaDoTabulky(sluzba);
+        }
+
     }
 }
 
@@ -1976,20 +1986,21 @@ void MainWindow::vymazTabulkuSubscriberu(QTableWidget *tableWidget)
 
 
 //vypis detekovanych sluzeb do tabulky
-void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zcs)
+void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni)
 {
     //QZeroConfService zcs
     qDebug() <<  Q_FUNC_INFO;
     qint32 row;
     QTableWidgetItem *cell;
 
-    QString sluzbaNazev=zcs.serviceName;
-    QString ipadresa=zcs.adresa.toString() ;
-    QString hostName=zcs.hostname;
-    QString verze=zcs.ibisIpVersion;
-    QString deviceClass=zcs.deviceClass;
-    QString id=zcs.deviceId;
-    int port=zcs.port;
+    QString sluzbaNazev=zarizeni.serviceName;
+    QString ipadresa=zarizeni.adresa.toString() ;
+    QString hostName=zarizeni.hostname;
+    QString verze=zarizeni.ibisIpVersion;
+    QString deviceClass=zarizeni.deviceClass;
+    QString id=zarizeni.deviceId;
+    int port=zarizeni.port;
+    int hwConfig=zarizeni.hwConfig;
     /*
     qDebug() <<"nazev sluzby "<<nazev<<" ip adresa "<<ipadresa<<" port "<<QString::number(port)<<" data" <<verze ;
  */
@@ -1997,27 +2008,29 @@ void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zcs)
     row = ui->tableWidget_seznamZarizeni->rowCount();
     ui->tableWidget_seznamZarizeni->insertRow(row);
 
-
-    cell = new QTableWidgetItem(deviceClass);
+    cell = new QTableWidgetItem(QString::number(hwConfig));
     ui->tableWidget_seznamZarizeni->setItem(row, 0, cell);
 
-    cell = new QTableWidgetItem(id);
+    cell = new QTableWidgetItem(deviceClass);
     ui->tableWidget_seznamZarizeni->setItem(row, 1, cell);
 
-    cell = new QTableWidgetItem(hostName);
+    cell = new QTableWidgetItem(id);
     ui->tableWidget_seznamZarizeni->setItem(row, 2, cell);
 
-    cell = new QTableWidgetItem(ipadresa);
+    cell = new QTableWidgetItem(hostName);
     ui->tableWidget_seznamZarizeni->setItem(row, 3, cell);
 
-    cell = new QTableWidgetItem(QString::number(port));
+    cell = new QTableWidgetItem(ipadresa);
     ui->tableWidget_seznamZarizeni->setItem(row, 4, cell);
 
-    cell = new QTableWidgetItem(sluzbaNazev);
+    cell = new QTableWidgetItem(QString::number(port));
     ui->tableWidget_seznamZarizeni->setItem(row, 5, cell);
 
-    cell = new QTableWidgetItem(verze);
+    cell = new QTableWidgetItem(sluzbaNazev);
     ui->tableWidget_seznamZarizeni->setItem(row, 6, cell);
+
+    cell = new QTableWidgetItem(verze);
+    ui->tableWidget_seznamZarizeni->setItem(row, 7, cell);
 
     ui->tableWidget_seznamZarizeni->resizeColumnsToContents();
 
@@ -2160,4 +2173,72 @@ void MainWindow::on_tableView_turnusSpoj_clicked(const QModelIndex &index)
         ui->poleSpojeTurnus->setText(QString::number(stavSystemu.aktspoj.cisloRopid));
     }
 }
+
+
+void MainWindow::on_pushButton_refreshDetekce_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    deviceManagementServiceSubscriber.slotAktualizaceZarizeni();
+}
+
+
+void MainWindow::on_pushButton_ulozDetekce_clicked()
+{
+
+   qDebug() <<  Q_FUNC_INFO;
+
+    int i=0;
+    settings.beginWriteArray("hwConfig");
+    foreach(DevMgmtPublisherStruct zarizeni, deviceManagementServiceSubscriber.seznamZarizeniDetekce)
+    {
+       // QJsonDocument json = QJsonDocument::fromVariant(zarizeni.toQMap() );
+       settings.setArrayIndex(i);
+       settings.setValue("deviceClass",zarizeni.deviceClass);
+       settings.setValue("deviceId",zarizeni.deviceId);
+       i++;
+    }
+    settings.endArray();
+
+
+
+
+}
+
+
+
+void MainWindow::on_pushButton_nactiDetekce_clicked()
+{
+     qDebug() <<  Q_FUNC_INFO;
+
+     deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.clear();
+
+
+     int size = settings.beginReadArray("hwConfig");
+     for (int j = 0; j < size; ++j) {
+         settings.setArrayIndex(j);
+         DevMgmtPublisherStruct zarizeni;
+         zarizeni.deviceId= settings.value("deviceId").toString();
+         zarizeni.deviceClass= settings.value("deviceClass").toString();
+         zarizeni.hwConfig=true;
+         deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.append(zarizeni);
+         qDebug()<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
+     }
+     settings.endArray();
+
+     qDebug()<<"nacteno "<<QString::number(deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.count())<<" zarizeni";
+     vykresliSluzbyDoTabulky(deviceManagementServiceSubscriber.seznamZarizeniDetekce, deviceManagementServiceSubscriber.seznamZarizeniKonfigurace);
+}
+
+/*
+ Store
+QMap<QString, QVariant> storeMap;
+QMapIterator it(myMap);
+// iterate through the map to save the values in your chosen format
+while(it.hasNext())
+{
+    storeMap[it.key()] = QVariant(it.value());
+    it.next();
+}
+settings.setValue("myKey", storeMap);
+*/
 

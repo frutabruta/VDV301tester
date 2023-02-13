@@ -170,8 +170,8 @@ private:
     void resetSeznamuSpoju();
     void eventZobrazOznameni(int index, QVector<SpecialniHlaseni> seznamHlaseni);
     void vykresliStav(QString stav);
-    void vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamSluzeb);
-    void sluzbaDoTabulky(DevMgmtPublisherStruct zcs);
+    void vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamSluzebDetekce, QVector<DevMgmtPublisherStruct> seznamSluzebKonfigurace);
+    void sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni);
     void vymazTabulkuSubscriberu(QTableWidget *tableWidget);
 
     QString nahradZnacky(QString vstup);
@@ -300,6 +300,12 @@ private slots:
 
      void on_tableView_turnusSpoj_clicked(const QModelIndex &index);
      void slotGolemioReady();
+
+     void on_pushButton_refreshDetekce_clicked();
+
+     void on_pushButton_ulozDetekce_clicked();
+
+     void on_pushButton_nactiDetekce_clicked();
 
 signals:
      void signalZahajImport(QString cesta);
