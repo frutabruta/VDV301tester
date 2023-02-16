@@ -133,8 +133,6 @@ void MainWindow::natahniKonstanty()
     qDebug()<<" konstanty status "<<settings.status();
 
 
-
-
     if(settings.value("golemio/datovyZdroj").toString()=="mpvnet")
     {
         pouzitGolemio=false;
@@ -154,6 +152,11 @@ void MainWindow::natahniKonstanty()
     deviceManagementService1_0.setDeviceId(settings.value("deviceManagementService1_0/deviceId").toString());
     deviceManagementService1_0.setSwVersion(compilationTime);
     deviceManagementService1_0.slotAktualizaceDat();
+
+    deviceManagementService1_0.setCisloPortu(settings.value("deviceManagementService1_0/port").toInt() ); //47477
+    customerInformationService1_0.setCisloPortu(settings.value("customerInformationService1_0/port").toInt() );
+    customerInformationService2_2CZ1_0.setCisloPortu(settings.value("customerInformationService2_2CZ1_0/port").toInt() );
+
 }
 
 
@@ -305,6 +308,7 @@ void MainWindow::testStop(int index)
 */
 void MainWindow::nastartujVsechnyVdv301Sluzby()
 {
+    qDebug() <<  Q_FUNC_INFO;
     deviceManagementService1_0.slotStartServer();
     customerInformationService1_0.slotStartServer();
     customerInformationService2_2CZ1_0.slotStartServer();
@@ -2009,7 +2013,26 @@ void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni)
     ui->tableWidget_seznamZarizeni->insertRow(row);
 
     cell = new QTableWidgetItem(QString::number(hwConfig));
+
+    if(hwConfig==1)
+    {
+        if(ipadresa=="")
+        {
+            cell->setBackgroundColor(QColor("#FF0000"));
+        }
+        else
+        {
+            cell->setBackgroundColor(QColor("#00FF00"));
+        }
+
+
+    }
+    else
+    {
+       cell->setBackgroundColor(QColor("#FFFF00"));
+    }
     ui->tableWidget_seznamZarizeni->setItem(row, 0, cell);
+
 
     cell = new QTableWidgetItem(deviceClass);
     ui->tableWidget_seznamZarizeni->setItem(row, 1, cell);
@@ -2031,6 +2054,7 @@ void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni)
 
     cell = new QTableWidgetItem(verze);
     ui->tableWidget_seznamZarizeni->setItem(row, 7, cell);
+
 
     ui->tableWidget_seznamZarizeni->resizeColumnsToContents();
 
