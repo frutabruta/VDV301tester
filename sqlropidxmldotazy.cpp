@@ -135,6 +135,8 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,in
             aktZast.prestupLetadlo =query.value(query.record().indexOf("x.xLet")).toBool();
             aktZast.prestupPrivoz =query.value(query.record().indexOf("x.xLod")).toBool();
             aktZast.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
+            aktZast.lng=query.value(query.record().indexOf("z.lng")).toString();
+            aktZast.lat=query.value(query.record().indexOf("z.lat")).toString();
 
 
             aktZast.seznamPoznamek=StahniPoznamky(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
@@ -225,7 +227,7 @@ dbManager->query.exec();
 
       */
     QString queryString2("SELECT DISTINCT   ");
-    queryString2+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, ");
+    queryString2+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.lng, z.lat, ");
     queryString2+=("t.ri,t.hl, ");
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");

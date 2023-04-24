@@ -71,7 +71,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -795,7 +795,7 @@ hlášení</string>
 padding: 0 px;</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_jizda">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -1194,16 +1194,32 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_IBIS">
-                    <property name="font">
-                     <font>
-                      <pointsize>18</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>IBIS</string>
-                    </property>
-                   </widget>
+                   <layout class="QHBoxLayout" name="horizontalLayout_3">
+                    <item>
+                     <widget class="QPushButton" name="pushButton_jizda_IBIS">
+                      <property name="font">
+                       <font>
+                        <pointsize>20</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>IBIS</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="pushButton_jizda_mapa">
+                      <property name="font">
+                       <font>
+                        <pointsize>20</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>Mapa</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                  </layout>
                 </item>
@@ -1309,13 +1325,6 @@ Stop</string>
                <layout class="QVBoxLayout" name="verticalLayout_7">
                 <item>
                  <layout class="QFormLayout" name="formLayout">
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label">
-                    <property name="text">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Linka&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="0" column="1">
                    <widget class="QLineEdit" name="polelinky">
                     <property name="palette">
@@ -1792,6 +1801,13 @@ Stop</string>
                     </property>
                    </widget>
                   </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_3">
+                    <property name="text">
+                     <string>Linka</string>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
                 </item>
                </layout>
@@ -1880,13 +1896,6 @@ Stop</string>
                <layout class="QVBoxLayout" name="verticalLayout_16">
                 <item>
                  <layout class="QFormLayout" name="formLayout_2">
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_16">
-                    <property name="text">
-                     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Linka&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item row="0" column="1">
                    <widget class="QLineEdit" name="poleLinkyTurnus">
                     <property name="palette">
@@ -2344,6 +2353,13 @@ Stop</string>
                     </property>
                    </widget>
                   </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_17">
+                    <property name="text">
+                     <string>Spoj</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="1" column="1">
                    <widget class="QLineEdit" name="poleSpojeTurnus">
                     <property name="font">
@@ -2356,10 +2372,10 @@ Stop</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_17">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label_18">
                     <property name="text">
-                     <string>Spoj</string>
+                     <string>Km. linka</string>
                     </property>
                    </widget>
                   </item>
@@ -2490,7 +2506,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -3084,227 +3100,7 @@ Stop</string>
               <item>
                <widget class="QPlainTextEdit" name="plainTextEditCustomXml">
                 <property name="plainText">
-                 <string>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-&lt;CustomerInformationService.GetAllDataResponse&gt;
- &lt;AllData&gt;
-  &lt;TimeStamp&gt;
-   &lt;Value&gt;2021-03-07T02:51:28&lt;/Value&gt;
-  &lt;/TimeStamp&gt;
-  &lt;VehicleRef&gt;
-   &lt;Value&gt;33&lt;/Value&gt;
-  &lt;/VehicleRef&gt;
-  &lt;DefaultLanguage&gt;
-   &lt;Value&gt;cz&lt;/Value&gt;
-  &lt;/DefaultLanguage&gt;
-  &lt;TripInformation&gt;
-   &lt;TripRef&gt;
-    &lt;Value&gt;3&lt;/Value&gt;
-   &lt;/TripRef&gt;
-   &lt;StopSequence&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;0&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:0&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Sídliště Radotín&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;1&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:1&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Sídliště Radotín&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;2&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:2&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Černošice,U Vodárny&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;3&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:3&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Černošice,Žel.zast.&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;4&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:4&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Zdická&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-   &lt;/StopSequence&gt;
-   &lt;LocationState&gt;AtStop&lt;/LocationState&gt;
-  &lt;/TripInformation&gt;
-  &lt;CurrentStopIndex&gt;
-   &lt;Value&gt;0&lt;/Value&gt;
-  &lt;/CurrentStopIndex&gt;
-  &lt;RouteDeviation&gt;onroute&lt;/RouteDeviation&gt;
-  &lt;DoorState&gt;AllDoorsClosed&lt;/DoorState&gt;
-  &lt;VehicleStopRequested&gt;
-   &lt;Value&gt;0&lt;/Value&gt;
-  &lt;/VehicleStopRequested&gt;
-  &lt;ExitSide&gt;right&lt;/ExitSide&gt;
- &lt;/AllData&gt;
-&lt;/CustomerInformationService.GetAllDataResponse&gt;</string>
+                 <string/>
                 </property>
                </widget>
               </item>

@@ -39,6 +39,8 @@
 #include "konfigurace.h"
 #include "logfile.h"
 #include "mainwindowpomocne.h"
+#include "MapaVykresleni/mapavykresleni.h"
+
 
 
 
@@ -82,6 +84,7 @@ private:
     Hlasic hlasic;
     Logfile logfile;
     QFile souborLogu;
+    MapaVykresleni mapaVykresleni;
 
     //VDV301testy
     TestDemo vzorovyTest;
@@ -177,6 +180,7 @@ private:
     QString nahradZnacky(QString vstup);
 
     void natahniKonstanty();
+
 public slots:
     void slotVypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
@@ -306,6 +310,8 @@ private slots:
      void on_pushButton_ulozDetekce_clicked();
 
      void on_pushButton_nactiDetekce_clicked();
+
+     void on_pushButton_jizda_mapa_clicked();
 
 signals:
      void signalZahajImport(QString cesta);

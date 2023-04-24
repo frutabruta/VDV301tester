@@ -52,26 +52,26 @@ announcement</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="291"/>
-        <location filename="mainwindow.ui" line="3602"/>
+        <location filename="mainwindow.ui" line="3382"/>
         <source>Fullscr.</source>
         <translation>Fullscr.</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="328"/>
-        <location filename="mainwindow.ui" line="3639"/>
+        <location filename="mainwindow.ui" line="3419"/>
         <source>QUIT</source>
         <translation>QUIT</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="816"/>
+        <location filename="mainwindow.ui" line="1791"/>
         <source>Linka</source>
-        <translation>Line
-/connection</translation>
+        <translation>Line</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="828"/>
-        <location filename="mainwindow.ui" line="1791"/>
-        <location filename="mainwindow.ui" line="2362"/>
+        <location filename="mainwindow.ui" line="1784"/>
+        <location filename="mainwindow.ui" line="2343"/>
         <source>Spoj</source>
         <translation>Connection</translation>
     </message>
@@ -214,19 +214,13 @@ Stop</translation>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1315"/>
-        <location filename="mainwindow.ui" line="1886"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Linka&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="1772"/>
-        <location filename="mainwindow.ui" line="2343"/>
+        <location filename="mainwindow.ui" line="1765"/>
+        <location filename="mainwindow.ui" line="2336"/>
         <source>100952</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="1784"/>
+        <location filename="mainwindow.ui" line="1777"/>
         <location filename="mainwindow.ui" line="2355"/>
         <source>1001</source>
         <translation></translation>
@@ -234,7 +228,7 @@ Stop</translation>
     <message>
         <location filename="mainwindow.ui" line="1811"/>
         <source>Kmenová linka</source>
-        <translation type="unfinished"></translation>
+        <translation>Root line</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1832"/>
@@ -245,6 +239,11 @@ Stop</translation>
         <location filename="mainwindow.ui" line="1850"/>
         <source>Spoje</source>
         <translation>Connections</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="2362"/>
+        <source>Km. linka</source>
+        <translation>Root line</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2439"/>
@@ -431,294 +430,69 @@ subscriber</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3087"/>
-        <source>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-&lt;CustomerInformationService.GetAllDataResponse&gt;
- &lt;AllData&gt;
-  &lt;TimeStamp&gt;
-   &lt;Value&gt;2021-03-07T02:51:28&lt;/Value&gt;
-  &lt;/TimeStamp&gt;
-  &lt;VehicleRef&gt;
-   &lt;Value&gt;33&lt;/Value&gt;
-  &lt;/VehicleRef&gt;
-  &lt;DefaultLanguage&gt;
-   &lt;Value&gt;cz&lt;/Value&gt;
-  &lt;/DefaultLanguage&gt;
-  &lt;TripInformation&gt;
-   &lt;TripRef&gt;
-    &lt;Value&gt;3&lt;/Value&gt;
-   &lt;/TripRef&gt;
-   &lt;StopSequence&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;0&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:0&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Sídliště Radotín&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;1&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:1&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Sídliště Radotín&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;2&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:2&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Černošice,U Vodárny&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;3&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:3&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Černošice,Žel.zast.&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-    &lt;StopPoint&gt;
-     &lt;StopIndex&gt;
-      &lt;Value&gt;4&lt;/Value&gt;
-     &lt;/StopIndex&gt;
-     &lt;StopRef&gt;
-      &lt;Value&gt;Ref:4&lt;/Value&gt;
-     &lt;/StopRef&gt;
-     &lt;StopName&gt;
-      &lt;Value&gt;Zdická&lt;/Value&gt;
-      &lt;Language&gt;cz&lt;/Language&gt;
-     &lt;/StopName&gt;
-     &lt;DisplayContent&gt;
-      &lt;DisplayContentRef&gt;
-       &lt;Value&gt;1234&lt;/Value&gt;
-      &lt;/DisplayContentRef&gt;
-      &lt;LineInformation&gt;
-       &lt;LineRef&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineRef&gt;
-       &lt;LineName&gt;
-        &lt;Value&gt;315&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/LineName&gt;
-       &lt;LineNumber&gt;
-        &lt;Value&gt;100315&lt;/Value&gt;
-       &lt;/LineNumber&gt;
-      &lt;/LineInformation&gt;
-      &lt;Destination&gt;
-       &lt;DestinationRef&gt;
-        &lt;Value&gt;22&lt;/Value&gt;
-       &lt;/DestinationRef&gt;
-       &lt;DestinationName&gt;
-        &lt;Value&gt;Zdická&lt;/Value&gt;
-        &lt;Language&gt;cz&lt;/Language&gt;
-       &lt;/DestinationName&gt;
-      &lt;/Destination&gt;
-     &lt;/DisplayContent&gt;
-    &lt;/StopPoint&gt;
-   &lt;/StopSequence&gt;
-   &lt;LocationState&gt;AtStop&lt;/LocationState&gt;
-  &lt;/TripInformation&gt;
-  &lt;CurrentStopIndex&gt;
-   &lt;Value&gt;0&lt;/Value&gt;
-  &lt;/CurrentStopIndex&gt;
-  &lt;RouteDeviation&gt;onroute&lt;/RouteDeviation&gt;
-  &lt;DoorState&gt;AllDoorsClosed&lt;/DoorState&gt;
-  &lt;VehicleStopRequested&gt;
-   &lt;Value&gt;0&lt;/Value&gt;
-  &lt;/VehicleStopRequested&gt;
-  &lt;ExitSide&gt;right&lt;/ExitSide&gt;
- &lt;/AllData&gt;
-&lt;/CustomerInformationService.GetAllDataResponse&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="3321"/>
+        <location filename="mainwindow.ui" line="3101"/>
         <source>odeslat
  na panely</source>
         <translation>Send custom XML</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3334"/>
+        <location filename="mainwindow.ui" line="3114"/>
         <source>vymazat
  okno</source>
         <translation>Clear window</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3350"/>
+        <location filename="mainwindow.ui" line="3130"/>
         <source>Detekce zařízení</source>
         <translation>Device detection</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3360"/>
+        <location filename="mainwindow.ui" line="3140"/>
         <source>HW</source>
         <translation>HW</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3365"/>
+        <location filename="mainwindow.ui" line="3145"/>
         <source>DeviceClass</source>
         <translation>DeviceClass</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3370"/>
+        <location filename="mainwindow.ui" line="3150"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3375"/>
+        <location filename="mainwindow.ui" line="3155"/>
         <source>Hostname</source>
         <translation>Hostname</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3380"/>
+        <location filename="mainwindow.ui" line="3160"/>
         <source>IP</source>
         <translation>IP</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3385"/>
+        <location filename="mainwindow.ui" line="3165"/>
         <source>port</source>
         <translation>port</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3390"/>
+        <location filename="mainwindow.ui" line="3170"/>
         <source>serviceName</source>
         <translation>serviceName</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3395"/>
+        <location filename="mainwindow.ui" line="3175"/>
         <source>verze</source>
         <translation>version</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3405"/>
+        <location filename="mainwindow.ui" line="3185"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3415"/>
+        <location filename="mainwindow.ui" line="3195"/>
         <source>Načti 
 HW konfig</source>
         <translation>Save
@@ -726,7 +500,7 @@ HW
 config</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3426"/>
+        <location filename="mainwindow.ui" line="3206"/>
         <source>Ulož 
 HW config</source>
         <translation>Save
@@ -734,122 +508,122 @@ HW
 config</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3437"/>
+        <location filename="mainwindow.ui" line="3217"/>
         <source>SetID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3752"/>
+        <location filename="mainwindow.ui" line="3532"/>
         <source>PushButton</source>
         <translation>pushButton</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3451"/>
+        <location filename="mainwindow.ui" line="3231"/>
         <source>Testování</source>
         <translation>Testing</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3484"/>
+        <location filename="mainwindow.ui" line="3264"/>
         <source>Služby</source>
         <translation>Services</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3523"/>
+        <location filename="mainwindow.ui" line="3303"/>
         <source>Průbeh
  testu</source>
         <translation>Test
 running</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3563"/>
+        <location filename="mainwindow.ui" line="3343"/>
         <source>xx</source>
         <translation>xx</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3680"/>
+        <location filename="mainwindow.ui" line="3460"/>
         <source>Vzorový test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3704"/>
+        <location filename="mainwindow.ui" line="3484"/>
         <source>Test odberu</source>
         <translation>Subscription test</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3728"/>
+        <location filename="mainwindow.ui" line="3508"/>
         <source>Test Bonjour</source>
         <translation>Bonjour test</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3764"/>
+        <location filename="mainwindow.ui" line="3544"/>
         <source>Název části testu</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3769"/>
+        <location filename="mainwindow.ui" line="3549"/>
         <source>Průběh</source>
         <translation>state</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3774"/>
+        <location filename="mainwindow.ui" line="3554"/>
         <source>Výsledek</source>
         <translation>Result</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3795"/>
+        <location filename="mainwindow.ui" line="3575"/>
         <source>Spustit
  test</source>
         <translation>Run test</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3814"/>
+        <location filename="mainwindow.ui" line="3594"/>
         <source>Zastavit
 test</source>
         <translation>Stop test</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3837"/>
+        <location filename="mainwindow.ui" line="3617"/>
         <source>Customer Informaton Service 2.2CZ1.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3857"/>
-        <location filename="mainwindow.ui" line="3919"/>
-        <location filename="mainwindow.ui" line="3981"/>
-        <location filename="mainwindow.ui" line="4046"/>
+        <location filename="mainwindow.ui" line="3637"/>
+        <location filename="mainwindow.ui" line="3699"/>
+        <location filename="mainwindow.ui" line="3761"/>
+        <location filename="mainwindow.ui" line="3826"/>
         <source>ON</source>
         <translation>ON</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3875"/>
-        <location filename="mainwindow.ui" line="3937"/>
-        <location filename="mainwindow.ui" line="4002"/>
-        <location filename="mainwindow.ui" line="4064"/>
+        <location filename="mainwindow.ui" line="3655"/>
+        <location filename="mainwindow.ui" line="3717"/>
+        <location filename="mainwindow.ui" line="3782"/>
+        <location filename="mainwindow.ui" line="3844"/>
         <source>OFF</source>
         <translation>OFF</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3899"/>
+        <location filename="mainwindow.ui" line="3679"/>
         <source>DeviceManagementService 1.0</source>
         <translation>DeviceManagementService 1.0</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3961"/>
+        <location filename="mainwindow.ui" line="3741"/>
         <source>TicketValidationService 2.2CZ1.0</source>
         <translation>TicketValidationService 2.2CZ1.0</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="4026"/>
+        <location filename="mainwindow.ui" line="3806"/>
         <source>Customer Informaton Service 1.0</source>
         <translation>Customer Informaton Service 1.0</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1571"/>
+        <location filename="mainwindow.cpp" line="1576"/>
         <source>Otevři soubor</source>
         <translation>Open file</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1572"/>
+        <location filename="mainwindow.cpp" line="1577"/>
         <source>XML Ropid JŘ (*.xml);;All Files (*)</source>
         <translation>XML Ropid timetables</translation>
     </message>

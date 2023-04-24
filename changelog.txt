@@ -1,3 +1,7 @@
+24. 4. 2023
+možnost zobrazit trasu linky
+import GPS souřadnic
+
 16. 2. 2023 11:52
 možnost změnit port u služeb
 

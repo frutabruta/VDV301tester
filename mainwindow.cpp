@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QTranslator>
 
+
 //MAIN
 
 
@@ -166,6 +167,7 @@ přesunutí connectů pro větší přehlednost
 */
 void MainWindow::vsechnyConnecty()
 {
+    qDebug()<<Q_FUNC_INFO;
     //vypisy subscriberu
     connect(&customerInformationService1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery1_0);
     connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery2_2CZ);
@@ -561,9 +563,12 @@ int MainWindow::natahniSeznamSpojeKomplet()
         ui->pushButton_menu_jizda->setChecked(1);
         ui->stackedWidget_palPc->setCurrentWidget(ui->page_jizda);
         eventVstupDoVydeje();
+       // mapaVykresleni.vypisGpsDoHtml(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,true,true,true,MapaVykresleni::WGS84);
     }
     return 1;
 }
+
+
 
 
 /*!
@@ -869,8 +874,7 @@ void MainWindow::on_pushButton_jizda_betweenStop_clicked()
 */
 void MainWindow::on_checkBox_stateChanged(int arg1)
 {
-
-    qDebug()<<"MainWindow::on_checkBox_stateChanged";
+    qDebug()<<Q_FUNC_INFO;
     stavSystemu.prestupy= ui->checkBox->isChecked();
 }
 
@@ -1101,9 +1105,14 @@ void MainWindow::on_pushButton_manual_odesliXml_clicked()
     vysledek2=vysledek2+ui->plainTextEditCustomXml->toPlainText().toUtf8();
     customerInformationService1_0.nastavObsahTela("AllData",vysledek2);
     customerInformationService2_2CZ1_0.nastavObsahTela("AllData",vysledek2);
+
     for(int i=0;i<customerInformationService1_0.seznamSubscriberu.count();i++ )
     {
         customerInformationService1_0.PostDoDispleje(customerInformationService1_0.seznamSubscriberu[i].adresa,vysledek2);
+    }
+    for(int i=0;i<customerInformationService2_2CZ1_0.seznamSubscriberu.count();i++ )
+    {
+        customerInformationService2_2CZ1_0.PostDoDispleje(customerInformationService2_2CZ1_0.seznamSubscriberu[i].adresa,vysledek2);
     }
     qDebug()<<"\n MainWindow::xmlUpdate";
 }
@@ -1966,7 +1975,7 @@ void MainWindow::vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamS
     {
         if(!sluzba.isInListByIdClass(seznamSluzebDetekce))
         {
-             sluzbaDoTabulky(sluzba);
+            sluzbaDoTabulky(sluzba);
         }
 
     }
@@ -2029,7 +2038,7 @@ void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni)
     }
     else
     {
-       cell->setBackgroundColor(QColor("#FFFF00"));
+        cell->setBackgroundColor(QColor("#FFFF00"));
     }
     ui->tableWidget_seznamZarizeni->setItem(row, 0, cell);
 
@@ -2209,17 +2218,17 @@ void MainWindow::on_pushButton_refreshDetekce_clicked()
 void MainWindow::on_pushButton_ulozDetekce_clicked()
 {
 
-   qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
 
     int i=0;
     settings.beginWriteArray("hwConfig");
     foreach(DevMgmtPublisherStruct zarizeni, deviceManagementServiceSubscriber.seznamZarizeniDetekce)
     {
-       // QJsonDocument json = QJsonDocument::fromVariant(zarizeni.toQMap() );
-       settings.setArrayIndex(i);
-       settings.setValue("deviceClass",zarizeni.deviceClass);
-       settings.setValue("deviceId",zarizeni.deviceId);
-       i++;
+        // QJsonDocument json = QJsonDocument::fromVariant(zarizeni.toQMap() );
+        settings.setArrayIndex(i);
+        settings.setValue("deviceClass",zarizeni.deviceClass);
+        settings.setValue("deviceId",zarizeni.deviceId);
+        i++;
     }
     settings.endArray();
 
@@ -2232,25 +2241,25 @@ void MainWindow::on_pushButton_ulozDetekce_clicked()
 
 void MainWindow::on_pushButton_nactiDetekce_clicked()
 {
-     qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
 
-     deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.clear();
+    deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.clear();
 
 
-     int size = settings.beginReadArray("hwConfig");
-     for (int j = 0; j < size; ++j) {
-         settings.setArrayIndex(j);
-         DevMgmtPublisherStruct zarizeni;
-         zarizeni.deviceId= settings.value("deviceId").toString();
-         zarizeni.deviceClass= settings.value("deviceClass").toString();
-         zarizeni.hwConfig=true;
-         deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.append(zarizeni);
-         qDebug()<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
-     }
-     settings.endArray();
+    int size = settings.beginReadArray("hwConfig");
+    for (int j = 0; j < size; ++j) {
+        settings.setArrayIndex(j);
+        DevMgmtPublisherStruct zarizeni;
+        zarizeni.deviceId= settings.value("deviceId").toString();
+        zarizeni.deviceClass= settings.value("deviceClass").toString();
+        zarizeni.hwConfig=true;
+        deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.append(zarizeni);
+        qDebug()<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
+    }
+    settings.endArray();
 
-     qDebug()<<"nacteno "<<QString::number(deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.count())<<" zarizeni";
-     vykresliSluzbyDoTabulky(deviceManagementServiceSubscriber.seznamZarizeniDetekce, deviceManagementServiceSubscriber.seznamZarizeniKonfigurace);
+    qDebug()<<"nacteno "<<QString::number(deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.count())<<" zarizeni";
+    vykresliSluzbyDoTabulky(deviceManagementServiceSubscriber.seznamZarizeniDetekce, deviceManagementServiceSubscriber.seznamZarizeniKonfigurace);
 }
 
 /*
@@ -2265,4 +2274,13 @@ while(it.hasNext())
 }
 settings.setValue("myKey", storeMap);
 */
+
+
+void MainWindow::on_pushButton_jizda_mapa_clicked()
+{
+    mapaVykresleni.seznamMnozin.clear();
+    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek),true,true,true,MnozinaBodu::WGS84);
+    mapaVykresleni.seznamMnozinDoJson(mapaVykresleni.seznamMnozin);
+
+}
 

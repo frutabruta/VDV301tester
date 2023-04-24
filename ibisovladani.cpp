@@ -606,8 +606,6 @@ void IbisOvladani::sendToPortNew(QString obsah)
     }
 
 
-
-
     zasobnikZprav.push_back(obsah);
 
 

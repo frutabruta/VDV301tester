@@ -83,6 +83,9 @@ SOURCES += \
     mainwindow.cpp \
     mainwindowpomocne.cpp \
     XmlRopidImportStream/sqlitezaklad.cpp \
+    MapaVykresleni/mapabod.cpp \
+    MapaVykresleni/mapavykresleni.cpp \
+    MapaVykresleni/mnozinabodu.cpp \
     sqldotazymodel.cpp \
     sqlropidxmldotazy.cpp \
     xmlmpvparser.cpp
@@ -128,6 +131,9 @@ HEADERS += \
     logfile.h \
     mainwindow.h \
     mainwindowpomocne.h \
+    MapaVykresleni/mapabod.h \
+    MapaVykresleni/mapavykresleni.h \
+    MapaVykresleni/mnozinabodu.h \
     sqldotazymodel.h \
     sqlropidxmldotazy.h \
     xmlmpvparser.h
