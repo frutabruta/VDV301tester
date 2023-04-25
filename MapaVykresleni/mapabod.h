@@ -10,8 +10,8 @@ public:
     MapaBod();
     QString hlavicka="";
     QString obsah="";
-    QString lat="";
-    QString lng="";
+    double lat=0.0;
+    double lng=0.0;
 };
 
 #endif // MAPABOD_H

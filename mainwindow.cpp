@@ -2279,7 +2279,8 @@ settings.setValue("myKey", storeMap);
 void MainWindow::on_pushButton_jizda_mapa_clicked()
 {
     mapaVykresleni.seznamMnozin.clear();
-    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek),true,true,true,MnozinaBodu::WGS84);
+    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek),true,false,false,MnozinaBodu::WGS84);
+    mapaVykresleni.pridejMnozinu(sqlPraceRopid.vytvorTrajektorii(stavSystemu.aktualniSpojNaObehu().cislo),false, true, false, MnozinaBodu::J_STSK);
     mapaVykresleni.seznamMnozinDoJson(mapaVykresleni.seznamMnozin);
 
 }

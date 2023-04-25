@@ -10,23 +10,6 @@ MapaVykresleni::MapaVykresleni()
 }
 
 
-QJsonObject MapaVykresleni::slozRadek(QString title, QString content, QString lat, QString lng)
-{
-    qDebug()<<Q_FUNC_INFO;
-    QString vystup="";
-
-    QJsonObject recordObject;
-    recordObject.insert("title", QJsonValue::fromVariant(title));
-    recordObject.insert("cont", QJsonValue::fromVariant(content));
-    recordObject.insert("lat", QJsonValue::fromVariant(lat));
-    recordObject.insert("lng", QJsonValue::fromVariant(lng));
-
-
-    QJsonDocument doc(recordObject);
-    qDebug() << doc.toJson();
-    vystup=doc.toJson();
-    return recordObject;
-}
 
 void MapaVykresleni::pridejMnozinu(QVector<MapaBod> seznamBodu , bool vykresliBody, bool vykresliSpojnici, bool vykresliTrasu, MnozinaBodu::SouradnicovySystem souradnicovySystem)
 {
@@ -81,7 +64,7 @@ void MapaVykresleni::seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin)
 
 
     QJsonDocument doc(jRoot);
-    qDebug() << doc.toJson();
+    qDebug().noquote() << doc.toJson();
 
     qstringDoSouboru("data2.js","var dataj='"+doc.toJson(QJsonDocument::Compact)+"';");
 
@@ -116,65 +99,8 @@ QVector<MapaBod> MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(QVector<Zastav
     return vystup;
 }
 
-void MapaVykresleni::vypisGpsDoHtml(QVector<ZastavkaCil> seznam, bool vykresliBody, bool vykresliSpojnici, bool vykresliTrasu, MnozinaBodu::SouradnicovySystem souradnicovySystem)
-{
-    qDebug()<<Q_FUNC_INFO;
 
 
-
-    QJsonObject jRoot;
-
-
-   jRoot.insert("vykresliBody", QJsonValue::fromVariant(vykresliBody));
-   jRoot.insert("vykresliSpojnici", QJsonValue::fromVariant(vykresliSpojnici));
-   jRoot.insert("vykresliTrasu", QJsonValue::fromVariant(vykresliTrasu));
-   if(souradnicovySystem==MnozinaBodu::J_STSK)
-   {
-     jRoot.insert("souradnicovySystem", QJsonValue::fromVariant("J_STSK"));
-    }
-   else
-   {
-       jRoot.insert("souradnicovySystem", QJsonValue::fromVariant("WGS84"));
-   }
-
-    QJsonArray radkyJSonArray;
-
-    foreach(ZastavkaCil polozka, seznam)
-    {
-        QString obsah="cis:"+QString::number(polozka.zastavka.cisloCis);
-        QString title=polozka.zastavka.NameLcd;
-        QJsonObject radekZnacka=slozRadek(title,obsah,polozka.zastavka.lat, polozka.zastavka.lng);
-       // znackyList<<radekZnacka;
-
-        radkyJSonArray.push_back(radekZnacka);
-
-    }
-
-   // qDebug().noquote().nospace()<<znackyList.join(",\n");
-
-    jRoot.insert("data", radkyJSonArray);
-
-
-    QJsonDocument doc(jRoot);
-    qDebug() << doc.toJson();
-
-    qstringDoSouboru("data2.js",doc.toJson(QJsonDocument::Compact));
-
-
-
-    QDesktopServices::openUrl(QUrl("mapa.html", QUrl::TolerantMode));
-}
-
-QString MapaVykresleni::zkompletujHtml(QStringList body  )
-{
-    QString html;
-
-    html+="var znacky = [\n";
-    html+=body.join(",\n");
-    html+="];";
-
-    return html;
-}
 
 void MapaVykresleni::qstringDoSouboru(QString cesta, QString obsah)
 {

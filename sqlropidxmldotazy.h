@@ -13,6 +13,7 @@
 #include "VDV301struktury/obeh.h"
 
 #include "XmlRopidImportStream/sqlitezaklad.h"
+#include "MapaVykresleni/mnozinabodu.h"
 
 
 class SqlRopidXmlDotazy: public  SqLiteZaklad
@@ -44,6 +45,8 @@ public:
     QSqlQueryModel *stahniSeznamKmenovychLinekModel(QString kj);
     QSqlQueryModel *stahniSeznamPoradiModel(Linka docasnaLinka, QString kj);
     QSqlQueryModel *stahniSeznamTurnusSpojuModel(Obeh &docasnyObeh, QString kj);
+    QVector<MapaBod> vytvorTrajektorii(int cisloSpoje);
+    static double absolutniHodnota(double vstup);
 private:
 
     void vypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek);

@@ -1,4 +1,6 @@
 #include "sqlropidxmldotazy.h"
+#include "MapaVykresleni/mapavykresleni.h"
+
 
 
 
@@ -135,8 +137,8 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,in
             aktZast.prestupLetadlo =query.value(query.record().indexOf("x.xLet")).toBool();
             aktZast.prestupPrivoz =query.value(query.record().indexOf("x.xLod")).toBool();
             aktZast.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
-            aktZast.lng=query.value(query.record().indexOf("z.lng")).toString();
-            aktZast.lat=query.value(query.record().indexOf("z.lat")).toString();
+            aktZast.lng=query.value(query.record().indexOf("z.lng")).toDouble();
+            aktZast.lat=query.value(query.record().indexOf("z.lat")).toDouble();
 
 
             aktZast.seznamPoznamek=StahniPoznamky(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
@@ -249,7 +251,6 @@ dbManager->query.exec();
     queryString2+=("LEFT JOIN ids AS ids2 ON z.ids2=ids2.c " );
     queryString2+=("LEFT JOIN ids AS ids3 ON z.ids3=ids3.c " );
 
-
     return queryString2;
 }
 
@@ -347,7 +348,7 @@ int SqlRopidXmlDotazy::najdiTurnusZeSpoje(Spoj spoj,int &kmenovaLinka,int &porad
     query.exec(queryString2);
     qDebug()<<"lasterror "<<query.lastError();
     qDebug()<<queryString2;
-   // qDebug()<<"DebugPointB";
+    // qDebug()<<"DebugPointB";
     int citacMaximum=0;
     while (query.next())
     {
@@ -402,7 +403,7 @@ int SqlRopidXmlDotazy::vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
     query.exec(queryString2);
     qDebug()<<"lasterror "<<query.lastError();
     qDebug()<<queryString2;
-  //  qDebug()<<"DebugPointB";
+    //  qDebug()<<"DebugPointB";
     int citacMaximum=0;
     while (query.next())
     {
@@ -414,7 +415,7 @@ int SqlRopidXmlDotazy::vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
         docasnySpoj.navazujici=query.value(query.record().indexOf("sp_po.pokrac")).toBool();
 
         QString alias=query.value(query.record().indexOf("l.aois")).toString();
-      //  qDebug()<<"alias "<<alias<<" linka.c "<<docasnySpoj.linka.c;
+        //  qDebug()<<"alias "<<alias<<" linka.c "<<docasnySpoj.linka.c;
         if(alias.isEmpty())
         {
             docasnySpoj.linka.LineName=QString::number(docasnySpoj.linka.c);
@@ -427,7 +428,7 @@ int SqlRopidXmlDotazy::vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
         //qDebug()<<"jmeno docasny spoj linky "<<docasnySpoj.linka.LineName;
         docasnyObeh.seznamSpoju.push_back(docasnySpoj);
         citacMaximum++;
-       // qDebug()<<docasnySpoj.cisloRopid;
+        // qDebug()<<docasnySpoj.cisloRopid;
     }
 
     this->zavriDB();
@@ -585,7 +586,8 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamLinekModel(QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    QString queryString2("SELECT DISTINCT l.c,l.lc,l.n FROM l ");
+    QString queryString2("SELECT DISTINCT l.c, l.n FROM l ");
+    //QString queryString2("SELECT DISTINCT l.c,l.lc,l.n FROM l ");
     queryString2+=("WHERE l.kj LIKE '");
     queryString2+=(kj);
     queryString2+=("' ");
@@ -703,3 +705,96 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamTurnusSpojuModel(Obeh &docasnyObe
 
     return model;
 }
+
+
+//mapa
+
+
+QVector<MapaBod> SqlRopidXmlDotazy::vytvorTrajektorii(int cisloSpoje)
+{
+     qDebug()<< Q_FUNC_INFO;
+    //QVector<Spoj> &docasnySeznamSpoju,
+    QVector<MapaBod> vystup;
+
+
+
+    this->pripoj();
+
+    QString queryString2="";
+
+
+    queryString2+="SELECT DISTINCT ";
+    queryString2+="bod.u1, bod.u2, bod.poradi, bod.x, bod.y, ";
+    queryString2+="z.n, z.cis, z.ois,  ";
+    queryString2+="l.c, l.lc, l.tl,  ";
+    queryString2+="x.t, x.xorder, x.zsol, x.s1, x.s2, x.s_id,  ";
+    queryString2+="s.ns, s.c, s.vy ";
+
+    queryString2+="FROM x LEFT JOIN s ON x.s_id=s.s ";
+
+    queryString2+="LEFT JOIN x AS x2 ON x.id+1=(x2.id) ";
+    queryString2+="LEFT JOIN z ON x.u = z.u AND x.z=z.z ";
+    queryString2+="LEFT JOIN l ON s.l=l.c ";
+    queryString2+="LEFT JOIN t ON t.u=x.u AND t.z=x.z ";
+    queryString2+="LEFT JOIN bod ON bod.u1=x.u AND bod.z1=x.z AND bod.u2=x2.u AND bod.z2=x2.z AND bod.var=x2.var ";
+    queryString2+="WHERE s.s=";
+    queryString2+=QString::number(cisloSpoje);
+    queryString2+=" AND  s.kj LIKE '1%'  AND s.d=l.d ";
+    queryString2+="ORDER BY x.xorder, bod.poradi ";
+
+    QSqlQuery query;
+    query.exec(queryString2);
+    qDebug().noquote()<<queryString2;
+    qDebug()<<"lasterror "<<query.lastError();
+
+    //  qDebug()<<"DebugPointB";
+    int citacMaximum=0;
+    while (query.next())
+    {
+        MapaBod bod;
+
+        QString u1=query.value(query.record().indexOf("bod.u1")).toString();
+        QString z1=query.value(query.record().indexOf("bod.z1")).toString();
+
+        QString u2=query.value(query.record().indexOf("bod.u2")).toString();
+        QString z2=query.value(query.record().indexOf("bod.z2")).toString();
+
+        bod.lat=absolutniHodnota(query.value( query.record().indexOf("bod.x")).toDouble());
+        bod.lng=absolutniHodnota(query.value( query.record().indexOf("bod.y")).toDouble());
+
+        QString obsah="";
+        obsah+="u1: "+u1+" ";
+        obsah+="z1: "+z1+" ";
+        obsah+="u2: "+u2+" ";
+        obsah+="z2: "+z2+" ";
+        bod.obsah=obsah;
+
+        if((bod.lat!=0.0)&&(bod.lng!=0.))
+        {
+        vystup.push_back(bod);
+           }
+        citacMaximum++;
+        // qDebug()<<docasnySpoj.cisloRopid;
+    }
+
+
+
+    this->zavriDB();
+
+    return vystup;
+}
+
+double SqlRopidXmlDotazy::absolutniHodnota(double vstup)
+{
+    if (vstup<0)
+    {
+        vstup=-vstup;
+    }
+    return vstup;
+}
+
+
+
+
+
+
