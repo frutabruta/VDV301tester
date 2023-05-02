@@ -16,6 +16,7 @@ for (var k = 0; k < znackyPole.length; k++) {
     var mLayer = new SMap.Layer.Marker();
     var gLayer = new SMap.Layer.Geometry();
     var tLayer = new SMap.Layer.Geometry();
+    var kLayer = new SMap.Layer.Geometry();
 
     var souradnicovySystem = znackyPole[k].souradnicovySystem;
 
@@ -31,6 +32,11 @@ for (var k = 0; k < znackyPole.length; k++) {
     if (znackyPole[k].vykresliSpojnici) {
         mapa.addLayer(gLayer).enable();
     }
+
+    if (znackyPole[k].vykresliRadius) {
+        mapa.addLayer(kLayer).enable();
+    }
+
 
     znacky = znackyPole[k].data;
     //console.log(znacky);
@@ -71,6 +77,12 @@ for (var k = 0; k < znackyPole.length; k++) {
         marker.decorate(SMap.Marker.Feature.Card, card);
 
         mLayer.addMarker(marker);
+        const polomer = 0.1;
+        if (typeof cardData.radius !== 'undefined') {
+            var circle0 = kruznice(coords2, cardData.radius);
+            kLayer.addGeometry(circle0);
+        }
+
 
 
         /*

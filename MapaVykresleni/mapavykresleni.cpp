@@ -11,7 +11,7 @@ MapaVykresleni::MapaVykresleni()
 
 
 
-void MapaVykresleni::pridejMnozinu(QVector<MapaBod> seznamBodu , bool vykresliBody, bool vykresliSpojnici, bool vykresliTrasu, MnozinaBodu::SouradnicovySystem souradnicovySystem)
+void MapaVykresleni::pridejMnozinu(QVector<MapaBod> seznamBodu , bool vykresliBody, bool vykresliSpojnici, bool vykresliTrasu, bool vykresliRadius, MnozinaBodu::SouradnicovySystem souradnicovySystem)
 {
     qDebug()<<Q_FUNC_INFO;
     //QVector<ZastavkaCil> seznam
@@ -20,6 +20,7 @@ void MapaVykresleni::pridejMnozinu(QVector<MapaBod> seznamBodu , bool vykresliBo
     mnozinaBodu.vykresliBody=vykresliBody;
     mnozinaBodu.vykresliSpojnici=vykresliSpojnici;
     mnozinaBodu.vykresliTrasu=vykresliTrasu;
+    mnozinaBodu.vykresliRadius=vykresliRadius;
     mnozinaBodu.souradnicovySystem=souradnicovySystem;
     seznamMnozin.push_back(mnozinaBodu);
 }
@@ -36,10 +37,11 @@ void MapaVykresleni::seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin)
         jPolozka.insert("vykresliBody", QJsonValue::fromVariant(polozkaMnozina.vykresliBody));
         jPolozka.insert("vykresliSpojnici", QJsonValue::fromVariant(polozkaMnozina.vykresliSpojnici));
         jPolozka.insert("vykresliTrasu", QJsonValue::fromVariant(polozkaMnozina.vykresliTrasu));
+        jPolozka.insert("vykresliRadius", QJsonValue::fromVariant(polozkaMnozina.vykresliRadius));
         if(polozkaMnozina.souradnicovySystem==MnozinaBodu::J_STSK)
         {
-          jPolozka.insert("souradnicovySystem", QJsonValue::fromVariant("J_STSK"));
-         }
+            jPolozka.insert("souradnicovySystem", QJsonValue::fromVariant("J_STSK"));
+        }
         else
         {
             jPolozka.insert("souradnicovySystem", QJsonValue::fromVariant("WGS84"));
@@ -55,6 +57,7 @@ void MapaVykresleni::seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin)
             recordObject.insert("cont", QJsonValue::fromVariant(polozkaZastavka.obsah));
             recordObject.insert("lat", QJsonValue::fromVariant(polozkaZastavka.lat));
             recordObject.insert("lng", QJsonValue::fromVariant(polozkaZastavka.lng));
+            recordObject.insert("radius", QJsonValue::fromVariant(polozkaZastavka.radius));
             radkyJSonArray.append(recordObject);
 
         }
@@ -66,7 +69,7 @@ void MapaVykresleni::seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin)
     QJsonDocument doc(jRoot);
     qDebug().noquote() << doc.toJson();
 
-    qstringDoSouboru("data2.js","var dataj='"+doc.toJson(QJsonDocument::Compact)+"';");
+    qstringDoSouboru("data.js","var dataj='"+doc.toJson(QJsonDocument::Compact)+"';");
 
 
 
@@ -77,10 +80,14 @@ MapaBod MapaVykresleni::zastavkaCilToMapaBod(ZastavkaCil polozka)
 {
     qDebug()<<Q_FUNC_INFO;
     MapaBod vystup;
-    vystup.obsah="cis:"+QString::number(polozka.zastavka.cisloCis);
+    vystup.obsah="cis:"+QString::number(polozka.zastavka.cisloCis)+"<br>";
+    vystup.obsah+="ASW zast.:"+QString::number(polozka.zastavka.cisloU)+"<br>";
+    vystup.obsah+="ASW slp.:"+QString::number(polozka.zastavka.cisloZ)+"<br>";
+    vystup.obsah+="radius:"+QString::number(polozka.zastavka.radius)+"<br>";
     vystup.hlavicka=polozka.zastavka.NameLcd;
     vystup.lat=polozka.zastavka.lat;
     vystup.lng=polozka.zastavka.lng;
+    vystup.radius=polozka.zastavka.radius;
 
     return vystup;
 }
@@ -111,6 +118,8 @@ void MapaVykresleni::qstringDoSouboru(QString cesta, QString obsah)
     {
         qDebug()<<"soubor se povedlo otevrit";
         QTextStream out(&data);
+        out.setCodec("UTF-8");
+        // out.setAutoDetectUnicode(true);
         // out.setEncoding(QStringConverter::System);
 
         out<<obsah;

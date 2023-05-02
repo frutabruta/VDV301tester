@@ -12,6 +12,7 @@ public:
     QString obsah="";
     double lat=0.0;
     double lng=0.0;
+    int radius=0;
 };
 
 #endif // MAPABOD_H

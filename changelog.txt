@@ -1,3 +1,6 @@
+2. 5. 2023
+- vykreslení radiusu zastávky
+
 25. 4. 2023
 - změna datového typu souřadnic na double
 - oprava dotazu pro natažení souřadnic

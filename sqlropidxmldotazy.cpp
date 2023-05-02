@@ -29,7 +29,7 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,in
     qDebug()<< Q_FUNC_INFO;
     qDebug()<<"delka seznamu spoju: "<<seznamSpoju.length()<<" indexSpoje:"<<indexSpoje<<" kj:"<<kj;
     this->otevriDB();
-    Spoj docasnySpoj;
+    //Spoj docasnySpoj;
     QVector<ZastavkaCil> docasnySeznamZastavek;
 
 
@@ -90,6 +90,9 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,in
             aktSpoj.cisloRopid=query.value(query.record().indexOf("s.c")).toInt();
             aktZast.cisloCis=query.value( query.record().indexOf("z.cis")).toInt();
             aktZast.cisloOis=query.value(query.record().indexOf("z.ois")).toUInt();
+
+            aktZast.cisloU=query.value(query.record().indexOf("z.u")).toUInt();
+            aktZast.cisloZ=query.value(query.record().indexOf("z.z")).toUInt();
             //pasma
             QVector<QString> tp;
             tp.append(query.value(query.record().indexOf("z.tp")).toString());
@@ -139,6 +142,8 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,in
             aktZast.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
             aktZast.lng=query.value(query.record().indexOf("z.lng")).toDouble();
             aktZast.lat=query.value(query.record().indexOf("z.lat")).toDouble();
+            aktZast.radius=query.value(query.record().indexOf("z.rdisp")).toInt();
+            qDebug()<<"radius je: "<<aktZast.radius;
 
 
             aktZast.seznamPoznamek=StahniPoznamky(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
@@ -229,7 +234,7 @@ dbManager->query.exec();
 
       */
     QString queryString2("SELECT DISTINCT   ");
-    queryString2+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.lng, z.lat, ");
+    queryString2+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.u, z.z, z.lng, z.lat, z.rdisp, ");
     queryString2+=("t.ri,t.hl, ");
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
@@ -628,7 +633,7 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznaSpojuModel(Linka docasnaLinka, QSt
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    QString queryString2("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois FROM s ");
+    QString queryString2("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.aois FROM s ");
     queryString2+=("LEFT JOIN l ON s.l=l.c ");
     queryString2+=("WHERE l.c=");
     queryString2+=( QString::number(docasnaLinka.c));
@@ -758,6 +763,8 @@ QVector<MapaBod> SqlRopidXmlDotazy::vytvorTrajektorii(int cisloSpoje)
 
         QString u2=query.value(query.record().indexOf("bod.u2")).toString();
         QString z2=query.value(query.record().indexOf("bod.z2")).toString();
+
+        //bod.radius =query.value( query.record().indexOf("z.rdisp")).toInt();
 
         bod.lat=absolutniHodnota(query.value( query.record().indexOf("bod.x")).toDouble());
         bod.lng=absolutniHodnota(query.value( query.record().indexOf("bod.y")).toDouble());

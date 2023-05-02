@@ -25,7 +25,7 @@ public:
     void qstringDoSouboru(QString cesta, QString obsah);
     static MapaBod zastavkaCilToMapaBod(ZastavkaCil polozka);
     static QVector<MapaBod> seznamZastavkaCilToSeznamMapaBod(QVector<ZastavkaCil> seznamZastavek);
-    void pridejMnozinu(QVector<MapaBod> seznamBodu, bool vykresliBody, bool vykresliSpojnici, bool vykresliTrasu, MnozinaBodu::SouradnicovySystem souradnicovySystem);
+    void pridejMnozinu(QVector<MapaBod> seznamBodu, bool vykresliBody, bool vykresliSpojnici, bool vykresliTrasu, bool vykresliRadius, MnozinaBodu::SouradnicovySystem souradnicovySystem);
     void seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin);
 private:
 

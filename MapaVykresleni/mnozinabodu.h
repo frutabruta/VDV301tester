@@ -18,6 +18,7 @@ public:
     bool vykresliBody=false;
     bool vykresliSpojnici=false;
     bool vykresliTrasu=false;
+    bool vykresliRadius=false;
     SouradnicovySystem souradnicovySystem=MnozinaBodu::WGS84;
 };
 
