@@ -25,10 +25,14 @@ void MapaVykresleni::pridejMnozinu(QVector<MapaBod> seznamBodu , bool vykresliBo
     seznamMnozin.push_back(mnozinaBodu);
 }
 
-void MapaVykresleni::seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin)
+void MapaVykresleni::seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin,  QString popis)
 {
     qDebug()<<Q_FUNC_INFO;
-    QJsonArray jRoot;
+    //QJsonObject jRoot;
+    QJsonArray jSeznamPolozek;
+    QJsonObject jRoot;
+
+
 
 
     foreach(MnozinaBodu polozkaMnozina, seznamMnozin)
@@ -58,16 +62,21 @@ void MapaVykresleni::seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin)
             recordObject.insert("lat", QJsonValue::fromVariant(polozkaZastavka.lat));
             recordObject.insert("lng", QJsonValue::fromVariant(polozkaZastavka.lng));
             recordObject.insert("radius", QJsonValue::fromVariant(polozkaZastavka.radius));
+            recordObject.insert("kapka", QJsonValue::fromVariant(polozkaZastavka.kapka ));
             radkyJSonArray.append(recordObject);
 
         }
         jPolozka.insert("data", radkyJSonArray);
-        jRoot.push_back(jPolozka);
+        jSeznamPolozek.push_back(jPolozka);
     }
+
+    jRoot.insert("polozky",jSeznamPolozek);
+    jRoot.insert("popis",popis);
 
 
     QJsonDocument doc(jRoot);
-    qDebug().noquote() << doc.toJson();
+
+    //   qDebug().noquote() << doc.toJson();
 
     qstringDoSouboru("data.js","var dataj='"+doc.toJson(QJsonDocument::Compact)+"';");
 
@@ -76,32 +85,111 @@ void MapaVykresleni::seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin)
     QDesktopServices::openUrl(QUrl("mapa.html", QUrl::TolerantMode));
 }
 
-MapaBod MapaVykresleni::zastavkaCilToMapaBod(ZastavkaCil polozka)
+MapaBod MapaVykresleni::zastavkaCilToMapaBod(ZastavkaCil polozka, QString kapka)
 {
     qDebug()<<Q_FUNC_INFO;
     MapaBod vystup;
-    vystup.obsah="cis:"+QString::number(polozka.zastavka.cisloCis)+"<br>";
-    vystup.obsah+="ASW zast.:"+QString::number(polozka.zastavka.cisloU)+"<br>";
-    vystup.obsah+="ASW slp.:"+QString::number(polozka.zastavka.cisloZ)+"<br>";
-    vystup.obsah+="radius:"+QString::number(polozka.zastavka.radius)+"<br>";
-    vystup.hlavicka=polozka.zastavka.NameLcd;
+
+    vystup.obsah+="<table>";
+    vystup.obsah+="<tr>";
+    vystup.obsah+="<td>popis</td><td> "+polozka.zastavka.StopName+"</td>";
+    vystup.obsah+="</tr>";
+    vystup.obsah+="<tr>";
+    vystup.obsah+="<td>cis</td><td> "+QString::number(polozka.zastavka.cisloCis)+"</td>";
+    vystup.obsah+="</tr>";
+    vystup.obsah+="<tr>";
+    vystup.obsah+="<td>ASW zast. </td><td> "+QString::number(polozka.zastavka.cisloU)+"</td>";
+    vystup.obsah+="</tr>";
+    vystup.obsah+="<tr>";
+    vystup.obsah+="<td>ASW slp.</td><td> "+QString::number(polozka.zastavka.cisloZ)+"</td>";
+    vystup.obsah+="</tr>";
+    vystup.obsah+="<tr>";
+    vystup.obsah+="<td>radius</td><td> "+QString::number(polozka.zastavka.radius)+"</td>";
+    vystup.obsah+="</tr>";
+    vystup.obsah+="<tr>";
+    vystup.obsah+="<td>nástupiště</td><td> "+polozka.zastavka.nastupiste+"</td>";
+    vystup.obsah+="</tr>";
+    vystup.obsah+="<tr>";
+    vystup.obsah+="<td>odjezd</td><td> "+polozka.zastavka.odjezdQTime().toString("h:mm:ss")+"</td>";
+    vystup.obsah+="</tr>";
+
+    vystup.obsah+="</table>";
+
+    /*
+    vystup.obsah+="ASW zast.: "+QString::number(polozka.zastavka.cisloU)+"<br>";
+    vystup.obsah+="ASW slp.: "+QString::number(polozka.zastavka.cisloZ)+"<br>";
+    vystup.obsah+="radius: "+QString::number(polozka.zastavka.radius)+"<br>";
+    vystup.obsah+="nástupiště: "+polozka.zastavka.nastupiste+"<br>";
+    vystup.obsah+="odjezd: "+polozka.zastavka.odjezdQTime().toString("h:mm:ss")+"<br>";
+*/
+    vystup.hlavicka="<b>"+polozka.zastavka.NameLcd+"</b>";
     vystup.lat=polozka.zastavka.lat;
     vystup.lng=polozka.zastavka.lng;
     vystup.radius=polozka.zastavka.radius;
+    vystup.kapka=kapka;
 
     return vystup;
 }
 
+QString MapaVykresleni::htmlTag(QString vstup, QString tag)
+{
+    return "<"+tag+">"+vstup+"</"+tag+">";
+}
 
-QVector<MapaBod> MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(QVector<ZastavkaCil> seznamZastavek)
+QString MapaVykresleni::spojDoTabulky(Spoj vstup)
+{
+    qDebug()<<Q_FUNC_INFO;
+    QString vystup="<h1>vykreslení spoje</h1>";
+    vystup+="<table>";
+    vystup+="<tr><td>číslo linky ASW</td><td>"+QString::number(vstup.linka.c)+"</td></tr>";
+    vystup+="<tr><td>alias linky</td><td>"+vstup.linka.LineName+"</td></tr>";
+    vystup+="<tr><td>licenční číslo</td><td>"+vstup.linka.LineNumber+"</td></tr>";
+    vystup+="<tr><td>spoj ROPID</td><td>"+QString::number(vstup.cisloRopid)+"</td></tr>";
+     vystup+="<tr><td>spoj ID</td><td>"+QString::number(vstup.cislo)+"</td></tr>";
+    if(!vstup.globalniSeznamZastavek.isEmpty())
+    {
+        qDebug()<<"pocetZastavek ve vektoru:"<<vstup.globalniSeznamZastavek.length();
+        vystup+="<tr><td>ze zastávky</td><td>"+vstup.globalniSeznamZastavek.first().zastavka.NameLcd+"</td></tr>";
+        vystup+="<tr><td>do zastávky</td><td>"+vstup.globalniSeznamZastavek.last().zastavka.NameLcd+"</td></tr>";
+
+    }
+
+
+    vystup+="</table>";
+    return vystup;
+}
+
+QString MapaVykresleni::uzelDoTabulky(Zastavka vstup)
+{
+    QString vystup="<h1>vykreslení uzlu</h1>";
+    vystup+="<table>";
+    vystup+="<tr><td>uzel</td><td>"+QString::number(vstup.cisloU)+"</td></tr>";
+    vystup+="<tr><td>sloupek</td><td>"+QString::number(vstup.cisloZ)+"</td></tr>";
+    vystup+="<tr><td>název</td><td>"+vstup.NameLcd+"</td></tr>";
+    vystup+="</table>";
+    return vystup;
+}
+
+QVector<MapaBod> MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(QVector<ZastavkaCil> seznamZastavek, bool poradi)
 {
     qDebug()<<Q_FUNC_INFO;
     QVector<MapaBod> vystup;
+    int counter=1;
 
     foreach(ZastavkaCil polozka, seznamZastavek)
     {
-        MapaBod nacteno=zastavkaCilToMapaBod(polozka);
+        QString kapka="";
+        if(poradi)
+        {
+            kapka=QString::number(counter);
+        }
+        else
+        {
+            kapka=QString::number(polozka.zastavka.cisloZ);
+        }
+        MapaBod nacteno=zastavkaCilToMapaBod(polozka,kapka);
         vystup.push_back(nacteno);
+        counter++;
     }
     return vystup;
 }
@@ -118,9 +206,10 @@ void MapaVykresleni::qstringDoSouboru(QString cesta, QString obsah)
     {
         qDebug()<<"soubor se povedlo otevrit";
         QTextStream out(&data);
-        out.setCodec("UTF-8");
-        // out.setAutoDetectUnicode(true);
-        // out.setEncoding(QStringConverter::System);
+
+        out.setCodec("UTF-8"); //Qt5
+         out.setAutoDetectUnicode(true);
+        //out.setEncoding(QStringConverter::Utf8); //Qt6
 
         out<<obsah;
     }

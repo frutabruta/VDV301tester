@@ -14,7 +14,7 @@
 
 #include "XmlRopidImportStream/sqlitezaklad.h"
 #include "MapaVykresleni/mnozinabodu.h"
-
+#include "MapaVykresleni/mapavykresleni.h"
 
 class SqlRopidXmlDotazy: public  SqLiteZaklad
 {
@@ -35,17 +35,17 @@ public:
     int najdiTurnusZeSpoje(Spoj spoj, int &kmenovaLinka, int &poradi, int &order, QString kj);
     int poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju, Spoj spoj);
 
-    QVector<QString> StahniPoznamky(int idSpoje, int xorder);
+    QVector<QString> stahniPoznamky(int idSpoje, int xorder);
 
     int nactiPlatnost(QDate &platnostOd, QDate &platnostDo);
     QString maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti);
 
     QSqlQueryModel *stahniSeznamLinekModel(QString kj);
-    QSqlQueryModel *stahniSeznaSpojuModel(Linka docasnaLinka, QString kj);
+    QSqlQueryModel *stahniSeznamSpojuModel(Linka docasnaLinka, QString kj);
     QSqlQueryModel *stahniSeznamKmenovychLinekModel(QString kj);
     QSqlQueryModel *stahniSeznamPoradiModel(Linka docasnaLinka, QString kj);
     QSqlQueryModel *stahniSeznamTurnusSpojuModel(Obeh &docasnyObeh, QString kj);
-    QVector<MapaBod> vytvorTrajektorii(int cisloSpoje);
+    QVector<MapaBod> vytvorTrajektorii(int cisloSpoje, QString kj);
     static double absolutniHodnota(double vstup);
 private:
 

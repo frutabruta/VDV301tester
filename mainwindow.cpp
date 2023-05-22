@@ -440,8 +440,6 @@ int MainWindow::on_pushButton_prikaz_clicked()
 
     stavSystemu.indexAktZastavky=0;
 
-
-
     ui->poleLinkyTurnus->setText(QString::number(kmenovaLinka));
     stavSystemu.aktObeh.kmenovaLinka.c=kmenovaLinka;
 
@@ -2091,7 +2089,7 @@ void MainWindow::on_listView_linky_clicked(const QModelIndex &index)
     qDebug()<<Q_FUNC_INFO;
     stavSystemu.aktlinka.c=index.data(Qt::DisplayRole).toString().toInt();
     qDebug()<<"cislo linky:"<<stavSystemu.aktlinka.c;
-    modelSpoje=sqlPraceRopid.stahniSeznaSpojuModel(stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd()) ;
+    modelSpoje=sqlPraceRopid.stahniSeznamSpojuModel(stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd()) ;
     ui->listView_spoje->setModel(modelSpoje);
     ui->listView_spoje->setModelColumn(modelSpoje->record().indexOf("s.c"));
     ui->polelinky->setText(QString::number(stavSystemu.aktlinka.c ));
@@ -2279,10 +2277,11 @@ settings.setValue("myKey", storeMap);
 void MainWindow::on_pushButton_jizda_mapa_clicked()
 {
     mapaVykresleni.seznamMnozin.clear();
-    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek),true,false,false,false,MnozinaBodu::WGS84);
-    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek),false,false,false,true,MnozinaBodu::WGS84);
-    mapaVykresleni.pridejMnozinu(sqlPraceRopid.vytvorTrajektorii(stavSystemu.aktualniSpojNaObehu().cislo),false, true, false,false, MnozinaBodu::J_STSK);
-    mapaVykresleni.seznamMnozinDoJson(mapaVykresleni.seznamMnozin);
+    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,true),true,false,false,false,MnozinaBodu::WGS84);
+    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,true),false,false,false,true,MnozinaBodu::WGS84);
+    mapaVykresleni.pridejMnozinu(sqlPraceRopid.vytvorTrajektorii(stavSystemu.aktualniSpojNaObehu().cislo,this->vyrobMaskuKalendareJizd()),false, true, false,false, MnozinaBodu::J_STSK);
+
+    mapaVykresleni.seznamMnozinDoJson(mapaVykresleni.seznamMnozin, mapaVykresleni.spojDoTabulky( stavSystemu.aktspoj));
 
 }
 

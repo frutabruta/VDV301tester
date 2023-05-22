@@ -1,5 +1,5 @@
 #include "sqlropidxmldotazy.h"
-#include "MapaVykresleni/mapavykresleni.h"
+
 
 
 
@@ -146,7 +146,7 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju ,in
             qDebug()<<"radius je: "<<aktZast.radius;
 
 
-            aktZast.seznamPoznamek=StahniPoznamky(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
+            aktZast.seznamPoznamek=stahniPoznamky(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
 
             qDebug()<<"pocetPoznamek "<<QString::number(aktZast.seznamPoznamek.count());
 
@@ -291,7 +291,7 @@ QString SqlRopidXmlDotazy::pasmaDoStringu(QVector<Pasmo> pasma, QString delimite
 }
 
 
-QVector<QString> SqlRopidXmlDotazy::StahniPoznamky(int idSpoje, int xorder)
+QVector<QString> SqlRopidXmlDotazy::stahniPoznamky(int idSpoje, int xorder)
 {
     qDebug()<< Q_FUNC_INFO;
     //this->otevriDB();
@@ -629,7 +629,7 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamKmenovychLinekModel(QString kj)
     return model;
 }
 
-QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznaSpojuModel(Linka docasnaLinka, QString kj)
+QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamSpojuModel(Linka docasnaLinka, QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -715,9 +715,9 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamTurnusSpojuModel(Obeh &docasnyObe
 //mapa
 
 
-QVector<MapaBod> SqlRopidXmlDotazy::vytvorTrajektorii(int cisloSpoje)
+QVector<MapaBod> SqlRopidXmlDotazy::vytvorTrajektorii(int cisloSpoje, QString kj)
 {
-     qDebug()<< Q_FUNC_INFO;
+    qDebug()<< Q_FUNC_INFO;
     //QVector<Spoj> &docasnySeznamSpoju,
     QVector<MapaBod> vystup;
 
@@ -729,7 +729,7 @@ QVector<MapaBod> SqlRopidXmlDotazy::vytvorTrajektorii(int cisloSpoje)
 
 
     queryString2+="SELECT DISTINCT ";
-    queryString2+="bod.u1, bod.u2, bod.poradi, bod.x, bod.y, ";
+    queryString2+="bod.u1, bod.u2, bod.z1, bod.z2, bod.poradi, bod.x, bod.y, ";
     queryString2+="z.n, z.cis, z.ois,  ";
     queryString2+="l.c, l.lc, l.tl,  ";
     queryString2+="x.t, x.xorder, x.zsol, x.s1, x.s2, x.s_id,  ";
@@ -744,7 +744,7 @@ QVector<MapaBod> SqlRopidXmlDotazy::vytvorTrajektorii(int cisloSpoje)
     queryString2+="LEFT JOIN bod ON bod.u1=x.u AND bod.z1=x.z AND bod.u2=x2.u AND bod.z2=x2.z AND bod.var=x2.var ";
     queryString2+="WHERE s.s=";
     queryString2+=QString::number(cisloSpoje);
-    queryString2+=" AND  s.kj LIKE '1%'  AND s.d=l.d ";
+    queryString2+=" AND  s.kj LIKE '"+kj+"'  AND s.d=l.d ";
     queryString2+="ORDER BY x.xorder, bod.poradi ";
 
     QSqlQuery query;
@@ -778,8 +778,8 @@ QVector<MapaBod> SqlRopidXmlDotazy::vytvorTrajektorii(int cisloSpoje)
 
         if((bod.lat!=0.0)&&(bod.lng!=0.))
         {
-        vystup.push_back(bod);
-           }
+            vystup.push_back(bod);
+        }
         citacMaximum++;
         // qDebug()<<docasnySpoj.cisloRopid;
     }

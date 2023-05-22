@@ -1,3 +1,10 @@
+22. 5. 2023
+- úprava mapy (popis spoje)
+- nová verze DB
+- nová verze struktura
+- oprava XML dotazů  pro eliminaci duplicitních spojů
+
+
 2. 5. 2023
 - vykreslení radiusu zastávky
 

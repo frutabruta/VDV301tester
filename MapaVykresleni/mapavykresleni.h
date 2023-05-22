@@ -23,10 +23,14 @@ public:
     QVector<MnozinaBodu> seznamMnozin;
 
     void qstringDoSouboru(QString cesta, QString obsah);
-    static MapaBod zastavkaCilToMapaBod(ZastavkaCil polozka);
-    static QVector<MapaBod> seznamZastavkaCilToSeznamMapaBod(QVector<ZastavkaCil> seznamZastavek);
+    static MapaBod zastavkaCilToMapaBod(ZastavkaCil polozka, QString kapka);
+    static QVector<MapaBod> seznamZastavkaCilToSeznamMapaBod(QVector<ZastavkaCil> seznamZastavek, bool poradi);
     void pridejMnozinu(QVector<MapaBod> seznamBodu, bool vykresliBody, bool vykresliSpojnici, bool vykresliTrasu, bool vykresliRadius, MnozinaBodu::SouradnicovySystem souradnicovySystem);
-    void seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin);
+    void seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin, QString popis);
+    QString htmlTag(QString vstup, QString tag);
+    QString spojDoTabulky(Spoj vstup);
+
+    QString uzelDoTabulky(Zastavka vstup);
 private:
 
 
