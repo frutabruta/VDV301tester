@@ -250,7 +250,7 @@ dbManager->query.exec();
     queryString2+=("FROM x ");
     queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
     queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
-    queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
     queryString2+=("LEFT JOIN t ON t.u=x.u AND t.z=x.z " );
     queryString2+=("LEFT JOIN ids ON z.ids=ids.c " );
     queryString2+=("LEFT JOIN ids AS ids2 ON z.ids2=ids2.c " );
@@ -339,7 +339,7 @@ int SqlRopidXmlDotazy::najdiTurnusZeSpoje(Spoj spoj,int &kmenovaLinka,int &porad
     //qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord FROM s ");
     queryString2+=("LEFT JOIN sp_po ON sp_po.s=s.s ");
-    queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
     queryString2+=("WHERE l.c=");
     queryString2+=(QString::number(spoj.linka.c));
     queryString2+=(" AND s.c=");
@@ -390,7 +390,7 @@ int SqlRopidXmlDotazy::vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj)
     this->pripoj();
     QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.aois FROM sp_po ");
     queryString2+=("LEFT JOIN s ON sp_po.s=s.s ");
-    queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
     queryString2+=("WHERE sp_po.l=");
     queryString2+=( QString::number(docasnyObeh.kmenovaLinka.c));
     //queryString2+=(" AND  s.c !=1000 ");
@@ -591,7 +591,7 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamLinekModel(QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    QString queryString2("SELECT DISTINCT l.c, l.n FROM l ");
+    QString queryString2("SELECT DISTINCT l.c FROM l ");
     //QString queryString2("SELECT DISTINCT l.c,l.lc,l.n FROM l ");
     queryString2+=("WHERE l.kj LIKE '");
     queryString2+=(kj);
@@ -634,7 +634,7 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamSpojuModel(Linka docasnaLinka, QS
     qDebug() <<  Q_FUNC_INFO;
 
     QString queryString2("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.aois FROM s ");
-    queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
     queryString2+=("WHERE l.c=");
     queryString2+=( QString::number(docasnaLinka.c));
     queryString2+=(" AND  s.man !=1 ");
@@ -689,7 +689,7 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamTurnusSpojuModel(Obeh &docasnyObe
     qInfo()<<"DebugPointA";
     QString queryString2("SELECT DISTINCT l.c, s.c FROM sp_po ");
     queryString2+=("LEFT JOIN s ON sp_po.s=s.s ");
-    queryString2+=("LEFT JOIN l ON s.l=l.c ");
+    queryString2+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
     queryString2+=("WHERE sp_po.l=");
     queryString2+=( QString::number(docasnyObeh.kmenovaLinka.c));
     //queryString2+=(" AND  s.c !=1000 ");
@@ -739,7 +739,7 @@ QVector<MapaBod> SqlRopidXmlDotazy::vytvorTrajektorii(int cisloSpoje, QString kj
 
     queryString2+="LEFT JOIN x AS x2 ON x.id+1=(x2.id) ";
     queryString2+="LEFT JOIN z ON x.u = z.u AND x.z=z.z ";
-    queryString2+="LEFT JOIN l ON s.l=l.c ";
+    queryString2+="LEFT JOIN l ON s.l=l.c  AND s.d=l.d ";
     queryString2+="LEFT JOIN t ON t.u=x.u AND t.z=x.z ";
     queryString2+="LEFT JOIN bod ON bod.u1=x.u AND bod.z1=x.z AND bod.u2=x2.u AND bod.z2=x2.z AND bod.var=x2.var ";
     queryString2+="WHERE s.s=";
