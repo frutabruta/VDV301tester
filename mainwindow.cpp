@@ -18,8 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0"),
+    customerInformationService2_4("CustomerInformationService","_ibisip_http._tcp",47481,"2.4"),
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
-    ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47481,"2.2CZ1.0"),
+    ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
     deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),
 
@@ -314,6 +315,7 @@ void MainWindow::nastartujVsechnyVdv301Sluzby()
     deviceManagementService1_0.slotStartServer();
     customerInformationService1_0.slotStartServer();
     customerInformationService2_2CZ1_0.slotStartServer();
+    customerInformationService2_4.slotStartServer();
     ticketValidationService2_3CZ1_0.slotStartServer();
 }
 
@@ -344,6 +346,7 @@ void MainWindow::xmlVdv301HromadnyUpdate()
     QVector<Prestup> prestupy;
     customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
+    customerInformationService2_4.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     deviceManagementService1_0.aktualizaceObsahuSluzby();
 }
@@ -1865,6 +1868,7 @@ void MainWindow::eventOpusteniVydeje()
     resetSeznamuSpoju();
     customerInformationService1_0.mimoVydej();
     customerInformationService2_2CZ1_0.mimoVydej();
+    customerInformationService2_4.mimoVydej();
     xmlVdv301HromadnyUpdate();
     inicializaceVyberovychPoli();
 }
