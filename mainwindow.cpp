@@ -35,6 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pushButton_menu_turnus->setChecked(true);
     ui->pushButton_nast_nactiXMLropid->setDisabled(true);
 
+    vektorCis.push_back(&customerInformationService1_0);
+    vektorCis.push_back(&customerInformationService2_2CZ1_0);
+    vektorCis.push_back(&customerInformationService2_4);
+
     //QString konstantaPocetDni=settings.value("konstanty/pocetDni").toString();
     //settings.setValue("golemio/api-key","XXX");
 
@@ -69,9 +73,13 @@ MainWindow::MainWindow(QWidget *parent) :
     vsechnyConnecty();
 
     on_pushButton_nactiDetekce_clicked();
-    nastartujVsechnyVdv301Sluzby();
 
-    //deviceManagementServiceSubscriber.novePrihlaseniOdberu();
+
+
+    nastartujSluzbuZeZasobniku(vektorCis);
+
+    //nastartujVsechnyVdv301Sluzby();
+
 
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
     //QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
@@ -119,6 +127,24 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::nastartujSluzbuZeZasobniku(QVector<CustomerInformationService*> &seznamSluzeb)
+{
+    if(!seznamSluzeb.isEmpty())
+    {
+        CustomerInformationService* aktualniSluzba=seznamSluzeb.takeFirst();
+        qDebug()<<"v zasobniku zustava sluzeb: "<<seznamSluzeb.count();
+        aktualniSluzba->slotStartServer();
+    }
+}
+
+void MainWindow::slotSluzbaVratilaVysledekStartu(QString nastartovanaSluzba)
+{
+    qDebug()<<Q_FUNC_INFO<<" "<<nastartovanaSluzba;
+    nastartujSluzbuZeZasobniku(vektorCis);
+
+}
+
 void MainWindow::natahniKonstanty()
 {
     qDebug()<<Q_FUNC_INFO;
@@ -142,8 +168,9 @@ void MainWindow::natahniKonstanty()
     golemio.setKlic(settings.value("golemio/apiKey").toByteArray());
     golemio.setAdresa(settings.value("golemio/adresa").toString());
 
-    QString compilationTime = QString("%1T%2").arg(__DATE__,__TIME__);
-    ui->label_build->setText(compilationTime);
+
+    ui->label_build->setText(textVerze());
+    ui->label_build->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     golemio.setParametry(settings.value("golemio/parametry").toString());
 
@@ -152,12 +179,13 @@ void MainWindow::natahniKonstanty()
     deviceManagementService1_0.setDeviceSerialNumber(settings.value("deviceManagementService1_0/deviceSerialNumber").toString());
     deviceManagementService1_0.setDeviceClass(settings.value("deviceManagementService1_0/deviceClass").toString());
     deviceManagementService1_0.setDeviceId(settings.value("deviceManagementService1_0/deviceId").toString());
-    deviceManagementService1_0.setSwVersion(compilationTime);
+    deviceManagementService1_0.setSwVersion(textVerze());
     deviceManagementService1_0.slotAktualizaceDat();
 
     deviceManagementService1_0.setCisloPortu(settings.value("deviceManagementService1_0/port").toInt() ); //47477
     customerInformationService1_0.setCisloPortu(settings.value("customerInformationService1_0/port").toInt() );
     customerInformationService2_2CZ1_0.setCisloPortu(settings.value("customerInformationService2_2CZ1_0/port").toInt() );
+    customerInformationService2_4.setCisloPortu(settings.value("customerInformationService2_4/port").toInt() );
 
 }
 
@@ -174,6 +202,10 @@ void MainWindow::vsechnyConnecty()
     connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery2_2CZ);
     this->vypisSubscribery1_0(customerInformationService1_0.seznamSubscriberu);
     this->vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);
+
+    connect(&customerInformationService1_0,&HttpSluzba::signalSluzbaPublikovana,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
+    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalSluzbaPublikovana,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
+    connect(&customerInformationService2_4,&HttpSluzba::signalSluzbaPublikovana,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
 
 
     connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
@@ -313,9 +345,11 @@ void MainWindow::nastartujVsechnyVdv301Sluzby()
 {
     qDebug() <<  Q_FUNC_INFO;
     deviceManagementService1_0.slotStartServer();
+ /*
     customerInformationService1_0.slotStartServer();
     customerInformationService2_2CZ1_0.slotStartServer();
     customerInformationService2_4.slotStartServer();
+    */
     ticketValidationService2_3CZ1_0.slotStartServer();
 }
 
@@ -344,9 +378,9 @@ void MainWindow::xmlVdv301HromadnyUpdate()
     }
 
     QVector<Prestup> prestupy;
-    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
-    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
-    customerInformationService2_4.aktualizaceObsahuSluzby(prestupy,stavSystemu);
+
+    cisAktualizaceObsahu(prestupy,stavSystemu);
+
     ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
     deviceManagementService1_0.aktualizaceObsahuSluzby();
 }
@@ -389,8 +423,7 @@ void MainWindow::slotMpvNetReady()
     }
 
 
-    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu );
-    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
+    cisAktualizaceObsahu(prestupy,stavSystemu);
 }
 
 void MainWindow::slotGolemioReady()
@@ -414,8 +447,17 @@ void MainWindow::slotGolemioReady()
         //   prestupy=xmlMpvParser.vyfiltrujPrestupy(prestupy,stavSystemu.aktlinka);
     }
     qDebug()<<"pocet Prestupu ve vektoru: "<<prestupy.count();
-    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu );
-    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
+
+    cisAktualizaceObsahu(prestupy,stavSystemu);
+
+}
+
+
+void MainWindow::cisAktualizaceObsahu(QVector<Prestup> prestupy, CestaUdaje mStavSystemu )
+{
+    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,mStavSystemu );
+    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,mStavSystemu);
+    customerInformationService2_4.aktualizaceObsahuSluzby(prestupy,mStavSystemu);
 }
 
 
@@ -564,7 +606,7 @@ int MainWindow::natahniSeznamSpojeKomplet()
         ui->pushButton_menu_jizda->setChecked(1);
         ui->stackedWidget_palPc->setCurrentWidget(ui->page_jizda);
         eventVstupDoVydeje();
-       // mapaVykresleni.vypisGpsDoHtml(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,true,true,true,MapaVykresleni::WGS84);
+        // mapaVykresleni.vypisGpsDoHtml(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,true,true,true,MapaVykresleni::WGS84);
     }
     return 1;
 }
@@ -1533,8 +1575,8 @@ void MainWindow::on_pushButton_menu2_sluzby_clicked()
 
 
 /*!
-
-*/
+ * \brief popis
+ */
 void MainWindow::on_pushButton_nast_xmlVyberCestu_clicked()
 {
     cestaXml=otevriSouborXmlDialog(cestaXml);
@@ -1616,7 +1658,8 @@ void MainWindow::aktualizacePracovnihoData()
 }
 
 /*!
-
+\brief popis
+xxxxxx
 */
 void MainWindow::pracovniDatumDnes()
 {
@@ -1866,9 +1909,11 @@ void MainWindow::eventOpusteniVydeje()
     timerStahniPrestupy.stop();
     timerTrvaniZmenyPasma->stop();
     resetSeznamuSpoju();
+
     customerInformationService1_0.mimoVydej();
     customerInformationService2_2CZ1_0.mimoVydej();
     customerInformationService2_4.mimoVydej();
+
     xmlVdv301HromadnyUpdate();
     inicializaceVyberovychPoli();
 }
@@ -2029,18 +2074,18 @@ void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni)
     {
         if(ipadresa=="")
         {
-            cell->setBackgroundColor(QColor("#FF0000"));
+            cell->setBackground(QColor(255,0,0));
         }
         else
         {
-            cell->setBackgroundColor(QColor("#00FF00"));
+            cell->setBackground(QColor(0,255,0));
         }
 
 
     }
     else
     {
-        cell->setBackgroundColor(QColor("#FFFF00"));
+        cell->setBackground(QColor(255,255,0));
     }
     ui->tableWidget_seznamZarizeni->setItem(row, 0, cell);
 
@@ -2234,9 +2279,6 @@ void MainWindow::on_pushButton_ulozDetekce_clicked()
     }
     settings.endArray();
 
-
-
-
 }
 
 
@@ -2289,3 +2331,11 @@ void MainWindow::on_pushButton_jizda_mapa_clicked()
 
 }
 
+QString MainWindow::textVerze()
+{
+    QDate datumKompilace=QLocale("en_US").toDate(QString(__DATE__).simplified(), "MMM d yyyy");
+    QTime casKompilace=QTime::fromString(__TIME__,"hh:mm:ss");
+    qDebug()<<" date:"<<datumKompilace<<" time:"<<casKompilace;
+    QString verze=datumKompilace.toString("yyyyMMdd")+"_"+casKompilace.toString("hhmm");
+    return verze;
+}

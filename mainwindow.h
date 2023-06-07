@@ -78,8 +78,8 @@ private:
     QSettings settings;
 
     XmlMpvParser xmlMpvParser;
-       Golemio golemio;
-  //  XmlRopidImportStream xmlRopidImportStream;
+    Golemio golemio;
+    //  XmlRopidImportStream xmlRopidImportStream;
     IbisOvladani ibisOvladani;
     Hlasic hlasic;
     Logfile logfile;
@@ -122,11 +122,14 @@ private:
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_2CZ1_0;
     CustomerInformationService customerInformationService2_4;
+
+
     TicketValidationService ticketValidationService2_3CZ1_0;
+    QVector<CustomerInformationService*> vektorCis;
 
     //IBIS-IP subscriber
     DevMgmtSubscriber deviceManagementServiceSubscriber;
-   // IbisIpSubscriber deviceManagementServiceSubscriber;
+    // IbisIpSubscriber deviceManagementServiceSubscriber;
 
 
 
@@ -165,7 +168,7 @@ private:
 
     //timery
     QTimer *timerTrvaniZmenyPasma = new QTimer(this); //po pvyprseni casovace zmizi zmena pasma
-   // QTimer *timerAfterStopToBetweenStop = new QTimer(this);
+    // QTimer *timerAfterStopToBetweenStop = new QTimer(this);
     QTimer timerAfterStopToBetweenStop;
     QTimer timerStahniPrestupy;
     QTimer timerSpecialniOznameniSmazat;
@@ -182,6 +185,9 @@ private:
 
     void natahniKonstanty();
 
+    void cisAktualizaceObsahu(QVector<Prestup> prestupy, CestaUdaje mStavSystemu);
+    void nastartujSluzbuZeZasobniku(QVector<CustomerInformationService *> &seznamSluzeb);
+    QString textVerze();
 public slots:
     void slotVypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
@@ -213,7 +219,7 @@ private slots:
     //tlacitka Turnus
     int on_pushButton_turnus_prikaz_clicked();
 
-     void on_checkBox_MpvTurnusy_stateChanged(int arg1);
+    void on_checkBox_MpvTurnusy_stateChanged(int arg1);
 
     //tlacitka jizda
     void on_pushButton_jizda_sipkaDal_clicked();
@@ -286,36 +292,37 @@ private slots:
     void eventSkryjZmenuTarifnihoSystemu();
 
     //nezarazeno
-     void slotStahniPrestupyAktZastavky();
+    void slotStahniPrestupyAktZastavky();
 
-     void on_tableWidget_oznameni_cellClicked(int row, int column);
-     void slotVymazatSpecialniOznameni();
-     void slotAktualizaceTabulkySluzeb();
+    void on_tableWidget_oznameni_cellClicked(int row, int column);
+    void slotVymazatSpecialniOznameni();
+    void slotAktualizaceTabulkySluzeb();
 
-     void slotImportDokoncen();
-     void slotImportDeaktivujTlacitka();
-     void slotImportAktivujTlacitka();
-     void slotNastavProgress(int hodnota);
-     void slotNastavProgressMax(int hodnota);
+    void slotImportDokoncen();
+    void slotImportDeaktivujTlacitka();
+    void slotImportAktivujTlacitka();
+    void slotNastavProgress(int hodnota);
+    void slotNastavProgressMax(int hodnota);
 
-     void on_listView_linky_clicked(const QModelIndex &index);
-     void on_listView_spoje_clicked(const QModelIndex &index);
-     void on_listView_kmenovaLinka_clicked(const QModelIndex &index);
-     void on_listView_poradi_clicked(const QModelIndex &index);
+    void on_listView_linky_clicked(const QModelIndex &index);
+    void on_listView_spoje_clicked(const QModelIndex &index);
+    void on_listView_kmenovaLinka_clicked(const QModelIndex &index);
+    void on_listView_poradi_clicked(const QModelIndex &index);
 
-     void on_tableView_turnusSpoj_clicked(const QModelIndex &index);
-     void slotGolemioReady();
+    void on_tableView_turnusSpoj_clicked(const QModelIndex &index);
+    void slotGolemioReady();
 
-     void on_pushButton_refreshDetekce_clicked();
+    void on_pushButton_refreshDetekce_clicked();
 
-     void on_pushButton_ulozDetekce_clicked();
+    void on_pushButton_ulozDetekce_clicked();
 
-     void on_pushButton_nactiDetekce_clicked();
+    void on_pushButton_nactiDetekce_clicked();
 
-     void on_pushButton_jizda_mapa_clicked();
+    void on_pushButton_jizda_mapa_clicked();
 
+    void slotSluzbaVratilaVysledekStartu(QString nastartovanaSluzba);
 signals:
-     void signalZahajImport(QString cesta);
+    void signalZahajImport(QString cesta);
 };
 
 #endif // MAINWINDOW_H

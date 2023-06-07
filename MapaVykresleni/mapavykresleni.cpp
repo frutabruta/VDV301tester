@@ -78,11 +78,9 @@ void MapaVykresleni::seznamMnozinDoJson(QVector<MnozinaBodu> seznamMnozin,  QStr
 
     //   qDebug().noquote() << doc.toJson();
 
-    qstringDoSouboru("data.js","var dataj='"+doc.toJson(QJsonDocument::Compact)+"';");
+    qstringDoSouboru(cestaMapa+"/data.js","var dataj='"+doc.toJson(QJsonDocument::Compact)+"';");
 
-
-
-    QDesktopServices::openUrl(QUrl("mapa.html", QUrl::TolerantMode));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(cestaMapa+"/mapa.html"));
 }
 
 MapaBod MapaVykresleni::zastavkaCilToMapaBod(ZastavkaCil polozka, QString kapka)
@@ -90,9 +88,47 @@ MapaBod MapaVykresleni::zastavkaCilToMapaBod(ZastavkaCil polozka, QString kapka)
     qDebug()<<Q_FUNC_INFO;
     MapaBod vystup;
 
+    QString priznaky="";
+    if(polozka.zastavka.naZnameni)
+    {
+        priznaky+="🔔 ";
+    }
+    if(polozka.zastavka.prestupVlak)
+    {
+        priznaky+="🚆 ";
+    }
+    if(polozka.zastavka.prestupMetroA)
+    {
+        priznaky+="🟩A ";
+    }
+    if(polozka.zastavka.prestupMetroB)
+    {
+        priznaky+="🟨B ";
+    }
+    if(polozka.zastavka.prestupMetroC)
+    {
+        priznaky+="🟥C ";
+    }
+    if(polozka.zastavka.prestupMetroD)
+    {
+        priznaky+="🟦D ";
+    }
+
+    if(polozka.zastavka.prestupPrivoz)
+    {
+        priznaky+="⚓";
+    }
+
+    if(polozka.zastavka.prestupLetadlo)
+    {
+        priznaky+="✈";
+    }
+
+    QString pasma= Pasmo::pasmaDoStringu(polozka.zastavka.seznamPasem,",");
+
     vystup.obsah+="<table>";
     vystup.obsah+="<tr>";
-    vystup.obsah+="<td>popis</td><td> "+polozka.zastavka.StopName+"</td>";
+    vystup.obsah+="<td>popis</td><td> "+polozka.zastavka.NameLcd+"</td>";
     vystup.obsah+="</tr>";
     vystup.obsah+="<tr>";
     vystup.obsah+="<td>cis</td><td> "+QString::number(polozka.zastavka.cisloCis)+"</td>";
@@ -112,6 +148,17 @@ MapaBod MapaVykresleni::zastavkaCilToMapaBod(ZastavkaCil polozka, QString kapka)
     vystup.obsah+="<tr>";
     vystup.obsah+="<td>odjezd</td><td> "+polozka.zastavka.odjezdQTime().toString("h:mm:ss")+"</td>";
     vystup.obsah+="</tr>";
+    vystup.obsah+="<tr>";
+    vystup.obsah+="<td>pásma</td><td> "+pasma+"</td>";
+    vystup.obsah+="</tr>";
+
+    qDebug()<<"pocet poznamek:"<<QString::number(polozka.zastavka.seznamPoznamek.count());
+    foreach(QString poznamka, polozka.zastavka.seznamPoznamek)
+    {
+        vystup.obsah+="<tr>";
+        vystup.obsah+="<td>poznámka</td><td> "+poznamka+"</td>";
+        vystup.obsah+="</tr>";
+    }
 
     vystup.obsah+="</table>";
 
@@ -122,7 +169,7 @@ MapaBod MapaVykresleni::zastavkaCilToMapaBod(ZastavkaCil polozka, QString kapka)
     vystup.obsah+="nástupiště: "+polozka.zastavka.nastupiste+"<br>";
     vystup.obsah+="odjezd: "+polozka.zastavka.odjezdQTime().toString("h:mm:ss")+"<br>";
 */
-    vystup.hlavicka="<b>"+polozka.zastavka.NameLcd+"</b>";
+    vystup.hlavicka="<b>"+polozka.zastavka.StopName+" "+priznaky+"</b>";
     vystup.lat=polozka.zastavka.lat;
     vystup.lng=polozka.zastavka.lng;
     vystup.radius=polozka.zastavka.radius;
@@ -170,6 +217,16 @@ QString MapaVykresleni::uzelDoTabulky(Zastavka vstup)
     return vystup;
 }
 
+QString MapaVykresleni::getCestaMapa() const
+{
+    return cestaMapa;
+}
+
+void MapaVykresleni::setCestaMapa(const QString &newCestaMapa)
+{
+    cestaMapa = newCestaMapa;
+}
+
 QVector<MapaBod> MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(QVector<ZastavkaCil> seznamZastavek, bool poradi)
 {
     qDebug()<<Q_FUNC_INFO;
@@ -206,9 +263,8 @@ void MapaVykresleni::qstringDoSouboru(QString cesta, QString obsah)
     {
         qDebug()<<"soubor se povedlo otevrit";
         QTextStream out(&data);
-
         out.setCodec("UTF-8"); //Qt5
-         out.setAutoDetectUnicode(true);
+        // out.setAutoDetectUnicode(true);
         //out.setEncoding(QStringConverter::Utf8); //Qt6
 
         out<<obsah;

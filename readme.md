@@ -40,3 +40,47 @@ qmake
 mingw32-make
 mingw32-make install
 ```
+
+## Changelog (in Czech)
+- 20230607_2028
+        - verze se dá zkopírovat
+        - verze mapy s příznaky
+        - nová verze VDV301publisher
+               - nový signál SluzbaPublikovana
+        - nová verze VDV301subscriber
+                - nastavení portu
+        - postupné spouštění verzí CustomerInformationService
+        - přesunutí konfiguračních souborů ve zdrojových souborech do samotatné složky
+
+
+- 22. 5. 2023
+        - úprava mapy (popis spoje)
+        - nová verze DB
+        - nová verze struktura
+        - oprava XML dotazů  pro eliminaci duplicitních spojů
+
+- 2. 5. 2023
+        - vykreslení radiusu zastávky
+
+- 25. 4. 2023
+        - změna datového typu souřadnic na double
+        - oprava dotazu pro natažení souřadnic
+        - odmazaní funkčí pro vykreslení mapy využívající přímý zápis HTML
+
+- 24. 4. 2023
+        - možnost zobrazit trasu linky
+        - import GPS souřadnic
+
+- 16. 2. 2023 11:52
+        - možnost změnit port u služeb
+
+- 8. 2. 2023 12:39
+        - oprava DB
+        - aktualizace XmlImportStream
+
+- 24. 1. 2023 18:50
+
+        - změna jazyka přes nastaveni.ini
+
+- 24. 1. 2023:
+        - konfigurace přes nastaveni.ini

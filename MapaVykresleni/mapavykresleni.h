@@ -31,7 +31,11 @@ public:
     QString spojDoTabulky(Spoj vstup);
 
     QString uzelDoTabulky(Zastavka vstup);
+    QString getCestaMapa() const;
+    void setCestaMapa(const QString &newCestaMapa);
+
 private:
+    QString cestaMapa="";
 
 
 };
