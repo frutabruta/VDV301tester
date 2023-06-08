@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //QString konstantaPocetDni=settings.value("konstanty/pocetDni").toString();
     //settings.setValue("golemio/api-key","XXX");
 
+    mapaVykresleni.setCestaMapa(QCoreApplication::applicationDirPath());
 
 
 

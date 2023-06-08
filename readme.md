@@ -42,6 +42,9 @@ mingw32-make install
 ```
 
 ## Changelog (in Czech)
+- 20230608_1055
+        - oprava mapy
+        - oprava přiložené databáze 
 - 20230607_2028
         - verze se dá zkopírovat
         - verze mapy s příznaky
