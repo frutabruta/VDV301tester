@@ -581,7 +581,7 @@ void IbisOvladani::odesliAdresu(QSerialPort &port,QString adresa)
         emit timeout(tr("Wait write request timeout %1")
                      .arg(QTime::currentTime().toString()));
     }
-    adresa=1;
+    adresa=QString::number(1);
 
 }
 

@@ -70,7 +70,7 @@ QVector<PrestupGolemio> Golemio::parsujDomDokument()
 
 
 
-    foreach (auto var, odjezdy) {
+    foreach (QJsonValue var, odjezdy) {
         qDebug()<<"odjezd: "<<var["route"]["short_name"].toString() ;
 
         //var[""][""]
