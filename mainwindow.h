@@ -10,6 +10,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QSettings>
+#include <QRegularExpression> //qt6
 
 
 #include "VDV301struktury/zastavka.h"

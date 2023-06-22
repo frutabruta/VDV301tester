@@ -1,4 +1,4 @@
-# VDV301tester
+ VDV301tester
 
 This is a program used to test devices compatible with VDV301 1.0 and VDV301 2.2CZ1.0.
 
@@ -42,6 +42,16 @@ mingw32-make install
 ```
 
 ## Changelog (in Czech)
+- 20230622_1447
+        - VDV301publisher
+                -DisplayContentClass
+        - changelog.txt merged to readme.md
+        - hlasic
+                -compability with Qt 5.15 and Qt 6.5        
+
+- 20230614_1001
+        - VDV301 2.4
+                - generování různých DisplayContent pro LCD, Front, Side, Rear panely
 - 20230608_1055
         - oprava mapy
         - oprava přiložené databáze 

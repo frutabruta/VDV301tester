@@ -516,7 +516,7 @@ int MainWindow::on_pushButton_prikaz_clicked()
     stavSystemu.aktspoj=stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu);
     ui->poleLinkyTurnus->setText(QString::number(stavSystemu.aktspoj.linka.c));
     ui->poleSpojeTurnus->setText(QString::number(stavSystemu.aktspoj.cisloRopid));
-    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text().toInt();
+    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text();
 
     stavSystemu.indexAktZastavky=0;
 
@@ -536,7 +536,7 @@ int MainWindow::on_pushButton_turnus_prikaz_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     stavSystemu.doorState="AllDoorsClosed";
-    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text().toInt();
+    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text();
 
     stavSystemu.indexAktZastavky=0;
 
@@ -2125,8 +2125,23 @@ QString MainWindow::nahradZnacky(QString vstup)
 
     qDebug().noquote()<<"retezec pred: "<<vstup;
     //  vysledek=vstup.replace(QRegExp("a"),"b");
+
+
+
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    //qt5
     QRegExp vyraz=QRegExp("\\\\([^<]*)\\\\");
-    vyraz.setMinimal(true);
+      vyraz.setMinimal(true);
+#else
+    //qt6
+
+    QRegularExpression vyraz("\\\\([^<]*)\\\\");
+
+#endif
+
+
+
+
     vysledek=vstup.replace(vyraz,"<b>\\1</b>");
     qDebug().noquote()<<"retezec po: "<<vysledek;
 
@@ -2163,7 +2178,7 @@ void MainWindow::on_listView_spoje_clicked(const QModelIndex &index)
             QString alias=index.siblingAtColumn(modelSpoje->record().indexOf("l.aois")).data().toString();
             if(alias=="")
             {
-                docasnySpoj.linka.LineName=docasnySpoj.linka.c;
+                docasnySpoj.linka.LineName=QString::number(docasnySpoj.linka.c );
             }
             else
             {

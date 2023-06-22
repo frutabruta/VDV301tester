@@ -4,8 +4,22 @@
 
 Hlasic::Hlasic()
 {
-    connect(player,&QMediaPlayer::stateChanged,this,&Hlasic::zmenaStavuHlaseni);
+
     this->aktualizujCestyZvuku(cesta);
+
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    //qt5
+    connect(player,&QMediaPlayer::stateChanged,this,&Hlasic::zmenaStavuHlaseni);
+
+#else
+    //qt6
+    connect(player,&QMediaPlayer::playbackStateChanged,this,&Hlasic::zmenaStavuHlaseniQt6);
+    player->setAudioOutput(audioOutput);
+    audioOutput->setVolume(50);
+
+
+#endif
 }
 
 bool Hlasic::souborExistuje(QString path)
@@ -286,43 +300,14 @@ bool Hlasic::kompletKonecna(Zastavka vstup)
 
 
 
-void Hlasic::zmenaStavuHlaseni(QMediaPlayer::State state)
-{
-    qDebug() <<  Q_FUNC_INFO <<state;
-    vyhodPolozkuZeSeznamu(frontaZvuku);
-
-}
 
 
 
-void Hlasic::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if(!zasobnikAdres.isEmpty())
-    {
-        prehrajJedenZvuk(zasobnikAdres.first());
-    }
-}
 
 
 
-void Hlasic::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if(!zasobnikAdres.isEmpty()&&(player->state()==QMediaPlayer::StoppedState) )
-    {
-        qDebug()<<"pocet polozek "<<zasobnikAdres.size();
-        zasobnikAdres.removeFirst();
-        prehrajPolozkuZeSeznamu(zasobnikAdres);
 
-    }
-}
-void Hlasic::prehrajJedenZvuk(QUrl soubor2)
-{
-    qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
-    player->setMedia(soubor2);
-    player->play();
-}
+
 
 
 
@@ -378,3 +363,90 @@ void Hlasic::zmenUmisteniProgramu(QString umisteni)
     cesta=cestaProgramu+"/hlaseni";
     aktualizujCestyZvuku(cesta);
 }
+
+
+
+
+
+
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+//Qt5
+void Hlasic::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    if(!zasobnikAdres.isEmpty()&&(player->state()==QMediaPlayer::StoppedState) )
+    {
+        qDebug()<<"pocet polozek "<<zasobnikAdres.size();
+        zasobnikAdres.removeFirst();
+        prehrajPolozkuZeSeznamu(zasobnikAdres);
+
+    }
+}
+
+void Hlasic::prehrajJedenZvuk(QUrl soubor2)
+{
+    qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
+    player->setMedia(soubor2);
+
+    player->play();
+}
+
+void Hlasic::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    if(!zasobnikAdres.isEmpty())
+    {
+        prehrajJedenZvuk(zasobnikAdres.first());
+    }
+}
+
+void Hlasic::zmenaStavuHlaseni(QMediaPlayer::State state)
+{
+    qDebug() <<  Q_FUNC_INFO <<state;
+    vyhodPolozkuZeSeznamu(frontaZvuku);
+
+}
+
+
+
+#else
+//Qt6
+void Hlasic::zmenaStavuHlaseniQt6(QMediaPlayer::PlaybackState state)
+{
+    qDebug() <<  Q_FUNC_INFO <<state;
+    vyhodPolozkuZeSeznamuQt6(frontaZvuku);
+}
+
+void Hlasic::vyhodPolozkuZeSeznamuQt6(QVector<QUrl> &zasobnikAdres)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    if(!zasobnikAdres.isEmpty()&&(player->playbackState()==QMediaPlayer::StoppedState) )
+    {
+        qDebug()<<"pocet polozek "<<zasobnikAdres.size();
+        zasobnikAdres.removeFirst();
+        prehrajPolozkuZeSeznamu(zasobnikAdres);
+
+    }
+}
+
+void Hlasic::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    if(!zasobnikAdres.isEmpty())
+    {
+        prehrajJedenZvuk(zasobnikAdres.first());
+    }
+}
+
+void Hlasic::prehrajJedenZvuk(QUrl soubor2)
+{
+    qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
+
+    player->setSource(soubor2);
+
+    player->play();
+}
+
+
+#endif

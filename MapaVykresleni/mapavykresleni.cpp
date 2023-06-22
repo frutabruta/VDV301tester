@@ -3,6 +3,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include <QtGlobal>
+
 
 MapaVykresleni::MapaVykresleni()
 {
@@ -192,7 +194,7 @@ QString MapaVykresleni::spojDoTabulky(Spoj vstup)
     vystup+="<tr><td>alias linky</td><td>"+vstup.linka.LineName+"</td></tr>";
     vystup+="<tr><td>licenční číslo</td><td>"+vstup.linka.LineNumber+"</td></tr>";
     vystup+="<tr><td>spoj ROPID</td><td>"+QString::number(vstup.cisloRopid)+"</td></tr>";
-     vystup+="<tr><td>spoj ID</td><td>"+QString::number(vstup.cislo)+"</td></tr>";
+    vystup+="<tr><td>spoj ID</td><td>"+QString::number(vstup.cislo)+"</td></tr>";
     if(!vstup.globalniSeznamZastavek.isEmpty())
     {
         qDebug()<<"pocetZastavek ve vektoru:"<<vstup.globalniSeznamZastavek.length();
@@ -263,9 +265,17 @@ void MapaVykresleni::qstringDoSouboru(QString cesta, QString obsah)
     {
         qDebug()<<"soubor se povedlo otevrit";
         QTextStream out(&data);
-        out.setCodec("UTF-8"); //Qt5
-        // out.setAutoDetectUnicode(true);
-        //out.setEncoding(QStringConverter::Utf8); //Qt6
+
+
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        //Qt5
+        out.setCodec("UTF-8");
+#else
+         //Qt6
+        out.setAutoDetectUnicode(true);
+        out.setEncoding(QStringConverter::Utf8);
+#endif
 
         out<<obsah;
     }
