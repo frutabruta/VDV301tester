@@ -10,3 +10,6 @@
 [submodule "XmlRopidImportStream"]
 	path = XmlRopidImportStream
 	url = https://github.com/frutabruta/XmlRopidImportStream
+[submodule "MapaVykresleni"]
+	path = MapaVykresleni
+	url = https://github.com/frutabruta/MapaVykresleni

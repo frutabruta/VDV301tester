@@ -34,7 +34,7 @@
 #include "sqlropidxmldotazy.h"
 #include "xmlmpvparser.h"
 #include "golemio.h"
-#include "XmlRopidImportStream/xmlropidimportstream.h"
+#include "XmlRopidImportStream/xmlimportjr.h"
 #include "ibisovladani.h"
 #include "hlasic.h"
 #include "konfigurace.h"
@@ -129,7 +129,7 @@ private:
     QVector<CustomerInformationService*> vektorCis;
 
     //IBIS-IP subscriber
-    DevMgmtSubscriber deviceManagementServiceSubscriber;
+    DevMgmtSubscriber devMgmtSubscriber;
     // IbisIpSubscriber deviceManagementServiceSubscriber;
 
 
@@ -189,6 +189,7 @@ private:
     void cisAktualizaceObsahu(QVector<Prestup> prestupy, CestaUdaje mStavSystemu);
     void nastartujSluzbuZeZasobniku(QVector<CustomerInformationService *> &seznamSluzeb);
     QString textVerze();
+    void connectyImport(XmlImportJr *xmlImportJr);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);

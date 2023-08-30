@@ -41,13 +41,27 @@ mingw32-make
 mingw32-make install
 ```
 
-## Changelog (in Czech)
+## Changelog
+- 20230830_1341
+        - new verion of VDV301publisher (2.4 viaPoint fix)
+        - new version of VDV301subscriber (subscriber version)
+        - new version of XmlRopidImportStream
+                - import of APC data
+                - timetables import in new class xmlimportjr.cpp
+        - devMgmtSubscriber renamed to deviceManagementServiceSubscriber
+        - MapaVykresleni (mapdrawing module) moved to a submodule
+
+
+
+
 - 20230622_1447
         - VDV301publisher
                 -DisplayContentClass
         - changelog.txt merged to readme.md
         - hlasic
                 -compability with Qt 5.15 and Qt 6.5        
+
+## Old Changelog (in Czech)
 
 - 20230614_1001
         - VDV301 2.4

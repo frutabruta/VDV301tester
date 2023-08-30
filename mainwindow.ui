@@ -71,7 +71,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -2958,7 +2958,7 @@ Stop</string>
                </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="seznamOdberatelu">
+               <widget class="QTableWidget" name="tableWidget_seznamOdberatelu">
                 <column>
                  <property name="text">
                   <string>Adresa</string>
@@ -2984,7 +2984,7 @@ Stop</string>
                </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="seznamOdberatelu2">
+               <widget class="QTableWidget" name="tableWidget_seznamOdberatelu2">
                 <column>
                  <property name="text">
                   <string>Adresa</string>
@@ -3098,7 +3098,7 @@ Stop</string>
                </widget>
               </item>
               <item>
-               <widget class="QPlainTextEdit" name="plainTextEditCustomXml">
+               <widget class="QPlainTextEdit" name="plainTextEdit_CustomXml">
                 <property name="plainText">
                  <string/>
                 </property>

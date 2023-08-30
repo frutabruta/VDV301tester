@@ -76,6 +76,7 @@ SOURCES += \
     VDV301testy/testdetekcebonjour.cpp \
     VDV301testy/testodberuserver.cpp \
     VDV301testy/vdv301testy.cpp \
+    XmlRopidImportStream/xmlimportjr.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
     golemio.cpp \
     hlasic.cpp \
@@ -125,6 +126,7 @@ HEADERS += \
     VDV301testy/testdetekcebonjour.h \
     VDV301testy/testodberuserver.h \
     VDV301testy/vdv301testy.h \
+    XmlRopidImportStream/xmlimportjr.h \
     XmlRopidImportStream/xmlropidimportstream.h \
     XmlRopidImportStream/sqlitezaklad.h \
     golemio.h \

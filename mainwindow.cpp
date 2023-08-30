@@ -3,6 +3,8 @@
 #include <QTranslator>
 
 
+
+
 //MAIN
 
 
@@ -22,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
-    deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),
+    devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),
 
     ui(new Ui::MainWindow)
 {
@@ -198,11 +200,16 @@ přesunutí connectů pro větší přehlednost
 void MainWindow::vsechnyConnecty()
 {
     qDebug()<<Q_FUNC_INFO;
+
+    this->vypisSubscribery1_0(customerInformationService1_0.seznamSubscriberu);
+    this->vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);
+
+
     //vypisy subscriberu
     connect(&customerInformationService1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery1_0);
     connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery2_2CZ);
-    this->vypisSubscribery1_0(customerInformationService1_0.seznamSubscriberu);
-    this->vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);
+
+
 
     connect(&customerInformationService1_0,&HttpSluzba::signalSluzbaPublikovana,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
     connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalSluzbaPublikovana,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
@@ -217,7 +224,7 @@ void MainWindow::vsechnyConnecty()
 
 
     //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
-    connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalAktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
+    connect(&devMgmtSubscriber,&IbisIpSubscriber::signalAktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
 
 
     //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
@@ -228,11 +235,11 @@ void MainWindow::vsechnyConnecty()
     connect(&testOdberuServer,&Vdv301testy::update,this,&MainWindow::testyVykresliCasti);
 
     //jednotliveTesty
-    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalVypisSubscriberu,&testOdberuServer,&TestOdberuServer::slotAktualizaceSubscriberu);
     connect(&testOdberuServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotVymazSubscribery);
     connect(&testOdberuServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
     connect(&testOdberuServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotZastavCasovac);
     connect(&testOdberuServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotTedOdesliNaPanely);
+
 
     connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalVypisSubscriberu,&testOdberuServer,&TestOdberuServer::slotAktualizaceSubscriberu);
     connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalOdpovedNaPost,&testOdberuServer,&TestOdberuServer::slotVypisOdpovedServeru);
@@ -935,24 +942,41 @@ void MainWindow::on_pushButton_nast_nactiXMLropid_clicked()
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
 
 
-    XmlRopidImportStream *xmlRopidImportStream =  new XmlRopidImportStream();
+    XmlImportJr *xmlImportJr =  new XmlImportJr();
 
-    xmlRopidImportStream->truncateAll();
+    xmlImportJr->truncateAll();
 
-    xmlRopidImportStream->vstupniXmlSouborCesta=cestaXml;
+    xmlImportJr->vstupniXmlSouborCesta=cestaXml;
 
-    connect(xmlRopidImportStream,&XmlRopidImportStream::resultReady, this, &MainWindow::slotImportDokoncen);
-    connect(xmlRopidImportStream,&XmlRopidImportStream::finished, xmlRopidImportStream, &QObject::deleteLater);
-    connect(xmlRopidImportStream,&XmlRopidImportStream::finished, this, &MainWindow::slotImportAktivujTlacitka);
+    connectyImport(xmlImportJr);
 
-    connect(xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
-    connect(xmlRopidImportStream,&XmlRopidImportStream::signalNastavProgress,this,&MainWindow::slotNastavProgress);
-    connect(xmlRopidImportStream,&XmlRopidImportStream::signalNastavProgressMax,this,&MainWindow::slotNastavProgressMax);
 
-    xmlRopidImportStream->start();
+    xmlImportJr->start();
 
 
     //xmlRopidImportStream.otevriSoubor(xmlRopidImportStream.vstupniXmlSouborCesta);
+
+}
+
+
+void MainWindow::connectyImport(XmlImportJr *xmlImportJr)
+{
+    connect(xmlImportJr,&XmlRopidImportStream::resultReady, this, &MainWindow::slotImportDokoncen);
+    connect(xmlImportJr,&XmlRopidImportStream::finished, xmlImportJr, &QObject::deleteLater);
+    connect(xmlImportJr,&XmlRopidImportStream::finished, this, &MainWindow::slotImportAktivujTlacitka);
+
+    connect(xmlImportJr,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
+    connect(xmlImportJr,&XmlRopidImportStream::signalNastavProgress,this,&MainWindow::slotNastavProgress);
+    connect(xmlImportJr,&XmlRopidImportStream::signalNastavProgressMax,this,&MainWindow::slotNastavProgressMax);
+
+    /*
+
+    connect(xmlImportJr,&XmlRopidImportStream::resultReady, this, &MainWindow::handleResultsJr);
+    connect(xmlImportJr,&XmlRopidImportStream::finished, xmlImportJr, &QObject::deleteLater);
+    connect(xmlImportJr,&XmlRopidImportStream::finished, this, &MainWindow::slotAktivujTlacitka);
+
+    connect(xmlImportJr,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
+*/
 
 }
 
@@ -1000,8 +1024,8 @@ void MainWindow::slotImportAktivujTlacitka()
 void MainWindow::on_pushButton_nast_truncate_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    XmlRopidImportStream *xmlRopidImportStream =  new XmlRopidImportStream();
-    xmlRopidImportStream->truncateAll();
+    XmlImportJr *xmlImportJr =  new XmlImportJr();
+    xmlImportJr->truncateAll();
 }
 
 
@@ -1135,7 +1159,7 @@ void MainWindow::on_pushButton_menu_jizda_clicked()
 */
 void MainWindow::on_pushButton_manual_smazOkno_clicked()
 {
-    ui->plainTextEditCustomXml->clear();
+    ui->plainTextEdit_CustomXml->clear();
 }
 
 
@@ -1146,7 +1170,7 @@ void MainWindow::on_pushButton_manual_odesliXml_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     QByteArray vysledek2="";
-    vysledek2=vysledek2+ui->plainTextEditCustomXml->toPlainText().toUtf8();
+    vysledek2=vysledek2+ui->plainTextEdit_CustomXml->toPlainText().toUtf8();
     customerInformationService1_0.nastavObsahTela("AllData",vysledek2);
     customerInformationService2_2CZ1_0.nastavObsahTela("AllData",vysledek2);
 
@@ -1169,7 +1193,7 @@ void MainWindow::on_pushButton_manual_odesliXml_clicked()
 void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
 {
     qDebug() <<  Q_FUNC_INFO;
-    ui->seznamOdberatelu->setRowCount(0);
+    ui->tableWidget_seznamOdberatelu->setRowCount(0);
     qDebug()<<"smazano"<<" adresy.size="<<adresy.size();
     if (adresy.size()==0)
     {
@@ -1183,15 +1207,15 @@ void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
 
             qint32 row;
             QTableWidgetItem *cell;
-            row = ui->seznamOdberatelu->rowCount();
-            ui->seznamOdberatelu->insertRow(row);
+            row = ui->tableWidget_seznamOdberatelu->rowCount();
+            ui->tableWidget_seznamOdberatelu->insertRow(row);
             cell = new QTableWidgetItem(odberatel.adresa.toString());
-            ui->seznamOdberatelu->setItem(row, 0, cell);
+            ui->tableWidget_seznamOdberatelu->setItem(row, 0, cell);
 
 
             cell = new QTableWidgetItem(odberatel.struktura);
-            ui->seznamOdberatelu->setItem(row, 1, cell);
-            ui->seznamOdberatelu->resizeColumnsToContents();
+            ui->tableWidget_seznamOdberatelu->setItem(row, 1, cell);
+            ui->tableWidget_seznamOdberatelu->resizeColumnsToContents();
         }
         qDebug()<<"vracim 1";
     }
@@ -1206,7 +1230,7 @@ void MainWindow::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    ui->seznamOdberatelu2->setRowCount(0);
+    ui->tableWidget_seznamOdberatelu2->setRowCount(0);
 
     qDebug()<<"smazano"<<" adresy.size="<<adresy.size();
     if (adresy.size()==0)
@@ -1220,14 +1244,14 @@ void MainWindow::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
             Subscriber odberatel=adresy.at(i);
             qint32 row;
             QTableWidgetItem *cell;
-            row = ui->seznamOdberatelu2->rowCount();
-            ui->seznamOdberatelu2->insertRow(row);
+            row = ui->tableWidget_seznamOdberatelu2->rowCount();
+            ui->tableWidget_seznamOdberatelu2->insertRow(row);
             cell = new QTableWidgetItem(odberatel.adresa.toString());
 
-            ui->seznamOdberatelu2->setItem(row, 0, cell);
+            ui->tableWidget_seznamOdberatelu2->setItem(row, 0, cell);
             cell = new QTableWidgetItem(odberatel.struktura);
-            ui->seznamOdberatelu2->setItem(row, 1, cell);
-            ui->seznamOdberatelu2->resizeColumnsToContents();
+            ui->tableWidget_seznamOdberatelu2->setItem(row, 1, cell);
+            ui->tableWidget_seznamOdberatelu2->resizeColumnsToContents();
 
 
         }
@@ -1260,19 +1284,19 @@ void MainWindow::on_pushButton_manual_addsubscriber_2_clicked()
 */
 void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 {
-    if (ui->seznamOdberatelu->rowCount()==0)
+    if (ui->tableWidget_seznamOdberatelu->rowCount()==0)
     {
 
         vypisDiagnostika("seznam je prazdny");
         return;
     }
 
-    if (ui->seznamOdberatelu->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_seznamOdberatelu->selectionModel()->selectedIndexes().size()==0)
     {
         vypisDiagnostika("nic neni vybrnao");
         return;
     }
-    int indexPolozky = ui->seznamOdberatelu->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_seznamOdberatelu->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService1_0.odstranitSubscribera(indexPolozky)==1)
     {
         vypisSubscribery1_0(customerInformationService1_0.seznamSubscriberu);
@@ -1290,19 +1314,19 @@ void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 */
 void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
 {
-    if (ui->seznamOdberatelu2->rowCount()==0)
+    if (ui->tableWidget_seznamOdberatelu2->rowCount()==0)
     {
         vypisDiagnostika("seznam je prazdny");
         return;
     }
 
-    if (ui->seznamOdberatelu2->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_seznamOdberatelu2->selectionModel()->selectedIndexes().size()==0)
     {
         vypisDiagnostika("nic neni vybrano");
 
         return;
     }
-    int indexPolozky = ui->seznamOdberatelu2->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_seznamOdberatelu2->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService2_2CZ1_0.odstranitSubscribera(indexPolozky)==1)
     {
         vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);
@@ -2004,7 +2028,7 @@ void MainWindow::on_radioButton_singleDoorCloser_clicked()
 void MainWindow::slotAktualizaceTabulkySluzeb()
 {
     qDebug()<<"MainWindow::slotAktualizaceTabulkySluzeb";
-    vykresliSluzbyDoTabulky(deviceManagementServiceSubscriber.seznamZarizeniDetekce, deviceManagementServiceSubscriber.seznamZarizeniKonfigurace);
+    vykresliSluzbyDoTabulky(devMgmtSubscriber.seznamZarizeniDetekce, devMgmtSubscriber.seznamZarizeniKonfigurace);
 }
 
 void MainWindow::vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamSluzebDetekce, QVector<DevMgmtPublisherStruct> seznamSluzebKonfigurace)
@@ -2274,7 +2298,7 @@ void MainWindow::on_tableView_turnusSpoj_clicked(const QModelIndex &index)
 void MainWindow::on_pushButton_refreshDetekce_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    deviceManagementServiceSubscriber.slotAktualizaceZarizeni();
+    devMgmtSubscriber.slotAktualizaceZarizeni();
 }
 
 
@@ -2285,7 +2309,7 @@ void MainWindow::on_pushButton_ulozDetekce_clicked()
 
     int i=0;
     settings.beginWriteArray("hwConfig");
-    foreach(DevMgmtPublisherStruct zarizeni, deviceManagementServiceSubscriber.seznamZarizeniDetekce)
+    foreach(DevMgmtPublisherStruct zarizeni, devMgmtSubscriber.seznamZarizeniDetekce)
     {
         // QJsonDocument json = QJsonDocument::fromVariant(zarizeni.toQMap() );
         settings.setArrayIndex(i);
@@ -2303,7 +2327,7 @@ void MainWindow::on_pushButton_nactiDetekce_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.clear();
+    devMgmtSubscriber.seznamZarizeniKonfigurace.clear();
 
 
     int size = settings.beginReadArray("hwConfig");
@@ -2313,13 +2337,13 @@ void MainWindow::on_pushButton_nactiDetekce_clicked()
         zarizeni.deviceId= settings.value("deviceId").toString();
         zarizeni.deviceClass= settings.value("deviceClass").toString();
         zarizeni.hwConfig=true;
-        deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.append(zarizeni);
+        devMgmtSubscriber.seznamZarizeniKonfigurace.append(zarizeni);
         qDebug()<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
     }
     settings.endArray();
 
-    qDebug()<<"nacteno "<<QString::number(deviceManagementServiceSubscriber.seznamZarizeniKonfigurace.count())<<" zarizeni";
-    vykresliSluzbyDoTabulky(deviceManagementServiceSubscriber.seznamZarizeniDetekce, deviceManagementServiceSubscriber.seznamZarizeniKonfigurace);
+    qDebug()<<"nacteno "<<QString::number(devMgmtSubscriber.seznamZarizeniKonfigurace.count())<<" zarizeni";
+    vykresliSluzbyDoTabulky(devMgmtSubscriber.seznamZarizeniDetekce, devMgmtSubscriber.seznamZarizeniKonfigurace);
 }
 
 /*
