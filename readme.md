@@ -42,6 +42,11 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20230831_1130
+        - VDV301publisher VDV301 2.4
+                - in-line color formatting of line number
+                - removal of lineProperty
+
 - 20230830_1341
         - new verion of VDV301publisher (2.4 viaPoint fix)
         - new version of VDV301subscriber (subscriber version)

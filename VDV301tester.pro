@@ -45,6 +45,7 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 #LIBS += -lqhttpserver
 
 SOURCES += \
+    VDV301publisher/colordisplayrules.cpp \
     VDV301publisher/customerinformationservice.cpp \
     VDV301publisher/devicemanagementservice.cpp\
     VDV301publisher/httpsluzba.cpp \
@@ -95,6 +96,7 @@ SOURCES += \
     xmlmpvparser.cpp
 
 HEADERS += \
+    VDV301publisher/colordisplayrules.h \
     VDV301publisher/customerinformationservice.h \
     VDV301publisher/devicemanagementservice.h \
     VDV301publisher/httpsluzba.h \
