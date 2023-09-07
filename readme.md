@@ -42,6 +42,18 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20230907_1845
+        - VDV301 publisher
+                - metro icon transfer
+        - VDV301struktury
+                - regionalRail fix
+        - golemio.cpp
+                - debug messages removal
+        - V2.4 subscribers table
+        
+
+        
+
 - 20230831_1130
         - VDV301publisher VDV301 2.4
                 - in-line color formatting of line number

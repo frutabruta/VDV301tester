@@ -208,6 +208,7 @@ void MainWindow::vsechnyConnecty()
     //vypisy subscriberu
     connect(&customerInformationService1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery1_0);
     connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery2_2CZ);
+    connect(&customerInformationService2_4,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery2_4);
 
 
 
@@ -445,7 +446,7 @@ void MainWindow::slotGolemioReady()
     qDebug()<<"bum10";
 
     QVector<Prestup> prestupy;
-    foreach(auto polozka,prestupyGolemio)
+    foreach(PrestupGolemio polozka,prestupyGolemio)
     {
         prestupy.push_back(polozka.toPrestup());
     }
@@ -1185,15 +1186,10 @@ void MainWindow::on_pushButton_manual_odesliXml_clicked()
     qDebug()<<"\n MainWindow::xmlUpdate";
 }
 
-
-
-/*!
-
-*/
-void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
+void MainWindow::vypisSubscriberyDoTabulky(QVector<Subscriber> adresy, QTableWidget* tabulka)
 {
     qDebug() <<  Q_FUNC_INFO;
-    ui->tableWidget_seznamOdberatelu->setRowCount(0);
+    tabulka->setRowCount(0);
     qDebug()<<"smazano"<<" adresy.size="<<adresy.size();
     if (adresy.size()==0)
     {
@@ -1207,15 +1203,15 @@ void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
 
             qint32 row;
             QTableWidgetItem *cell;
-            row = ui->tableWidget_seznamOdberatelu->rowCount();
-            ui->tableWidget_seznamOdberatelu->insertRow(row);
+            row = tabulka->rowCount();
+            tabulka->insertRow(row);
             cell = new QTableWidgetItem(odberatel.adresa.toString());
-            ui->tableWidget_seznamOdberatelu->setItem(row, 0, cell);
+            tabulka->setItem(row, 0, cell);
 
 
             cell = new QTableWidgetItem(odberatel.struktura);
-            ui->tableWidget_seznamOdberatelu->setItem(row, 1, cell);
-            ui->tableWidget_seznamOdberatelu->resizeColumnsToContents();
+            ui->tableWidget_seznamOdberatelu1_0->setItem(row, 1, cell);
+            ui->tableWidget_seznamOdberatelu1_0->resizeColumnsToContents();
         }
         qDebug()<<"vracim 1";
     }
@@ -1226,37 +1222,25 @@ void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
 /*!
 
 */
+void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
+{
+  qDebug() <<  Q_FUNC_INFO;
+    vypisSubscriberyDoTabulky(adresy,ui->tableWidget_seznamOdberatelu1_0);
+}
+
+/*!
+
+*/
 void MainWindow::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
 {
     qDebug() <<  Q_FUNC_INFO;
+    vypisSubscriberyDoTabulky(adresy,ui->tableWidget_seznamOdberatelu2_2CZ1_0);
+}
 
-    ui->tableWidget_seznamOdberatelu2->setRowCount(0);
-
-    qDebug()<<"smazano"<<" adresy.size="<<adresy.size();
-    if (adresy.size()==0)
-    {
-        qDebug()<<"vracim 0";
-    }
-    else
-    {
-        for (int i = 0;  i < adresy.count(); i++)
-        {
-            Subscriber odberatel=adresy.at(i);
-            qint32 row;
-            QTableWidgetItem *cell;
-            row = ui->tableWidget_seznamOdberatelu2->rowCount();
-            ui->tableWidget_seznamOdberatelu2->insertRow(row);
-            cell = new QTableWidgetItem(odberatel.adresa.toString());
-
-            ui->tableWidget_seznamOdberatelu2->setItem(row, 0, cell);
-            cell = new QTableWidgetItem(odberatel.struktura);
-            ui->tableWidget_seznamOdberatelu2->setItem(row, 1, cell);
-            ui->tableWidget_seznamOdberatelu2->resizeColumnsToContents();
-
-
-        }
-        qDebug()<<"vracim 1";
-    }
+void MainWindow::vypisSubscribery2_4(QVector<Subscriber> adresy)
+{
+    qDebug() <<  Q_FUNC_INFO;
+        vypisSubscriberyDoTabulky(adresy,ui->tableWidget_seznamOdberatelu2_4);
 }
 
 
@@ -1284,19 +1268,19 @@ void MainWindow::on_pushButton_manual_addsubscriber_2_clicked()
 */
 void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 {
-    if (ui->tableWidget_seznamOdberatelu->rowCount()==0)
+    if (ui->tableWidget_seznamOdberatelu1_0->rowCount()==0)
     {
 
         vypisDiagnostika("seznam je prazdny");
         return;
     }
 
-    if (ui->tableWidget_seznamOdberatelu->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_seznamOdberatelu1_0->selectionModel()->selectedIndexes().size()==0)
     {
         vypisDiagnostika("nic neni vybrnao");
         return;
     }
-    int indexPolozky = ui->tableWidget_seznamOdberatelu->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_seznamOdberatelu1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService1_0.odstranitSubscribera(indexPolozky)==1)
     {
         vypisSubscribery1_0(customerInformationService1_0.seznamSubscriberu);
@@ -1314,19 +1298,19 @@ void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 */
 void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
 {
-    if (ui->tableWidget_seznamOdberatelu2->rowCount()==0)
+    if (ui->tableWidget_seznamOdberatelu2_2CZ1_0->rowCount()==0)
     {
         vypisDiagnostika("seznam je prazdny");
         return;
     }
 
-    if (ui->tableWidget_seznamOdberatelu2->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_seznamOdberatelu2_2CZ1_0->selectionModel()->selectedIndexes().size()==0)
     {
         vypisDiagnostika("nic neni vybrano");
 
         return;
     }
-    int indexPolozky = ui->tableWidget_seznamOdberatelu2->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_seznamOdberatelu2_2CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService2_2CZ1_0.odstranitSubscribera(indexPolozky)==1)
     {
         vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);

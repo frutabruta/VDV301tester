@@ -50,13 +50,13 @@ hlášení</source>
     </message>
     <message>
         <location filename="mainwindow.ui" line="291"/>
-        <location filename="mainwindow.ui" line="3398"/>
+        <location filename="mainwindow.ui" line="3424"/>
         <source>Fullscr.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="328"/>
-        <location filename="mainwindow.ui" line="3435"/>
+        <location filename="mainwindow.ui" line="3461"/>
         <source>QUIT</source>
         <translation type="unfinished"></translation>
     </message>
@@ -368,18 +368,21 @@ Stop</source>
     <message>
         <location filename="mainwindow.ui" line="2964"/>
         <location filename="mainwindow.ui" line="2990"/>
+        <location filename="mainwindow.ui" line="3104"/>
         <source>Adresa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2969"/>
         <location filename="mainwindow.ui" line="2995"/>
+        <location filename="mainwindow.ui" line="3109"/>
         <source>Struktura</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2974"/>
         <location filename="mainwindow.ui" line="3000"/>
+        <location filename="mainwindow.ui" line="3114"/>
         <source>Interval</source>
         <translation type="unfinished"></translation>
     </message>
@@ -422,199 +425,204 @@ Stop</source>
     </message>
     <message>
         <location filename="mainwindow.ui" line="3096"/>
+        <source>Odberatele V2.4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="3122"/>
         <source>CustomXML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3117"/>
+        <location filename="mainwindow.ui" line="3143"/>
         <source>odeslat
  na panely</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3130"/>
+        <location filename="mainwindow.ui" line="3156"/>
         <source>vymazat
  okno</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3146"/>
+        <location filename="mainwindow.ui" line="3172"/>
         <source>Detekce zařízení</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3156"/>
+        <location filename="mainwindow.ui" line="3182"/>
         <source>HW</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3161"/>
+        <location filename="mainwindow.ui" line="3187"/>
         <source>DeviceClass</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3166"/>
+        <location filename="mainwindow.ui" line="3192"/>
         <source>ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3171"/>
+        <location filename="mainwindow.ui" line="3197"/>
         <source>Hostname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3176"/>
+        <location filename="mainwindow.ui" line="3202"/>
         <source>IP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3181"/>
+        <location filename="mainwindow.ui" line="3207"/>
         <source>port</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3186"/>
+        <location filename="mainwindow.ui" line="3212"/>
         <source>serviceName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3191"/>
+        <location filename="mainwindow.ui" line="3217"/>
         <source>verze</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3201"/>
+        <location filename="mainwindow.ui" line="3227"/>
         <source>Refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3211"/>
+        <location filename="mainwindow.ui" line="3237"/>
         <source>Načti 
 HW konfig</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3222"/>
+        <location filename="mainwindow.ui" line="3248"/>
         <source>Ulož 
 HW config</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3233"/>
+        <location filename="mainwindow.ui" line="3259"/>
         <source>SetID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3548"/>
+        <location filename="mainwindow.ui" line="3574"/>
         <source>PushButton</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3247"/>
+        <location filename="mainwindow.ui" line="3273"/>
         <source>Testování</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3280"/>
+        <location filename="mainwindow.ui" line="3306"/>
         <source>Služby</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3319"/>
+        <location filename="mainwindow.ui" line="3345"/>
         <source>Průbeh
  testu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3359"/>
+        <location filename="mainwindow.ui" line="3385"/>
         <source>xx</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3476"/>
+        <location filename="mainwindow.ui" line="3502"/>
         <source>Vzorový test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3500"/>
+        <location filename="mainwindow.ui" line="3526"/>
         <source>Test odberu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3524"/>
+        <location filename="mainwindow.ui" line="3550"/>
         <source>Test Bonjour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3560"/>
+        <location filename="mainwindow.ui" line="3586"/>
         <source>Název části testu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3565"/>
+        <location filename="mainwindow.ui" line="3591"/>
         <source>Průběh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3570"/>
+        <location filename="mainwindow.ui" line="3596"/>
         <source>Výsledek</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3591"/>
+        <location filename="mainwindow.ui" line="3617"/>
         <source>Spustit
  test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3610"/>
+        <location filename="mainwindow.ui" line="3636"/>
         <source>Zastavit
 test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3633"/>
+        <location filename="mainwindow.ui" line="3659"/>
         <source>Customer Informaton Service 2.2CZ1.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3653"/>
-        <location filename="mainwindow.ui" line="3715"/>
-        <location filename="mainwindow.ui" line="3777"/>
-        <location filename="mainwindow.ui" line="3842"/>
+        <location filename="mainwindow.ui" line="3679"/>
+        <location filename="mainwindow.ui" line="3741"/>
+        <location filename="mainwindow.ui" line="3803"/>
+        <location filename="mainwindow.ui" line="3868"/>
         <source>ON</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3671"/>
-        <location filename="mainwindow.ui" line="3733"/>
-        <location filename="mainwindow.ui" line="3798"/>
-        <location filename="mainwindow.ui" line="3860"/>
+        <location filename="mainwindow.ui" line="3697"/>
+        <location filename="mainwindow.ui" line="3759"/>
+        <location filename="mainwindow.ui" line="3824"/>
+        <location filename="mainwindow.ui" line="3886"/>
         <source>OFF</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3695"/>
+        <location filename="mainwindow.ui" line="3721"/>
         <source>DeviceManagementService 1.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3757"/>
+        <location filename="mainwindow.ui" line="3783"/>
         <source>TicketValidationService 2.2CZ1.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="3822"/>
+        <location filename="mainwindow.ui" line="3848"/>
         <source>Customer Informaton Service 1.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1580"/>
+        <location filename="mainwindow.cpp" line="1632"/>
         <source>Otevři soubor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1581"/>
+        <location filename="mainwindow.cpp" line="1633"/>
         <source>XML Ropid JŘ (*.xml);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -624,14 +632,14 @@ test</source>
     <message>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="96"/>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="112"/>
-        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="130"/>
+        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="123"/>
         <source>Server failed to listen on a port.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="104"/>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="119"/>
-        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="142"/>
+        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="137"/>
         <source>Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)</source>
         <translation type="unfinished"></translation>
     </message>

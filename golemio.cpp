@@ -92,9 +92,9 @@ QVector<PrestupGolemio> Golemio::parsujDomDokument()
             novy.routeIsNight=var["route"]["is_night"].toBool();
             novy.routeIsRegional=var["route"]["is_regional"].toBool();
 
-            qDebug()<<"bum1";
+
             int type=var["route"]["type"].toInt();
-            qDebug()<<"bum2";
+
 
             if(type<14)
             {

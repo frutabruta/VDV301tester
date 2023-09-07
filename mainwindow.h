@@ -152,8 +152,10 @@ private:
 
 
     //VDV301
+
     void vypisSubscribery1_0(QVector<Subscriber> adresy);
     void vypisSubscribery2_2CZ(QVector<Subscriber> adresy);
+    void vypisSubscriberyDoTabulky(QVector<Subscriber> adresy, QTableWidget *tabulka);
     void nastartujVsechnyVdv301Sluzby();
     void zastavSluzby(); //neimplementovano
 
@@ -190,6 +192,9 @@ private:
     void nastartujSluzbuZeZasobniku(QVector<CustomerInformationService *> &seznamSluzeb);
     QString textVerze();
     void connectyImport(XmlImportJr *xmlImportJr);
+
+
+    void vypisSubscribery2_4(QVector<Subscriber> adresy);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);

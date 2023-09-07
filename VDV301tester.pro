@@ -10,7 +10,8 @@ QTPLUGIN += QSQLMYSQL
 QT += xml
 QT += serialport
 QT += multimedia
-QT+= httpserver
+QT += httpserver
+#CONFIG   += console
 
 DEFINES+= QZEROCONF_STATIC
 include(VDV301publisher/QtZeroConf/qtzeroconf.pri)
