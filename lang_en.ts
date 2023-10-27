@@ -66,7 +66,7 @@ announcement</translation>
         <location filename="mainwindow.ui" line="816"/>
         <location filename="mainwindow.ui" line="1807"/>
         <source>Linka</source>
-        <translation>Line</translation>
+        <translation type="unfinished">Line</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="828"/>

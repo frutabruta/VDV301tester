@@ -137,6 +137,7 @@ void MainWindow::nastartujSluzbuZeZasobniku(QVector<CustomerInformationService*>
     {
         CustomerInformationService* aktualniSluzba=seznamSluzeb.takeFirst();
         qDebug()<<"v zasobniku zustava sluzeb: "<<seznamSluzeb.count();
+        qDebug()<<Q_FUNC_INFO<<" "<<aktualniSluzba->nazevSluzbyInterni<<" "<<aktualniSluzba->globVerze;
         aktualniSluzba->slotStartServer();
     }
 }

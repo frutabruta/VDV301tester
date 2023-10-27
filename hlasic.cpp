@@ -72,7 +72,7 @@ QUrl Hlasic::najdiCestuZastavka(int kodOis, int kodCis)
 
 QUrl Hlasic::najdiCestuSpecial(QString nazevSouboru)
 {
-    qDebug()<<"Hlasic::dilciVyhlaseni";
+    qDebug() <<  Q_FUNC_INFO;
     QString slozka=cesta+"/special/";
     QString cestaSouboru="";
 
@@ -300,20 +300,9 @@ bool Hlasic::kompletKonecna(Zastavka vstup)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 void Hlasic::nastavCestu(QString vstup)
 {
-    qDebug()<<"Hlasic::nastavCestu";
+    qDebug() <<  Q_FUNC_INFO;
     cesta=vstup;
     aktualizujCestyZvuku(cesta);
 }
@@ -363,9 +352,6 @@ void Hlasic::zmenUmisteniProgramu(QString umisteni)
     cesta=cestaProgramu+"/hlaseni";
     aktualizujCestyZvuku(cesta);
 }
-
-
-
 
 
 

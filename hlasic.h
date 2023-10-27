@@ -53,8 +53,8 @@ public:
     QMediaPlayer * player =  new QMediaPlayer(NULL, QMediaPlayer::StreamPlayback);
 #else
     //Qt6
-    QMediaPlayer * player =  new QMediaPlayer(NULL); //qt6
-    QAudioOutput  *audioOutput = new QAudioOutput  ;
+    QMediaPlayer *player =  new QMediaPlayer(NULL); //qt6
+    QAudioOutput  *audioOutput = new QAudioOutput;
 #endif
 
 
