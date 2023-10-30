@@ -31,12 +31,13 @@
         <source>Linka
 /spoj</source>
         <translation>Line
-/connection</translation>
+/Trip</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="178"/>
         <source>Turnus</source>
-        <translation>Trip</translation>
+        <translation type="unfinished">Vehicle
+Run</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="217"/>
@@ -66,14 +67,14 @@ announcement</translation>
         <location filename="mainwindow.ui" line="816"/>
         <location filename="mainwindow.ui" line="1807"/>
         <source>Linka</source>
-        <translation type="unfinished">Line</translation>
+        <translation>Line</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="828"/>
         <location filename="mainwindow.ui" line="1800"/>
         <location filename="mainwindow.ui" line="2359"/>
         <source>Spoj</source>
-        <translation>Connection</translation>
+        <translation>Trip</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="861"/>
@@ -200,7 +201,7 @@ Stop</translation>
         <location filename="mainwindow.ui" line="1252"/>
         <location filename="mainwindow.ui" line="2406"/>
         <source>Přestupy</source>
-        <translation>Transfers</translation>
+        <translation>Connections</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1263"/>
@@ -210,7 +211,7 @@ Stop</translation>
     <message>
         <location filename="mainwindow.ui" line="1286"/>
         <source>Seznam spojů</source>
-        <translation>Connections</translation>
+        <translation>Trips</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1320"/>
@@ -238,12 +239,12 @@ Stop</translation>
     <message>
         <location filename="mainwindow.ui" line="1848"/>
         <source>Pořadí</source>
-        <translation>Trip</translation>
+        <translation>Order on line</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1866"/>
         <source>Spoje</source>
-        <translation>Connections</translation>
+        <translation>Trips</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2378"/>
@@ -385,14 +386,14 @@ command</translation>
         <location filename="mainwindow.ui" line="2995"/>
         <location filename="mainwindow.ui" line="3109"/>
         <source>Struktura</source>
-        <translation type="unfinished"></translation>
+        <translation>Structure</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2974"/>
         <location filename="mainwindow.ui" line="3000"/>
         <location filename="mainwindow.ui" line="3114"/>
         <source>Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Interval</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2982"/>
@@ -408,7 +409,7 @@ command</translation>
     <message>
         <location filename="mainwindow.ui" line="3024"/>
         <source>V1.0</source>
-        <translation type="unfinished"></translation>
+        <translation>V1.0</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="3031"/>
@@ -502,13 +503,13 @@ subscriber</translation>
     <message>
         <location filename="mainwindow.ui" line="3227"/>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>refresh</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="3237"/>
         <source>Načti 
 HW konfig</source>
-        <translation>Save
+        <translation>Load
 HW
 config</translation>
     </message>
@@ -523,7 +524,7 @@ config</translation>
     <message>
         <location filename="mainwindow.ui" line="3259"/>
         <source>SetID</source>
-        <translation type="unfinished"></translation>
+        <translation>Set ID</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="3574"/>
@@ -631,12 +632,12 @@ test</source>
         <translation>Customer Informaton Service 1.0</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1632"/>
+        <location filename="mainwindow.cpp" line="1634"/>
         <source>Otevři soubor</source>
         <translation>Open file</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1633"/>
+        <location filename="mainwindow.cpp" line="1635"/>
         <source>XML Ropid JŘ (*.xml);;All Files (*)</source>
         <translation>XML Ropid timetables</translation>
     </message>
@@ -646,14 +647,14 @@ test</source>
     <message>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="96"/>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="112"/>
-        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="123"/>
+        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="117"/>
         <source>Server failed to listen on a port.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="104"/>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="119"/>
-        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="137"/>
+        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="131"/>
         <source>Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)</source>
         <translation type="unfinished"></translation>
     </message>

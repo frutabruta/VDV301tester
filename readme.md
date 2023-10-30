@@ -42,6 +42,16 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20231030_1931
+        - detection of subscriber ID fixed
+        - changed english UI translation to comply with VDV301 (connection, trip, vehicle run) 
+        - VDV301publisher
+                - fix of wrong xml file generating (XML pass by reference error)
+        - VDV301subscriber
+                - fix of empty service name in DevMgmtSubscriber
+        - DeviceManagementService publisher reenabled      
+
+
 - 20231030_1401
         - English version of libraries
                 - VDV301publisher
@@ -102,34 +112,33 @@ mingw32-make install
         - přesunutí konfiguračních souborů ve zdrojových souborech do samotatné složky
 
 
-- 22. 5. 2023
+- 2023_05_22
         - úprava mapy (popis spoje)
         - nová verze DB
         - nová verze struktura
         - oprava XML dotazů  pro eliminaci duplicitních spojů
 
-- 2. 5. 2023
+- 2023_05_02
         - vykreslení radiusu zastávky
 
-- 25. 4. 2023
+- 2023_04_25
         - změna datového typu souřadnic na double
         - oprava dotazu pro natažení souřadnic
         - odmazaní funkčí pro vykreslení mapy využívající přímý zápis HTML
 
-- 24. 4. 2023
+- 2023_04_24
         - možnost zobrazit trasu linky
         - import GPS souřadnic
 
-- 16. 2. 2023 11:52
+- 2023_02_16_1152
         - možnost změnit port u služeb
 
-- 8. 2. 2023 12:39
+- 2023_02_08_1239
         - oprava DB
         - aktualizace XmlImportStream
 
-- 24. 1. 2023 18:50
-
+- 2023_01_24_1850 18:50
         - změna jazyka přes nastaveni.ini
 
-- 24. 1. 2023:
+- 2023_01_24
         - konfigurace přes nastaveni.ini

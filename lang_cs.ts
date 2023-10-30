@@ -617,12 +617,12 @@ test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1632"/>
+        <location filename="mainwindow.cpp" line="1634"/>
         <source>Otevři soubor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1633"/>
+        <location filename="mainwindow.cpp" line="1635"/>
         <source>XML Ropid JŘ (*.xml);;All Files (*)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -632,14 +632,14 @@ test</source>
     <message>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="96"/>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="112"/>
-        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="123"/>
+        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="117"/>
         <source>Server failed to listen on a port.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="104"/>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="119"/>
-        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="137"/>
+        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="131"/>
         <source>Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)</source>
         <translation type="unfinished"></translation>
     </message>

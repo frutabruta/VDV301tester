@@ -78,10 +78,10 @@ MainWindow::MainWindow(QWidget *parent) :
     on_pushButton_nactiDetekce_clicked();
 
 
-
+    nastartujVsechnyVdv301Sluzby();
     nastartujSluzbuZeZasobniku(vektorCis);
 
-    //nastartujVsechnyVdv301Sluzby();
+
 
 
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
@@ -2013,7 +2013,7 @@ void MainWindow::on_radioButton_singleDoorCloser_clicked()
 
 void MainWindow::slotAktualizaceTabulkySluzeb()
 {
-    qDebug()<<"MainWindow::slotAktualizaceTabulkySluzeb";
+    qDebug()<<Q_FUNC_INFO;
     vykresliSluzbyDoTabulky(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
 }
 
@@ -2024,7 +2024,7 @@ void MainWindow::vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamS
     vymazTabulkuSubscriberu(ui->tableWidget_seznamZarizeni);
 
 
-    foreach(auto sluzba, seznamSluzebDetekce)
+    foreach(DevMgmtPublisherStruct sluzba, seznamSluzebDetekce)
     {
         sluzbaDoTabulky(sluzba);
     }
