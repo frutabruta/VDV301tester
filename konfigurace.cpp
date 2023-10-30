@@ -150,7 +150,7 @@ int Konfigurace::natahniSpecialniHlaseni(QDomDocument xmlko)
     for(int i=0; i<seznamHlaseni.count(); i++)
     {
         QDomElement element=seznamHlaseni.at(i).toElement();
-        SpecialniHlaseni polozka;
+        AdditionalAnnoucement polozka;
         polozka.type=element.firstChildElement("type").text();
         polozka.text=element.firstChildElement("text").text();
         polozka.title=element.firstChildElement("headline").text();

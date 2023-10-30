@@ -79,7 +79,7 @@ void TestOdberuServer::slotAktualizaceSubscriberu(QVector<Subscriber> seznamSubs
         }
         else
         {
-            this->seznamPolozek[indexFaze].prubeh=seznamSubscriberuInt.first().adresa.toString()+" "+seznamSubscriberuInt.first().struktura;
+            this->seznamPolozek[indexFaze].prubeh=seznamSubscriberuInt.first().address.toString()+" "+seznamSubscriberuInt.first().structure;
             this->seznamPolozek[indexFaze].vysledekOk();
             qDebug()<<"seznamPolozek[indexTestu].vysledek="<<seznamPolozek[indexFaze].vysledek;
 
@@ -99,7 +99,7 @@ void TestOdberuServer::slotAktualizaceSubscriberu(QVector<Subscriber> seznamSubs
         }
         else
         {
-            this->seznamPolozek[indexFaze].prubeh=seznamSubscriberuInt.first().adresa.toString()+" "+seznamSubscriberuInt.first().struktura;
+            this->seznamPolozek[indexFaze].prubeh=seznamSubscriberuInt.first().address.toString()+" "+seznamSubscriberuInt.first().structure;
             this->seznamPolozek[indexFaze].vysledekOk();
             qDebug()<<"seznamPolozek[indexTestu].vysledek="<<seznamPolozek[indexFaze].vysledek;
         }

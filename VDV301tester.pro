@@ -46,10 +46,21 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 #LIBS += -lqhttpserver
 
 SOURCES += \
+    VDV301DataStructures/additionalannoucement.cpp \
+    VDV301DataStructures/connection.cpp \
+    VDV301DataStructures/connectiongolemio.cpp \
+    VDV301DataStructures/connectionmpv.cpp \
+    VDV301DataStructures/farezone.cpp \
+    VDV301DataStructures/line.cpp \
+    VDV301DataStructures/stoppoint.cpp \
+    VDV301DataStructures/stoppointdestination.cpp \
+    VDV301DataStructures/trip.cpp \
+    VDV301DataStructures/vehiclerun.cpp \
+    VDV301DataStructures/vehiclestate.cpp \
     VDV301publisher/colordisplayrules.cpp \
     VDV301publisher/customerinformationservice.cpp \
     VDV301publisher/devicemanagementservice.cpp\
-    VDV301publisher/httpsluzba.cpp \
+    VDV301publisher/httpservice.cpp \
     VDV301publisher/httpserverpublisher.cpp \
     VDV301publisher/subscriber.cpp \
     VDV301publisher/ticketvalidationservice.cpp \
@@ -61,17 +72,6 @@ SOURCES += \
     VDV301subscriber/devmgmtsubscriber.cpp \
     VDV301subscriber/ibisipsubscriber.cpp \
     VDV301subscriber/httpserversubscriber.cpp \
-    VDV301struktury/cestaudaje.cpp \
-    VDV301struktury/linka.cpp \
-    VDV301struktury/obeh.cpp \
-    VDV301struktury/pasmo.cpp \
-    VDV301struktury/prestup.cpp \
-    VDV301struktury/prestupgolemio.cpp \
-    VDV301struktury/prestupmpv.cpp \
-    VDV301struktury/spoj.cpp \
-    VDV301struktury/zastavka.cpp \
-    VDV301struktury/zastavkacil.cpp \
-    VDV301struktury/specialnihlaseni.cpp \
     VDV301subscriber/ibisipsubscriberonepublisher.cpp \
     VDV301testy/polozkatestu.cpp \
     VDV301testy/testdemo.cpp \
@@ -97,10 +97,21 @@ SOURCES += \
     xmlmpvparser.cpp
 
 HEADERS += \
+    VDV301DataStructures/additionalannoucement.h \
+    VDV301DataStructures/connection.h \
+    VDV301DataStructures/connectiongolemio.h \
+    VDV301DataStructures/connectionmpv.h \
+    VDV301DataStructures/farezone.h \
+    VDV301DataStructures/line.h \
+    VDV301DataStructures/stoppoint.h \
+    VDV301DataStructures/stoppointdestination.h \
+    VDV301DataStructures/trip.h \
+    VDV301DataStructures/vehiclerun.h \
+    VDV301DataStructures/vehiclestate.h \
     VDV301publisher/colordisplayrules.h \
     VDV301publisher/customerinformationservice.h \
     VDV301publisher/devicemanagementservice.h \
-    VDV301publisher/httpsluzba.h \
+    VDV301publisher/httpservice.h \
     VDV301publisher/httpserverpublisher.h \
     VDV301publisher/subscriber.h \
     VDV301publisher/ticketvalidationservice.h \
@@ -108,17 +119,6 @@ HEADERS += \
     VDV301publisher/xmlcustomerinformationservice.h \
     VDV301publisher/xmldevicemanagementservice.h \
     VDV301publisher/xmlticketvalidationservice.h \
-    VDV301struktury/cestaudaje.h \
-    VDV301struktury/linka.h \
-    VDV301struktury/obeh.h \
-    VDV301struktury/prestup.h \
-    VDV301struktury/pasmo.h \
-    VDV301struktury/prestupgolemio.h \
-    VDV301struktury/prestupmpv.h \
-    VDV301struktury/specialnihlaseni.h \
-    VDV301struktury/spoj.h \
-    VDV301struktury/zastavka.h \
-    VDV301struktury/zastavkacil.h \
     VDV301subscriber/devmgmtpublisherstruct.h \
     VDV301subscriber/devmgmtsubscriber.h \
     VDV301subscriber/ibisipsubscriber.h \

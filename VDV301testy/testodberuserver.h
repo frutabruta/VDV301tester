@@ -1,7 +1,7 @@
 #ifndef TESTODBERUSERVER_H
 #define TESTODBERUSERVER_H
 #include "vdv301testy.h"
-#include "../VDV301publisher/httpsluzba.h"
+#include "../VDV301publisher/httpservice.h"
 
 class TestOdberuServer : public Vdv301testy
 {

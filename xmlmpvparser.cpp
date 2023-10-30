@@ -21,7 +21,7 @@ void XmlMpvParser::naplnVstupDokument(QByteArray vstup)
     vstupniDomDokument.setContent(llooll);
 }
 
-QVector<PrestupMPV> XmlMpvParser::parsujDomDokument()
+QVector<ConnectionMPV> XmlMpvParser::parsujDomDokument()
 {
     qDebug()<<"XmlMpvParser::parsujDomDokument";
     QDomElement root = vstupniDomDokument.firstChildElement();
@@ -29,16 +29,16 @@ QVector<PrestupMPV> XmlMpvParser::parsujDomDokument()
     seznamPrestupu.clear();
     for (int i=0; i<nodes.count();i++)
     {
-        PrestupMPV novy;
+        ConnectionMPV novy;
         novy.stan=nodes.at(i).attributes().namedItem("stan").nodeValue();
         novy.lin=nodes.at(i).attributes().namedItem("lin").nodeValue();
         novy.alias=nodes.at(i).attributes().namedItem("alias").nodeValue();
         novy.spoj=nodes.at(i).attributes().namedItem("spoj").nodeValue().toInt();
         novy.smer=nodes.at(i).attributes().namedItem("smer").nodeValue();
         novy.zpoz=nodes.at(i).attributes().namedItem("zpoz").nodeValue().toInt();
-        QDateTime odjezd=PrestupMPV::qStringDoQDateTime( nodes.at(i).attributes().namedItem("odj").nodeValue());
+        QDateTime odjezd=ConnectionMPV::qStringDoQDateTime( nodes.at(i).attributes().namedItem("odj").nodeValue());
         novy.odj=odjezd;
-        novy.odjReal=PrestupMPV::posunTimeStampZpozdeni( odjezd, novy.zpoz );
+        novy.odjReal=ConnectionMPV::shiftTimestampByDelay( odjezd, novy.zpoz );
         novy.sled=nodes.at(i).attributes().namedItem("sled").nodeValue().toInt();
         if (nodes.at(i).attributes().namedItem("np").nodeValue()=="true")
         {novy.np=1;}
@@ -80,14 +80,14 @@ QByteArray XmlMpvParser::requestReceived(QNetworkReply* replyoo)
     return rawData;
 }
 
-QVector<PrestupMPV> XmlMpvParser::vyfiltrujPrestupy(QVector<PrestupMPV> vstupniPrestupy, Linka linka)
+QVector<ConnectionMPV> XmlMpvParser::vyfiltrujPrestupy(QVector<ConnectionMPV> vstupniPrestupy, Line linka)
 {
     qDebug()<<"XmlMpvParser::vyfiltrujPrestupy";
-    QVector<PrestupMPV> vyfiltrovanePrestupy;
+    QVector<ConnectionMPV> vyfiltrovanePrestupy;
 
-    foreach(PrestupMPV aktualniPrestup, vstupniPrestupy)
+    foreach(ConnectionMPV aktualniPrestup, vstupniPrestupy)
     {
-        if(aktualniPrestup.alias!=linka.LineName)
+        if(aktualniPrestup.alias!=linka.lineName)
         {
             if(!jePrestupNaSeznamu(aktualniPrestup,vyfiltrovanePrestupy))
             {
@@ -99,12 +99,12 @@ QVector<PrestupMPV> XmlMpvParser::vyfiltrujPrestupy(QVector<PrestupMPV> vstupniP
 }
 
 
-bool XmlMpvParser::jePrestupNaSeznamu(PrestupMPV prestup, QVector<PrestupMPV> seznamPrestupu)
+bool XmlMpvParser::jePrestupNaSeznamu(ConnectionMPV prestup, QVector<ConnectionMPV> seznamPrestupu)
 {
     qDebug()<<"XmlMpvParser::jePrestupNaSeznamu";
 
 
-    foreach(PrestupMPV testPrestup, seznamPrestupu)
+    foreach(ConnectionMPV testPrestup, seznamPrestupu)
     {
         if(testPrestup.alias==prestup.alias)
         {

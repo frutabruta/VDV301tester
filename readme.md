@@ -42,6 +42,17 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20231030_1401
+        - English version of libraries
+                - VDV301publisher
+                - VDV301subscriber
+                - VDV301DataStructures                
+
+- 20231025_1111
+        - XmlRopidImportStream
+                - import now doesn't stop when unknown tag occurs
+        - last version of sourcecode in czech
+
 - 20230907_1845
         - VDV301 publisher
                 - metro icon transfer
@@ -49,10 +60,7 @@ mingw32-make install
                 - regionalRail fix
         - golemio.cpp
                 - debug messages removal
-        - V2.4 subscribers table
-        
-
-        
+        - V2.4 subscribers table   
 
 - 20230831_1130
         - VDV301publisher VDV301 2.4
@@ -67,9 +75,6 @@ mingw32-make install
                 - timetables import in new class xmlimportjr.cpp
         - devMgmtSubscriber renamed to deviceManagementServiceSubscriber
         - MapaVykresleni (mapdrawing module) moved to a submodule
-
-
-
 
 - 20230622_1447
         - VDV301publisher

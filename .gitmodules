@@ -1,9 +1,6 @@
 [submodule "VDV301publisher"]
 	path = VDV301publisher
 	url = https://github.com/frutabruta/VDV301publisher.git
-[submodule "VDV301struktury"]
-	path = VDV301struktury
-	url = https://github.com/frutabruta/VDV301struktury.git
 [submodule "VDV301subscriber"]
 	path = VDV301subscriber
 	url = https://github.com/frutabruta/VDV301subscriber
@@ -13,3 +10,6 @@
 [submodule "MapaVykresleni"]
 	path = MapaVykresleni
 	url = https://github.com/frutabruta/MapaVykresleni
+[submodule "VDV301DataStructures"]
+	path = VDV301DataStructures
+	url = https://github.com/frutabruta/VDV301DataStructures

@@ -8,8 +8,8 @@
 #include <QBuffer>
 
 #include <QFileInfo>
-#include <VDV301struktury/specialnihlaseni.h>
-#include <VDV301struktury/zastavka.h>
+#include <VDV301DataStructures/additionalannoucement.h>
+#include <VDV301DataStructures/stoppoint.h>
 
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -32,10 +32,10 @@ public:
 
 
 
-    bool kompletKonecna(Zastavka vstup);
+    bool kompletKonecna(StopPoint vstup);
     void kompletZmenaTarifnihoPasma();
-    bool kompletSpecialniHlaseni(SpecialniHlaseni specialniHlaseni);
-    bool kompletZastavka(Zastavka zastavka1, Zastavka zastavka2);
+    bool kompletSpecialniHlaseni(AdditionalAnnoucement specialniHlaseni);
+    bool kompletZastavka(StopPoint zastavka1, StopPoint zastavka2);
 
     QString cestaProgramu="";
     QString cesta=cestaProgramu+"/hlaseni";
@@ -46,7 +46,7 @@ public:
     void pridejDoFrontyVyhlas(QVector<QUrl> vstup);
 
 
-    bool kompletOdjezdPrvniZastavka(Zastavka zastavka2);
+    bool kompletOdjezdPrvniZastavka(StopPoint zastavka2);
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     //Qt5
@@ -105,7 +105,7 @@ private:
     void prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres);
     QVector<QUrl> frontaZvuku;
     QUrl najdiCestuSpecial(QString nazevSouboru);
-    QVector<QUrl> priznakyDoSeznamu(Zastavka vstup);
+    QVector<QUrl> priznakyDoSeznamu(StopPoint vstup);
 
     //qt6
 

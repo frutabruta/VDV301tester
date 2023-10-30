@@ -8,11 +8,11 @@
 #include <QDebug>
 //#include <QCoreApplication>
 
-#include "VDV301struktury/prestupmpv.h"
-#include "VDV301struktury/prestupmpv.h"
-#include "VDV301struktury/linka.h"
 
-#include "VDV301struktury/prestupgolemio.h"
+#include <VDV301DataStructures/connectionmpv.h>
+#include <VDV301DataStructures/line.h>
+
+#include <VDV301DataStructures/connectiongolemio.h>
 
 class Golemio: public QObject
 {
@@ -26,17 +26,17 @@ public:
     QByteArray stazenaData="";
   //  QByteArray vystupData="";
    // QVector<PrestupMPV> seznamPrestupuMpv;
-    QVector<PrestupGolemio> seznamPrestupuGolemio;
+    QVector<ConnectionGolemio> seznamPrestupuGolemio;
 
 
 
     void naplnVstupDokument(QByteArray vstup);
 ;
     void stahniMpvXml(int cisloCis, QString Ids);
-    QVector<PrestupMPV> vyfiltrujPrestupy(QVector<PrestupMPV> vstupniPrestupy, Linka linka);
-    bool jePrestupNaSeznamu(PrestupMPV prestup, QVector<PrestupMPV> seznamPrestupu);
+    QVector<ConnectionMPV> vyfiltrujPrestupy(QVector<ConnectionMPV> vstupniPrestupy, Line linka);
+    bool jePrestupNaSeznamu(ConnectionMPV prestup, QVector<ConnectionMPV> seznamPrestupu);
 
-    QVector<PrestupGolemio> parsujDomDokument();
+    QVector<ConnectionGolemio> parsujDomDokument();
     void setKlic(const QByteArray &newKlic);
 
     void setParametry(const QString &newParametry);

@@ -5,12 +5,13 @@
 
 #include <QWidget>
 
-#include "VDV301struktury/zastavka.h"
-#include "VDV301struktury/linka.h"
-#include "VDV301struktury/spoj.h"
-#include "VDV301struktury/pasmo.h"
-#include "VDV301struktury/zastavkacil.h"
-#include "VDV301struktury/obeh.h"
+
+#include "VDV301DataStructures/stoppoint.h"
+#include "VDV301DataStructures/line.h"
+#include "VDV301DataStructures/trip.h"
+#include "VDV301DataStructures/farezone.h"
+#include "VDV301DataStructures/stoppointdestination.h"
+#include "VDV301DataStructures/vehiclerun.h"
 
 #include "XmlRopidImportStream/sqlitezaklad.h"
 #include "MapaVykresleni/mnozinabodu.h"
@@ -23,17 +24,17 @@ public:
 
     SqlRopidXmlDotazy();
 
-    int stahniSeznamCelySpojTurnus(QVector<Spoj> &seznamSpoju, int indexSpoje, QString kj);
+    int stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju, int indexSpoje, QString kj);
     QString stahniSeznamSpolecnaCastDotazu();
 
-    int vytvorSeznamTurnusSpoju(Obeh &docasnyObeh, QString kj);
+    int vytvorSeznamTurnusSpoju(VehicleRun &docasnyObeh, QString kj);
 
-    QString pasmaDoStringu(QVector<Pasmo> pasma, QString delimiter);
-    QVector<Pasmo> pasmoStringDoVectoru(QString vstup, QString system, QString tl);
+    QString pasmaDoStringu(QVector<FareZone> pasma, QString delimiter);
+    QVector<FareZone> pasmoStringDoVectoru(QString vstup, QString system, QString tl);
     QString doplnNulu(int cislo, int pocetMist = 2);
 
-    int najdiTurnusZeSpoje(Spoj spoj, int &kmenovaLinka, int &poradi, int &order, QString kj);
-    int poziceSpojeNaSeznamu(QVector<Spoj> seznamSpoju, Spoj spoj);
+    int najdiTurnusZeSpoje(Trip spoj, int &kmenovaLinka, int &poradi, int &order, QString kj);
+    int poziceSpojeNaSeznamu(QVector<Trip> seznamSpoju, Trip spoj);
 
     QVector<QString> stahniPoznamky(int idSpoje, int xorder);
 
@@ -41,16 +42,16 @@ public:
     QString maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti);
 
     QSqlQueryModel *stahniSeznamLinekModel(QString kj);
-    QSqlQueryModel *stahniSeznamSpojuModel(Linka docasnaLinka, QString kj);
+    QSqlQueryModel *stahniSeznamSpojuModel(Line docasnaLinka, QString kj);
     QSqlQueryModel *stahniSeznamKmenovychLinekModel(QString kj);
-    QSqlQueryModel *stahniSeznamPoradiModel(Linka docasnaLinka, QString kj);
-    QSqlQueryModel *stahniSeznamTurnusSpojuModel(Obeh &docasnyObeh, QString kj);
+    QSqlQueryModel *stahniSeznamPoradiModel(Line docasnaLinka, QString kj);
+    QSqlQueryModel *stahniSeznamTurnusSpojuModel(VehicleRun &docasnyObeh, QString kj);
     QVector<MapaBod> vytvorTrajektorii(int cisloSpoje, QString kj);
     static double absolutniHodnota(double vstup);
 private:
 
-    void vypisPole(QVector<ZastavkaCil> docasnySeznamZastavek, int &pocetZastavek);
-    QVector<Pasmo> vyrobPasmaMezikraj(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc, QString cids, QString tl);
+    void vypisPole(QVector<StopPointDestination> docasnySeznamZastavek, int &pocetZastavek);
+    QVector<FareZone> vyrobPasmaMezikraj(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc, QString cids, QString tl);
 };
 
 #endif // SQLROPIDXMLDOTAZY_H

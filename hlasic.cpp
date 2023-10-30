@@ -93,7 +93,7 @@ QUrl Hlasic::najdiCestuSpecial(QString nazevSouboru)
 
 
 
-bool Hlasic::kompletZastavka(Zastavka zastavka1, Zastavka zastavka2)
+bool Hlasic::kompletZastavka(StopPoint zastavka1, StopPoint zastavka2)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -102,12 +102,12 @@ bool Hlasic::kompletZastavka(Zastavka zastavka1, Zastavka zastavka2)
     QVector<QUrl> kratkaFronta;
 
     kratkaFronta.push_back(zvukGong);
-    kratkaFronta.push_back(najdiCestuZastavka(zastavka1.cisloOis,zastavka1.cisloCis));
+    kratkaFronta.push_back(najdiCestuZastavka(zastavka1.idOis,zastavka1.idCis));
     kratkaFronta.append(priznakyDoSeznamu(zastavka1));
     kratkaFronta.push_back(zvukPristiZastavka);
-    kratkaFronta.push_back(najdiCestuZastavka(zastavka2.cisloOis,zastavka2.cisloCis));
+    kratkaFronta.push_back(najdiCestuZastavka(zastavka2.idOis,zastavka2.idCis));
 
-    if(zastavka2.naZnameni)
+    if(zastavka2.onRequest)
     {
         kratkaFronta.push_back(zvukNaZnameni);
     }
@@ -117,7 +117,7 @@ bool Hlasic::kompletZastavka(Zastavka zastavka1, Zastavka zastavka2)
     return 1;
 }
 
-bool Hlasic::kompletOdjezdPrvniZastavka( Zastavka zastavka2)
+bool Hlasic::kompletOdjezdPrvniZastavka(StopPoint zastavka2)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -126,9 +126,9 @@ bool Hlasic::kompletOdjezdPrvniZastavka( Zastavka zastavka2)
     QVector<QUrl> kratkaFronta;
 
     kratkaFronta.push_back(zvukPristiZastavka);
-    kratkaFronta.push_back(najdiCestuZastavka(zastavka2.cisloOis,zastavka2.cisloCis));
+    kratkaFronta.push_back(najdiCestuZastavka(zastavka2.idOis,zastavka2.idCis));
 
-    if(zastavka2.naZnameni)
+    if(zastavka2.onRequest)
     {
         kratkaFronta.push_back(zvukNaZnameni);
     }
@@ -138,27 +138,27 @@ bool Hlasic::kompletOdjezdPrvniZastavka( Zastavka zastavka2)
     return 1;
 }
 
-QVector<QUrl> Hlasic::priznakyDoSeznamu(Zastavka vstup)
+QVector<QUrl> Hlasic::priznakyDoSeznamu(StopPoint vstup)
 {
     QVector<QUrl> vystup;
-    if(vstup.naZnameni==true)
+    if(vstup.onRequest)
     {
         vystup.push_back(zvukNaZnameni);
     }
 
-    if(vstup.prestupMetroA)
+    if(vstup.transferMetroA)
     {
         vystup.push_back(zvukPrestupNaMetro );
 
-        if(vstup.prestupMetroB)
+        if(vstup.transferMetroB)
         {
             vystup.push_back(zvukMAaB);
         }
-        else if(vstup.prestupMetroC)
+        else if(vstup.transferMetroC)
         {
             vystup.push_back(zvukMAaC);
         }
-        else if(vstup.prestupMetroD)
+        else if(vstup.transferMetroD)
         {
             vystup.push_back(zvukMAaD);
         }
@@ -167,15 +167,15 @@ QVector<QUrl> Hlasic::priznakyDoSeznamu(Zastavka vstup)
             vystup.push_back(zvukMA);
         }
     }
-    else if(vstup.prestupMetroB)
+    else if(vstup.transferMetroB)
     {
         vystup.push_back(zvukPrestupNaMetro );
 
-        if(vstup.prestupMetroC)
+        if(vstup.transferMetroC)
         {
             vystup.push_back(zvukMBaC);
         }
-        else if(vstup.prestupMetroD)
+        else if(vstup.transferMetroD)
         {
             vystup.push_back(zvukMBaD);
         }
@@ -184,10 +184,10 @@ QVector<QUrl> Hlasic::priznakyDoSeznamu(Zastavka vstup)
             vystup.push_back(zvukMB);
         }
     }
-    else if(vstup.prestupMetroC)
+    else if(vstup.transferMetroC)
     {
         vystup.push_back(zvukPrestupNaMetro );
-        if(vstup.prestupMetroD)
+        if(vstup.transferMetroD)
         {
             vystup.push_back(zvukMCaD);
         }
@@ -196,18 +196,18 @@ QVector<QUrl> Hlasic::priznakyDoSeznamu(Zastavka vstup)
             vystup.push_back(zvukMC);
         }
     }
-    else if(vstup.prestupMetroD)
+    else if(vstup.transferMetroD)
     {
         vystup.push_back(zvukPrestupNaMetro );
         vystup.push_back(zvukMD);
     }
 
 
-    if(vstup.prestupVlak)
+    if(vstup.transferTrain)
     {
         vystup.push_back(zvukPrestupNaLinkyS );
     }
-    if(vstup.prestupPrivoz)
+    if(vstup.transferFerry)
     {
         vystup.push_back(zvukPrestupNaPrivoz );
     }
@@ -254,7 +254,7 @@ void Hlasic::kompletZmenaTarifnihoPasma()
 }
 
 
-bool Hlasic::kompletSpecialniHlaseni(SpecialniHlaseni specialniHlaseni)
+bool Hlasic::kompletSpecialniHlaseni(AdditionalAnnoucement specialniHlaseni)
 {
     qDebug() <<  Q_FUNC_INFO <<" segmentu:"<<QString::number(specialniHlaseni.mp3.count());
     QVector<QUrl> seznamAdres;
@@ -279,14 +279,14 @@ bool Hlasic::kompletSpecialniHlaseni(SpecialniHlaseni specialniHlaseni)
 }
 
 
-bool Hlasic::kompletKonecna(Zastavka vstup)
+bool Hlasic::kompletKonecna(StopPoint vstup)
 {
     qDebug() <<  Q_FUNC_INFO;
 
     QVector<QUrl> zasobnikAdres;
 
     zasobnikAdres.push_back(zvukGong);
-    zasobnikAdres.push_back(najdiCestuZastavka(vstup.cisloOis, vstup.cisloCis));
+    zasobnikAdres.push_back(najdiCestuZastavka(vstup.idOis, vstup.idCis));
     zasobnikAdres.append(priznakyDoSeznamu(vstup));
     zasobnikAdres.push_back(zvukKonecna);
     zasobnikAdres.push_back(zvukProsimeVystupte);

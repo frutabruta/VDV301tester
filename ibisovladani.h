@@ -5,8 +5,8 @@
 #include <QObject>
 #include <QWidget>
 #include <QtSerialPort/QSerialPort>
-#include <VDV301struktury/zastavka.h>
-#include <VDV301struktury/zastavkacil.h>
+#include <VDV301DataStructures/stoppoint.h>
+#include <VDV301DataStructures/stoppointdestination.h>
 
 
 #include <QDebug>
@@ -27,12 +27,12 @@ public:
     QString globalniSeriovyPort="COM9";
 
 
-    int odesliInnerKomplet(QVector<ZastavkaCil> zastavky, int index);
-    int odesliFrontKomplet(QVector<ZastavkaCil> zastavky, int index);
-    int odesliSideKomplet(QVector<ZastavkaCil> zastavky, int index);
-    int odesliJKZKomplet(QVector<ZastavkaCil> zastavky, int index);
-    int odeslikompletBUSEjednoradekAA(QVector<ZastavkaCil> zastavky, int index);
-    int odesliRearKomplet(QVector<ZastavkaCil> zastavky, int index);
+    int odesliInnerKomplet(QVector<StopPointDestination> zastavky, int index);
+    int odesliFrontKomplet(QVector<StopPointDestination> zastavky, int index);
+    int odesliSideKomplet(QVector<StopPointDestination> zastavky, int index);
+    int odesliJKZKomplet(QVector<StopPointDestination> zastavky, int index);
+    int odeslikompletBUSEjednoradekAA(QVector<StopPointDestination> zastavky, int index);
+    int odesliRearKomplet(QVector<StopPointDestination> zastavky, int index);
 
 
     //nove
@@ -42,21 +42,22 @@ public:
     void vypisStringPoBytech(QString vstup);
 private slots:
     void slotBytesWritten();
+
 private:
     QString nahradDiakritiku(QString vstup);
     QString nahradZobacek(QString vstup);
     QString slozBUSEjednoradekAA(QString DestinationName, QString LineName);
-    QString slozeniTextuSideAA(QVector<Zastavka> nacestne, QString LineName, QString DestinationName);
-    QString slozeniTextuSideZN(QVector<Zastavka> nacestne);
+    QString slozeniTextuSideAA(QVector<StopPoint> nacestne, QString LineName, QString DestinationName);
+    QString slozeniTextuSideZN(QVector<StopPoint> nacestne);
     QString slozeniTextuFront(QString LineName, QString DestinationName);
     QString slozeniTextuInnerZA(QString DestinationName);
-    QString slozeniTextuInnerZN(QVector<Zastavka> nacestne);
+    QString slozeniTextuInnerZN(QVector<StopPoint> nacestne);
     QString slozeniTextuInnerV(QString StopName);
     QString slozeniTextuInnerL(QString LineName);
-    QString slozeniTextuJKZr1(QVector<Zastavka> nacestne, QString LineName);
+    QString slozeniTextuJKZr1(QVector<StopPoint> nacestne, QString LineName);
     QString slozeniTextuJKZr2(QString DestinationName, QString LineName);
     QString slozeniTextuRear(QString LineName);
-    QVector<Zastavka> vytvorNacestne(QVector<ZastavkaCil> vstup, int index);
+    QVector<StopPoint> vytvorNacestne(QVector<StopPointDestination> vstup, int index);
 
     QString currentPortName="";
     //instance knihoven

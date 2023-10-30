@@ -137,7 +137,7 @@ void MainWindow::nastartujSluzbuZeZasobniku(QVector<CustomerInformationService*>
     {
         CustomerInformationService* aktualniSluzba=seznamSluzeb.takeFirst();
         qDebug()<<"v zasobniku zustava sluzeb: "<<seznamSluzeb.count();
-        qDebug()<<Q_FUNC_INFO<<" "<<aktualniSluzba->nazevSluzbyInterni<<" "<<aktualniSluzba->globVerze;
+        qDebug()<<Q_FUNC_INFO<<" "<<aktualniSluzba->mServiceName<<" "<<aktualniSluzba->globalVersion;
         aktualniSluzba->slotStartServer();
     }
 }
@@ -184,12 +184,12 @@ void MainWindow::natahniKonstanty()
     deviceManagementService1_0.setDeviceClass(settings.value("deviceManagementService1_0/deviceClass").toString());
     deviceManagementService1_0.setDeviceId(settings.value("deviceManagementService1_0/deviceId").toString());
     deviceManagementService1_0.setSwVersion(textVerze());
-    deviceManagementService1_0.slotAktualizaceDat();
+    deviceManagementService1_0.slotDataUpdate();
 
-    deviceManagementService1_0.setCisloPortu(settings.value("deviceManagementService1_0/port").toInt() ); //47477
-    customerInformationService1_0.setCisloPortu(settings.value("customerInformationService1_0/port").toInt() );
-    customerInformationService2_2CZ1_0.setCisloPortu(settings.value("customerInformationService2_2CZ1_0/port").toInt() );
-    customerInformationService2_4.setCisloPortu(settings.value("customerInformationService2_4/port").toInt() );
+    deviceManagementService1_0.setPortNumber(settings.value("deviceManagementService1_0/port").toInt() ); //47477
+    customerInformationService1_0.setPortNumber(settings.value("customerInformationService1_0/port").toInt() );
+    customerInformationService2_2CZ1_0.setPortNumber(settings.value("customerInformationService2_2CZ1_0/port").toInt() );
+    customerInformationService2_4.setPortNumber(settings.value("customerInformationService2_4/port").toInt() );
 
 }
 
@@ -202,20 +202,20 @@ void MainWindow::vsechnyConnecty()
 {
     qDebug()<<Q_FUNC_INFO;
 
-    this->vypisSubscribery1_0(customerInformationService1_0.seznamSubscriberu);
-    this->vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);
+    this->vypisSubscribery1_0(customerInformationService1_0.subscriberList);
+    this->vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.subscriberList);
 
 
     //vypisy subscriberu
-    connect(&customerInformationService1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery1_0);
-    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery2_2CZ);
-    connect(&customerInformationService2_4,&HttpSluzba::signalVypisSubscriberu,this,&MainWindow::vypisSubscribery2_4);
+    connect(&customerInformationService1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::vypisSubscribery1_0);
+    connect(&customerInformationService2_2CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::vypisSubscribery2_2CZ);
+    connect(&customerInformationService2_4,&HttpService::signalDumpSubscriberList,this,&MainWindow::vypisSubscribery2_4);
 
 
 
-    connect(&customerInformationService1_0,&HttpSluzba::signalSluzbaPublikovana,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
-    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalSluzbaPublikovana,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
-    connect(&customerInformationService2_4,&HttpSluzba::signalSluzbaPublikovana,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
+    connect(&customerInformationService1_0,&HttpService::signalServicePublished,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
+    connect(&customerInformationService2_2CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
+    connect(&customerInformationService2_4,&HttpService::signalServicePublished,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
 
 
     connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
@@ -226,7 +226,7 @@ void MainWindow::vsechnyConnecty()
 
 
     //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
-    connect(&devMgmtSubscriber,&IbisIpSubscriber::signalAktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
+    connect(&devMgmtSubscriber,&IbisIpSubscriber::signalUpdateDeviceList,this,&MainWindow::slotAktualizaceTabulkySluzeb);
 
 
     //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
@@ -237,27 +237,27 @@ void MainWindow::vsechnyConnecty()
     connect(&testOdberuServer,&Vdv301testy::update,this,&MainWindow::testyVykresliCasti);
 
     //jednotliveTesty
-    connect(&testOdberuServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotVymazSubscribery);
+    connect(&testOdberuServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotRemoveAllSubscribers);
     connect(&testOdberuServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
-    connect(&testOdberuServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotZastavCasovac);
-    connect(&testOdberuServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotTedOdesliNaPanely);
+    connect(&testOdberuServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStopTimer);
+    connect(&testOdberuServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotSendDataToSubscribers);
 
 
-    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalVypisSubscriberu,&testOdberuServer,&TestOdberuServer::slotAktualizaceSubscriberu);
-    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalOdpovedNaPost,&testOdberuServer,&TestOdberuServer::slotVypisOdpovedServeru);
+    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalDumpSubscriberList,&testOdberuServer,&TestOdberuServer::slotAktualizaceSubscriberu);
+    connect(&customerInformationService2_2CZ1_0,&HttpService::signalReplyToPostReceived,&testOdberuServer,&TestOdberuServer::slotVypisOdpovedServeru);
 
     //vypinani sluzeb pomoci prepinacu
-    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::slotStartDnsSd);
-    connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpSluzba::slotStop);
+    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStartDnsSd);
+    connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStop);
 
-    connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpSluzba::slotStartDnsSd);
-    connect(ui->radioButton_OFF2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpSluzba::slotStop);
+    connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStartDnsSd);
+    connect(ui->radioButton_OFF2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStop);
 
-    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpSluzba::slotStartDnsSd);
-    connect(ui->radioButton_OFF3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpSluzba::slotStop);
+    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpService::slotStartDnsSd);
+    connect(ui->radioButton_OFF3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpService::slotStop);
 
-    connect(ui->radioButton_ON4,&QRadioButton::clicked,&customerInformationService1_0,&HttpSluzba::slotStartDnsSd);
-    connect(ui->radioButton_OFF4,&QRadioButton::clicked,&customerInformationService1_0,&HttpSluzba::slotStop);
+    connect(ui->radioButton_ON4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStartDnsSd);
+    connect(ui->radioButton_OFF4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStop);
 
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
     connect(&sqlPraceRopid,&SqlRopidXmlDotazy::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
@@ -268,10 +268,10 @@ void MainWindow::vsechnyConnecty()
     // connect(this,&MainWindow::signalZahajImport, &xmlRopidImportStream,&XmlRopidImportStream::slotOtevriSoubor);
 
     //prepinani stavu radio prepinacu podle stavu sluzeb
-    connect(&customerInformationService2_2CZ1_0,&HttpSluzba::signalStav,this,&MainWindow::radio1);
-    connect(&deviceManagementService1_0,&HttpSluzba::signalStav,this,&MainWindow::radio2);
-    connect(&ticketValidationService2_3CZ1_0,&HttpSluzba::signalStav,this,&MainWindow::radio3);
-    connect(&customerInformationService1_0,&HttpSluzba::signalStav,this,&MainWindow::radio4);
+    connect(&customerInformationService2_2CZ1_0,&HttpService::signalStav,this,&MainWindow::radio1);
+    connect(&deviceManagementService1_0,&HttpService::signalStav,this,&MainWindow::radio2);
+    connect(&ticketValidationService2_3CZ1_0,&HttpService::signalStav,this,&MainWindow::radio3);
+    connect(&customerInformationService1_0,&HttpService::signalStav,this,&MainWindow::radio4);
 
     //konfigurace
     connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
@@ -370,14 +370,14 @@ void MainWindow::nastartujVsechnyVdv301Sluzby()
 void MainWindow::xmlVdv301HromadnyUpdate()
 {
     qDebug() <<  Q_FUNC_INFO;
-    qDebug()<<"delka seznamu tripu "<<stavSystemu.aktObeh.seznamSpoju.length();
-    if (stavSystemu.aktObeh.seznamSpoju.isEmpty())
+    qDebug()<<"delka seznamu tripu "<<stavSystemu.currentVehicleRun.tripList.length();
+    if (stavSystemu.currentVehicleRun.tripList.isEmpty())
     {
         qDebug()<<"seznam tripu je prazdny";
         return;
     }
     QDomDocument vstupniDomXmlPrestupy;
-    if (stavSystemu.prestupy==true)
+    if (stavSystemu.showConnections==true)
     {
         slotStahniPrestupyAktZastavky();
         timerStahniPrestupy.start();
@@ -387,25 +387,25 @@ void MainWindow::xmlVdv301HromadnyUpdate()
         timerStahniPrestupy.stop();
     }
 
-    QVector<Prestup> prestupy;
+    QVector<Connection> prestupy;
 
     cisAktualizaceObsahu(prestupy,stavSystemu);
 
-    ticketValidationService2_3CZ1_0.aktualizaceObsahuSluzby(prestupy,stavSystemu);
-    deviceManagementService1_0.aktualizaceObsahuSluzby();
+    ticketValidationService2_3CZ1_0.updateServiceContent(prestupy,stavSystemu);
+    deviceManagementService1_0.serviceContentUpdate();
 }
 
 void MainWindow::slotStahniPrestupyAktZastavky()
 {
     qDebug() <<  Q_FUNC_INFO;
-    Zastavka aktZastavka=stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka;
+    StopPoint aktZastavka=stavSystemu.getCurrentTrip().globalStopPointDestinationList[stavSystemu.currentStopIndex0].stopPoint;
     if(pouzitGolemio)
     {
-        golemio.stahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
+        golemio.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
     }
     else
     {
-        xmlMpvParser.stahniMpvXml(aktZastavka.cisloCis, aktZastavka.ids);
+        xmlMpvParser.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
     }
 
 
@@ -421,15 +421,15 @@ void MainWindow::slotMpvNetReady()
     qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
 
     xmlMpvParser.naplnVstupDokument(xmlMpvParser.stazenaData);
-    QVector<PrestupMPV> prestupyMpv=xmlMpvParser.parsujDomDokument();
+    QVector<ConnectionMPV> prestupyMpv=xmlMpvParser.parsujDomDokument();
     if(filtrovatPrestupy)
     {
-        prestupyMpv=xmlMpvParser.vyfiltrujPrestupy(prestupyMpv,stavSystemu.aktlinka);
+        prestupyMpv=xmlMpvParser.vyfiltrujPrestupy(prestupyMpv,stavSystemu.currentLine);
     }
-    QVector<Prestup> prestupy;
+    QVector<Connection> prestupy;
     foreach(auto polozka, prestupyMpv)
     {
-        prestupy.push_back(polozka.toPrestup());
+        prestupy.push_back(polozka.toConnection());
     }
 
 
@@ -442,14 +442,14 @@ void MainWindow::slotGolemioReady()
     //qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
 
     golemio.naplnVstupDokument(golemio.stazenaData);
-    QVector<PrestupGolemio> prestupyGolemio=golemio.parsujDomDokument();
+    QVector<ConnectionGolemio> prestupyGolemio=golemio.parsujDomDokument();
 
     qDebug()<<"bum10";
 
-    QVector<Prestup> prestupy;
-    foreach(PrestupGolemio polozka,prestupyGolemio)
+    QVector<Connection> prestupy;
+    foreach(ConnectionGolemio polozka,prestupyGolemio)
     {
-        prestupy.push_back(polozka.toPrestup());
+        prestupy.push_back(polozka.toConnection());
     }
     qDebug()<<"bum11";
     if(filtrovatPrestupy)
@@ -463,11 +463,11 @@ void MainWindow::slotGolemioReady()
 }
 
 
-void MainWindow::cisAktualizaceObsahu(QVector<Prestup> prestupy, CestaUdaje mStavSystemu )
+void MainWindow::cisAktualizaceObsahu(QVector<Connection> prestupy, VehicleState mStavSystemu )
 {
-    customerInformationService1_0.aktualizaceObsahuSluzby(prestupy,mStavSystemu );
-    customerInformationService2_2CZ1_0.aktualizaceObsahuSluzby(prestupy,mStavSystemu);
-    customerInformationService2_4.aktualizaceObsahuSluzby(prestupy,mStavSystemu);
+    customerInformationService1_0.updateServiceContent(prestupy,mStavSystemu );
+    customerInformationService2_2CZ1_0.updateServiceContent(prestupy,mStavSystemu);
+    customerInformationService2_4.updateServiceContent(prestupy,mStavSystemu);
 }
 
 
@@ -477,7 +477,7 @@ void MainWindow::cisAktualizaceObsahu(QVector<Prestup> prestupy, CestaUdaje mSta
 int MainWindow::on_pushButton_prikaz_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    stavSystemu.vymaz();
+    stavSystemu.reset();
     stavSystemu.doorState="AllDoorsClosed";
 
 
@@ -485,18 +485,18 @@ int MainWindow::on_pushButton_prikaz_clicked()
      * odeslani spoje doplneneho na turnus
 */
 
-    stavSystemu.aktspoj.linka.c =ui->polelinky->text().toInt();
-    stavSystemu.aktspoj.cisloRopid=ui->polespoje->text().toInt();
+    stavSystemu.currentTrip.line.c =ui->polelinky->text().toInt();
+    stavSystemu.currentTrip.idRopid=ui->polespoje->text().toInt();
 
     int kmenovaLinka=0;;
     int poradi=0;
     int order=0;
-    sqlPraceRopid.najdiTurnusZeSpoje( stavSystemu.aktspoj,kmenovaLinka,poradi,order, this->vyrobMaskuKalendareJizd() );
+    sqlPraceRopid.najdiTurnusZeSpoje( stavSystemu.currentTrip,kmenovaLinka,poradi,order, this->vyrobMaskuKalendareJizd() );
 
-    stavSystemu.indexAktZastavky=0;
+    stavSystemu.currentStopIndex0=0;
 
     ui->poleLinkyTurnus->setText(QString::number(kmenovaLinka));
-    stavSystemu.aktObeh.kmenovaLinka.c=kmenovaLinka;
+    stavSystemu.currentVehicleRun.rootLine.c=kmenovaLinka;
 
 
     /*
@@ -507,27 +507,27 @@ int MainWindow::on_pushButton_prikaz_clicked()
     */
 
 
-    stavSystemu.aktObeh.p=poradi ;
-    if (sqlPraceRopid.vytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
+    stavSystemu.currentVehicleRun.order=poradi ;
+    if (sqlPraceRopid.vytvorSeznamTurnusSpoju(stavSystemu.currentVehicleRun,this->vyrobMaskuKalendareJizd())==1)
     {
         // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
     }
 
 
-    Spoj hledanySpoj=stavSystemu.aktspoj;
-    stavSystemu.indexSpojeNaObehu=sqlPraceRopid.poziceSpojeNaSeznamu(stavSystemu.aktObeh.seznamSpoju,hledanySpoj);
+    Trip hledanySpoj=stavSystemu.currentTrip;
+    stavSystemu.currentTripIndex=sqlPraceRopid.poziceSpojeNaSeznamu(stavSystemu.currentVehicleRun.tripList,hledanySpoj);
 
-    if(! MainWindowPomocne::jeVRozsahu(stavSystemu.indexSpojeNaObehu,stavSystemu.aktObeh.seznamSpoju.size(),Q_FUNC_INFO))
+    if(! MainWindowPomocne::jeVRozsahu(stavSystemu.currentTripIndex,stavSystemu.currentVehicleRun.tripList.size(),Q_FUNC_INFO))
     {
         return 0;
     }
 
-    stavSystemu.aktspoj=stavSystemu.aktObeh.seznamSpoju.at(stavSystemu.indexSpojeNaObehu);
-    ui->poleLinkyTurnus->setText(QString::number(stavSystemu.aktspoj.linka.c));
-    ui->poleSpojeTurnus->setText(QString::number(stavSystemu.aktspoj.cisloRopid));
-    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text();
+    stavSystemu.currentTrip=stavSystemu.currentVehicleRun.tripList.at(stavSystemu.currentTripIndex);
+    ui->poleLinkyTurnus->setText(QString::number(stavSystemu.currentTrip.line.c));
+    ui->poleSpojeTurnus->setText(QString::number(stavSystemu.currentTrip.idRopid));
+    stavSystemu.currentLine.lineNumber =ui->poleLinkyTurnus->text();
 
-    stavSystemu.indexAktZastavky=0;
+    stavSystemu.currentStopIndex0=0;
 
     int vysledek=natahniSeznamSpojeKomplet();
     if (vysledek==1)
@@ -545,9 +545,9 @@ int MainWindow::on_pushButton_turnus_prikaz_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     stavSystemu.doorState="AllDoorsClosed";
-    stavSystemu.aktlinka.LineNumber =ui->poleLinkyTurnus->text();
+    stavSystemu.currentLine.lineNumber =ui->poleLinkyTurnus->text();
 
-    stavSystemu.indexAktZastavky=0;
+    stavSystemu.currentStopIndex0=0;
 
     return natahniSeznamSpojeKomplet();
 }
@@ -561,7 +561,7 @@ int MainWindow::natahniSeznamSpojeKomplet()
     qDebug() <<  Q_FUNC_INFO;
     QString textDoPole="";
     int vysledek=0;
-    Spoj iterSpoj;
+    Trip iterSpoj;
 
     if((ui->tableView_turnusSpoj->model()->rowCount()==0)&&(ui->listView_spoje->model()->rowCount()==0))
     {
@@ -571,8 +571,8 @@ int MainWindow::natahniSeznamSpojeKomplet()
     }
     else
     {
-        qDebug()<<"zjisteni zvolene pozice v seznamu"<<stavSystemu.indexSpojeNaObehu;
-        if (stavSystemu.indexSpojeNaObehu<0)
+        qDebug()<<"zjisteni zvolene pozice v seznamu"<<stavSystemu.currentTripIndex;
+        if (stavSystemu.currentTripIndex<0)
         {
             this->vypisDiagnostika("není zvolený spoj");
             return 0;
@@ -580,17 +580,17 @@ int MainWindow::natahniSeznamSpojeKomplet()
     }
 
 
-    vysledek=sqlPraceRopid.stahniSeznamCelySpojTurnus(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexSpojeNaObehu,this->vyrobMaskuKalendareJizd());
+    vysledek=sqlPraceRopid.stahniSeznamCelySpojTurnus(stavSystemu.currentVehicleRun.tripList,stavSystemu.currentTripIndex,this->vyrobMaskuKalendareJizd());
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
-    if (stavSystemu.aktualniSpojNaObehu().navazujici==true)
+    if (stavSystemu.getCurrentTrip().continuesWithNextTrip==true)
     {
-        vysledek=sqlPraceRopid.stahniSeznamCelySpojTurnus(stavSystemu.aktObeh.seznamSpoju,stavSystemu.indexSpojeNaObehu+1,this->vyrobMaskuKalendareJizd());
+        vysledek=sqlPraceRopid.stahniSeznamCelySpojTurnus(stavSystemu.currentVehicleRun.tripList,stavSystemu.currentTripIndex+1,this->vyrobMaskuKalendareJizd());
         qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     }
 
-    qDebug()<<"je nacteno "<<stavSystemu.aktObeh.seznamSpoju.length()<<" spoju";
+    qDebug()<<"je nacteno "<<stavSystemu.currentVehicleRun.tripList.length()<<" spoju";
 
     if (vysledek==2)
     {
@@ -604,7 +604,7 @@ int MainWindow::natahniSeznamSpojeKomplet()
 
     }
     xmlVdv301HromadnyUpdate();
-    if(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek.empty()==1)
+    if(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList.empty()==1)
     {
         qDebug()<<"seznam zastavek  je prazdny";
         return 0;
@@ -616,7 +616,7 @@ int MainWindow::natahniSeznamSpojeKomplet()
         ui->pushButton_menu_jizda->setChecked(1);
         ui->stackedWidget_palPc->setCurrentWidget(ui->page_jizda);
         eventVstupDoVydeje();
-        // mapaVykresleni.vypisGpsDoHtml(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,true,true,true,MapaVykresleni::WGS84);
+        // mapaVykresleni.vypisGpsDoHtml(stavSystemu.getCurrentTrip().globalniSeznamZastavek,true,true,true,MapaVykresleni::WGS84);
     }
     return 1;
 }
@@ -632,18 +632,18 @@ void MainWindow::on_pushButton_jizda_sipkaDal_clicked()
     qDebug() <<  Q_FUNC_INFO;
 
 
-    if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()))
+    if (stavSystemu.currentStopIndex0<(this->stavSystemu.countCurrentTripStops()))
     {
-        if((stavSystemu.locationState=="AtStop")&&((stavSystemu.indexAktZastavky<(stavSystemu.pocetZastavekAktualnihoSpoje()-1) )))
+        if((stavSystemu.locationState=="AtStop")&&((stavSystemu.currentStopIndex0<(stavSystemu.countCurrentTripStops()-1) )))
         {
             stavSystemu.locationState="AfterStop";
-            stavSystemu.indexAktZastavky++;
+            stavSystemu.currentStopIndex0++;
             eventOdjezd();
         }
         else
         {
-            qDebug()<<"dalsi? index:"<<stavSystemu.indexAktZastavky<<" pocetZastavek:"<<stavSystemu.pocetZastavekAktualnihoSpoje();
-            if((stavSystemu.locationState=="AtStop")&&((stavSystemu.indexAktZastavky+1)==stavSystemu.pocetZastavekAktualnihoSpoje()))
+            qDebug()<<"dalsi? index:"<<stavSystemu.currentStopIndex0<<" pocetZastavek:"<<stavSystemu.countCurrentTripStops();
+            if((stavSystemu.locationState=="AtStop")&&((stavSystemu.currentStopIndex0+1)==stavSystemu.countCurrentTripStops()))
             {
                 this->dalsiSpoj();
             }
@@ -672,7 +672,7 @@ void MainWindow::on_pushButton_jizda_sipkaDal_clicked()
 
     aktualizaceDispleje();
     stavSystemu.doorState="AllDoorsClosed";
-    // ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky+1));
+    // ui->popisek->setText(QString::number(stavSystemu.currentStopIndex0+1));
     xmlVdv301HromadnyUpdate();
 }
 
@@ -708,12 +708,12 @@ void MainWindow::vykresliStav(QString stav)
 void MainWindow::on_pushButton_jizda_sipkaZpet_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    if (stavSystemu.indexAktZastavky>=1)
+    if (stavSystemu.currentStopIndex0>=1)
     {
         if(stavSystemu.locationState=="AfterStop")
         {
             stavSystemu.locationState="AtStop";
-            stavSystemu.indexAktZastavky--;
+            stavSystemu.currentStopIndex0--;
             eventPrijezd();
         }
         else
@@ -729,7 +729,7 @@ void MainWindow::on_pushButton_jizda_sipkaZpet_clicked()
         }
         aktualizaceDispleje();
     }
-    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
+    ui->popisek->setText(QString::number(stavSystemu.currentStopIndex0));
     xmlVdv301HromadnyUpdate();
 }
 
@@ -818,16 +818,16 @@ void MainWindow::aktualizaceDispleje()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    if(this->stavSystemu.aktObeh.seznamSpoju.length()<=stavSystemu.indexSpojeNaObehu)
+    if(this->stavSystemu.currentVehicleRun.tripList.length()<=stavSystemu.currentTripIndex)
     {
         qDebug()<<"spoj odpovidajici indexu neexistuje";
         return;
     }
 
-    vypisZastavkyTabulka(stavSystemu.indexAktZastavky,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.locationState);
-    int delkaGlobalnihoSeznamu= this->stavSystemu.pocetZastavekAktualnihoSpoje();
-    int indexZastavky=stavSystemu.indexAktZastavky;
-    qDebug()<<"delka seznamu spoju "<<this->stavSystemu.aktObeh.seznamSpoju.length()<<" index "<<stavSystemu.indexSpojeNaObehu<<" delka globsezzast "<< delkaGlobalnihoSeznamu  << " indexAktZast "<<indexZastavky   ;
+    vypisZastavkyTabulka(stavSystemu.currentStopIndex0,this->stavSystemu.getCurrentTrip().globalStopPointDestinationList,stavSystemu.locationState);
+    int delkaGlobalnihoSeznamu= this->stavSystemu.countCurrentTripStops();
+    int indexZastavky=stavSystemu.currentStopIndex0;
+    qDebug()<<"delka seznamu spoju "<<this->stavSystemu.currentVehicleRun.tripList.length()<<" index "<<stavSystemu.currentTripIndex<<" delka globsezzast "<< delkaGlobalnihoSeznamu  << " indexAktZast "<<indexZastavky   ;
 
     if (indexZastavky>=delkaGlobalnihoSeznamu)
     {
@@ -835,9 +835,9 @@ void MainWindow::aktualizaceDispleje()
         return;
     }
 
-    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky+1));
-    ui->label_aktLinka->setText(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek.at(stavSystemu.indexAktZastavky).linka.LineNumber);
-    ui->label_aktSpoj->setText(QString::number(this->stavSystemu.aktualniSpojNaObehu().cisloRopid));
+    ui->popisek->setText(QString::number(stavSystemu.currentStopIndex0+1));
+    ui->label_aktLinka->setText(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList.at(stavSystemu.currentStopIndex0).line.lineNumber);
+    ui->label_aktSpoj->setText(QString::number(this->stavSystemu.getCurrentTrip().idRopid));
 
 
     vykresliStav(stavSystemu.locationState);
@@ -850,11 +850,11 @@ void MainWindow::aktualizaceDispleje()
 void MainWindow::on_pushButton_jizda_sipkaZpetSkok_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    if (stavSystemu.indexAktZastavky>=2)
+    if (stavSystemu.currentStopIndex0>=2)
     {
-        stavSystemu.indexAktZastavky--;
+        stavSystemu.currentStopIndex0--;
     }
-    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
+    ui->popisek->setText(QString::number(stavSystemu.currentStopIndex0));
     aktualizaceDispleje();
     xmlVdv301HromadnyUpdate();
 
@@ -928,7 +928,7 @@ void MainWindow::on_pushButton_jizda_betweenStop_clicked()
 void MainWindow::on_checkBox_stateChanged(int arg1)
 {
     qDebug()<<Q_FUNC_INFO;
-    stavSystemu.prestupy= ui->checkBox->isChecked();
+    stavSystemu.showConnections= ui->checkBox->isChecked();
 }
 
 
@@ -1064,12 +1064,13 @@ void MainWindow::on_pushButton_jizda_IBIS_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     ibisOvladani.dopocetKontrolnihoZnaku("xC2");
-    ibisOvladani.odesliFrontKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
-    ibisOvladani.odesliSideKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliFrontKomplet(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList,stavSystemu.currentStopIndex0);
+    ibisOvladani.odesliSideKomplet(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList,stavSystemu.currentStopIndex0);
     //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
-    ibisOvladani.odesliJKZKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
-    ibisOvladani.odeslikompletBUSEjednoradekAA(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
-    ibisOvladani.odesliRearKomplet(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,stavSystemu.indexAktZastavky);
+    ibisOvladani.odesliJKZKomplet(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList,stavSystemu.currentStopIndex0);
+    ibisOvladani.odeslikompletBUSEjednoradekAA(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList,stavSystemu.currentStopIndex0);
+    ibisOvladani.odesliRearKomplet(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList,stavSystemu.currentStopIndex0);
+
 }
 
 
@@ -1082,13 +1083,13 @@ int MainWindow::eventPrijezd()
 
     stavSystemu.doorState="DoorsOpen";
 
-    if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()-1))
+    if (stavSystemu.currentStopIndex0<(this->stavSystemu.countCurrentTripStops()-1))
     {
-        hlasic.kompletZastavka(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky+1].zastavka);
+        hlasic.kompletZastavka(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList[stavSystemu.currentStopIndex0].stopPoint,this->stavSystemu.getCurrentTrip().globalStopPointDestinationList[stavSystemu.currentStopIndex0+1].stopPoint);
     }
     else
     {
-        hlasic.kompletKonecna(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka);
+        hlasic.kompletKonecna(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList[stavSystemu.currentStopIndex0].stopPoint);
     }
 
 
@@ -1097,7 +1098,7 @@ int MainWindow::eventPrijezd()
     aktualizaceDispleje();
     xmlVdv301HromadnyUpdate();
 
-    QVector<QString> poznamky=this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.seznamPoznamek;
+    QVector<QString> poznamky=this->stavSystemu.getCurrentTrip().globalStopPointDestinationList[stavSystemu.currentStopIndex0].stopPoint.notesList;
     qDebug()<<"poznamek je tolik: "<<QString::number(poznamky.count());
     foreach(QString poznamka, poznamky)
     {
@@ -1116,9 +1117,9 @@ int MainWindow::eventOdjezd()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    if(stavSystemu.indexAktZastavky==1)
+    if(stavSystemu.currentStopIndex0==1)
     {
-        hlasic.kompletOdjezdPrvniZastavka(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka);
+        hlasic.kompletOdjezdPrvniZastavka(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList[stavSystemu.currentStopIndex0].stopPoint);
     }
 
     timerAfterStopToBetweenStop.start();
@@ -1130,9 +1131,9 @@ int MainWindow::eventOdjezd()
 void MainWindow::eventAfterStopToBetweenStop()
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(Pasmo::podminkaHlasitZmenuPasma(this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.seznamPasem,this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.seznamPasem))
+    if(FareZone::showZoneChangeCheck(this->stavSystemu.getCurrentTrip().globalStopPointDestinationList[stavSystemu.currentStopIndex0-1].stopPoint.fareZoneList,this->stavSystemu.getCurrentTrip().globalStopPointDestinationList[stavSystemu.currentStopIndex0].stopPoint.fareZoneList))
     {
-        qDebug()<<"srovnani pasem zastavek "<<this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky-1].zastavka.StopName<<" a "<<this->stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek[stavSystemu.indexAktZastavky].zastavka.StopName;
+        qDebug()<<"srovnani pasem zastavek "<<this->stavSystemu.getCurrentTrip().globalStopPointDestinationList[stavSystemu.currentStopIndex0-1].stopPoint.StopName<<" a "<<this->stavSystemu.getCurrentTrip().globalStopPointDestinationList[stavSystemu.currentStopIndex0].stopPoint.StopName;
         eventZmenaTarifnihoPasma();
     }
     else
@@ -1173,16 +1174,16 @@ void MainWindow::on_pushButton_manual_odesliXml_clicked()
     qDebug() <<  Q_FUNC_INFO;
     QByteArray vysledek2="";
     vysledek2=vysledek2+ui->plainTextEdit_CustomXml->toPlainText().toUtf8();
-    customerInformationService1_0.nastavObsahTela("AllData",vysledek2);
-    customerInformationService2_2CZ1_0.nastavObsahTela("AllData",vysledek2);
+    customerInformationService1_0.setBodyContent("AllData",vysledek2);
+    customerInformationService2_2CZ1_0.setBodyContent("AllData",vysledek2);
 
-    for(int i=0;i<customerInformationService1_0.seznamSubscriberu.count();i++ )
+    for(int i=0;i<customerInformationService1_0.subscriberList.count();i++ )
     {
-        customerInformationService1_0.PostDoDispleje(customerInformationService1_0.seznamSubscriberu[i].adresa,vysledek2);
+        customerInformationService1_0.postToSubscriber(customerInformationService1_0.subscriberList[i].address,vysledek2);
     }
-    for(int i=0;i<customerInformationService2_2CZ1_0.seznamSubscriberu.count();i++ )
+    for(int i=0;i<customerInformationService2_2CZ1_0.subscriberList.count();i++ )
     {
-        customerInformationService2_2CZ1_0.PostDoDispleje(customerInformationService2_2CZ1_0.seznamSubscriberu[i].adresa,vysledek2);
+        customerInformationService2_2CZ1_0.postToSubscriber(customerInformationService2_2CZ1_0.subscriberList[i].address,vysledek2);
     }
     qDebug()<<"\n MainWindow::xmlUpdate";
 }
@@ -1206,11 +1207,11 @@ void MainWindow::vypisSubscriberyDoTabulky(QVector<Subscriber> adresy, QTableWid
             QTableWidgetItem *cell;
             row = tabulka->rowCount();
             tabulka->insertRow(row);
-            cell = new QTableWidgetItem(odberatel.adresa.toString());
+            cell = new QTableWidgetItem(odberatel.address.toString());
             tabulka->setItem(row, 0, cell);
 
 
-            cell = new QTableWidgetItem(odberatel.struktura);
+            cell = new QTableWidgetItem(odberatel.structure);
             ui->tableWidget_seznamOdberatelu1_0->setItem(row, 1, cell);
             ui->tableWidget_seznamOdberatelu1_0->resizeColumnsToContents();
         }
@@ -1250,7 +1251,7 @@ void MainWindow::vypisSubscribery2_4(QVector<Subscriber> adresy)
 */
 void MainWindow::on_pushButton_manual_addsubscriber_clicked()
 {
-    vypisDiagnostika(customerInformationService1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
+    vypisDiagnostika(customerInformationService1_0.handleNewSubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
 }
 
 
@@ -1260,7 +1261,7 @@ void MainWindow::on_pushButton_manual_addsubscriber_clicked()
 */
 void MainWindow::on_pushButton_manual_addsubscriber_2_clicked()
 {
-    vypisDiagnostika( customerInformationService2_2CZ1_0.novySubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
+    vypisDiagnostika( customerInformationService2_2CZ1_0.handleNewSubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
 }
 
 
@@ -1282,9 +1283,9 @@ void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
         return;
     }
     int indexPolozky = ui->tableWidget_seznamOdberatelu1_0->selectionModel()->selectedIndexes().at(0).row() ;
-    if (customerInformationService1_0.odstranitSubscribera(indexPolozky)==1)
+    if (customerInformationService1_0.removeSubscriber(indexPolozky)==1)
     {
-        vypisSubscribery1_0(customerInformationService1_0.seznamSubscriberu);
+        vypisSubscribery1_0(customerInformationService1_0.subscriberList);
         vypisDiagnostika("odstraneno");
     }
     else
@@ -1312,9 +1313,9 @@ void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
         return;
     }
     int indexPolozky = ui->tableWidget_seznamOdberatelu2_2CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
-    if (customerInformationService2_2CZ1_0.odstranitSubscribera(indexPolozky)==1)
+    if (customerInformationService2_2CZ1_0.removeSubscriber(indexPolozky)==1)
     {
-        vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.seznamSubscriberu);
+        vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.subscriberList);
         vypisDiagnostika("odstraneno");
     }
     else
@@ -1642,7 +1643,7 @@ QString MainWindow::otevriSouborXmlDialog(QString cesta)
 void MainWindow::on_calendarWidget_selectionChanged()
 {
     qDebug() <<  Q_FUNC_INFO;
-    stavSystemu.pracovniDatum=ui->calendarWidget->selectedDate();
+    stavSystemu.referenceDate=ui->calendarWidget->selectedDate();
     aktualizacePracovnihoData();
 }
 
@@ -1654,15 +1655,15 @@ void MainWindow::on_calendarWidget_selectionChanged()
 void MainWindow::aktualizacePracovnihoData()
 {
     qDebug() <<  Q_FUNC_INFO;
-    ui->dateEdit->setDate(stavSystemu.pracovniDatum);
-    ui->calendarWidget->setSelectedDate(stavSystemu.pracovniDatum);
+    ui->dateEdit->setDate(stavSystemu.referenceDate);
+    ui->calendarWidget->setSelectedDate(stavSystemu.referenceDate);
 
-    qDebug()<<"od "<<platnostOd<<" do "<<platnostDo<<" pracovni "<<stavSystemu.pracovniDatum ;
-    qDebug()<<"dnu do pracovnihodata "<< stavSystemu.pracovniDatum.daysTo(platnostOd) <<" dnu do zacatku platnosti " << stavSystemu.pracovniDatum.daysTo(platnostDo);
+    qDebug()<<"od "<<platnostOd<<" do "<<platnostDo<<" pracovni "<<stavSystemu.referenceDate ;
+    qDebug()<<"dnu do pracovnihodata "<< stavSystemu.referenceDate.daysTo(platnostOd) <<" dnu do zacatku platnosti " << stavSystemu.referenceDate.daysTo(platnostDo);
 
 
     this->vyrobMaskuKalendareJizd();
-    sqlPraceRopid.maskaKalendarJizd(this->stavSystemu.pracovniDatum,platnostOd,platnostDo);
+    sqlPraceRopid.maskaKalendarJizd(this->stavSystemu.referenceDate,platnostOd,platnostDo);
 
     inicializaceVyberovychPoli();
 }
@@ -1674,7 +1675,7 @@ xxxxxx
 void MainWindow::pracovniDatumDnes()
 {
     qDebug() <<  Q_FUNC_INFO;
-    stavSystemu.pracovniDatum=QDate::currentDate();
+    stavSystemu.referenceDate=QDate::currentDate();
     aktualizacePracovnihoData();
 }
 
@@ -1688,7 +1689,7 @@ void MainWindow::pracovniDatumPrvniDenDat()
     aktualizaceKalendare();
 
 
-    stavSystemu.pracovniDatum=platnostOd;
+    stavSystemu.referenceDate=platnostOd;
     aktualizacePracovnihoData();
 }
 
@@ -1709,12 +1710,12 @@ void MainWindow::slotAktualizacePracData()
 QString MainWindow::vyrobMaskuKalendareJizd()
 {
     qDebug() <<  Q_FUNC_INFO;
-    return sqlPraceRopid.maskaKalendarJizd(stavSystemu.pracovniDatum,platnostOd, platnostDo);
+    return sqlPraceRopid.maskaKalendarJizd(stavSystemu.referenceDate,platnostOd, platnostDo);
 }
 
 
 
-void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState)
+void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, QString locationState)
 {
 
     qDebug() <<  Q_FUNC_INFO;
@@ -1725,11 +1726,11 @@ void MainWindow::vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> doca
     for (int i=0;i<(docasnySeznamZastavek.count());i++)
     {
         QString cisloZastavky = QString::number(i+1);
-        QString nazevZastavky2 = docasnySeznamZastavek.at(i).zastavka.StopName;
-        QString odjezdZeZastavky =  sqlPraceRopid.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).zastavka.DepartureTime);
-        QString pasma= sqlPraceRopid.pasmaDoStringu(docasnySeznamZastavek.at(i).zastavka.seznamPasem,",");
+        QString nazevZastavky2 = docasnySeznamZastavek.at(i).stopPoint.StopName;
+        QString odjezdZeZastavky =  sqlPraceRopid.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.DepartureTime);
+        QString pasma= sqlPraceRopid.pasmaDoStringu(docasnySeznamZastavek.at(i).stopPoint.fareZoneList,",");
         QString znameni="";
-        if (docasnySeznamZastavek.at(i).zastavka.naZnameni==true)
+        if (docasnySeznamZastavek.at(i).stopPoint.onRequest==true)
         {
             znameni="(x)";
         }
@@ -1792,7 +1793,7 @@ void MainWindow::on_tableWidgetNasledujiciZastavky_cellClicked(int row, int colu
     qDebug()<<"on_tableWidgetNasledujiciZastavky_cellClicked";
     stavSystemu.locationState="AtStop";
     ui->pushButton_jizda_atStop->setChecked(true);
-    stavSystemu.indexAktZastavky=row;
+    stavSystemu.currentStopIndex0=row;
     eventPrijezd();
     aktualizaceDispleje();
     stavSystemu.doorState="AllDoorsClosed";
@@ -1809,11 +1810,11 @@ void MainWindow::dalsiSpoj()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    qDebug()<<"index "<<stavSystemu.indexSpojeNaObehu<<" pocetSpoju "<<stavSystemu.aktObeh.seznamSpoju.count();
-    if ((stavSystemu.indexSpojeNaObehu)<(stavSystemu.aktObeh.seznamSpoju.count()-1))
+    qDebug()<<"index "<<stavSystemu.currentTripIndex<<" pocetSpoju "<<stavSystemu.currentVehicleRun.tripList.count();
+    if ((stavSystemu.currentTripIndex)<(stavSystemu.currentVehicleRun.tripList.count()-1))
     {
-        stavSystemu.indexSpojeNaObehu++;
-        stavSystemu.indexAktZastavky=0;
+        stavSystemu.currentTripIndex++;
+        stavSystemu.currentStopIndex0=0;
         // AktualizaceDispleje();
         natahniSeznamSpojeKomplet();
         xmlVdv301HromadnyUpdate();
@@ -1828,27 +1829,27 @@ void MainWindow::dalsiSpoj()
 void MainWindow::eventZmenaTarifnihoPasma()
 {
     qDebug() <<  Q_FUNC_INFO;
-    stavSystemu.zobrazZmenuPasma=true;
+    stavSystemu.showFareZoneChange=true;
     xmlVdv301HromadnyUpdate();
     hlasic.kompletZmenaTarifnihoPasma();
     timerTrvaniZmenyPasma->start();
 
 }
 
-void MainWindow::eventZobrazOznameni(int index, QVector<SpecialniHlaseni> seznamHlaseni)
+void MainWindow::eventZobrazOznameni(int index, QVector<AdditionalAnnoucement> seznamHlaseni)
 {
     qDebug() <<  Q_FUNC_INFO;
 
     if((index>=0)&&(index<seznamHlaseni.count()))
     {
 
-        stavSystemu.aktivniSpecialniHlaseni=seznamHlaseni.at(index);
-        stavSystemu.jeSpecialniHlaseni=true;
+        stavSystemu.currentSpecialAnnoucement=seznamHlaseni.at(index);
+        stavSystemu.isSpecialAnnoucementUsed=true;
         //zobraz na panely
         xmlVdv301HromadnyUpdate();
         timerSpecialniOznameniSmazat.start();
         //spust hlaseni
-        hlasic.kompletSpecialniHlaseni(stavSystemu.aktivniSpecialniHlaseni);
+        hlasic.kompletSpecialniHlaseni(stavSystemu.currentSpecialAnnoucement);
     }
 
 }
@@ -1869,7 +1870,7 @@ void MainWindow::eventPoznamkaRidici(QString poznamka)
 void MainWindow::eventSkryjZmenuTarifnihoPasma()
 {
     qDebug() <<  Q_FUNC_INFO;
-    stavSystemu.zobrazZmenuPasma=false;
+    stavSystemu.showFareZoneChange=false;
     xmlVdv301HromadnyUpdate();
 }
 
@@ -1901,7 +1902,7 @@ void MainWindow::on_checkBox_MpvTurnusy_stateChanged(int arg1)
     qDebug() <<  Q_FUNC_INFO;
     arg1=1;
 
-    stavSystemu.prestupy= ui->checkBox_MpvTurnusy->isChecked();
+    stavSystemu.showConnections= ui->checkBox_MpvTurnusy->isChecked();
 }
 
 void MainWindow::eventVstupDoVydeje()
@@ -1920,9 +1921,9 @@ void MainWindow::eventOpusteniVydeje()
     timerTrvaniZmenyPasma->stop();
     resetSeznamuSpoju();
 
-    customerInformationService1_0.mimoVydej();
-    customerInformationService2_2CZ1_0.mimoVydej();
-    customerInformationService2_4.mimoVydej();
+    customerInformationService1_0.outOfService();
+    customerInformationService2_2CZ1_0.outOfService();
+    customerInformationService2_4.outOfService();
 
     xmlVdv301HromadnyUpdate();
     inicializaceVyberovychPoli();
@@ -1931,7 +1932,7 @@ void MainWindow::eventOpusteniVydeje()
 void MainWindow::resetSeznamuSpoju()
 {
     qDebug() <<  Q_FUNC_INFO;
-    stavSystemu.vymaz();
+    stavSystemu.reset();
 }
 
 /*!
@@ -1948,15 +1949,15 @@ void MainWindow::on_pushButton_menu_linkospoj_clicked()
 void MainWindow::on_pushButton_jizda_sipkaDalSkok_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    if (stavSystemu.indexAktZastavky<(this->stavSystemu.pocetZastavekAktualnihoSpoje()-1))
+    if (stavSystemu.currentStopIndex0<(this->stavSystemu.countCurrentTripStops()-1))
     {
-        stavSystemu.indexAktZastavky++;
+        stavSystemu.currentStopIndex0++;
     }
     else
     {
         this->dalsiSpoj();
     }
-    ui->popisek->setText(QString::number(stavSystemu.indexAktZastavky));
+    ui->popisek->setText(QString::number(stavSystemu.currentStopIndex0));
     aktualizaceDispleje();
     xmlVdv301HromadnyUpdate();
 }
@@ -1979,7 +1980,7 @@ void MainWindow::on_tableWidget_oznameni_cellClicked(int row, int column)
 void MainWindow::slotVymazatSpecialniOznameni()
 {
     qDebug() <<  Q_FUNC_INFO;
-    stavSystemu.jeSpecialniHlaseni=false;
+    stavSystemu.isSpecialAnnoucementUsed=false;
     xmlVdv301HromadnyUpdate();
 }
 
@@ -2013,7 +2014,7 @@ void MainWindow::on_radioButton_singleDoorCloser_clicked()
 void MainWindow::slotAktualizaceTabulkySluzeb()
 {
     qDebug()<<"MainWindow::slotAktualizaceTabulkySluzeb";
-    vykresliSluzbyDoTabulky(devMgmtSubscriber.seznamZarizeniDetekce, devMgmtSubscriber.seznamZarizeniKonfigurace);
+    vykresliSluzbyDoTabulky(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
 }
 
 void MainWindow::vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamSluzebDetekce, QVector<DevMgmtPublisherStruct> seznamSluzebKonfigurace)
@@ -2064,12 +2065,12 @@ void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni)
     QTableWidgetItem *cell;
 
     QString sluzbaNazev=zarizeni.serviceName;
-    QString ipadresa=zarizeni.adresa.toString() ;
+    QString ipadresa=zarizeni.hostAddress.toString() ;
     QString hostName=zarizeni.hostname;
     QString verze=zarizeni.ibisIpVersion;
     QString deviceClass=zarizeni.deviceClass;
     QString id=zarizeni.deviceId;
-    int port=zarizeni.port;
+    int port=zarizeni.portNumber;
     int hwConfig=zarizeni.hwConfig;
     /*
     qDebug() <<"nazev sluzby "<<nazev<<" ip adresa "<<ipadresa<<" port "<<QString::number(port)<<" data" <<verze ;
@@ -2161,68 +2162,68 @@ QString MainWindow::nahradZnacky(QString vstup)
 void MainWindow::on_listView_linky_clicked(const QModelIndex &index)
 {
     qDebug()<<Q_FUNC_INFO;
-    stavSystemu.aktlinka.c=index.data(Qt::DisplayRole).toString().toInt();
-    qDebug()<<"cislo linky:"<<stavSystemu.aktlinka.c;
-    modelSpoje=sqlPraceRopid.stahniSeznamSpojuModel(stavSystemu.aktlinka, this->vyrobMaskuKalendareJizd()) ;
+    stavSystemu.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
+    qDebug()<<"cislo linky:"<<stavSystemu.currentLine.c;
+    modelSpoje=sqlPraceRopid.stahniSeznamSpojuModel(stavSystemu.currentLine, this->vyrobMaskuKalendareJizd()) ;
     ui->listView_spoje->setModel(modelSpoje);
     ui->listView_spoje->setModelColumn(modelSpoje->record().indexOf("s.c"));
-    ui->polelinky->setText(QString::number(stavSystemu.aktlinka.c ));
+    ui->polelinky->setText(QString::number(stavSystemu.currentLine.c ));
 }
 
 
 void MainWindow::on_listView_spoje_clicked(const QModelIndex &index)
 {
     qDebug() <<  Q_FUNC_INFO;
-    Spoj docasnySpoj;
+    Trip docasnySpoj;
 
     if (ui->listView_spoje->model()->rowCount()>0)
     {
         if(index.isValid())
         {
             index.siblingAtColumn(1);
-            docasnySpoj.cislo=index.siblingAtColumn(modelSpoje->record().indexOf("s.s")).data().toInt();
-            docasnySpoj.cisloRopid=index.siblingAtColumn(modelSpoje->record().indexOf("s.c")).data().toInt();
-            docasnySpoj.linka.lc=index.siblingAtColumn(modelSpoje->record().indexOf("l.lc")).data().toInt();
-            docasnySpoj.linka.c=index.siblingAtColumn(modelSpoje->record().indexOf("l.c")).data().toInt();
+            docasnySpoj.id=index.siblingAtColumn(modelSpoje->record().indexOf("s.s")).data().toInt();
+            docasnySpoj.idRopid=index.siblingAtColumn(modelSpoje->record().indexOf("s.c")).data().toInt();
+            docasnySpoj.line.lc=index.siblingAtColumn(modelSpoje->record().indexOf("l.lc")).data().toInt();
+            docasnySpoj.line.c=index.siblingAtColumn(modelSpoje->record().indexOf("l.c")).data().toInt();
             QString alias=index.siblingAtColumn(modelSpoje->record().indexOf("l.aois")).data().toString();
             if(alias=="")
             {
-                docasnySpoj.linka.LineName=QString::number(docasnySpoj.linka.c );
+                docasnySpoj.line.lineName=QString::number(docasnySpoj.line.c );
             }
             else
             {
-                docasnySpoj.linka.LineName=alias;
+                docasnySpoj.line.lineName=alias;
             }
 
             //docasnySpoj.linka.c=index.siblingAtColumn(modelSpoje->record().indexOf("l.c")).data().toInt();
 
 
 
-            ui->polespoje->setText(QString::number(docasnySpoj.cisloRopid));
+            ui->polespoje->setText(QString::number(docasnySpoj.idRopid));
 
-            stavSystemu.aktspoj=docasnySpoj;
+            stavSystemu.currentTrip=docasnySpoj;
             int kmenovaLinka=0;
             int poradi=0;
             int order=0;
 
 
-            sqlPraceRopid.najdiTurnusZeSpoje(stavSystemu.aktspoj, kmenovaLinka,poradi, order,this->vyrobMaskuKalendareJizd());
+            sqlPraceRopid.najdiTurnusZeSpoje(stavSystemu.currentTrip, kmenovaLinka,poradi, order,this->vyrobMaskuKalendareJizd());
             qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
         }
     }
 
-    qDebug()<<"IDspoje:"<<docasnySpoj.cislo;
+    qDebug()<<"IDspoje:"<<docasnySpoj.id;
 }
 
 void MainWindow::on_listView_kmenovaLinka_clicked(const QModelIndex &index)
 {
     qDebug()<<Q_FUNC_INFO;
 
-    stavSystemu.aktObeh.kmenovaLinka.c= index.data(Qt::DisplayRole).toString().toInt();
+    stavSystemu.currentVehicleRun.rootLine.c= index.data(Qt::DisplayRole).toString().toInt();
 
-    ui->poleLinkyTurnus->setText(QString::number(stavSystemu.aktObeh.kmenovaLinka.c));
+    ui->poleLinkyTurnus->setText(QString::number(stavSystemu.currentVehicleRun.rootLine.c));
 
-    QSqlQueryModel* modelPoradi=sqlPraceRopid.stahniSeznamPoradiModel(stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd());
+    QSqlQueryModel* modelPoradi=sqlPraceRopid.stahniSeznamPoradiModel(stavSystemu.currentVehicleRun.rootLine, this->vyrobMaskuKalendareJizd());
 
     ui->listView_poradi->setModel(modelPoradi);
     ui->listView_poradi->setModelColumn(modelPoradi->record().indexOf("o.p"));
@@ -2233,25 +2234,25 @@ void MainWindow::on_listView_kmenovaLinka_clicked(const QModelIndex &index)
 void MainWindow::on_listView_poradi_clicked(const QModelIndex &index)
 {
     qDebug()<<Q_FUNC_INFO;
-    stavSystemu.aktlinka.c=index.data(Qt::DisplayRole).toString().toInt();
+    stavSystemu.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
 
     if (ui->listView_poradi->model()->rowCount()!=0)
     {
         if(index.row()>=0)
         {
-            stavSystemu.aktObeh.p=index.data(Qt::DisplayRole).toString().toInt();
+            stavSystemu.currentVehicleRun.order=index.data(Qt::DisplayRole).toString().toInt();
 
             /// zakomentovat?
-            if (sqlPraceRopid.vytvorSeznamTurnusSpoju(stavSystemu.aktObeh,this->vyrobMaskuKalendareJizd())==1)
+            if (sqlPraceRopid.vytvorSeznamTurnusSpoju(stavSystemu.currentVehicleRun,this->vyrobMaskuKalendareJizd())==1)
             {
-                qDebug()<<"pocetSpoju: "<<stavSystemu.aktObeh.seznamSpoju.count();
+                qDebug()<<"pocetSpoju: "<<stavSystemu.currentVehicleRun.tripList.count();
             }
             else
             {
                 qDebug()<<"spoje nenalezeny";
             }
 
-            QSqlQueryModel* modelTurnusSpoj=sqlPraceRopid.stahniSeznamTurnusSpojuModel(stavSystemu.aktObeh, this->vyrobMaskuKalendareJizd());
+            QSqlQueryModel* modelTurnusSpoj=sqlPraceRopid.stahniSeznamTurnusSpojuModel(stavSystemu.currentVehicleRun, this->vyrobMaskuKalendareJizd());
             ui->tableView_turnusSpoj->setModel(modelTurnusSpoj);
             ui->tableView_turnusSpoj->resizeColumnsToContents();
         }
@@ -2265,17 +2266,17 @@ void MainWindow::on_tableView_turnusSpoj_clicked(const QModelIndex &index)
     {
         qDebug()<<"current item bum";
 
-        stavSystemu.aktspoj.linka.c=index.siblingAtColumn(0).data().toInt();
-        stavSystemu.aktspoj.cisloRopid=index.siblingAtColumn(1).data().toInt();
+        stavSystemu.currentTrip.line.c=index.siblingAtColumn(0).data().toInt();
+        stavSystemu.currentTrip.idRopid=index.siblingAtColumn(1).data().toInt();
 
-        stavSystemu.indexSpojeNaObehu=stavSystemu.aktObeh.seznamSpoju.indexOf(stavSystemu.aktspoj);
-        qDebug()<<"index spoje na obehu: "<<QString::number(stavSystemu.indexSpojeNaObehu)<<" delkaSeznamu: "<<stavSystemu.aktObeh.seznamSpoju.count();
-        qDebug()<<"hodnota polozky"<<QString::number(stavSystemu.aktspoj.linka.c)<<" spoj:"<<QString::number(stavSystemu.aktspoj.cisloRopid);
+        stavSystemu.currentTripIndex=stavSystemu.currentVehicleRun.tripList.indexOf(stavSystemu.currentTrip);
+        qDebug()<<"index spoje na obehu: "<<QString::number(stavSystemu.currentTripIndex)<<" delkaSeznamu: "<<stavSystemu.currentVehicleRun.tripList.count();
+        qDebug()<<"hodnota polozky"<<QString::number(stavSystemu.currentTrip.line.c)<<" spoj:"<<QString::number(stavSystemu.currentTrip.idRopid);
 
         //NUTNE DOPLNIT
 
-        ui->poleLinkyTurnus->setText(QString::number(stavSystemu.aktspoj.linka.c));
-        ui->poleSpojeTurnus->setText(QString::number(stavSystemu.aktspoj.cisloRopid));
+        ui->poleLinkyTurnus->setText(QString::number(stavSystemu.currentTrip.line.c));
+        ui->poleSpojeTurnus->setText(QString::number(stavSystemu.currentTrip.idRopid));
     }
 }
 
@@ -2283,7 +2284,7 @@ void MainWindow::on_tableView_turnusSpoj_clicked(const QModelIndex &index)
 void MainWindow::on_pushButton_refreshDetekce_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    devMgmtSubscriber.slotAktualizaceZarizeni();
+    devMgmtSubscriber.slotUpdateDeviceInfo();
 }
 
 
@@ -2294,7 +2295,7 @@ void MainWindow::on_pushButton_ulozDetekce_clicked()
 
     int i=0;
     settings.beginWriteArray("hwConfig");
-    foreach(DevMgmtPublisherStruct zarizeni, devMgmtSubscriber.seznamZarizeniDetekce)
+    foreach(DevMgmtPublisherStruct zarizeni, devMgmtSubscriber.deviceListDetected)
     {
         // QJsonDocument json = QJsonDocument::fromVariant(zarizeni.toQMap() );
         settings.setArrayIndex(i);
@@ -2312,7 +2313,7 @@ void MainWindow::on_pushButton_nactiDetekce_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    devMgmtSubscriber.seznamZarizeniKonfigurace.clear();
+    devMgmtSubscriber.deviceListConfigured.clear();
 
 
     int size = settings.beginReadArray("hwConfig");
@@ -2322,13 +2323,13 @@ void MainWindow::on_pushButton_nactiDetekce_clicked()
         zarizeni.deviceId= settings.value("deviceId").toString();
         zarizeni.deviceClass= settings.value("deviceClass").toString();
         zarizeni.hwConfig=true;
-        devMgmtSubscriber.seznamZarizeniKonfigurace.append(zarizeni);
+        devMgmtSubscriber.deviceListConfigured.append(zarizeni);
         qDebug()<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
     }
     settings.endArray();
 
-    qDebug()<<"nacteno "<<QString::number(devMgmtSubscriber.seznamZarizeniKonfigurace.count())<<" zarizeni";
-    vykresliSluzbyDoTabulky(devMgmtSubscriber.seznamZarizeniDetekce, devMgmtSubscriber.seznamZarizeniKonfigurace);
+    qDebug()<<"nacteno "<<QString::number(devMgmtSubscriber.deviceListConfigured.count())<<" zarizeni";
+    vykresliSluzbyDoTabulky(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
 }
 
 /*
@@ -2348,11 +2349,11 @@ settings.setValue("myKey", storeMap);
 void MainWindow::on_pushButton_jizda_mapa_clicked()
 {
     mapaVykresleni.seznamMnozin.clear();
-    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,true),true,false,false,false,MnozinaBodu::WGS84);
-    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamZastavkaCilToSeznamMapaBod(stavSystemu.aktualniSpojNaObehu().globalniSeznamZastavek,true),false,false,false,true,MnozinaBodu::WGS84);
-    mapaVykresleni.pridejMnozinu(sqlPraceRopid.vytvorTrajektorii(stavSystemu.aktualniSpojNaObehu().cislo,this->vyrobMaskuKalendareJizd()),false, true, false,false, MnozinaBodu::J_STSK);
+    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamStopPointDestinationToSeznamMapaBod(stavSystemu.getCurrentTrip().globalStopPointDestinationList,true),true,false,false,false,MnozinaBodu::WGS84);
+    mapaVykresleni.pridejMnozinu(MapaVykresleni::seznamStopPointDestinationToSeznamMapaBod(stavSystemu.getCurrentTrip().globalStopPointDestinationList,true),false,false,false,true,MnozinaBodu::WGS84);
+    mapaVykresleni.pridejMnozinu(sqlPraceRopid.vytvorTrajektorii(stavSystemu.getCurrentTrip().id,this->vyrobMaskuKalendareJizd()),false, true, false,false, MnozinaBodu::J_STSK);
 
-    mapaVykresleni.seznamMnozinDoJson(mapaVykresleni.seznamMnozin, mapaVykresleni.spojDoTabulky( stavSystemu.aktspoj));
+    mapaVykresleni.seznamMnozinDoJson(mapaVykresleni.seznamMnozin, mapaVykresleni.spojDoTabulky( stavSystemu.currentTrip));
 
 }
 

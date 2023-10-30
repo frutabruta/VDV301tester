@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QtXml>
-#include <VDV301struktury/specialnihlaseni.h>
+#include <VDV301DataStructures/additionalannoucement.h>
 
 class Konfigurace: public QObject
 {
@@ -16,7 +16,7 @@ public:
 
     void vytvorDefaultniKonfiguraci();
     QString cestaHlaseni="";
-    QVector<SpecialniHlaseni> specialniHlaseni;
+    QVector<AdditionalAnnoucement> specialniHlaseni;
     int natahniSpecialniHlaseni(QDomDocument xmlko);
 
 

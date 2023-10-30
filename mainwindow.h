@@ -13,12 +13,13 @@
 #include <QRegularExpression> //qt6
 
 
-#include "VDV301struktury/zastavka.h"
-#include "VDV301struktury/linka.h"
-#include "VDV301struktury/cestaudaje.h"
-#include "VDV301struktury/zastavkacil.h"
 
-#include "VDV301publisher/httpsluzba.h"
+#include "VDV301DataStructures/stoppoint.h"
+#include "VDV301DataStructures/line.h"
+#include "VDV301DataStructures/vehiclestate.h"
+#include "VDV301DataStructures/stoppointdestination.h"
+
+#include "VDV301publisher/httpservice.h"
 #include "VDV301publisher/customerinformationservice.h"
 #include "VDV301publisher/ticketvalidationservice.h"
 #include "VDV301publisher/devicemanagementservice.h"
@@ -68,7 +69,7 @@ private:
     //ve vterinach
 
     //datove struktury
-    CestaUdaje stavSystemu;
+    VehicleState stavSystemu;
 
 
     //SQLprace mojesql;
@@ -165,7 +166,7 @@ private:
     void aktualizaceKalendare();
     QString vyrobMaskuKalendareJizd();
 
-    void vypisZastavkyTabulka(int cisloporadi, QVector<ZastavkaCil> docasnySeznamZastavek, QString locationState);
+    void vypisZastavkyTabulka(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, QString locationState);
     void dalsiSpoj();
     int natahniSeznamSpojeKomplet();
 
@@ -178,7 +179,7 @@ private:
 
 
     void resetSeznamuSpoju();
-    void eventZobrazOznameni(int index, QVector<SpecialniHlaseni> seznamHlaseni);
+    void eventZobrazOznameni(int index, QVector<AdditionalAnnoucement> seznamHlaseni);
     void vykresliStav(QString stav);
     void vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamSluzebDetekce, QVector<DevMgmtPublisherStruct> seznamSluzebKonfigurace);
     void sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni);
@@ -188,7 +189,7 @@ private:
 
     void natahniKonstanty();
 
-    void cisAktualizaceObsahu(QVector<Prestup> prestupy, CestaUdaje mStavSystemu);
+    void cisAktualizaceObsahu(QVector<Connection> prestupy, VehicleState mStavSystemu);
     void nastartujSluzbuZeZasobniku(QVector<CustomerInformationService *> &seznamSluzeb);
     QString textVerze();
     void connectyImport(XmlImportJr *xmlImportJr);

@@ -8,9 +8,9 @@
 #include <QDebug>
 //#include <QCoreApplication>
 
-#include "VDV301struktury/prestupmpv.h"
-#include "VDV301struktury/prestupmpv.h"
-#include "VDV301struktury/linka.h"
+
+#include "VDV301DataStructures/connectionmpv.h"
+#include "VDV301DataStructures/line.h"
 
 class XmlMpvParser: public QObject
 {
@@ -24,14 +24,14 @@ public:
     QDomDocument vstupniDomDokument;
     QByteArray stazenaData="";
     QByteArray vystupData="";
-    QVector<PrestupMPV> seznamPrestupu;
+    QVector<ConnectionMPV> seznamPrestupu;
 
 
     void naplnVstupDokument(QByteArray vstup);
-    QVector<PrestupMPV> parsujDomDokument();
+    QVector<ConnectionMPV> parsujDomDokument();
     void stahniMpvXml(int cisloCis, QString Ids);
-    QVector<PrestupMPV> vyfiltrujPrestupy(QVector<PrestupMPV> vstupniPrestupy, Linka linka);
-    bool jePrestupNaSeznamu(PrestupMPV prestup, QVector<PrestupMPV> seznamPrestupu);
+    QVector<ConnectionMPV> vyfiltrujPrestupy(QVector<ConnectionMPV> vstupniPrestupy, Line linka);
+    bool jePrestupNaSeznamu(ConnectionMPV prestup, QVector<ConnectionMPV> seznamPrestupu);
 
 private slots:
     QByteArray requestReceived(QNetworkReply *replyoo);

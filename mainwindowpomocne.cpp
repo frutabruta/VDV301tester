@@ -30,7 +30,7 @@ int MainWindowPomocne::jeVRozsahu(int index, int pocetHodnot, QString funkce)
 
 }
 
-void MainWindowPomocne::naplnTabulkuHlaseni(QTableWidget *vstup, QVector<SpecialniHlaseni> seznamHlaseni )
+void MainWindowPomocne::naplnTabulkuHlaseni(QTableWidget *vstup, QVector<AdditionalAnnoucement> seznamHlaseni )
 {
 
     qDebug() <<  Q_FUNC_INFO;
@@ -42,9 +42,9 @@ void MainWindowPomocne::naplnTabulkuHlaseni(QTableWidget *vstup, QVector<Special
     }
     else
     {
-        for (int i = 0;  i < seznamHlaseni.count(); i++)
+        foreach (AdditionalAnnoucement hlaseni, seznamHlaseni)
         {
-            SpecialniHlaseni hlaseni=seznamHlaseni .at(i);
+
 
             qint32 row;
             QTableWidgetItem *cell;

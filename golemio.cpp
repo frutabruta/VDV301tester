@@ -1,5 +1,5 @@
 #include "golemio.h"
-#include "VDV301struktury/prestupgolemio.h"
+#include "VDV301DataStructures/connectiongolemio.h"
 
 /*
  * Instalace https://
@@ -50,7 +50,7 @@ void Golemio::naplnVstupDokument(QByteArray vstup)
     mVstupniJson=mVstupniJson.fromJson(llooll);
 }
 
-QVector<PrestupGolemio> Golemio::parsujDomDokument()
+QVector<ConnectionGolemio> Golemio::parsujDomDokument()
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -75,7 +75,7 @@ QVector<PrestupGolemio> Golemio::parsujDomDokument()
 
         //var[""][""]
 
-        PrestupGolemio novy;
+        ConnectionGolemio novy;
 
 
         if(var.toObject().contains("stop") )
@@ -125,11 +125,11 @@ QVector<PrestupGolemio> Golemio::parsujDomDokument()
             novy.delayIsAvailable=var["delay"]["is_available"].toBool();
         }
 
-        novy.arrivalTimestampScheduled=PrestupMPV::qStringDoQDateTime(var["arrival_timestamp"]["scheduled"].toString());
-        novy.arrivalTimestampPredicted=PrestupMPV::qStringDoQDateTime(var["arrival_timestamp"]["predicted"].toString());
+        novy.arrivalTimestampScheduled=ConnectionMPV::qStringDoQDateTime(var["arrival_timestamp"]["scheduled"].toString());
+        novy.arrivalTimestampPredicted=ConnectionMPV::qStringDoQDateTime(var["arrival_timestamp"]["predicted"].toString());
 
-        novy.departureTimestampScheduled=PrestupMPV::qStringDoQDateTime(var["departure_timestamp"]["scheduled"].toString());
-        novy.departureTimestampPredicted=PrestupMPV::qStringDoQDateTime(var["departure_timestamp"]["predicted"].toString());
+        novy.departureTimestampScheduled=ConnectionMPV::qStringDoQDateTime(var["departure_timestamp"]["scheduled"].toString());
+        novy.departureTimestampPredicted=ConnectionMPV::qStringDoQDateTime(var["departure_timestamp"]["predicted"].toString());
 
 
         seznamPrestupuGolemio.append(novy);
@@ -195,14 +195,14 @@ QByteArray Golemio::requestReceived(QNetworkReply* replyoo)
     return rawData;
 }
 
-QVector<PrestupMPV> Golemio::vyfiltrujPrestupy(QVector<PrestupMPV> vstupniPrestupy, Linka linka)
+QVector<ConnectionMPV> Golemio::vyfiltrujPrestupy(QVector<ConnectionMPV> vstupniPrestupy, Line linka)
 {
     qDebug()<<Q_FUNC_INFO;
-    QVector<PrestupMPV> vyfiltrovanePrestupy;
+    QVector<ConnectionMPV> vyfiltrovanePrestupy;
 
-    foreach(PrestupMPV aktualniPrestup, vstupniPrestupy)
+    foreach(ConnectionMPV aktualniPrestup, vstupniPrestupy)
     {
-        if(aktualniPrestup.alias!=linka.LineName)
+        if(aktualniPrestup.alias!=linka.lineName)
         {
             if(!jePrestupNaSeznamu(aktualniPrestup,vyfiltrovanePrestupy))
             {
@@ -214,12 +214,12 @@ QVector<PrestupMPV> Golemio::vyfiltrujPrestupy(QVector<PrestupMPV> vstupniPrestu
 }
 
 
-bool Golemio::jePrestupNaSeznamu(PrestupMPV prestup, QVector<PrestupMPV> seznamPrestupu)
+bool Golemio::jePrestupNaSeznamu(ConnectionMPV prestup, QVector<ConnectionMPV> seznamPrestupu)
 {
     qDebug()<<Q_FUNC_INFO;
 
 
-    foreach(PrestupMPV testPrestup, seznamPrestupu)
+    foreach(ConnectionMPV testPrestup, seznamPrestupu)
     {
         if(testPrestup.alias==prestup.alias)
         {
