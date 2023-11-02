@@ -42,6 +42,9 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20231101_1601
+        - VDV301publisher
+                - 1.0 Connections fix
 - 20231030_1931
         - detection of subscriber ID fixed
         - changed english UI translation to comply with VDV301 (connection, trip, vehicle run) 

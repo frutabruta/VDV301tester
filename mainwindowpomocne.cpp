@@ -14,10 +14,8 @@ int MainWindowPomocne::jeVRozsahu(int index, int pocetHodnot, QString funkce)
     qDebug()<<Q_FUNC_INFO;
     if((index<pocetHodnot)&&(index>=0))
     {
-
         return 1;
     }
-
     else
     {
         QMessageBox msgBox;
