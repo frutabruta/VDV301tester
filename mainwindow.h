@@ -329,6 +329,10 @@ private slots:
     void on_pushButton_jizda_mapa_clicked();
 
     void slotSluzbaVratilaVysledekStartu(QString nastartovanaSluzba);
+
+
+    void on_checkBox_stopRequested_clicked(bool checked);
+
 signals:
     void signalZahajImport(QString cesta);
 };

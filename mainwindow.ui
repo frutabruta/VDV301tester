@@ -71,7 +71,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -795,7 +795,7 @@ hlášení</string>
 padding: 0 px;</string>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_jizda">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -846,6 +846,9 @@ padding: 0 px;</string>
                     </property>
                     <property name="horizontalScrollBarPolicy">
                      <enum>Qt::ScrollBarAsNeeded</enum>
+                    </property>
+                    <property name="selectionMode">
+                     <enum>QAbstractItemView::SingleSelection</enum>
                     </property>
                     <property name="selectionBehavior">
                      <enum>QAbstractItemView::SelectRows</enum>
@@ -933,6 +936,13 @@ padding: 0 px;</string>
                       </property>
                       <property name="text">
                        <string>SingleDoorClosed</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_stopRequested">
+                      <property name="text">
+                       <string>STOP</string>
                       </property>
                      </widget>
                     </item>
@@ -1229,18 +1239,6 @@ Stop</string>
             </widget>
             <widget class="QWidget" name="page_linkaspoj">
              <layout class="QGridLayout" name="gridLayout_2">
-              <item row="2" column="0">
-               <widget class="QCheckBox" name="checkBox_2">
-                <property name="font">
-                 <font>
-                  <pointsize>20</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>StopRequested</string>
-                </property>
-               </widget>
-              </item>
               <item row="3" column="0">
                <widget class="QCheckBox" name="checkBox">
                 <property name="font">

@@ -42,6 +42,12 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20231103_1633
+        - VDV301publisher
+                - 2.4 farezone compliance
+        - stop requested checkbox in Ride mode
+
+
 - 20231101_1601
         - VDV301publisher
                 - 1.0 Connections fix

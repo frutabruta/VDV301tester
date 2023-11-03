@@ -2365,3 +2365,12 @@ QString MainWindow::textVerze()
     QString verze=datumKompilace.toString("yyyyMMdd")+"_"+casKompilace.toString("hhmm");
     return verze;
 }
+
+
+
+void MainWindow::on_checkBox_stopRequested_clicked(bool checked)
+{
+    stavSystemu.isVehicleStopRequested=checked;
+     xmlVdv301HromadnyUpdate();
+}
+
