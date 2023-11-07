@@ -123,7 +123,7 @@ private:
     DeviceManagementService deviceManagementService1_0;
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_2CZ1_0;
-    CustomerInformationService customerInformationService2_4;
+    CustomerInformationService customerInformationService2_3;
 
 
     TicketValidationService ticketValidationService2_3CZ1_0;
@@ -195,7 +195,7 @@ private:
     void connectyImport(XmlImportJr *xmlImportJr);
 
 
-    void vypisSubscribery2_4(QVector<Subscriber> adresy);
+    void vypisSubscribery2_3(QVector<Subscriber> adresy);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);

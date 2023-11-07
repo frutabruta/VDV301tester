@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0"),
-    customerInformationService2_4("CustomerInformationService","_ibisip_http._tcp",47481,"2.4"),
+    customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3"),
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     vektorCis.push_back(&customerInformationService1_0);
     vektorCis.push_back(&customerInformationService2_2CZ1_0);
-    vektorCis.push_back(&customerInformationService2_4);
+    vektorCis.push_back(&customerInformationService2_3);
 
     //QString konstantaPocetDni=settings.value("konstanty/pocetDni").toString();
     //settings.setValue("golemio/api-key","XXX");
@@ -189,7 +189,7 @@ void MainWindow::natahniKonstanty()
     deviceManagementService1_0.setPortNumber(settings.value("deviceManagementService1_0/port").toInt() ); //47477
     customerInformationService1_0.setPortNumber(settings.value("customerInformationService1_0/port").toInt() );
     customerInformationService2_2CZ1_0.setPortNumber(settings.value("customerInformationService2_2CZ1_0/port").toInt() );
-    customerInformationService2_4.setPortNumber(settings.value("customerInformationService2_4/port").toInt() );
+    customerInformationService2_3.setPortNumber(settings.value("customerInformationService2_3/port").toInt() );
 
 }
 
@@ -209,13 +209,13 @@ void MainWindow::vsechnyConnecty()
     //vypisy subscriberu
     connect(&customerInformationService1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::vypisSubscribery1_0);
     connect(&customerInformationService2_2CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::vypisSubscribery2_2CZ);
-    connect(&customerInformationService2_4,&HttpService::signalDumpSubscriberList,this,&MainWindow::vypisSubscribery2_4);
+    connect(&customerInformationService2_3,&HttpService::signalDumpSubscriberList,this,&MainWindow::vypisSubscribery2_3);
 
 
 
     connect(&customerInformationService1_0,&HttpService::signalServicePublished,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
     connect(&customerInformationService2_2CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
-    connect(&customerInformationService2_4,&HttpService::signalServicePublished,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
+    connect(&customerInformationService2_3,&HttpService::signalServicePublished,this,&MainWindow::slotSluzbaVratilaVysledekStartu);
 
 
     connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
@@ -467,7 +467,7 @@ void MainWindow::cisAktualizaceObsahu(QVector<Connection> prestupy, VehicleState
 {
     customerInformationService1_0.updateServiceContent(prestupy,mStavSystemu );
     customerInformationService2_2CZ1_0.updateServiceContent(prestupy,mStavSystemu);
-    customerInformationService2_4.updateServiceContent(prestupy,mStavSystemu);
+    customerInformationService2_3.updateServiceContent(prestupy,mStavSystemu);
 }
 
 
@@ -1212,8 +1212,8 @@ void MainWindow::vypisSubscriberyDoTabulky(QVector<Subscriber> adresy, QTableWid
 
 
             cell = new QTableWidgetItem(odberatel.structure);
-            ui->tableWidget_seznamOdberatelu1_0->setItem(row, 1, cell);
-            ui->tableWidget_seznamOdberatelu1_0->resizeColumnsToContents();
+            tabulka->setItem(row, 1, cell);
+            tabulka->resizeColumnsToContents();
         }
         qDebug()<<"vracim 1";
     }
@@ -1239,10 +1239,10 @@ void MainWindow::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
     vypisSubscriberyDoTabulky(adresy,ui->tableWidget_seznamOdberatelu2_2CZ1_0);
 }
 
-void MainWindow::vypisSubscribery2_4(QVector<Subscriber> adresy)
+void MainWindow::vypisSubscribery2_3(QVector<Subscriber> adresy)
 {
     qDebug() <<  Q_FUNC_INFO;
-        vypisSubscriberyDoTabulky(adresy,ui->tableWidget_seznamOdberatelu2_4);
+        vypisSubscriberyDoTabulky(adresy,ui->tableWidget_subscriberList2_3);
 }
 
 
@@ -1923,7 +1923,7 @@ void MainWindow::eventOpusteniVydeje()
 
     customerInformationService1_0.outOfService();
     customerInformationService2_2CZ1_0.outOfService();
-    customerInformationService2_4.outOfService();
+    customerInformationService2_3.outOfService();
 
     xmlVdv301HromadnyUpdate();
     inicializaceVyberovychPoli();

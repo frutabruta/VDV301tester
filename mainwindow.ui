@@ -71,7 +71,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -2504,7 +2504,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -3091,12 +3091,18 @@ Stop</string>
               <item>
                <widget class="QLabel" name="label_16">
                 <property name="text">
-                 <string>Odberatele V2.4</string>
+                 <string>Odberatele V2.3</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="tableWidget_seznamOdberatelu2_4">
+               <widget class="QTableWidget" name="tableWidget_subscriberList2_3">
+                <attribute name="horizontalHeaderVisible">
+                 <bool>true</bool>
+                </attribute>
+                <attribute name="verticalHeaderVisible">
+                 <bool>false</bool>
+                </attribute>
                 <column>
                  <property name="text">
                   <string>Adresa</string>

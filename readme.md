@@ -42,6 +42,16 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20231107_2339
+        - VDV301publisher
+                - 2.4 functions renamed to 2.3
+        - VDV301subscriber
+                - 2.4 functions renamed to 2.3
+                - service name change fix (unsuccessful subscription)
+        - default configuration (nastaveni.ini)
+                - 2.4 CIS renamed to 2.3
+
+
 - 20231103_1633
         - VDV301publisher
                 - 2.4 farezone compliance

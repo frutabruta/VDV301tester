@@ -15,7 +15,7 @@
    <polozka><displayName>Vozidlo obsazeno</displayName><headline>Vozidlo obsazeno</headline><type>Info</type><text>Vozidlo plně obsazeno. Vyčkejte prosím na další spoj.</text><mp3>H201.mp3</mp3></polozka>
    <polozka><displayName>Vyčkáváme na vzájemný přestup</displayName><headline></headline><type></type><text>Vyčkáváme na vzájemný přestup.</text><mp3>H284.mp3</mp3></polozka>
    <polozka><displayName>Silná IAD, odklon</displayName><headline>Odklon</headline><type>Diversion</type><text>Vážení cestující, z důvodvodu silné automobilové dopravy pojede tato linka odklonem.</text><mp3>H279.mp3</mp3></polozka>
-   <polozka><displayName>Čad odjezdu dle JŘ</displayName><headline></headline><type>Pid</type><text>Vážení cestující, vyčkáváme na přesný čas odjezdu dle jízdního řádu.</text><mp3>H281.mp3</mp3></polozka>
+   <polozka><displayName>Čas odjezdu dle JŘ</displayName><headline></headline><type>Pid</type><text>Vážení cestující, vyčkáváme na přesný čas odjezdu dle jízdního řádu.</text><mp3>H281.mp3</mp3></polozka>
    <polozka><displayName>zpoždění IAD</displayName><headline></headline><type>Congestion</type><text>Vážení cestující, omlouváme se za zpoždění linky, které je zapříčiněno silnou individuální dopravou a špatnou průjezdností trasy.</text><mp3>H280.mp3</mp3></polozka>
    <polozka><displayName>postupte dále</displayName><headline></headline><type>GoFurther</type><text>Postupte prosím dále do vozu.</text><mp3>H179.mp3</mp3></polozka>
 </special>
