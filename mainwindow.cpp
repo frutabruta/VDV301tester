@@ -1227,7 +1227,7 @@ void MainWindow::vypisSubscriberyDoTabulky(QVector<Subscriber> adresy, QTableWid
 void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
 {
   qDebug() <<  Q_FUNC_INFO;
-    vypisSubscriberyDoTabulky(adresy,ui->tableWidget_seznamOdberatelu1_0);
+    vypisSubscriberyDoTabulky(adresy,ui->tableWidget_subscriberList1_0);
 }
 
 /*!
@@ -1236,7 +1236,7 @@ void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
 void MainWindow::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
 {
     qDebug() <<  Q_FUNC_INFO;
-    vypisSubscriberyDoTabulky(adresy,ui->tableWidget_seznamOdberatelu2_2CZ1_0);
+    vypisSubscriberyDoTabulky(adresy,ui->tableWidget_subscriberList2_2CZ1_0);
 }
 
 void MainWindow::vypisSubscribery2_3(QVector<Subscriber> adresy)
@@ -1261,7 +1261,13 @@ void MainWindow::on_pushButton_manual_addsubscriber_clicked()
 */
 void MainWindow::on_pushButton_manual_addsubscriber_2_clicked()
 {
-    vypisDiagnostika( customerInformationService2_2CZ1_0.handleNewSubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
+    vypisDiagnostika(customerInformationService2_2CZ1_0.handleNewSubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
+}
+
+
+void MainWindow::on_pushButton_manual_addsubscriber_3_clicked()
+{
+    vypisDiagnostika(customerInformationService2_3.handleNewSubscriber(Subscriber(ui->lineEdit_ipadresaOdberatele->text(),ui->lineEdit_strukturaOdberu->text())));
 }
 
 
@@ -1270,19 +1276,19 @@ void MainWindow::on_pushButton_manual_addsubscriber_2_clicked()
 */
 void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 {
-    if (ui->tableWidget_seznamOdberatelu1_0->rowCount()==0)
+    if (ui->tableWidget_subscriberList1_0->rowCount()==0)
     {
 
         vypisDiagnostika("seznam je prazdny");
         return;
     }
 
-    if (ui->tableWidget_seznamOdberatelu1_0->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_subscriberList1_0->selectionModel()->selectedIndexes().size()==0)
     {
         vypisDiagnostika("nic neni vybrnao");
         return;
     }
-    int indexPolozky = ui->tableWidget_seznamOdberatelu1_0->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_subscriberList1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService1_0.removeSubscriber(indexPolozky)==1)
     {
         vypisSubscribery1_0(customerInformationService1_0.subscriberList);
@@ -1300,19 +1306,19 @@ void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 */
 void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
 {
-    if (ui->tableWidget_seznamOdberatelu2_2CZ1_0->rowCount()==0)
+    if (ui->tableWidget_subscriberList2_2CZ1_0->rowCount()==0)
     {
         vypisDiagnostika("seznam je prazdny");
         return;
     }
 
-    if (ui->tableWidget_seznamOdberatelu2_2CZ1_0->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_subscriberList2_2CZ1_0->selectionModel()->selectedIndexes().size()==0)
     {
         vypisDiagnostika("nic neni vybrano");
 
         return;
     }
-    int indexPolozky = ui->tableWidget_seznamOdberatelu2_2CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_subscriberList2_2CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService2_2CZ1_0.removeSubscriber(indexPolozky)==1)
     {
         vypisSubscribery2_2CZ(customerInformationService2_2CZ1_0.subscriberList);
@@ -1324,6 +1330,32 @@ void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
     }
 }
 
+
+void MainWindow::on_pushButton_manual_removeSubscriber_3_clicked()
+{
+    if (ui->tableWidget_subscriberList2_3->rowCount()==0)
+    {
+        vypisDiagnostika("seznam je prazdny");
+        return;
+    }
+
+    if (ui->tableWidget_subscriberList2_3->selectionModel()->selectedIndexes().size()==0)
+    {
+        vypisDiagnostika("nic neni vybrano");
+
+        return;
+    }
+    int indexPolozky = ui->tableWidget_subscriberList2_3->selectionModel()->selectedIndexes().at(0).row() ;
+    if (customerInformationService2_3.removeSubscriber(indexPolozky)==1)
+    {
+        vypisSubscribery2_3(customerInformationService2_3.subscriberList);
+        vypisDiagnostika("odstraneno");
+    }
+    else
+    {
+        vypisDiagnostika("nepovedlo se odstranit");
+    }
+}
 
 
 
@@ -2372,5 +2404,14 @@ void MainWindow::on_checkBox_stopRequested_clicked(bool checked)
 {
     stavSystemu.isVehicleStopRequested=checked;
      xmlVdv301HromadnyUpdate();
+}
+
+
+
+
+
+void MainWindow::on_pushButton_menu2_rezerva_clicked()
+{
+
 }
 

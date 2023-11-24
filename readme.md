@@ -1,8 +1,8 @@
- VDV301tester
+ # VDV301tester
 
-This is a program used to test devices compatible with VDV301 1.0 and VDV301 2.2CZ1.0.
+This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1.0 and VDV301 2.2CZ1.0, written in Qt Framework.
 
-Can be compiled with QT5.15.2
+
 ## Requirements:
 ### Windows
         Bonjour
@@ -13,22 +13,49 @@ Can be compiled with QT5.15.2
         QtHttpServer  (https://github.com/qt/qthttpserver/tree/5.15) (qmake, make, make install)
         OpenSSL? (Golemio is not tested on Linux yet))
 
-The program is now only available in Czech.
 
-## Loading of new XML data:
- (Nast.->vymazat data z DB, Vyber cestu XML, nactiXML  )
+### Tested Qt versions:
+- 5.15.2
+        - available in 32bit and 64bit versions
+- 6.5.0
+        - available in 64bit version only
+        - improved spacing of voice announcement segments
+
+## Loading of new XML data
+
+ - Options-> Truncate, 
+ - XML Path -> select file, 
+ - Load XML  
+
+## Program Settings
+### Golemio Connections
 
  Golemio API key has to be set in nastaveni.ini
 
-For HTTPS access to Golemio, OpenSSL needs to be installed with .
+For HTTPS access to Golemio, OpenSSL needs to be installed with Qt Maintenance tool.
 
-## Download
+### Change language
+Language can be changed in language parameter in nastaveni.ini file.
+Two oprions are available: 
+
+Czech
+```
+language="cs"
+```
+English
+```
+language="en"
+```
+Some of the variable and function names are still in Czech. The translation to English is still in progress.
+
+## Installation from source code
+### Download
 `git clone https://github.com/frutabruta/VDV301tester.git --recurse-submodules`
 
-## OpenSSL install:
+### OpenSSL install:
 https://stackoverflow.com/a/68629557
 
-## QtHttpServer:
+### QtHttpServer:
 ```
 git clone https://github.com/qt/qthttpserver/
 cd qthttpserver
@@ -42,6 +69,18 @@ mingw32-make install
 ```
 
 ## Changelog
+
+- 20231124_1453
+        - translations fix
+        - new buttons to manually add 2.3 subscriber
+        - manual mode subscriber lists layout change
+        - default language changed to English
+        - removed non-functional STOP requested checkbox from Vehicle run screen
+        - VDV301subscriber
+                - set port number fix
+        - readme.md description fixes
+
+
 - 20231107_2339
         - VDV301publisher
                 - 2.4 functions renamed to 2.3
@@ -51,12 +90,10 @@ mingw32-make install
         - default configuration (nastaveni.ini)
                 - 2.4 CIS renamed to 2.3
 
-
 - 20231103_1633
         - VDV301publisher
                 - 2.4 farezone compliance
         - stop requested checkbox in Ride mode
-
 
 - 20231101_1601
         - VDV301publisher
@@ -70,12 +107,11 @@ mingw32-make install
                 - fix of empty service name in DevMgmtSubscriber
         - DeviceManagementService publisher reenabled      
 
-
 - 20231030_1401
         - English version of libraries
                 - VDV301publisher
                 - VDV301subscriber
-                - VDV301DataStructures                
+                - VDV301DataStructures               
 
 - 20231025_1111
         - XmlRopidImportStream

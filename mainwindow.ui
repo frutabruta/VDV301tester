@@ -795,7 +795,7 @@ hlášení</string>
 padding: 0 px;</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="page_jizda">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -1896,6 +1896,12 @@ Stop</string>
                  <layout class="QFormLayout" name="formLayout_2">
                   <item row="0" column="1">
                    <widget class="QLineEdit" name="poleLinkyTurnus">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
                     <property name="palette">
                      <palette>
                       <active>
@@ -2381,18 +2387,6 @@ Stop</string>
                 </item>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_19">
-                  <item>
-                   <widget class="QCheckBox" name="checkBox_4">
-                    <property name="font">
-                     <font>
-                      <pointsize>20</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>StopRequested</string>
-                    </property>
-                   </widget>
-                  </item>
                   <item>
                    <widget class="QCheckBox" name="checkBox_MpvTurnusy">
                     <property name="font">
@@ -2934,192 +2928,123 @@ Stop</string>
             <string>Manual</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_8">
-            <item row="10" column="4">
-             <widget class="QLabel" name="label_diagnostika_manual">
-              <property name="font">
-               <font>
-                <pointsize>16</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>subscribe diagnostika</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0" rowspan="3" colspan="3">
-             <layout class="QVBoxLayout" name="verticalLayout_11">
+            <item row="0" column="4">
+             <layout class="QVBoxLayout" name="verticalLayout_10">
               <item>
-               <widget class="QLabel" name="label_11">
-                <property name="text">
-                 <string>Odberatele 1.0</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTableWidget" name="tableWidget_seznamOdberatelu1_0">
-                <column>
-                 <property name="text">
-                  <string>Adresa</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Struktura</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Interval</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_15">
-                <property name="text">
-                 <string>Odberatele V2.2CZ1.0</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTableWidget" name="tableWidget_seznamOdberatelu2_2CZ1_0">
-                <column>
-                 <property name="text">
-                  <string>Adresa</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Struktura</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Interval</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_10">
-                <item>
-                 <layout class="QGridLayout" name="gridLayout_7">
-                  <item row="3" column="1">
-                   <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2">
-                    <property name="font">
-                     <font>
-                      <pointsize>16</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Zrusit odber</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_13">
-                    <property name="text">
-                     <string>V1.0</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QLabel" name="label_14">
-                    <property name="text">
-                     <string>V2.2CZ1.0</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="3" column="0">
-                   <widget class="QPushButton" name="pushButton_manual_removeSubscriber">
-                    <property name="font">
-                     <font>
-                      <pointsize>16</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Zrusit odber</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0">
-                   <widget class="QPushButton" name="pushButton_manual_addsubscriber">
-                    <property name="font">
-                     <font>
-                      <pointsize>16</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Přidat odběratele</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="1">
-                   <widget class="QPushButton" name="pushButton_manual_addsubscriber_2">
-                    <property name="font">
-                     <font>
-                      <pointsize>16</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Přidat odběratele</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QLineEdit" name="lineEdit_strukturaOdberu">
-                    <property name="text">
-                     <string>AllData</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="0">
-                   <widget class="QLineEdit" name="lineEdit_ipadresaOdberatele">
-                    <property name="text">
-                     <string>http://127.0.0.1:48479</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+               <layout class="QGridLayout" name="gridLayout_7">
+                <item row="2" column="0">
+                 <widget class="QPushButton" name="pushButton_manual_addsubscriber">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Přidat odb.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Zrušit odb.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QPushButton" name="pushButton_manual_addsubscriber_2">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Přidat odb.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Zrušit odb.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_14">
+                  <property name="text">
+                   <string>V2.2CZ1.0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_13">
+                  <property name="text">
+                   <string>V1.0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="2">
+                 <widget class="QPushButton" name="pushButton_manual_addsubscriber_3">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Přidat odb.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="2">
+                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_3">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Zrušit odb.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="2">
+                 <widget class="QLabel" name="label">
+                  <property name="text">
+                   <string>V2.3</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLineEdit" name="lineEdit_strukturaOdberu">
+                  <property name="text">
+                   <string>AllData</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0" colspan="2">
+                 <widget class="QLineEdit" name="lineEdit_ipadresaOdberatele">
+                  <property name="text">
+                   <string>http://127.0.0.1:48479</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
              </layout>
             </item>
-            <item row="8" column="4">
+            <item row="1" column="4">
              <layout class="QVBoxLayout" name="verticalLayout_28">
-              <item>
-               <widget class="QLabel" name="label_16">
-                <property name="text">
-                 <string>Odberatele V2.3</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTableWidget" name="tableWidget_subscriberList2_3">
-                <attribute name="horizontalHeaderVisible">
-                 <bool>true</bool>
-                </attribute>
-                <attribute name="verticalHeaderVisible">
-                 <bool>false</bool>
-                </attribute>
-                <column>
-                 <property name="text">
-                  <string>Adresa</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Struktura</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Interval</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
               <item>
                <widget class="QLabel" name="label_10">
                 <property name="text">
@@ -3163,6 +3088,106 @@ Stop</string>
                  </widget>
                 </item>
                </layout>
+              </item>
+             </layout>
+            </item>
+            <item row="2" column="4">
+             <widget class="QLabel" name="label_diagnostika_manual">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>subscribe diagnostika</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2" rowspan="3">
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <item>
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Odberatele 1.0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="tableWidget_subscriberList1_0">
+                <column>
+                 <property name="text">
+                  <string>Adresa</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Struktura</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Interval</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>Odberatele V2.2CZ1.0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="tableWidget_subscriberList2_2CZ1_0">
+                <column>
+                 <property name="text">
+                  <string>Adresa</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Struktura</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Interval</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_16">
+                <property name="text">
+                 <string>Odberatele V2.3</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="tableWidget_subscriberList2_3">
+                <attribute name="horizontalHeaderVisible">
+                 <bool>true</bool>
+                </attribute>
+                <attribute name="verticalHeaderVisible">
+                 <bool>false</bool>
+                </attribute>
+                <column>
+                 <property name="text">
+                  <string>Adresa</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Struktura</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Interval</string>
+                 </property>
+                </column>
+               </widget>
               </item>
              </layout>
             </item>
@@ -3362,6 +3387,9 @@ HW config</string>
             </item>
             <item>
              <widget class="QPushButton" name="pushButton_menu2_rezerva">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -3471,7 +3499,7 @@ HW config</string>
           <item row="0" column="1">
            <widget class="QStackedWidget" name="stackedWidget_testy">
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page_prubehTestu">
              <layout class="QGridLayout" name="gridLayout_5">
@@ -3944,7 +3972,6 @@ test</string>
   <tabstop>polelinky</tabstop>
   <tabstop>poleLinkyTurnus</tabstop>
   <tabstop>poleSpojeTurnus</tabstop>
-  <tabstop>checkBox_4</tabstop>
   <tabstop>pushButton_menu2_sluzby</tabstop>
   <tabstop>pushButton_menu2_rezerva</tabstop>
   <tabstop>pushButton_menu2_fullscreen</tabstop>

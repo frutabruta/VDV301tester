@@ -333,6 +333,12 @@ private slots:
 
     void on_checkBox_stopRequested_clicked(bool checked);
 
+    void on_pushButton_manual_addsubscriber_3_clicked();
+
+    void on_pushButton_manual_removeSubscriber_3_clicked();
+
+    void on_pushButton_menu2_rezerva_clicked();
+
 signals:
     void signalZahajImport(QString cesta);
 };
