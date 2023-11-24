@@ -1027,7 +1027,9 @@ void MainWindow::on_pushButton_nast_truncate_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     XmlImportJr *xmlImportJr =  new XmlImportJr();
+
     xmlImportJr->truncateAll();
+    xmlImportJr->vacuum();
 }
 
 

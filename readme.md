@@ -36,7 +36,7 @@ For HTTPS access to Golemio, OpenSSL needs to be installed with Qt Maintenance t
 
 ### Change language
 Language can be changed in language parameter in nastaveni.ini file.
-Two oprions are available: 
+Two options are available: 
 
 Czech
 ```
@@ -69,7 +69,8 @@ mingw32-make install
 ```
 
 ## Changelog
-
+- 20231124_1706
+        - added SQL VACUUM after tables truncate
 - 20231124_1453
         - translations fix
         - new buttons to manually add 2.3 subscriber
