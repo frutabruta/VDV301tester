@@ -564,7 +564,7 @@ int MainWindow::natahniSeznamSpojeKomplet()
     int vysledek=0;
     Trip iterSpoj;
 
-    if((ui->tableView_turnusSpoj->model()->rowCount()==0)&&(ui->listView_spoje->model()->rowCount()==0))
+    if((ui->tableView_turnusSpoj->model()->rowCount()==0)&&(ui->tableView_connection->model()->rowCount()==0))
     {
         qDebug()<<"neni zvoleny spoj";
         this->vypisDiagnostika("není zvoleno pořadí");
@@ -745,7 +745,7 @@ void MainWindow::inicializaceVyberovychPoli()
     qDebug() <<  Q_FUNC_INFO;
     sqlPraceRopid.pripoj();
 
-    ui->listView_spoje->setModel(&prazdnyModel);
+
 
     ui->listView_poradi->setModel(&prazdnyModel);
     ui->tableView_turnusSpoj->setModel(&prazdnyModel);
@@ -928,10 +928,10 @@ void MainWindow::on_pushButton_jizda_betweenStop_clicked()
 /*!
 
 */
-void MainWindow::on_checkBox_stateChanged(int arg1)
+void MainWindow::on_checkBox_connections_stateChanged(int arg1)
 {
     qDebug()<<Q_FUNC_INFO;
-    stavSystemu.showConnections= ui->checkBox->isChecked();
+    stavSystemu.showConnections= ui->checkBox_connections->isChecked();
 }
 
 
@@ -1934,13 +1934,6 @@ void MainWindow::eventSkryjZmenuTarifnihoSystemu()
    */
 }
 
-void MainWindow::on_checkBox_MpvTurnusy_stateChanged(int arg1)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    arg1=1;
-
-    stavSystemu.showConnections= ui->checkBox_MpvTurnusy->isChecked();
-}
 
 void MainWindow::eventVstupDoVydeje()
 {
@@ -2238,9 +2231,7 @@ void MainWindow::on_listView_linky_clicked(const QModelIndex &index)
     qDebug()<<"cislo linky:"<<stavSystemu.currentLine.c;
 
 
-modelSpoje=sqlPraceRopid.stahniSeznamSpojuModel(stavSystemu.currentLine, this->vyrobMaskuKalendareJizd()) ;
-ui->listView_spoje->setModel(modelSpoje);
-ui->listView_spoje->setModelColumn(modelSpoje->record().indexOf("s.c"));
+
 ui->polelinky->setText(QString::number(stavSystemu.currentLine.c ));
     modelSpoje2=sqlPraceRopid.stahniSeznamSpojuModel2(stavSystemu.currentLine, this->vyrobMaskuKalendareJizd());
      qDebug()<<"model size:"<<modelSpoje2->rowCount()<<" "<<modelSpoje2->columnCount();
@@ -2257,49 +2248,6 @@ ui->polelinky->setText(QString::number(stavSystemu.currentLine.c ));
 }
 
 
-void MainWindow::on_listView_spoje_clicked(const QModelIndex &index)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    Trip docasnySpoj;
-
-    if (ui->listView_spoje->model()->rowCount()>0)
-    {
-        if(index.isValid())
-        {
-            index.siblingAtColumn(1);
-            docasnySpoj.id=index.siblingAtColumn(modelSpoje->record().indexOf("s.s")).data().toInt();
-            docasnySpoj.idRopid=index.siblingAtColumn(modelSpoje->record().indexOf("s.c")).data().toInt();
-            docasnySpoj.line.lc=index.siblingAtColumn(modelSpoje->record().indexOf("l.lc")).data().toInt();
-            docasnySpoj.line.c=index.siblingAtColumn(modelSpoje->record().indexOf("l.c")).data().toInt();
-            QString alias=index.siblingAtColumn(modelSpoje->record().indexOf("l.aois")).data().toString();
-            if(alias=="")
-            {
-                docasnySpoj.line.lineName=QString::number(docasnySpoj.line.c );
-            }
-            else
-            {
-                docasnySpoj.line.lineName=alias;
-            }
-
-            //docasnySpoj.linka.c=index.siblingAtColumn(modelSpoje->record().indexOf("l.c")).data().toInt();
-
-
-
-            ui->polespoje->setText(QString::number(docasnySpoj.idRopid));
-
-            stavSystemu.currentTrip=docasnySpoj;
-            int kmenovaLinka=0;
-            int poradi=0;
-            int order=0;
-
-
-            sqlPraceRopid.najdiTurnusZeSpoje(stavSystemu.currentTrip, kmenovaLinka,poradi, order,this->vyrobMaskuKalendareJizd());
-            qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
-        }
-    }
-
-    qDebug()<<"IDspoje:"<<docasnySpoj.id;
-}
 
 void MainWindow::on_listView_kmenovaLinka_clicked(const QModelIndex &index)
 {

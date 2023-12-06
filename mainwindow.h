@@ -102,7 +102,7 @@ private:
     QDate platnostDo;
 
     //modely
-    QSqlQueryModel *modelSpoje;
+
     QSqlQueryModel *modelSpoje2;
     QSqlQueryModel prazdnyModel;
     QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
@@ -224,13 +224,13 @@ private slots:
     //tlacitka Linka/spoj
     int on_pushButton_prikaz_clicked();
 
-    void on_checkBox_stateChanged(int arg1); //zapnuti MPV prestupu
+    void on_checkBox_connections_stateChanged(int arg1); //zapnuti MPV prestupu
 
 
     //tlacitka Turnus
     int on_pushButton_turnus_prikaz_clicked();
 
-    void on_checkBox_MpvTurnusy_stateChanged(int arg1);
+
 
     //tlacitka jizda
     void on_pushButton_jizda_sipkaDal_clicked();
@@ -316,7 +316,7 @@ private slots:
     void slotNastavProgressMax(int hodnota);
 
     void on_listView_linky_clicked(const QModelIndex &index);
-    void on_listView_spoje_clicked(const QModelIndex &index);
+
     void on_listView_kmenovaLinka_clicked(const QModelIndex &index);
     void on_listView_poradi_clicked(const QModelIndex &index);
 
