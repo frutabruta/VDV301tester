@@ -111,8 +111,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->showMessage("test");
 
     //inicializace timeru
-    timerTrvaniZmenyPasma->setSingleShot(true);
-    timerTrvaniZmenyPasma->setInterval(konfigurace.trvaniZobrazeniPasma);
+    timerTrvaniZmenyPasma.setSingleShot(true);
+    timerTrvaniZmenyPasma.setInterval(konfigurace.trvaniZobrazeniPasma);
 
     timerSpecialniOznameniSmazat.setSingleShot(true);
     timerSpecialniOznameniSmazat.setInterval(konfigurace.trvaniZobrazeniOznameni);
@@ -127,6 +127,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete proxyModel;
     delete ui;
 }
 
@@ -277,7 +278,7 @@ void MainWindow::vsechnyConnecty()
     connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
 
     //casovace
-    connect(timerTrvaniZmenyPasma,&QTimer::timeout,this,&MainWindow::eventSkryjZmenuTarifnihoPasma);
+    connect(&timerTrvaniZmenyPasma,&QTimer::timeout,this,&MainWindow::eventSkryjZmenuTarifnihoPasma);
     connect(&timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
     connect(&timerStahniPrestupy,&QTimer::timeout,this,&MainWindow::slotStahniPrestupyAktZastavky);
     connect(&timerSpecialniOznameniSmazat,&QTimer::timeout,this,&MainWindow::slotVymazatSpecialniOznameni);
@@ -376,7 +377,7 @@ void MainWindow::xmlVdv301HromadnyUpdate()
         qDebug()<<"seznam tripu je prazdny";
         return;
     }
-    QDomDocument vstupniDomXmlPrestupy;
+    //QDomDocument vstupniDomXmlPrestupy;
     if (stavSystemu.showConnections==true)
     {
         slotStahniPrestupyAktZastavky();
@@ -748,6 +749,8 @@ void MainWindow::inicializaceVyberovychPoli()
 
     ui->listView_poradi->setModel(&prazdnyModel);
     ui->tableView_turnusSpoj->setModel(&prazdnyModel);
+
+    ui->tableView_connection->setModel(&prazdnyModel);
 
     QSqlQueryModel* modelLinky=sqlPraceRopid.stahniSeznamLinekModel(this->vyrobMaskuKalendareJizd());
     QSqlQueryModel* modelKmenoveLinky=sqlPraceRopid.stahniSeznamKmenovychLinekModel(this->vyrobMaskuKalendareJizd());
@@ -1866,7 +1869,7 @@ void MainWindow::eventZmenaTarifnihoPasma()
     stavSystemu.showFareZoneChange=true;
     xmlVdv301HromadnyUpdate();
     hlasic.kompletZmenaTarifnihoPasma();
-    timerTrvaniZmenyPasma->start();
+    timerTrvaniZmenyPasma.start();
 
 }
 
@@ -1952,7 +1955,7 @@ void MainWindow::eventOpusteniVydeje()
     ui->pushButton_menu_jizda->setDisabled(true);
     timerAfterStopToBetweenStop.stop();
     timerStahniPrestupy.stop();
-    timerTrvaniZmenyPasma->stop();
+    timerTrvaniZmenyPasma.stop();
     resetSeznamuSpoju();
 
     customerInformationService1_0.outOfService();
@@ -1969,6 +1972,41 @@ void MainWindow::resetSeznamuSpoju()
     stavSystemu.reset();
 }
 
+
+void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* tableView)
+{
+    qDebug()<<Q_FUNC_INFO;
+
+    if(modelInput==NULL)
+    {
+        qDebug()<<"model je prazdny";
+        return;
+    }
+    qDebug()<<"model size:"<<modelInput->rowCount()<<" "<<modelInput->columnCount();
+
+
+
+    while ( modelInput->canFetchMore())
+    {
+        modelInput->fetchMore();
+    }
+
+    if(modelInput->rowCount()==0)
+    {
+            return;
+    }
+
+
+    proxyModel->setSourceModel(modelInput);
+
+    tableView->setModel(proxyModel);
+    tableView->show();
+    tableView->resizeColumnsToContents();
+    connect(tableView->horizontalHeader(),SIGNAL(sortIndicatorChanged(int, Qt::SortOrder )),tableView,SLOT(sortByColumn(int, Qt::SortOrder )));
+    int pocet= proxyModel->rowCount();
+    qDebug()<<"pocet vysledku: "<<QString::number(pocet);
+    //existujeLastError(model);
+}
 /*!
 
 */
@@ -2198,10 +2236,24 @@ void MainWindow::on_listView_linky_clicked(const QModelIndex &index)
     qDebug()<<Q_FUNC_INFO;
     stavSystemu.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
     qDebug()<<"cislo linky:"<<stavSystemu.currentLine.c;
-    modelSpoje=sqlPraceRopid.stahniSeznamSpojuModel(stavSystemu.currentLine, this->vyrobMaskuKalendareJizd()) ;
-    ui->listView_spoje->setModel(modelSpoje);
-    ui->listView_spoje->setModelColumn(modelSpoje->record().indexOf("s.c"));
-    ui->polelinky->setText(QString::number(stavSystemu.currentLine.c ));
+
+
+modelSpoje=sqlPraceRopid.stahniSeznamSpojuModel(stavSystemu.currentLine, this->vyrobMaskuKalendareJizd()) ;
+ui->listView_spoje->setModel(modelSpoje);
+ui->listView_spoje->setModelColumn(modelSpoje->record().indexOf("s.c"));
+ui->polelinky->setText(QString::number(stavSystemu.currentLine.c ));
+    modelSpoje2=sqlPraceRopid.stahniSeznamSpojuModel2(stavSystemu.currentLine, this->vyrobMaskuKalendareJizd());
+     qDebug()<<"model size:"<<modelSpoje2->rowCount()<<" "<<modelSpoje2->columnCount();
+
+
+    modelDoTabulkySeradit(modelSpoje2,ui->tableView_connection);
+    ui->tableView_connection->hideColumn(5);
+    ui->tableView_connection->hideColumn(6);
+    ui->tableView_connection->hideColumn(7);
+
+
+
+
 }
 
 
@@ -2415,5 +2467,48 @@ void MainWindow::on_checkBox_stopRequested_clicked(bool checked)
 void MainWindow::on_pushButton_menu2_rezerva_clicked()
 {
 
+}
+
+
+void MainWindow::on_tableView_connection_clicked(const QModelIndex &index)
+{
+     qDebug() <<  Q_FUNC_INFO;
+     Trip docasnySpoj;
+
+     if (ui->tableView_connection->model()->rowCount()>0)
+     {
+        if(index.isValid())
+        {
+            docasnySpoj.id=index.siblingAtColumn(modelSpoje2->record().indexOf("s.s")).data().toInt();
+            docasnySpoj.idRopid=index.siblingAtColumn(modelSpoje2->record().indexOf("s.c")).data().toInt();
+            docasnySpoj.line.lc=index.siblingAtColumn(modelSpoje2->record().indexOf("l.lc")).data().toInt();
+            docasnySpoj.line.c=index.siblingAtColumn(modelSpoje2->record().indexOf("l.c")).data().toInt();
+            QString alias=index.siblingAtColumn(modelSpoje2->record().indexOf("l.aois")).data().toString();
+            if(alias=="")
+            {
+                docasnySpoj.line.lineName=QString::number(docasnySpoj.line.c );
+            }
+            else
+            {
+                docasnySpoj.line.lineName=alias;
+            }
+
+
+
+            ui->polespoje->setText(QString::number(docasnySpoj.idRopid));
+
+            stavSystemu.currentTrip=docasnySpoj;
+            int kmenovaLinka=0;
+            int poradi=0;
+            int order=0;
+
+
+            sqlPraceRopid.najdiTurnusZeSpoje(stavSystemu.currentTrip, kmenovaLinka,poradi, order,this->vyrobMaskuKalendareJizd());
+            qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
+
+      }
+     }
+
+     qDebug()<<"IDspoje:"<<docasnySpoj.id;
 }
 

@@ -802,6 +802,38 @@ double SqlRopidXmlDotazy::absolutniHodnota(double vstup)
 
 
 
+QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamSpojuModel2(Line docasnaLinka, QString kj)
+{
+    qDebug() <<  Q_FUNC_INFO;
 
+    QString queryString2(" SELECT DISTINCT s.c, z.n AS Z, zz.n AS DO, substr(time(x.o, 'unixepoch'),1,5) AS start, substr(time(xx.p, 'unixepoch'),1,5) AS konec, s.s, l.c, l.lc   "
+                         " FROM s "
+                         " LEFT JOIN l ON s.l=l.c  AND s.d=l.d "
+                         " LEFT JOIN x ON s.s=x.s_id AND x.xorder=0"
+                         " LEFT JOIN z ON x.u=z.u AND x.z=z.z"
+                         " LEFT JOIN ("
+                         " SELECT x.u, x.z, x.s_id, MAX(x.p) AS p, MAX(x.xorder) AS pocet "
+                         " FROM (SELECT x.o,x.p,x.s_id,x.xorder, x.u, x.z FROM x WHERE s2=0) AS x "
+                         " GROUP BY x.s_id ) AS xx"
+                         " ON xx.s_id=s.s"
+                         " LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z ");
+
+
+    queryString2+=(" WHERE l.c="+QString::number(docasnaLinka.c)+" AND s.man !=1 AND s.kj LIKE '"+kj+"' ");
+    queryString2+=(" ORDER BY s.c ASC, s.s ASC");
+
+    qDebug().noquote()<<queryString2;
+
+    QSqlQueryModel *modelData= new QSqlTableModel ;
+    modelData->setQuery(queryString2);
+    qDebug()<<modelData->lastError();
+
+    while ( modelData->canFetchMore())
+    {
+        modelData->fetchMore();
+    }
+
+    return modelData;
+}
 
 

@@ -48,6 +48,7 @@ public:
     QSqlQueryModel *stahniSeznamTurnusSpojuModel(VehicleRun &docasnyObeh, QString kj);
     QVector<MapaBod> vytvorTrajektorii(int cisloSpoje, QString kj);
     static double absolutniHodnota(double vstup);
+    QSqlQueryModel *stahniSeznamSpojuModel2(Line docasnaLinka, QString kj);
 private:
 
     void vypisPole(QVector<StopPointDestination> docasnySeznamZastavek, int &pocetZastavek);

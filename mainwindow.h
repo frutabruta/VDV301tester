@@ -103,7 +103,9 @@ private:
 
     //modely
     QSqlQueryModel *modelSpoje;
+    QSqlQueryModel *modelSpoje2;
     QSqlQueryModel prazdnyModel;
+    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
 
     //udalosti
 
@@ -171,7 +173,7 @@ private:
     int natahniSeznamSpojeKomplet();
 
     //timery
-    QTimer *timerTrvaniZmenyPasma = new QTimer(this); //po pvyprseni casovace zmizi zmena pasma
+    QTimer timerTrvaniZmenyPasma; //po pvyprseni casovace zmizi zmena pasma
     // QTimer *timerAfterStopToBetweenStop = new QTimer(this);
     QTimer timerAfterStopToBetweenStop;
     QTimer timerStahniPrestupy;
@@ -196,6 +198,7 @@ private:
 
 
     void vypisSubscribery2_3(QVector<Subscriber> adresy);
+    void modelDoTabulkySeradit(QSqlQueryModel* modelInput, QTableView* tableView);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
@@ -338,6 +341,8 @@ private slots:
     void on_pushButton_manual_removeSubscriber_3_clicked();
 
     void on_pushButton_menu2_rezerva_clicked();
+
+    void on_tableView_connection_clicked(const QModelIndex &index);
 
 signals:
     void signalZahajImport(QString cesta);

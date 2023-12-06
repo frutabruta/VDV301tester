@@ -69,6 +69,15 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20231206_2031
+        - selection of trip from QTableView
+        - added new tabs in Options menu
+        - timerTrvaniZmenyPasma is not a pointer now
+        - Connections checkbox moved to Options
+        - XmlRopidImportStream
+                - new truncate functions
+                - new columns added
+
 - 20231124_1706
         - added SQL VACUUM after tables truncate
 - 20231124_1453
