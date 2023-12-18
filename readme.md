@@ -23,7 +23,7 @@ This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1
 
 ## Loading of new XML data
 
- - Options-> Truncate, 
+ - Options -> Truncate, 
  - XML Path -> select file, 
  - Load XML  
 
@@ -69,6 +69,12 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20231214_1750
+        - VDV301publisher 
+                - unsubscribe functionality
+        - VDV301subscriber
+                - unsubscribe functionality
+
 - 20231206_2100
         - ui
                 - smaller padding in tabWidget_hlavni
