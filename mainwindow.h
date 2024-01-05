@@ -199,6 +199,7 @@ private:
 
     void vypisSubscribery2_3(QVector<Subscriber> adresy);
     void modelDoTabulkySeradit(QSqlQueryModel* modelInput, QTableView* tableView);
+    void retranslateUi(QString language);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
     void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
@@ -343,6 +344,12 @@ private slots:
     void on_pushButton_menu2_rezerva_clicked();
 
     void on_tableView_connection_clicked(const QModelIndex &index);
+
+
+
+    void on_radioButton_language_cs_clicked();
+
+    void on_radioButton_language_en_clicked();
 
 signals:
     void signalZahajImport(QString cesta);

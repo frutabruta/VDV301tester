@@ -69,6 +69,16 @@ mingw32-make install
 ```
 
 ## Changelog
+
+
+- 20240105_1123
+        - VDV301publisher 
+                - unsubscribe response fix
+        - VDV301subscriber
+                - unsubscribe response fix
+                - HTTP status check
+        - language selector in Settings now works
+
 - 20231214_1750
         - VDV301publisher 
                 - unsubscribe functionality

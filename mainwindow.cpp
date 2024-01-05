@@ -48,20 +48,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    QTranslator translator;
+
     //settings.setValue("General/language","en");
     QString jazyk=settings.value("app/language").toString();
 
     qDebug()<<" novy jazyk:"<<jazyk;
-    if (jazyk=="en")
-    {
-        qApp->removeTranslator(&translator);
-        translator.load(":/lang_en.qm");
-        qApp->installTranslator(&translator);
-        ui->calendarWidget->setLocale(QLocale::English);
-        qDebug()<<"zmena jazyka";
-    }
-    ui->retranslateUi(this);
+    retranslateUi(jazyk);
 
 
     natahniKonstanty();
@@ -129,6 +121,20 @@ MainWindow::~MainWindow()
 {
     delete proxyModel;
     delete ui;
+}
+
+void MainWindow::retranslateUi(QString language)
+{
+    QTranslator translator;
+
+        qApp->removeTranslator(&translator);
+        translator.load(":/lang_"+language+".qm");
+        qApp->installTranslator(&translator);
+        ui->calendarWidget->setLocale(QLocale::English);
+        qDebug()<<"zmena jazyka";
+
+    ui->retranslateUi(this);
+
 }
 
 
@@ -2458,5 +2464,20 @@ void MainWindow::on_tableView_connection_clicked(const QModelIndex &index)
      }
 
      qDebug()<<"IDspoje:"<<docasnySpoj.id;
+}
+
+
+void MainWindow::on_radioButton_language_cs_clicked()
+{
+    retranslateUi("cs");
+    settings.setValue("app/language","cs");
+
+}
+
+
+void MainWindow::on_radioButton_language_en_clicked()
+{
+    retranslateUi("en");
+    settings.setValue("app/language","en");
 }
 

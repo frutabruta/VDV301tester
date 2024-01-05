@@ -2487,7 +2487,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>3</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -3109,7 +3109,7 @@ HW config</string>
           </widget>
           <widget class="QWidget" name="tab_presets">
            <attribute name="title">
-            <string>Page</string>
+            <string>Konfigurace</string>
            </attribute>
            <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
@@ -3357,14 +3357,14 @@ HW config</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_23">
              <item>
-              <widget class="QRadioButton" name="radioButton">
+              <widget class="QRadioButton" name="radioButton_language_cs">
                <property name="text">
                 <string>CZ</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QRadioButton" name="radioButton_2">
+              <widget class="QRadioButton" name="radioButton_language_en">
                <property name="text">
                 <string>EN</string>
                </property>
