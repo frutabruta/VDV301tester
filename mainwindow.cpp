@@ -2481,3 +2481,10 @@ void MainWindow::on_radioButton_language_en_clicked()
     settings.setValue("app/language","en");
 }
 
+
+void MainWindow::on_pushButton_setGolemioKey_clicked()
+{
+    settings.setValue("golemio/apikey",ui->lineEdit_golemioKey->text());
+    golemio.setKlic(settings.value("golemio/apiKey").toByteArray());
+}
+

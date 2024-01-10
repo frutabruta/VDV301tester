@@ -42,6 +42,7 @@ Czech
 ```
 language="cs"
 ```
+
 English
 ```
 language="en"
@@ -69,7 +70,8 @@ mingw32-make install
 ```
 
 ## Changelog
-
+- 20240109_1404
+        - fixed setting golemio API key in configuration tab
 
 - 20240105_1123
         - VDV301publisher 

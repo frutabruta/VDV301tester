@@ -351,6 +351,8 @@ private slots:
 
     void on_radioButton_language_en_clicked();
 
+    void on_pushButton_setGolemioKey_clicked();
+
 signals:
     void signalZahajImport(QString cesta);
 };

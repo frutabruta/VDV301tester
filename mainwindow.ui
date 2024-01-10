@@ -2487,7 +2487,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -3116,8 +3116,8 @@ HW config</string>
              <rect>
               <x>480</x>
               <y>30</y>
-              <width>195</width>
-              <height>236</height>
+              <width>240</width>
+              <height>251</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayoutseriovyPort">
@@ -3326,10 +3326,10 @@ HW config</string>
             </property>
             <layout class="QGridLayout" name="gridLayout">
              <item row="0" column="0">
-              <widget class="QLineEdit" name="lineEdit"/>
+              <widget class="QLineEdit" name="lineEdit_golemioKey"/>
              </item>
              <item row="0" column="1">
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="pushButton_setGolemioKey">
                <property name="text">
                 <string>Set</string>
                </property>
@@ -4030,7 +4030,7 @@ test</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
