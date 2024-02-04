@@ -70,6 +70,8 @@ SOURCES += \
     VDV301publisher/xmlticketvalidationservice.cpp \
     VDV301subscriber/devmgmtpublisherstruct.cpp \
     VDV301subscriber/devmgmtsubscriber.cpp \
+    VDV301subscriber/devmgmtsubscriber1.cpp \
+    VDV301subscriber/devmgmtsubscriber2.cpp \
     VDV301subscriber/ibisipsubscriber.cpp \
     VDV301subscriber/httpserversubscriber.cpp \
     VDV301subscriber/ibisipsubscriberonepublisher.cpp \
@@ -121,6 +123,8 @@ HEADERS += \
     VDV301publisher/xmlticketvalidationservice.h \
     VDV301subscriber/devmgmtpublisherstruct.h \
     VDV301subscriber/devmgmtsubscriber.h \
+    VDV301subscriber/devmgmtsubscriber1.h \
+    VDV301subscriber/devmgmtsubscriber2.h \
     VDV301subscriber/ibisipsubscriber.h \
     VDV301subscriber/httpserversubscriber.h \
     VDV301subscriber/ibisipsubscriberonepublisher.h \

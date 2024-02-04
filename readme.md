@@ -11,7 +11,7 @@ This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1
 ### Linux
         Avahi
         QtHttpServer  (https://github.com/qt/qthttpserver/tree/5.15) (qmake, make, make install)
-        OpenSSL? (Golemio is not tested on Linux yet))
+        OpenSSL? (Golemio is not tested on Linux yet)
 
 
 ### Tested Qt versions:
@@ -21,6 +21,9 @@ This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1
         - available in 64bit version only
         - improved spacing of voice announcement segments
 
+## After compiling
+- Copy all programs from folder *copy_to_program_directory* to the build directory
+- Copy *data.sqlite* from folder *XmlRopidImportStream* to build directory
 ## Loading of new XML data
 
  - Options -> Truncate, 
@@ -30,12 +33,12 @@ This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1
 ## Program Settings
 ### Golemio Connections
 
- Golemio API key has to be set in nastaveni.ini
+Golemio API key has to be set in settings.ini
 
 For HTTPS access to Golemio, OpenSSL needs to be installed with Qt Maintenance tool.
 
 ### Change language
-Language can be changed in language parameter in nastaveni.ini file.
+Language can be changed in language parameter in settings.ini file or on the settings tab in the program.
 Two options are available: 
 
 Czech
@@ -70,6 +73,23 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20240204_1145
+        - nastaveni.ini renamed to settings.ini
+        - folders renamed to English
+        - show device status in device detection
+
+        - VDV301publisher
+                - 2.3 out of service fix
+        - VDV301subscriber
+                - experimental implementation of deviceManagementService v2.2 subscriber
+        - VDV301DataStructures
+                - vehicleState submode default value fix
+        - MainWindow
+                - build number now does not get lost in English translation
+
+- 20240123
+        - SqlRopidXmlDotazy
+                - transferMetroC fix
 - 20240109_1404
         - fixed setting golemio API key in configuration tab
 

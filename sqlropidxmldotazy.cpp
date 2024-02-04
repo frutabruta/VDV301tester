@@ -135,7 +135,7 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , i
             aktZast.transferMetroA =query.value(query.record().indexOf("x.xA")).toBool();
             aktZast.transferMetroB =query.value(query.record().indexOf("x.xB")).toBool();
             aktZast.transferMetroC =query.value(query.record().indexOf("x.xC")).toBool();
-            aktZast.transferMetroC =query.value(query.record().indexOf("x.xD")).toBool();
+            aktZast.transferMetroD =query.value(query.record().indexOf("x.xD")).toBool();
             aktZast.transferTrain =query.value(query.record().indexOf("x.xVla")).toBool();
             aktZast.transferAirplane =query.value(query.record().indexOf("x.xLet")).toBool();
             aktZast.transferFerry =query.value(query.record().indexOf("x.xLod")).toBool();

@@ -2487,7 +2487,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>3</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -2727,7 +2727,7 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>cisloBuildu</string>
+                   <string notr="true">cisloBuildu</string>
                   </property>
                  </widget>
                 </item>
@@ -3058,6 +3058,11 @@ Stop</string>
               <column>
                <property name="text">
                 <string>verze</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>status</string>
                </property>
               </column>
              </widget>
@@ -4030,7 +4035,7 @@ test</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

@@ -14,7 +14,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     konfigurace(QCoreApplication::applicationDirPath()),
-    settings(QCoreApplication::applicationDirPath()+"/nastaveni.ini", QSettings::IniFormat),
+    settings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat),
     golemio(""), //klic do golemia
     logfile(QCoreApplication::applicationDirPath()),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
-    devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),
+    devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
 
     ui(new Ui::MainWindow)
 {
@@ -127,14 +127,18 @@ void MainWindow::retranslateUi(QString language)
 {
     QTranslator translator;
 
-        qApp->removeTranslator(&translator);
-        translator.load(":/lang_"+language+".qm");
+    qApp->removeTranslator(&translator);
+    if(translator.load(":/lang_"+language+".qm"))
+    {
         qApp->installTranslator(&translator);
         ui->calendarWidget->setLocale(QLocale::English);
         qDebug()<<"zmena jazyka";
-
-    ui->retranslateUi(this);
-
+        ui->retranslateUi(this);
+    }
+    else
+    {
+        popUpMessage(tr("language file not found"));
+    }
 }
 
 
@@ -362,7 +366,7 @@ void MainWindow::nastartujVsechnyVdv301Sluzby()
 {
     qDebug() <<  Q_FUNC_INFO;
     deviceManagementService1_0.slotStartServer();
- /*
+    /*
     customerInformationService1_0.slotStartServer();
     customerInformationService2_2CZ1_0.slotStartServer();
     customerInformationService2_4.slotStartServer();
@@ -1237,7 +1241,7 @@ void MainWindow::vypisSubscriberyDoTabulky(QVector<Subscriber> adresy, QTableWid
 */
 void MainWindow::vypisSubscribery1_0(QVector<Subscriber> adresy)
 {
-  qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;
     vypisSubscriberyDoTabulky(adresy,ui->tableWidget_subscriberList1_0);
 }
 
@@ -1253,7 +1257,7 @@ void MainWindow::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
 void MainWindow::vypisSubscribery2_3(QVector<Subscriber> adresy)
 {
     qDebug() <<  Q_FUNC_INFO;
-        vypisSubscriberyDoTabulky(adresy,ui->tableWidget_subscriberList2_3);
+    vypisSubscriberyDoTabulky(adresy,ui->tableWidget_subscriberList2_3);
 }
 
 
@@ -1910,6 +1914,14 @@ void MainWindow::eventPoznamkaRidici(QString poznamka)
     msgBox.exec();
 }
 
+
+void MainWindow::popUpMessage(QString messageText)
+{
+    QMessageBox msgBox;
+    msgBox.setText(nahradZnacky(messageText));
+    msgBox.exec();
+}
+
 void MainWindow::eventSkryjZmenuTarifnihoPasma()
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -1992,7 +2004,7 @@ void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* ta
 
     if(modelInput->rowCount()==0)
     {
-            return;
+        return;
     }
 
 
@@ -2143,6 +2155,7 @@ void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni)
     QString id=zarizeni.deviceId;
     int port=zarizeni.portNumber;
     int hwConfig=zarizeni.hwConfig;
+    QString status=zarizeni.status;
     /*
     qDebug() <<"nazev sluzby "<<nazev<<" ip adresa "<<ipadresa<<" port "<<QString::number(port)<<" data" <<verze ;
  */
@@ -2193,6 +2206,8 @@ void MainWindow::sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni)
     cell = new QTableWidgetItem(verze);
     ui->tableWidget_seznamZarizeni->setItem(row, 7, cell);
 
+    cell = new QTableWidgetItem(status);
+    ui->tableWidget_seznamZarizeni->setItem(row, 8, cell);
 
     ui->tableWidget_seznamZarizeni->resizeColumnsToContents();
 
@@ -2209,10 +2224,10 @@ QString MainWindow::nahradZnacky(QString vstup)
 
 
 
-    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     //qt5
     QRegExp vyraz=QRegExp("\\\\([^<]*)\\\\");
-      vyraz.setMinimal(true);
+    vyraz.setMinimal(true);
 #else
     //qt6
 
@@ -2238,9 +2253,9 @@ void MainWindow::on_listView_linky_clicked(const QModelIndex &index)
 
 
 
-ui->polelinky->setText(QString::number(stavSystemu.currentLine.c ));
+    ui->polelinky->setText(QString::number(stavSystemu.currentLine.c ));
     modelSpoje2=sqlPraceRopid.stahniSeznamSpojuModel2(stavSystemu.currentLine, this->vyrobMaskuKalendareJizd());
-     qDebug()<<"model size:"<<modelSpoje2->rowCount()<<" "<<modelSpoje2->columnCount();
+    qDebug()<<"model size:"<<modelSpoje2->rowCount()<<" "<<modelSpoje2->columnCount();
 
 
     modelDoTabulkySeradit(modelSpoje2,ui->tableView_connection);
@@ -2411,7 +2426,7 @@ QString MainWindow::textVerze()
 void MainWindow::on_checkBox_stopRequested_clicked(bool checked)
 {
     stavSystemu.isVehicleStopRequested=checked;
-     xmlVdv301HromadnyUpdate();
+    xmlVdv301HromadnyUpdate();
 }
 
 
@@ -2426,11 +2441,11 @@ void MainWindow::on_pushButton_menu2_rezerva_clicked()
 
 void MainWindow::on_tableView_connection_clicked(const QModelIndex &index)
 {
-     qDebug() <<  Q_FUNC_INFO;
-     Trip docasnySpoj;
+    qDebug() <<  Q_FUNC_INFO;
+    Trip docasnySpoj;
 
-     if (ui->tableView_connection->model()->rowCount()>0)
-     {
+    if (ui->tableView_connection->model()->rowCount()>0)
+    {
         if(index.isValid())
         {
             docasnySpoj.id=index.siblingAtColumn(modelSpoje2->record().indexOf("s.s")).data().toInt();
@@ -2460,10 +2475,10 @@ void MainWindow::on_tableView_connection_clicked(const QModelIndex &index)
             sqlPraceRopid.najdiTurnusZeSpoje(stavSystemu.currentTrip, kmenovaLinka,poradi, order,this->vyrobMaskuKalendareJizd());
             qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
 
-      }
-     }
+        }
+    }
 
-     qDebug()<<"IDspoje:"<<docasnySpoj.id;
+    qDebug()<<"IDspoje:"<<docasnySpoj.id;
 }
 
 
