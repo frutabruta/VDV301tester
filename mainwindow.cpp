@@ -123,6 +123,92 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+/*!
+přesunutí connectů pro větší přehlednost
+*/
+void MainWindow::allConnects()
+{
+    qDebug()<<Q_FUNC_INFO;
+
+    this->dumpSubscribers1_0(customerInformationService1_0.subscriberList);
+    this->dumpSubscribers2_2CZ(customerInformationService2_2CZ1_0.subscriberList);
+
+    //vypisy subscriberu
+    connect(&customerInformationService1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers1_0);
+    connect(&customerInformationService2_2CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_2CZ);
+    connect(&customerInformationService2_3,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_3);
+
+    connect(&customerInformationService1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
+    connect(&customerInformationService2_2CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
+    connect(&customerInformationService2_3,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
+
+
+    connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
+    connect(&golemio,&Golemio::stazeniHotovo,this,&MainWindow::slotGolemioReady);
+
+    //vypis deviceMAnagementServices publisheru
+    // connect(&deviceManagementServiceSubscriber, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::slotXmlDoPromenne);
+
+
+    //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
+    connect(&devMgmtSubscriber,&IbisIpSubscriber::signalUpdateDeviceList,this,&MainWindow::slotServiceTableUpdate);
+
+
+    //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
+    // connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
+
+    //vypis stavu testu
+    connect(&testDemo,&Vdv301testy::update,this,&MainWindow::testPopulateTestPhases);
+    connect(&testSubscribeServer,&Vdv301testy::update,this,&MainWindow::testPopulateTestPhases);
+
+    //jednotliveTesty
+    connect(&testSubscribeServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotRemoveAllSubscribers);
+    connect(&testSubscribeServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
+    connect(&testSubscribeServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStopTimer);
+    connect(&testSubscribeServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotSendDataToSubscribers);
+
+
+    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalDumpSubscriberList,&testSubscribeServer,&TestOdberuServer::slotAktualizaceSubscriberu);
+    connect(&customerInformationService2_2CZ1_0,&HttpService::signalReplyToPostReceived,&testSubscribeServer,&TestOdberuServer::slotVypisOdpovedServeru);
+
+    //vypinani sluzeb pomoci prepinacu
+    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStartDnsSd);
+    connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStop);
+
+    connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStartDnsSd);
+    connect(ui->radioButton_OFF2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStop);
+
+    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpService::slotStartDnsSd);
+    connect(ui->radioButton_OFF3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpService::slotStop);
+
+    connect(ui->radioButton_ON4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStartDnsSd);
+    connect(ui->radioButton_OFF4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStop);
+
+    //vypisovani stavovych hlasek do stavoveho radku vespod okna
+    connect(&sqlRopidQuerries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
+    connect(&sqlRopidQuerries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
+
+    //  connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
+
+    // connect(this,&MainWindow::signalZahajImport, &xmlRopidImportStream,&XmlRopidImportStream::slotOtevriSoubor);
+
+    //prepinani stavu radio prepinacu podle stavu sluzeb
+    connect(&customerInformationService2_2CZ1_0,&HttpService::signalStav,this,&MainWindow::radio1);
+    connect(&deviceManagementService1_0,&HttpService::signalStav,this,&MainWindow::radio2);
+    connect(&ticketValidationService2_3CZ1_0,&HttpService::signalStav,this,&MainWindow::radio3);
+    connect(&customerInformationService1_0,&HttpService::signalStav,this,&MainWindow::radio4);
+
+    //konfigurace
+    connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
+
+    //casovace
+    connect(&timerFareZoneChangeDuration,&QTimer::timeout,this,&MainWindow::eventFareZoneChangeHide);
+    connect(&timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
+    connect(&timerDownloadConnections,&QTimer::timeout,this,&MainWindow::slotDownloadConnectionsFromCurrentStop);
+    connect(&timerSpecialAnnoucementHide,&QTimer::timeout,this,&MainWindow::evenSpecialAnnouncementHide);
+}
+
 void MainWindow::retranslateUi(QString language)
 {
     QTranslator translator;
@@ -205,94 +291,6 @@ void MainWindow::loadConstantsFromSettingsFile()
 }
 
 
-
-/*!
-přesunutí connectů pro větší přehlednost
-*/
-void MainWindow::allConnects()
-{
-    qDebug()<<Q_FUNC_INFO;
-
-    this->dumpSubscribers1_0(customerInformationService1_0.subscriberList);
-    this->dumpSubscribers2_2CZ(customerInformationService2_2CZ1_0.subscriberList);
-
-
-    //vypisy subscriberu
-    connect(&customerInformationService1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers1_0);
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_2CZ);
-    connect(&customerInformationService2_3,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_3);
-
-
-
-    connect(&customerInformationService1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
-    connect(&customerInformationService2_3,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
-
-
-    connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
-    connect(&golemio,&Golemio::stazeniHotovo,this,&MainWindow::slotGolemioReady);
-
-    //vypis deviceMAnagementServices publisheru
-    // connect(&deviceManagementServiceSubscriber, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::slotXmlDoPromenne);
-
-
-    //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
-    connect(&devMgmtSubscriber,&IbisIpSubscriber::signalUpdateDeviceList,this,&MainWindow::slotServiceTableUpdate);
-
-
-    //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
-    // connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
-
-    //vypis stavu testu
-    connect(&testDemo,&Vdv301testy::update,this,&MainWindow::testPopulateTestPhases);
-    connect(&testSubscribeServer,&Vdv301testy::update,this,&MainWindow::testPopulateTestPhases);
-
-    //jednotliveTesty
-    connect(&testSubscribeServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotRemoveAllSubscribers);
-    connect(&testSubscribeServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
-    connect(&testSubscribeServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStopTimer);
-    connect(&testSubscribeServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotSendDataToSubscribers);
-
-
-    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalDumpSubscriberList,&testSubscribeServer,&TestOdberuServer::slotAktualizaceSubscriberu);
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalReplyToPostReceived,&testSubscribeServer,&TestOdberuServer::slotVypisOdpovedServeru);
-
-    //vypinani sluzeb pomoci prepinacu
-    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStartDnsSd);
-    connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStop);
-
-    connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStartDnsSd);
-    connect(ui->radioButton_OFF2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStop);
-
-    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpService::slotStartDnsSd);
-    connect(ui->radioButton_OFF3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpService::slotStop);
-
-    connect(ui->radioButton_ON4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStartDnsSd);
-    connect(ui->radioButton_OFF4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStop);
-
-    //vypisovani stavovych hlasek do stavoveho radku vespod okna
-    connect(&sqlRopidQuerries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
-    connect(&sqlRopidQuerries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
-
-    //  connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
-
-    // connect(this,&MainWindow::signalZahajImport, &xmlRopidImportStream,&XmlRopidImportStream::slotOtevriSoubor);
-
-    //prepinani stavu radio prepinacu podle stavu sluzeb
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalStav,this,&MainWindow::radio1);
-    connect(&deviceManagementService1_0,&HttpService::signalStav,this,&MainWindow::radio2);
-    connect(&ticketValidationService2_3CZ1_0,&HttpService::signalStav,this,&MainWindow::radio3);
-    connect(&customerInformationService1_0,&HttpService::signalStav,this,&MainWindow::radio4);
-
-    //konfigurace
-    connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
-
-    //casovace
-    connect(&timerFareZoneChangeDuration,&QTimer::timeout,this,&MainWindow::eventFareZoneChangeHide);
-    connect(&timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
-    connect(&timerDownloadConnections,&QTimer::timeout,this,&MainWindow::slotDownloadConnectionsFromCurrentStop);
-    connect(&timerSpecialAnnoucementHide,&QTimer::timeout,this,&MainWindow::evenSpecialAnnouncementHide);
-}
 
 
 
@@ -482,86 +480,6 @@ void MainWindow::xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState m
 }
 
 
-/*!
-
-*/
-int MainWindow::on_pushButton_prikaz_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.reset();
-    vehicleState.doorState="AllDoorsClosed";
-
-
-    /*
-     * odeslani spoje doplneneho na turnus
-*/
-
-    vehicleState.currentTrip.line.c =ui->polelinky->text().toInt();
-    vehicleState.currentTrip.idRopid=ui->polespoje->text().toInt();
-
-    int kmenovaLinka=0;;
-    int poradi=0;
-    int order=0;
-    sqlRopidQuerries.najdiTurnusZeSpoje( vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() );
-
-    vehicleState.currentStopIndex0=0;
-
-    ui->poleLinkyTurnus->setText(QString::number(kmenovaLinka));
-    vehicleState.currentVehicleRun.rootLine.c=kmenovaLinka;
-
-
-    /*
-    if (sqlPraceRopid.vytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
-    {
-        naplnVyberPoradi(seznamObehu);
-    }
-    */
-
-
-    vehicleState.currentVehicleRun.order=poradi ;
-    if (sqlRopidQuerries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
-    {
-        // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
-    }
-
-
-    Trip hledanySpoj=vehicleState.currentTrip;
-    vehicleState.currentTripIndex=sqlRopidQuerries.poziceSpojeNaSeznamu(vehicleState.currentVehicleRun.tripList,hledanySpoj);
-
-    if(! MainWindowPomocne::jeVRozsahu(vehicleState.currentTripIndex,vehicleState.currentVehicleRun.tripList.size(),Q_FUNC_INFO))
-    {
-        return 0;
-    }
-
-    vehicleState.currentTrip=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex);
-    ui->poleLinkyTurnus->setText(QString::number(vehicleState.currentTrip.line.c));
-    ui->poleSpojeTurnus->setText(QString::number(vehicleState.currentTrip.idRopid));
-    vehicleState.currentLine.lineNumber =ui->poleLinkyTurnus->text();
-
-    vehicleState.currentStopIndex0=0;
-
-    int vysledek=natahniSeznamSpojeKomplet();
-    if (vysledek==1)
-    {
-        eventEnterService();
-    }
-    return vysledek;
-}
-
-
-/*!
-
-*/
-int MainWindow::on_pushButton_turnus_prikaz_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.doorState="AllDoorsClosed";
-    vehicleState.currentLine.lineNumber =ui->poleLinkyTurnus->text();
-
-    vehicleState.currentStopIndex0=0;
-
-    return natahniSeznamSpojeKomplet();
-}
 
 /*!
  * \brief MainWindow::natahniSeznamSpojeKomplet
@@ -634,61 +552,6 @@ int MainWindow::natahniSeznamSpojeKomplet()
 
 
 
-
-/*!
-
-*/
-void MainWindow::on_pushButton_jizda_sipkaDal_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-
-
-    if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()))
-    {
-        if((vehicleState.locationState=="AtStop")&&((vehicleState.currentStopIndex0<(vehicleState.countCurrentTripStops()-1) )))
-        {
-            vehicleState.locationState="AfterStop";
-            vehicleState.currentStopIndex0++;
-            eventDeparture();
-        }
-        else
-        {
-            qDebug()<<"dalsi? index:"<<vehicleState.currentStopIndex0<<" pocetZastavek:"<<vehicleState.countCurrentTripStops();
-            if((vehicleState.locationState=="AtStop")&&((vehicleState.currentStopIndex0+1)==vehicleState.countCurrentTripStops()))
-            {
-                this->eventGoToNextTrip();
-            }
-
-
-            if(vehicleState.locationState=="BeforeStop")
-            {
-                vehicleState.locationState="AtStop";
-
-                eventArrival();
-            }
-
-            if(vehicleState.locationState=="BetweenStop")
-            {
-                vehicleState.locationState="BeforeStop";
-            }
-
-            if(vehicleState.locationState=="AfterStop")
-            {
-                vehicleState.locationState="BetweenStop";
-                eventAfterStopToBetweenStop();
-            }
-        }
-    }
-
-
-    updateDriverDisplay();
-    vehicleState.doorState="AllDoorsClosed";
-    // ui->popisek->setText(QString::number(stavSystemu.currentStopIndex0+1));
-    xmlVdv301UpdateContent();
-}
-
-
-
 void MainWindow::updateVehicleLocationDisplay(QString stav)
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -712,37 +575,6 @@ void MainWindow::updateVehicleLocationDisplay(QString stav)
 }
 
 
-
-/*!
-
-*/
-void MainWindow::on_pushButton_jizda_sipkaZpet_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if (vehicleState.currentStopIndex0>=1)
-    {
-        if(vehicleState.locationState=="AfterStop")
-        {
-            vehicleState.locationState="AtStop";
-            vehicleState.currentStopIndex0--;
-            eventArrival();
-        }
-        else
-        {
-            if(vehicleState.locationState=="BetweenStop")
-            {vehicleState.locationState="AfterStop";}
-
-            if(vehicleState.locationState=="BeforeStop")
-            {vehicleState.locationState="BetweenStop";}
-
-            if(vehicleState.locationState=="AtStop")
-            {vehicleState.locationState="BeforeStop";}
-        }
-        updateDriverDisplay();
-    }
-    ui->popisek->setText(QString::number(vehicleState.currentStopIndex0));
-    xmlVdv301UpdateContent();
-}
 
 
 /*!
@@ -857,121 +689,7 @@ void MainWindow::updateDriverDisplay()
 }
 
 
-/*!
 
-*/
-void MainWindow::on_pushButton_jizda_sipkaZpetSkok_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if (vehicleState.currentStopIndex0>=2)
-    {
-        vehicleState.currentStopIndex0--;
-    }
-    ui->popisek->setText(QString::number(vehicleState.currentStopIndex0));
-    updateDriverDisplay();
-    xmlVdv301UpdateContent();
-
-}
-
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_menu_quit_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    MainWindow::close();
-    QApplication::exit(0);
-    //QCoreApplication::exit(0);
-
-}
-
-
-/*!
-
-*/
-
-void MainWindow::on_pushButton_jizda_beforeStop_clicked()
-{
-
-    vehicleState.locationState="BeforeStop";
-    xmlVdv301UpdateContent();
-}
-
-/*!
-
-*/
-void MainWindow::on_pushButton_jizda_atStop_clicked()
-{
-
-    eventArrival();
-
-}
-
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_jizda_afterStop_clicked()
-{
-
-    vehicleState.locationState="AfterStop";
-    xmlVdv301UpdateContent();
-}
-
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_jizda_betweenStop_clicked()
-{
-
-    vehicleState.locationState="BetweenStop";
-    xmlVdv301UpdateContent();
-}
-
-
-
-/*!
-
-*/
-void MainWindow::on_checkBox_connections_stateChanged(int arg1)
-{
-    qDebug()<<Q_FUNC_INFO;
-    vehicleState.showConnections= ui->checkBox_connections->isChecked();
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_nast_nactiXMLropid_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    //   emit signalZahajImport(xmlRopidImportStream.vstupniXmlSouborCesta);
-
-    eventExitService();
-    ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
-
-
-    XmlImportJr *xmlImportJr =  new XmlImportJr();
-
-    xmlImportJr->truncateAll();
-
-    xmlImportJr->vstupniXmlSouborCesta=xmlFilePath;
-
-    connectyImport(xmlImportJr);
-
-
-    xmlImportJr->start();
-
-
-    //xmlRopidImportStream.otevriSoubor(xmlRopidImportStream.vstupniXmlSouborCesta);
-
-}
 
 
 void MainWindow::connectyImport(XmlImportJr *xmlImportJr)
@@ -1031,63 +749,6 @@ void MainWindow::slotImportAktivujTlacitka()
     qDebug() <<  Q_FUNC_INFO;
 
 }
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_nast_truncate_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    XmlImportJr *xmlImportJr =  new XmlImportJr();
-
-    xmlImportJr->truncateAll();
-    xmlImportJr->vacuum();
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_nast_odesliPrikaz_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    // ibisOvladani.dopocetCelni("l006");
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_nast_nastavPort_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
-    ibisOvladani.dopocetKontrolnihoZnaku("l006");
-    // ibisOvladani.dopocetKontrolnihoZnaku("aA1 ahoj");
-    // ibisOvladani.dopocetKontrolnihoZnaku("v povel v\\");
-    // ibisOvladani.dopocetKontrolnihoZnaku("zA povel zA");
-    // ibisOvladani.dopocetKontrolnihoZnaku("zN povel zN");
-    // ibisOvladani.dopocetKontrolnihoZnaku("xC2");
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_jizda_IBIS_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    ibisOvladani.dopocetKontrolnihoZnaku("xC2");
-    ibisOvladani.odesliFrontKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    ibisOvladani.odesliSideKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
-    ibisOvladani.odesliJKZKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    ibisOvladani.odeslikompletBUSEjednoradekAA(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    ibisOvladani.odesliRearKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-
-}
-
 
 /*!
 
@@ -1162,46 +823,6 @@ void MainWindow::eventAfterStopToBetweenStop()
 }
 
 
-/*!
-
-*/
-void MainWindow::on_pushButton_menu_jizda_clicked()
-{
-    ui->stackedWidget_palPc->setCurrentWidget(ui->page_jizda );
-
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_manual_smazOkno_clicked()
-{
-    ui->plainTextEdit_CustomXml->clear();
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_manual_odesliXml_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    QByteArray vysledek2="";
-    vysledek2=vysledek2+ui->plainTextEdit_CustomXml->toPlainText().toUtf8();
-    customerInformationService1_0.setBodyContent("AllData",vysledek2);
-    customerInformationService2_2CZ1_0.setBodyContent("AllData",vysledek2);
-
-    for(int i=0;i<customerInformationService1_0.subscriberList.count();i++ )
-    {
-        customerInformationService1_0.postToSubscriber(customerInformationService1_0.subscriberList[i].address,vysledek2);
-    }
-    for(int i=0;i<customerInformationService2_2CZ1_0.subscriberList.count();i++ )
-    {
-        customerInformationService2_2CZ1_0.postToSubscriber(customerInformationService2_2CZ1_0.subscriberList[i].address,vysledek2);
-    }
-    qDebug()<<"\n MainWindow::xmlUpdate";
-}
 
 void MainWindow::dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget* tabulka)
 {
@@ -1258,6 +879,416 @@ void MainWindow::dumpSubscribers2_3(QVector<Subscriber> adresy)
 {
     qDebug() <<  Q_FUNC_INFO;
     dumpSubscribersToTable(adresy,ui->tableWidget_subscriberList2_3);
+}
+
+
+/*!
+
+*/
+void MainWindow::vypisDiagnostika(QString vstup)
+{
+    qDebug()<<" MainWindow::vypisDiagnostika "<<vstup;
+    ui->label_diagnostika_manual->clear();
+    ui->label_diagnostika_manual->setText(vstup);
+    ui->statusBar->showMessage(vstup);
+    logfile.pridejNaKonecSouboru(logFileQFile,QDateTime::currentDateTime().toString()+" "+ vstup);
+}
+
+
+
+/*!
+
+*/
+void MainWindow::slotVypisSqlVysledek(QString vstup)
+{
+    ui->label_diagnostika_sql->setText(vstup);
+}
+
+
+
+/*!
+
+*/
+void MainWindow::stopServices()
+{
+    //customerInformationService1_0.
+}
+
+
+
+
+
+/*!
+CIS 2.2CZ1.0
+*/
+void MainWindow::radio1(bool stav)
+{
+    ui->radioButton_ON1->setChecked(stav);
+    ui->radioButton_OFF1->setChecked(!stav);
+}
+
+
+/*!
+DEVMGMT 1:0
+*/
+void MainWindow::radio2(bool stav)
+{
+    ui->radioButton_ON2->setChecked(stav);
+    ui->radioButton_OFF2->setChecked(!stav);
+}
+
+
+/*!
+ TicketValidationService 2.2CZ1.0
+*/
+
+void MainWindow::radio3(bool stav)
+{
+    ui->radioButton_ON3->setChecked(stav);
+    ui->radioButton_OFF3->setChecked(!stav);
+}
+
+
+/*!
+CIS 1.0
+*/
+
+void MainWindow::radio4(bool stav)
+{
+    ui->radioButton_ON4->setChecked(stav);
+    ui->radioButton_OFF4->setChecked(!stav);
+}
+
+
+/*!
+
+*/
+void MainWindow::toggleFullscreen()
+{
+    if (MainWindow::windowState()==Qt::WindowFullScreen )
+    {
+        MainWindow::setWindowState(Qt::WindowMaximized);
+    }
+    else
+    {
+        MainWindow::setWindowState(Qt::WindowFullScreen);
+    }
+}
+
+
+
+/*!
+
+*/
+void MainWindow::testPopulateTestPhases(QVector<PolozkaTestu> &seznamPolozek)
+{
+
+    qDebug() <<  Q_FUNC_INFO;
+    for(int i =0;i<seznamPolozek.size();i++)
+    {
+        qDebug()<<i<<" "<<seznamPolozek.at(i).nazev<<" "<<seznamPolozek.at(i).vysledek;
+    }
+
+    ui->tableWidgetCastiTestu->setRowCount(0);
+    qDebug()<<"smazano"<<" adresy.size="<<seznamPolozek.size();
+    if (seznamPolozek.size()==0)
+    {
+        qDebug()<<"vracim 0";
+        //return 0;
+    }
+    else
+    {
+        for (int i = 0;  i < seznamPolozek.count(); i++)
+        {
+            qint32 row;
+            QTableWidgetItem *cell;
+            row = ui->tableWidgetCastiTestu->rowCount();
+            ui->tableWidgetCastiTestu->insertRow(row);
+            cell = new QTableWidgetItem(seznamPolozek.at(i).nazev);
+            ui->tableWidgetCastiTestu->setItem(row, 0, cell);
+
+            cell = new QTableWidgetItem(seznamPolozek.at(i).prubeh);
+            ui->tableWidgetCastiTestu->setItem(row, 1, cell);
+
+            cell = new QTableWidgetItem(seznamPolozek.at(i).vysledek);
+            ui->tableWidgetCastiTestu->setItem(row, 2, cell);
+
+            ui->tableWidgetCastiTestu->resizeColumnsToContents();
+        }
+        qDebug()<<"vracim 1";
+        //return 1;
+    }
+}
+
+
+/*!
+
+*/
+void MainWindow::on_calendarWidget_selectionChanged()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    vehicleState.referenceDate=ui->calendarWidget_workingDate->selectedDate();
+    updataWorkingDate();
+}
+
+
+
+/*!
+
+*/
+void MainWindow::on_checkBox_connections_stateChanged(int arg1)
+{
+    qDebug()<<Q_FUNC_INFO;
+    vehicleState.showConnections= ui->checkBox_connections->isChecked();
+}
+
+
+
+void MainWindow::on_checkBox_stopRequested_clicked(bool checked)
+{
+    vehicleState.isVehicleStopRequested=checked;
+    xmlVdv301UpdateContent();
+}
+
+
+
+
+void MainWindow::on_listView_linky_clicked(const QModelIndex &index)
+{
+    qDebug()<<Q_FUNC_INFO;
+    vehicleState.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
+    qDebug()<<"cislo linky:"<<vehicleState.currentLine.c;
+
+
+
+    ui->polelinky->setText(QString::number(vehicleState.currentLine.c ));
+    modelConnection=sqlRopidQuerries.stahniSeznamSpojuModel2(vehicleState.currentLine, this->createDataValidityMask());
+    qDebug()<<"model size:"<<modelConnection->rowCount()<<" "<<modelConnection->columnCount();
+
+
+    modelDoTabulkySeradit(modelConnection,ui->tableView_connection);
+    ui->tableView_connection->hideColumn(5);
+    ui->tableView_connection->hideColumn(6);
+    ui->tableView_connection->hideColumn(7);
+
+
+
+
+}
+
+
+
+void MainWindow::on_listView_kmenovaLinka_clicked(const QModelIndex &index)
+{
+    qDebug()<<Q_FUNC_INFO;
+
+    vehicleState.currentVehicleRun.rootLine.c= index.data(Qt::DisplayRole).toString().toInt();
+
+    ui->poleLinkyTurnus->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c));
+
+    QSqlQueryModel* modelPoradi=sqlRopidQuerries.stahniSeznamPoradiModel(vehicleState.currentVehicleRun.rootLine, this->createDataValidityMask());
+
+    ui->listView_poradi->setModel(modelPoradi);
+    ui->listView_poradi->setModelColumn(modelPoradi->record().indexOf("o.p"));
+
+    ui->tableView_turnusSpoj->setModel(&emptyQSqlQueryModel);
+}
+
+void MainWindow::on_listView_poradi_clicked(const QModelIndex &index)
+{
+    qDebug()<<Q_FUNC_INFO;
+    vehicleState.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
+
+    if (ui->listView_poradi->model()->rowCount()!=0)
+    {
+        if(index.row()>=0)
+        {
+            vehicleState.currentVehicleRun.order=index.data(Qt::DisplayRole).toString().toInt();
+
+            /// zakomentovat?
+            if (sqlRopidQuerries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
+            {
+                qDebug()<<"pocetSpoju: "<<vehicleState.currentVehicleRun.tripList.count();
+            }
+            else
+            {
+                qDebug()<<"spoje nenalezeny";
+            }
+
+            QSqlQueryModel* modelTurnusSpoj=sqlRopidQuerries.stahniSeznamTurnusSpojuModel(vehicleState.currentVehicleRun, this->createDataValidityMask());
+            ui->tableView_turnusSpoj->setModel(modelTurnusSpoj);
+            ui->tableView_turnusSpoj->resizeColumnsToContents();
+        }
+    }
+}
+
+/*!
+
+*/
+void MainWindow::on_pushButton_nast_nactiXMLropid_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    //   emit signalZahajImport(xmlRopidImportStream.vstupniXmlSouborCesta);
+
+    eventExitService();
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
+
+
+    XmlImportJr *xmlImportJr =  new XmlImportJr();
+
+    xmlImportJr->truncateAll();
+
+    xmlImportJr->vstupniXmlSouborCesta=xmlFilePath;
+
+    connectyImport(xmlImportJr);
+
+
+    xmlImportJr->start();
+
+
+    //xmlRopidImportStream.otevriSoubor(xmlRopidImportStream.vstupniXmlSouborCesta);
+
+}
+/*!
+
+*/
+void MainWindow::on_pushButton_menu2_prubehTestu_clicked()
+{
+    ui->stackedWidget_testy->setCurrentIndex(0);
+}
+
+
+/*!
+*/
+void MainWindow::on_pushButton_startTest_clicked()
+{
+    testStart(testIndex);
+    //vzorovyTest.start();
+}
+
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_stopTest_clicked()
+{
+    testDemo.stop();
+}
+
+
+/*!
+
+*/
+//tlacitka pro spusteni testu
+void MainWindow::on_pushButton_test1_clicked()
+{
+    testIndex=0;
+    testPopulateWindow(testIndex);
+}
+
+
+/*!
+
+*/
+
+void MainWindow::on_pushButton_test2_clicked()
+{
+    testIndex=1;
+    testPopulateWindow(testIndex);
+}
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_test3_clicked()
+{
+    testIndex=2;
+    testPopulateWindow(testIndex);
+}
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_test4_clicked()
+{
+    testIndex=3;
+    testPopulateWindow(testIndex);
+}
+
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_menu2_sluzby_clicked()
+{
+    ui->stackedWidget_testy->setCurrentIndex(1);
+}
+
+
+/*!
+ * \brief popis
+ */
+void MainWindow::on_pushButton_nast_xmlVyberCestu_clicked()
+{
+    xmlFilePath=openXmlSelectDialogue(xmlFilePath);
+    if (xmlFilePath=="")
+    {
+        ui->pushButton_nast_nactiXMLropid->setDisabled(true);
+    }
+    else
+    {
+        ui->pushButton_nast_nactiXMLropid->setDisabled(false);
+
+    }
+    setXmlPathLabel();
+}
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_nast_dnes_clicked()
+{
+    workingDateToday();
+}
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_menu_linkospoj_clicked()
+{
+    eventExitService();
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_linkaspoj );
+
+}
+
+
+void MainWindow::on_pushButton_jizda_sipkaDalSkok_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()-1))
+    {
+        vehicleState.currentStopIndex0++;
+    }
+    else
+    {
+        this->eventGoToNextTrip();
+    }
+    ui->popisek->setText(QString::number(vehicleState.currentStopIndex0));
+    updateDriverDisplay();
+    xmlVdv301UpdateContent();
+}
+
+
+void MainWindow::on_pushButton_menu_oznameni_clicked()
+{
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_oznameni);
+
 }
 
 
@@ -1374,58 +1405,101 @@ void MainWindow::on_pushButton_manual_removeSubscriber_3_clicked()
 
 
 
-/*!
-
-*/
-void MainWindow::vypisDiagnostika(QString vstup)
-{
-    qDebug()<<" MainWindow::vypisDiagnostika "<<vstup;
-    ui->label_diagnostika_manual->clear();
-    ui->label_diagnostika_manual->setText(vstup);
-    ui->statusBar->showMessage(vstup);
-    logfile.pridejNaKonecSouboru(logFileQFile,QDateTime::currentDateTime().toString()+" "+ vstup);
-}
-
-
-
-/*!
-
-*/
-void MainWindow::slotVypisSqlVysledek(QString vstup)
-{
-    ui->label_diagnostika_sql->setText(vstup);
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_menu_turnus_clicked()
-{
-    eventExitService();
-    ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
-
-}
-
-/*!
-
-*/
-void MainWindow::on_pushButton_menu2_quit_clicked()
+void MainWindow::on_pushButton_refreshDetekce_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    this->on_pushButton_menu_quit_clicked();
+    devMgmtSubscriber.slotUpdateDeviceInfo();
+}
+
+
+void MainWindow::on_pushButton_ulozDetekce_clicked()
+{
+
+    qDebug() <<  Q_FUNC_INFO;
+
+    int i=0;
+    settings.beginWriteArray("hwConfig");
+    foreach(DevMgmtPublisherStruct zarizeni, devMgmtSubscriber.deviceListDetected)
+    {
+        // QJsonDocument json = QJsonDocument::fromVariant(zarizeni.toQMap() );
+        settings.setArrayIndex(i);
+        settings.setValue("deviceClass",zarizeni.deviceClass);
+        settings.setValue("deviceId",zarizeni.deviceId);
+        i++;
+    }
+    settings.endArray();
+
+}
+
+
+
+void MainWindow::on_pushButton_nactiDetekce_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    devMgmtSubscriber.deviceListConfigured.clear();
+
+
+    int size = settings.beginReadArray("hwConfig");
+    for (int j = 0; j < size; ++j) {
+        settings.setArrayIndex(j);
+        DevMgmtPublisherStruct zarizeni;
+        zarizeni.deviceId= settings.value("deviceId").toString();
+        zarizeni.deviceClass= settings.value("deviceClass").toString();
+        zarizeni.hwConfig=true;
+        devMgmtSubscriber.deviceListConfigured.append(zarizeni);
+        qDebug()<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
+    }
+    settings.endArray();
+
+    qDebug()<<"nacteno "<<QString::number(devMgmtSubscriber.deviceListConfigured.count())<<" zarizeni";
+    dumpServicesToTable(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
+}
+
+/*
+ Store
+QMap<QString, QVariant> storeMap;
+QMapIterator it(myMap);
+// iterate through the map to save the values in your chosen format
+while(it.hasNext())
+{
+    storeMap[it.key()] = QVariant(it.value());
+    it.next();
+}
+settings.setValue("myKey", storeMap);
+*/
+
+
+void MainWindow::on_pushButton_jizda_mapa_clicked()
+{
+    mapPlot.seznamMnozin.clear();
+    mapPlot.pridejMnozinu(MapaVykresleni::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),true,false,false,false,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(MapaVykresleni::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),false,false,false,true,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(sqlRopidQuerries.vytvorTrajektorii(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false, MnozinaBodu::J_STSK);
+
+    mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( vehicleState.currentTrip));
+
+}
+
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_menu_jizda_clicked()
+{
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_jizda );
+
 }
 
 
 /*!
 
 */
-void MainWindow::stopServices()
+void MainWindow::on_pushButton_manual_smazOkno_clicked()
 {
-    //customerInformationService1_0.
+    ui->plainTextEdit_CustomXml->clear();
 }
-
-
 
 
 /*!
@@ -1449,216 +1523,496 @@ void MainWindow::on_pushButton_menu2_fullscreen_clicked()
 
 
 /*!
-CIS 2.2CZ1.0
-*/
-void MainWindow::radio1(bool stav)
-{
-    ui->radioButton_ON1->setChecked(stav);
-    ui->radioButton_OFF1->setChecked(!stav);
-}
-
-
-/*!
-DEVMGMT 1:0
-*/
-void MainWindow::radio2(bool stav)
-{
-    ui->radioButton_ON2->setChecked(stav);
-    ui->radioButton_OFF2->setChecked(!stav);
-}
-
-
-/*!
- TicketValidationService 2.2CZ1.0
-*/
-
-void MainWindow::radio3(bool stav)
-{
-    ui->radioButton_ON3->setChecked(stav);
-    ui->radioButton_OFF3->setChecked(!stav);
-}
-
-
-/*!
-CIS 1.0
-*/
-
-void MainWindow::radio4(bool stav)
-{
-    ui->radioButton_ON4->setChecked(stav);
-    ui->radioButton_OFF4->setChecked(!stav);
-}
-
-
-/*!
 
 */
-void MainWindow::toggleFullscreen()
+void MainWindow::on_pushButton_manual_odesliXml_clicked()
 {
-    if (MainWindow::windowState()==Qt::WindowFullScreen )
-    {
-        MainWindow::setWindowState(Qt::WindowMaximized);
-    }
-    else
-    {
-        MainWindow::setWindowState(Qt::WindowFullScreen);
-    }
-}
-
-
-
-/*!
-
-*/
-void MainWindow::testPopulateTestPhases(QVector<PolozkaTestu> &seznamPolozek)
-{
-
     qDebug() <<  Q_FUNC_INFO;
-    for(int i =0;i<seznamPolozek.size();i++)
-    {
-        qDebug()<<i<<" "<<seznamPolozek.at(i).nazev<<" "<<seznamPolozek.at(i).vysledek;
-    }
+    QByteArray vysledek2="";
+    vysledek2=vysledek2+ui->plainTextEdit_CustomXml->toPlainText().toUtf8();
+    customerInformationService1_0.setBodyContent("AllData",vysledek2);
+    customerInformationService2_2CZ1_0.setBodyContent("AllData",vysledek2);
 
-    ui->tableWidgetCastiTestu->setRowCount(0);
-    qDebug()<<"smazano"<<" adresy.size="<<seznamPolozek.size();
-    if (seznamPolozek.size()==0)
+    for(int i=0;i<customerInformationService1_0.subscriberList.count();i++ )
     {
-        qDebug()<<"vracim 0";
-        //return 0;
+        customerInformationService1_0.postToSubscriber(customerInformationService1_0.subscriberList[i].address,vysledek2);
     }
-    else
+    for(int i=0;i<customerInformationService2_2CZ1_0.subscriberList.count();i++ )
     {
-        for (int i = 0;  i < seznamPolozek.count(); i++)
+        customerInformationService2_2CZ1_0.postToSubscriber(customerInformationService2_2CZ1_0.subscriberList[i].address,vysledek2);
+    }
+    qDebug()<<"\n MainWindow::xmlUpdate";
+}
+
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_jizda_sipkaZpetSkok_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    if (vehicleState.currentStopIndex0>=2)
+    {
+        vehicleState.currentStopIndex0--;
+    }
+    ui->popisek->setText(QString::number(vehicleState.currentStopIndex0));
+    updateDriverDisplay();
+    xmlVdv301UpdateContent();
+
+}
+
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_menu_quit_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    MainWindow::close();
+    QApplication::exit(0);
+    //QCoreApplication::exit(0);
+
+}
+
+
+/*!
+
+*/
+
+void MainWindow::on_pushButton_jizda_beforeStop_clicked()
+{
+
+    vehicleState.locationState="BeforeStop";
+    xmlVdv301UpdateContent();
+}
+
+/*!
+
+*/
+void MainWindow::on_pushButton_jizda_atStop_clicked()
+{
+
+    eventArrival();
+
+}
+
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_jizda_afterStop_clicked()
+{
+
+    vehicleState.locationState="AfterStop";
+    xmlVdv301UpdateContent();
+}
+
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_jizda_betweenStop_clicked()
+{
+
+    vehicleState.locationState="BetweenStop";
+    xmlVdv301UpdateContent();
+}
+
+
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_nast_truncate_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    XmlImportJr *xmlImportJr =  new XmlImportJr();
+
+    xmlImportJr->truncateAll();
+    xmlImportJr->vacuum();
+}
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_nast_odesliPrikaz_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    // ibisOvladani.dopocetCelni("l006");
+}
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_nast_nastavPort_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    ibisOvladani.globalniSeriovyPort=ui->lineEdit_jmenoPortu->text();
+    ibisOvladani.dopocetKontrolnihoZnaku("l006");
+    // ibisOvladani.dopocetKontrolnihoZnaku("aA1 ahoj");
+    // ibisOvladani.dopocetKontrolnihoZnaku("v povel v\\");
+    // ibisOvladani.dopocetKontrolnihoZnaku("zA povel zA");
+    // ibisOvladani.dopocetKontrolnihoZnaku("zN povel zN");
+    // ibisOvladani.dopocetKontrolnihoZnaku("xC2");
+}
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_jizda_IBIS_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    ibisOvladani.dopocetKontrolnihoZnaku("xC2");
+    ibisOvladani.odesliFrontKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odesliSideKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
+    ibisOvladani.odesliJKZKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odeslikompletBUSEjednoradekAA(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odesliRearKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+
+}
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_jizda_sipkaDal_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+
+    if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()))
+    {
+        if((vehicleState.locationState=="AtStop")&&((vehicleState.currentStopIndex0<(vehicleState.countCurrentTripStops()-1) )))
         {
-            qint32 row;
-            QTableWidgetItem *cell;
-            row = ui->tableWidgetCastiTestu->rowCount();
-            ui->tableWidgetCastiTestu->insertRow(row);
-            cell = new QTableWidgetItem(seznamPolozek.at(i).nazev);
-            ui->tableWidgetCastiTestu->setItem(row, 0, cell);
-
-            cell = new QTableWidgetItem(seznamPolozek.at(i).prubeh);
-            ui->tableWidgetCastiTestu->setItem(row, 1, cell);
-
-            cell = new QTableWidgetItem(seznamPolozek.at(i).vysledek);
-            ui->tableWidgetCastiTestu->setItem(row, 2, cell);
-
-            ui->tableWidgetCastiTestu->resizeColumnsToContents();
+            vehicleState.locationState="AfterStop";
+            vehicleState.currentStopIndex0++;
+            eventDeparture();
         }
-        qDebug()<<"vracim 1";
-        //return 1;
+        else
+        {
+            qDebug()<<"dalsi? index:"<<vehicleState.currentStopIndex0<<" pocetZastavek:"<<vehicleState.countCurrentTripStops();
+            if((vehicleState.locationState=="AtStop")&&((vehicleState.currentStopIndex0+1)==vehicleState.countCurrentTripStops()))
+            {
+                this->eventGoToNextTrip();
+            }
+
+
+            if(vehicleState.locationState=="BeforeStop")
+            {
+                vehicleState.locationState="AtStop";
+
+                eventArrival();
+            }
+
+            if(vehicleState.locationState=="BetweenStop")
+            {
+                vehicleState.locationState="BeforeStop";
+            }
+
+            if(vehicleState.locationState=="AfterStop")
+            {
+                vehicleState.locationState="BetweenStop";
+                eventAfterStopToBetweenStop();
+            }
+        }
     }
+
+
+    updateDriverDisplay();
+    vehicleState.doorState="AllDoorsClosed";
+    // ui->popisek->setText(QString::number(stavSystemu.currentStopIndex0+1));
+    xmlVdv301UpdateContent();
 }
 
-
-/*!
-
-*/
-void MainWindow::on_pushButton_menu2_prubehTestu_clicked()
-{
-    ui->stackedWidget_testy->setCurrentIndex(0);
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_startTest_clicked()
-{
-    testStart(testIndex);
-    //vzorovyTest.start();
-}
 
 
 
 /*!
 
 */
-void MainWindow::on_pushButton_stopTest_clicked()
+void MainWindow::on_pushButton_jizda_sipkaZpet_clicked()
 {
-    testDemo.stop();
-}
-
-
-/*!
-
-*/
-//tlacitka pro spusteni testu
-void MainWindow::on_pushButton_test1_clicked()
-{
-    testIndex=0;
-    testPopulateWindow(testIndex);
-}
-
-
-/*!
-
-*/
-
-void MainWindow::on_pushButton_test2_clicked()
-{
-    testIndex=1;
-    testPopulateWindow(testIndex);
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_test3_clicked()
-{
-    testIndex=2;
-    testPopulateWindow(testIndex);
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_test4_clicked()
-{
-    testIndex=3;
-    testPopulateWindow(testIndex);
-}
-
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_menu2_sluzby_clicked()
-{
-    ui->stackedWidget_testy->setCurrentIndex(1);
-}
-
-
-/*!
- * \brief popis
- */
-void MainWindow::on_pushButton_nast_xmlVyberCestu_clicked()
-{
-    xmlFilePath=openXmlSelectDialogue(xmlFilePath);
-    if (xmlFilePath=="")
+    qDebug() <<  Q_FUNC_INFO;
+    if (vehicleState.currentStopIndex0>=1)
     {
-        ui->pushButton_nast_nactiXMLropid->setDisabled(true);
-    }
-    else
-    {
-        ui->pushButton_nast_nactiXMLropid->setDisabled(false);
+        if(vehicleState.locationState=="AfterStop")
+        {
+            vehicleState.locationState="AtStop";
+            vehicleState.currentStopIndex0--;
+            eventArrival();
+        }
+        else
+        {
+            if(vehicleState.locationState=="BetweenStop")
+            {vehicleState.locationState="AfterStop";}
 
+            if(vehicleState.locationState=="BeforeStop")
+            {vehicleState.locationState="BetweenStop";}
+
+            if(vehicleState.locationState=="AtStop")
+            {vehicleState.locationState="BeforeStop";}
+        }
+        updateDriverDisplay();
     }
-    setXmlPathLabel();
+    ui->popisek->setText(QString::number(vehicleState.currentStopIndex0));
+    xmlVdv301UpdateContent();
+}
+
+
+
+
+void MainWindow::on_pushButton_menu2_rezerva_clicked()
+{
+
+}
+
+
+
+/*!
+
+*/
+int MainWindow::on_pushButton_prikaz_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    vehicleState.reset();
+    vehicleState.doorState="AllDoorsClosed";
+
+
+    /*
+     * odeslani spoje doplneneho na turnus
+*/
+
+    vehicleState.currentTrip.line.c =ui->polelinky->text().toInt();
+    vehicleState.currentTrip.idRopid=ui->polespoje->text().toInt();
+
+    int kmenovaLinka=0;;
+    int poradi=0;
+    int order=0;
+    sqlRopidQuerries.najdiTurnusZeSpoje( vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() );
+
+    vehicleState.currentStopIndex0=0;
+
+    ui->poleLinkyTurnus->setText(QString::number(kmenovaLinka));
+    vehicleState.currentVehicleRun.rootLine.c=kmenovaLinka;
+
+
+    /*
+    if (sqlPraceRopid.vytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
+    {
+        naplnVyberPoradi(seznamObehu);
+    }
+    */
+
+
+    vehicleState.currentVehicleRun.order=poradi ;
+    if (sqlRopidQuerries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
+    {
+        // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
+    }
+
+
+    Trip hledanySpoj=vehicleState.currentTrip;
+    vehicleState.currentTripIndex=sqlRopidQuerries.poziceSpojeNaSeznamu(vehicleState.currentVehicleRun.tripList,hledanySpoj);
+
+    if(! MainWindowPomocne::jeVRozsahu(vehicleState.currentTripIndex,vehicleState.currentVehicleRun.tripList.size(),Q_FUNC_INFO))
+    {
+        return 0;
+    }
+
+    vehicleState.currentTrip=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex);
+    ui->poleLinkyTurnus->setText(QString::number(vehicleState.currentTrip.line.c));
+    ui->poleSpojeTurnus->setText(QString::number(vehicleState.currentTrip.idRopid));
+    vehicleState.currentLine.lineNumber =ui->poleLinkyTurnus->text();
+
+    vehicleState.currentStopIndex0=0;
+
+    int vysledek=natahniSeznamSpojeKomplet();
+    if (vysledek==1)
+    {
+        eventEnterService();
+    }
+    return vysledek;
 }
 
 
 /*!
 
 */
-void MainWindow::on_pushButton_nast_dnes_clicked()
+int MainWindow::on_pushButton_turnus_prikaz_clicked()
 {
-    workingDateToday();
+    qDebug() <<  Q_FUNC_INFO;
+    vehicleState.doorState="AllDoorsClosed";
+    vehicleState.currentLine.lineNumber =ui->poleLinkyTurnus->text();
+
+    vehicleState.currentStopIndex0=0;
+
+    return natahniSeznamSpojeKomplet();
 }
 
+
+/*!
+
+*/
+void MainWindow::on_pushButton_menu_turnus_clicked()
+{
+    eventExitService();
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
+
+}
+
+/*!
+
+*/
+void MainWindow::on_pushButton_menu2_quit_clicked()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    this->on_pushButton_menu_quit_clicked();
+}
+
+void MainWindow::on_pushButton_setGolemioKey_clicked()
+{
+    settings.setValue("golemio/apikey",ui->lineEdit_golemioKey->text());
+    golemio.setKlic(settings.value("golemio/apiKey").toByteArray());
+}
+
+void MainWindow::on_radioButton_singleDoorOpen_clicked()
+{
+    vehicleState.doorState="SingleDoorOpen";
+    xmlVdv301UpdateContent();
+}
+
+
+void MainWindow::on_radioButton_allDoorsClosed_clicked()
+{
+    vehicleState.doorState="AllDoorsClosed";
+    xmlVdv301UpdateContent();
+}
+
+
+void MainWindow::on_radioButton_doorsOpen_clicked()
+{
+    vehicleState.doorState="DoorsOpen";
+    xmlVdv301UpdateContent();
+}
+
+
+void MainWindow::on_radioButton_singleDoorCloser_clicked()
+{
+    vehicleState.doorState="SingleDoorClosed";
+    xmlVdv301UpdateContent();
+}
+
+void MainWindow::on_radioButton_language_cs_clicked()
+{
+    retranslateUi("cs");
+    settings.setValue("app/language","cs");
+
+}
+
+
+void MainWindow::on_radioButton_language_en_clicked()
+{
+    retranslateUi("en");
+    settings.setValue("app/language","en");
+}
+
+
+
+
+
+
+void MainWindow::on_tableView_connection_clicked(const QModelIndex &index)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    Trip docasnySpoj;
+
+    if (ui->tableView_connection->model()->rowCount()>0)
+    {
+        if(index.isValid())
+        {
+            docasnySpoj.id=index.siblingAtColumn(modelConnection->record().indexOf("s.s")).data().toInt();
+            docasnySpoj.idRopid=index.siblingAtColumn(modelConnection->record().indexOf("s.c")).data().toInt();
+            docasnySpoj.line.lc=index.siblingAtColumn(modelConnection->record().indexOf("l.lc")).data().toInt();
+            docasnySpoj.line.c=index.siblingAtColumn(modelConnection->record().indexOf("l.c")).data().toInt();
+            QString alias=index.siblingAtColumn(modelConnection->record().indexOf("l.aois")).data().toString();
+            if(alias=="")
+            {
+                docasnySpoj.line.lineName=QString::number(docasnySpoj.line.c );
+            }
+            else
+            {
+                docasnySpoj.line.lineName=alias;
+            }
+
+
+
+            ui->polespoje->setText(QString::number(docasnySpoj.idRopid));
+
+            vehicleState.currentTrip=docasnySpoj;
+            int kmenovaLinka=0;
+            int poradi=0;
+            int order=0;
+
+
+            sqlRopidQuerries.najdiTurnusZeSpoje(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
+            qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
+
+        }
+    }
+
+    qDebug()<<"IDspoje:"<<docasnySpoj.id;
+}
+
+
+
+void MainWindow::on_tableView_turnusSpoj_clicked(const QModelIndex &index)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    if (index.model()->rowCount()!=0)
+    {
+        qDebug()<<"current item bum";
+
+        vehicleState.currentTrip.line.c=index.siblingAtColumn(0).data().toInt();
+        vehicleState.currentTrip.idRopid=index.siblingAtColumn(1).data().toInt();
+
+        vehicleState.currentTripIndex=vehicleState.currentVehicleRun.tripList.indexOf(vehicleState.currentTrip);
+        qDebug()<<"index spoje na obehu: "<<QString::number(vehicleState.currentTripIndex)<<" delkaSeznamu: "<<vehicleState.currentVehicleRun.tripList.count();
+        qDebug()<<"hodnota polozky"<<QString::number(vehicleState.currentTrip.line.c)<<" spoj:"<<QString::number(vehicleState.currentTrip.idRopid);
+
+        //NUTNE DOPLNIT
+
+        ui->poleLinkyTurnus->setText(QString::number(vehicleState.currentTrip.line.c));
+        ui->poleSpojeTurnus->setText(QString::number(vehicleState.currentTrip.idRopid));
+    }
+}
+
+void MainWindow::on_tableWidget_oznameni_cellClicked(int row, int column)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    eventShowAnnoucement(row,konfigurace.specialniHlaseni);
+}
+
+void MainWindow::on_tableWidgetNasledujiciZastavky_cellClicked(int row, int column)
+{
+    qDebug()<<"on_tableWidgetNasledujiciZastavky_cellClicked";
+    vehicleState.locationState="AtStop";
+    ui->pushButton_jizda_atStop->setChecked(true);
+    vehicleState.currentStopIndex0=row;
+    eventArrival();
+    updateDriverDisplay();
+    vehicleState.doorState="AllDoorsClosed";
+
+    xmlVdv301UpdateContent();
+}
 
 /*!
 
@@ -1684,15 +2038,6 @@ QString MainWindow::openXmlSelectDialogue(QString cesta)
 }
 
 
-/*!
-
-*/
-void MainWindow::on_calendarWidget_selectionChanged()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.referenceDate=ui->calendarWidget_workingDate->selectedDate();
-    updataWorkingDate();
-}
 
 
 
@@ -1835,18 +2180,6 @@ void MainWindow::dumpStopsToTable(int cisloporadi, QVector<StopPointDestination>
     }
 }
 
-void MainWindow::on_tableWidgetNasledujiciZastavky_cellClicked(int row, int column)
-{
-    qDebug()<<"on_tableWidgetNasledujiciZastavky_cellClicked";
-    vehicleState.locationState="AtStop";
-    ui->pushButton_jizda_atStop->setChecked(true);
-    vehicleState.currentStopIndex0=row;
-    eventArrival();
-    updateDriverDisplay();
-    vehicleState.doorState="AllDoorsClosed";
-
-    xmlVdv301UpdateContent();
-}
 
 
 /*!
@@ -2018,46 +2351,6 @@ void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* ta
     qDebug()<<"pocet vysledku: "<<QString::number(pocet);
     //existujeLastError(model);
 }
-/*!
-
-*/
-void MainWindow::on_pushButton_menu_linkospoj_clicked()
-{
-    eventExitService();
-    ui->stackedWidget_palPc->setCurrentWidget(ui->page_linkaspoj );
-
-}
-
-
-void MainWindow::on_pushButton_jizda_sipkaDalSkok_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()-1))
-    {
-        vehicleState.currentStopIndex0++;
-    }
-    else
-    {
-        this->eventGoToNextTrip();
-    }
-    ui->popisek->setText(QString::number(vehicleState.currentStopIndex0));
-    updateDriverDisplay();
-    xmlVdv301UpdateContent();
-}
-
-
-void MainWindow::on_pushButton_menu_oznameni_clicked()
-{
-    ui->stackedWidget_palPc->setCurrentWidget(ui->page_oznameni);
-
-}
-
-
-void MainWindow::on_tableWidget_oznameni_cellClicked(int row, int column)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    eventShowAnnoucement(row,konfigurace.specialniHlaseni);
-}
 
 
 void MainWindow::evenSpecialAnnouncementHide()
@@ -2067,32 +2360,6 @@ void MainWindow::evenSpecialAnnouncementHide()
     xmlVdv301UpdateContent();
 }
 
-void MainWindow::on_radioButton_singleDoorOpen_clicked()
-{
-    vehicleState.doorState="SingleDoorOpen";
-    xmlVdv301UpdateContent();
-}
-
-
-void MainWindow::on_radioButton_allDoorsClosed_clicked()
-{
-    vehicleState.doorState="AllDoorsClosed";
-    xmlVdv301UpdateContent();
-}
-
-
-void MainWindow::on_radioButton_doorsOpen_clicked()
-{
-    vehicleState.doorState="DoorsOpen";
-    xmlVdv301UpdateContent();
-}
-
-
-void MainWindow::on_radioButton_singleDoorCloser_clicked()
-{
-    vehicleState.doorState="SingleDoorClosed";
-    xmlVdv301UpdateContent();
-}
 
 void MainWindow::slotServiceTableUpdate()
 {
@@ -2245,172 +2512,8 @@ QString MainWindow::nahradZnacky(QString vstup)
 }
 
 
-void MainWindow::on_listView_linky_clicked(const QModelIndex &index)
-{
-    qDebug()<<Q_FUNC_INFO;
-    vehicleState.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
-    qDebug()<<"cislo linky:"<<vehicleState.currentLine.c;
 
 
-
-    ui->polelinky->setText(QString::number(vehicleState.currentLine.c ));
-    modelConnection=sqlRopidQuerries.stahniSeznamSpojuModel2(vehicleState.currentLine, this->createDataValidityMask());
-    qDebug()<<"model size:"<<modelConnection->rowCount()<<" "<<modelConnection->columnCount();
-
-
-    modelDoTabulkySeradit(modelConnection,ui->tableView_connection);
-    ui->tableView_connection->hideColumn(5);
-    ui->tableView_connection->hideColumn(6);
-    ui->tableView_connection->hideColumn(7);
-
-
-
-
-}
-
-
-
-void MainWindow::on_listView_kmenovaLinka_clicked(const QModelIndex &index)
-{
-    qDebug()<<Q_FUNC_INFO;
-
-    vehicleState.currentVehicleRun.rootLine.c= index.data(Qt::DisplayRole).toString().toInt();
-
-    ui->poleLinkyTurnus->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c));
-
-    QSqlQueryModel* modelPoradi=sqlRopidQuerries.stahniSeznamPoradiModel(vehicleState.currentVehicleRun.rootLine, this->createDataValidityMask());
-
-    ui->listView_poradi->setModel(modelPoradi);
-    ui->listView_poradi->setModelColumn(modelPoradi->record().indexOf("o.p"));
-
-    ui->tableView_turnusSpoj->setModel(&emptyQSqlQueryModel);
-}
-
-void MainWindow::on_listView_poradi_clicked(const QModelIndex &index)
-{
-    qDebug()<<Q_FUNC_INFO;
-    vehicleState.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
-
-    if (ui->listView_poradi->model()->rowCount()!=0)
-    {
-        if(index.row()>=0)
-        {
-            vehicleState.currentVehicleRun.order=index.data(Qt::DisplayRole).toString().toInt();
-
-            /// zakomentovat?
-            if (sqlRopidQuerries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
-            {
-                qDebug()<<"pocetSpoju: "<<vehicleState.currentVehicleRun.tripList.count();
-            }
-            else
-            {
-                qDebug()<<"spoje nenalezeny";
-            }
-
-            QSqlQueryModel* modelTurnusSpoj=sqlRopidQuerries.stahniSeznamTurnusSpojuModel(vehicleState.currentVehicleRun, this->createDataValidityMask());
-            ui->tableView_turnusSpoj->setModel(modelTurnusSpoj);
-            ui->tableView_turnusSpoj->resizeColumnsToContents();
-        }
-    }
-}
-
-void MainWindow::on_tableView_turnusSpoj_clicked(const QModelIndex &index)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if (index.model()->rowCount()!=0)
-    {
-        qDebug()<<"current item bum";
-
-        vehicleState.currentTrip.line.c=index.siblingAtColumn(0).data().toInt();
-        vehicleState.currentTrip.idRopid=index.siblingAtColumn(1).data().toInt();
-
-        vehicleState.currentTripIndex=vehicleState.currentVehicleRun.tripList.indexOf(vehicleState.currentTrip);
-        qDebug()<<"index spoje na obehu: "<<QString::number(vehicleState.currentTripIndex)<<" delkaSeznamu: "<<vehicleState.currentVehicleRun.tripList.count();
-        qDebug()<<"hodnota polozky"<<QString::number(vehicleState.currentTrip.line.c)<<" spoj:"<<QString::number(vehicleState.currentTrip.idRopid);
-
-        //NUTNE DOPLNIT
-
-        ui->poleLinkyTurnus->setText(QString::number(vehicleState.currentTrip.line.c));
-        ui->poleSpojeTurnus->setText(QString::number(vehicleState.currentTrip.idRopid));
-    }
-}
-
-
-void MainWindow::on_pushButton_refreshDetekce_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    devMgmtSubscriber.slotUpdateDeviceInfo();
-}
-
-
-void MainWindow::on_pushButton_ulozDetekce_clicked()
-{
-
-    qDebug() <<  Q_FUNC_INFO;
-
-    int i=0;
-    settings.beginWriteArray("hwConfig");
-    foreach(DevMgmtPublisherStruct zarizeni, devMgmtSubscriber.deviceListDetected)
-    {
-        // QJsonDocument json = QJsonDocument::fromVariant(zarizeni.toQMap() );
-        settings.setArrayIndex(i);
-        settings.setValue("deviceClass",zarizeni.deviceClass);
-        settings.setValue("deviceId",zarizeni.deviceId);
-        i++;
-    }
-    settings.endArray();
-
-}
-
-
-
-void MainWindow::on_pushButton_nactiDetekce_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-
-    devMgmtSubscriber.deviceListConfigured.clear();
-
-
-    int size = settings.beginReadArray("hwConfig");
-    for (int j = 0; j < size; ++j) {
-        settings.setArrayIndex(j);
-        DevMgmtPublisherStruct zarizeni;
-        zarizeni.deviceId= settings.value("deviceId").toString();
-        zarizeni.deviceClass= settings.value("deviceClass").toString();
-        zarizeni.hwConfig=true;
-        devMgmtSubscriber.deviceListConfigured.append(zarizeni);
-        qDebug()<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
-    }
-    settings.endArray();
-
-    qDebug()<<"nacteno "<<QString::number(devMgmtSubscriber.deviceListConfigured.count())<<" zarizeni";
-    dumpServicesToTable(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
-}
-
-/*
- Store
-QMap<QString, QVariant> storeMap;
-QMapIterator it(myMap);
-// iterate through the map to save the values in your chosen format
-while(it.hasNext())
-{
-    storeMap[it.key()] = QVariant(it.value());
-    it.next();
-}
-settings.setValue("myKey", storeMap);
-*/
-
-
-void MainWindow::on_pushButton_jizda_mapa_clicked()
-{
-    mapPlot.seznamMnozin.clear();
-    mapPlot.pridejMnozinu(MapaVykresleni::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),true,false,false,false,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(MapaVykresleni::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),false,false,false,true,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(sqlRopidQuerries.vytvorTrajektorii(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false, MnozinaBodu::J_STSK);
-
-    mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( vehicleState.currentTrip));
-
-}
 
 QString MainWindow::textVerze()
 {
@@ -2423,83 +2526,6 @@ QString MainWindow::textVerze()
 
 
 
-void MainWindow::on_checkBox_stopRequested_clicked(bool checked)
-{
-    vehicleState.isVehicleStopRequested=checked;
-    xmlVdv301UpdateContent();
-}
 
 
-
-
-
-void MainWindow::on_pushButton_menu2_rezerva_clicked()
-{
-
-}
-
-
-void MainWindow::on_tableView_connection_clicked(const QModelIndex &index)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    Trip docasnySpoj;
-
-    if (ui->tableView_connection->model()->rowCount()>0)
-    {
-        if(index.isValid())
-        {
-            docasnySpoj.id=index.siblingAtColumn(modelConnection->record().indexOf("s.s")).data().toInt();
-            docasnySpoj.idRopid=index.siblingAtColumn(modelConnection->record().indexOf("s.c")).data().toInt();
-            docasnySpoj.line.lc=index.siblingAtColumn(modelConnection->record().indexOf("l.lc")).data().toInt();
-            docasnySpoj.line.c=index.siblingAtColumn(modelConnection->record().indexOf("l.c")).data().toInt();
-            QString alias=index.siblingAtColumn(modelConnection->record().indexOf("l.aois")).data().toString();
-            if(alias=="")
-            {
-                docasnySpoj.line.lineName=QString::number(docasnySpoj.line.c );
-            }
-            else
-            {
-                docasnySpoj.line.lineName=alias;
-            }
-
-
-
-            ui->polespoje->setText(QString::number(docasnySpoj.idRopid));
-
-            vehicleState.currentTrip=docasnySpoj;
-            int kmenovaLinka=0;
-            int poradi=0;
-            int order=0;
-
-
-            sqlRopidQuerries.najdiTurnusZeSpoje(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
-            qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
-
-        }
-    }
-
-    qDebug()<<"IDspoje:"<<docasnySpoj.id;
-}
-
-
-void MainWindow::on_radioButton_language_cs_clicked()
-{
-    retranslateUi("cs");
-    settings.setValue("app/language","cs");
-
-}
-
-
-void MainWindow::on_radioButton_language_en_clicked()
-{
-    retranslateUi("en");
-    settings.setValue("app/language","en");
-}
-
-
-void MainWindow::on_pushButton_setGolemioKey_clicked()
-{
-    settings.setValue("golemio/apikey",ui->lineEdit_golemioKey->text());
-    golemio.setKlic(settings.value("golemio/apiKey").toByteArray());
-}
 

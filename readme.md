@@ -73,6 +73,9 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20240208_1959
+        - MainWindow
+                - functions reorder
 - 20240208_1900
         - MainWindow
                 - most of functions and variable names translated to English
