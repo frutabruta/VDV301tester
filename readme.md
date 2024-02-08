@@ -73,10 +73,17 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20240208_1553
+        - VDV301DataStructures
+                - Vdv301Trip added
+        - VDV301publisher
+                - currentDisplayContent 2.3 fix
+
 - 20240204_1145
         - nastaveni.ini renamed to settings.ini
         - folders renamed to English
         - show device status in device detection
+        - new approach for showing LED displays in 2.3 version (using DisplayContent)
 
         - VDV301publisher
                 - 2.3 out of service fix
@@ -86,6 +93,25 @@ mingw32-make install
                 - vehicleState submode default value fix
         - MainWindow
                 - build number now does not get lost in English translation
+                - new functions
+                        - MainWindow::retranslateUi (prepar)
+                        - MainWindow::ledLabelInitialize2_3
+
+        - LabelVykreslovani
+                - new functions 
+                        - LabelVykreslovani::ledDisplaySetDisplayContent
+                        - LabelVykreslovani::ledWriteToDisplay
+                - new class
+                        - LedLabelDisplay
+        - XmlParser
+                - new function
+                        - XmlParser::parseAllData2_3
+                        - XmlParser::domTripInformationToVdv301Trip
+                        - XmlParser::domStopListToVdv301TripStopList
+                        - XmlParser::tripDoSeznamuZastavek2_3
+
+
+
 
 - 20240123
         - SqlRopidXmlDotazy

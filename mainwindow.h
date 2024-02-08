@@ -20,6 +20,7 @@
 //#include "VDV301DataStructures/line.h"
 #include "VDV301DataStructures/vehiclestate.h"
 #include "VDV301DataStructures/stoppointdestination.h"
+#include "VDV301DataStructures/vdv301displaycontent.h"
 
 //#include "VDV301publisher/httpservice.h"
 #include "VDV301publisher/customerinformationservice.h"
@@ -46,9 +47,6 @@
 #include "logfile.h"
 #include "mainwindowpomocne.h"
 #include "MapaVykresleni/mapavykresleni.h"
-
-
-
 
 namespace Ui {
 class MainWindow;
@@ -105,6 +103,8 @@ private:
     QString cestaXml="";
     QDate platnostOd;
     QDate platnostDo;
+
+
 
     //modely
 
