@@ -1,5 +1,5 @@
-#ifndef HLASIC_H
-#define HLASIC_H
+#ifndef VOICEANNOUNCER_H
+#define VOICEANNOUNCER_H
 
 #include <QObject>
 #include <QWidget>
@@ -22,11 +22,11 @@
 
 
 
-class Hlasic: public QObject
+class VoiceAnnouncer: public QObject
 {
     Q_OBJECT
 public:
-    Hlasic();
+    VoiceAnnouncer();
 
 
 
@@ -111,4 +111,4 @@ private:
 
 };
 
-#endif // HLASIC_H
+#endif // VOICEANNOUNCER_H

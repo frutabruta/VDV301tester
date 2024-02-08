@@ -37,12 +37,12 @@
 #include "VDV301testy/testodberuserver.h"
 #include "VDV301testy/testdemo.h"
 
-#include "sqlropidxmldotazy.h"
+#include "sqlropidxmlqueries.h"
 #include "xmlmpvparser.h"
 #include "golemio.h"
 #include "XmlRopidImportStream/xmlimportjr.h"
 #include "ibisovladani.h"
-#include "hlasic.h"
+#include "voiceannouncer.h"
 #include "konfigurace.h"
 #include "logfile.h"
 #include "mainwindowpomocne.h"
@@ -61,22 +61,26 @@ public:
     ~MainWindow();
 
     //konstanty
-    QString umisteniProgramu=QCoreApplication::applicationDirPath();
+    QString applicationDirectory=QCoreApplication::applicationDirPath();
 
     void popUpMessage(QString messageText);
 private:
 
+    void allConnects();
+    void loadConstantsFromSettingsFile();
+
+
     //konstanty
-    bool filtrovatPrestupy=true;
-    bool pouzitGolemio=true;
+    bool filterConnections=true;
+    bool useGolemioApi=true;
     //ve vterinach
 
     //datove struktury
-    VehicleState stavSystemu;
+    VehicleState vehicleState;
 
 
     //SQLprace mojesql;
-    SqlRopidXmlDotazy sqlPraceRopid;
+    SqlRopidXmlQueries sqlRopidQuerries;
 
     //instance knihoven
     Konfigurace konfigurace;
@@ -86,45 +90,47 @@ private:
     Golemio golemio;
     //  XmlRopidImportStream xmlRopidImportStream;
     IbisOvladani ibisOvladani;
-    Hlasic hlasic;
+    VoiceAnnouncer voiceAnnouncer;
     Logfile logfile;
-    QFile souborLogu;
-    MapaVykresleni mapaVykresleni;
+    QFile logFileQFile;
+    MapaVykresleni mapPlot;
 
     //VDV301testy
-    TestDemo vzorovyTest;
-    TestOdberuServer testOdberuServer;
+    TestDemo testDemo;
+    TestOdberuServer testSubscribeServer;
     int testIndex=0;
 
     void testStart(int index);
     void testStop(int index);
 
     //promenne
-    QString cestaXml="";
-    QDate platnostOd;
-    QDate platnostDo;
+    QString xmlFilePath="";
+    QDate validityFrom;
+    QDate validityTo;
 
 
 
     //modely
 
-    QSqlQueryModel *modelSpoje2;
-    QSqlQueryModel prazdnyModel;
+    QSqlQueryModel *modelConnection;
+    QSqlQueryModel emptyQSqlQueryModel;
     QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
 
     //udalosti
 
-    int eventPrijezd();
-    int eventOdjezd();
-    void eventZmenaTarifnihoPasma();
+    int eventArrival();
+    int eventDeparture();
+    void eventFareZoneChange();
     void eventAfterStopToBetweenStop();
-    void eventOpusteniVydeje();
-    void eventVstupDoVydeje();
-    void eventPoznamkaRidici(QString poznamka);
+    void eventExitService();
+    void eventEnterService();
+    void eventAnnouncementToDriver(QString poznamka);
+    void eventGoToNextTrip();
+    void eventShowAnnoucement(int index, QVector<AdditionalAnnoucement> seznamHlaseni);
 
-    void vsechnyConnecty();
-    void testNaplnOkno(int index);
-    void xmlVdv301HromadnyUpdate();
+
+    void testPopulateWindow(int index);
+
 
     //IBIS-IP sluzby
     DeviceManagementService deviceManagementService1_0;
@@ -138,77 +144,81 @@ private:
 
     //IBIS-IP subscriber
     DevMgmtSubscriber2 devMgmtSubscriber;
-    // IbisIpSubscriber deviceManagementServiceSubscriber;
 
 
 
-    //vyberove dialogy
-    void vymazSeznam(QListWidget *vstup);
+    //selection dialogues
+    void truncateQListWidget(QListWidget *vstup);
 
-    //prace s XML
-    QString otevriSouborXmlDialog(QString cesta);
-    void nastavLabelCestyXml();
-    void aktualizacePracovnihoData();
+    //XML management
+    QString openXmlSelectDialogue(QString cesta);
+    void setXmlPathLabel();
+    void updataWorkingDate();
+    void workingDateToday();
+    void workingDateFirstDateOfDataValidity();
+    void updateCalendar();
+    QString createDataValidityMask();
 
-    //prace s oknem
+    void connectyImport(XmlImportJr *xmlImportJr);
+
+    //windows tools
     Ui::MainWindow *ui;
-    void aktualizaceDispleje();
+    void updateDriverDisplay();
     void toggleFullscreen();
 
     //void replyFinished(QNetworkReply *);
-    void inicializaceVyberovychPoli();
+    void initializeSelectionListView();
 
 
     //VDV301
 
-    void vypisSubscribery1_0(QVector<Subscriber> adresy);
-    void vypisSubscribery2_2CZ(QVector<Subscriber> adresy);
-    void vypisSubscriberyDoTabulky(QVector<Subscriber> adresy, QTableWidget *tabulka);
-    void nastartujVsechnyVdv301Sluzby();
-    void zastavSluzby(); //neimplementovano
+    void dumpSubscribers1_0(QVector<Subscriber> adresy);
+    void dumpSubscribers2_2CZ(QVector<Subscriber> adresy);
+    void dumpSubscribers2_3(QVector<Subscriber> adresy);
+    void dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget *tabulka);
+    void startAllVdv301Services();
+    void stopServices(); //not implemented
+    void startServiceFromList(QVector<CustomerInformationService *> &seznamSluzeb);
+    void xmlVdv301UpdateContent();
+    void xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState mStavSystemu);
 
-    //kalendar jizd
-    void pracovniDatumDnes();
-    void pracovniDatumPrvniDenDat();
-    void aktualizaceKalendare();
-    QString vyrobMaskuKalendareJizd();
+    void dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceListDetected, QVector<DevMgmtPublisherStruct> serviceListConfigured);
+    void serviceToTable(DevMgmtPublisherStruct selectedDevice);
+    void truncateSubscriberTable(QTableWidget *tableWidget);
 
-    void vypisZastavkyTabulka(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, QString locationState);
-    void dalsiSpoj();
+
+
+    void dumpStopsToTable(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, QString locationState);
+
     int natahniSeznamSpojeKomplet();
+    void resetTripList();
+    void updateVehicleLocationDisplay(QString stav);
+
 
     //timery
-    QTimer timerTrvaniZmenyPasma; //po pvyprseni casovace zmizi zmena pasma
-    // QTimer *timerAfterStopToBetweenStop = new QTimer(this);
+    QTimer timerFareZoneChangeDuration; //fare  change announcement vanishes after timeout
     QTimer timerAfterStopToBetweenStop;
-    QTimer timerStahniPrestupy;
-    QTimer timerSpecialniOznameniSmazat;
+    QTimer timerDownloadConnections;
+    QTimer timerSpecialAnnoucementHide;
 
 
-    void resetSeznamuSpoju();
-    void eventZobrazOznameni(int index, QVector<AdditionalAnnoucement> seznamHlaseni);
-    void vykresliStav(QString stav);
-    void vykresliSluzbyDoTabulky(QVector<DevMgmtPublisherStruct> seznamSluzebDetekce, QVector<DevMgmtPublisherStruct> seznamSluzebKonfigurace);
-    void sluzbaDoTabulky(DevMgmtPublisherStruct zarizeni);
-    void vymazTabulkuSubscriberu(QTableWidget *tableWidget);
 
     QString nahradZnacky(QString vstup);
 
-    void natahniKonstanty();
 
-    void cisAktualizaceObsahu(QVector<Connection> prestupy, VehicleState mStavSystemu);
-    void nastartujSluzbuZeZasobniku(QVector<CustomerInformationService *> &seznamSluzeb);
+
+
     QString textVerze();
-    void connectyImport(XmlImportJr *xmlImportJr);
 
 
-    void vypisSubscribery2_3(QVector<Subscriber> adresy);
+
+
     void modelDoTabulkySeradit(QSqlQueryModel* modelInput, QTableView* tableView);
     void retranslateUi(QString language);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
-    void testyVykresliCasti(QVector<PolozkaTestu> &seznamPolozek);
-    void slotAktualizacePracData();
+
+    void slotAktualizacePracData(); //unused
 private slots:
     //tlacitka
 
@@ -226,10 +236,10 @@ private slots:
     void on_pushButton_menu2_fullscreen_clicked();
     void on_pushButton_menu2_sluzby_clicked();
     void on_pushButton_menu2_prubehTestu_clicked();
+    void on_pushButton_menu2_rezerva_clicked();
 
     //tlacitka Linka/spoj
     int on_pushButton_prikaz_clicked();
-
     void on_checkBox_connections_stateChanged(int arg1); //zapnuti MPV prestupu
 
 
@@ -253,12 +263,14 @@ private slots:
     void on_pushButton_jizda_betweenStop_clicked();
 
     void on_tableWidgetNasledujiciZastavky_cellClicked(int row, int column);
+       void on_pushButton_jizda_mapa_clicked();
 
     //checkboxy jizda
     void on_radioButton_singleDoorOpen_clicked();
     void on_radioButton_allDoorsClosed_clicked();
     void on_radioButton_doorsOpen_clicked();
-    void on_radioButton_singleDoorCloser_clicked();
+    void on_radioButton_singleDoorCloser_clicked();    
+    void on_checkBox_stopRequested_clicked(bool checked);
 
     //tlacitka Test
 
@@ -272,26 +284,22 @@ private slots:
 
     //tlacitka Nast.
     void on_calendarWidget_selectionChanged();
-
     void on_pushButton_nast_dnes_clicked();
-
     void on_pushButton_nast_truncate_clicked();
     void on_pushButton_nast_xmlVyberCestu_clicked();
     void on_pushButton_nast_nactiXMLropid_clicked();
-
     void on_pushButton_nast_nastavPort_clicked();
     void on_pushButton_nast_odesliPrikaz_clicked();
 
     //tlacitka Manual
     void on_pushButton_manual_addsubscriber_clicked();
     void on_pushButton_manual_removeSubscriber_clicked();
-
     void on_pushButton_manual_addsubscriber_2_clicked();
     void on_pushButton_manual_removeSubscriber_2_clicked();
-
     void on_pushButton_manual_smazOkno_clicked();
-
     void on_pushButton_manual_odesliXml_clicked();
+    void on_pushButton_manual_addsubscriber_3_clicked();
+    void on_pushButton_manual_removeSubscriber_3_clicked();
 
     //radio buttons
     void radio1(bool stav);
@@ -304,59 +312,49 @@ private slots:
     void vypisDiagnostika(QString vstup);
 
     //eventy zobrazeni na periferiích
-    void eventZmenaTarifnihoSystemu();
-    void eventSkryjZmenuTarifnihoPasma();
-    void eventSkryjZmenuTarifnihoSystemu();
+    void eventFareSystemChangeShow();
+    void eventFareSystemChangeHide();
+    void eventFareZoneChangeHide();
+    void evenSpecialAnnouncementHide();
 
-    //nezarazeno
-    void slotStahniPrestupyAktZastavky();
+    //VDV301
+    void slotVdv301ServiceStartResult(QString nastartovanaSluzba);
 
-    void on_tableWidget_oznameni_cellClicked(int row, int column);
-    void slotVymazatSpecialniOznameni();
-    void slotAktualizaceTabulkySluzeb();
-
-    void slotImportDokoncen();
-    void slotImportDeaktivujTlacitka();
-    void slotImportAktivujTlacitka();
-    void slotNastavProgress(int hodnota);
-    void slotNastavProgressMax(int hodnota);
-
-    void on_listView_linky_clicked(const QModelIndex &index);
-
-    void on_listView_kmenovaLinka_clicked(const QModelIndex &index);
-    void on_listView_poradi_clicked(const QModelIndex &index);
-
-    void on_tableView_turnusSpoj_clicked(const QModelIndex &index);
+    //connections
+    void slotDownloadConnectionsFromCurrentStop();
     void slotGolemioReady();
 
-    void on_pushButton_refreshDetekce_clicked();
-
-    void on_pushButton_ulozDetekce_clicked();
-
-    void on_pushButton_nactiDetekce_clicked();
-
-    void on_pushButton_jizda_mapa_clicked();
-
-    void slotSluzbaVratilaVysledekStartu(QString nastartovanaSluzba);
-
-
-    void on_checkBox_stopRequested_clicked(bool checked);
-
-    void on_pushButton_manual_addsubscriber_3_clicked();
-
-    void on_pushButton_manual_removeSubscriber_3_clicked();
-
-    void on_pushButton_menu2_rezerva_clicked();
-
-    void on_tableView_connection_clicked(const QModelIndex &index);
-
-
-
+    //settings screen
+    void on_pushButton_setGolemioKey_clicked();
     void on_radioButton_language_cs_clicked();
-
     void on_radioButton_language_en_clicked();
 
-    void on_pushButton_setGolemioKey_clicked();
+    //XML import
+    void slotImportFinished();
+    void slotImportDeaktivujTlacitka();
+    void slotImportAktivujTlacitka();
+    void slotSetProgress(int hodnota);
+    void slotSetProgressMax(int hodnota);
+
+    //device management service detection
+    void on_pushButton_ulozDetekce_clicked();
+    void on_pushButton_nactiDetekce_clicked();
+    void on_pushButton_refreshDetekce_clicked();
+
+    //selection lists
+    void on_listView_linky_clicked(const QModelIndex &index);
+    void on_listView_kmenovaLinka_clicked(const QModelIndex &index);
+    void on_listView_poradi_clicked(const QModelIndex &index);
+    void on_tableView_turnusSpoj_clicked(const QModelIndex &index);
+    void on_tableView_connection_clicked(const QModelIndex &index);
+
+    //test
+    void testPopulateTestPhases(QVector<PolozkaTestu> &seznamPolozek); //unused
+
+    //misc
+    void on_tableWidget_oznameni_cellClicked(int row, int column);
+    void slotServiceTableUpdate();
+
 
 signals:
     void signalZahajImport(QString cesta);

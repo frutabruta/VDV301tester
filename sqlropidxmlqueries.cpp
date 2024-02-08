@@ -1,10 +1,10 @@
-#include "sqlropidxmldotazy.h"
+#include "sqlropidxmlqueries.h"
 
 
 
 
 
-SqlRopidXmlDotazy::SqlRopidXmlDotazy()
+SqlRopidXmlQueries::SqlRopidXmlQueries()
 {
     this->otevriDB();
 }
@@ -24,7 +24,7 @@ SqlRopidXmlDotazy::SqlRopidXmlDotazy()
 /*!
 
 */
-int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , int indexSpoje, QString kj)
+int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , int indexSpoje, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
     qDebug()<<"delka seznamu spoju: "<<seznamSpoju.length()<<" indexSpoje:"<<indexSpoje<<" kj:"<<kj;
@@ -219,7 +219,7 @@ int SqlRopidXmlDotazy::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , i
     return 1;
 }
 
-QString SqlRopidXmlDotazy::stahniSeznamSpolecnaCastDotazu()
+QString SqlRopidXmlQueries::stahniSeznamSpolecnaCastDotazu()
 {
     qDebug()<< Q_FUNC_INFO;
     /*
@@ -262,7 +262,7 @@ dbManager->query.exec();
 /*!
 
 */
-void SqlRopidXmlDotazy::vypisPole(QVector<StopPointDestination> docasnySeznamZastavek, int &pocetZastavek)
+void SqlRopidXmlQueries::vypisPole(QVector<StopPointDestination> docasnySeznamZastavek, int &pocetZastavek)
 {
     qDebug()<< Q_FUNC_INFO;
     for (int i=0;i<pocetZastavek;i++)
@@ -273,7 +273,7 @@ void SqlRopidXmlDotazy::vypisPole(QVector<StopPointDestination> docasnySeznamZas
 
 
 
-QString SqlRopidXmlDotazy::pasmaDoStringu(QVector<FareZone> pasma, QString delimiter)
+QString SqlRopidXmlQueries::pasmaDoStringu(QVector<FareZone> pasma, QString delimiter)
 {
     QString vysledek="";
 
@@ -291,7 +291,7 @@ QString SqlRopidXmlDotazy::pasmaDoStringu(QVector<FareZone> pasma, QString delim
 }
 
 
-QVector<QString> SqlRopidXmlDotazy::stahniPoznamky(int idSpoje, int xorder)
+QVector<QString> SqlRopidXmlQueries::stahniPoznamky(int idSpoje, int xorder)
 {
     qDebug()<< Q_FUNC_INFO;
     //this->otevriDB();
@@ -330,7 +330,7 @@ QVector<QString> SqlRopidXmlDotazy::stahniPoznamky(int idSpoje, int xorder)
     return seznamPoznamek;
 }
 
-int SqlRopidXmlDotazy::najdiTurnusZeSpoje(Trip spoj, int &kmenovaLinka, int &poradi, int &order, QString kj)
+int SqlRopidXmlQueries::najdiTurnusZeSpoje(Trip spoj, int &kmenovaLinka, int &poradi, int &order, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
     // docasnySeznamSpoju.clear();
@@ -382,7 +382,7 @@ int SqlRopidXmlDotazy::najdiTurnusZeSpoje(Trip spoj, int &kmenovaLinka, int &por
 /*!
 
 */
-int SqlRopidXmlDotazy::vytvorSeznamTurnusSpoju(VehicleRun &docasnyObeh, QString kj)
+int SqlRopidXmlQueries::vytvorSeznamTurnusSpoju(VehicleRun &docasnyObeh, QString kj)
 {
     //QVector<Spoj> &docasnySeznamSpoju,
     qDebug()<< Q_FUNC_INFO;
@@ -448,7 +448,7 @@ int SqlRopidXmlDotazy::vytvorSeznamTurnusSpoju(VehicleRun &docasnyObeh, QString 
 }
 
 
-int SqlRopidXmlDotazy::poziceSpojeNaSeznamu(QVector<Trip> seznamSpoju, Trip spoj)
+int SqlRopidXmlQueries::poziceSpojeNaSeznamu(QVector<Trip> seznamSpoju, Trip spoj)
 {
     qDebug()<< Q_FUNC_INFO;
     qDebug()<<"delka seznamu spoju: "<<seznamSpoju.count();
@@ -467,7 +467,7 @@ int SqlRopidXmlDotazy::poziceSpojeNaSeznamu(QVector<Trip> seznamSpoju, Trip spoj
 /*!
 
 */
-int SqlRopidXmlDotazy::nactiPlatnost(QDate &platnostOd, QDate &platnostDo)
+int SqlRopidXmlQueries::nactiPlatnost(QDate &platnostOd, QDate &platnostDo)
 {
 
 
@@ -508,7 +508,7 @@ int SqlRopidXmlDotazy::nactiPlatnost(QDate &platnostOd, QDate &platnostDo)
 /*!
 
 */
-QString SqlRopidXmlDotazy::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti)
+QString SqlRopidXmlQueries::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti)
 {
     QString vysledek="";
 
@@ -533,7 +533,7 @@ QString SqlRopidXmlDotazy::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlat
 }
 
 
-QVector<FareZone> SqlRopidXmlDotazy::vyrobPasmaMezikraj(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc,  QString cids,QString tl)
+QVector<FareZone> SqlRopidXmlQueries::vyrobPasmaMezikraj(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc,  QString cids,QString tl)
 {
     qDebug()<<Q_FUNC_INFO;
     QVector<FareZone> vystup;
@@ -552,7 +552,7 @@ QVector<FareZone> SqlRopidXmlDotazy::vyrobPasmaMezikraj(QVector<QString> tp, QVe
     return vystup;
 }
 
-QVector<FareZone> SqlRopidXmlDotazy::pasmoStringDoVectoru(QString vstup,QString system,QString tl)
+QVector<FareZone> SqlRopidXmlQueries::pasmoStringDoVectoru(QString vstup,QString system,QString tl)
 {
     QStringList stringPasma = vstup.split(',');
     QVector<FareZone> seznamPasem;
@@ -587,7 +587,7 @@ QVector<FareZone> SqlRopidXmlDotazy::pasmoStringDoVectoru(QString vstup,QString 
 
 ///////////////////////// model view approach
 
-QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamLinekModel(QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamLinekModel(QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -606,7 +606,7 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamLinekModel(QString kj)
     return model;
 }
 
-QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamKmenovychLinekModel(QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamKmenovychLinekModel(QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -629,7 +629,7 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamKmenovychLinekModel(QString kj)
     return model;
 }
 
-QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamSpojuModel(Line docasnaLinka, QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamSpojuModel(Line docasnaLinka, QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -650,7 +650,7 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamSpojuModel(Line docasnaLinka, QSt
 }
 
 
-QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamPoradiModel(Line docasnaLinka, QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamPoradiModel(Line docasnaLinka, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
 
@@ -679,7 +679,7 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamPoradiModel(Line docasnaLinka, QS
 /*!
 
 */
-QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamTurnusSpojuModel(VehicleRun &docasnyObeh, QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamTurnusSpojuModel(VehicleRun &docasnyObeh, QString kj)
 {
     //QVector<Spoj> &docasnySeznamSpoju,
     qDebug()<< Q_FUNC_INFO;
@@ -715,7 +715,7 @@ QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamTurnusSpojuModel(VehicleRun &doca
 //mapa
 
 
-QVector<MapaBod> SqlRopidXmlDotazy::vytvorTrajektorii(int cisloSpoje, QString kj)
+QVector<MapaBod> SqlRopidXmlQueries::vytvorTrajektorii(int cisloSpoje, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
     //QVector<Spoj> &docasnySeznamSpoju,
@@ -791,7 +791,7 @@ QVector<MapaBod> SqlRopidXmlDotazy::vytvorTrajektorii(int cisloSpoje, QString kj
     return vystup;
 }
 
-double SqlRopidXmlDotazy::absolutniHodnota(double vstup)
+double SqlRopidXmlQueries::absolutniHodnota(double vstup)
 {
     if (vstup<0)
     {
@@ -802,7 +802,7 @@ double SqlRopidXmlDotazy::absolutniHodnota(double vstup)
 
 
 
-QSqlQueryModel* SqlRopidXmlDotazy::stahniSeznamSpojuModel2(Line docasnaLinka, QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamSpojuModel2(Line docasnaLinka, QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 

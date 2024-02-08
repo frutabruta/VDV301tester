@@ -73,6 +73,14 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20240208_1900
+        - MainWindow
+                - most of functions and variable names translated to English
+        - SqlRopidXmlDotazy
+                - renamed to SqlRopidXmlQueries
+        - Hlasic
+                - renamed to VoiceAnnouncer
+
 - 20240208_1553
         - VDV301DataStructures
                 - Vdv301Trip added

@@ -83,7 +83,6 @@ SOURCES += \
     XmlRopidImportStream/xmlimportjr.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
     golemio.cpp \
-    hlasic.cpp \
     ibisovladani.cpp \
     konfigurace.cpp \
     logfile.cpp \
@@ -95,7 +94,8 @@ SOURCES += \
     MapaVykresleni/mapavykresleni.cpp \
     MapaVykresleni/mnozinabodu.cpp \
     sqldotazymodel.cpp \
-    sqlropidxmldotazy.cpp \
+    sqlropidxmlqueries.cpp \
+    voiceannouncer.cpp \
     xmlmpvparser.cpp
 
 HEADERS += \
@@ -137,7 +137,6 @@ HEADERS += \
     XmlRopidImportStream/xmlropidimportstream.h \
     XmlRopidImportStream/sqlitezaklad.h \
     golemio.h \
-    hlasic.h \
     ibisovladani.h \
     konfigurace.h \
     logfile.h \
@@ -147,7 +146,8 @@ HEADERS += \
     MapaVykresleni/mapavykresleni.h \
     MapaVykresleni/mnozinabodu.h \
     sqldotazymodel.h \
-    sqlropidxmldotazy.h \
+    sqlropidxmlqueries.h \
+    voiceannouncer.h \
     xmlmpvparser.h
 
 FORMS += \

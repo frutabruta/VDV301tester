@@ -2501,7 +2501,7 @@ Stop</string>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_14">
                   <item>
-                   <widget class="QDateEdit" name="dateEdit">
+                   <widget class="QDateEdit" name="dateEdit_workingDate">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -2534,7 +2534,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QCalendarWidget" name="calendarWidget">
+                   <widget class="QCalendarWidget" name="calendarWidget_workingDate">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>

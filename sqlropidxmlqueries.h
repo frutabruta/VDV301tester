@@ -1,5 +1,5 @@
-#ifndef SQLROPIDXMLDOTAZY_H
-#define SQLROPIDXMLDOTAZY_H
+#ifndef SQLROPIDXMLQUERIES_H
+#define SQLROPIDXMLQUERIES_H
 
 #include <QMainWindow>
 
@@ -17,12 +17,12 @@
 #include "MapaVykresleni/mnozinabodu.h"
 #include "MapaVykresleni/mapavykresleni.h"
 
-class SqlRopidXmlDotazy: public  SqLiteZaklad
+class SqlRopidXmlQueries: public  SqLiteZaklad
 {
     Q_OBJECT
 public:
-
-    SqlRopidXmlDotazy();
+    
+    SqlRopidXmlQueries();
 
     int stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju, int indexSpoje, QString kj);
     QString stahniSeznamSpolecnaCastDotazu();
@@ -55,4 +55,4 @@ private:
     QVector<FareZone> vyrobPasmaMezikraj(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc, QString cids, QString tl);
 };
 
-#endif // SQLROPIDXMLDOTAZY_H
+#endif // SQLROPIDXMLQUERIES_H

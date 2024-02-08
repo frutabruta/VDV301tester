@@ -1,8 +1,8 @@
-#include "hlasic.h"
+#include "voiceannouncer.h"
 #include <QBuffer>
 
 
-Hlasic::Hlasic()
+VoiceAnnouncer::VoiceAnnouncer()
 {
 
     this->aktualizujCestyZvuku(cesta);
@@ -14,7 +14,7 @@ Hlasic::Hlasic()
 
 #else
     //qt6
-    connect(player,&QMediaPlayer::playbackStateChanged,this,&Hlasic::zmenaStavuHlaseniQt6);
+    connect(player,&QMediaPlayer::playbackStateChanged,this,&VoiceAnnouncer::zmenaStavuHlaseniQt6);
     player->setAudioOutput(audioOutput);
     audioOutput->setVolume(50);
 
@@ -22,7 +22,7 @@ Hlasic::Hlasic()
 #endif
 }
 
-bool Hlasic::souborExistuje(QString path)
+bool VoiceAnnouncer::souborExistuje(QString path)
 {
     qDebug() <<  Q_FUNC_INFO;
     QFileInfo check_file(path); //zdroj:: https://stackoverflow.com/questions/10273816/how-to-check-whether-file-exists-in-qt-in-c
@@ -37,7 +37,7 @@ bool Hlasic::souborExistuje(QString path)
 }
 
 
-QUrl Hlasic::najdiCestuZastavka(int kodOis, int kodCis)
+QUrl VoiceAnnouncer::najdiCestuZastavka(int kodOis, int kodCis)
 {
     qDebug() <<  Q_FUNC_INFO;
     QString slozka=cesta+"/zastavky/";
@@ -70,7 +70,7 @@ QUrl Hlasic::najdiCestuZastavka(int kodOis, int kodCis)
 }
 
 
-QUrl Hlasic::najdiCestuSpecial(QString nazevSouboru)
+QUrl VoiceAnnouncer::najdiCestuSpecial(QString nazevSouboru)
 {
     qDebug() <<  Q_FUNC_INFO;
     QString slozka=cesta+"/special/";
@@ -93,7 +93,7 @@ QUrl Hlasic::najdiCestuSpecial(QString nazevSouboru)
 
 
 
-bool Hlasic::kompletZastavka(StopPoint zastavka1, StopPoint zastavka2)
+bool VoiceAnnouncer::kompletZastavka(StopPoint zastavka1, StopPoint zastavka2)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -117,7 +117,7 @@ bool Hlasic::kompletZastavka(StopPoint zastavka1, StopPoint zastavka2)
     return 1;
 }
 
-bool Hlasic::kompletOdjezdPrvniZastavka(StopPoint zastavka2)
+bool VoiceAnnouncer::kompletOdjezdPrvniZastavka(StopPoint zastavka2)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -138,7 +138,7 @@ bool Hlasic::kompletOdjezdPrvniZastavka(StopPoint zastavka2)
     return 1;
 }
 
-QVector<QUrl> Hlasic::priznakyDoSeznamu(StopPoint vstup)
+QVector<QUrl> VoiceAnnouncer::priznakyDoSeznamu(StopPoint vstup)
 {
     QVector<QUrl> vystup;
     if(vstup.onRequest)
@@ -221,7 +221,7 @@ QVector<QUrl> Hlasic::priznakyDoSeznamu(StopPoint vstup)
 
 
 
-void Hlasic::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
+void VoiceAnnouncer::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
 {
     qDebug() <<  Q_FUNC_INFO;
     if (frontaZvuku.isEmpty())
@@ -240,7 +240,7 @@ void Hlasic::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
 
 
 
-void Hlasic::kompletZmenaTarifnihoPasma()
+void VoiceAnnouncer::kompletZmenaTarifnihoPasma()
 {
     qDebug() <<  Q_FUNC_INFO;
     QVector<QUrl> kratkaFronta;
@@ -254,7 +254,7 @@ void Hlasic::kompletZmenaTarifnihoPasma()
 }
 
 
-bool Hlasic::kompletSpecialniHlaseni(AdditionalAnnoucement specialniHlaseni)
+bool VoiceAnnouncer::kompletSpecialniHlaseni(AdditionalAnnoucement specialniHlaseni)
 {
     qDebug() <<  Q_FUNC_INFO <<" segmentu:"<<QString::number(specialniHlaseni.mp3.count());
     QVector<QUrl> seznamAdres;
@@ -279,7 +279,7 @@ bool Hlasic::kompletSpecialniHlaseni(AdditionalAnnoucement specialniHlaseni)
 }
 
 
-bool Hlasic::kompletKonecna(StopPoint vstup)
+bool VoiceAnnouncer::kompletKonecna(StopPoint vstup)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -300,13 +300,13 @@ bool Hlasic::kompletKonecna(StopPoint vstup)
 
 
 
-void Hlasic::nastavCestu(QString vstup)
+void VoiceAnnouncer::nastavCestu(QString vstup)
 {
     qDebug() <<  Q_FUNC_INFO;
     cesta=vstup;
     aktualizujCestyZvuku(cesta);
 }
-void Hlasic::aktualizujCestyZvuku(QString cestaVnitrni)
+void VoiceAnnouncer::aktualizujCestyZvuku(QString cestaVnitrni)
 {
     qDebug() <<  Q_FUNC_INFO;
     zvukPristiZastavka=QUrl::fromLocalFile(cestaVnitrni+"/special/H001.mp3");
@@ -345,7 +345,7 @@ void Hlasic::aktualizujCestyZvuku(QString cestaVnitrni)
 }
 
 
-void Hlasic::zmenUmisteniProgramu(QString umisteni)
+void VoiceAnnouncer::zmenUmisteniProgramu(QString umisteni)
 {
     qDebug() <<  Q_FUNC_INFO;
     cestaProgramu=umisteni;
@@ -398,13 +398,13 @@ void Hlasic::zmenaStavuHlaseni(QMediaPlayer::State state)
 
 #else
 //Qt6
-void Hlasic::zmenaStavuHlaseniQt6(QMediaPlayer::PlaybackState state)
+void VoiceAnnouncer::zmenaStavuHlaseniQt6(QMediaPlayer::PlaybackState state)
 {
     qDebug() <<  Q_FUNC_INFO <<state;
     vyhodPolozkuZeSeznamuQt6(frontaZvuku);
 }
 
-void Hlasic::vyhodPolozkuZeSeznamuQt6(QVector<QUrl> &zasobnikAdres)
+void VoiceAnnouncer::vyhodPolozkuZeSeznamuQt6(QVector<QUrl> &zasobnikAdres)
 {
     qDebug() <<  Q_FUNC_INFO;
     if(!zasobnikAdres.isEmpty()&&(player->playbackState()==QMediaPlayer::StoppedState) )
@@ -416,7 +416,7 @@ void Hlasic::vyhodPolozkuZeSeznamuQt6(QVector<QUrl> &zasobnikAdres)
     }
 }
 
-void Hlasic::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
+void VoiceAnnouncer::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
 {
     qDebug() <<  Q_FUNC_INFO;
     if(!zasobnikAdres.isEmpty())
@@ -425,7 +425,7 @@ void Hlasic::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
     }
 }
 
-void Hlasic::prehrajJedenZvuk(QUrl soubor2)
+void VoiceAnnouncer::prehrajJedenZvuk(QUrl soubor2)
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
 
