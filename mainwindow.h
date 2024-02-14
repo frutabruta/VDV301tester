@@ -101,7 +101,7 @@ private:
     int testIndex=0;
 
     void testStart(int index);
-    void testStop(int index);
+    void testStop(int index); //unused
 
     //promenne
     QString xmlFilePath="";
@@ -148,7 +148,7 @@ private:
 
 
     //selection dialogues
-    void truncateQListWidget(QListWidget *vstup);
+    void truncateQListWidget(QListWidget *vstup); //unused
 
     //XML management
     QString openXmlSelectDialogue(QString cesta);
@@ -189,8 +189,8 @@ private:
 
 
     void dumpStopsToTable(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, QString locationState);
-
-    int natahniSeznamSpojeKomplet();
+    
+    int initializeTheTrip();
     void resetTripList();
     void updateVehicleLocationDisplay(QString stav);
 
@@ -201,20 +201,13 @@ private:
     QTimer timerDownloadConnections;
     QTimer timerSpecialAnnoucementHide;
 
-
-
-    QString nahradZnacky(QString vstup);
-
-
-
+    QString replaceDriverAnnouncementFormatting(QString input);
 
     QString textVerze();
 
-
-
-
     void modelDoTabulkySeradit(QSqlQueryModel* modelInput, QTableView* tableView);
     void retranslateUi(QString language);
+
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
@@ -223,11 +216,11 @@ private slots:
     //tlacitka
 
     //tlacitka Menu
-
-    void on_pushButton_menu_turnus_clicked();
-    void on_pushButton_menu_linkospoj_clicked();
-    void on_pushButton_menu_jizda_clicked();
-    void on_pushButton_menu_oznameni_clicked();
+    
+    void on_pushButton_menu_vehicleRun_clicked();
+    void on_pushButton_menu_lineTrip_clicked();
+    void on_pushButton_menu_ride_clicked();
+    void on_pushButton_menu_specialAnnouncement_clicked();
     void on_pushButton_menu_fullscreen_clicked();
     void on_pushButton_menu_quit_clicked();
 
@@ -239,38 +232,37 @@ private slots:
     void on_pushButton_menu2_rezerva_clicked();
 
     //tlacitka Linka/spoj
-    int on_pushButton_prikaz_clicked();
-    void on_checkBox_connections_stateChanged(int arg1); //zapnuti MPV prestupu
+    int on_pushButton_lineTrip_confirm_clicked();
+    void on_checkBox_configuration_enableConnections_stateChanged(int arg1); //zapnuti MPV prestupu
 
 
     //tlacitka Turnus
-    int on_pushButton_turnus_prikaz_clicked();
+    int on_pushButton_lineRun_confirm_clicked();
 
 
 
     //tlacitka jizda
-    void on_pushButton_jizda_sipkaDal_clicked();
-    void on_pushButton_jizda_sipkaZpet_clicked();
+    void on_pushButton_ride_arrowNextState_clicked();
+    void on_pushButton_ride_arrowNextStateSkip_clicked();
+    void on_pushButton_ride_arrowPreviousState_clicked();
+    void on_pushButton_ride_arrowPreviousStateSkip_clicked();
+    
+    void on_pushButton_ride_beforeStop_clicked();
+    void on_pushButton_ride_atStop_clicked();
+    void on_pushButton_ride_afterStop_clicked();
+    void on_pushButton_ride_betweenStop_clicked();    
 
-    void on_pushButton_jizda_sipkaDalSkok_clicked();
-    void on_pushButton_jizda_sipkaZpetSkok_clicked();
+    void on_pushButton_ride_map_clicked();
+    void on_pushButton_ride_IBIS_clicked();
 
-    void on_pushButton_jizda_IBIS_clicked();
-
-    void on_pushButton_jizda_beforeStop_clicked();
-    void on_pushButton_jizda_atStop_clicked();
-    void on_pushButton_jizda_afterStop_clicked();
-    void on_pushButton_jizda_betweenStop_clicked();
-
-    void on_tableWidgetNasledujiciZastavky_cellClicked(int row, int column);
-       void on_pushButton_jizda_mapa_clicked();
+    void on_tableWidget_ride_stopList_cellClicked(int row, int column);
 
     //checkboxy jizda
-    void on_radioButton_singleDoorOpen_clicked();
-    void on_radioButton_allDoorsClosed_clicked();
-    void on_radioButton_doorsOpen_clicked();
-    void on_radioButton_singleDoorCloser_clicked();    
-    void on_checkBox_stopRequested_clicked(bool checked);
+    void on_radioButton_ride_singleDoorOpen_clicked();
+    void on_radioButton_ride_allDoorsClosed_clicked();
+    void on_radioButton_ride_doorsOpen_clicked();
+    void on_radioButton_ride_singleDoorCloser_clicked();
+    void on_checkBox_ride_stopRequested_clicked(bool checked);
 
     //tlacitka Test
 
@@ -283,21 +275,24 @@ private slots:
 
 
     //tlacitka Nast.
-    void on_calendarWidget_selectionChanged();
-    void on_pushButton_nast_dnes_clicked();
-    void on_pushButton_nast_truncate_clicked();
-    void on_pushButton_nast_xmlVyberCestu_clicked();
-    void on_pushButton_nast_nactiXMLropid_clicked();
-    void on_pushButton_nast_nastavPort_clicked();
-    void on_pushButton_nast_odesliPrikaz_clicked();
+    void on_calendarWidget_data_workingDate_selectionChanged();
+    void on_pushButton_data_today_clicked();
+    void on_pushButton_data_truncate_clicked();
+    void on_pushButton_data_selectXmlPath_clicked();
+    void on_pushButton_data_startXmlRopidImport_clicked();
+
+    //configuration buttons
+    void on_pushButton_configuration_IbisSetPort_clicked();
+    void on_pushButton_configuration_IbisSendTest_clicked();
+    void on_pushButton_configuration_setGolemioKey_clicked();
 
     //tlacitka Manual
     void on_pushButton_manual_addsubscriber_clicked();
     void on_pushButton_manual_removeSubscriber_clicked();
     void on_pushButton_manual_addsubscriber_2_clicked();
     void on_pushButton_manual_removeSubscriber_2_clicked();
-    void on_pushButton_manual_smazOkno_clicked();
-    void on_pushButton_manual_odesliXml_clicked();
+    void on_pushButton_manual_truncateCustomXml_clicked();
+    void on_pushButton_manual_sendCustomXml_clicked();
     void on_pushButton_manual_addsubscriber_3_clicked();
     void on_pushButton_manual_removeSubscriber_3_clicked();
 
@@ -325,9 +320,9 @@ private slots:
     void slotGolemioReady();
 
     //settings screen
-    void on_pushButton_setGolemioKey_clicked();
-    void on_radioButton_language_cs_clicked();
-    void on_radioButton_language_en_clicked();
+
+    void on_radioButton_configuration_language_cs_clicked();
+    void on_radioButton_configuration_language_en_clicked();
 
     //XML import
     void slotImportFinished();
@@ -337,27 +332,28 @@ private slots:
     void slotSetProgressMax(int hodnota);
 
     //device management service detection
-    void on_pushButton_ulozDetekce_clicked();
-    void on_pushButton_nactiDetekce_clicked();
-    void on_pushButton_refreshDetekce_clicked();
+    void on_pushButton_detection_saveHwConfig_clicked();
+    void on_pushButton_detection_loadHwConfig_clicked();
+    void on_pushButton_detection_refresh_clicked();
 
     //selection lists
-    void on_listView_linky_clicked(const QModelIndex &index);
-    void on_listView_kmenovaLinka_clicked(const QModelIndex &index);
-    void on_listView_poradi_clicked(const QModelIndex &index);
-    void on_tableView_turnusSpoj_clicked(const QModelIndex &index);
-    void on_tableView_connection_clicked(const QModelIndex &index);
+    void on_listView_line_clicked(const QModelIndex &index);
+    void on_listView_rootLine_clicked(const QModelIndex &index);
+    void on_listView_lineRun_clicked(const QModelIndex &index);
+    void on_tableView_lineTrip_clicked(const QModelIndex &index);
+    void on_tableView_trip_clicked(const QModelIndex &index);
 
     //test
     void testPopulateTestPhases(QVector<PolozkaTestu> &seznamPolozek); //unused
 
     //misc
-    void on_tableWidget_oznameni_cellClicked(int row, int column);
+    void on_tableWidget_specialAnnouncements_cellClicked(int row, int column);
     void slotServiceTableUpdate();
 
 
+
 signals:
-    void signalZahajImport(QString cesta);
+         // void signalZahajImport(QString cesta);
 };
 
 #endif // MAINWINDOW_H

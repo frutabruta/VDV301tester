@@ -73,6 +73,10 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20240214_1029
+        - rename of mainwindow.ui elements to English
+                - applies to slot names
+
 - 20240208_1959
         - MainWindow
                 - functions reorder

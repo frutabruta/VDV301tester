@@ -83,7 +83,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -122,7 +122,7 @@
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
             <item>
-             <widget class="QPushButton" name="pushButton_menu_linkospoj">
+             <widget class="QPushButton" name="pushButton_menu_lineTrip">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -162,7 +162,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_menu_turnus">
+             <widget class="QPushButton" name="pushButton_menu_vehicleRun">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -201,7 +201,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_menu_jizda">
+             <widget class="QPushButton" name="pushButton_menu_ride">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -237,7 +237,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_menu_oznameni">
+             <widget class="QPushButton" name="pushButton_menu_specialAnnouncement">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -809,7 +809,7 @@ padding: 0 px;</string>
             <property name="currentIndex">
              <number>1</number>
             </property>
-            <widget class="QWidget" name="page_jizda">
+            <widget class="QWidget" name="page_ride">
              <layout class="QGridLayout" name="gridLayout_3">
               <item row="2" column="0">
                <layout class="QHBoxLayout" name="displej_hor_layout">
@@ -818,7 +818,7 @@ padding: 0 px;</string>
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_8">
                     <item>
-                     <widget class="QLabel" name="label_aktLinka">
+                     <widget class="QLabel" name="label_ride_currentLineNumber">
                       <property name="font">
                        <font>
                         <pointsize>15</pointsize>
@@ -830,7 +830,7 @@ padding: 0 px;</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLabel" name="label_aktSpoj">
+                     <widget class="QLabel" name="label_ride_currentTripNumber">
                       <property name="font">
                        <font>
                         <pointsize>15</pointsize>
@@ -844,7 +844,7 @@ padding: 0 px;</string>
                    </layout>
                   </item>
                   <item>
-                   <widget class="QTableWidget" name="tableWidgetNasledujiciZastavky">
+                   <widget class="QTableWidget" name="tableWidget_ride_stopList">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -904,7 +904,7 @@ padding: 0 px;</string>
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_18">
                     <item>
-                     <widget class="QRadioButton" name="radioButton_singleDoorOpen">
+                     <widget class="QRadioButton" name="radioButton_ride_singleDoorOpen">
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
@@ -916,7 +916,7 @@ padding: 0 px;</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QRadioButton" name="radioButton_allDoorsClosed">
+                     <widget class="QRadioButton" name="radioButton_ride_allDoorsClosed">
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
@@ -928,7 +928,7 @@ padding: 0 px;</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QRadioButton" name="radioButton_doorsOpen">
+                     <widget class="QRadioButton" name="radioButton_ride_doorsOpen">
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
@@ -940,7 +940,7 @@ padding: 0 px;</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QRadioButton" name="radioButton_singleDoorCloser">
+                     <widget class="QRadioButton" name="radioButton_ride_singleDoorCloser">
                       <property name="font">
                        <font>
                         <pointsize>12</pointsize>
@@ -952,7 +952,7 @@ padding: 0 px;</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="checkBox_stopRequested">
+                     <widget class="QCheckBox" name="checkBox_ride_stopRequested">
                       <property name="text">
                        <string>STOP</string>
                       </property>
@@ -963,12 +963,12 @@ padding: 0 px;</string>
                  </layout>
                 </item>
                 <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_sipky">
+                 <layout class="QVBoxLayout" name="verticalLayout_ride_arrows">
                   <property name="sizeConstraint">
                    <enum>QLayout::SetDefaultConstraint</enum>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_sipkaZpetSkok">
+                   <widget class="QPushButton" name="pushButton_ride_arrowPreviousStateSkip">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
                       <horstretch>0</horstretch>
@@ -993,7 +993,7 @@ padding: 0 px;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_sipkaZpet">
+                   <widget class="QPushButton" name="pushButton_ride_arrowPreviousState">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1017,7 +1017,7 @@ padding: 0 px;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_sipkaDal">
+                   <widget class="QPushButton" name="pushButton_ride_arrowNextState">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1047,7 +1047,7 @@ padding: 0 px;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_sipkaDalSkok">
+                   <widget class="QPushButton" name="pushButton_ride_arrowNextStateSkip">
                     <property name="enabled">
                      <bool>true</bool>
                     </property>
@@ -1075,7 +1075,7 @@ padding: 0 px;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="popisek">
+                   <widget class="QLabel" name="label_ride_stopIndex">
                     <property name="font">
                      <font>
                       <pointsize>24</pointsize>
@@ -1100,7 +1100,7 @@ padding: 0 px;</string>
                    <enum>QLayout::SetNoConstraint</enum>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_beforeStop">
+                   <widget class="QPushButton" name="pushButton_ride_beforeStop">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1125,7 +1125,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_atStop">
+                   <widget class="QPushButton" name="pushButton_ride_atStop">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1153,7 +1153,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_afterStop">
+                   <widget class="QPushButton" name="pushButton_ride_afterStop">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1178,7 +1178,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_jizda_betweenStop">
+                   <widget class="QPushButton" name="pushButton_ride_betweenStop">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1203,7 +1203,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="locationStateIndicator">
+                   <widget class="QLabel" name="label_ride_locationStateIndicator">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1218,7 +1218,7 @@ Stop</string>
                   <item>
                    <layout class="QHBoxLayout" name="horizontalLayout_3">
                     <item>
-                     <widget class="QPushButton" name="pushButton_jizda_IBIS">
+                     <widget class="QPushButton" name="pushButton_ride_IBIS">
                       <property name="font">
                        <font>
                         <pointsize>20</pointsize>
@@ -1230,7 +1230,7 @@ Stop</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="pushButton_jizda_mapa">
+                     <widget class="QPushButton" name="pushButton_ride_map">
                       <property name="font">
                        <font>
                         <pointsize>20</pointsize>
@@ -1249,14 +1249,14 @@ Stop</string>
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="page_linkaspoj">
+            <widget class="QWidget" name="page_lineTrip">
              <layout class="QGridLayout" name="gridLayout_2">
               <item row="1" column="0" colspan="2">
                <layout class="QVBoxLayout" name="verticalLayout_7">
                 <item>
                  <layout class="QFormLayout" name="formLayout">
                   <item row="0" column="1">
-                   <widget class="QLineEdit" name="polelinky">
+                   <widget class="QLineEdit" name="lineEdit_lineNumber">
                     <property name="palette">
                      <palette>
                       <active>
@@ -1713,7 +1713,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <widget class="QLineEdit" name="polespoje">
+                   <widget class="QLineEdit" name="lineEdit_tripNumber">
                     <property name="font">
                      <font>
                       <pointsize>20</pointsize>
@@ -1725,7 +1725,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QLabel" name="label_2">
+                   <widget class="QLabel" name="label_tripName">
                     <property name="text">
                      <string>Spoj</string>
                     </property>
@@ -1753,7 +1753,7 @@ Stop</string>
                     </property>
                     <layout class="QVBoxLayout" name="verticalLayout_2">
                      <item>
-                      <widget class="QListView" name="listView_linky">
+                      <widget class="QListView" name="listView_line">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
                          <horstretch>0</horstretch>
@@ -1782,7 +1782,7 @@ Stop</string>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_4">
                    <item>
-                    <widget class="QTableView" name="tableView_connection">
+                    <widget class="QTableView" name="tableView_trip">
                      <property name="selectionMode">
                       <enum>QAbstractItemView::SingleSelection</enum>
                      </property>
@@ -1800,7 +1800,7 @@ Stop</string>
                </layout>
               </item>
               <item row="4" column="0">
-               <widget class="QPushButton" name="pushButton_prikaz">
+               <widget class="QPushButton" name="pushButton_lineTrip_confirm">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -1824,16 +1824,13 @@ Stop</string>
               <item row="0" column="1" rowspan="3">
                <layout class="QHBoxLayout" name="horizontalLayout_12">
                 <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_17"/>
-                </item>
-                <item>
                  <widget class="QGroupBox" name="groupBox_3">
                   <property name="title">
                    <string>Kmenová linka</string>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_6">
                    <item>
-                    <widget class="QListView" name="listView_kmenovaLinka">
+                    <widget class="QListView" name="listView_rootLine">
                      <property name="font">
                       <font>
                        <pointsize>20</pointsize>
@@ -1845,16 +1842,13 @@ Stop</string>
                  </widget>
                 </item>
                 <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_20"/>
-                </item>
-                <item>
                  <widget class="QGroupBox" name="groupBox_4">
                   <property name="title">
                    <string>Pořadí</string>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_12">
                    <item>
-                    <widget class="QListView" name="listView_poradi">
+                    <widget class="QListView" name="listView_lineRun">
                      <property name="font">
                       <font>
                        <pointsize>20</pointsize>
@@ -1872,7 +1866,7 @@ Stop</string>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_15">
                    <item>
-                    <widget class="QTableView" name="tableView_turnusSpoj">
+                    <widget class="QTableView" name="tableView_lineTrip">
                      <property name="font">
                       <font>
                        <pointsize>20</pointsize>
@@ -1892,9 +1886,6 @@ Stop</string>
                   </layout>
                  </widget>
                 </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_18"/>
-                </item>
                </layout>
               </item>
               <item row="0" column="0">
@@ -1902,7 +1893,7 @@ Stop</string>
                 <item>
                  <layout class="QFormLayout" name="formLayout_2">
                   <item row="0" column="1">
-                   <widget class="QLineEdit" name="poleLinkyTurnus">
+                   <widget class="QLineEdit" name="lineEdit_rootLine">
                     <property name="minimumSize">
                      <size>
                       <width>100</width>
@@ -2372,7 +2363,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <widget class="QLineEdit" name="poleSpojeTurnus">
+                   <widget class="QLineEdit" name="lineEdit_rootLineTripNumber">
                     <property name="font">
                      <font>
                       <pointsize>20</pointsize>
@@ -2395,7 +2386,7 @@ Stop</string>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_19">
                   <item>
-                   <widget class="QPushButton" name="pushButton_turnus_prikaz">
+                   <widget class="QPushButton" name="pushButton_lineRun_confirm">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -2421,7 +2412,7 @@ Stop</string>
             <widget class="QWidget" name="page_oznameni">
              <layout class="QHBoxLayout" name="horizontalLayout_23">
               <item>
-               <widget class="QTableWidget" name="tableWidget_oznameni">
+               <widget class="QTableWidget" name="tableWidget_specialAnnouncements">
                 <property name="font">
                  <font>
                   <pointsize>30</pointsize>
@@ -2430,6 +2421,12 @@ Stop</string>
                 </property>
                 <property name="styleSheet">
                  <string notr="true"/>
+                </property>
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::SingleSelection</enum>
+                </property>
+                <property name="selectionBehavior">
+                 <enum>QAbstractItemView::SelectRows</enum>
                 </property>
                 <column>
                  <property name="text">
@@ -2501,7 +2498,7 @@ Stop</string>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_14">
                   <item>
-                   <widget class="QDateEdit" name="dateEdit_workingDate">
+                   <widget class="QDateEdit" name="dateEdit_data_workingDate">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -2516,7 +2513,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_nast_dnes">
+                   <widget class="QPushButton" name="pushButton_data_today">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -2534,7 +2531,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QCalendarWidget" name="calendarWidget_workingDate">
+                   <widget class="QCalendarWidget" name="calendarWidget_data_workingDate">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -2564,7 +2561,7 @@ Stop</string>
                  </layout>
                 </item>
                 <item>
-                 <layout class="QVBoxLayout" name="verticalLayoutvstupniData">
+                 <layout class="QVBoxLayout" name="verticalLayoutData">
                   <item>
                    <widget class="QLabel" name="label_6">
                     <property name="font">
@@ -2578,7 +2575,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_4">
+                   <widget class="QLabel" name="label_data_pathName">
                     <property name="maximumSize">
                      <size>
                       <width>200</width>
@@ -2591,7 +2588,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_cestaXml">
+                   <widget class="QLabel" name="label_data_pathContent">
                     <property name="maximumSize">
                      <size>
                       <width>200</width>
@@ -2604,7 +2601,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_nast_truncate">
+                   <widget class="QPushButton" name="pushButton_data_truncate">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -2628,7 +2625,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_nast_xmlVyberCestu">
+                   <widget class="QPushButton" name="pushButton_data_selectXmlPath">
                     <property name="enabled">
                      <bool>true</bool>
                     </property>
@@ -2655,7 +2652,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_nast_nactiXMLropid">
+                   <widget class="QPushButton" name="pushButton_data_startXmlRopidImport">
                     <property name="enabled">
                      <bool>true</bool>
                     </property>
@@ -2682,7 +2679,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QProgressBar" name="progressBar_importXml">
+                   <widget class="QProgressBar" name="progressBar_data_importXml">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                       <horstretch>0</horstretch>
@@ -2695,7 +2692,7 @@ Stop</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_diagnostika_sql">
+                   <widget class="QLabel" name="label_data_sqlResult">
                     <property name="text">
                      <string>Diagnostický řádek importu dat</string>
                     </property>
@@ -2708,7 +2705,7 @@ Stop</string>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <item>
-                 <widget class="QLabel" name="label_12">
+                 <widget class="QLabel" name="label_buildName">
                   <property name="font">
                    <font>
                     <pointsize>12</pointsize>
@@ -2795,14 +2792,14 @@ Stop</string>
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QLabel" name="label_14">
+                 <widget class="QLabel" name="label_manual_V2">
                   <property name="text">
                    <string>V2.2CZ1.0</string>
                   </property>
                  </widget>
                 </item>
                 <item row="1" column="0">
-                 <widget class="QLabel" name="label_13">
+                 <widget class="QLabel" name="label_manual_V1">
                   <property name="text">
                    <string>V1.0</string>
                   </property>
@@ -2833,21 +2830,21 @@ Stop</string>
                  </widget>
                 </item>
                 <item row="1" column="2">
-                 <widget class="QLabel" name="label">
+                 <widget class="QLabel" name="label_manual_V3">
                   <property name="text">
                    <string>V2.3</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="2">
-                 <widget class="QLineEdit" name="lineEdit_strukturaOdberu">
+                 <widget class="QLineEdit" name="lineEdit_manual_subscriberStructure">
                   <property name="text">
                    <string>AllData</string>
                   </property>
                  </widget>
                 </item>
                 <item row="0" column="0" colspan="2">
-                 <widget class="QLineEdit" name="lineEdit_ipadresaOdberatele">
+                 <widget class="QLineEdit" name="lineEdit_manual_subscriberAddress">
                   <property name="text">
                    <string>http://127.0.0.1:48479</string>
                   </property>
@@ -2860,14 +2857,14 @@ Stop</string>
             <item row="1" column="4">
              <layout class="QVBoxLayout" name="verticalLayout_28">
               <item>
-               <widget class="QLabel" name="label_10">
+               <widget class="QLabel" name="label_manual_customXmlName">
                 <property name="text">
                  <string>CustomXML</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPlainTextEdit" name="plainTextEdit_CustomXml">
+               <widget class="QPlainTextEdit" name="plainTextEdit_manual_customXml">
                 <property name="plainText">
                  <string/>
                 </property>
@@ -2876,7 +2873,7 @@ Stop</string>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_22">
                 <item>
-                 <widget class="QPushButton" name="pushButton_manual_odesliXml">
+                 <widget class="QPushButton" name="pushButton_manual_sendCustomXml">
                   <property name="font">
                    <font>
                     <pointsize>20</pointsize>
@@ -2889,7 +2886,7 @@ Stop</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_manual_smazOkno">
+                 <widget class="QPushButton" name="pushButton_manual_truncateCustomXml">
                   <property name="font">
                    <font>
                     <pointsize>20</pointsize>
@@ -2920,14 +2917,14 @@ Stop</string>
             <item row="0" column="2" rowspan="3">
              <layout class="QVBoxLayout" name="verticalLayout_11">
               <item>
-               <widget class="QLabel" name="label_11">
+               <widget class="QLabel" name="label_manual_T1">
                 <property name="text">
                  <string>Odberatele 1.0</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="tableWidget_subscriberList1_0">
+               <widget class="QTableWidget" name="tableWidget_manual_subscriberList1_0">
                 <column>
                  <property name="text">
                   <string>Adresa</string>
@@ -2946,14 +2943,14 @@ Stop</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_15">
+               <widget class="QLabel" name="label_manual_T2">
                 <property name="text">
                  <string>Odberatele V2.2CZ1.0</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="tableWidget_subscriberList2_2CZ1_0">
+               <widget class="QTableWidget" name="tableWidget_manual_subscriberList2_2CZ1_0">
                 <column>
                  <property name="text">
                   <string>Adresa</string>
@@ -2972,14 +2969,14 @@ Stop</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_16">
+               <widget class="QLabel" name="label_manual_T3">
                 <property name="text">
                  <string>Odberatele V2.3</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="tableWidget_subscriberList2_3">
+               <widget class="QTableWidget" name="tableWidget_manual_subscriberList2_3">
                 <attribute name="horizontalHeaderVisible">
                  <bool>true</bool>
                 </attribute>
@@ -3016,7 +3013,7 @@ Stop</string>
            </attribute>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="QTableWidget" name="tableWidget_seznamZarizeni">
+             <widget class="QTableWidget" name="tableWidget_detection_deviceList">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -3070,14 +3067,14 @@ Stop</string>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout">
               <item>
-               <widget class="QPushButton" name="pushButton_refreshDetekce">
+               <widget class="QPushButton" name="pushButton_detection_refresh">
                 <property name="text">
                  <string>Refresh</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_nactiDetekce">
+               <widget class="QPushButton" name="pushButton_detection_loadHwConfig">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -3088,7 +3085,7 @@ HW konfig</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_ulozDetekce">
+               <widget class="QPushButton" name="pushButton_detection_saveHwConfig">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -3099,7 +3096,7 @@ HW config</string>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_detekceNastavAdresu">
+               <widget class="QPushButton" name="pushButton_detection_setId">
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
@@ -3145,7 +3142,7 @@ HW config</string>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_jmenoPortu">
+              <widget class="QLineEdit" name="lineEdit_configuration_IbisPort">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3249,7 +3246,7 @@ HW config</string>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_nast_nastavPort">
+              <widget class="QPushButton" name="pushButton_configuration_IbisSetPort">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3273,7 +3270,7 @@ HW config</string>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_nast_odesliPrikaz">
+              <widget class="QPushButton" name="pushButton_configuration_IbisSendTest">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3299,7 +3296,7 @@ HW config</string>
              </item>
             </layout>
            </widget>
-           <widget class="QCheckBox" name="checkBox_connections">
+           <widget class="QCheckBox" name="checkBox_configuration_enableConnections">
             <property name="geometry">
              <rect>
               <x>170</x>
@@ -3331,10 +3328,10 @@ HW config</string>
             </property>
             <layout class="QGridLayout" name="gridLayout">
              <item row="0" column="0">
-              <widget class="QLineEdit" name="lineEdit_golemioKey"/>
+              <widget class="QLineEdit" name="lineEdit_configuration_golemioKey"/>
              </item>
              <item row="0" column="1">
-              <widget class="QPushButton" name="pushButton_setGolemioKey">
+              <widget class="QPushButton" name="pushButton_configuration_setGolemioKey">
                <property name="text">
                 <string>Set</string>
                </property>
@@ -3362,14 +3359,14 @@ HW config</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_23">
              <item>
-              <widget class="QRadioButton" name="radioButton_language_cs">
+              <widget class="QRadioButton" name="radioButton_configuration_language_cs">
                <property name="text">
                 <string>CZ</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QRadioButton" name="radioButton_language_en">
+              <widget class="QRadioButton" name="radioButton_configuration_language_en">
                <property name="text">
                 <string>EN</string>
                </property>
@@ -4047,21 +4044,21 @@ test</string>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>pushButton_menu_linkospoj</tabstop>
-  <tabstop>pushButton_menu_turnus</tabstop>
-  <tabstop>pushButton_menu_jizda</tabstop>
+  <tabstop>pushButton_menu_lineTrip</tabstop>
+  <tabstop>pushButton_menu_vehicleRun</tabstop>
+  <tabstop>pushButton_menu_ride</tabstop>
   <tabstop>pushButton_menu_fullscreen</tabstop>
   <tabstop>pushButton_menu_quit</tabstop>
-  <tabstop>pushButton_jizda_sipkaDal</tabstop>
-  <tabstop>pushButton_prikaz</tabstop>
-  <tabstop>polelinky</tabstop>
-  <tabstop>poleLinkyTurnus</tabstop>
-  <tabstop>poleSpojeTurnus</tabstop>
+  <tabstop>pushButton_ride_arrowNextState</tabstop>
+  <tabstop>pushButton_lineTrip_confirm</tabstop>
+  <tabstop>lineEdit_lineNumber</tabstop>
+  <tabstop>lineEdit_rootLine</tabstop>
+  <tabstop>lineEdit_rootLineTripNumber</tabstop>
   <tabstop>pushButton_menu2_sluzby</tabstop>
   <tabstop>pushButton_menu2_rezerva</tabstop>
   <tabstop>pushButton_menu2_fullscreen</tabstop>
   <tabstop>pushButton_menu2_quit</tabstop>
-  <tabstop>polespoje</tabstop>
+  <tabstop>lineEdit_tripNumber</tabstop>
   <tabstop>radioButton_OFF1</tabstop>
   <tabstop>radioButton_ON1</tabstop>
   <tabstop>radioButton_ON2</tabstop>
