@@ -75,6 +75,8 @@ SOURCES += \
     VDV301subscriber/ibisipsubscriber.cpp \
     VDV301subscriber/httpserversubscriber.cpp \
     VDV301subscriber/ibisipsubscriberonepublisher.cpp \
+    VDV301subscriber/xmlgeneratorsubscriber.cpp \
+    VDV301subscriber/xmlparsersubscriber.cpp \
     VDV301testy/polozkatestu.cpp \
     VDV301testy/testdemo.cpp \
     VDV301testy/testdetekcebonjour.cpp \
@@ -128,6 +130,8 @@ HEADERS += \
     VDV301subscriber/ibisipsubscriber.h \
     VDV301subscriber/httpserversubscriber.h \
     VDV301subscriber/ibisipsubscriberonepublisher.h \
+    VDV301subscriber/xmlgeneratorsubscriber.h \
+    VDV301subscriber/xmlparsersubscriber.h \
     VDV301testy/polozkatestu.h \
     VDV301testy/testdemo.h \
     VDV301testy/testdetekcebonjour.h \

@@ -352,6 +352,8 @@ private slots:
 
 
 
+    void on_pushButton_detection_setId_clicked();
+
 signals:
          // void signalZahajImport(QString cesta);
 };

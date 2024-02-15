@@ -83,7 +83,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -2484,7 +2484,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -3017,6 +3017,9 @@ Stop</string>
               <property name="enabled">
                <bool>true</bool>
               </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
               <column>
                <property name="text">
                 <string>HW</string>
@@ -3098,7 +3101,7 @@ HW config</string>
               <item>
                <widget class="QPushButton" name="pushButton_detection_setId">
                 <property name="enabled">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </property>
                 <property name="text">
                  <string>SetID</string>

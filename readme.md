@@ -73,6 +73,11 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20240215_1538
+        - set ID of selected device in detected devices table
+        - Vdv301subscriber
+                - new version supporting setDeviceID
+        - button to setDeviceId activated
 - 20240214_1029
         - rename of mainwindow.ui elements to English
                 - applies to slot names

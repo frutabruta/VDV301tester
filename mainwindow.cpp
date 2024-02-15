@@ -2530,3 +2530,14 @@ QString MainWindow::textVerze()
 
 
 
+
+void MainWindow::on_pushButton_detection_setId_clicked()
+{
+    int selectedRow=ui->tableWidget_detection_deviceList->selectedItems().first()->row();
+
+    QString newId=ui->tableWidget_detection_deviceList->item(selectedRow,2)->text();
+    QString ipAddress=ui->tableWidget_detection_deviceList->item(selectedRow,4)->text();
+    QString port=ui->tableWidget_detection_deviceList->item(selectedRow,5)->text();
+    devMgmtSubscriber.postSetDeviceConfiguration(QUrl("http://"+ipAddress+":"+port+"/DeviceManagementService/SetDeviceConfiguration"),newId);
+}
+
