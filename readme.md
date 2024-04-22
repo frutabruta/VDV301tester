@@ -73,6 +73,16 @@ mingw32-make install
 ```
 
 ## Changelog
+- 20240422_1414
+        - VDV301subscriber
+                - using XmlParserSubscriber
+                - select ip from list
+        - XmlRopidImportStream
+                - allow to import multiple lines with one license number 
+        - settings.ini
+        - devMgmtSubscriber still highly experimental
+        - devMgmtSubscriber2 looks for version 2.2 publishers
+
 - 20240215_1538
         - set ID of selected device in detected devices table
         - Vdv301subscriber
@@ -104,7 +114,6 @@ mingw32-make install
         - folders renamed to English
         - show device status in device detection
         - new approach for showing LED displays in 2.3 version (using DisplayContent)
-
         - VDV301publisher
                 - 2.3 out of service fix
         - VDV301subscriber
@@ -129,10 +138,6 @@ mingw32-make install
                         - XmlParser::domTripInformationToVdv301Trip
                         - XmlParser::domStopListToVdv301TripStopList
                         - XmlParser::tripDoSeznamuZastavek2_3
-
-
-
-
 - 20240123
         - SqlRopidXmlDotazy
                 - transferMetroC fix
