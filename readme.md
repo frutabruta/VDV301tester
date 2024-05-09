@@ -2,6 +2,43 @@
 
 This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1.0 and VDV301 2.2CZ1.0, written in Qt Framework.
 
+# Features
+- XML ROPID timetable import
+        - selecting of a trip by line/trip or line/vehicleRun
+- map plot of route
+- voice announcements
+- configuration with settings file
+- changing languages in menu (English/Czech)
+- touch optimised ui (for resolution 800x480px)
+- VDV301
+        - deviceManagementService
+                - change V1.0 device ID
+                - get DeviceStatus
+                - get DeviceInformation
+
+        - CustomerInformationService
+                - AllData
+                - CurrentDisplayContent
+        - publish and subscribe request
+        - service deiscovery using DNS-SD (Bonjour)
+
+        - automated subscription and loss of subscription test (development abandoned for now)
+- VDV300
+        - manually activated sending telegrams according to IPIS (czech modification of IBIS)
+
+# Planned features
+
+- Asynchronous serial port IBIS sending
+- VDV301
+        - Time service
+        - Location service
+        - CustomerInformationService
+                -       GlobalDisplayContent
+        - DeviceManagementService
+                - firmware update in devices
+        - full translation of sourcode to English
+        
+
 
 ## Requirements:
 ### Windows
@@ -72,7 +109,18 @@ mingw32-make
 mingw32-make install
 ```
 
+
+
+
 ## Changelog
+- 20240510_0038
+        - splitting IbisOvladani into several classes
+        - settings.ini
+                - added IBIS com port setting
+        - IBIS serial port stop and start added to Change port button
+        - added program icon
+        - VDV301publisher
+                -  fix of < escaping using CDATA
 - 20240422_1414
         - VDV301subscriber
                 - using XmlParserSubscriber

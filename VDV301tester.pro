@@ -46,6 +46,10 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 #LIBS += -lqhttpserver
 
 SOURCES += \
+    IbisSender/ibissender.cpp \
+    IbisSender/ipispid.cpp \
+    IbisSender/ipissender.cpp \
+    IbisSender/ipistelegramcompose.cpp \
     VDV301DataStructures/additionalannoucement.cpp \
     VDV301DataStructures/connection.cpp \
     VDV301DataStructures/connectiongolemio.cpp \
@@ -85,7 +89,6 @@ SOURCES += \
     XmlRopidImportStream/xmlimportjr.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
     golemio.cpp \
-    ibisovladani.cpp \
     konfigurace.cpp \
     logfile.cpp \
     main.cpp \
@@ -101,6 +104,10 @@ SOURCES += \
     xmlmpvparser.cpp
 
 HEADERS += \
+    IbisSender/ibissender.h \
+    IbisSender/ipispid.h \
+    IbisSender/ipissender.h \
+    IbisSender/ipistelegramcompose.h \
     VDV301DataStructures/additionalannoucement.h \
     VDV301DataStructures/connection.h \
     VDV301DataStructures/connectiongolemio.h \
@@ -141,7 +148,6 @@ HEADERS += \
     XmlRopidImportStream/xmlropidimportstream.h \
     XmlRopidImportStream/sqlitezaklad.h \
     golemio.h \
-    ibisovladani.h \
     konfigurace.h \
     logfile.h \
     mainwindow.h \
@@ -163,3 +169,5 @@ TRANSLATIONS += \
 
 RESOURCES += \
     lang.qrc
+
+RC_ICONS = vdv301tester_Aes_icon.ico

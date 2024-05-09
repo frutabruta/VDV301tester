@@ -75,12 +75,8 @@ MainWindow::MainWindow(QWidget *parent) :
     startServiceFromList(vektorCis);
 
 
-
-
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
     //QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
-
-
 
     //kalendarJizd
     workingDateFirstDateOfDataValidity();
@@ -236,7 +232,7 @@ void MainWindow::startServiceFromList(QVector<CustomerInformationService*> &sezn
     {
         CustomerInformationService* aktualniSluzba=seznamSluzeb.takeFirst();
         qDebug()<<"v zasobniku zustava sluzeb: "<<seznamSluzeb.count();
-        qDebug()<<Q_FUNC_INFO<<" "<<aktualniSluzba->mServiceName<<" "<<aktualniSluzba->globalVersion;
+        qDebug()<<Q_FUNC_INFO<<" "<<aktualniSluzba->mServiceName<<" "<<aktualniSluzba->version();
         aktualniSluzba->slotStartServer();
     }
 }
@@ -288,8 +284,9 @@ void MainWindow::loadConstantsFromSettingsFile()
     deviceManagementService1_0.setPortNumber(settings.value("deviceManagementService1_0/port").toInt() ); //47477
     customerInformationService1_0.setPortNumber(settings.value("customerInformationService1_0/port").toInt() );
     customerInformationService2_2CZ1_0.setPortNumber(settings.value("customerInformationService2_2CZ1_0/port").toInt() );
-    customerInformationService2_3.setPortNumber(settings.value("customerInformationService2_3/port").toInt() );
+    customerInformationService2_3.setPortNumber(settings.value("customerInformationService2_3/port").toInt());
 
+    ibisOvladani.setSerialPortName(settings.value("ibis/portName").toString());
 }
 
 
@@ -1655,8 +1652,10 @@ void MainWindow::on_pushButton_configuration_IbisSendTest_clicked()
 void MainWindow::on_pushButton_configuration_IbisSetPort_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    ibisOvladani.globalniSeriovyPort=ui->lineEdit_configuration_IbisPort->text();
-    ibisOvladani.dopocetKontrolnihoZnaku("l006");
+    ibisOvladani.stop();
+    ibisOvladani.setSerialPortName(ui->lineEdit_configuration_IbisPort->text());
+    ibisOvladani.start();
+    ibisOvladani.sendIpisTelegram("l006");
     // ibisOvladani.dopocetKontrolnihoZnaku("aA1 ahoj");
     // ibisOvladani.dopocetKontrolnihoZnaku("v povel v\\");
     // ibisOvladani.dopocetKontrolnihoZnaku("zA povel zA");
@@ -1671,7 +1670,7 @@ void MainWindow::on_pushButton_configuration_IbisSetPort_clicked()
 void MainWindow::on_pushButton_ride_IBIS_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    ibisOvladani.dopocetKontrolnihoZnaku("xC2");
+    ibisOvladani.sendIpisTelegram("xC2");
     ibisOvladani.odesliFrontKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
     ibisOvladani.odesliSideKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
     //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);

@@ -41,7 +41,7 @@
 #include "xmlmpvparser.h"
 #include "golemio.h"
 #include "XmlRopidImportStream/xmlimportjr.h"
-#include "ibisovladani.h"
+#include "IbisSender/ipispid.h"
 #include "voiceannouncer.h"
 #include "konfigurace.h"
 #include "logfile.h"
@@ -89,7 +89,7 @@ private:
     XmlMpvParser xmlMpvParser;
     Golemio golemio;
     //  XmlRopidImportStream xmlRopidImportStream;
-    IbisOvladani ibisOvladani;
+    IpisPid ibisOvladani;
     VoiceAnnouncer voiceAnnouncer;
     Logfile logfile;
     QFile logFileQFile;

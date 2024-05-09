@@ -2484,7 +2484,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -3244,7 +3244,7 @@ HW config</string>
                 </palette>
                </property>
                <property name="text">
-                <string>ttyUSB0</string>
+                <string>COM5</string>
                </property>
               </widget>
              </item>
