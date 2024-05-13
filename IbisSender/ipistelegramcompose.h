@@ -8,16 +8,16 @@ class IpisTelegramCompose
 public:
     IpisTelegramCompose();
     QString slozBUSEjednoradekAA(QString DestinationName, QString LineName);
-    QString slozeniTextuFront(QString LineName, QString DestinationName);
-    QString slozeniTextuRear(QString LineName);
-    QString slozeniTextuSideAA(QVector<StopPoint> nacestne, QString LineName, QString DestinationName);
+    QString slozeniTextuFront(QString address, QString LineName, QString DestinationName);
+    QString slozeniTextuRear(QString address, QString LineName);
+    QString slozeniTextuSideAA(QString address, QString LineName, QString DestinationName);
     QString slozeniTextuInnerL(QString LineName);
     QString slozeniTextuInnerZA(QString DestinationName);
     QString slozeniTextuInnerZN(QVector<StopPoint> nacestne);
     QString slozeniTextuInnerV(QString StopName);
-    QString slozeniTextuJKZr1(QVector<StopPoint> nacestne, QString LineName);
-    QString slozeniTextuJKZr2(QString DestinationName, QString LineName);
-    QString slozeniTextuSideZN(QVector<StopPoint> nacestne);
+    QString slozeniTextuJKZr1(QString address, QVector<StopPoint> nacestne, QString LineName);
+    QString slozeniTextuJKZr2(QString address, QString DestinationName, QString LineName);
+    QString slozeniTextuSideAA2(QString address, QVector<StopPoint> nacestne);
     QString nahradZobacek(QString vstup);
     QString slozeniTextuSideZNold(QVector<StopPoint> nacestne);
 private:

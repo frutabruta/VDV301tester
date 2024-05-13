@@ -37,7 +37,40 @@ This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1
         - DeviceManagementService
                 - firmware update in devices
         - full translation of sourcode to English
+# Known bugs
+- IbisSender
+        - viapoints over certain length will not display on BS210
         
+# Voice annoucements
+MP3 files are not provided with the program.
+
+Stop names have to be stored in hlaseni/zastavky folder, using CIS od OIS number.
+
+Special sounds are stored in hlaseni/special
+
+| content                 | filename |
+|-------------------------|----------|
+| jingle                  | H000.mp3 |
+| next stop               | H001.mp3 |
+| request stop            | H002.mp3 |
+| last stop               | H113.mp3 |
+| please, get off         | H114.mp3 |
+| attention, please       | H178.mp3 |
+| fare zone change        | H170.mp3 |
+| transfer to train lines | H184.mp3 |
+| transfer to Metro       | H103.mp3 |
+| transfer to ferry       | H274.mp3 |
+| A                       | H104.mp3 |
+| B                       | H105.mp3 |
+| C                       | H106.mp3 |
+| A and B                 | H107.mp3 |
+| A and C                 | H108.mp3 |
+| B and C                 | H109.mp3 |
+
+
+
+
+
 
 
 ## Requirements:
@@ -113,6 +146,13 @@ mingw32-make install
 
 
 ## Changelog
+- 20240513_1725
+        - IbisSender
+                - IpisTelegramCompose 
+                        - address of the device as variable
+                        - added delay between commands 
+        - settings.ini
+                -added option IBIS/enable=true
 - 20240510_0038
         - splitting IbisOvladani into several classes
         - settings.ini

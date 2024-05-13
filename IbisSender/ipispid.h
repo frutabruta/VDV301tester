@@ -9,11 +9,11 @@ public:
     IpisPid();
 
     int odesliInnerKomplet(QVector<StopPointDestination> zastavky, int index);
-    int odesliFrontKomplet(QVector<StopPointDestination> zastavky, int index);
-    int odesliSideKomplet(QVector<StopPointDestination> zastavky, int index);
-    int odesliJKZKomplet(QVector<StopPointDestination> zastavky, int index);
+    int odesliFrontKomplet(QString address, QVector<StopPointDestination> zastavky, int index);
+    int odesliSideKomplet(QString address, QVector<StopPointDestination> zastavky, int index);
+    int odesliJKZKomplet(QString address, QVector<StopPointDestination> zastavky, int index);
     int odeslikompletBUSEjednoradekAA(QVector<StopPointDestination> zastavky, int index);
-    int odesliRearKomplet(QVector<StopPointDestination> zastavky, int index);
+    int odesliRearKomplet(QString address, QVector<StopPointDestination> zastavky, int index);
 
     IpisTelegramCompose ipisTelegramCompose;
     QVector<StopPoint> vytvorNacestne(QVector<StopPointDestination> vstup, int index);

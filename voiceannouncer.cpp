@@ -319,7 +319,7 @@ void VoiceAnnouncer::aktualizujCestyZvuku(QString cestaVnitrni)
     zvukNaZnameni= QUrl::fromLocalFile(cestaVnitrni+"/special/H002.mp3");
     zvukPrestupNaLinkyS=QUrl::fromLocalFile(cestaVnitrni+"/special/H184.mp3");
     zvukPrestupNaMetro=QUrl::fromLocalFile(cestaVnitrni+"/special/H103.mp3");
-    zvukPrestupNaPrivoz=QUrl::fromLocalFile(cestaVnitrni+"/special/H103.mp3");
+    zvukPrestupNaPrivoz=QUrl::fromLocalFile(cestaVnitrni+"/special/H274.mp3");
     zvukMA=QUrl::fromLocalFile(cestaVnitrni+"/special/H104.mp3");
     zvukMB=QUrl::fromLocalFile(cestaVnitrni+"/special/H105.mp3");
     zvukMC=QUrl::fromLocalFile(cestaVnitrni+"/special/H106.mp3");

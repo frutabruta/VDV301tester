@@ -48,41 +48,45 @@ void IpisPid::smazPanely ()
 }
 
 
-int IpisPid::odesliFrontKomplet(QVector<StopPointDestination>zastavky,int index)
+int IpisPid::odesliFrontKomplet(QString address, QVector<StopPointDestination>zastavky,int index)
 {
     qDebug() << Q_FUNC_INFO;
     QString LineName=zastavky[index].line.lineName;
     QString DestinationName= zastavky[index].destination.NameFront;
     // zastavky.last().NameFront;
-    sendIpisTelegram(ipisTelegramCompose.slozeniTextuFront(LineName,DestinationName));
+    sendIpisTelegram(ipisTelegramCompose.slozeniTextuFront(address, LineName, DestinationName));
     return 1;
 }
 
 
 
 
-int IpisPid::odesliRearKomplet(QVector<StopPointDestination>zastavky,int index)
+int IpisPid::odesliRearKomplet(QString address, QVector<StopPointDestination>zastavky,int index)
 {
     qDebug() << Q_FUNC_INFO;
     QString LineName=zastavky[index].line.lineName;
     //QString DestinationName= zastavky.last().NameFront;
     QString DestinationName= zastavky.at(index).destination.NameFront;
-    sendIpisTelegram(ipisTelegramCompose.slozeniTextuRear(LineName));
+    sendIpisTelegram(ipisTelegramCompose.slozeniTextuRear(address, LineName));
     return 1;
 }
 
 
 
 
-int IpisPid::odesliSideKomplet(QVector <StopPointDestination> zastavky,int index)
+int IpisPid::odesliSideKomplet(QString address, QVector <StopPointDestination> zastavky,int index)
 {
     qDebug() << Q_FUNC_INFO;
     QString LineName=zastavky[index].line.lineName;
     //QString DestinationName=zastavky.last().NameSide;
     QString DestinationName=zastavky.at(index).destination.NameSide;
-    this->sendIpisTelegram(ipisTelegramCompose.slozeniTextuSideAA(vytvorNacestne(zastavky,index),LineName,DestinationName));
-    this->sendIpisTelegram("xxxkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-    this->sendIpisTelegram(ipisTelegramCompose.slozeniTextuSideZN(vytvorNacestne(zastavky,index)));
+    this->sendIpisTelegram(ipisTelegramCompose.slozeniTextuSideAA(address,LineName,DestinationName));
+  /*  this->sendIpisTelegram("xxxxxxxxxxx");
+    this->sendIpisTelegram("xxxxxxxxxxx");
+    this->sendIpisTelegram("xxxxxxxxxxx");
+    this->sendIpisTelegram("xxxxxxxxxxx");
+*/
+    this->sendIpisTelegram(ipisTelegramCompose.slozeniTextuSideAA2(address,vytvorNacestne(zastavky,index)));
 
     return 1;
 }
@@ -102,14 +106,15 @@ int IpisPid::odesliInnerKomplet(QVector <StopPointDestination> zastavky,int inde
 
 
 
-int IpisPid::odesliJKZKomplet(QVector <StopPointDestination> zastavky,int index)
+//default address 0x3B, <3B>
+int IpisPid::odesliJKZKomplet(QString address, QVector <StopPointDestination> zastavky,int index)
 {
     qDebug() << Q_FUNC_INFO;
     QString LineName=zastavky[index].line.lineName;
     QString DestinationName=zastavky[zastavky.count()-1].destination.NameInner;
 
-    this->sendIpisTelegram(ipisTelegramCompose.slozeniTextuJKZr1(vytvorNacestne( zastavky,index),LineName));
-    this->sendIpisTelegram(ipisTelegramCompose.slozeniTextuJKZr2(DestinationName,LineName));
+    this->sendIpisTelegram(ipisTelegramCompose.slozeniTextuJKZr1(address,vytvorNacestne( zastavky,index),LineName));
+    this->sendIpisTelegram(ipisTelegramCompose.slozeniTextuJKZr2(address, DestinationName,LineName));
     this->sendIpisTelegram("l"+LineName);
     /*
     this->dopocetCelni(slozeniTextuInnerL(LineName));
@@ -127,6 +132,6 @@ int IpisPid::odeslikompletBUSEjednoradekAA(QVector<StopPointDestination> zastavk
     QString LineName=zastavky[index].line.lineName;
     //QString DestinationName=zastavky[zastavky.count()-1].NameInner;
     QString DestinationName=zastavky[zastavky.count()-1].destination.NameInner;
-    this->sendTelegram(nahradDiakritikuKamenicky(ipisTelegramCompose.slozBUSEjednoradekAA(DestinationName,LineName)));
+    this->sendIpisTelegram(nahradDiakritikuKamenicky(ipisTelegramCompose.slozBUSEjednoradekAA(DestinationName,LineName)));
     return 1;
 }

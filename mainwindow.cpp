@@ -59,6 +59,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     loadConstantsFromSettingsFile();
 
+    if(ibisIsEnabled)
+    {
+        ibisOvladani.start();
+    }
+
     //ui->stackedWidget_palPc->setWindowState(Qt::WindowFullScreen);
 
 
@@ -286,7 +291,9 @@ void MainWindow::loadConstantsFromSettingsFile()
     customerInformationService2_2CZ1_0.setPortNumber(settings.value("customerInformationService2_2CZ1_0/port").toInt() );
     customerInformationService2_3.setPortNumber(settings.value("customerInformationService2_3/port").toInt());
 
+    ibisIsEnabled=settings.value("ibis/enable").toBool();
     ibisOvladani.setSerialPortName(settings.value("ibis/portName").toString());
+    ui->lineEdit_configuration_IbisPort->setText(ibisOvladani.serialPortName());
 }
 
 
@@ -1671,12 +1678,13 @@ void MainWindow::on_pushButton_ride_IBIS_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     ibisOvladani.sendIpisTelegram("xC2");
-    ibisOvladani.odesliFrontKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    ibisOvladani.odesliSideKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odesliFrontKomplet("1",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odesliSideKomplet("2",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odesliSideKomplet("3",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
     //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
-    ibisOvladani.odesliJKZKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odesliJKZKomplet("<3B>",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
     ibisOvladani.odeslikompletBUSEjednoradekAA(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    ibisOvladani.odesliRearKomplet(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odesliRearKomplet("4",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
 
 }
 

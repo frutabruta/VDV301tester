@@ -3,7 +3,10 @@
 IbisSender::IbisSender()
 {
     connect(&serial, &QSerialPort::bytesWritten ,this,&IbisSender::slotBytesWritten );
-    startPortu(serial);
+    casovac.setInterval(mDelayBetweenMessagesMs);
+    casovac.setSingleShot(true);
+    connect(&casovac,&QTimer::timeout, this, &IbisSender::slotDelayBetweenMessagesTimeout);
+   // startPortu(serial);
 }
 
 
@@ -13,14 +16,14 @@ IbisSender::~IbisSender()
 }
 
 
-char IbisSender::checkSumCreate(QString puvodniPrikaz)
+char IbisSender::checkSumCreate(QString puvodniPrikaz, QString &output)
 {
     char zacatecniByte=0x7F;
     char ridiciZnak=0;
     char jeZnak=5;
 
     char hexridiciznak[2];
-    QString output="";
+
     QString prikaz=puvodniPrikaz+'\r';
 
     for (int k=0; k<prikaz.length(); k++)
@@ -79,15 +82,14 @@ QString IbisSender::sendTelegram(QString puvodniPrikaz)
     //puvodniPrikaz=nahradDiakritiku(puvodniPrikaz);
     qDebug()<<puvodniPrikaz;
 
-    QString prikaz = "";
+    QString prikaz =puvodniPrikaz;
     QString output="";
 
-    output+=prikaz;
-    output+='\r';
 
-    char checkSum=checkSumCreate(puvodniPrikaz);
+    char checkSum=checkSumCreate(prikaz,output);
     output+=checkSum;
     qDebug()<<"kontrolni soucet je "<<checkSum;
+    qDebug()<<"output je:"<<output;
     sendToPortNew(output);
     //sendToPortOld(output);
 
@@ -123,34 +125,21 @@ void IbisSender::setSerialPortName(const QString &newSerialPortName)
 void IbisSender::slotBytesWritten()
 {
     qDebug() << Q_FUNC_INFO;
-
-    qDebug()<<"byty jsou zapsany";
-    if(!zasobnikZprav.isEmpty())
-    {
-        QString aktualniPolozka=zasobnikZprav.first();
-        zasobnikZprav.removeFirst();
-
-        odesliAdresu(serial,aktualniPolozka);
-        qDebug()<<"v zasobniku zbylo "<<zasobnikZprav.count();
-    }
-    else
-    {
-        qDebug()<<"zasobnik je uz prazdny";
-        odesilaniBezi=false;
-    }
+    casovac.start();
 }
 
 
-void IbisSender::odesliAdresu(QSerialPort &port,QString adresa)
+void IbisSender::writeStringToPort(QSerialPort &port,QString content)
 {
-    qDebug() << Q_FUNC_INFO <<" "<<adresa;
-    const QByteArray adresaByteArray = adresa.toLatin1();
-    port.write(adresaByteArray);
+    qDebug() << Q_FUNC_INFO <<" length:"<<content.length()<< " "<<content;
+    const QByteArray contentByteArray = content.toLatin1();
+    port.write(contentByteArray);
 
+    /*
     if (port.waitForBytesWritten(m_waitTimeout))
     {
 
-        /*
+
         // read response
         if (serial.waitForReadyRead(currentWaitTimeout))
         {
@@ -159,7 +148,7 @@ void IbisSender::odesliAdresu(QSerialPort &port,QString adresa)
                 responseData += serial.readAll();
 
             const QString response = QString::fromUtf8(responseData);
-*/
+
 
     }
     else
@@ -167,7 +156,7 @@ void IbisSender::odesliAdresu(QSerialPort &port,QString adresa)
         emit timeout(tr("Wait write request timeout %1")
                      .arg(QTime::currentTime().toString()));
     }
-    adresa=QString::number(1);
+    */
 
 }
 
@@ -182,9 +171,9 @@ void IbisSender::sendToPortNew(QString obsah)
     QString currentPortName=mSerialPortName;
 
 
-    qDebug()<<"obsah "<<obsah.length()<<" "<<obsah;
+    qDebug()<<"port "<<currentPortName<< " obsah "<<obsah.length()<<" "<<obsah;
 
-    vypisStringPoBytech(obsah);
+    //vypisStringPoBytech(obsah);
 
     if (currentPortName.isEmpty()) {
         qDebug()<<"No port name specified";
@@ -211,6 +200,38 @@ void IbisSender::sendToPortNew(QString obsah)
 }
 
 
+void IbisSender::slotDelayBetweenMessagesTimeout()
+{
+    qDebug() << Q_FUNC_INFO;
+
+    qDebug()<<"byty jsou zapsany";
+    if(!zasobnikZprav.isEmpty())
+    {
+        QString aktualniPolozka=zasobnikZprav.first();
+        zasobnikZprav.removeFirst();
+
+        writeStringToPort(serial,aktualniPolozka);
+        qDebug()<<"v zasobniku zbylo "<<zasobnikZprav.count();
+    }
+    else
+    {
+        qDebug()<<"zasobnik je uz prazdny";
+        odesilaniBezi=false;
+    }
+}
+
+int IbisSender::delayBetweenMessagesMs() const
+{
+    return mDelayBetweenMessagesMs;
+}
+
+void IbisSender::setDelayBetweenMessagesMs(int newDelayBetweenMessagesMs)
+{
+    mDelayBetweenMessagesMs = newDelayBetweenMessagesMs;
+    casovac.setInterval(mDelayBetweenMessagesMs);
+}
+
+
 
 void IbisSender::start()
 {
@@ -220,7 +241,7 @@ void IbisSender::start()
 
 void IbisSender::stop()
 {
-    startPortu(   serial);
+    portStop(   serial);
 }
 
 void IbisSender::startPortu(QSerialPort &port)
@@ -247,7 +268,8 @@ void IbisSender::startPortu(QSerialPort &port)
 
 void IbisSender::portStop(QSerialPort &port)
 {
-    serial.close();
+   port.close();
+    odesilaniBezi=false;
 }
 
 void IbisSender::vypisStringPoBytech(QString vstup)

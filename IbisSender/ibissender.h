@@ -11,7 +11,7 @@
 
 #include <QDebug>
 #include <QCoreApplication>
-
+#include <QTimer>
 
 class IbisSender: public QObject
 {
@@ -28,6 +28,9 @@ public:
     //nove
 
 
+
+
+
     void sendToPortNew(QString obsah);
     void vypisStringPoBytech(QString vstup);
     void portStop(QSerialPort &port);
@@ -37,14 +40,20 @@ public:
 
     void start();
     void stop();
-    char checkSumCreate(QString puvodniPrikaz);
+    char checkSumCreate(QString puvodniPrikaz, QString &output);
+    int delayBetweenMessagesMs() const;
+    void setDelayBetweenMessagesMs(int newDelayBetweenMessagesMs);
+
 private slots:
     void slotBytesWritten();
 
+    void slotDelayBetweenMessagesTimeout();
 private:
     //QString nahradDiakritiku(QString vstup);
 
+    QTimer casovac;
 
+    int mDelayBetweenMessagesMs=700;
 
     QString mSerialPortName="COM5";
     //instance knihoven
@@ -54,12 +63,10 @@ private:
     QSerialPort serial;
 
     bool odesilaniBezi=false;
-    int m_waitTimeout = 0;
-    //int adresniBit=1;
+
     QVector<QString> zasobnikZprav;
 
-    void odesliAdresu(QSerialPort &port, QString adresa);
-//    void odesliZbytek(QSerialPort &port, QString zbytek);
+    void writeStringToPort(QSerialPort &port, QString content);
     void startPortu(QSerialPort &port);
 signals:
     //new

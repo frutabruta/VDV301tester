@@ -73,6 +73,7 @@ private:
     //konstanty
     bool filterConnections=true;
     bool useGolemioApi=true;
+    bool ibisIsEnabled=false;
     //ve vterinach
 
     //datove struktury
