@@ -146,6 +146,16 @@ mingw32-make install
 
 
 ## Changelog
+- 20240514_1556
+        - VDV301publisher
+                - 5.15 compatibility fix
+        - VDV301publisher
+                - 5.15 compatibility fix
+
+        - VoiceAnnouncer
+                - moved into separate folder
+                - new parent class QueueSoundPlayer
+
 
 - 20240514_1039
         - VoiceAnnouncer

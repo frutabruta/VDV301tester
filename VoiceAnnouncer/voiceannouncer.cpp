@@ -7,19 +7,6 @@ VoiceAnnouncer::VoiceAnnouncer()
 
     this->aktualizujCestyZvuku(cesta);
 
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    //qt5
-    connect(player,&QMediaPlayer::stateChanged,this,&Hlasic::zmenaStavuHlaseni);
-
-#else
-    //qt6
-    connect(player,&QMediaPlayer::playbackStateChanged,this,&VoiceAnnouncer::zmenaStavuHlaseniQt6);
-    player->setAudioOutput(audioOutput);
-    audioOutput->setVolume(50);
-
-
-#endif
 }
 
 bool VoiceAnnouncer::souborExistuje(QString path)
@@ -267,23 +254,6 @@ QVector<QUrl> VoiceAnnouncer::priznakyDoSeznamu(StopPoint vstup)
 
 
 
-void VoiceAnnouncer::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if (frontaZvuku.isEmpty())
-    {
-        qDebug()<<"fronta zvuku byla prazdna";
-        frontaZvuku.append(vstup);
-        prehrajPolozkuZeSeznamu(frontaZvuku);
-    }
-    else
-
-    {
-        qDebug()<<"fronta zvuku nebyla prazdna";
-        frontaZvuku.append(vstup);
-    }
-}
-
 
 
 void VoiceAnnouncer::kompletZmenaTarifnihoPasma()
@@ -403,83 +373,3 @@ void VoiceAnnouncer::zmenUmisteniProgramu(QString umisteni)
 
 
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-//Qt5
-void Hlasic::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if(!zasobnikAdres.isEmpty()&&(player->state()==QMediaPlayer::StoppedState) )
-    {
-        qDebug()<<"pocet polozek "<<zasobnikAdres.size();
-        zasobnikAdres.removeFirst();
-        prehrajPolozkuZeSeznamu(zasobnikAdres);
-
-    }
-}
-
-void Hlasic::prehrajJedenZvuk(QUrl soubor2)
-{
-    qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
-    player->setMedia(soubor2);
-
-    player->play();
-}
-
-void Hlasic::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if(!zasobnikAdres.isEmpty())
-    {
-        prehrajJedenZvuk(zasobnikAdres.first());
-    }
-}
-
-void Hlasic::zmenaStavuHlaseni(QMediaPlayer::State state)
-{
-    qDebug() <<  Q_FUNC_INFO <<state;
-    vyhodPolozkuZeSeznamu(frontaZvuku);
-
-}
-
-
-
-#else
-//Qt6
-void VoiceAnnouncer::zmenaStavuHlaseniQt6(QMediaPlayer::PlaybackState state)
-{
-    qDebug() <<  Q_FUNC_INFO <<state;
-    vyhodPolozkuZeSeznamuQt6(frontaZvuku);
-}
-
-void VoiceAnnouncer::vyhodPolozkuZeSeznamuQt6(QVector<QUrl> &zasobnikAdres)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if(!zasobnikAdres.isEmpty()&&(player->playbackState()==QMediaPlayer::StoppedState) )
-    {
-        qDebug()<<"pocet polozek "<<zasobnikAdres.size();
-        zasobnikAdres.removeFirst();
-        prehrajPolozkuZeSeznamu(zasobnikAdres);
-
-    }
-}
-
-void VoiceAnnouncer::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if(!zasobnikAdres.isEmpty())
-    {
-        prehrajJedenZvuk(zasobnikAdres.first());
-    }
-}
-
-void VoiceAnnouncer::prehrajJedenZvuk(QUrl soubor2)
-{
-    qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
-
-    player->setSource(soubor2);
-
-    player->play();
-}
-
-
-#endif

@@ -42,7 +42,7 @@
 #include "golemio.h"
 #include "XmlRopidImportStream/xmlimportjr.h"
 #include "IbisSender/ipispid.h"
-#include "voiceannouncer.h"
+#include "VoiceAnnouncer/voiceannouncer.h"
 #include "konfigurace.h"
 #include "logfile.h"
 #include "mainwindowpomocne.h"

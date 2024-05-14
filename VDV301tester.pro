@@ -86,6 +86,8 @@ SOURCES += \
     VDV301testy/testdetekcebonjour.cpp \
     VDV301testy/testodberuserver.cpp \
     VDV301testy/vdv301testy.cpp \
+    VoiceAnnouncer/queuesoundplayer.cpp \
+    VoiceAnnouncer/voiceannouncer.cpp \
     XmlRopidImportStream/xmlimportjr.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
     golemio.cpp \
@@ -100,7 +102,6 @@ SOURCES += \
     MapaVykresleni/mnozinabodu.cpp \
     sqldotazymodel.cpp \
     sqlropidxmlqueries.cpp \
-    voiceannouncer.cpp \
     xmlmpvparser.cpp
 
 HEADERS += \
@@ -144,6 +145,8 @@ HEADERS += \
     VDV301testy/testdetekcebonjour.h \
     VDV301testy/testodberuserver.h \
     VDV301testy/vdv301testy.h \
+    VoiceAnnouncer/queuesoundplayer.h \
+    VoiceAnnouncer/voiceannouncer.h \
     XmlRopidImportStream/xmlimportjr.h \
     XmlRopidImportStream/xmlropidimportstream.h \
     XmlRopidImportStream/sqlitezaklad.h \
@@ -157,7 +160,6 @@ HEADERS += \
     MapaVykresleni/mnozinabodu.h \
     sqldotazymodel.h \
     sqlropidxmlqueries.h \
-    voiceannouncer.h \
     xmlmpvparser.h
 
 FORMS += \

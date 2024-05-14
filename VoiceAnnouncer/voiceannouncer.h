@@ -1,35 +1,19 @@
 #ifndef VOICEANNOUNCER_H
 #define VOICEANNOUNCER_H
 
-#include <QObject>
-#include <QWidget>
-#include <QMediaPlayer>
-//#include <QMediaPlaylist>
-#include <QBuffer>
 
-#include <QFileInfo>
 #include <VDV301DataStructures/additionalannoucement.h>
 #include <VDV301DataStructures/stoppoint.h>
+#include "queuesoundplayer.h"
+
+#include <QUrl>
 
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-//Qt5
-
-#else
-//Qt6
-#include <QAudioOutput>
-#endif
-
-
-
-class VoiceAnnouncer: public QObject
+class VoiceAnnouncer : public QueueSoundPlayer
 {
-    Q_OBJECT
+
 public:
     VoiceAnnouncer();
-
-
-
 
 
     bool kompletKonecna(StopPoint vstup);
@@ -42,20 +26,10 @@ public:
 
     void nastavCestu(QString vstup);
     void zmenUmisteniProgramu(QString umisteni);
-    void prehrajJedenZvuk(QUrl soubor2);
-    void pridejDoFrontyVyhlas(QVector<QUrl> vstup);
 
 
     bool kompletOdjezdPrvniZastavka(StopPoint zastavka2);
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    //Qt5
-    QMediaPlayer * player =  new QMediaPlayer(NULL, QMediaPlayer::StreamPlayback);
-#else
-    //Qt6
-    QMediaPlayer *player =  new QMediaPlayer(NULL); //qt6
-    QAudioOutput  *audioOutput = new QAudioOutput;
-#endif
 
 
     bool announceThisStop(StopPoint thisStop);
@@ -63,15 +37,6 @@ public:
 public slots:
 
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    //Qt5
-    void zmenaStavuHlaseni(QMediaPlayer::State state);
-    void vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres);
-#else
-    //Qt6
-    void zmenaStavuHlaseniQt6(QMediaPlayer::PlaybackState state);
-    void vyhodPolozkuZeSeznamuQt6(QVector<QUrl> &zasobnikAdres);
-#endif
 
 
 
@@ -105,8 +70,8 @@ private:
 
 
     void aktualizujCestyZvuku(QString cestaVnitrni);
-    void prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres);
-    QVector<QUrl> frontaZvuku;
+
+
     QUrl najdiCestuSpecial(QString nazevSouboru);
     QVector<QUrl> priznakyDoSeznamu(StopPoint vstup);
 
