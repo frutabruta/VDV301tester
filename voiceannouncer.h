@@ -35,7 +35,7 @@ public:
     bool kompletKonecna(StopPoint vstup);
     void kompletZmenaTarifnihoPasma();
     bool kompletSpecialniHlaseni(AdditionalAnnoucement specialniHlaseni);
-    bool kompletZastavka(StopPoint zastavka1, StopPoint zastavka2);
+    bool announceThisAndNextStop(StopPoint zastavka1, StopPoint zastavka2);
 
     QString cestaProgramu="";
     QString cesta=cestaProgramu+"/hlaseni";
@@ -58,6 +58,8 @@ public:
 #endif
 
 
+    bool announceThisStop(StopPoint thisStop);
+    bool announceNextStop(StopPoint nextStop);
 public slots:
 
 
@@ -79,6 +81,7 @@ private:
 
     QUrl zvukPristiZastavka;
     QUrl zvukGong;
+    QUrl zvukGongPristi;
     QUrl zvukKonecna;
     QUrl zvukProsimeVystupte;
     QUrl zvukZmenaPasma;

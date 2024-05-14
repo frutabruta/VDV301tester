@@ -59,10 +59,15 @@ QUrl VoiceAnnouncer::najdiCestuZastavka(int kodOis, int kodCis)
     }
     else
     {
+
         if (souborExistuje(testOis))
         {
             qDebug()<<"soubor  cis "<<testCis<<" neexistuje, pouzivam cislo OIS:"<<testOis;
             return QUrl::fromLocalFile(testOis);
+        }
+        else
+        {
+            qDebug()<<"file doesnt exist: CIS "<<kodCis<<" OIS "<<kodOis;
         }
 
     }
@@ -93,7 +98,7 @@ QUrl VoiceAnnouncer::najdiCestuSpecial(QString nazevSouboru)
 
 
 
-bool VoiceAnnouncer::kompletZastavka(StopPoint zastavka1, StopPoint zastavka2)
+bool VoiceAnnouncer::announceThisAndNextStop(StopPoint zastavka1, StopPoint zastavka2)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -108,6 +113,47 @@ bool VoiceAnnouncer::kompletZastavka(StopPoint zastavka1, StopPoint zastavka2)
     kratkaFronta.push_back(najdiCestuZastavka(zastavka2.idOis,zastavka2.idCis));
 
     if(zastavka2.onRequest)
+    {
+        kratkaFronta.push_back(zvukNaZnameni);
+    }
+
+    pridejDoFrontyVyhlas(kratkaFronta);
+
+    return 1;
+}
+
+bool VoiceAnnouncer::announceThisStop(StopPoint thisStop)
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    qDebug()<<"zvuk gong adresa "<<zvukGong;
+
+    QVector<QUrl> kratkaFronta;
+
+    kratkaFronta.push_back(zvukGong);
+    kratkaFronta.push_back(najdiCestuZastavka(thisStop.idOis,thisStop.idCis));
+    kratkaFronta.append(priznakyDoSeznamu(thisStop));
+
+    pridejDoFrontyVyhlas(kratkaFronta);
+
+    return 1;
+}
+
+
+bool VoiceAnnouncer::announceNextStop(StopPoint nextStop)
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    qDebug()<<"zvuk gong adresa "<<zvukGong;
+
+    QVector<QUrl> kratkaFronta;
+
+    //kratkaFronta.push_back(zvukGong);
+     kratkaFronta.push_back(zvukGongPristi);
+    kratkaFronta.push_back(zvukPristiZastavka);
+    kratkaFronta.push_back(najdiCestuZastavka(nextStop.idOis,nextStop.idCis));
+
+    if(nextStop.onRequest)
     {
         kratkaFronta.push_back(zvukNaZnameni);
     }
@@ -311,6 +357,7 @@ void VoiceAnnouncer::aktualizujCestyZvuku(QString cestaVnitrni)
     qDebug() <<  Q_FUNC_INFO;
     zvukPristiZastavka=QUrl::fromLocalFile(cestaVnitrni+"/special/H001.mp3");
     zvukGong=QUrl::fromLocalFile(cestaVnitrni+"/special/H000.mp3");
+    zvukGongPristi=QUrl::fromLocalFile(cestaVnitrni+"/special/H242.mp3");
     zvukKonecna= QUrl::fromLocalFile(cestaVnitrni+"/special/H113.mp3");
     zvukProsimeVystupte= QUrl::fromLocalFile(cestaVnitrni+"/special/H114.mp3");
     zvukZmenaPasma= QUrl::fromLocalFile(cestaVnitrni+"/special/H170.mp3");

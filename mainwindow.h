@@ -74,6 +74,12 @@ private:
     bool filterConnections=true;
     bool useGolemioApi=true;
     bool ibisIsEnabled=false;
+    int announcementType=1;
+    // 0 Prague Bus
+    // 1 Prague Metro
+    // 2 Berlin
+
+
     //ve vterinach
 
     //datove struktury

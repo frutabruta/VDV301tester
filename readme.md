@@ -146,6 +146,10 @@ mingw32-make install
 
 
 ## Changelog
+
+- 20240514_1039
+        - VoiceAnnouncer
+                - added option to split this and next stop announcements (announcement type)
 - 20240513_1725
         - IbisSender
                 - IpisTelegramCompose 

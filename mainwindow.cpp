@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
-   // devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
+    // devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
     devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),
 
     ui(new Ui::MainWindow)
@@ -767,7 +767,21 @@ int MainWindow::eventArrival()
 
     if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()-1))
     {
-        voiceAnnouncer.kompletZastavka(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0+1].stopPoint);
+        switch(announcementType)
+        {
+        case 0:
+            voiceAnnouncer.announceThisAndNextStop(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0+1].stopPoint);
+            break;
+        case 1:
+            voiceAnnouncer.announceThisStop(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+            break;
+        case 2:
+            break;
+        default:
+            break;
+
+        }
+
     }
     else
     {
@@ -799,10 +813,31 @@ int MainWindow::eventDeparture()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    if(vehicleState.currentStopIndex0==1)
+
+
+    switch(announcementType)
     {
-        voiceAnnouncer.kompletOdjezdPrvniZastavka(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+    case 0:
+    {
+        if(vehicleState.currentStopIndex0==1)
+        {
+            voiceAnnouncer.kompletOdjezdPrvniZastavka(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+        }
     }
+    break;
+    case 1:
+        voiceAnnouncer.announceNextStop(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+        break;
+    case 2:
+        break;
+    default:
+        break;
+
+    }
+
+
+
+
 
     timerAfterStopToBetweenStop.start();
 
