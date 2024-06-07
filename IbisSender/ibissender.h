@@ -5,8 +5,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QtSerialPort/QSerialPort>
-#include <VDV301DataStructures/stoppoint.h>
-#include <VDV301DataStructures/stoppointdestination.h>
+
 
 
 #include <QDebug>

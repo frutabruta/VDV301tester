@@ -2,8 +2,8 @@
 #define VOICEANNOUNCER_H
 
 
-#include <VDV301DataStructures/additionalannoucement.h>
-#include <VDV301DataStructures/stoppoint.h>
+#include <VDV301publisher/VDV301DataStructures/additionalannoucement.h>
+#include <VDV301publisher/VDV301DataStructures/stoppoint.h>
 #include "queuesoundplayer.h"
 
 #include <QUrl>

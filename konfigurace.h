@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QtXml>
-#include <VDV301DataStructures/additionalannoucement.h>
+#include <VDV301publisher/VDV301DataStructures/additionalannoucement.h>
 
 class Konfigurace: public QObject
 {

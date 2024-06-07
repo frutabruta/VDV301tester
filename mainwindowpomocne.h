@@ -5,7 +5,7 @@
 #include <QObject>
 #include "VDV301publisher/subscriber.h"
 #include <QTableWidget>
-#include "VDV301DataStructures/additionalannoucement.h"
+#include "VDV301publisher/VDV301DataStructures/additionalannoucement.h"
 
 
 class MainWindowPomocne: public QObject

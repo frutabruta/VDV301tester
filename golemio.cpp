@@ -1,5 +1,5 @@
 #include "golemio.h"
-#include "VDV301DataStructures/connectiongolemio.h"
+#include "VDV301publisher/VDV301DataStructures/connectiongolemio.h"
 
 /*
  * Instalace https://

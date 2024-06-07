@@ -146,6 +146,24 @@ mingw32-make install
 
 
 ## Changelog
+- 20240607_1817
+        - submodule VDV301DataStructures moved to other submodules which require it
+        - IbisSender
+                - VDV301DataStructures includions moved to pisPid and IpisTelegramCompose
+        - MapaVykresleni
+                - changed to MapyApiStops
+        - VDV301publisher
+                - added examples
+                - VDV301DataStructures included
+        - VDV301subscriber
+                - added examples
+        - VDV301DataStructures path changed to one included in VDV301publisher:
+                - VoiceAnnouncer
+                - Golemio
+                - konfigurace
+                - SqlRopidXmlQueries
+                - XmlMpvParser
+
 - 20240514_1556
         - VDV301publisher
                 - 5.15 compatibility fix

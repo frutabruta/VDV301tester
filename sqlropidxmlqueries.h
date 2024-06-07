@@ -6,12 +6,12 @@
 #include <QWidget>
 
 
-#include "VDV301DataStructures/stoppoint.h"
-#include "VDV301DataStructures/line.h"
-#include "VDV301DataStructures/trip.h"
-#include "VDV301DataStructures/farezone.h"
-#include "VDV301DataStructures/stoppointdestination.h"
-#include "VDV301DataStructures/vehiclerun.h"
+#include "VDV301publisher/VDV301DataStructures/stoppoint.h"
+#include "VDV301publisher/VDV301DataStructures/line.h"
+#include "VDV301publisher/VDV301DataStructures/trip.h"
+#include "VDV301publisher/VDV301DataStructures/farezone.h"
+#include "VDV301publisher/VDV301DataStructures/stoppointdestination.h"
+#include "VDV301publisher/VDV301DataStructures/vehiclerun.h"
 
 #include "XmlRopidImportStream/sqlitezaklad.h"
 #include "MapaVykresleni/mnozinabodu.h"

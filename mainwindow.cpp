@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //QString konstantaPocetDni=settings.value("konstanty/pocetDni").toString();
     //settings.setValue("golemio/api-key","XXX");
 
-    mapPlot.setCestaMapa(QCoreApplication::applicationDirPath());
+    mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath());
 
 
 
@@ -1513,8 +1513,8 @@ settings.setValue("myKey", storeMap);
 void MainWindow::on_pushButton_ride_map_clicked()
 {
     mapPlot.seznamMnozin.clear();
-    mapPlot.pridejMnozinu(MapaVykresleni::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),true,false,false,false,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(MapaVykresleni::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),false,false,false,true,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),true,false,false,false,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),false,false,false,true,MnozinaBodu::WGS84);
     mapPlot.pridejMnozinu(sqlRopidQuerries.vytvorTrajektorii(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false, MnozinaBodu::J_STSK);
 
     mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( vehicleState.currentTrip));

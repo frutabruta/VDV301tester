@@ -50,17 +50,18 @@ SOURCES += \
     IbisSender/ipispid.cpp \
     IbisSender/ipissender.cpp \
     IbisSender/ipistelegramcompose.cpp \
-    VDV301DataStructures/additionalannoucement.cpp \
-    VDV301DataStructures/connection.cpp \
-    VDV301DataStructures/connectiongolemio.cpp \
-    VDV301DataStructures/connectionmpv.cpp \
-    VDV301DataStructures/farezone.cpp \
-    VDV301DataStructures/line.cpp \
-    VDV301DataStructures/stoppoint.cpp \
-    VDV301DataStructures/stoppointdestination.cpp \
-    VDV301DataStructures/trip.cpp \
-    VDV301DataStructures/vehiclerun.cpp \
-    VDV301DataStructures/vehiclestate.cpp \
+    MapaVykresleni/mapyapistops.cpp \
+    VDV301publisher/VDV301DataStructures/additionalannoucement.cpp \
+    VDV301publisher/VDV301DataStructures/connection.cpp \
+    VDV301publisher/VDV301DataStructures/connectiongolemio.cpp \
+    VDV301publisher/VDV301DataStructures/connectionmpv.cpp \
+    VDV301publisher/VDV301DataStructures/farezone.cpp \
+    VDV301publisher/VDV301DataStructures/line.cpp \
+    VDV301publisher/VDV301DataStructures/stoppoint.cpp \
+    VDV301publisher/VDV301DataStructures/stoppointdestination.cpp \
+    VDV301publisher/VDV301DataStructures/trip.cpp \
+    VDV301publisher/VDV301DataStructures/vehiclerun.cpp \
+    VDV301publisher/VDV301DataStructures/vehiclestate.cpp \
     VDV301publisher/colordisplayrules.cpp \
     VDV301publisher/customerinformationservice.cpp \
     VDV301publisher/devicemanagementservice.cpp\
@@ -109,17 +110,18 @@ HEADERS += \
     IbisSender/ipispid.h \
     IbisSender/ipissender.h \
     IbisSender/ipistelegramcompose.h \
-    VDV301DataStructures/additionalannoucement.h \
-    VDV301DataStructures/connection.h \
-    VDV301DataStructures/connectiongolemio.h \
-    VDV301DataStructures/connectionmpv.h \
-    VDV301DataStructures/farezone.h \
-    VDV301DataStructures/line.h \
-    VDV301DataStructures/stoppoint.h \
-    VDV301DataStructures/stoppointdestination.h \
-    VDV301DataStructures/trip.h \
-    VDV301DataStructures/vehiclerun.h \
-    VDV301DataStructures/vehiclestate.h \
+    MapaVykresleni/mapyapistops.h \
+    VDV301publisher/VDV301DataStructures/additionalannoucement.h \
+    VDV301publisher/VDV301DataStructures/connection.h \
+    VDV301publisher/VDV301DataStructures/connectiongolemio.h \
+    VDV301publisher/VDV301DataStructures/connectionmpv.h \
+    VDV301publisher/VDV301DataStructures/farezone.h \
+    VDV301publisher/VDV301DataStructures/line.h \
+    VDV301publisher/VDV301DataStructures/stoppoint.h \
+    VDV301publisher/VDV301DataStructures/stoppointdestination.h \
+    VDV301publisher/VDV301DataStructures/trip.h \
+    VDV301publisher/VDV301DataStructures/vehiclerun.h \
+    VDV301publisher/VDV301DataStructures/vehiclestate.h \
     VDV301publisher/colordisplayrules.h \
     VDV301publisher/customerinformationservice.h \
     VDV301publisher/devicemanagementservice.h \

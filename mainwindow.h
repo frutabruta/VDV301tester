@@ -18,9 +18,9 @@
 
 //#include "VDV301DataStructures/stoppoint.h"
 //#include "VDV301DataStructures/line.h"
-#include "VDV301DataStructures/vehiclestate.h"
-#include "VDV301DataStructures/stoppointdestination.h"
-#include "VDV301DataStructures/vdv301displaycontent.h"
+#include "VDV301publisher/VDV301DataStructures/vehiclestate.h"
+#include "VDV301publisher/VDV301DataStructures/stoppointdestination.h"
+//#include "VDV301publisher/VDV301DataStructures/vdv301displaycontent.h"
 
 //#include "VDV301publisher/httpservice.h"
 #include "VDV301publisher/customerinformationservice.h"
@@ -46,7 +46,7 @@
 #include "konfigurace.h"
 #include "logfile.h"
 #include "mainwindowpomocne.h"
-#include "MapaVykresleni/mapavykresleni.h"
+#include "MapaVykresleni/mapyapistops.h"
 
 namespace Ui {
 class MainWindow;
@@ -100,7 +100,7 @@ private:
     VoiceAnnouncer voiceAnnouncer;
     Logfile logfile;
     QFile logFileQFile;
-    MapaVykresleni mapPlot;
+    MapyApiStops mapPlot;
 
     //VDV301testy
     TestDemo testDemo;

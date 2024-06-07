@@ -3,6 +3,9 @@
 
 #include "ipissender.h"
 #include "ipistelegramcompose.h"
+
+#include "VDV301publisher/VDV301DataStructures/stoppointdestination.h"
+
 class IpisPid : public IpisSender
 {
 public:

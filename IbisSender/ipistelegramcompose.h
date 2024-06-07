@@ -1,8 +1,11 @@
 #ifndef IPISTELEGRAMCOMPOSE_H
 #define IPISTELEGRAMCOMPOSE_H
 
-#include "../VDV301DataStructures/stoppoint.h"
+
+#include "VDV301publisher/VDV301DataStructures/stoppoint.h"
+//#include "VDV301publisher/VDV301DataStructures/stoppointdestination.h"
 #include <QObject>
+
 class IpisTelegramCompose
 {
 public:

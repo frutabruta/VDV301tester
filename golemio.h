@@ -9,10 +9,10 @@
 //#include <QCoreApplication>
 
 
-#include <VDV301DataStructures/connectionmpv.h>
-#include <VDV301DataStructures/line.h>
+#include <VDV301publisher/VDV301DataStructures/connectionmpv.h>
+#include <VDV301publisher/VDV301DataStructures/line.h>
 
-#include <VDV301DataStructures/connectiongolemio.h>
+#include <VDV301publisher/VDV301DataStructures/connectiongolemio.h>
 
 class Golemio: public QObject
 {
