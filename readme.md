@@ -69,10 +69,6 @@ Special sounds are stored in hlaseni/special
 
 
 
-
-
-
-
 ## Requirements:
 ### Windows
         Bonjour
@@ -146,6 +142,19 @@ mingw32-make install
 
 
 ## Changelog
+- 20240611_1858
+        - VDV301publisher
+                - 2_3 removed ZoneChange to comply with XSD of CIS 2.3 from vdv.de
+        - XmlRopidImportStream
+                - XmlImportJr::vlozS
+                        - added import of columms: sm, np
+                - SqLiteZaklad
+                        - SqLiteZaklad::vytvorCasHodinyMinuty
+                                - if value from DB is empty string, returns empty string (used to return 00:00)
+        - UI
+                - added departure to stops where arrival is not available and vice versa
+        - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
+                - added import of ArrivalTime
 - 20240607_1817
         - submodule VDV301DataStructures moved to other submodules which require it
         - IbisSender

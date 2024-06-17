@@ -128,8 +128,11 @@ int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , 
             }
 
             aktZast.additionalTextMessage =query.value(query.record().indexOf("t.hl")).toString();
-            QString casPrijezdu =query.value( query.record().indexOf("x.o")).toString();
-            aktZast.DepartureTime=casPrijezdu;
+
+            QString arrivalTime =query.value( query.record().indexOf("x.p")).toString();
+            aktZast.ArrivalTime=arrivalTime;
+            QString departureTime =query.value( query.record().indexOf("x.o")).toString();
+            aktZast.DepartureTime=departureTime;
             aktZast.isViapoint=query.value(query.record().indexOf("x.na")).toInt();
             aktZast.onRequest =query.value(query.record().indexOf("x.zn")).toBool();
             aktZast.transferMetroA =query.value(query.record().indexOf("x.xA")).toBool();
@@ -239,7 +242,7 @@ dbManager->query.exec();
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
     queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, l.cids, l.tl, l.kli, ");
-    queryString2+=("x.o, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, x.s_id, ");
+    queryString2+=("x.o, x.p, x.t, x.na, x.zn, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, x.s_id, ");
     queryString2+=("s.ns, s.c, s.vy, ");
     queryString2+=("ids.z AS pz1, ");
     queryString2+=("ids2.z AS pz2, ");

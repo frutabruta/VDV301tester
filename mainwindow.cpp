@@ -2164,6 +2164,7 @@ void MainWindow::dumpStopsToTable(int cisloporadi, QVector<StopPointDestination>
         QString cisloZastavky = QString::number(i+1);
         QString nazevZastavky2 = docasnySeznamZastavek.at(i).stopPoint.StopName;
         QString odjezdZeZastavky =  sqlRopidQuerries.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.DepartureTime);
+        QString prijezdDoZastavky =  sqlRopidQuerries.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.ArrivalTime);
         QString pasma= sqlRopidQuerries.pasmaDoStringu(docasnySeznamZastavek.at(i).stopPoint.fareZoneList,",");
         QString znameni="";
         if (docasnySeznamZastavek.at(i).stopPoint.onRequest==true)
@@ -2183,8 +2184,25 @@ void MainWindow::dumpStopsToTable(int cisloporadi, QVector<StopPointDestination>
         cell = new QTableWidgetItem(nazevZastavky2);
         ui->tableWidget_ride_stopList->setItem(row, 1, cell);
 
+        QString timeText="";
+        if(prijezdDoZastavky==odjezdZeZastavky)
+        {
+            timeText=odjezdZeZastavky;
+        }
+        else
+        {
+            if(prijezdDoZastavky.isEmpty()||odjezdZeZastavky.isEmpty())
+            {
+                 timeText=prijezdDoZastavky+odjezdZeZastavky;
+            }
+            else
+            {
+                 timeText=prijezdDoZastavky+" "+odjezdZeZastavky;
+            }
 
-        cell = new QTableWidgetItem(odjezdZeZastavky);
+        }
+
+        cell = new QTableWidgetItem(timeText);
         ui->tableWidget_ride_stopList->setItem(row, 2, cell);
 
 
