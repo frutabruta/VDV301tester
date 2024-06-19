@@ -142,6 +142,8 @@ mingw32-make install
 
 
 ## Changelog
+- Vdv301publisher 
+        - RouteDeviationEnumeration
 - 20240619_1751
         - MapaVykresleni
                 - new Vdv301DataStructures
