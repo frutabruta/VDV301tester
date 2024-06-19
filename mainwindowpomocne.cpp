@@ -1,4 +1,5 @@
 #include "mainwindowpomocne.h"
+#include "sqlropidxmlqueries.h"
 #include <QtDebug>
 #include <QtWidgets>
 
@@ -78,6 +79,97 @@ void MainWindowPomocne::naplnTabulkuHlaseni(QTableWidget *vstup, QVector<Additio
 
 }
 
+
+void MainWindowPomocne::dumpStopsToTable(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, Vdv301Enumerations::LocationStateEnumeration locationState, SqlRopidXmlQueries &sqlRopidQuerries, QTableWidget *table )
+{
+
+    qDebug() <<  Q_FUNC_INFO;
+    table->setRowCount(0);
+
+
+
+    for (int i=0;i<(docasnySeznamZastavek.count());i++)
+    {
+        QString cisloZastavky = QString::number(i+1);
+        QString nazevZastavky2 = docasnySeznamZastavek.at(i).stopPoint.StopName;
+        QString odjezdZeZastavky =  sqlRopidQuerries.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.DepartureTime);
+        QString prijezdDoZastavky =  sqlRopidQuerries.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.ArrivalTime);
+        QString pasma= sqlRopidQuerries.pasmaDoStringu(docasnySeznamZastavek.at(i).stopPoint.fareZoneList,",");
+        QString znameni="";
+        if (docasnySeznamZastavek.at(i).stopPoint.onRequest==true)
+        {
+            znameni="(x)";
+        }
+
+
+        qint32 row;
+        QTableWidgetItem *cell;
+        row = table->rowCount();
+        table->insertRow(row);
+
+        cell = new QTableWidgetItem(cisloZastavky);
+        table->setItem(row, 0, cell);
+
+        cell = new QTableWidgetItem(nazevZastavky2);
+        table->setItem(row, 1, cell);
+
+        QString timeText="";
+        if(prijezdDoZastavky==odjezdZeZastavky)
+        {
+            timeText=odjezdZeZastavky;
+        }
+        else
+        {
+            if(prijezdDoZastavky.isEmpty()||odjezdZeZastavky.isEmpty())
+            {
+                timeText=prijezdDoZastavky+odjezdZeZastavky;
+            }
+            else
+            {
+                timeText=prijezdDoZastavky+" "+odjezdZeZastavky;
+            }
+
+        }
+
+        cell = new QTableWidgetItem(timeText);
+        table->setItem(row, 2, cell);
+
+
+        cell = new QTableWidgetItem(znameni);
+        table->setItem(row, 3, cell);
+
+        cell = new QTableWidgetItem(pasma);
+        table->setItem(row, 4, cell);
+
+        //   ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
+
+    }
+
+    int zabarvenySloupec=1;
+    int pocetRadkuTabulky=table->rowCount();
+    if (pocetRadkuTabulky<=0)
+    {
+        qDebug()<<"tabulku nelze obarvit, je prazdna";
+        // return;
+    }
+    else
+    {
+        if (locationState==Vdv301Enumerations::LocationStateAtStop)
+        {
+
+            QBrush cyan(Qt::cyan);
+            table->item(cisloporadi,zabarvenySloupec)->setBackground(cyan);
+        }
+        else
+        {
+            QBrush gray(Qt::gray);
+            table->item(cisloporadi,zabarvenySloupec)->setBackground(gray);
+        }
+        table->resizeColumnsToContents();
+        table->resizeRowsToContents();
+        table->scrollToItem(table->item(cisloporadi,0));
+    }
+}
 
 /*
 void MainWindowPomocne::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)

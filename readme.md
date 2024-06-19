@@ -142,6 +142,15 @@ mingw32-make install
 
 
 ## Changelog
+- 20240619_1751
+        - MapaVykresleni
+                - new Vdv301DataStructures
+        - VDV301publisher
+                - changed locationState data type
+        - MainWindow
+                - sqlRopidQuerries renamed to sqlRopidQueries
+                - function dumpStopsToTable moved to MainWindowPomocne
+                - functions modified to support LocationStateEnumerations
 - 20240611_1858
         - VDV301publisher
                 - 2_3 removed ZoneChange to comply with XSD of CIS 2.3 from vdv.de

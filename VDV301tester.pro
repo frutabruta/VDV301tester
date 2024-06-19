@@ -60,6 +60,17 @@ SOURCES += \
     VDV301publisher/VDV301DataStructures/stoppoint.cpp \
     VDV301publisher/VDV301DataStructures/stoppointdestination.cpp \
     VDV301publisher/VDV301DataStructures/trip.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301alldata.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301connection.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301destination.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301displaycontent.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301enumerations.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301internationaltext.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301line.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301stoppoint.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301trip.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301vehicleinformationgroup.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301viapoint.cpp \
     VDV301publisher/VDV301DataStructures/vehiclerun.cpp \
     VDV301publisher/VDV301DataStructures/vehiclestate.cpp \
     VDV301publisher/colordisplayrules.cpp \
@@ -120,6 +131,17 @@ HEADERS += \
     VDV301publisher/VDV301DataStructures/stoppoint.h \
     VDV301publisher/VDV301DataStructures/stoppointdestination.h \
     VDV301publisher/VDV301DataStructures/trip.h \
+    VDV301publisher/VDV301DataStructures/vdv301alldata.h \
+    VDV301publisher/VDV301DataStructures/vdv301connection.h \
+    VDV301publisher/VDV301DataStructures/vdv301destination.h \
+    VDV301publisher/VDV301DataStructures/vdv301displaycontent.h \
+    VDV301publisher/VDV301DataStructures/vdv301enumerations.h \
+    VDV301publisher/VDV301DataStructures/vdv301internationaltext.h \
+    VDV301publisher/VDV301DataStructures/vdv301line.h \
+    VDV301publisher/VDV301DataStructures/vdv301stoppoint.h \
+    VDV301publisher/VDV301DataStructures/vdv301trip.h \
+    VDV301publisher/VDV301DataStructures/vdv301vehicleinformationgroup.h \
+    VDV301publisher/VDV301DataStructures/vdv301viapoint.h \
     VDV301publisher/VDV301DataStructures/vehiclerun.h \
     VDV301publisher/VDV301DataStructures/vehiclestate.h \
     VDV301publisher/colordisplayrules.h \

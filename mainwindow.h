@@ -87,7 +87,7 @@ private:
 
 
     //SQLprace mojesql;
-    SqlRopidXmlQueries sqlRopidQuerries;
+    SqlRopidXmlQueries sqlRopidQueries;
 
     //instance knihoven
     Konfigurace konfigurace;
@@ -195,11 +195,11 @@ private:
 
 
 
-    void dumpStopsToTable(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, QString locationState);
+
     
     int initializeTheTrip();
     void resetTripList();
-    void updateVehicleLocationDisplay(QString stav);
+    void updateVehicleLocationDisplay(Vdv301Enumerations::LocationStateEnumeration locationState);
 
 
     //timery
@@ -215,7 +215,7 @@ private:
     void modelDoTabulkySeradit(QSqlQueryModel* modelInput, QTableView* tableView);
     void retranslateUi(QString language);
 
-public slots:
+  public slots:
     void slotVypisSqlVysledek(QString vstup);
 
     void slotAktualizacePracData(); //unused

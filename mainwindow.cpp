@@ -189,8 +189,8 @@ void MainWindow::allConnects()
     connect(ui->radioButton_OFF4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStop);
 
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
-    connect(&sqlRopidQuerries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
-    connect(&sqlRopidQuerries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
+    connect(&sqlRopidQueries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
+    connect(&sqlRopidQueries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
 
     //  connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
 
@@ -442,7 +442,7 @@ void MainWindow::slotMpvNetReady()
         prestupyMpv=xmlMpvParser.vyfiltrujPrestupy(prestupyMpv,vehicleState.currentLine);
     }
     QVector<Connection> prestupy;
-    foreach(auto polozka, prestupyMpv)
+    foreach(ConnectionMPV polozka, prestupyMpv)
     {
         prestupy.push_back(polozka.toConnection());
     }
@@ -515,12 +515,12 @@ int MainWindow::initializeTheTrip()
     }
 
 
-    vysledek=sqlRopidQuerries.stahniSeznamCelySpojTurnus(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex,this->createDataValidityMask());
+    vysledek=sqlRopidQueries.stahniSeznamCelySpojTurnus(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex,this->createDataValidityMask());
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     if (vehicleState.getCurrentTrip().continuesWithNextTrip==true)
     {
-        vysledek=sqlRopidQuerries.stahniSeznamCelySpojTurnus(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex+1,this->createDataValidityMask());
+        vysledek=sqlRopidQueries.stahniSeznamCelySpojTurnus(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex+1,this->createDataValidityMask());
         qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     }
@@ -547,7 +547,7 @@ int MainWindow::initializeTheTrip()
     else
     {
         updateDriverDisplay();
-        vehicleState.locationState="AtStop";
+        vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
         ui->pushButton_menu_ride->setChecked(1);
         ui->stackedWidget_palPc->setCurrentWidget(ui->page_ride);
         eventEnterService();
@@ -558,26 +558,29 @@ int MainWindow::initializeTheTrip()
 
 
 
-void MainWindow::updateVehicleLocationDisplay(QString stav)
+void MainWindow::updateVehicleLocationDisplay(Vdv301Enumerations::LocationStateEnumeration locationState)
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(stav=="BeforeStop")
+    switch(locationState)
     {
+    case Vdv301Enumerations::LocationStateBeforeStop:
         ui->pushButton_ride_beforeStop->setChecked(true);
-    }
-    if(stav=="AtStop")
-    {
+        break;
+    case Vdv301Enumerations::LocationStateAtStop:
         ui->pushButton_ride_atStop->setChecked(true);
-    }
-    if(stav=="AfterStop")
-    {
+        break;
+    case Vdv301Enumerations::LocationStateAfterStop:
         ui->pushButton_ride_afterStop->setChecked(true);
-    }
-    if(stav=="BetweenStop")
-    {
+        break;
+    case Vdv301Enumerations::LocationStateBetweenStop:
         ui->pushButton_ride_betweenStop->setChecked(true);
+        break;
+    default:
+        break;
+
     }
-    ui->label_ride_locationStateIndicator->setText(vehicleState.locationState);
+
+    ui->label_ride_locationStateIndicator->setText(Vdv301Enumerations::LocationStateEnumerationToQString(vehicleState.locationState));
 }
 
 
@@ -591,7 +594,7 @@ pripoji se k databazi a naplni okna pro vyber spoju
 void MainWindow::initializeSelectionListView()
 {
     qDebug() <<  Q_FUNC_INFO;
-    sqlRopidQuerries.pripoj();
+    sqlRopidQueries.pripoj();
     
     
     
@@ -600,8 +603,8 @@ void MainWindow::initializeSelectionListView()
     
     ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
 
-    QSqlQueryModel* modelLinky=sqlRopidQuerries.stahniSeznamLinekModel(this->createDataValidityMask());
-    QSqlQueryModel* modelKmenoveLinky=sqlRopidQuerries.stahniSeznamKmenovychLinekModel(this->createDataValidityMask());
+    QSqlQueryModel* modelLinky=sqlRopidQueries.stahniSeznamLinekModel(this->createDataValidityMask());
+    QSqlQueryModel* modelKmenoveLinky=sqlRopidQueries.stahniSeznamKmenovychLinekModel(this->createDataValidityMask());
 
     if (modelLinky->rowCount()>0)
     {
@@ -637,7 +640,7 @@ načte platnost a nastaví rozsahy klikatelných oblastí kalendáře
 void MainWindow::updateCalendar()
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(sqlRopidQuerries.nactiPlatnost(validityFrom,validityTo))
+    if(sqlRopidQueries.nactiPlatnost(validityFrom,validityTo))
     {
         ui->calendarWidget_data_workingDate->setMinimumDate(validityFrom);
         ui->calendarWidget_data_workingDate->setMaximumDate(validityTo);
@@ -675,7 +678,7 @@ void MainWindow::updateDriverDisplay()
         return;
     }
 
-    dumpStopsToTable(vehicleState.currentStopIndex0,this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.locationState);
+    MainWindowPomocne::dumpStopsToTable(vehicleState.currentStopIndex0,this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.locationState,sqlRopidQueries,  ui->tableWidget_ride_stopList);
     int delkaGlobalnihoSeznamu= this->vehicleState.countCurrentTripStops();
     int indexZastavky=vehicleState.currentStopIndex0;
     qDebug()<<"delka seznamu spoju "<<this->vehicleState.currentVehicleRun.tripList.length()<<" index "<<vehicleState.currentTripIndex<<" delka globsezzast "<< delkaGlobalnihoSeznamu  << " indexAktZast "<<indexZastavky   ;
@@ -790,7 +793,7 @@ int MainWindow::eventArrival()
 
 
 
-    vehicleState.locationState="AtStop";
+    vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
     updateDriverDisplay();
     xmlVdv301UpdateContent();
 
@@ -835,12 +838,7 @@ int MainWindow::eventDeparture()
 
     }
 
-
-
-
-
     timerAfterStopToBetweenStop.start();
-
 
     return 1;
 }
@@ -857,7 +855,7 @@ void MainWindow::eventAfterStopToBetweenStop()
     {
         eventFareZoneChangeHide();
     }
-    vehicleState.locationState="BetweenStop";
+    vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
     updateDriverDisplay();
     xmlVdv301UpdateContent();
 
@@ -1103,7 +1101,7 @@ void MainWindow::on_listView_line_clicked(const QModelIndex &index)
     
     
     ui->lineEdit_lineNumber->setText(QString::number(vehicleState.currentLine.c ));
-    modelConnection=sqlRopidQuerries.stahniSeznamSpojuModel2(vehicleState.currentLine, this->createDataValidityMask());
+    modelConnection=sqlRopidQueries.stahniSeznamSpojuModel2(vehicleState.currentLine, this->createDataValidityMask());
     qDebug()<<"model size:"<<modelConnection->rowCount()<<" "<<modelConnection->columnCount();
     
     
@@ -1127,7 +1125,7 @@ void MainWindow::on_listView_rootLine_clicked(const QModelIndex &index)
     
     ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c));
 
-    QSqlQueryModel* modelPoradi=sqlRopidQuerries.stahniSeznamPoradiModel(vehicleState.currentVehicleRun.rootLine, this->createDataValidityMask());
+    QSqlQueryModel* modelPoradi=sqlRopidQueries.stahniSeznamPoradiModel(vehicleState.currentVehicleRun.rootLine, this->createDataValidityMask());
     
     ui->listView_lineRun->setModel(modelPoradi);
     ui->listView_lineRun->setModelColumn(modelPoradi->record().indexOf("o.p"));
@@ -1147,7 +1145,7 @@ void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
             vehicleState.currentVehicleRun.order=index.data(Qt::DisplayRole).toString().toInt();
 
             /// zakomentovat?
-            if (sqlRopidQuerries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
+            if (sqlRopidQueries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
             {
                 qDebug()<<"pocetSpoju: "<<vehicleState.currentVehicleRun.tripList.count();
             }
@@ -1156,7 +1154,7 @@ void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
                 qDebug()<<"spoje nenalezeny";
             }
 
-            QSqlQueryModel* modelTurnusSpoj=sqlRopidQuerries.stahniSeznamTurnusSpojuModel(vehicleState.currentVehicleRun, this->createDataValidityMask());
+            QSqlQueryModel* modelTurnusSpoj=sqlRopidQueries.stahniSeznamTurnusSpojuModel(vehicleState.currentVehicleRun, this->createDataValidityMask());
             ui->tableView_lineTrip->setModel(modelTurnusSpoj);
             ui->tableView_lineTrip->resizeColumnsToContents();
         }
@@ -1515,7 +1513,7 @@ void MainWindow::on_pushButton_ride_map_clicked()
     mapPlot.seznamMnozin.clear();
     mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),true,false,false,false,MnozinaBodu::WGS84);
     mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),false,false,false,true,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(sqlRopidQuerries.vytvorTrajektorii(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false, MnozinaBodu::J_STSK);
+    mapPlot.pridejMnozinu(sqlRopidQueries.vytvorTrajektorii(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false, MnozinaBodu::J_STSK);
 
     mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( vehicleState.currentTrip));
 
@@ -1624,7 +1622,7 @@ void MainWindow::on_pushButton_menu_quit_clicked()
 void MainWindow::on_pushButton_ride_beforeStop_clicked()
 {
 
-    vehicleState.locationState="BeforeStop";
+    vehicleState.locationState=Vdv301Enumerations::LocationStateBeforeStop;
     xmlVdv301UpdateContent();
 }
 
@@ -1646,7 +1644,7 @@ void MainWindow::on_pushButton_ride_atStop_clicked()
 void MainWindow::on_pushButton_ride_afterStop_clicked()
 {
 
-    vehicleState.locationState="AfterStop";
+    vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
     xmlVdv301UpdateContent();
 }
 
@@ -1658,7 +1656,7 @@ void MainWindow::on_pushButton_ride_afterStop_clicked()
 void MainWindow::on_pushButton_ride_betweenStop_clicked()
 {
 
-    vehicleState.locationState="BetweenStop";
+    vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
     xmlVdv301UpdateContent();
 }
 
@@ -1734,38 +1732,46 @@ void MainWindow::on_pushButton_ride_arrowNextState_clicked()
 
     if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()))
     {
-        if((vehicleState.locationState=="AtStop")&&((vehicleState.currentStopIndex0<(vehicleState.countCurrentTripStops()-1) )))
+        if((vehicleState.locationState==Vdv301Enumerations::LocationStateAtStop)&&((vehicleState.currentStopIndex0<(vehicleState.countCurrentTripStops()-1) )))
         {
-            vehicleState.locationState="AfterStop";
+            vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
             vehicleState.currentStopIndex0++;
             eventDeparture();
         }
         else
         {
             qDebug()<<"dalsi? index:"<<vehicleState.currentStopIndex0<<" pocetZastavek:"<<vehicleState.countCurrentTripStops();
-            if((vehicleState.locationState=="AtStop")&&((vehicleState.currentStopIndex0+1)==vehicleState.countCurrentTripStops()))
+            if((vehicleState.locationState==Vdv301Enumerations::LocationStateAtStop)&&((vehicleState.currentStopIndex0+1)==vehicleState.countCurrentTripStops()))
             {
                 this->eventGoToNextTrip();
             }
 
-
-            if(vehicleState.locationState=="BeforeStop")
+            switch (vehicleState.locationState)
             {
-                vehicleState.locationState="AtStop";
-
+            case Vdv301Enumerations::LocationStateBeforeStop:
+            {
+                vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
                 eventArrival();
+                break;
             }
-
-            if(vehicleState.locationState=="BetweenStop")
+            case Vdv301Enumerations::LocationStateBetweenStop:
             {
-                vehicleState.locationState="BeforeStop";
+                vehicleState.locationState=Vdv301Enumerations::LocationStateBeforeStop;
+                break;
             }
-
-            if(vehicleState.locationState=="AfterStop")
+            case Vdv301Enumerations::LocationStateAfterStop:
             {
-                vehicleState.locationState="BetweenStop";
+                vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
                 eventAfterStopToBetweenStop();
+                break;
             }
+
+
+            default:
+                break;
+            }
+
+
         }
     }
 
@@ -1787,23 +1793,28 @@ void MainWindow::on_pushButton_ride_arrowPreviousState_clicked()
     qDebug() <<  Q_FUNC_INFO;
     if (vehicleState.currentStopIndex0>=1)
     {
-        if(vehicleState.locationState=="AfterStop")
+        switch(vehicleState.locationState)
         {
-            vehicleState.locationState="AtStop";
+        case Vdv301Enumerations::LocationStateAfterStop:
+        {
+            vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
             vehicleState.currentStopIndex0--;
             eventArrival();
+            break;
         }
-        else
-        {
-            if(vehicleState.locationState=="BetweenStop")
-            {vehicleState.locationState="AfterStop";}
-
-            if(vehicleState.locationState=="BeforeStop")
-            {vehicleState.locationState="BetweenStop";}
-
-            if(vehicleState.locationState=="AtStop")
-            {vehicleState.locationState="BeforeStop";}
+        case Vdv301Enumerations::LocationStateBetweenStop:
+            vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
+            break;
+        case Vdv301Enumerations::LocationStateBeforeStop:
+            vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
+            break;
+        case Vdv301Enumerations::LocationStateAtStop:
+            vehicleState.locationState=Vdv301Enumerations::LocationStateBeforeStop;
+            break;
+        default:
+            break;
         }
+
         updateDriverDisplay();
     }
     ui->label_ride_stopIndex->setText(QString::number(vehicleState.currentStopIndex0));
@@ -1840,7 +1851,7 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
     int kmenovaLinka=0;;
     int poradi=0;
     int order=0;
-    sqlRopidQuerries.najdiTurnusZeSpoje( vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() );
+    sqlRopidQueries.najdiTurnusZeSpoje( vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() );
 
     vehicleState.currentStopIndex0=0;
     
@@ -1857,14 +1868,14 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
 
 
     vehicleState.currentVehicleRun.order=poradi ;
-    if (sqlRopidQuerries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
+    if (sqlRopidQueries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
     {
         // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
     }
 
 
     Trip hledanySpoj=vehicleState.currentTrip;
-    vehicleState.currentTripIndex=sqlRopidQuerries.poziceSpojeNaSeznamu(vehicleState.currentVehicleRun.tripList,hledanySpoj);
+    vehicleState.currentTripIndex=sqlRopidQueries.poziceSpojeNaSeznamu(vehicleState.currentVehicleRun.tripList,hledanySpoj);
 
     if(! MainWindowPomocne::jeVRozsahu(vehicleState.currentTripIndex,vehicleState.currentVehicleRun.tripList.size(),Q_FUNC_INFO))
     {
@@ -2007,7 +2018,7 @@ void MainWindow::on_tableView_trip_clicked(const QModelIndex &index)
             int order=0;
 
 
-            sqlRopidQuerries.najdiTurnusZeSpoje(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
+            sqlRopidQueries.najdiTurnusZeSpoje(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
             qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
 
         }
@@ -2047,8 +2058,8 @@ void MainWindow::on_tableWidget_specialAnnouncements_cellClicked(int row, int co
 
 void MainWindow::on_tableWidget_ride_stopList_cellClicked(int row, int column)
 {
-    qDebug()<<"on_tableWidgetNasledujiciZastavky_cellClicked";
-    vehicleState.locationState="AtStop";
+    qDebug()<<Q_FUNC_INFO;
+    vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
     ui->pushButton_ride_atStop->setChecked(true);
     vehicleState.currentStopIndex0=row;
     eventArrival();
@@ -2099,7 +2110,7 @@ void MainWindow::updataWorkingDate()
 
 
     this->createDataValidityMask();
-    sqlRopidQuerries.maskaKalendarJizd(this->vehicleState.referenceDate,validityFrom,validityTo);
+    sqlRopidQueries.maskaKalendarJizd(this->vehicleState.referenceDate,validityFrom,validityTo);
 
     initializeSelectionListView();
 }
@@ -2146,101 +2157,10 @@ void MainWindow::slotAktualizacePracData()
 QString MainWindow::createDataValidityMask()
 {
     qDebug() <<  Q_FUNC_INFO;
-    return sqlRopidQuerries.maskaKalendarJizd(vehicleState.referenceDate,validityFrom, validityTo);
+    return sqlRopidQueries.maskaKalendarJizd(vehicleState.referenceDate,validityFrom, validityTo);
 }
 
 
-
-void MainWindow::dumpStopsToTable(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, QString locationState)
-{
-
-    qDebug() <<  Q_FUNC_INFO;
-    ui->tableWidget_ride_stopList->setRowCount(0);
-
-
-
-    for (int i=0;i<(docasnySeznamZastavek.count());i++)
-    {
-        QString cisloZastavky = QString::number(i+1);
-        QString nazevZastavky2 = docasnySeznamZastavek.at(i).stopPoint.StopName;
-        QString odjezdZeZastavky =  sqlRopidQuerries.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.DepartureTime);
-        QString prijezdDoZastavky =  sqlRopidQuerries.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.ArrivalTime);
-        QString pasma= sqlRopidQuerries.pasmaDoStringu(docasnySeznamZastavek.at(i).stopPoint.fareZoneList,",");
-        QString znameni="";
-        if (docasnySeznamZastavek.at(i).stopPoint.onRequest==true)
-        {
-            znameni="(x)";
-        }
-
-
-        qint32 row;
-        QTableWidgetItem *cell;
-        row = ui->tableWidget_ride_stopList->rowCount();
-        ui->tableWidget_ride_stopList->insertRow(row);
-
-        cell = new QTableWidgetItem(cisloZastavky);
-        ui->tableWidget_ride_stopList->setItem(row, 0, cell);
-
-        cell = new QTableWidgetItem(nazevZastavky2);
-        ui->tableWidget_ride_stopList->setItem(row, 1, cell);
-
-        QString timeText="";
-        if(prijezdDoZastavky==odjezdZeZastavky)
-        {
-            timeText=odjezdZeZastavky;
-        }
-        else
-        {
-            if(prijezdDoZastavky.isEmpty()||odjezdZeZastavky.isEmpty())
-            {
-                 timeText=prijezdDoZastavky+odjezdZeZastavky;
-            }
-            else
-            {
-                 timeText=prijezdDoZastavky+" "+odjezdZeZastavky;
-            }
-
-        }
-
-        cell = new QTableWidgetItem(timeText);
-        ui->tableWidget_ride_stopList->setItem(row, 2, cell);
-
-
-        cell = new QTableWidgetItem(znameni);
-        ui->tableWidget_ride_stopList->setItem(row, 3, cell);
-
-        cell = new QTableWidgetItem(pasma);
-        ui->tableWidget_ride_stopList->setItem(row, 4, cell);
-
-        //   ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
-
-    }
-
-    int zabarvenySloupec=1;
-    int pocetRadkuTabulky=ui->tableWidget_ride_stopList->rowCount();
-    if (pocetRadkuTabulky<=0)
-    {
-        qDebug()<<"tabulku nelze obarvit, je prazdna";
-        // return;
-    }
-    else
-    {
-        if (locationState=="AtStop")
-        {
-
-            QBrush cyan(Qt::cyan);
-            ui->tableWidget_ride_stopList->item(cisloporadi,zabarvenySloupec)->setBackground(cyan);
-        }
-        else
-        {
-            QBrush gray(Qt::gray);
-            ui->tableWidget_ride_stopList->item(cisloporadi,zabarvenySloupec)->setBackground(gray);
-        }
-        ui->tableWidget_ride_stopList->resizeColumnsToContents();
-        ui->tableWidget_ride_stopList->resizeRowsToContents();
-        ui->tableWidget_ride_stopList->scrollToItem(ui->tableWidget_ride_stopList->item(cisloporadi,0));
-    }
-}
 
 
 
@@ -2451,6 +2371,8 @@ void MainWindow::dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceList
     }
 }
 
+
+
 void MainWindow::truncateSubscriberTable(QTableWidget *tableWidget)
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -2565,16 +2487,11 @@ QString MainWindow::replaceDriverAnnouncementFormatting(QString input)
 #endif
 
 
-
-
     output=input.replace(vyraz,"<b>\\1</b>");
     qDebug().noquote()<<"retezec po: "<<output;
 
     return output;
 }
-
-
-
 
 
 QString MainWindow::textVerze()
@@ -2585,10 +2502,6 @@ QString MainWindow::textVerze()
     QString verze=datumKompilace.toString("yyyyMMdd")+"_"+casKompilace.toString("hhmm");
     return verze;
 }
-
-
-
-
 
 
 
