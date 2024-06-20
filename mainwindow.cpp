@@ -766,7 +766,7 @@ int MainWindow::eventArrival()
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    vehicleState.doorState="DoorsOpen";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateDoorsOpen;
 
     if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()-1))
     {
@@ -1777,7 +1777,7 @@ void MainWindow::on_pushButton_ride_arrowNextState_clicked()
 
 
     updateDriverDisplay();
-    vehicleState.doorState="AllDoorsClosed";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
     // ui->popisek->setText(QString::number(stavSystemu.currentStopIndex0+1));
     xmlVdv301UpdateContent();
 }
@@ -1838,7 +1838,7 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     vehicleState.reset();
-    vehicleState.doorState="AllDoorsClosed";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
 
 
     /*
@@ -1904,7 +1904,7 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
 int MainWindow::on_pushButton_lineRun_confirm_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    vehicleState.doorState="AllDoorsClosed";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
     vehicleState.currentLine.lineNumber =ui->lineEdit_rootLine->text();
 
     vehicleState.currentStopIndex0=0;
@@ -1941,28 +1941,28 @@ void MainWindow::on_pushButton_configuration_setGolemioKey_clicked()
 
 void MainWindow::on_radioButton_ride_singleDoorOpen_clicked()
 {
-    vehicleState.doorState="SingleDoorOpen";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateSingleDoorOpen;
     xmlVdv301UpdateContent();
 }
 
 
 void MainWindow::on_radioButton_ride_allDoorsClosed_clicked()
 {
-    vehicleState.doorState="AllDoorsClosed";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
     xmlVdv301UpdateContent();
 }
 
 
 void MainWindow::on_radioButton_ride_doorsOpen_clicked()
 {
-    vehicleState.doorState="DoorsOpen";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateDoorsOpen;
     xmlVdv301UpdateContent();
 }
 
 
 void MainWindow::on_radioButton_ride_singleDoorCloser_clicked()
 {
-    vehicleState.doorState="SingleDoorClosed";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateSingleDoorClosed;
     xmlVdv301UpdateContent();
 }
 
@@ -2064,7 +2064,7 @@ void MainWindow::on_tableWidget_ride_stopList_cellClicked(int row, int column)
     vehicleState.currentStopIndex0=row;
     eventArrival();
     updateDriverDisplay();
-    vehicleState.doorState="AllDoorsClosed";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
 
     xmlVdv301UpdateContent();
 }

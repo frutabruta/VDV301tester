@@ -142,8 +142,14 @@ mingw32-make install
 
 
 ## Changelog
-- Vdv301publisher 
-        - RouteDeviationEnumeration
+- 20240620_1123
+        - application of Vdv301Enumerations::DoorOpenStateEnumeration
+                - Vdv301publisher
+                - MainWindows
+                
+- 20240619_XXXX
+        - Vdv301publisher 
+                - RouteDeviationEnumeration
 - 20240619_1751
         - MapaVykresleni
                 - new Vdv301DataStructures
