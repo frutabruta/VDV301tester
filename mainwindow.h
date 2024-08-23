@@ -85,6 +85,8 @@ private:
     //datove struktury
     VehicleState vehicleState;
 
+    QVector<Vdv301DisplayContent> globalDisplayContentList2_3CZ1_0;
+
 
     //SQLprace mojesql;
     SqlRopidXmlQueries sqlRopidQueries;
@@ -144,10 +146,16 @@ private:
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_2CZ1_0;
     CustomerInformationService customerInformationService2_3;
+    CustomerInformationService customerInformationService2_3CZ1_0;
 
 
     TicketValidationService ticketValidationService2_3CZ1_0;
+
+    //list which changes - every service is poped after start
     QVector<CustomerInformationService*> vektorCis;
+
+    //permanent list of all CIS instances, which doesn't change over time
+    QVector<CustomerInformationService*> vektorCisPermanent;
 
     //IBIS-IP subscriber
     DevMgmtSubscriber2 devMgmtSubscriber;
@@ -194,8 +202,6 @@ private:
     void truncateSubscriberTable(QTableWidget *tableWidget);
 
 
-
-
     
     int initializeTheTrip();
     void resetTripList();
@@ -214,8 +220,9 @@ private:
 
     void modelDoTabulkySeradit(QSqlQueryModel* modelInput, QTableView* tableView);
     void retranslateUi(QString language);
-
-  public slots:
+    
+    QVector<Vdv301DisplayContent> createGlobalDisplayContentOutOfService2_3();
+public slots:
     void slotVypisSqlVysledek(QString vstup);
 
     void slotAktualizacePracData(); //unused

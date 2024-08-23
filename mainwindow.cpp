@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3"),
+    customerInformationService2_3CZ1_0("CustomerInformationService","_ibisip_http._tcp",47482,"2.3CZ1.0"),
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
@@ -41,6 +42,12 @@ MainWindow::MainWindow(QWidget *parent) :
     vektorCis.push_back(&customerInformationService1_0);
     vektorCis.push_back(&customerInformationService2_2CZ1_0);
     vektorCis.push_back(&customerInformationService2_3);
+    vektorCis.push_back(&customerInformationService2_3CZ1_0);
+
+    vektorCisPermanent.push_back(&customerInformationService1_0);
+    vektorCisPermanent.push_back(&customerInformationService2_2CZ1_0);
+    vektorCisPermanent.push_back(&customerInformationService2_3);
+    vektorCisPermanent.push_back(&customerInformationService2_3CZ1_0);
 
     //QString konstantaPocetDni=settings.value("konstanty/pocetDni").toString();
     //settings.setValue("golemio/api-key","XXX");
@@ -116,6 +123,9 @@ MainWindow::MainWindow(QWidget *parent) :
     timerAfterStopToBetweenStop.setSingleShot(true);
     timerAfterStopToBetweenStop.setInterval(konfigurace.intervalAfterStopToBetweenStop);
 
+
+    eventExitService();
+
 }
 
 
@@ -145,6 +155,7 @@ void MainWindow::allConnects()
     connect(&customerInformationService1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
     connect(&customerInformationService2_2CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
     connect(&customerInformationService2_3,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
+    connect(&customerInformationService2_3CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
 
 
     connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
@@ -480,9 +491,20 @@ void MainWindow::slotGolemioReady()
 
 void MainWindow::xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState mStavSystemu )
 {
+/*
     customerInformationService1_0.updateServiceContent(prestupy,mStavSystemu );
     customerInformationService2_2CZ1_0.updateServiceContent(prestupy,mStavSystemu);
     customerInformationService2_3.updateServiceContent(prestupy,mStavSystemu);
+    customerInformationService2_3CZ1_0.updateServiceContent(prestupy,mStavSystemu);
+
+    */
+
+    customerInformationService2_3CZ1_0.setGlobalDisplayContentList(globalDisplayContentList2_3CZ1_0);
+    foreach (CustomerInformationService *selectedService, vektorCisPermanent)
+    {
+        selectedService->updateServiceContent(prestupy,mStavSystemu);
+    }
+
 }
 
 
@@ -668,6 +690,7 @@ void MainWindow::truncateQListWidget(QListWidget *vstup)
 /*!
 
 */
+
 void MainWindow::updateDriverDisplay()
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -2060,13 +2083,17 @@ void MainWindow::on_tableWidget_ride_stopList_cellClicked(int row, int column)
 {
     qDebug()<<Q_FUNC_INFO;
     vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
     ui->pushButton_ride_atStop->setChecked(true);
     vehicleState.currentStopIndex0=row;
-    eventArrival();
-    updateDriverDisplay();
-    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
 
-    xmlVdv301UpdateContent();
+
+
+    eventArrival();
+
+    // contained in event arrival
+    //  updateDriverDisplay();
+    //    xmlVdv301UpdateContent();
 }
 
 /*!
@@ -2284,10 +2311,14 @@ void MainWindow::eventExitService()
     timerFareZoneChangeDuration.stop();
     resetTripList();
 
-    customerInformationService1_0.outOfService();
-    customerInformationService2_2CZ1_0.outOfService();
-    customerInformationService2_3.outOfService();
 
+    globalDisplayContentList2_3CZ1_0=createGlobalDisplayContentOutOfService2_3();
+
+    foreach (CustomerInformationService *selectedService, vektorCisPermanent)
+    {
+        selectedService->outOfService();
+    }
+  
     xmlVdv301UpdateContent();
     initializeSelectionListView();
 }
@@ -2328,7 +2359,7 @@ void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* ta
     tableView->setModel(proxyModel);
     tableView->show();
     tableView->resizeColumnsToContents();
-    connect(tableView->horizontalHeader(),SIGNAL(sortIndicatorChanged(int, Qt::SortOrder )),tableView,SLOT(sortByColumn(int, Qt::SortOrder )));
+    connect(tableView->horizontalHeader(),SIGNAL(sortIndicatorChanged(int,Qt::SortOrder)),tableView,SLOT(sortByColumn(int,Qt::SortOrder)));
     int pocet= proxyModel->rowCount();
     qDebug()<<"pocet vysledku: "<<QString::number(pocet);
     //existujeLastError(model);
@@ -2515,3 +2546,57 @@ void MainWindow::on_pushButton_detection_setId_clicked()
     devMgmtSubscriber.postSetDeviceConfiguration(QUrl("http://"+ipAddress+":"+port+"/DeviceManagementService/SetDeviceConfiguration"),newId);
 }
 
+QVector<Vdv301DisplayContent> MainWindow::createGlobalDisplayContentOutOfService2_3()
+{
+    QVector<Vdv301DisplayContent> output;
+
+    Vdv301DisplayContent front;
+    front.displayContentType=DisplayContentFront;
+
+    Vdv301Destination frontDestination;
+    frontDestination.destinationRef="0";
+    frontDestination.destinationNameList<<Vdv301InternationalText("OUT OF SERVICE","cs");
+
+    front.destination=frontDestination;
+    output<<front;
+
+    Vdv301DisplayContent side;
+    side.displayContentType=DisplayContentSide;
+    Vdv301Destination sideDestination;
+    sideDestination.destinationRef="0";
+    sideDestination.destinationNameList<<Vdv301InternationalText("OUT OF SERVICE","cs");
+
+    side.destination=sideDestination;
+    output<<side;
+
+
+    Vdv301DisplayContent rear;
+    rear.displayContentType=DisplayContentRear;
+    Vdv301Destination rearDestination;
+    rearDestination.destinationRef="0";
+    rearDestination.destinationNameList<<Vdv301InternationalText("OUT OF SERVICE","cs");
+
+    rear.destination=rearDestination;
+
+
+    Vdv301Line rearLine;
+    rearLine.lineRef="0";
+    rearLine.lineNameList<<Vdv301InternationalText("OUT OF","cs");
+    rearLine.lineNameList<<Vdv301InternationalText("SERVICE","cs");
+    rear.lineInformation=rearLine;
+    output<<rear;
+
+
+    Vdv301DisplayContent lcd;
+    lcd.displayContentType=DisplayContentLcd;
+    Vdv301Destination lcdDestination;
+    lcdDestination.destinationRef="0";
+    lcdDestination.destinationNameList<<Vdv301InternationalText("OUT OF SERVICE","cs");
+
+    lcd.destination=lcdDestination;
+    output<<lcd;
+
+
+
+    return output;
+}

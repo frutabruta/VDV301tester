@@ -20,7 +20,7 @@ This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1
                 - AllData
                 - CurrentDisplayContent
         - publish and subscribe request
-        - service deiscovery using DNS-SD (Bonjour)
+        - service discovery using DNS-SD (Bonjour)
 
         - automated subscription and loss of subscription test (development abandoned for now)
 - VDV300
@@ -142,6 +142,26 @@ mingw32-make install
 
 
 ## Changelog
+- 20240823_1129
+        - GlobalDisplayContent basic implementation
+        - MainWindow
+                - new function createGlobalDisplayContentOutOfService2_3()
+                - new variable vektorCisPermanent;
+                - new variable customerInformationService2_3CZ1_0
+                - new variable globalDisplayContentList2_3CZ1_0;
+                - MainWindow::xmlVdv301UpdateCis
+                        - modified to use foreach cycle
+                - MainWindow::on_tableWidget_ride_stopList_cellClicked
+                        - fixed overlap of events and multiple sending of data to display
+                - MainWindow::eventExitService
+                        - outOfService suing foreach cycle
+                - new function MainWindow::createGlobalDisplayContentOutOfService2_3()
+        - Vdv301publisher
+                - new way of generating 2.3 using VDV301 structures
+                - GlobalDisplayContent in 2.3CZ1.0
+        - XmlRopidImportStream
+                - fix of thread errors during import
+
 - 20240620_1123
         - application of Vdv301Enumerations::DoorOpenStateEnumeration
                 - Vdv301publisher
