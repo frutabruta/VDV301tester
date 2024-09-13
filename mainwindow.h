@@ -195,7 +195,7 @@ private:
     void stopServices(); //not implemented
     void startServiceFromList(QVector<CustomerInformationService *> &seznamSluzeb);
     void xmlVdv301UpdateContent();
-    void xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState mStavSystemu);
+    void xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState &mStavSystemu);
 
     void dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceListDetected, QVector<DevMgmtPublisherStruct> serviceListConfigured);
     void serviceToTable(DevMgmtPublisherStruct selectedDevice);

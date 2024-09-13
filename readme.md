@@ -142,6 +142,19 @@ mingw32-make install
 
 
 ## Changelog
+- 20240907_1646
+        - VDV301Publisher
+                - out of service empty triplist fix
+        - MainWindow::xmlVdv301UpdateContent
+                - empty trip list doesn't stop XML from generating xml (out of service global display content)
+        - MainWindow::xmlVdv301UpdateCis
+                - mStavSystemu now sent by reference instead of value
+        - MainWindow::initializeTheTrip
+                - added  globalDisplayContentList2_3CZ1_0.clear();
+        - MainWindow::eventExitService
+                - removed all selectedService->outOfService();
+
+
 - 20240823_1129
         - GlobalDisplayContent basic implementation
         - MainWindow

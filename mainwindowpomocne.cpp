@@ -24,7 +24,7 @@ int MainWindowPomocne::jeVRozsahu(int index, int pocetHodnot, QString funkce)
         msgBox.exec();
         qDebug()<<"hodnota "+QString::number(index)+" je mimo rozsah "+ QString::number(pocetHodnot)+" "+funkce;
 
-       return 0;
+        return 0;
     }
 
 }
@@ -62,8 +62,8 @@ void MainWindowPomocne::naplnTabulkuHlaseni(QTableWidget *vstup, QVector<Additio
 
             if(hlaseni.mp3.count()>0)
             {
-            cell = new QTableWidgetItem(hlaseni.mp3.first());
-            vstup->setItem(row, 3, cell);
+                cell = new QTableWidgetItem(hlaseni.mp3.first());
+                vstup->setItem(row, 3, cell);
             }
             cell = new QTableWidgetItem(hlaseni.text);
             vstup->setItem(row, 4, cell);

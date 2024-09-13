@@ -400,18 +400,22 @@ void MainWindow::xmlVdv301UpdateContent()
     if (vehicleState.currentVehicleRun.tripList.isEmpty())
     {
         qDebug()<<"seznam tripu je prazdny";
-        return;
-    }
-    //QDomDocument vstupniDomXmlPrestupy;
-    if (vehicleState.showConnections==true)
-    {
-        slotDownloadConnectionsFromCurrentStop();
-        timerDownloadConnections.start();
+
     }
     else
     {
-        timerDownloadConnections.stop();
+        if (vehicleState.showConnections==true)
+        {
+            slotDownloadConnectionsFromCurrentStop();
+            timerDownloadConnections.start();
+        }
+        else
+        {
+            timerDownloadConnections.stop();
+        }
     }
+
+
 
     QVector<Connection> connectionList;
 
@@ -419,6 +423,7 @@ void MainWindow::xmlVdv301UpdateContent()
 
     ticketValidationService2_3CZ1_0.updateServiceContent(connectionList,vehicleState);
     deviceManagementService1_0.serviceContentUpdate();
+
 }
 
 void MainWindow::slotDownloadConnectionsFromCurrentStop()
@@ -489,9 +494,9 @@ void MainWindow::slotGolemioReady()
 }
 
 
-void MainWindow::xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState mStavSystemu )
+void MainWindow::xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState &mStavSystemu )
 {
-/*
+    /*
     customerInformationService1_0.updateServiceContent(prestupy,mStavSystemu );
     customerInformationService2_2CZ1_0.updateServiceContent(prestupy,mStavSystemu);
     customerInformationService2_3.updateServiceContent(prestupy,mStavSystemu);
@@ -500,6 +505,8 @@ void MainWindow::xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState m
     */
 
     customerInformationService2_3CZ1_0.setGlobalDisplayContentList(globalDisplayContentList2_3CZ1_0);
+
+
     foreach (CustomerInformationService *selectedService, vektorCisPermanent)
     {
         selectedService->updateServiceContent(prestupy,mStavSystemu);
@@ -560,6 +567,8 @@ int MainWindow::initializeTheTrip()
         return 0;
 
     }
+    globalDisplayContentList2_3CZ1_0.clear();
+
     xmlVdv301UpdateContent();
     if(this->vehicleState.getCurrentTrip().globalStopPointDestinationList.empty()==1)
     {
@@ -568,7 +577,7 @@ int MainWindow::initializeTheTrip()
     }
     else
     {
-        updateDriverDisplay();
+        updateDriverDisplay();        
         vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
         ui->pushButton_menu_ride->setChecked(1);
         ui->stackedWidget_palPc->setCurrentWidget(ui->page_ride);
@@ -2314,11 +2323,13 @@ void MainWindow::eventExitService()
 
     globalDisplayContentList2_3CZ1_0=createGlobalDisplayContentOutOfService2_3();
 
+    /*
     foreach (CustomerInformationService *selectedService, vektorCisPermanent)
     {
         selectedService->outOfService();
     }
-  
+*/
+
     xmlVdv301UpdateContent();
     initializeSelectionListView();
 }
