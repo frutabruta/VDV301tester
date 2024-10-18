@@ -142,6 +142,11 @@ mingw32-make install
 
 
 ## Changelog
+
+- 20241018_1621
+        - VDV301Publisher
+                - 2.3CZ1.0 fare zone change
+                - Xml generators split by versions
 - 20240907_1646
         - VDV301Publisher
                 - out of service empty triplist fix

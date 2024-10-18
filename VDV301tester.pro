@@ -61,14 +61,18 @@ SOURCES += \
     VDV301publisher/VDV301DataStructures/stoppointdestination.cpp \
     VDV301publisher/VDV301DataStructures/trip.cpp \
     VDV301publisher/VDV301DataStructures/vdv301alldata.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301alldata2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/vdv301connection.cpp \
     VDV301publisher/VDV301DataStructures/vdv301destination.cpp \
     VDV301publisher/VDV301DataStructures/vdv301displaycontent.cpp \
     VDV301publisher/VDV301DataStructures/vdv301enumerations.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301farezonechange2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/vdv301internationaltext.cpp \
     VDV301publisher/VDV301DataStructures/vdv301line.cpp \
     VDV301publisher/VDV301DataStructures/vdv301stoppoint.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301stoppoint2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/vdv301trip.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301trip2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/vdv301vehicleinformationgroup.cpp \
     VDV301publisher/VDV301DataStructures/vdv301viapoint.cpp \
     VDV301publisher/VDV301DataStructures/vehiclerun.cpp \
@@ -81,9 +85,18 @@ SOURCES += \
     VDV301publisher/subscriber.cpp \
     VDV301publisher/ticketvalidationservice.cpp \
     VDV301publisher/xmlcommon.cpp \
+    VDV301publisher/xmlcommon2_2cz1_0.cpp \
+    VDV301publisher/xmlcommon2_3.cpp \
+    VDV301publisher/xmlcommon2_3_new.cpp \
+    VDV301publisher/xmlcommon2_3cz1_0.cpp \
     VDV301publisher/xmlcustomerinformationservice.cpp \
+    VDV301publisher/xmlcustomerinformationservice2_2cz1_0.cpp \
+    VDV301publisher/xmlcustomerinformationservice2_3.cpp \
+    VDV301publisher/xmlcustomerinformationservice2_3_new.cpp \
+    VDV301publisher/xmlcustomerinformationservice2_3cz1_0.cpp \
     VDV301publisher/xmldevicemanagementservice.cpp \
     VDV301publisher/xmlticketvalidationservice.cpp \
+    VDV301publisher/xmlticketvalidationservice2_2cz1_0.cpp \
     VDV301subscriber/devmgmtpublisherstruct.cpp \
     VDV301subscriber/devmgmtsubscriber.cpp \
     VDV301subscriber/devmgmtsubscriber1.cpp \
@@ -132,14 +145,18 @@ HEADERS += \
     VDV301publisher/VDV301DataStructures/stoppointdestination.h \
     VDV301publisher/VDV301DataStructures/trip.h \
     VDV301publisher/VDV301DataStructures/vdv301alldata.h \
+    VDV301publisher/VDV301DataStructures/vdv301alldata2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/vdv301connection.h \
     VDV301publisher/VDV301DataStructures/vdv301destination.h \
     VDV301publisher/VDV301DataStructures/vdv301displaycontent.h \
     VDV301publisher/VDV301DataStructures/vdv301enumerations.h \
+    VDV301publisher/VDV301DataStructures/vdv301farezonechange2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/vdv301internationaltext.h \
     VDV301publisher/VDV301DataStructures/vdv301line.h \
     VDV301publisher/VDV301DataStructures/vdv301stoppoint.h \
+    VDV301publisher/VDV301DataStructures/vdv301stoppoint2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/vdv301trip.h \
+    VDV301publisher/VDV301DataStructures/vdv301trip2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/vdv301vehicleinformationgroup.h \
     VDV301publisher/VDV301DataStructures/vdv301viapoint.h \
     VDV301publisher/VDV301DataStructures/vehiclerun.h \
@@ -152,9 +169,18 @@ HEADERS += \
     VDV301publisher/subscriber.h \
     VDV301publisher/ticketvalidationservice.h \
     VDV301publisher/xmlcommon.h \
+    VDV301publisher/xmlcommon2_2cz1_0.h \
+    VDV301publisher/xmlcommon2_3.h \
+    VDV301publisher/xmlcommon2_3_new.h \
+    VDV301publisher/xmlcommon2_3cz1_0.h \
     VDV301publisher/xmlcustomerinformationservice.h \
+    VDV301publisher/xmlcustomerinformationservice2_2cz1_0.h \
+    VDV301publisher/xmlcustomerinformationservice2_3.h \
+    VDV301publisher/xmlcustomerinformationservice2_3_new.h \
+    VDV301publisher/xmlcustomerinformationservice2_3cz1_0.h \
     VDV301publisher/xmldevicemanagementservice.h \
     VDV301publisher/xmlticketvalidationservice.h \
+    VDV301publisher/xmlticketvalidationservice2_2cz1_0.h \
     VDV301subscriber/devmgmtpublisherstruct.h \
     VDV301subscriber/devmgmtsubscriber.h \
     VDV301subscriber/devmgmtsubscriber1.h \
