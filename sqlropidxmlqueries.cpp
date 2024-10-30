@@ -110,6 +110,7 @@ int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , 
 
             aktZast.fareZoneList.append(vyrobPasmaMezikraj(tp,pz,pc,query.value(query.record().indexOf("l.cids")).toString(),query.value(query.record().indexOf("l.tl")).toString()));
             aktZast.StopName=query.value(query.record().indexOf("t.ri")).toString();
+            aktZast.platformName=query.value(query.record().indexOf("z.sta")).toString();
             aktZast.ids ="PID";
 
             if(aktLinka.lineType!="A")
@@ -237,7 +238,7 @@ dbManager->query.exec();
 
       */
     QString queryString2("SELECT DISTINCT   ");
-    queryString2+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.u, z.z, z.lng, z.lat, z.rdisp, ");
+    queryString2+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.u, z.z, z.lng, z.lat, z.rdisp, z.sta, ");
     queryString2+=("t.ri,t.hl, ");
     queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");

@@ -527,6 +527,12 @@ int MainWindow::initializeTheTrip()
     int vysledek=0;
     Trip iterSpoj;
     
+    if(!ui->listView_rootLine->currentIndex().isValid())
+    {
+        qDebug()<<"no root line selected";
+        return 0;
+    }
+
     if((ui->tableView_lineTrip->model()->rowCount()==0)&&(ui->tableView_trip->model()->rowCount()==0))
     {
         qDebug()<<"neni zvoleny spoj";

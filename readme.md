@@ -142,7 +142,14 @@ mingw32-make install
 
 
 ## Changelog
-
+- 20241030_2015
+        - VDV301Publisher
+                - 2.3 generator platform fix
+        - MainWindow
+                - fixed crash when no line is selected
+        - SqlRopidXmlQueries
+                - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
+                        - added import of platform name from databaze (z.sta)
 - 20241018_1621
         - VDV301Publisher
                 - 2.3CZ1.0 fare zone change
