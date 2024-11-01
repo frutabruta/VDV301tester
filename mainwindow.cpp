@@ -527,11 +527,7 @@ int MainWindow::initializeTheTrip()
     int vysledek=0;
     Trip iterSpoj;
     
-    if(!ui->listView_rootLine->currentIndex().isValid())
-    {
-        qDebug()<<"no root line selected";
-        return 0;
-    }
+
 
     if((ui->tableView_lineTrip->model()->rowCount()==0)&&(ui->tableView_trip->model()->rowCount()==0))
     {
@@ -1947,6 +1943,11 @@ int MainWindow::on_pushButton_lineRun_confirm_clicked()
 
     vehicleState.currentStopIndex0=0;
 
+    if(!ui->listView_rootLine->currentIndex().isValid())
+    {
+        qDebug()<<"no root line selected";
+        return 0;
+    }
     return initializeTheTrip();
 }
 

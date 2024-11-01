@@ -142,6 +142,17 @@ mingw32-make install
 
 
 ## Changelog
+- 20241102_0012
+        - VDV301publisher
+                - .ref fixes (trip, stopPoint etc.)
+                - 2.3 LCD choose class
+        - SqlRopidXmlQueries
+                - stahniSeznamCelySpojTurnus
+                        - fixed loading of c variable to Line class 
+                - deletion of unused counters
+- 20241101_1948
+        - fix selection of line/trip
+        
 - 20241030_2015
         - VDV301Publisher
                 - 2.3 generator platform fix

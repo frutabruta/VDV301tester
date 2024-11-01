@@ -64,7 +64,7 @@ int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , 
 
         if (query.value(0).toString()!="")
         {
-            bool majak=false;
+            //bool majak=false;
             bool ignorovat=false;
             StopPoint aktZast;
             StopPointDestination aktZastCil;
@@ -82,10 +82,12 @@ int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , 
             {
                 aktLinka.lineName=query.value(query.record().indexOf("l.c")).toString();
             }
+            aktLinka.c=query.value(query.record().indexOf("l.c")).toInt();
             aktLinka.lineNumber=query.value(query.record().indexOf("l.lc")).toString();
             aktLinka.lineType=query.value(query.record().indexOf("l.tl")).toString();
             aktLinka.isNight=query.value(query.record().indexOf("l.noc")).toBool();
             aktLinka.isDiversion=query.value(query.record().indexOf("s.vy")).toBool();
+            aktLinka.kli=query.value(query.record().indexOf("l.kli")).toInt();
 
             aktSpoj.idRopid=query.value(query.record().indexOf("s.c")).toInt();
             aktZast.idCis=query.value( query.record().indexOf("z.cis")).toInt();
@@ -155,12 +157,12 @@ int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , 
             qDebug()<<"pocetPoznamek "<<QString::number(aktZast.notesList.count());
 
 
-            aktLinka.kli=query.value(query.record().indexOf("l.kli")).toInt();
+
 
 
             if(  query.value(query.record().indexOf("x.t")).toString() =="Majak")
             {
-                majak=true;
+               // majak=true;
                 ignorovat=true;
             }
 
@@ -301,7 +303,6 @@ QVector<QString> SqlRopidXmlQueries::stahniPoznamky(int idSpoje, int xorder)
     //this->otevriDB();
     QVector<QString> seznamPoznamek;
 
-
     QString queryString2("");
     queryString2+=("SELECT x_po.s, x_po.xorder, x_po.po,  po.c, po.t, po.ois ");
     queryString2+=("FROM  x_po  ");
@@ -313,23 +314,17 @@ QVector<QString> SqlRopidXmlQueries::stahniPoznamky(int idSpoje, int xorder)
     queryString2+=(" AND x_po.xorder=");
     queryString2+=QString::number(xorder);
 
-
     QSqlQuery query;
     query.exec(queryString2);
     qDebug()<<"lasterror"<<  query.lastError();
     qDebug().noquote()<<queryString2;
-    //  qDebug()<<"DebugPointB";
-    int citacMaximum=0;
+
+
     while (query.next())
     {
-
         QString poznamka=query.value(query.record().indexOf("po.t")).toString();
         seznamPoznamek.push_back(poznamka);
-        citacMaximum++;
-
     }
-    // this->zavriDB();
-
 
     return seznamPoznamek;
 }
@@ -756,8 +751,6 @@ QVector<MapaBod> SqlRopidXmlQueries::vytvorTrajektorii(int cisloSpoje, QString k
     qDebug().noquote()<<queryString2;
     qDebug()<<"lasterror "<<query.lastError();
 
-    //  qDebug()<<"DebugPointB";
-    int citacMaximum=0;
     while (query.next())
     {
         MapaBod bod;
@@ -784,11 +777,7 @@ QVector<MapaBod> SqlRopidXmlQueries::vytvorTrajektorii(int cisloSpoje, QString k
         {
             vystup.push_back(bod);
         }
-        citacMaximum++;
-        // qDebug()<<docasnySpoj.cisloRopid;
     }
-
-
 
     this->zavriDB();
 
