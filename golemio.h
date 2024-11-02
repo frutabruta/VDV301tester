@@ -33,7 +33,7 @@ public:
     void naplnVstupDokument(QByteArray vstup);
 ;
     void stahniMpvXml(int cisloCis, QString Ids);
-    QVector<ConnectionMPV> vyfiltrujPrestupy(QVector<ConnectionMPV> vstupniPrestupy, Line linka);
+    QVector<ConnectionMPV> vyfiltrujPrestupy(QVector<ConnectionMPV> vstupniPrestupy, Line linka); //unused
     bool jePrestupNaSeznamu(ConnectionMPV prestup, QVector<ConnectionMPV> seznamPrestupu);
 
     QVector<ConnectionGolemio> parsujDomDokument();

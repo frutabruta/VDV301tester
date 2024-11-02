@@ -31,7 +31,7 @@ public:
 
 
     void sendToPortNew(QString obsah);
-    void vypisStringPoBytech(QString vstup);
+    void vypisStringPoBytech(QString vstup); //unused
     void portStop(QSerialPort &port);
 
     QString serialPortName() const;
@@ -40,8 +40,8 @@ public:
     void start();
     void stop();
     char checkSumCreate(QString puvodniPrikaz, QString &output);
-    int delayBetweenMessagesMs() const;
-    void setDelayBetweenMessagesMs(int newDelayBetweenMessagesMs);
+    int delayBetweenMessagesMs() const; //unused
+    void setDelayBetweenMessagesMs(int newDelayBetweenMessagesMs); //unused
 
 private slots:
     void slotBytesWritten();

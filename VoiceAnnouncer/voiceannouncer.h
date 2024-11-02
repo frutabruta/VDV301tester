@@ -24,7 +24,7 @@ public:
     QString cestaProgramu="";
     QString cesta=cestaProgramu+"/hlaseni";
 
-    void nastavCestu(QString vstup);
+    void nastavCestu(QString vstup); //unused
     void zmenUmisteniProgramu(QString umisteni);
 
 

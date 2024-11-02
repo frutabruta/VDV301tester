@@ -42,7 +42,7 @@ public:
     QString maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti);
 
     QSqlQueryModel *stahniSeznamLinekModel(QString kj);
-    QSqlQueryModel *stahniSeznamSpojuModel(Line docasnaLinka, QString kj);
+    QSqlQueryModel *stahniSeznamSpojuModel(Line docasnaLinka, QString kj); //unused
     QSqlQueryModel *stahniSeznamKmenovychLinekModel(QString kj);
     QSqlQueryModel *stahniSeznamPoradiModel(Line docasnaLinka, QString kj);
     QSqlQueryModel *stahniSeznamTurnusSpojuModel(VehicleRun &docasnyObeh, QString kj);
@@ -51,7 +51,7 @@ public:
     QSqlQueryModel *stahniSeznamSpojuModel2(Line docasnaLinka, QString kj);
 private:
 
-    void vypisPole(QVector<StopPointDestination> docasnySeznamZastavek, int &pocetZastavek);
+    void vypisPole(QVector<StopPointDestination> docasnySeznamZastavek, int &pocetZastavek); //unused
     QVector<FareZone> vyrobPasmaMezikraj(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc, QString cids, QString tl);
 };
 

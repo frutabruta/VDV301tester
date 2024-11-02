@@ -11,7 +11,7 @@ class IpisPid : public IpisSender
 public:
     IpisPid();
 
-    int odesliInnerKomplet(QVector<StopPointDestination> zastavky, int index);
+    int odesliInnerKomplet(QVector<StopPointDestination> zastavky, int index); //unused
     int odesliFrontKomplet(QString address, QVector<StopPointDestination> zastavky, int index);
     int odesliSideKomplet(QString address, QVector<StopPointDestination> zastavky, int index);
     int odesliJKZKomplet(QString address, QVector<StopPointDestination> zastavky, int index);
@@ -20,7 +20,7 @@ public:
 
     IpisTelegramCompose ipisTelegramCompose;
     QVector<StopPoint> vytvorNacestne(QVector<StopPointDestination> vstup, int index);
-    void smazPanely();
+    void smazPanely(); //unused
 };
 
 #endif // IPISPID_H

@@ -142,6 +142,14 @@ mingw32-make install
 
 
 ## Changelog
+
+- 20241102_1353
+        - VDV301publisher
+                - 2.3 connection line style color fix 
+        - MainWindow
+                - selected connection download enable now gets stored to settings file
+                - golemio key automatically fills lineEdit
+        - some unused functions market for deletion
 - 20241102_0012
         - VDV301publisher
                 - .ref fixes (trip, stopPoint etc.)

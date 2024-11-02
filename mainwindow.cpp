@@ -281,8 +281,10 @@ void MainWindow::loadConstantsFromSettingsFile()
         useGolemioApi=false;
     }
     golemio.setKlic(settings.value("golemio/apiKey").toByteArray());
+    ui->lineEdit_configuration_golemioKey->setText(settings.value("golemio/apiKey").toByteArray());
     golemio.setAdresa(settings.value("golemio/adresa").toString());
-
+    vehicleState.showConnections=settings.value("golemio/enabled").toBool();
+    ui->checkBox_configuration_enableConnections->setChecked(vehicleState.showConnections);
 
     ui->label_build->setText(textVerze());
     ui->label_build->setTextInteractionFlags(Qt::TextSelectableByMouse);
@@ -1113,6 +1115,7 @@ void MainWindow::on_checkBox_configuration_enableConnections_stateChanged(int ar
 {
     qDebug()<<Q_FUNC_INFO;
     vehicleState.showConnections=ui->checkBox_configuration_enableConnections->isChecked();
+    settings.setValue("golemio/enabled",vehicleState.showConnections);
 }
 
 
