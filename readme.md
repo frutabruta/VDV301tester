@@ -142,6 +142,9 @@ mingw32-make install
 
 
 ## Changelog
+- 20241121_1110
+        - VDV301publisher
+                - 2.3 metro icon generator
 
 - 20241102_1353
         - VDV301publisher
