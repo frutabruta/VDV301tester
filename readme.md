@@ -142,6 +142,12 @@ mingw32-make install
 
 
 ## Changelog
+- 20241206_1838
+        - Vdv301Publisher
+                - 2.3CZ1.0
+                        - change Inner DisplayContentRef to Interior to comply with documentation
+        - setting.ini
+                - remove slash from Golemio API path to comply with latest specs 
 - 20241205_1818
         - Vdv301Publisher
                 - XmlCommon2_3_new
