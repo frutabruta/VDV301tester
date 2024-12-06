@@ -142,9 +142,26 @@ mingw32-make install
 
 
 ## Changelog
-- 20241121_1110
-        - VDV301publisher
-                - 2.3 metro icon generator
+- 20241205_1818
+        - Vdv301Publisher
+                - XmlCommon2_3_new
+                        - changed default lcdClass to DisplayContentInner
+                - XmlCustomerInformationService2_3_new
+                        - new function CurrentDisplayContentFromAllData2_3new
+                        - new function CurrentDisplayContent2_3gen
+                - XmlCustomerInformationService2_3CZ1_0
+                        - new function CurrentDisplayContentFromAllData2_3new
+                - Vdv301DataStructures
+                        - Vdv301Trip2_3CZ1_0
+                                - added runNumber, formally changed to IBIS-IP.string (was already represented by QString)
+                        - StopPoint2_3CZ1_0
+                                - added GlobalStopRef
+                - XmlCommon2_3CZ1_0
+                        - new function vehicleRunToRunNumber generating rootLine_order
+                        - StopPoint2_3CZ1_0new
+                                - generates GlobalStopRef to Xml
+                - fixes of include files in Xml Generators
+                - 2.3 metro icon generator in connections
 
 - 20241102_1353
         - VDV301publisher
