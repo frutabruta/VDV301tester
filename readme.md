@@ -142,6 +142,8 @@ mingw32-make install
 
 
 ## Changelog
+- 20241213_0045
+        - CIS doesn't update after API request when connections list is empty
 - 20241213_0003
         - log to file (can be turned on in settings)
                 - custom message handler in main.cpp

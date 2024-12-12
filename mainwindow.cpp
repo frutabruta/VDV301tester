@@ -476,8 +476,11 @@ void MainWindow::slotMpvNetReady()
         prestupy.push_back(polozka.toConnection());
     }
 
+    if(!prestupy.isEmpty())
+    {
+        xmlVdv301UpdateCis(prestupy,vehicleState);
+    }
 
-    xmlVdv301UpdateCis(prestupy,vehicleState);
 }
 
 void MainWindow::slotGolemioReady()
@@ -502,8 +505,10 @@ void MainWindow::slotGolemioReady()
     }
     qDebug()<<"pocet Prestupu ve vektoru: "<<prestupy.count();
 
-    xmlVdv301UpdateCis(prestupy,vehicleState);
-
+    if(!prestupy.isEmpty())
+    {
+          xmlVdv301UpdateCis(prestupy,vehicleState);
+    }
 }
 
 
