@@ -57,7 +57,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    //explicit MainWindow(QWidget *parent = nullptr);
+  MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent = nullptr);
     ~MainWindow();
 
     //konstanty
@@ -93,7 +94,7 @@ private:
 
     //instance knihoven
     Konfigurace konfigurace;
-    QSettings settings;
+    QSettings *settings;
 
     XmlMpvParser xmlMpvParser;
     Golemio golemio;
@@ -222,6 +223,7 @@ private:
     void retranslateUi(QString language);
     
     QVector<Vdv301DisplayContent> createGlobalDisplayContentOutOfService2_3();
+    int isInRange(int index, int valueCount, QString functionName);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
@@ -367,6 +369,8 @@ private slots:
 
 
     void on_pushButton_detection_setId_clicked();
+
+    void on_checkBox_configuration_logToFile_stateChanged(int arg1);
 
 signals:
          // void signalZahajImport(QString cesta);

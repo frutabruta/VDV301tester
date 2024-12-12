@@ -9,13 +9,90 @@
 
 
 
+
+
+void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    Q_UNUSED(context);
+
+
+
+    QString dt = QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm:ss");
+    QString txt = QString("[%1] ").arg(dt);
+
+    // txt += QString("{Critical} \t %1").arg(msg);
+    if(type==QtDebugMsg){txt += QString("{Debug} \t\t %1").arg(msg);};
+    if(type==QtWarningMsg){  txt += QString("{Warning} \t %1").arg(msg);};
+    if(type==QtCriticalMsg){txt += QString("{Critical} \t %1").arg(msg);};
+    if(type==QtFatalMsg)
+    {
+        txt += QString("{Fatal} \t\t %1").arg(msg);
+        abort();
+    };
+
+    QString cestaLogu=QCoreApplication::applicationDirPath()+"/logfile.log";
+
+    QFile outFile(cestaLogu);
+    outFile.open(QIODevice::WriteOnly | QIODevice::Append);
+
+    // outFile.open(QIODevice::WriteOnly);
+
+    QTextStream textStream(&outFile);
+    textStream << txt << Qt::endl;
+
+    outFile.close();
+}
+
+
+void createEmptyFile()
+{
+
+
+    QString cestaLogu=QCoreApplication::applicationDirPath()+"/logfile.log";
+
+    QFile outFile(cestaLogu);
+   // outFile.open(QIODevice::WriteOnly | QIODevice::Append);
+
+    outFile.open(QIODevice::WriteOnly);
+
+    QTextStream textStream(&outFile);
+    textStream << "log start" << Qt::endl;
+
+    outFile.close();
+}
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    QSettings*  qSettings= new QSettings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat);
 
 
-    MainWindow w;
+ //   qSettings->setValue("debug/logToFile",true);
+    if(qSettings->value("debug/logToFile").toBool())
+    {
+        createEmptyFile();
+        qInstallMessageHandler(customMessageHandler);
+    }
+
+
+
+    QCommandLineParser qCommandLineParser;
+    qCommandLineParser.addPositionalArgument("file", QCoreApplication::translate("main", "The file to open."));
+    qCommandLineParser.process(a);
+
+    QStringList filename=qCommandLineParser.positionalArguments();
+
+    if(filename.isEmpty())
+    {
+        filename.append("");
+    }
+
+
+
+
+    MainWindow w(qSettings,filename.first());
     w.show();
     return a.exec();
 }

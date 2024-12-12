@@ -142,6 +142,13 @@ mingw32-make install
 
 
 ## Changelog
+- 20241213_0003
+        - log to file (can be turned on in settings)
+                - custom message handler in main.cpp
+        - fixed index out of range crash in MainWindow::slotDownloadConnectionsFromCurrentStop()
+        - disabled timerAfterStopToBetweenStop in  MainWindow::eventDeparture() to prevent crashes when manually moving from afterStop to betweenStop
+        - additional checks when selecting vehicle run to prevent crashes
+
 - 20241206_1838
         - Vdv301Publisher
                 - 2.3CZ1.0

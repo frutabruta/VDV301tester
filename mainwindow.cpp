@@ -11,10 +11,10 @@
 
 //koment
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent) :
     QMainWindow(parent),
     konfigurace(QCoreApplication::applicationDirPath()),
-    settings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat),
+    //  settings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat),
     golemio(""), //klic do golemia
     logfile(QCoreApplication::applicationDirPath()),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     qDebug() <<  Q_FUNC_INFO;
     ui->setupUi(this);
+    settings=newQSettings;
 
     ui->pushButton_menu_ride->setEnabled(false);
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
@@ -58,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //settings.setValue("General/language","en");
-    QString jazyk=settings.value("app/language").toString();
+    QString jazyk=settings->value("app/language").toString();
 
     qDebug()<<" novy jazyk:"<<jazyk;
     retranslateUi(jazyk);
@@ -265,7 +266,7 @@ void MainWindow::loadConstantsFromSettingsFile()
     qDebug()<<Q_FUNC_INFO;
 
 
-    if(settings.value("golemio/adresa").isNull())
+    if(settings->value("golemio/adresa").isNull())
     {
         eventAnnouncementToDriver("konfiguracni soubor neexistuje/je vadny");
     }
@@ -273,40 +274,42 @@ void MainWindow::loadConstantsFromSettingsFile()
     {
         qDebug()<<"konfiguracni soubor nacten";
     }
-    qDebug()<<" konstanty status "<<settings.status();
+    qDebug()<<" konstanty status "<<settings->status();
 
 
-    if(settings.value("golemio/datovyZdroj").toString()=="mpvnet")
+    if(settings->value("golemio/datovyZdroj").toString()=="mpvnet")
     {
         useGolemioApi=false;
     }
-    golemio.setKlic(settings.value("golemio/apiKey").toByteArray());
-    ui->lineEdit_configuration_golemioKey->setText(settings.value("golemio/apiKey").toByteArray());
-    golemio.setAdresa(settings.value("golemio/adresa").toString());
-    vehicleState.showConnections=settings.value("golemio/enabled").toBool();
+    golemio.setKlic(settings->value("golemio/apiKey").toByteArray());
+    ui->lineEdit_configuration_golemioKey->setText(settings->value("golemio/apiKey").toByteArray());
+    golemio.setAdresa(settings->value("golemio/adresa").toString());
+    vehicleState.showConnections=settings->value("golemio/enabled").toBool();
     ui->checkBox_configuration_enableConnections->setChecked(vehicleState.showConnections);
 
     ui->label_build->setText(textVerze());
     ui->label_build->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
-    golemio.setParametry(settings.value("golemio/parametry").toString());
+    golemio.setParametry(settings->value("golemio/parametry").toString());
 
-    deviceManagementService1_0.setDeviceName(settings.value("deviceManagementService1_0/deviceName").toString());
-    deviceManagementService1_0.setDeviceManufacturer(settings.value("deviceManagementService1_0/deviceManufacturer").toString());
-    deviceManagementService1_0.setDeviceSerialNumber(settings.value("deviceManagementService1_0/deviceSerialNumber").toString());
-    deviceManagementService1_0.setDeviceClass(settings.value("deviceManagementService1_0/deviceClass").toString());
-    deviceManagementService1_0.setDeviceId(settings.value("deviceManagementService1_0/deviceId").toString());
+    deviceManagementService1_0.setDeviceName(settings->value("deviceManagementService1_0/deviceName").toString());
+    deviceManagementService1_0.setDeviceManufacturer(settings->value("deviceManagementService1_0/deviceManufacturer").toString());
+    deviceManagementService1_0.setDeviceSerialNumber(settings->value("deviceManagementService1_0/deviceSerialNumber").toString());
+    deviceManagementService1_0.setDeviceClass(settings->value("deviceManagementService1_0/deviceClass").toString());
+    deviceManagementService1_0.setDeviceId(settings->value("deviceManagementService1_0/deviceId").toString());
     deviceManagementService1_0.setSwVersion(textVerze());
     deviceManagementService1_0.slotDataUpdate();
 
-    deviceManagementService1_0.setPortNumber(settings.value("deviceManagementService1_0/port").toInt() ); //47477
-    customerInformationService1_0.setPortNumber(settings.value("customerInformationService1_0/port").toInt() );
-    customerInformationService2_2CZ1_0.setPortNumber(settings.value("customerInformationService2_2CZ1_0/port").toInt() );
-    customerInformationService2_3.setPortNumber(settings.value("customerInformationService2_3/port").toInt());
+    deviceManagementService1_0.setPortNumber(settings->value("deviceManagementService1_0/port").toInt() ); //47477
+    customerInformationService1_0.setPortNumber(settings->value("customerInformationService1_0/port").toInt() );
+    customerInformationService2_2CZ1_0.setPortNumber(settings->value("customerInformationService2_2CZ1_0/port").toInt() );
+    customerInformationService2_3.setPortNumber(settings->value("customerInformationService2_3/port").toInt());
 
-    ibisIsEnabled=settings.value("ibis/enable").toBool();
-    ibisOvladani.setSerialPortName(settings.value("ibis/portName").toString());
+    ibisIsEnabled=settings->value("ibis/enable").toBool();
+    ibisOvladani.setSerialPortName(settings->value("ibis/portName").toString());
     ui->lineEdit_configuration_IbisPort->setText(ibisOvladani.serialPortName());
+
+    ui->checkBox_configuration_logToFile->setChecked(settings->value("debug/logToFile").toBool());
 }
 
 
@@ -431,17 +434,25 @@ void MainWindow::xmlVdv301UpdateContent()
 void MainWindow::slotDownloadConnectionsFromCurrentStop()
 {
     qDebug() <<  Q_FUNC_INFO;
-    StopPoint aktZastavka=vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint;
-    if(useGolemioApi)
+    //
+    Trip currentTrip=vehicleState.getCurrentTrip();
+    if(!currentTrip.globalStopPointDestinationList.isEmpty())
     {
-        golemio.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
-    }
-    else
-    {
-        xmlMpvParser.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
-    }
+        if(isInRange(vehicleState.currentStopIndex0,currentTrip.globalStopPointDestinationList.count(),Q_FUNC_INFO ))
+        {
+            StopPoint aktZastavka=vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint;
+            if(useGolemioApi)
+            {
+                golemio.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
+            }
+            else
+            {
+                xmlMpvParser.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
+            }
+        }
 
 
+    }
 }
 
 
@@ -820,7 +831,6 @@ int MainWindow::eventArrival()
             break;
 
         }
-
     }
     else
     {
@@ -874,7 +884,7 @@ int MainWindow::eventDeparture()
 
     }
 
-    timerAfterStopToBetweenStop.start();
+    //timerAfterStopToBetweenStop.start(); //disabled due to possible crashes caused by this
 
     return 1;
 }
@@ -1115,7 +1125,13 @@ void MainWindow::on_checkBox_configuration_enableConnections_stateChanged(int ar
 {
     qDebug()<<Q_FUNC_INFO;
     vehicleState.showConnections=ui->checkBox_configuration_enableConnections->isChecked();
-    settings.setValue("golemio/enabled",vehicleState.showConnections);
+    settings->setValue("golemio/enabled",vehicleState.showConnections);
+}
+
+void MainWindow::on_checkBox_configuration_logToFile_stateChanged(int arg1)
+{
+    qDebug()<<Q_FUNC_INFO;
+    settings->setValue("debug/logToFile",arg1);
 }
 
 
@@ -1493,16 +1509,16 @@ void MainWindow::on_pushButton_detection_saveHwConfig_clicked()
     qDebug() <<  Q_FUNC_INFO;
 
     int i=0;
-    settings.beginWriteArray("hwConfig");
+    settings->beginWriteArray("hwConfig");
     foreach(DevMgmtPublisherStruct zarizeni, devMgmtSubscriber.deviceListDetected)
     {
         // QJsonDocument json = QJsonDocument::fromVariant(zarizeni.toQMap() );
-        settings.setArrayIndex(i);
-        settings.setValue("deviceClass",zarizeni.deviceClass);
-        settings.setValue("deviceId",zarizeni.deviceId);
+        settings->setArrayIndex(i);
+        settings->setValue("deviceClass",zarizeni.deviceClass);
+        settings->setValue("deviceId",zarizeni.deviceId);
         i++;
     }
-    settings.endArray();
+    settings->endArray();
 
 }
 
@@ -1515,17 +1531,17 @@ void MainWindow::on_pushButton_detection_loadHwConfig_clicked()
     devMgmtSubscriber.deviceListConfigured.clear();
 
 
-    int size = settings.beginReadArray("hwConfig");
+    int size = settings->beginReadArray("hwConfig");
     for (int j = 0; j < size; ++j) {
-        settings.setArrayIndex(j);
+        settings->setArrayIndex(j);
         DevMgmtPublisherStruct zarizeni;
-        zarizeni.deviceId= settings.value("deviceId").toString();
-        zarizeni.deviceClass= settings.value("deviceClass").toString();
+        zarizeni.deviceId= settings->value("deviceId").toString();
+        zarizeni.deviceClass= settings->value("deviceClass").toString();
         zarizeni.hwConfig=true;
         devMgmtSubscriber.deviceListConfigured.append(zarizeni);
         qDebug()<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
     }
-    settings.endArray();
+    settings->endArray();
 
     qDebug()<<"nacteno "<<QString::number(devMgmtSubscriber.deviceListConfigured.count())<<" zarizeni";
     dumpServicesToTable(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
@@ -1951,6 +1967,11 @@ int MainWindow::on_pushButton_lineRun_confirm_clicked()
         qDebug()<<"no root line selected";
         return 0;
     }
+    if(!ui->listView_lineRun->currentIndex().isValid())
+    {
+        qDebug()<<"no vehicle run selected";
+        return 0;
+    }
     return initializeTheTrip();
 }
 
@@ -1977,8 +1998,8 @@ void MainWindow::on_pushButton_menu2_quit_clicked()
 void MainWindow::on_pushButton_configuration_setGolemioKey_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    settings.setValue("golemio/apikey",ui->lineEdit_configuration_golemioKey->text());
-    golemio.setKlic(settings.value("golemio/apiKey").toByteArray());
+    settings->setValue("golemio/apikey",ui->lineEdit_configuration_golemioKey->text());
+    golemio.setKlic(settings->value("golemio/apiKey").toByteArray());
 }
 
 void MainWindow::on_radioButton_ride_singleDoorOpen_clicked()
@@ -2011,7 +2032,7 @@ void MainWindow::on_radioButton_ride_singleDoorCloser_clicked()
 void MainWindow::on_radioButton_configuration_language_cs_clicked()
 {
     retranslateUi("cs");
-    settings.setValue("app/language","cs");
+    settings->setValue("app/language","cs");
 
 }
 
@@ -2019,7 +2040,7 @@ void MainWindow::on_radioButton_configuration_language_cs_clicked()
 void MainWindow::on_radioButton_configuration_language_en_clicked()
 {
     retranslateUi("en");
-    settings.setValue("app/language","en");
+    settings->setValue("app/language","en");
 }
 
 
@@ -2621,3 +2642,27 @@ QVector<Vdv301DisplayContent> MainWindow::createGlobalDisplayContentOutOfService
 
     return output;
 }
+
+
+int MainWindow::isInRange(int index, int valueCount, QString functionName)
+{
+    qDebug()<<Q_FUNC_INFO;
+    if((index<valueCount)&&(index>=0))
+    {
+        return 1;
+    }
+
+    else
+    {
+        QString errorText="value "+QString::number(index)+" is out of range "+ QString::number(valueCount)+" "+functionName;
+        popUpMessage(errorText);
+
+        qDebug()<<errorText;
+
+        return 0;
+    }
+
+}
+
+
+

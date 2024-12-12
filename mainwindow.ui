@@ -2484,7 +2484,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>3</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -3376,6 +3376,25 @@ HW config</string>
               </widget>
              </item>
             </layout>
+           </widget>
+           <widget class="QCheckBox" name="checkBox_configuration_logToFile">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>180</y>
+              <width>281</width>
+              <height>71</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>20</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Log to file
+(reboot to apply)</string>
+            </property>
            </widget>
           </widget>
          </widget>
