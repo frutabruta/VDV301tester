@@ -142,6 +142,9 @@ mingw32-make install
 
 
 ## Changelog
+- 20241213_0100
+        - Vdv301Publisher
+                - 2.3CZ1.0 fareZoneChange out of range check
 - 20241213_0045
         - CIS doesn't update after API request when connections list is empty
 - 20241213_0003
