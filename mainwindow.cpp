@@ -146,12 +146,12 @@ void MainWindow::allConnects()
     qDebug()<<Q_FUNC_INFO;
 
     this->dumpSubscribers1_0(customerInformationService1_0.subscriberList);
-    this->dumpSubscribers2_2CZ(customerInformationService2_2CZ1_0.subscriberList);
+    this->dumpSubscribers2_2CZ1_0(customerInformationService2_2CZ1_0.subscriberList);
 
     //vypisy subscriberu
     connect(&customerInformationService1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers1_0);
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_2CZ);
-    connect(&customerInformationService2_3,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_3);
+    connect(&customerInformationService2_2CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_2CZ1_0);
+    connect(&customerInformationService2_3CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_3CZ1_0);
 
     connect(&customerInformationService1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
     connect(&customerInformationService2_2CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
@@ -400,12 +400,14 @@ void MainWindow::startAllVdv301Services()
 */
 void MainWindow::xmlVdv301UpdateContent()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qDebug() <<  Q_FUNC_INFO;    
     qDebug()<<"delka seznamu tripu "<<vehicleState.currentVehicleRun.tripList.length();
+    QVector<Connection> emptyConnectionList;
+
     if (vehicleState.currentVehicleRun.tripList.isEmpty())
     {
         qDebug()<<"seznam tripu je prazdny";
-
+        xmlVdv301UpdateCis(emptyConnectionList,vehicleState);
     }
     else
     {
@@ -417,16 +419,16 @@ void MainWindow::xmlVdv301UpdateContent()
         else
         {
             timerDownloadConnections.stop();
+            xmlVdv301UpdateCis(emptyConnectionList,vehicleState);
         }
     }
 
 
 
-    QVector<Connection> connectionList;
 
-    xmlVdv301UpdateCis(connectionList,vehicleState);
 
-    ticketValidationService2_3CZ1_0.updateServiceContent(connectionList,vehicleState);
+
+    ticketValidationService2_3CZ1_0.updateServiceContent(emptyConnectionList,vehicleState);
     deviceManagementService1_0.serviceContentUpdate();
 
 }
@@ -505,10 +507,8 @@ void MainWindow::slotGolemioReady()
     }
     qDebug()<<"pocet Prestupu ve vektoru: "<<prestupy.count();
 
-    if(!prestupy.isEmpty())
-    {
-          xmlVdv301UpdateCis(prestupy,vehicleState);
-    }
+
+    xmlVdv301UpdateCis(prestupy,vehicleState);
 }
 
 
@@ -589,7 +589,7 @@ int MainWindow::initializeTheTrip()
     }
     globalDisplayContentList2_3CZ1_0.clear();
 
-    xmlVdv301UpdateContent();
+ //   xmlVdv301UpdateContent();
     if(this->vehicleState.getCurrentTrip().globalStopPointDestinationList.empty()==1)
     {
         qDebug()<<"seznam zastavek  je prazdny";
@@ -888,6 +888,7 @@ int MainWindow::eventDeparture()
         break;
 
     }
+    xmlVdv301UpdateContent();
 
     //timerAfterStopToBetweenStop.start(); //disabled due to possible crashes caused by this
 
@@ -959,16 +960,16 @@ void MainWindow::dumpSubscribers1_0(QVector<Subscriber> adresy)
 /*!
 
 */
-void MainWindow::dumpSubscribers2_2CZ(QVector<Subscriber> adresy)
+void MainWindow::dumpSubscribers2_2CZ1_0(QVector<Subscriber> adresy)
 {
     qDebug() <<  Q_FUNC_INFO;
     dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList2_2CZ1_0);
 }
 
-void MainWindow::dumpSubscribers2_3(QVector<Subscriber> adresy)
+void MainWindow::dumpSubscribers2_3CZ1_0(QVector<Subscriber> adresy)
 {
     qDebug() <<  Q_FUNC_INFO;
-    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList2_3);
+    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList2_3CZ1_0);
 }
 
 
@@ -1463,7 +1464,7 @@ void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
     int indexPolozky = ui->tableWidget_manual_subscriberList2_2CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService2_2CZ1_0.removeSubscriber(indexPolozky)==1)
     {
-        dumpSubscribers2_2CZ(customerInformationService2_2CZ1_0.subscriberList);
+        dumpSubscribers2_2CZ1_0(customerInformationService2_2CZ1_0.subscriberList);
         vypisDiagnostika("odstraneno");
     }
     else
@@ -1475,22 +1476,22 @@ void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
 
 void MainWindow::on_pushButton_manual_removeSubscriber_3_clicked()
 {
-    if (ui->tableWidget_manual_subscriberList2_3->rowCount()==0)
+    if (ui->tableWidget_manual_subscriberList2_3CZ1_0->rowCount()==0)
     {
         vypisDiagnostika("seznam je prazdny");
         return;
     }
 
-    if (ui->tableWidget_manual_subscriberList2_3->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_manual_subscriberList2_3CZ1_0->selectionModel()->selectedIndexes().size()==0)
     {
         vypisDiagnostika("nic neni vybrano");
 
         return;
     }
-    int indexPolozky = ui->tableWidget_manual_subscriberList2_3->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_manual_subscriberList2_3CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService2_3.removeSubscriber(indexPolozky)==1)
     {
-        dumpSubscribers2_3(customerInformationService2_3.subscriberList);
+        dumpSubscribers2_3CZ1_0(customerInformationService2_3CZ1_0.subscriberList);
         vypisDiagnostika("odstraneno");
     }
     else
@@ -1815,6 +1816,7 @@ void MainWindow::on_pushButton_ride_arrowNextState_clicked()
             case Vdv301Enumerations::LocationStateBetweenStop:
             {
                 vehicleState.locationState=Vdv301Enumerations::LocationStateBeforeStop;
+                xmlVdv301UpdateContent();
                 break;
             }
             case Vdv301Enumerations::LocationStateAfterStop:
@@ -1837,7 +1839,7 @@ void MainWindow::on_pushButton_ride_arrowNextState_clicked()
     updateDriverDisplay();
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
     // ui->popisek->setText(QString::number(stavSystemu.currentStopIndex0+1));
-    xmlVdv301UpdateContent();
+    //xmlVdv301UpdateContent();
 }
 
 
@@ -1862,12 +1864,15 @@ void MainWindow::on_pushButton_ride_arrowPreviousState_clicked()
         }
         case Vdv301Enumerations::LocationStateBetweenStop:
             vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
+            xmlVdv301UpdateContent();
             break;
         case Vdv301Enumerations::LocationStateBeforeStop:
             vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
+            xmlVdv301UpdateContent();
             break;
         case Vdv301Enumerations::LocationStateAtStop:
             vehicleState.locationState=Vdv301Enumerations::LocationStateBeforeStop;
+            xmlVdv301UpdateContent();
             break;
         default:
             break;
@@ -1876,7 +1881,6 @@ void MainWindow::on_pushButton_ride_arrowPreviousState_clicked()
         updateDriverDisplay();
     }
     ui->label_ride_stopIndex->setText(QString::number(vehicleState.currentStopIndex0));
-    xmlVdv301UpdateContent();
 }
 
 
@@ -2263,10 +2267,12 @@ void MainWindow::eventGoToNextTrip()
 void MainWindow::eventFareZoneChange()
 {
     qDebug() <<  Q_FUNC_INFO;
+/*
     vehicleState.showFareZoneChange=true;
     xmlVdv301UpdateContent();
     voiceAnnouncer.kompletZmenaTarifnihoPasma();
     timerFareZoneChangeDuration.start();
+*/
 
 }
 
@@ -2313,7 +2319,7 @@ void MainWindow::eventFareZoneChangeHide()
 {
     qDebug() <<  Q_FUNC_INFO;
     vehicleState.showFareZoneChange=false;
-    xmlVdv301UpdateContent();
+   // xmlVdv301UpdateContent();
 }
 
 //není implementováno
@@ -2344,6 +2350,7 @@ void MainWindow::eventEnterService()
 {
     qDebug() <<  Q_FUNC_INFO;
     ui->pushButton_menu_ride->setDisabled(false);
+    xmlVdv301UpdateContent();
 }
 
 void MainWindow::eventExitService()
@@ -2358,13 +2365,6 @@ void MainWindow::eventExitService()
 
 
     globalDisplayContentList2_3CZ1_0=createGlobalDisplayContentOutOfService2_3();
-
-    /*
-    foreach (CustomerInformationService *selectedService, vektorCisPermanent)
-    {
-        selectedService->outOfService();
-    }
-*/
 
     xmlVdv301UpdateContent();
     initializeSelectionListView();
@@ -2670,4 +2670,41 @@ int MainWindow::isInRange(int index, int valueCount, QString functionName)
 }
 
 
+
+
+void MainWindow::on_pushButton_manual_addsubscriber_2_3CZ1_0_clicked()
+{
+    vypisDiagnostika(customerInformationService2_3CZ1_0.handleNewSubscriber(Subscriber(ui->lineEdit_manual_subscriberAddress->text(),ui->lineEdit_manual_subscriberStructure->text())));
+
+}
+
+
+void MainWindow::on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked()
+{
+
+
+    if (ui->tableWidget_manual_subscriberList2_3CZ1_0->rowCount()==0)
+    {
+        vypisDiagnostika("seznam je prazdny");
+        return;
+    }
+
+    if (ui->tableWidget_manual_subscriberList2_3CZ1_0->selectionModel()->selectedIndexes().size()==0)
+    {
+        vypisDiagnostika("nic neni vybrano");
+
+        return;
+    }
+    int indexPolozky = ui->tableWidget_manual_subscriberList2_3CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
+    if (customerInformationService2_3CZ1_0.removeSubscriber(indexPolozky)==1)
+    {
+        dumpSubscribers2_3CZ1_0(customerInformationService2_3.subscriberList);
+        vypisDiagnostika("odstraneno");
+    }
+    else
+    {
+        vypisDiagnostika("nepovedlo se odstranit");
+    }
+
+}
 

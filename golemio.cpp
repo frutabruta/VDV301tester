@@ -21,13 +21,13 @@ Golemio::Golemio(QByteArray klic)
     mKlic=klic ;
 
     //adresa+="&minutesBefore=10"
-    mParametry+="&minutesAfter=180";
+    mParametry+="&minutesAfter=30";
     //adresa+= "&timeFrom=2021-01-21T06%3A00%3A00"
     mParametry+="&includeMetroTrains=true";
     //adresa+= "&preferredTimezone=Europe%252FPrague"
     mParametry+="&mode=departures";
     mParametry+="&order=real";
-    mParametry+="&filter=routeOnce";
+    mParametry+="&filter=routeHeadingOnce";
     mParametry+="&skip=canceled";
     //adresa+="&limit=0"
     //adresa+="&total=0"

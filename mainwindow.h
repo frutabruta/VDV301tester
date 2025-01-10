@@ -189,8 +189,8 @@ private:
     //VDV301
 
     void dumpSubscribers1_0(QVector<Subscriber> adresy);
-    void dumpSubscribers2_2CZ(QVector<Subscriber> adresy);
-    void dumpSubscribers2_3(QVector<Subscriber> adresy);
+    void dumpSubscribers2_2CZ1_0(QVector<Subscriber> adresy);
+    void dumpSubscribers2_3CZ1_0(QVector<Subscriber> adresy);
     void dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget *tabulka);
     void startAllVdv301Services();
     void stopServices(); //not implemented
@@ -371,6 +371,10 @@ private slots:
     void on_pushButton_detection_setId_clicked();
 
     void on_checkBox_configuration_logToFile_stateChanged(int arg1);
+
+    void on_pushButton_manual_addsubscriber_2_3CZ1_0_clicked();
+
+    void on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked();
 
 signals:
          // void signalZahajImport(QString cesta);

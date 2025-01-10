@@ -628,6 +628,7 @@ QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamKmenovychLinekModel(QString kj)
     return model;
 }
 
+/*
 QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamSpojuModel(Line docasnaLinka, QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -647,7 +648,7 @@ QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamSpojuModel(Line docasnaLinka, QS
 
     return model;
 }
-
+*/
 
 QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamPoradiModel(Line docasnaLinka, QString kj)
 {

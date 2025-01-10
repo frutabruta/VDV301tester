@@ -42,7 +42,7 @@ public:
     QString maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti);
 
     QSqlQueryModel *stahniSeznamLinekModel(QString kj);
-    QSqlQueryModel *stahniSeznamSpojuModel(Line docasnaLinka, QString kj); //unused
+   // QSqlQueryModel *stahniSeznamSpojuModel(Line docasnaLinka, QString kj); //unused
     QSqlQueryModel *stahniSeznamKmenovychLinekModel(QString kj);
     QSqlQueryModel *stahniSeznamPoradiModel(Line docasnaLinka, QString kj);
     QSqlQueryModel *stahniSeznamTurnusSpojuModel(VehicleRun &docasnyObeh, QString kj);

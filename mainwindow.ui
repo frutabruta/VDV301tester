@@ -74,7 +74,7 @@
        </font>
       </property>
       <property name="styleSheet">
-       <string notr="true">margin=0px; padding= 0 px;</string>
+       <string notr="true"/>
       </property>
       <property name="tabPosition">
        <enum>QTabWidget::North</enum>
@@ -83,7 +83,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -1828,6 +1828,9 @@ Stop</string>
                   <property name="title">
                    <string>Kmenová linka</string>
                   </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
                   <layout class="QVBoxLayout" name="verticalLayout_6">
                    <item>
                     <widget class="QListView" name="listView_rootLine">
@@ -1846,6 +1849,9 @@ Stop</string>
                   <property name="title">
                    <string>Pořadí</string>
                   </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
                   <layout class="QVBoxLayout" name="verticalLayout_12">
                    <item>
                     <widget class="QListView" name="listView_lineRun">
@@ -1862,7 +1868,10 @@ Stop</string>
                 <item>
                  <widget class="QGroupBox" name="groupBox_5">
                   <property name="title">
-                   <string>Spoje</string>
+                   <string>Spoje\n</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_15">
                    <item>
@@ -2484,7 +2493,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>3</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -2743,30 +2752,6 @@ Stop</string>
              <layout class="QVBoxLayout" name="verticalLayout_10">
               <item>
                <layout class="QGridLayout" name="gridLayout_7">
-                <item row="2" column="0">
-                 <widget class="QPushButton" name="pushButton_manual_addsubscriber">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Přidat odb.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Zrušit odb.</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="2" column="1">
                  <widget class="QPushButton" name="pushButton_manual_addsubscriber_2">
                   <property name="font">
@@ -2791,13 +2776,6 @@ Stop</string>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="1">
-                 <widget class="QLabel" name="label_manual_V2">
-                  <property name="text">
-                   <string>V2.2CZ1.0</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_manual_V1">
                   <property name="text">
@@ -2817,22 +2795,29 @@ Stop</string>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="2">
-                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_3">
+                <item row="1" column="2">
+                 <widget class="QLabel" name="label_manual_V3">
+                  <property name="text">
+                   <string>V2.3</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0" colspan="2">
+                 <widget class="QLineEdit" name="lineEdit_manual_subscriberAddress">
+                  <property name="text">
+                   <string>http://127.0.0.1:48479</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QPushButton" name="pushButton_manual_addsubscriber">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Zrušit odb.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="2">
-                 <widget class="QLabel" name="label_manual_V3">
-                  <property name="text">
-                   <string>V2.3</string>
+                   <string>Přidat odb.</string>
                   </property>
                  </widget>
                 </item>
@@ -2843,10 +2828,68 @@ Stop</string>
                   </property>
                  </widget>
                 </item>
-                <item row="0" column="0" colspan="2">
-                 <widget class="QLineEdit" name="lineEdit_manual_subscriberAddress">
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_manual_V2">
                   <property name="text">
-                   <string>http://127.0.0.1:48479</string>
+                   <string>V2.2CZ1.0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Zrušit odb.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="2">
+                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_3">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Zrušit odb.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="3">
+                 <widget class="QLabel" name="label_manual_V3_2">
+                  <property name="text">
+                   <string>V2.3CZ1.0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="3">
+                 <widget class="QPushButton" name="pushButton_manual_addsubscriber_2_3CZ1_0">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Přidat odb.</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="3">
+                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2_3CZ1_0">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Zrušit odb.</string>
                   </property>
                  </widget>
                 </item>
@@ -2971,12 +3014,12 @@ Stop</string>
               <item>
                <widget class="QLabel" name="label_manual_T3">
                 <property name="text">
-                 <string>Odberatele V2.3</string>
+                 <string>Odberatele V2.3CZ1.0</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="tableWidget_manual_subscriberList2_3">
+               <widget class="QTableWidget" name="tableWidget_manual_subscriberList2_3CZ1_0">
                 <attribute name="horizontalHeaderVisible">
                  <bool>true</bool>
                 </attribute>

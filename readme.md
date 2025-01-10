@@ -142,6 +142,41 @@ mingw32-make install
 
 
 ## Changelog
+- 20250108_1636
+        - golemio fix + sending Vdv301 updates several times
+        - XmlRopidImportStream
+                - DB support for import XML version 1.38
+        - MainWindow
+                - MainWindow::on_pushButton_ride_arrowNextState_clicked
+                        - fix VDV301 data updating twice
+                - MainWindow::on_pushButton_ride_arrowPreviousState_clicked
+                        - fix VDV301 data updating twice
+                - MainWindow::xmlVdv301UpdateContent()      
+                        - wait for receiving connections, when connections are enabled
+        
+                - MainWindow::slotGolemioReady()
+                        - connections refresh fix when coinnection list is empty
+                - MainWindow::initializeTheTrip()
+                        -  removed redundat xmlVdv301UpdateContent
+                - MainWindow::eventDeparture
+                        - added xmlVdv301UpdateContent
+                - MainWindow::xmlVdv301UpdateContent()
+                        - xmlUpdateCis when triplist is empty
+                - MainWindow::eventFareZoneChange
+                        - disable all content to avoid timer issues and multiple data send
+                - changed subscriber table from 2.3 to 2.3CZ1.0
+                - 2.3CZ1.0 remove subscriber button now works
+        - Vdv301Publisher
+                - fix 2.3CZ1.0 Connection to StopPoint index
+        - Golemio::Golemio
+                - modified default Golemio parameters
+        - SqlRopidXmlQueries::stahniSeznamSpojuModel
+                - unused, removed
+        - settings.ini
+                - modified default Golemio parameters
+        
+
+
 - 20241213_0100
         - Vdv301Publisher
                 - 2.3CZ1.0 fareZoneChange out of range check
