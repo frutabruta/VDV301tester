@@ -1626,9 +1626,20 @@ void MainWindow::on_pushButton_manual_sendCustomXml_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     QByteArray vysledek2="";
+
+    customerInformationService1_0.timer.stop();
+    customerInformationService2_2CZ1_0.timer.stop();
+    customerInformationService2_3.timer.stop();
+    customerInformationService2_3CZ1_0.timer.stop();
+
+    timerDownloadConnections.stop();
     vysledek2=vysledek2+ui->plainTextEdit_manual_customXml->toPlainText().toUtf8();
     customerInformationService1_0.setBodyContent("AllData",vysledek2);
     customerInformationService2_2CZ1_0.setBodyContent("AllData",vysledek2);
+    customerInformationService2_3.setBodyContent("AllData",vysledek2);
+    customerInformationService2_3CZ1_0.setBodyContent("AllData",vysledek2);
+
+
 
     for(int i=0;i<customerInformationService1_0.subscriberList.count();i++ )
     {
@@ -1637,6 +1648,14 @@ void MainWindow::on_pushButton_manual_sendCustomXml_clicked()
     for(int i=0;i<customerInformationService2_2CZ1_0.subscriberList.count();i++ )
     {
         customerInformationService2_2CZ1_0.postToSubscriber(customerInformationService2_2CZ1_0.subscriberList[i].address,vysledek2);
+    }
+    for(int i=0;i<customerInformationService2_3.subscriberList.count();i++ )
+    {
+        customerInformationService2_3.postToSubscriber(customerInformationService2_3.subscriberList[i].address,vysledek2);
+    }
+    for(int i=0;i<customerInformationService2_3CZ1_0.subscriberList.count();i++ )
+    {
+        customerInformationService2_3CZ1_0.postToSubscriber(customerInformationService2_3CZ1_0.subscriberList[i].address,vysledek2);
     }
     qDebug()<<"\n MainWindow::xmlUpdate";
 }

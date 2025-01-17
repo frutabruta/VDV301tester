@@ -142,6 +142,12 @@ mingw32-make install
 
 
 ## Changelog
+- 20250114_1851
+        - VDV301publisher
+                - 2.3 remove colon in fareZone + fix icons order
+        - MainWindow::on_pushButton_manual_sendCustomXml_clicked
+                - enabled 2.3CZ1.0
+                - stoping all timers to avoid override of manual data with periodic updates from timetable
 - 20250108_1636
         - golemio fix + sending Vdv301 updates several times
         - XmlRopidImportStream
