@@ -211,13 +211,14 @@ int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , 
 
     for (int i=docasnySeznamZastavek.size()-1;i>=0;i--)
     {
+        docasnySeznamZastavek[i].destination=cilovaZastavka;
         if (docasnySeznamZastavek.at(i).stopPoint.zsol==true)
         {
             qDebug()<<"zmena konecne na"<<docasnySeznamZastavek.at(i).stopPoint.NameSide;
             cilovaZastavka=docasnySeznamZastavek.at(i).stopPoint;
         }
 
-        docasnySeznamZastavek[i].destination=cilovaZastavka;
+
     }
 
     seznamSpoju[indexSpoje].globalStopPointDestinationList=docasnySeznamZastavek;

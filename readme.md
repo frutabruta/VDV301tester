@@ -142,6 +142,22 @@ mingw32-make install
 
 
 ## Changelog
+- 20250223_0019
+        - Vdv301Publisher
+                - 2.3CZ1.0
+                        - fareZoneChange using additionalTextMessage1-9
+        - Vdv301Subscriber
+                - 2.3CZ1.0
+                        - fareZoneChange using additionalTextMessage1-9
+        - konfigurace.xml
+                - added icons for 2.3CZ1.0
+        - MainWindow
+                - hide announcement timer
+        - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
+                - fix of Destination in semi-circular lines
+
+
+
 - 20250114_1851
         - VDV301publisher
                 - 2.3 remove colon in fareZone + fix icons order

@@ -224,6 +224,7 @@ private:
     
     QVector<Vdv301DisplayContent> createGlobalDisplayContentOutOfService2_3();
     int isInRange(int index, int valueCount, QString functionName);
+    void eventStopTimersRide();
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
@@ -326,7 +327,7 @@ private slots:
     void eventFareSystemChangeShow();
     void eventFareSystemChangeHide();
     void eventFareZoneChangeHide();
-    void evenSpecialAnnouncementHide();
+    void eventSpecialAnnouncementHide();
 
     //VDV301
     void slotVdv301ServiceStartResult(QString nastartovanaSluzba);

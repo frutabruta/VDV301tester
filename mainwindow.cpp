@@ -221,7 +221,7 @@ void MainWindow::allConnects()
     connect(&timerFareZoneChangeDuration,&QTimer::timeout,this,&MainWindow::eventFareZoneChangeHide);
     connect(&timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
     connect(&timerDownloadConnections,&QTimer::timeout,this,&MainWindow::slotDownloadConnectionsFromCurrentStop);
-    connect(&timerSpecialAnnoucementHide,&QTimer::timeout,this,&MainWindow::evenSpecialAnnouncementHide);
+    connect(&timerSpecialAnnoucementHide,&QTimer::timeout,this,&MainWindow::eventSpecialAnnouncementHide);
 }
 
 void MainWindow::retranslateUi(QString language)
@@ -817,6 +817,7 @@ void MainWindow::slotImportAktivujTlacitka()
 int MainWindow::eventArrival()
 {
     qDebug() <<  Q_FUNC_INFO;
+    eventStopTimersRide();
 
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateDoorsOpen;
 
@@ -866,6 +867,7 @@ int MainWindow::eventArrival()
 int MainWindow::eventDeparture()
 {
     qDebug() <<  Q_FUNC_INFO;
+    eventStopTimersRide();
 
 
 
@@ -2286,12 +2288,13 @@ void MainWindow::eventGoToNextTrip()
 void MainWindow::eventFareZoneChange()
 {
     qDebug() <<  Q_FUNC_INFO;
-/*
+
     vehicleState.showFareZoneChange=true;
     xmlVdv301UpdateContent();
     voiceAnnouncer.kompletZmenaTarifnihoPasma();
+
     timerFareZoneChangeDuration.start();
-*/
+
 
 }
 
@@ -2324,6 +2327,17 @@ void MainWindow::eventAnnouncementToDriver(QString poznamka)
     msgBox.setFont(font);
     // msgBox.setStyleSheet("font-size: 30px;");
     msgBox.exec();
+}
+
+void MainWindow::eventStopTimersRide()
+{
+    timerAfterStopToBetweenStop.stop();
+
+    timerFareZoneChangeDuration.stop();
+    vehicleState.showFareZoneChange=false;
+
+    timerSpecialAnnoucementHide.stop();
+    vehicleState.isSpecialAnnoucementUsed=false;
 }
 
 
@@ -2432,7 +2446,7 @@ void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* ta
 }
 
 
-void MainWindow::evenSpecialAnnouncementHide()
+void MainWindow::eventSpecialAnnouncementHide()
 {
     qDebug() <<  Q_FUNC_INFO;
     vehicleState.isSpecialAnnoucementUsed=false;
