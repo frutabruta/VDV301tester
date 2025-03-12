@@ -99,7 +99,7 @@ bool VoiceAnnouncer::announceThisAndNextStop(StopPoint zastavka1, StopPoint zast
     kratkaFronta.push_back(zvukPristiZastavka);
     kratkaFronta.push_back(najdiCestuZastavka(zastavka2.idOis,zastavka2.idCis));
 
-    if(zastavka2.onRequest)
+    if(zastavka2.onRequest&&(!zastavka2.neozn))
     {
         kratkaFronta.push_back(zvukNaZnameni);
     }
@@ -140,7 +140,7 @@ bool VoiceAnnouncer::announceNextStop(StopPoint nextStop)
     kratkaFronta.push_back(zvukPristiZastavka);
     kratkaFronta.push_back(najdiCestuZastavka(nextStop.idOis,nextStop.idCis));
 
-    if(nextStop.onRequest)
+    if(nextStop.onRequest&&(!nextStop.neozn))
     {
         kratkaFronta.push_back(zvukNaZnameni);
     }
@@ -161,7 +161,7 @@ bool VoiceAnnouncer::kompletOdjezdPrvniZastavka(StopPoint zastavka2)
     kratkaFronta.push_back(zvukPristiZastavka);
     kratkaFronta.push_back(najdiCestuZastavka(zastavka2.idOis,zastavka2.idCis));
 
-    if(zastavka2.onRequest)
+    if(zastavka2.onRequest&&(!zastavka2.neozn))
     {
         kratkaFronta.push_back(zvukNaZnameni);
     }
@@ -174,7 +174,7 @@ bool VoiceAnnouncer::kompletOdjezdPrvniZastavka(StopPoint zastavka2)
 QVector<QUrl> VoiceAnnouncer::priznakyDoSeznamu(StopPoint vstup)
 {
     QVector<QUrl> vystup;
-    if(vstup.onRequest)
+    if(vstup.onRequest&&(!vstup.neozn))
     {
         vystup.push_back(zvukNaZnameni);
     }

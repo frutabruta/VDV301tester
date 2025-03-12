@@ -142,6 +142,21 @@ mingw32-make install
 
 
 ## Changelog
+- 20250312_1907
+        - VDV301publisher
+                - neozn=true implementation
+        - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
+                - x.neozn, x.zast
+        - MainWindowPomocne::dumpStopsToTable
+                - added z when zast=true
+        - VoiceAnnouncer
+                - implemented neozn=true attribute
+        - konfigurace.xml
+                - added formatting to special announcements
+        - XmlRopidImportStream
+                - import x.neozn and x.zast
+
+
 - 20250223_0019
         - Vdv301Publisher
                 - 2.3CZ1.0

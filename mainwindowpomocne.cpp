@@ -98,7 +98,12 @@ void MainWindowPomocne::dumpStopsToTable(int cisloporadi, QVector<StopPointDesti
         QString znameni="";
         if (docasnySeznamZastavek.at(i).stopPoint.onRequest==true)
         {
-            znameni="(x)";
+            znameni="x";
+            if(docasnySeznamZastavek.at(i).stopPoint.zast)
+            {
+                znameni+="z";
+            }
+
         }
 
 
