@@ -56,7 +56,7 @@ void MainWindowPomocne::naplnTabulkuHlaseni(QTableWidget *vstup, QVector<Additio
             cell = new QTableWidgetItem(hlaseni.type);
             vstup->setItem(row, 1, cell);
 
-            cell = new QTableWidgetItem(hlaseni.title);
+            cell = new QTableWidgetItem(hlaseni.icon);
             vstup->setItem(row, 2, cell);
 
 
@@ -65,9 +65,10 @@ void MainWindowPomocne::naplnTabulkuHlaseni(QTableWidget *vstup, QVector<Additio
                 cell = new QTableWidgetItem(hlaseni.mp3.first());
                 vstup->setItem(row, 3, cell);
             }
+            /*
             cell = new QTableWidgetItem(hlaseni.text);
             vstup->setItem(row, 4, cell);
-
+            */
 
             vstup->resizeColumnsToContents();
             vstup->resizeRowsToContents();

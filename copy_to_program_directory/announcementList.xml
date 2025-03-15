@@ -1,0 +1,208 @@
+<announcementList>
+    <announcement>
+        <displayName>Funkčnost klimatizace</displayName>
+        <type></type>
+        <icon></icon>
+        <text>Vážení cestující, pro správnou funkčnost klimatizace v tomto vozidle, která je nyní v
+            provozu, prosíme neotevírejte boční okna ani stropní poklopy. Děkujeme Vám za pochopení.</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H350.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Potraviny</displayName>
+        <type></type>
+        <icon>&lt;icon type=&quot;c_NoFood&quot;&gt;&lt;/icon&gt;</icon>
+        <text>&lt;font size=&quot;80&quot;&gt;&lt;color
+            fg=&quot;#dc2828&quot;&gt;&lt;b&gt;Upozorňujeme cestující, že konzumace
+            potravin není ve vozidlech povolena.&lt;/b&gt;&lt;/color&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;60&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;Please do not eat
+            any food in the vehicle.&lt;/color&gt;&lt;/font&gt;</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H340.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Nastupujte předními dveřmi</displayName>
+        <type></type>
+        <icon></icon>
+        <text>Prosíme, nastupujte předními dveřmi.</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H205.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Nepokládat zavazadla</displayName>
+        <type></type>
+        <icon>&lt;icon type=&quot;c_Luggage&quot;&gt;&lt;/icon&gt;</icon>
+        <text>&lt;font size=&quot;80&quot;&gt;&lt;color
+            fg=&quot;#dc2828&quot;&gt;&lt;b&gt;Upozorňujeme cestující, že pokládat
+            zavazadla na sedadla není dovoleno.&lt;/b&gt;&lt;/color&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;60&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;Please do not put
+            your luggage on the seats.&lt;/color&gt;&lt;/font&gt;</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H239.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Neprůjezdnost, linka ukončena</displayName>
+        <type></type>
+        <icon></icon>
+        <text>Linka je z důvodu neprůjezdnosti trasy dočasně zkrácena.</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H162.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Neprůjezdnost, odklon</displayName>
+        <type></type>
+        <icon>&lt;icon type=&quot;c_Diversion&quot;&gt;$&lt;/icon&gt;</icon>
+        <text>Z důvodu neprůjezdnosti je linka vedena po odklonové trase.</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H164.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Prostor pro invalidní vozík</displayName>
+        <type></type>
+        <icon>&lt;icon type=&quot;c_WheelChair&quot;&gt;&lt;/icon&gt;</icon>
+        <text>&lt;font size=&quot;80&quot;&gt;&lt;color fg=&quot;#d2d70f&quot;&gt;&lt;b&gt;Uvolněte,
+            prosím,
+            místo pro invalidní vozík.&lt;/b&gt;&lt;/color&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;60&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;Please free the
+            space for a wheelchair.&lt;/color&gt;&lt;/font&gt;</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H260.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Prostor pro kočárek</displayName>
+        <type></type>
+        <icon>&lt;icon type=&quot;c_Pram&quot;&gt;&lt;/icon&gt;</icon>
+        <text>&lt;font size=&quot;80&quot;&gt;&lt;color fg=&quot;#d2d70f&quot;&gt;&lt;b&gt;Uvolněte,
+            prosím,
+            místo pro kočárek.&lt;/b&gt;&lt;/color&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;60&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;Please free the
+            space for a pram.&lt;/color&gt;&lt;/font&gt;</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H240.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Přední dveře, předložte doklad</displayName>
+        <type></type>
+        <icon></icon>
+        <text>Nástup předními dveřmi. Předložte prosím jízdní doklad.</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H183.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Uvolněte přední dveře</displayName>
+        <type></type>
+        <icon></icon>
+        <text>Uvolněte prosím prostor předních dveří.</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H182.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Vozidlo obsazeno</displayName>
+        <type></type>
+        <icon>Info</icon>
+        <text>Vozidlo plně obsazeno. Vyčkejte prosím na další spoj.</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H201.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Vyčkáváme na vzájemný přestup</displayName>
+        <type></type>
+        <icon></icon>
+        <text>&lt;font size=&quot;80&quot;&gt;&lt;b&gt;Vyčkáváme na vzájemný
+            přestup.&lt;/b&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;60&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;We are waiting for a
+            mutual transfer.&lt;/color&gt;&lt;/font&gt;</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H284.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Silná IAD, odklon</displayName>
+        <type></type>
+        <icon>&lt;icon type=&quot;c_Diversion&quot;&gt;$&lt;/icon&gt;</icon>
+        <text>&lt;color bg=&quot;#ffaa1e&quot; fg=&quot;#191919&quot;&gt;
+            &lt;font size=&quot;72&quot;&gt;&lt;color fg=&quot;#191919&quot;&gt;&lt;b&gt;Z důvodu
+            silné automobilové dopravy
+            pojede tato linka odklonem.&lt;/b&gt;&lt;/color&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;56&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;This line will be
+            rerouted due to heavy traffic.&lt;/color&gt;&lt;/font&gt;
+            &lt;/color&gt;</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H279.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>Čas odjezdu dle JŘ</displayName>
+        <type></type>
+        <icon>&lt;icon type=&quot;c_Pid&quot;&gt;$&lt;/icon&gt;</icon>
+        <text>&lt;font size=&quot;80&quot;&gt;&lt;b&gt;Vyčkáváme na přesný čas odjezdu
+            dle jízdního řádu.&lt;/b&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;60&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;We are waiting for
+            the scheduled
+            departure time.&lt;/color&gt;&lt;/font&gt;</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H281.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>zpoždění IAD</displayName>
+        <type></type>
+        <icon>&lt;icon type=&quot;c_Congestion&quot;&gt;&lt;/icon&gt;</icon>
+        <text>&lt;font size=&quot;72&quot;&gt;&lt;color fg=&quot;#ffaa1e&quot;&gt;&lt;b&gt;Omlouváme
+            se za zpoždění linky,
+            které je zapříčiněno silnou individiální
+            dopravou a špatnou průjezdností trasy&lt;/b&gt;&lt;/color&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;56&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;We are sorry for
+            delay
+            caused by heavy traffic and
+            limited passability of roads.&lt;/color&gt;&lt;/font&gt;</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H280.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>postupte dále</displayName>
+        <type></type>
+        <icon>&lt;icon type=&quot;c_GoFurther&quot;&gt;&lt;/icon&gt;</icon>
+        <text>&lt;font size=&quot;80&quot;&gt;&lt;color fg=&quot;#d2d70f&quot;&gt;&lt;b&gt;Prosíme,
+            postupujte dále do vozu.&lt;/b&gt;&lt;/color&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;60&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;Please move further
+            into the vehicle.&lt;/color&gt;&lt;/font&gt;</text>
+        <changeFrom></changeFrom>
+        <changeTo></changeTo>
+        <mp3>H179.mp3</mp3>
+    </announcement>
+    <announcement>
+        <displayName>změna pásma DEMO</displayName>
+        <type>FareZoneChange</type>
+        <icon></icon>
+        <text>&lt;font size=&quot;90&quot;&gt;&lt;color fg=&quot;#ffffff&quot;&gt;Prosím pozor!
+            Změna tarifního pásma.&lt;/color&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;68&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;Attention please!
+            Change of fare zone.&lt;/color&gt;&lt;/font&gt;</text>
+        <changeFrom>6,8</changeFrom>
+        <changeTo>7</changeTo>
+    </announcement>
+    <announcement>
+        <displayName>změna linky DEMO</displayName>
+        <type>LineChange</type>
+        <icon></icon>
+        <text>&lt;font size=&quot;90&quot;&gt;&lt;color fg=&quot;#ffffff&quot;&gt;Prosím pozor!
+            Změna čísla linky&lt;/color&gt;&lt;/font&gt;&lt;br&gt;
+            &lt;font size=&quot;68&quot;&gt;&lt;color fg=&quot;#969696&quot;&gt;Attention please!
+            Line number change.&lt;/color&gt;&lt;/font&gt;</text>
+        <changeFrom>123</changeFrom>
+        <changeTo>XS2</changeTo>
+    </announcement>
+</announcementList>

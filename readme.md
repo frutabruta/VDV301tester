@@ -142,6 +142,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20250314_1857
+        - special announcement config file overhaul
+            - konfigurace renamed to specialAnnouncementParser
+            - fareZoneChange and lineChange show mockup values
+        - display special announcements from a queue
 - 20250312_1907
         - VDV301publisher
                 - neozn=true implementation

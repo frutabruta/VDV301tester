@@ -52,6 +52,7 @@ SOURCES += \
     IbisSender/ipistelegramcompose.cpp \
     MapaVykresleni/mapyapistops.cpp \
     VDV301publisher/VDV301DataStructures/additionalannoucement.cpp \
+    VDV301publisher/VDV301DataStructures/additionalannoucement2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/connection.cpp \
     VDV301publisher/VDV301DataStructures/connectiongolemio.cpp \
     VDV301publisher/VDV301DataStructures/connectionmpv.cpp \
@@ -88,12 +89,10 @@ SOURCES += \
     VDV301publisher/ticketvalidationservice.cpp \
     VDV301publisher/xmlcommon.cpp \
     VDV301publisher/xmlcommon2_2cz1_0.cpp \
-    VDV301publisher/xmlcommon2_3.cpp \
     VDV301publisher/xmlcommon2_3_new.cpp \
     VDV301publisher/xmlcommon2_3cz1_0.cpp \
     VDV301publisher/xmlcustomerinformationservice.cpp \
     VDV301publisher/xmlcustomerinformationservice2_2cz1_0.cpp \
-    VDV301publisher/xmlcustomerinformationservice2_3.cpp \
     VDV301publisher/xmlcustomerinformationservice2_3_new.cpp \
     VDV301publisher/xmlcustomerinformationservice2_3cz1_0.cpp \
     VDV301publisher/xmldevicemanagementservice.cpp \
@@ -118,7 +117,6 @@ SOURCES += \
     XmlRopidImportStream/xmlimportjr.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
     golemio.cpp \
-    konfigurace.cpp \
     logfile.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -127,6 +125,7 @@ SOURCES += \
     MapaVykresleni/mapabod.cpp \
     MapaVykresleni/mapavykresleni.cpp \
     MapaVykresleni/mnozinabodu.cpp \
+    specialannouncementparser.cpp \
     sqldotazymodel.cpp \
     sqlropidxmlqueries.cpp \
     xmlmpvparser.cpp
@@ -138,6 +137,7 @@ HEADERS += \
     IbisSender/ipistelegramcompose.h \
     MapaVykresleni/mapyapistops.h \
     VDV301publisher/VDV301DataStructures/additionalannoucement.h \
+    VDV301publisher/VDV301DataStructures/additionalannoucement2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/connection.h \
     VDV301publisher/VDV301DataStructures/connectiongolemio.h \
     VDV301publisher/VDV301DataStructures/connectionmpv.h \
@@ -174,12 +174,10 @@ HEADERS += \
     VDV301publisher/ticketvalidationservice.h \
     VDV301publisher/xmlcommon.h \
     VDV301publisher/xmlcommon2_2cz1_0.h \
-    VDV301publisher/xmlcommon2_3.h \
     VDV301publisher/xmlcommon2_3_new.h \
     VDV301publisher/xmlcommon2_3cz1_0.h \
     VDV301publisher/xmlcustomerinformationservice.h \
     VDV301publisher/xmlcustomerinformationservice2_2cz1_0.h \
-    VDV301publisher/xmlcustomerinformationservice2_3.h \
     VDV301publisher/xmlcustomerinformationservice2_3_new.h \
     VDV301publisher/xmlcustomerinformationservice2_3cz1_0.h \
     VDV301publisher/xmldevicemanagementservice.h \
@@ -205,13 +203,13 @@ HEADERS += \
     XmlRopidImportStream/xmlropidimportstream.h \
     XmlRopidImportStream/sqlitezaklad.h \
     golemio.h \
-    konfigurace.h \
     logfile.h \
     mainwindow.h \
     mainwindowpomocne.h \
     MapaVykresleni/mapabod.h \
     MapaVykresleni/mapavykresleni.h \
     MapaVykresleni/mnozinabodu.h \
+    specialannouncementparser.h \
     sqldotazymodel.h \
     sqlropidxmlqueries.h \
     xmlmpvparser.h

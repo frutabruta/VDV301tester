@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QTranslator>
 
-
+#include "mainwindowpomocne.h"
 
 
 //MAIN
@@ -96,10 +96,10 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
 
     //cesty souboru
     voiceAnnouncer.zmenUmisteniProgramu(applicationDirectory);
-    konfigurace.vytvorDefaultniKonfiguraci();
-    konfigurace.otevriSoubor();
+    konfigurace.createDefaultFile();
+    konfigurace.openFile();
     
-    MainWindowPomocne::naplnTabulkuHlaseni(ui->tableWidget_specialAnnouncements,konfigurace.specialniHlaseni);
+    MainWindowPomocne::naplnTabulkuHlaseni(ui->tableWidget_specialAnnouncements,konfigurace.announcementList);
 
     //hlasic.nastavCestu(konfigurace.cestaHlaseni);
 
@@ -115,6 +115,9 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     //inicializace timeru
     timerFareZoneChangeDuration.setSingleShot(true);
     timerFareZoneChangeDuration.setInterval(konfigurace.trvaniZobrazeniPasma);
+
+    timerLineChangeDuration.setSingleShot(true);
+    timerLineChangeDuration.setInterval(konfigurace.trvaniZobrazeniPasma);
 
     timerSpecialAnnoucementHide.setSingleShot(true);
     timerSpecialAnnoucementHide.setInterval(konfigurace.trvaniZobrazeniOznameni);
@@ -215,10 +218,11 @@ void MainWindow::allConnects()
     connect(&customerInformationService1_0,&HttpService::signalStav,this,&MainWindow::radio4);
 
     //konfigurace
-    connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
+    connect(&konfigurace,&SpecialAnnouncementParser::signalError,this,&MainWindow::vypisDiagnostika);
 
     //casovace
     connect(&timerFareZoneChangeDuration,&QTimer::timeout,this,&MainWindow::eventFareZoneChangeHide);
+    connect(&timerLineChangeDuration,&QTimer::timeout,this,&MainWindow::eventLineChangeHide);
     connect(&timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
     connect(&timerDownloadConnections,&QTimer::timeout,this,&MainWindow::slotDownloadConnectionsFromCurrentStop);
     connect(&timerSpecialAnnoucementHide,&QTimer::timeout,this,&MainWindow::eventSpecialAnnouncementHide);
@@ -589,7 +593,7 @@ int MainWindow::initializeTheTrip()
     }
     globalDisplayContentList2_3CZ1_0.clear();
 
- //   xmlVdv301UpdateContent();
+    //   xmlVdv301UpdateContent();
     if(this->vehicleState.getCurrentTrip().globalStopPointDestinationList.empty()==1)
     {
         qDebug()<<"seznam zastavek  je prazdny";
@@ -2146,7 +2150,7 @@ void MainWindow::on_tableView_lineTrip_clicked(const QModelIndex &index)
 void MainWindow::on_tableWidget_specialAnnouncements_cellClicked(int row, int column)
 {
     qDebug() <<  Q_FUNC_INFO;
-    eventShowAnnoucement(row,konfigurace.specialniHlaseni);
+    eventShowManualAnnoucement(row,konfigurace.announcementList);
 }
 
 void MainWindow::on_tableWidget_ride_stopList_cellClicked(int row, int column)
@@ -2272,11 +2276,13 @@ void MainWindow::eventGoToNextTrip()
     qDebug()<<"index "<<vehicleState.currentTripIndex<<" pocetSpoju "<<vehicleState.currentVehicleRun.tripList.count();
     if ((vehicleState.currentTripIndex)<(vehicleState.currentVehicleRun.tripList.count()-1))
     {
+        eventLineChange();
         vehicleState.currentTripIndex++;
         vehicleState.currentStopIndex0=0;
         // AktualizaceDispleje();
+
         initializeTheTrip();
-        xmlVdv301UpdateContent();
+        //xmlVdv301UpdateContent(); initialize the trip already contains update content
     }
     else
     {
@@ -2290,7 +2296,23 @@ void MainWindow::eventFareZoneChange()
     qDebug() <<  Q_FUNC_INFO;
 
     vehicleState.showFareZoneChange=true;
-    xmlVdv301UpdateContent();
+
+
+    QString fareZoneChangeText=R"(
+<font size="90"><color fg="#ffffff">Prosím pozor! Změna tarifního pásma.</color></font><br>
+<font size="68"><color fg="#969696">Attention please! Change of fare zone.</color></font>
+        )";
+
+    AdditionalAnnoucement fareZoneChangeAnnouncement;
+    fareZoneChangeAnnouncement.text=fareZoneChangeText;
+    fareZoneChangeAnnouncement.type="FareZoneChange";
+    fareZoneChangeAnnouncement.changeFrom="X,Y";
+    fareZoneChangeAnnouncement.changeTo="Z";
+    fareZoneChangeAnnouncement.duration=konfigurace.trvaniZobrazeniPasma;
+    eventAddAnnoucement(fareZoneChangeAnnouncement);
+
+
+  //  xmlVdv301UpdateContent();
     voiceAnnouncer.kompletZmenaTarifnihoPasma();
 
     timerFareZoneChangeDuration.start();
@@ -2298,19 +2320,68 @@ void MainWindow::eventFareZoneChange()
 
 }
 
-void MainWindow::eventShowAnnoucement(int index, QVector<AdditionalAnnoucement> seznamHlaseni)
+void MainWindow::eventFareZoneChangeHide()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    vehicleState.showFareZoneChange=false;
+  //  eventAnnouncementContinue();
+    // xmlVdv301UpdateContent();
+}
+
+
+void MainWindow::eventLineChange()
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+
+    QString lineChangeText=R"(
+<font size="90"><color fg="#ffffff">Prosím pozor! Změna čísla linky.</color></font><br>
+<font size="72"><color fg="#969696">Attention please! Line number change.</color></font>
+        )";
+
+    //values are a mock-up at the moment
+    AdditionalAnnoucement lineChangeAnnouncement;
+    lineChangeAnnouncement.text=lineChangeText;
+    lineChangeAnnouncement.type="LineChange";
+    lineChangeAnnouncement.changeFrom="123";
+    lineChangeAnnouncement.changeTo="456";
+    lineChangeAnnouncement.duration=konfigurace.trvaniZobrazeniPasma;
+    eventAddAnnoucement(lineChangeAnnouncement);
+
+  //  xmlVdv301UpdateContent();
+    //voiceAnnouncer.kompletZmenaTarifnihoPasma();
+
+  //  timerLineChangeDuration.start();
+
+
+}
+
+void MainWindow::eventLineChangeHide()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    // now handled as an announcement
+
+
+
+}
+
+void MainWindow::eventShowManualAnnoucement(int index, QVector<AdditionalAnnoucement> seznamHlaseni)
 {
     qDebug() <<  Q_FUNC_INFO;
 
     if((index>=0)&&(index<seznamHlaseni.count()))
     {
+        eventAddAnnoucement(seznamHlaseni.at(index));
 
+        /*
         vehicleState.currentSpecialAnnoucement=seznamHlaseni.at(index);
+        vehicleState.specialAnnouncementQueue<<seznamHlaseni.at(index);
         vehicleState.isSpecialAnnoucementUsed=true;
         //zobraz na panely
         xmlVdv301UpdateContent();
         timerSpecialAnnoucementHide.start();
         //spust hlaseni
+        */
         voiceAnnouncer.kompletSpecialniHlaseni(vehicleState.currentSpecialAnnoucement);
     }
 
@@ -2327,6 +2398,44 @@ void MainWindow::eventAnnouncementToDriver(QString poznamka)
     msgBox.setFont(font);
     // msgBox.setStyleSheet("font-size: 30px;");
     msgBox.exec();
+}
+
+void MainWindow::eventAddAnnoucement(AdditionalAnnoucement announcement)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    vehicleState.specialAnnouncementQueue<<announcement;
+    eventAnnouncementContinue();
+
+}
+
+void MainWindow::eventAnnouncementContinue()
+{
+    qDebug() <<  Q_FUNC_INFO;
+    if(vehicleState.isSpecialAnnoucementUsed)
+    {
+       // vehicleState.isSpecialAnnoucementUsed=true;
+         qDebug()<<"queue is already running";
+       qDebug()<<"announcement queue count running"<<vehicleState.specialAnnouncementQueue.count();
+    }
+    else
+    {
+        if(!vehicleState.specialAnnouncementQueue.isEmpty())
+        {
+            qDebug()<<"announcement queue count not running"<<vehicleState.specialAnnouncementQueue.count();
+            vehicleState.currentSpecialAnnoucement=vehicleState.specialAnnouncementQueue.first();
+            vehicleState.specialAnnouncementQueue.removeFirst();
+            timerSpecialAnnoucementHide.setInterval(vehicleState.currentSpecialAnnoucement.duration);
+            vehicleState.isSpecialAnnoucementUsed=true;
+            timerSpecialAnnoucementHide.start();
+
+        }
+        else
+        {
+            qDebug()<<"announcement queue is empty";
+        }
+        xmlVdv301UpdateContent();
+
+    }
 }
 
 void MainWindow::eventStopTimersRide()
@@ -2348,12 +2457,7 @@ void MainWindow::popUpMessage(QString messageText)
     msgBox.exec();
 }
 
-void MainWindow::eventFareZoneChangeHide()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.showFareZoneChange=false;
-   // xmlVdv301UpdateContent();
-}
+
 
 //není implementováno
 void MainWindow::eventFareSystemChangeShow()
@@ -2450,7 +2554,8 @@ void MainWindow::eventSpecialAnnouncementHide()
 {
     qDebug() <<  Q_FUNC_INFO;
     vehicleState.isSpecialAnnoucementUsed=false;
-    xmlVdv301UpdateContent();
+    eventAnnouncementContinue();
+    //xmlVdv301UpdateContent();
 }
 
 

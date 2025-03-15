@@ -15,12 +15,8 @@
 #include <QTableView>
 
 
-
-//#include "VDV301DataStructures/stoppoint.h"
-//#include "VDV301DataStructures/line.h"
 #include "VDV301publisher/VDV301DataStructures/vehiclestate.h"
-#include "VDV301publisher/VDV301DataStructures/stoppointdestination.h"
-//#include "VDV301publisher/VDV301DataStructures/vdv301displaycontent.h"
+
 
 //#include "VDV301publisher/httpservice.h"
 #include "VDV301publisher/customerinformationservice.h"
@@ -43,9 +39,8 @@
 #include "XmlRopidImportStream/xmlimportjr.h"
 #include "IbisSender/ipispid.h"
 #include "VoiceAnnouncer/voiceannouncer.h"
-#include "konfigurace.h"
+#include "specialannouncementparser.h"
 #include "logfile.h"
-#include "mainwindowpomocne.h"
 #include "MapaVykresleni/mapyapistops.h"
 
 namespace Ui {
@@ -93,7 +88,7 @@ private:
     SqlRopidXmlQueries sqlRopidQueries;
 
     //instance knihoven
-    Konfigurace konfigurace;
+    SpecialAnnouncementParser konfigurace;
     QSettings *settings;
 
     XmlMpvParser xmlMpvParser;
@@ -136,7 +131,7 @@ private:
     void eventEnterService();
     void eventAnnouncementToDriver(QString poznamka);
     void eventGoToNextTrip();
-    void eventShowAnnoucement(int index, QVector<AdditionalAnnoucement> seznamHlaseni);
+    void eventShowManualAnnoucement(int index, QVector<AdditionalAnnoucement> seznamHlaseni);
 
 
     void testPopulateWindow(int index);
@@ -211,6 +206,7 @@ private:
 
     //timery
     QTimer timerFareZoneChangeDuration; //fare  change announcement vanishes after timeout
+    QTimer timerLineChangeDuration; //line name change announcement vanishes after timeout
     QTimer timerAfterStopToBetweenStop;
     QTimer timerDownloadConnections;
     QTimer timerSpecialAnnoucementHide;
@@ -225,10 +221,13 @@ private:
     QVector<Vdv301DisplayContent> createGlobalDisplayContentOutOfService2_3();
     int isInRange(int index, int valueCount, QString functionName);
     void eventStopTimersRide();
+
+    void eventLineChange();
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
     void slotAktualizacePracData(); //unused
+
 private slots:
     //tlacitka
 
@@ -327,7 +326,9 @@ private slots:
     void eventFareSystemChangeShow();
     void eventFareSystemChangeHide();
     void eventFareZoneChangeHide();
+    void eventLineChangeHide();
     void eventSpecialAnnouncementHide();
+      void eventAnnouncementContinue();
 
     //VDV301
     void slotVdv301ServiceStartResult(QString nastartovanaSluzba);
@@ -377,6 +378,7 @@ private slots:
 
     void on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked();
 
+    void eventAddAnnoucement(AdditionalAnnoucement announcement);
 signals:
          // void signalZahajImport(QString cesta);
 };
