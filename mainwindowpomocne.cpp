@@ -52,14 +52,14 @@ void MainWindowPomocne::naplnTabulkuHlaseni(QTableWidget *vstup, QVector<Additio
             cell = new QTableWidgetItem(hlaseni.displayName);
             vstup->setItem(row, 0, cell);
 
-
+/*
             cell = new QTableWidgetItem(hlaseni.type);
             vstup->setItem(row, 1, cell);
 
             cell = new QTableWidgetItem(hlaseni.icon);
             vstup->setItem(row, 2, cell);
 
-
+*/
             if(hlaseni.mp3.count()>0)
             {
                 cell = new QTableWidgetItem(hlaseni.mp3.first());

@@ -2371,6 +2371,7 @@ void MainWindow::eventShowManualAnnoucement(int index, QVector<AdditionalAnnouce
 
     if((index>=0)&&(index<seznamHlaseni.count()))
     {
+        voiceAnnouncer.kompletSpecialniHlaseni(vehicleState.currentSpecialAnnoucement);
         eventAddAnnoucement(seznamHlaseni.at(index));
 
         /*
@@ -2382,7 +2383,7 @@ void MainWindow::eventShowManualAnnoucement(int index, QVector<AdditionalAnnouce
         timerSpecialAnnoucementHide.start();
         //spust hlaseni
         */
-        voiceAnnouncer.kompletSpecialniHlaseni(vehicleState.currentSpecialAnnoucement);
+
     }
 
 }

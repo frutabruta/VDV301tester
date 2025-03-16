@@ -142,6 +142,20 @@ mingw32-make install
 
 
 ## Changelog
+- 20250316_1818
+        - known issues - special voice announcements work with index n-1 - first mp3 in que doesnt play
+        - MainWindowPomocne::naplnTabulkuHlaseni
+                - removed unnecessary columns
+        - SpecialAnnouncementParser::loadSpecialAnnouncementList
+                - now parsing announcement duration from config file
+        - announcementList.xml
+                - modified texts
+                - added duration element
+        - service_texts_generator2_3CZ1_0.xlsx
+                - added duration element
+                - reordered announcements
+        
+
 - 20250314_1857
         - special announcement config file overhaul
             - konfigurace renamed to specialAnnouncementParser

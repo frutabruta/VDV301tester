@@ -287,6 +287,7 @@ bool VoiceAnnouncer::kompletSpecialniHlaseni(AdditionalAnnoucement specialniHlas
 
     if(seznamAdres.isEmpty())
     {
+        qDebug()<<"seznam adres is empty";
         return 0;
     }
     pridejDoFrontyVyhlas(seznamAdres);

@@ -126,6 +126,7 @@ int SpecialAnnouncementParser::loadSpecialAnnouncementList(QDomDocument xmlko)
         QDomElement element=domAnnouncementList.at(i).toElement();
         AdditionalAnnoucement newAnnouncement;
         newAnnouncement.displayName=element.firstChildElement("displayName").text();
+        newAnnouncement.duration=element.firstChildElement("duration").text().toInt()*1000;
         newAnnouncement.type=element.firstChildElement("type").text();
         newAnnouncement.icon=element.firstChildElement("icon").text();
         newAnnouncement.text=element.firstChildElement("text").text();
