@@ -142,6 +142,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20250319_1747
+        - ability to load trip without vehicle run
+                - MainWindow::on_pushButton_lineTrip_confirm_clicked()
+                - new function SqlRopidXmlQueries::najdiIdSpojeZCisla
 - 20250316_1818
         - known issues - special voice announcements work with index n-1 - first mp3 in que doesnt play
         - MainWindowPomocne::naplnTabulkuHlaseni

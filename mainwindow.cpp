@@ -1935,43 +1935,57 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
     vehicleState.currentTrip.line.c =ui->lineEdit_lineNumber->text().toInt();
     vehicleState.currentTrip.idRopid=ui->lineEdit_tripNumber->text().toInt();
 
-    int kmenovaLinka=0;;
-    int poradi=0;
-    int order=0;
-    sqlRopidQueries.najdiTurnusZeSpoje( vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() );
-
-    vehicleState.currentStopIndex0=0;
-    
-    ui->lineEdit_rootLine->setText(QString::number(kmenovaLinka));
-    vehicleState.currentVehicleRun.rootLine.c=kmenovaLinka;
-
-
-    /*
-    if (sqlPraceRopid.vytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
+    if(!sqlRopidQueries.najdiIdSpojeZCisla(vehicleState.currentTrip,this->createDataValidityMask()))
     {
-        naplnVyberPoradi(seznamObehu);
-    }
-    */
-
-
-    vehicleState.currentVehicleRun.order=poradi ;
-    if (sqlRopidQueries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
-    {
-        // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
-    }
-
-
-    Trip hledanySpoj=vehicleState.currentTrip;
-    vehicleState.currentTripIndex=sqlRopidQueries.poziceSpojeNaSeznamu(vehicleState.currentVehicleRun.tripList,hledanySpoj);
-
-    if(! MainWindowPomocne::jeVRozsahu(vehicleState.currentTripIndex,vehicleState.currentVehicleRun.tripList.size(),Q_FUNC_INFO))
-    {
+        popUpMessage(tr("trip does not exist"));
         return 0;
     }
 
-    vehicleState.currentTrip=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex);
-    ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentTrip.line.c));
-    ui->lineEdit_rootLineTripNumber->setText(QString::number(vehicleState.currentTrip.idRopid));
+    int kmenovaLinka=0;;
+    int poradi=0;
+    int order=0;
+    vehicleState.currentStopIndex0=0;
+
+    Trip hledanySpoj=vehicleState.currentTrip;
+    if(sqlRopidQueries.najdiTurnusZeSpoje( vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() ))
+    {
+        vehicleState.currentVehicleRun.rootLine.c=kmenovaLinka;
+        vehicleState.currentVehicleRun.order=poradi ;
+        if (sqlRopidQueries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
+        {
+            // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
+        }
+
+        vehicleState.currentTripIndex=sqlRopidQueries.poziceSpojeNaSeznamu(vehicleState.currentVehicleRun.tripList,hledanySpoj);
+
+        if(vehicleState.currentTripIndex==-1)
+        {
+            vehicleState.currentVehicleRun.tripList<<vehicleState.currentTrip;
+            vehicleState.currentTripIndex=0;
+            popUpMessage(tr("trip without vehicle run"));
+        }
+        else
+        {
+            if(! MainWindowPomocne::jeVRozsahu(vehicleState.currentTripIndex,vehicleState.currentVehicleRun.tripList.size(),Q_FUNC_INFO))
+            {
+                return 0;
+                    //vehicleState.currentTrip=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex);
+            }
+            else
+            {
+                vehicleState.currentTrip=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex);
+                ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentTrip.line.c));
+                ui->lineEdit_rootLineTripNumber->setText(QString::number(vehicleState.currentTrip.idRopid));
+            }
+        }
+
+
+    }
+
+
+
+    ui->lineEdit_rootLine->setText(QString::number(kmenovaLinka));
+
     vehicleState.currentLine.lineNumber =ui->lineEdit_rootLine->text();
 
     vehicleState.currentStopIndex0=0;
@@ -2299,7 +2313,7 @@ void MainWindow::eventFareZoneChange()
 
 
     QString fareZoneChangeText=R"(
-<font size="90"><color fg="#ffffff">Prosím pozor! Změna tarifního pásma.</color></font><br>
+<font size="90"><color fg="#ffffff"><b>Prosím pozor! Změna tarifního pásma.</b></color></font><br>
 <font size="68"><color fg="#969696">Attention please! Change of fare zone.</color></font>
         )";
 
@@ -2312,7 +2326,7 @@ void MainWindow::eventFareZoneChange()
     eventAddAnnoucement(fareZoneChangeAnnouncement);
 
 
-  //  xmlVdv301UpdateContent();
+    //  xmlVdv301UpdateContent();
     voiceAnnouncer.kompletZmenaTarifnihoPasma();
 
     timerFareZoneChangeDuration.start();
@@ -2324,7 +2338,7 @@ void MainWindow::eventFareZoneChangeHide()
 {
     qDebug() <<  Q_FUNC_INFO;
     vehicleState.showFareZoneChange=false;
-  //  eventAnnouncementContinue();
+    //  eventAnnouncementContinue();
     // xmlVdv301UpdateContent();
 }
 
@@ -2335,7 +2349,7 @@ void MainWindow::eventLineChange()
 
 
     QString lineChangeText=R"(
-<font size="90"><color fg="#ffffff">Prosím pozor! Změna čísla linky.</color></font><br>
+<font size="90"><color fg="#ffffff"><b>Prosím pozor! Změna čísla linky.</b></color></font><br>
 <font size="72"><color fg="#969696">Attention please! Line number change.</color></font>
         )";
 
@@ -2348,10 +2362,10 @@ void MainWindow::eventLineChange()
     lineChangeAnnouncement.duration=konfigurace.trvaniZobrazeniPasma;
     eventAddAnnoucement(lineChangeAnnouncement);
 
-  //  xmlVdv301UpdateContent();
+    //  xmlVdv301UpdateContent();
     //voiceAnnouncer.kompletZmenaTarifnihoPasma();
 
-  //  timerLineChangeDuration.start();
+    //  timerLineChangeDuration.start();
 
 
 }
@@ -2414,9 +2428,9 @@ void MainWindow::eventAnnouncementContinue()
     qDebug() <<  Q_FUNC_INFO;
     if(vehicleState.isSpecialAnnoucementUsed)
     {
-       // vehicleState.isSpecialAnnoucementUsed=true;
-         qDebug()<<"queue is already running";
-       qDebug()<<"announcement queue count running"<<vehicleState.specialAnnouncementQueue.count();
+        // vehicleState.isSpecialAnnoucementUsed=true;
+        qDebug()<<"queue is already running";
+        qDebug()<<"announcement queue count running"<<vehicleState.specialAnnouncementQueue.count();
     }
     else
     {

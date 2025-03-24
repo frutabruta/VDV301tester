@@ -204,10 +204,14 @@ int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , 
     cilovaZastavka=docasnySeznamZastavek.at(docasnySeznamZastavek.length()-1).stopPoint;
     if(seznamSpoju.at(indexSpoje).continuesWithNextTrip==true)
     {
-        QString novyHorniCil=cilovaZastavka.NameFront+cilovaZastavka.NameFront2;
-        cilovaZastavka.NameFront=novyHorniCil;
-        cilovaZastavka.NameFront2="a dále jako linka "+seznamSpoju.at(indexSpoje+1).line.lineName;// interniSeznamZastavek.first().linka.LineName;
-        qDebug()<<"obsah spodniho radku "<<cilovaZastavka.NameFront2;
+        if(seznamSpoju.length()>(indexSpoje+1))
+        {
+            QString novyHorniCil=cilovaZastavka.NameFront+cilovaZastavka.NameFront2;
+            cilovaZastavka.NameFront=novyHorniCil;
+            cilovaZastavka.NameFront2="a dále jako linka "+seznamSpoju.at(indexSpoje+1).line.lineName;// interniSeznamZastavek.first().linka.LineName;
+            qDebug()<<"obsah spodniho radku "<<cilovaZastavka.NameFront2;
+        }
+
     }
 
 
@@ -350,7 +354,7 @@ int SqlRopidXmlQueries::najdiTurnusZeSpoje(Trip spoj, int &kmenovaLinka, int &po
     queryString2+=(" AND s.kj LIKE '");
     queryString2+=(kj);
     queryString2+=("' ");
-    queryString2+=(" ORDER BY s.c");
+    queryString2+=(" ORDER BY s.s");
     QSqlQuery query;
     query.exec(queryString2);
     qDebug()<<"lasterror "<<query.lastError();
@@ -369,6 +373,50 @@ int SqlRopidXmlQueries::najdiTurnusZeSpoje(Trip spoj, int &kmenovaLinka, int &po
     }
 
     qDebug()<<"Spoj "<<spoj.line.c<<"/"<<spoj.idRopid<<" spada pod kurz "<<kmenovaLinka<<"/"<<poradi<<" order:"<<order;
+    this->zavriDB();
+    if (citacMaximum==0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+
+int SqlRopidXmlQueries::najdiIdSpojeZCisla(Trip &spoj, QString kj)
+{
+    qDebug()<< Q_FUNC_INFO;
+    // docasnySeznamSpoju.clear();
+    this->pripoj();
+    //bool platnost = true;
+    //qInfo()<<"DebugPointA";
+    QString queryString2("SELECT DISTINCT s.s FROM s ");
+    queryString2+=("WHERE s.l=");
+    queryString2+=(QString::number(spoj.line.c));
+    queryString2+=(" AND s.c=");
+    queryString2+=(QString::number(spoj.idRopid));
+    queryString2+=(" AND s.kj LIKE '");
+    queryString2+=(kj);
+    queryString2+=("' ");
+    queryString2+=(" ORDER BY s.c");
+    QSqlQuery query;
+    query.exec(queryString2);
+    qDebug()<<"lasterror "<<query.lastError();
+    qDebug()<<queryString2;
+    // qDebug()<<"DebugPointB";
+    int citacMaximum=0;
+    while (query.next())
+    {
+        if (query.value(0).toString()!="")
+        {
+            citacMaximum++;
+            spoj.id=query.value(query.record().indexOf("s.s")).toInt();
+        }
+    }
+
+ //   qDebug()<<"Spoj "<<spoj.line.c<<"/"<<spoj.idRopid<<" spada pod kurz "<<kmenovaLinka<<"/"<<poradi<<" order:"<<order;
     this->zavriDB();
     if (citacMaximum==0)
     {

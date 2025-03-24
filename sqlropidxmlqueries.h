@@ -49,6 +49,7 @@ public:
     QVector<MapaBod> vytvorTrajektorii(int cisloSpoje, QString kj);
     static double absolutniHodnota(double vstup);
     QSqlQueryModel *stahniSeznamSpojuModel2(Line docasnaLinka, QString kj);
+    int najdiIdSpojeZCisla(Trip &spoj, QString kj);
 private:
 
     void vypisPole(QVector<StopPointDestination> docasnySeznamZastavek, int &pocetZastavek); //unused
