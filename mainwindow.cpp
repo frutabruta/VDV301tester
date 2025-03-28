@@ -2532,10 +2532,11 @@ void MainWindow::resetTripList()
 void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* tableView)
 {
     qDebug()<<Q_FUNC_INFO;
-
+    QStringListModel emptyModel;
     if(modelInput==NULL)
     {
         qDebug()<<"model je prazdny";
+        tableView->setModel(&emptyModel);
         return;
     }
     qDebug()<<"model size:"<<modelInput->rowCount()<<" "<<modelInput->columnCount();
@@ -2549,6 +2550,7 @@ void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* ta
 
     if(modelInput->rowCount()==0)
     {
+        tableView->setModel(&emptyModel);
         return;
     }
 

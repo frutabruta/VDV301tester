@@ -142,6 +142,9 @@ mingw32-make install
 
 
 ## Changelog
+- 20250328_1419
+        - MainWindow::modelDoTabulkySeradit
+                - fix of not deleting the tableview when model is empty
 - 20250328_1325
         - translate SqlRopidXmlQueries to English
 - 20250319_1747
