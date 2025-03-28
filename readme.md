@@ -142,6 +142,8 @@ mingw32-make install
 
 
 ## Changelog
+- 20250328_1540
+        - default text in UI are now in English
 - 20250328_1419
         - MainWindow::modelDoTabulkySeradit
                 - fix of not deleting the tableview when model is empty

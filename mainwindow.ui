@@ -83,14 +83,14 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
         <string notr="true">padding: 0px; margin:0px;</string>
        </property>
        <attribute name="title">
-        <string>PalPC</string>
+        <string>Main</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <property name="leftMargin">
@@ -147,8 +147,8 @@
                </font>
               </property>
               <property name="text">
-               <string>Linka
-/spoj</string>
+               <string>Line
+/Trip</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -187,7 +187,8 @@
                </font>
               </property>
               <property name="text">
-               <string>Turnus</string>
+               <string>Vehicle
+Run</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -226,7 +227,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Jízda</string>
+               <string>Ride</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -263,8 +264,8 @@
                </font>
               </property>
               <property name="text">
-               <string>spec. 
-hlášení</string>
+               <string>special
+announcements</string>
               </property>
               <property name="autoDefault">
                <bool>false</bool>
@@ -1727,14 +1728,14 @@ Stop</string>
                   <item row="1" column="0">
                    <widget class="QLabel" name="label_tripName">
                     <property name="text">
-                     <string>Spoj</string>
+                     <string>Trip</string>
                     </property>
                    </widget>
                   </item>
                   <item row="0" column="0">
                    <widget class="QLabel" name="label_3">
                     <property name="text">
-                     <string>Linka</string>
+                     <string>Line</string>
                     </property>
                    </widget>
                   </item>
@@ -1749,7 +1750,7 @@ Stop</string>
                   <item>
                    <widget class="QGroupBox" name="groupBox">
                     <property name="title">
-                     <string>Seznam linek</string>
+                     <string>Line</string>
                     </property>
                     <layout class="QVBoxLayout" name="verticalLayout_2">
                      <item>
@@ -1778,7 +1779,7 @@ Stop</string>
                 <item>
                  <widget class="QGroupBox" name="groupBox_2">
                   <property name="title">
-                   <string>Seznam spojů</string>
+                   <string>Trip</string>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_4">
                    <item>
@@ -1825,8 +1826,14 @@ Stop</string>
                <layout class="QHBoxLayout" name="horizontalLayout_12">
                 <item>
                  <widget class="QGroupBox" name="groupBox_3">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="title">
-                   <string>Kmenová linka</string>
+                   <string>Root line</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1834,6 +1841,12 @@ Stop</string>
                   <layout class="QVBoxLayout" name="verticalLayout_6">
                    <item>
                     <widget class="QListView" name="listView_rootLine">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
                      <property name="font">
                       <font>
                        <pointsize>20</pointsize>
@@ -1846,8 +1859,14 @@ Stop</string>
                 </item>
                 <item>
                  <widget class="QGroupBox" name="groupBox_4">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="title">
-                   <string>Pořadí</string>
+                   <string>Orden on line</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -1855,6 +1874,12 @@ Stop</string>
                   <layout class="QVBoxLayout" name="verticalLayout_12">
                    <item>
                     <widget class="QListView" name="listView_lineRun">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Expanding">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
                      <property name="font">
                       <font>
                        <pointsize>20</pointsize>
@@ -1867,8 +1892,14 @@ Stop</string>
                 </item>
                 <item>
                  <widget class="QGroupBox" name="groupBox_5">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="title">
-                   <string>Spoje\n</string>
+                   <string>Trip on vehicle run</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -2367,7 +2398,7 @@ Stop</string>
                   <item row="1" column="0">
                    <widget class="QLabel" name="label_17">
                     <property name="text">
-                     <string>Spoj</string>
+                     <string>Trip</string>
                     </property>
                    </widget>
                   </item>
@@ -2386,7 +2417,7 @@ Stop</string>
                   <item row="0" column="0">
                    <widget class="QLabel" name="label_18">
                     <property name="text">
-                     <string>Km. linka</string>
+                     <string>Root line</string>
                     </property>
                    </widget>
                   </item>
@@ -2479,7 +2510,7 @@ Stop</string>
       </widget>
       <widget class="QWidget" name="tab_moznosti">
        <attribute name="title">
-        <string>Možnosti</string>
+        <string>Options</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
         <item>
@@ -2493,7 +2524,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -2503,46 +2534,50 @@ Stop</string>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_11">
+                <item>
+                 <widget class="QDateEdit" name="dateEdit_data_workingDate">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>20</pointsize>
+                   </font>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_data_today">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>20</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Today</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_6">
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_14">
                   <item>
-                   <widget class="QDateEdit" name="dateEdit_data_workingDate">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>20</pointsize>
-                     </font>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_data_today">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>20</pointsize>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>DNES</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
                    <widget class="QCalendarWidget" name="calendarWidget_data_workingDate">
                     <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
@@ -2592,7 +2627,7 @@ Stop</string>
                      </size>
                     </property>
                     <property name="text">
-                     <string>cesta k souboru</string>
+                     <string>file path</string>
                     </property>
                    </widget>
                   </item>
@@ -2629,7 +2664,7 @@ Stop</string>
                      </font>
                     </property>
                     <property name="text">
-                     <string>Vymazat DB</string>
+                     <string>Delete DB</string>
                     </property>
                    </widget>
                   </item>
@@ -2656,7 +2691,7 @@ Stop</string>
                      </font>
                     </property>
                     <property name="text">
-                     <string>XML cesta</string>
+                     <string>Select XML</string>
                     </property>
                    </widget>
                   </item>
@@ -2683,7 +2718,7 @@ Stop</string>
                      </font>
                     </property>
                     <property name="text">
-                     <string>načtení XML</string>
+                     <string>Load XML</string>
                     </property>
                    </widget>
                   </item>
@@ -2760,7 +2795,7 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Přidat odb.</string>
+                   <string>Add subs.</string>
                   </property>
                  </widget>
                 </item>
@@ -2772,7 +2807,7 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Zrušit odb.</string>
+                   <string>Rem. subs.</string>
                   </property>
                  </widget>
                 </item>
@@ -2791,7 +2826,7 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Přidat odb.</string>
+                   <string>Add subs.</string>
                   </property>
                  </widget>
                 </item>
@@ -2817,7 +2852,7 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Přidat odb.</string>
+                   <string>Add subs.</string>
                   </property>
                  </widget>
                 </item>
@@ -2843,7 +2878,7 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Zrušit odb.</string>
+                   <string>Rem. subs.</string>
                   </property>
                  </widget>
                 </item>
@@ -2858,7 +2893,7 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Zrušit odb.</string>
+                   <string>Rem. subs.</string>
                   </property>
                  </widget>
                 </item>
@@ -2877,7 +2912,7 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Přidat odb.</string>
+                   <string>Add subs.</string>
                   </property>
                  </widget>
                 </item>
@@ -2889,7 +2924,7 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Zrušit odb.</string>
+                   <string>Rem. subs.</string>
                   </property>
                  </widget>
                 </item>
@@ -2923,8 +2958,8 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>odeslat
- na panely</string>
+                   <string>send to
+displays</string>
                   </property>
                  </widget>
                 </item>
@@ -2936,8 +2971,8 @@ Stop</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>vymazat
- okno</string>
+                   <string>clear
+window</string>
                   </property>
                  </widget>
                 </item>
@@ -2962,7 +2997,7 @@ Stop</string>
               <item>
                <widget class="QLabel" name="label_manual_T1">
                 <property name="text">
-                 <string>Odberatele 1.0</string>
+                 <string>Subscribers 1.0</string>
                 </property>
                </widget>
               </item>
@@ -2970,12 +3005,12 @@ Stop</string>
                <widget class="QTableWidget" name="tableWidget_manual_subscriberList1_0">
                 <column>
                  <property name="text">
-                  <string>Adresa</string>
+                  <string>IP</string>
                  </property>
                 </column>
                 <column>
                  <property name="text">
-                  <string>Struktura</string>
+                  <string>Structure</string>
                  </property>
                 </column>
                 <column>
@@ -2988,7 +3023,7 @@ Stop</string>
               <item>
                <widget class="QLabel" name="label_manual_T2">
                 <property name="text">
-                 <string>Odberatele V2.2CZ1.0</string>
+                 <string>Subscribers V2.2CZ1.0</string>
                 </property>
                </widget>
               </item>
@@ -2996,12 +3031,12 @@ Stop</string>
                <widget class="QTableWidget" name="tableWidget_manual_subscriberList2_2CZ1_0">
                 <column>
                  <property name="text">
-                  <string>Adresa</string>
+                  <string>IP</string>
                  </property>
                 </column>
                 <column>
                  <property name="text">
-                  <string>Struktura</string>
+                  <string>Structure</string>
                  </property>
                 </column>
                 <column>
@@ -3014,7 +3049,7 @@ Stop</string>
               <item>
                <widget class="QLabel" name="label_manual_T3">
                 <property name="text">
-                 <string>Odberatele V2.3CZ1.0</string>
+                 <string>Subscribers V2.3CZ1.0</string>
                 </property>
                </widget>
               </item>
@@ -3028,12 +3063,12 @@ Stop</string>
                 </attribute>
                 <column>
                  <property name="text">
-                  <string>Adresa</string>
+                  <string>IP</string>
                  </property>
                 </column>
                 <column>
                  <property name="text">
-                  <string>Struktura</string>
+                  <string>Structure</string>
                  </property>
                 </column>
                 <column>
@@ -3052,7 +3087,7 @@ Stop</string>
             <bool>true</bool>
            </property>
            <attribute name="title">
-            <string>Detekce zařízení</string>
+            <string>Device detection</string>
            </attribute>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
@@ -3125,7 +3160,7 @@ Stop</string>
                  <bool>true</bool>
                 </property>
                 <property name="text">
-                 <string>Načti 
+                 <string>Load 
 HW konfig</string>
                 </property>
                </widget>
@@ -3136,7 +3171,7 @@ HW konfig</string>
                  <bool>true</bool>
                 </property>
                 <property name="text">
-                 <string>Ulož 
+                 <string>Save 
 HW config</string>
                 </property>
                </widget>
@@ -3157,14 +3192,14 @@ HW config</string>
           </widget>
           <widget class="QWidget" name="tab_presets">
            <attribute name="title">
-            <string>Konfigurace</string>
+            <string>Configuration</string>
            </attribute>
            <widget class="QWidget" name="layoutWidget">
             <property name="geometry">
              <rect>
               <x>480</x>
               <y>30</y>
-              <width>240</width>
+              <width>258</width>
               <height>251</height>
              </rect>
             </property>
@@ -3183,7 +3218,7 @@ HW config</string>
                 </font>
                </property>
                <property name="text">
-                <string>Sériový port IBIS</string>
+                <string>Serial Port IBIS</string>
                </property>
               </widget>
              </item>
@@ -3311,7 +3346,7 @@ HW config</string>
                 </font>
                </property>
                <property name="text">
-                <string>nastav port</string>
+                <string>set port</string>
                </property>
               </widget>
              </item>
@@ -3335,8 +3370,7 @@ HW config</string>
                 </font>
                </property>
                <property name="text">
-                <string>odešli
- testovací příkaz</string>
+                <string>send TEST command</string>
                </property>
               </widget>
              </item>
@@ -3357,7 +3391,7 @@ HW config</string>
              </font>
             </property>
             <property name="text">
-             <string>Přestupy</string>
+             <string>Connections</string>
             </property>
            </widget>
            <widget class="QGroupBox" name="groupBox_6">
@@ -3395,7 +3429,7 @@ HW config</string>
              </rect>
             </property>
             <property name="title">
-             <string>Jazyk</string>
+             <string>Language</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -3446,7 +3480,7 @@ HW config</string>
       </widget>
       <widget class="QWidget" name="tab_test">
        <attribute name="title">
-        <string>Testování</string>
+        <string>Testing</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
@@ -3479,7 +3513,7 @@ HW config</string>
                </font>
               </property>
               <property name="text">
-               <string>Služby</string>
+               <string>Services</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
@@ -3518,8 +3552,8 @@ HW config</string>
                </font>
               </property>
               <property name="text">
-               <string>Průbeh
- testu</string>
+               <string>Test
+steps</string>
               </property>
               <property name="checkable">
                <bool>true</bool>
