@@ -1,9 +1,6 @@
 #include "sqlropidxmlqueries.h"
 
 
-
-
-
 SqlRopidXmlQueries::SqlRopidXmlQueries()
 {
     this->otevriDB();
@@ -11,50 +8,42 @@ SqlRopidXmlQueries::SqlRopidXmlQueries()
 
 //test Pridani Komentare prechodu na SQLITE
 
-/*!
-
-*/
-
-
-
-
-
 
 
 /*!
 
 */
-int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , int indexSpoje, QString kj)
+int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripIndex, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
-    qDebug()<<"delka seznamu spoju: "<<seznamSpoju.length()<<" indexSpoje:"<<indexSpoje<<" kj:"<<kj;
+    qDebug()<<"trip list length: "<<tripList.length()<<" trip index:"<<tripIndex<<" kj:"<<kj;
     this->otevriDB();
     //Spoj docasnySpoj;
-    QVector<StopPointDestination> docasnySeznamZastavek;
+    QVector<StopPointDestination> temporaryTripList;
 
 
-    QString queryString2=stahniSeznamSpolecnaCastDotazu();
+    QString queryString=createGetTripQueryBase();
 
     //eliminace všech smyček
     // queryString2+=(" AND  x.s2=0 ");
 
 
-    queryString2+=("WHERE s.s=");
-    queryString2+=( QString::number(seznamSpoju.at(indexSpoje).id));
+    queryString+=("WHERE s.s=");
+    queryString+=( QString::number(tripList.at(tripIndex).id));
     //  queryString2+=(" AND  x.s2=0 ");
 
 
-    queryString2+=(" AND  s.kj LIKE '");
-    queryString2+=(kj);
-    queryString2+=("' ");
-    queryString2+=(" AND s.d=l.d ");
+    queryString+=(" AND  s.kj LIKE '");
+    queryString+=(kj);
+    queryString+=("' ");
+    queryString+=(" AND s.d=l.d ");
 
-    queryString2+=("ORDER BY x.xorder");
+    queryString+=("ORDER BY x.xorder");
 
 
-    QSqlQuery query(queryString2,this->mojeDatabaze);
-    int pocetZastavek=0;
-    qDebug()<<queryString2;
+    QSqlQuery query(queryString,this->mojeDatabaze);
+    int stopCount=0;
+    qDebug()<<queryString;
 
     int citacD=0;
 
@@ -65,36 +54,36 @@ int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , 
         if (query.value(0).toString()!="")
         {
             //bool majak=false;
-            bool ignorovat=false;
-            StopPoint aktZast;
-            StopPointDestination aktZastCil;
-            Line aktLinka;
-            Trip aktSpoj;
-            int cisloZast = pocetZastavek;
-            aktZast.StopIndex=cisloZast;
+            bool ignore=false;
+            StopPoint stopPoint;
+            StopPointDestination stopPointDestination;
+            Line line;
+            Trip trip;
+            int stopIndex = stopCount;
+            stopPoint.StopIndex=stopIndex;
             //qDebug()<<"poradi Vysledku SQL dotazu "<<QString::number(pocetZastavek);
             QString aois=query.value(query.record().indexOf("l.aois")).toString();
             if (aois!="")
             {
-                aktLinka.lineName=aois;
+                line.lineName=aois;
             }
             else
             {
-                aktLinka.lineName=query.value(query.record().indexOf("l.c")).toString();
+                line.lineName=query.value(query.record().indexOf("l.c")).toString();
             }
-            aktLinka.c=query.value(query.record().indexOf("l.c")).toInt();
-            aktLinka.lineNumber=query.value(query.record().indexOf("l.lc")).toString();
-            aktLinka.lineType=query.value(query.record().indexOf("l.tl")).toString();
-            aktLinka.isNight=query.value(query.record().indexOf("l.noc")).toBool();
-            aktLinka.isDiversion=query.value(query.record().indexOf("s.vy")).toBool();
-            aktLinka.kli=query.value(query.record().indexOf("l.kli")).toInt();
+            line.c=query.value(query.record().indexOf("l.c")).toInt();
+            line.lineNumber=query.value(query.record().indexOf("l.lc")).toString();
+            line.lineType=query.value(query.record().indexOf("l.tl")).toString();
+            line.isNight=query.value(query.record().indexOf("l.noc")).toBool();
+            line.isDiversion=query.value(query.record().indexOf("s.vy")).toBool();
+            line.kli=query.value(query.record().indexOf("l.kli")).toInt();
 
-            aktSpoj.idRopid=query.value(query.record().indexOf("s.c")).toInt();
-            aktZast.idCis=query.value( query.record().indexOf("z.cis")).toInt();
-            aktZast.idOis=query.value(query.record().indexOf("z.ois")).toUInt();
+            trip.idRopid=query.value(query.record().indexOf("s.c")).toInt();
+            stopPoint.idCis=query.value( query.record().indexOf("z.cis")).toInt();
+            stopPoint.idOis=query.value(query.record().indexOf("z.ois")).toUInt();
 
-            aktZast.idU=query.value(query.record().indexOf("z.u")).toUInt();
-            aktZast.idZ=query.value(query.record().indexOf("z.z")).toUInt();
+            stopPoint.idU=query.value(query.record().indexOf("z.u")).toUInt();
+            stopPoint.idZ=query.value(query.record().indexOf("z.z")).toUInt();
             //pasma
             QVector<QString> tp;
             tp.append(query.value(query.record().indexOf("z.tp")).toString());
@@ -110,53 +99,53 @@ int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , 
             pc.append(query.value(query.record().indexOf("pc2")).toString());
             pc.append(query.value(query.record().indexOf("pc3")).toString());
 
-            aktZast.fareZoneList.append(vyrobPasmaMezikraj(tp,pz,pc,query.value(query.record().indexOf("l.cids")).toString(),query.value(query.record().indexOf("l.tl")).toString()));
-            aktZast.StopName=query.value(query.record().indexOf("t.ri")).toString();
-            aktZast.platformName=query.value(query.record().indexOf("z.sta")).toString();
-            aktZast.ids ="PID";
+            stopPoint.fareZoneList.append(createInterRegionFareZones(tp,pz,pc,query.value(query.record().indexOf("l.cids")).toString(),query.value(query.record().indexOf("l.tl")).toString()));
+            stopPoint.StopName=query.value(query.record().indexOf("t.ri")).toString();
+            stopPoint.platformName=query.value(query.record().indexOf("z.sta")).toString();
+            stopPoint.ids ="PID";
 
-            if(aktLinka.lineType!="A")
+            if(line.lineType!="A")
             {
-                aktZast.NameFront=query.value(query.record().indexOf("t.ctn")).toString();
-                aktZast.NameSide=query.value(query.record().indexOf("t.btn")).toString();
-                aktZast.NameLcd=query.value(query.record().indexOf("t.lcdn")).toString();
-                aktZast.NameInner=query.value(query.record().indexOf("t.vtn")).toString();
+                stopPoint.NameFront=query.value(query.record().indexOf("t.ctn")).toString();
+                stopPoint.NameSide=query.value(query.record().indexOf("t.btn")).toString();
+                stopPoint.NameLcd=query.value(query.record().indexOf("t.lcdn")).toString();
+                stopPoint.NameInner=query.value(query.record().indexOf("t.vtn")).toString();
             }
             else
             {
-                aktZast.NameFront=query.value(query.record().indexOf("t.ctm")).toString();
-                aktZast.NameSide=query.value(query.record().indexOf("t.btm")).toString();
-                aktZast.NameLcd=query.value(query.record().indexOf("t.lcdm")).toString();
-                aktZast.NameInner=query.value(query.record().indexOf("t.vtm")).toString();
+                stopPoint.NameFront=query.value(query.record().indexOf("t.ctm")).toString();
+                stopPoint.NameSide=query.value(query.record().indexOf("t.btm")).toString();
+                stopPoint.NameLcd=query.value(query.record().indexOf("t.lcdm")).toString();
+                stopPoint.NameInner=query.value(query.record().indexOf("t.vtm")).toString();
             }
 
-            aktZast.additionalTextMessage =query.value(query.record().indexOf("t.hl")).toString();
+            stopPoint.additionalTextMessage =query.value(query.record().indexOf("t.hl")).toString();
 
             QString arrivalTime =query.value( query.record().indexOf("x.p")).toString();
-            aktZast.ArrivalTime=arrivalTime;
+            stopPoint.ArrivalTime=arrivalTime;
             QString departureTime =query.value( query.record().indexOf("x.o")).toString();
-            aktZast.DepartureTime=departureTime;
-            aktZast.isViapoint=query.value(query.record().indexOf("x.na")).toBool();
-            aktZast.onRequest =query.value(query.record().indexOf("x.zn")).toBool();
-            aktZast.neozn =query.value(query.record().indexOf("x.neozn")).toBool();
-            aktZast.zast =query.value(query.record().indexOf("x.zast")).toBool();
-            aktZast.transferMetroA =query.value(query.record().indexOf("x.xA")).toBool();
-            aktZast.transferMetroB =query.value(query.record().indexOf("x.xB")).toBool();
-            aktZast.transferMetroC =query.value(query.record().indexOf("x.xC")).toBool();
-            aktZast.transferMetroD =query.value(query.record().indexOf("x.xD")).toBool();
-            aktZast.transferTrain =query.value(query.record().indexOf("x.xVla")).toBool();
-            aktZast.transferAirplane =query.value(query.record().indexOf("x.xLet")).toBool();
-            aktZast.transferFerry =query.value(query.record().indexOf("x.xLod")).toBool();
-            aktZast.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
-            aktZast.lng=query.value(query.record().indexOf("z.lng")).toDouble();
-            aktZast.lat=query.value(query.record().indexOf("z.lat")).toDouble();
-            aktZast.radius=query.value(query.record().indexOf("z.rdisp")).toInt();
-            qDebug()<<"radius je: "<<aktZast.radius;
+            stopPoint.DepartureTime=departureTime;
+            stopPoint.isViapoint=query.value(query.record().indexOf("x.na")).toBool();
+            stopPoint.onRequest =query.value(query.record().indexOf("x.zn")).toBool();
+            stopPoint.neozn =query.value(query.record().indexOf("x.neozn")).toBool();
+            stopPoint.zast =query.value(query.record().indexOf("x.zast")).toBool();
+            stopPoint.transferMetroA =query.value(query.record().indexOf("x.xA")).toBool();
+            stopPoint.transferMetroB =query.value(query.record().indexOf("x.xB")).toBool();
+            stopPoint.transferMetroC =query.value(query.record().indexOf("x.xC")).toBool();
+            stopPoint.transferMetroD =query.value(query.record().indexOf("x.xD")).toBool();
+            stopPoint.transferTrain =query.value(query.record().indexOf("x.xVla")).toBool();
+            stopPoint.transferAirplane =query.value(query.record().indexOf("x.xLet")).toBool();
+            stopPoint.transferFerry =query.value(query.record().indexOf("x.xLod")).toBool();
+            stopPoint.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
+            stopPoint.lng=query.value(query.record().indexOf("z.lng")).toDouble();
+            stopPoint.lat=query.value(query.record().indexOf("z.lat")).toDouble();
+            stopPoint.radius=query.value(query.record().indexOf("z.rdisp")).toInt();
+            qDebug()<<"radius is: "<<stopPoint.radius;
 
 
-            aktZast.notesList=stahniPoznamky(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
+            stopPoint.notesList=getNotesFromTripS(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
 
-            qDebug()<<"pocetPoznamek "<<QString::number(aktZast.notesList.count());
+            qDebug()<<"note count: "<<QString::number(stopPoint.notesList.count());
 
 
 
@@ -165,74 +154,74 @@ int SqlRopidXmlQueries::stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju , 
             if(  query.value(query.record().indexOf("x.t")).toString() =="Majak")
             {
                // majak=true;
-                ignorovat=true;
+                ignore=true;
             }
 
 
-            if(aktZast.additionalTextMessage!="")
+            if(stopPoint.additionalTextMessage!="")
             {
-                qDebug()<<"additionalVlozeno "<<aktZast.additionalTextMessage;
+                qDebug()<<"additionalVlozeno "<<stopPoint.additionalTextMessage;
             }
-            pocetZastavek++;
+            stopCount++;
 
-            aktZastCil.line=aktLinka;
-            aktZastCil.stopPoint=aktZast;
+            stopPointDestination.line=line;
+            stopPointDestination.stopPoint=stopPoint;
 
             bool s2=query.value(query.record().indexOf("x.s2")).toBool();
 
             if((citacD!=1)&&(s2==true))
             {
-                ignorovat=true;
+                ignore=true;
             }
 
-            if (ignorovat==false)
+            if (ignore==false)
             {
-                docasnySeznamZastavek.push_back(aktZastCil);
+                temporaryTripList.push_back(stopPointDestination);
             }
         }
     }
 
-    pocetZastavek=docasnySeznamZastavek.length();
+    stopCount=temporaryTripList.length();
     this->zavriDB();
-    if (pocetZastavek ==0)
+    if (stopCount ==0)
     {
 
         return 0;
     }
 
-    StopPoint cilovaZastavka;
-    cilovaZastavka=docasnySeznamZastavek.at(docasnySeznamZastavek.length()-1).stopPoint;
-    if(seznamSpoju.at(indexSpoje).continuesWithNextTrip==true)
+    StopPoint destinationStopPoint;
+    destinationStopPoint=temporaryTripList.at(temporaryTripList.length()-1).stopPoint;
+    if(tripList.at(tripIndex).continuesWithNextTrip==true)
     {
-        if(seznamSpoju.length()>(indexSpoje+1))
+        if(tripList.length()>(tripIndex+1))
         {
-            QString novyHorniCil=cilovaZastavka.NameFront+cilovaZastavka.NameFront2;
-            cilovaZastavka.NameFront=novyHorniCil;
-            cilovaZastavka.NameFront2="a dále jako linka "+seznamSpoju.at(indexSpoje+1).line.lineName;// interniSeznamZastavek.first().linka.LineName;
-            qDebug()<<"obsah spodniho radku "<<cilovaZastavka.NameFront2;
+            QString topDestinationName=destinationStopPoint.NameFront+destinationStopPoint.NameFront2;
+            destinationStopPoint.NameFront=topDestinationName;
+            destinationStopPoint.NameFront2="a dále jako linka "+tripList.at(tripIndex+1).line.lineName;// interniSeznamZastavek.first().linka.LineName;
+            qDebug()<<"bottom line content: "<<destinationStopPoint.NameFront2;
         }
 
     }
 
 
-    for (int i=docasnySeznamZastavek.size()-1;i>=0;i--)
+    for (int i=temporaryTripList.size()-1;i>=0;i--)
     {
-        docasnySeznamZastavek[i].destination=cilovaZastavka;
-        if (docasnySeznamZastavek.at(i).stopPoint.zsol==true)
+        temporaryTripList[i].destination=destinationStopPoint;
+        if (temporaryTripList.at(i).stopPoint.zsol==true)
         {
-            qDebug()<<"zmena konecne na"<<docasnySeznamZastavek.at(i).stopPoint.NameSide;
-            cilovaZastavka=docasnySeznamZastavek.at(i).stopPoint;
+            qDebug()<<"destination changed to : "<<temporaryTripList.at(i).stopPoint.NameSide;
+            destinationStopPoint=temporaryTripList.at(i).stopPoint;
         }
 
 
     }
 
-    seznamSpoju[indexSpoje].globalStopPointDestinationList=docasnySeznamZastavek;
+    tripList[tripIndex].globalStopPointDestinationList=temporaryTripList;
 
     return 1;
 }
 
-QString SqlRopidXmlQueries::stahniSeznamSpolecnaCastDotazu()
+QString SqlRopidXmlQueries::createGetTripQueryBase()
 {
     qDebug()<< Q_FUNC_INFO;
     /*
@@ -246,135 +235,123 @@ dbManager->query.bindValue(":group", 0);
 dbManager->query.exec();
 
       */
-    QString queryString2("SELECT DISTINCT   ");
-    queryString2+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.u, z.z, z.lng, z.lat, z.rdisp, z.sta, ");
-    queryString2+=("t.ri,t.hl, ");
-    queryString2+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
-    queryString2+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
-    queryString2+=("l.c, l.lc, l.tl, l.aois,l.noc, l.cids, l.tl, l.kli, ");
-    queryString2+=("x.o, x.p, x.t, x.na, x.zn, x.neozn, x.zast, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, x.s_id, ");
-    queryString2+=("s.ns, s.c, s.vy, ");
-    queryString2+=("ids.z AS pz1, ");
-    queryString2+=("ids2.z AS pz2, ");
-    queryString2+=("ids3.z AS pz3, ");
-    queryString2+=("ids.c AS pc1, ");
-    queryString2+=("ids2.c AS pc2, ");
-    queryString2+=("ids3.c AS pc3 ");
-    queryString2+=("FROM x ");
-    queryString2+=("LEFT JOIN s ON x.s_id=s.s ");
-    queryString2+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
-    queryString2+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
-    queryString2+=("LEFT JOIN t ON t.u=x.u AND t.z=x.z " );
-    queryString2+=("LEFT JOIN ids ON z.ids=ids.c " );
-    queryString2+=("LEFT JOIN ids AS ids2 ON z.ids2=ids2.c " );
-    queryString2+=("LEFT JOIN ids AS ids3 ON z.ids3=ids3.c " );
+    QString queryString("SELECT DISTINCT   ");
+    queryString+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.u, z.z, z.lng, z.lat, z.rdisp, z.sta, ");
+    queryString+=("t.ri,t.hl, ");
+    queryString+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
+    queryString+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
+    queryString+=("l.c, l.lc, l.tl, l.aois,l.noc, l.cids, l.tl, l.kli, ");
+    queryString+=("x.o, x.p, x.t, x.na, x.zn, x.neozn, x.zast, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, x.s_id, ");
+    queryString+=("s.ns, s.c, s.vy, ");
+    queryString+=("ids.z AS pz1, ");
+    queryString+=("ids2.z AS pz2, ");
+    queryString+=("ids3.z AS pz3, ");
+    queryString+=("ids.c AS pc1, ");
+    queryString+=("ids2.c AS pc2, ");
+    queryString+=("ids3.c AS pc3 ");
+    queryString+=("FROM x ");
+    queryString+=("LEFT JOIN s ON x.s_id=s.s ");
+    queryString+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
+    queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
+    queryString+=("LEFT JOIN t ON t.u=x.u AND t.z=x.z " );
+    queryString+=("LEFT JOIN ids ON z.ids=ids.c " );
+    queryString+=("LEFT JOIN ids AS ids2 ON z.ids2=ids2.c " );
+    queryString+=("LEFT JOIN ids AS ids3 ON z.ids3=ids3.c " );
 
-    return queryString2;
-}
-
-/*!
-
-*/
-void SqlRopidXmlQueries::vypisPole(QVector<StopPointDestination> docasnySeznamZastavek, int &pocetZastavek)
-{
-    qDebug()<< Q_FUNC_INFO;
-    for (int i=0;i<pocetZastavek;i++)
-    {
-        qInfo()<<QString::number(docasnySeznamZastavek[i].stopPoint.StopIndex)+"  "+docasnySeznamZastavek[i].stopPoint.StopName+" cil:  "+docasnySeznamZastavek[i].destination.StopName+" linka"+docasnySeznamZastavek[i].line.lineName+"\n";
-    }
+    return queryString;
 }
 
 
 
-QString SqlRopidXmlQueries::pasmaDoStringu(QVector<FareZone> pasma, QString delimiter)
+
+QString SqlRopidXmlQueries::fareZoneToString(QVector<FareZone> fareZoneList, QString delimiter)
 {
     QString vysledek="";
 
-    if (pasma.count()==0)
+    if (fareZoneList.count()==0)
     {
         return "";
     }
-    for(int i=0; i<pasma.count()-1;i++)
+    for(int i=0; i<fareZoneList.count()-1;i++)
     {
-        vysledek+=pasma.at(i).name;
+        vysledek+=fareZoneList.at(i).name;
         vysledek+=delimiter;
     }
-    vysledek+=pasma.last().name;
+    vysledek+=fareZoneList.last().name;
     return vysledek;
 }
 
 
-QVector<QString> SqlRopidXmlQueries::stahniPoznamky(int idSpoje, int xorder)
+QVector<QString> SqlRopidXmlQueries::getNotesFromTripS(int tripS, int xorder)
 {
     qDebug()<< Q_FUNC_INFO;
     //this->otevriDB();
-    QVector<QString> seznamPoznamek;
+    QVector<QString> noteList;
 
-    QString queryString2("");
-    queryString2+=("SELECT x_po.s, x_po.xorder, x_po.po,  po.c, po.t, po.ois ");
-    queryString2+=("FROM  x_po  ");
-    queryString2+=("LEFT JOIN po ON x_po.po=po.c ");
-    queryString2+=("WHERE po.t<>\"\" ");
-    queryString2+=("AND po.ois=1 ");
-    queryString2+=("AND  x_po.s=");
-    queryString2+=QString::number(idSpoje);
-    queryString2+=(" AND x_po.xorder=");
-    queryString2+=QString::number(xorder);
+    QString queryString("");
+    queryString+=("SELECT x_po.s, x_po.xorder, x_po.po,  po.c, po.t, po.ois ");
+    queryString+=("FROM  x_po  ");
+    queryString+=("LEFT JOIN po ON x_po.po=po.c ");
+    queryString+=("WHERE po.t<>\"\" ");
+    queryString+=("AND po.ois=1 ");
+    queryString+=("AND  x_po.s=");
+    queryString+=QString::number(tripS);
+    queryString+=(" AND x_po.xorder=");
+    queryString+=QString::number(xorder);
 
     QSqlQuery query;
-    query.exec(queryString2);
+    query.exec(queryString);
     qDebug()<<"lasterror"<<  query.lastError();
-    qDebug().noquote()<<queryString2;
+    qDebug().noquote()<<queryString;
 
 
     while (query.next())
     {
-        QString poznamka=query.value(query.record().indexOf("po.t")).toString();
-        seznamPoznamek.push_back(poznamka);
+        QString noteText=query.value(query.record().indexOf("po.t")).toString();
+        noteList.push_back(noteText);
     }
 
-    return seznamPoznamek;
+    return noteList;
 }
 
-int SqlRopidXmlQueries::najdiTurnusZeSpoje(Trip spoj, int &kmenovaLinka, int &poradi, int &order, QString kj)
+int SqlRopidXmlQueries::getVehicleRunFromTripLC(Trip trip, int &rootLine, int &vehicleRun, int &tripIndex, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
-    // docasnySeznamSpoju.clear();
+
     this->pripoj();
-    //bool platnost = true;
-    //qInfo()<<"DebugPointA";
-    QString queryString2("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord FROM s ");
-    queryString2+=("LEFT JOIN sp_po ON sp_po.s=s.s ");
-    queryString2+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
-    queryString2+=("WHERE l.c=");
-    queryString2+=(QString::number(spoj.line.c));
-    queryString2+=(" AND s.c=");
-    queryString2+=(QString::number(spoj.idRopid));
-    queryString2+=(" AND  s.man !=1 ");
-    queryString2+=(" AND s.kj LIKE '");
-    queryString2+=(kj);
-    queryString2+=("' ");
-    queryString2+=(" ORDER BY s.s");
+
+    QString queryString("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord FROM s ");
+    queryString+=("LEFT JOIN sp_po ON sp_po.s=s.s ");
+    queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
+    queryString+=("WHERE l.c=");
+    queryString+=(QString::number(trip.line.c));
+    queryString+=(" AND s.c=");
+    queryString+=(QString::number(trip.idRopid));
+    queryString+=(" AND  s.man !=1 ");
+    queryString+=(" AND s.kj LIKE '");
+    queryString+=(kj);
+    queryString+=("' ");
+    queryString+=(" ORDER BY s.s");
     QSqlQuery query;
-    query.exec(queryString2);
+    query.exec(queryString);
     qDebug()<<"lasterror "<<query.lastError();
-    qDebug()<<queryString2;
+    qDebug()<<queryString;
     // qDebug()<<"DebugPointB";
-    int citacMaximum=0;
+    int resdultCounter=0;
     while (query.next())
     {
         if (query.value(0).toString()!="")
         {
-            citacMaximum++;
-            kmenovaLinka=query.value(query.record().indexOf("sp_po.l")).toInt();
-            poradi=query.value(query.record().indexOf("sp_po.p")).toInt();
-            order=query.value(query.record().indexOf("sp_po.ord")).toInt()-1;
+            resdultCounter++;
+            rootLine=query.value(query.record().indexOf("sp_po.l")).toInt();
+            vehicleRun=query.value(query.record().indexOf("sp_po.p")).toInt();
+            tripIndex=query.value(query.record().indexOf("sp_po.ord")).toInt()-1;
         }
     }
 
-    qDebug()<<"Spoj "<<spoj.line.c<<"/"<<spoj.idRopid<<" spada pod kurz "<<kmenovaLinka<<"/"<<poradi<<" order:"<<order;
+    qDebug()<<"Trip "<<trip.line.c<<"/"<<trip.idRopid<<" belongs to vehicle run: "<<rootLine<<"/"<<vehicleRun<<" index on line:"<<tripIndex;
     this->zavriDB();
-    if (citacMaximum==0)
+    if (resdultCounter==0)
     {
         return 0;
     }
@@ -385,40 +362,39 @@ int SqlRopidXmlQueries::najdiTurnusZeSpoje(Trip spoj, int &kmenovaLinka, int &po
 }
 
 
-int SqlRopidXmlQueries::najdiIdSpojeZCisla(Trip &spoj, QString kj)
+int SqlRopidXmlQueries::getTripSfromC(Trip &trip, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
-    // docasnySeznamSpoju.clear();
+
     this->pripoj();
-    //bool platnost = true;
-    //qInfo()<<"DebugPointA";
-    QString queryString2("SELECT DISTINCT s.s FROM s ");
-    queryString2+=("WHERE s.l=");
-    queryString2+=(QString::number(spoj.line.c));
-    queryString2+=(" AND s.c=");
-    queryString2+=(QString::number(spoj.idRopid));
-    queryString2+=(" AND s.kj LIKE '");
-    queryString2+=(kj);
-    queryString2+=("' ");
-    queryString2+=(" ORDER BY s.c");
+
+    QString queryString("SELECT DISTINCT s.s FROM s ");
+    queryString+=("WHERE s.l=");
+    queryString+=(QString::number(trip.line.c));
+    queryString+=(" AND s.c=");
+    queryString+=(QString::number(trip.idRopid));
+    queryString+=(" AND s.kj LIKE '");
+    queryString+=(kj);
+    queryString+=("' ");
+    queryString+=(" ORDER BY s.c");
     QSqlQuery query;
-    query.exec(queryString2);
+    query.exec(queryString);
     qDebug()<<"lasterror "<<query.lastError();
-    qDebug()<<queryString2;
-    // qDebug()<<"DebugPointB";
-    int citacMaximum=0;
+    qDebug()<<queryString;
+
+    int counter=0;
     while (query.next())
     {
         if (query.value(0).toString()!="")
         {
-            citacMaximum++;
-            spoj.id=query.value(query.record().indexOf("s.s")).toInt();
+            counter++;
+            trip.id=query.value(query.record().indexOf("s.s")).toInt();
         }
     }
 
  //   qDebug()<<"Spoj "<<spoj.line.c<<"/"<<spoj.idRopid<<" spada pod kurz "<<kmenovaLinka<<"/"<<poradi<<" order:"<<order;
     this->zavriDB();
-    if (citacMaximum==0)
+    if (counter==0)
     {
         return 0;
     }
@@ -432,62 +408,62 @@ int SqlRopidXmlQueries::najdiIdSpojeZCisla(Trip &spoj, QString kj)
 /*!
 
 */
-int SqlRopidXmlQueries::vytvorSeznamTurnusSpoju(VehicleRun &docasnyObeh, QString kj)
+int SqlRopidXmlQueries::getTripListFromVehicleRun(VehicleRun &vehicleRun, QString kj)
 {
     //QVector<Spoj> &docasnySeznamSpoju,
     qDebug()<< Q_FUNC_INFO;
-    docasnyObeh.tripList.clear();
+    vehicleRun.tripList.clear();
     this->pripoj();
-    QString queryString2("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.aois FROM sp_po ");
-    queryString2+=("LEFT JOIN s ON sp_po.s=s.s ");
-    queryString2+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
-    queryString2+=("WHERE sp_po.l=");
-    queryString2+=( QString::number(docasnyObeh.rootLine.c));
+    QString queryString("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.aois FROM sp_po ");
+    queryString+=("LEFT JOIN s ON sp_po.s=s.s ");
+    queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
+    queryString+=("WHERE sp_po.l=");
+    queryString+=( QString::number(vehicleRun.rootLine.c));
     //queryString2+=(" AND  s.c !=1000 ");
-    queryString2+=(" AND  s.man !=1 ");
-    queryString2+=(" AND  sp_po.p=");
-    queryString2+=( QString::number(docasnyObeh.order));
+    queryString+=(" AND  s.man !=1 ");
+    queryString+=(" AND  sp_po.p=");
+    queryString+=( QString::number(vehicleRun.order));
 
 
-    queryString2+=(" AND sp_po.kj LIKE '");
-    queryString2+=(kj);
-    queryString2+=("' ");
+    queryString+=(" AND sp_po.kj LIKE '");
+    queryString+=(kj);
+    queryString+=("' ");
 
-    queryString2+=(" ORDER BY sp_po.ord");
+    queryString+=(" ORDER BY sp_po.ord");
     QSqlQuery query;
-    query.exec(queryString2);
+    query.exec(queryString);
     qDebug()<<"lasterror "<<query.lastError();
-    qDebug()<<queryString2;
+    qDebug()<<queryString;
     //  qDebug()<<"DebugPointB";
-    int citacMaximum=0;
+    int resultCounter=0;
     while (query.next())
     {
 
-        Trip docasnySpoj;
-        docasnySpoj.id=query.value(query.record().indexOf("s.s")).toInt();
-        docasnySpoj.idRopid=query.value(query.record().indexOf("s.c")).toInt();
-        docasnySpoj.line.c=query.value(query.record().indexOf("s.l")).toInt();
-        docasnySpoj.continuesWithNextTrip=query.value(query.record().indexOf("sp_po.pokrac")).toBool();
+        Trip trip;
+        trip.id=query.value(query.record().indexOf("s.s")).toInt();
+        trip.idRopid=query.value(query.record().indexOf("s.c")).toInt();
+        trip.line.c=query.value(query.record().indexOf("s.l")).toInt();
+        trip.continuesWithNextTrip=query.value(query.record().indexOf("sp_po.pokrac")).toBool();
 
         QString alias=query.value(query.record().indexOf("l.aois")).toString();
         //  qDebug()<<"alias "<<alias<<" linka.c "<<docasnySpoj.linka.c;
         if(alias.isEmpty())
         {
-            docasnySpoj.line.lineName=QString::number(docasnySpoj.line.c);
+            trip.line.lineName=QString::number(trip.line.c);
         }
         else
         {
-            docasnySpoj.line.lineName=alias;
+            trip.line.lineName=alias;
         }
 
         //qDebug()<<"jmeno docasny spoj linky "<<docasnySpoj.linka.LineName;
-        docasnyObeh.tripList.push_back(docasnySpoj);
-        citacMaximum++;
+        vehicleRun.tripList.push_back(trip);
+        resultCounter++;
         // qDebug()<<docasnySpoj.cisloRopid;
     }
 
     this->zavriDB();
-    if (citacMaximum==0)
+    if (resultCounter==0)
     {
         return 0;
     }
@@ -498,13 +474,13 @@ int SqlRopidXmlQueries::vytvorSeznamTurnusSpoju(VehicleRun &docasnyObeh, QString
 }
 
 
-int SqlRopidXmlQueries::poziceSpojeNaSeznamu(QVector<Trip> seznamSpoju, Trip spoj)
+int SqlRopidXmlQueries::getTripIndexOnList(QVector<Trip> tripList, Trip trip)
 {
     qDebug()<< Q_FUNC_INFO;
-    qDebug()<<"delka seznamu spoju: "<<seznamSpoju.count();
-    for(int i=0;i<seznamSpoju.count();i++)
+    qDebug()<<"triplist length: "<<tripList.count();
+    for(int i=0;i<tripList.count();i++)
     {
-        if((seznamSpoju.at(i).line.c==spoj.line.c)&&(seznamSpoju.at(i).idRopid)==spoj.idRopid)
+        if((tripList.at(i).line.c==trip.line.c)&&(tripList.at(i).idRopid)==trip.idRopid)
         {
             return i;
         }
@@ -517,7 +493,7 @@ int SqlRopidXmlQueries::poziceSpojeNaSeznamu(QVector<Trip> seznamSpoju, Trip spo
 /*!
 
 */
-int SqlRopidXmlQueries::nactiPlatnost(QDate &platnostOd, QDate &platnostDo)
+int SqlRopidXmlQueries::getDatasetValidity(QDate &dateFrom, QDate &dateTo)
 {
 
 
@@ -525,26 +501,26 @@ int SqlRopidXmlQueries::nactiPlatnost(QDate &platnostOd, QDate &platnostDo)
 
     this->pripoj();
 
-    QString queryString2("SELECT DISTINCT h.od, h.do FROM hlavicka AS h ");
+    QString queryString("SELECT DISTINCT h.od, h.do FROM hlavicka AS h ");
     QSqlQuery query;
-    query.exec(queryString2);
+    query.exec(queryString);
     qDebug()<<"lasterror "<<query.lastError();
-    qDebug()<<queryString2;
+    qDebug()<<queryString;
 
-    int citacMaximum=0;
+    int resultCounter=0;
     while (query.next())
     {
 
         if (query.value(0).toString()!="")
         {
-            platnostOd=query.value(query.record().indexOf("od")).toDate();
-            platnostDo=query.value(query.record().indexOf("do")).toDate();
-            citacMaximum++;
+            dateFrom=query.value(query.record().indexOf("od")).toDate();
+            dateTo=query.value(query.record().indexOf("do")).toDate();
+            resultCounter++;
         }
     }
 
     this->zavriDB();
-    if (citacMaximum==0)
+    if (resultCounter==0)
     {
         return 0;
     }
@@ -558,105 +534,105 @@ int SqlRopidXmlQueries::nactiPlatnost(QDate &platnostOd, QDate &platnostDo)
 /*!
 
 */
-QString SqlRopidXmlQueries::maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti)
+QString SqlRopidXmlQueries::createValidyMaskFromDate(QDate workingDate, QDate validityStart, QDate validityEnd)
 {
-    QString vysledek="";
+    QString result="";
 
-    int pocetDni=1;
+    int numberOfDays=1;
 
-    pocetDni=-pracDatum.daysTo(prvniDenPlatnosti);
+    numberOfDays=-workingDate.daysTo(validityStart);
 
-    if(!jeDatumVRozsahu(pracDatum,prvniDenPlatnosti,konecPlatnosti))
+    if(!jeDatumVRozsahu(workingDate,validityStart,validityEnd))
     {
-        qDebug("datum je mimo rozsah platnosti");
+        qDebug("date is out of validity range");
         return "x";
     }
 
-    for(int i=0;i<pocetDni;i++)
+    for(int i=0;i<numberOfDays;i++)
     {
-        vysledek+="_";
+        result+="_";
     }
-    vysledek+="1%";
-    qDebug()<<"data plati od "<<prvniDenPlatnosti<<" prac datum je "<<pracDatum<<" maska pro SQL databazi je "<<vysledek;
-    return vysledek;
+    result+="1%";
+    qDebug()<<"datat validity start:"<<validityStart<<" working date: "<<workingDate<<" validity mask: "<<result;
+    return result;
 
 }
 
 
-QVector<FareZone> SqlRopidXmlQueries::vyrobPasmaMezikraj(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc,  QString cids,QString tl)
+QVector<FareZone> SqlRopidXmlQueries::createInterRegionFareZones(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc,  QString cids,QString tl)
 {
     qDebug()<<Q_FUNC_INFO;
-    QVector<FareZone> vystup;
-    FareZone aktpasmo;
-    QStringList povoleneSystemy = cids.split(' ');
-    qDebug()<<"nalezeno "<<povoleneSystemy.count()<<" systemu";
+    QVector<FareZone> output;
+    FareZone fareZone;
+    QStringList allowedSystems = cids.split(' ');
+    qDebug()<<"found this many systems: "<<allowedSystems.count();
 
     for(int i=0;i<tp.length();i++)
     {
-        QVector<FareZone> pasma= pasmoStringDoVectoru(tp.at(i), pz.at(i),tl);
-        if(povoleneSystemy.contains(pc.at(i)))
+        QVector<FareZone> fareZoneList= fareZoneListStringToVector(tp.at(i), pz.at(i),tl);
+        if(allowedSystems.contains(pc.at(i)))
         {
-            vystup.append(pasma);
+            output.append(fareZoneList);
         }
     }
-    return vystup;
+    return output;
 }
 
-QVector<FareZone> SqlRopidXmlQueries::pasmoStringDoVectoru(QString vstup,QString system,QString tl)
+QVector<FareZone> SqlRopidXmlQueries::fareZoneListStringToVector(QString inputText,QString system,QString tl)
 {
-    QStringList stringPasma = vstup.split(',');
-    QVector<FareZone> seznamPasem;
+    QStringList stringList = inputText.split(',');
+    QVector<FareZone> fareZoneList;
 
-    for (int i=0;i<stringPasma.length();i++)
+    for (int i=0;i<stringList.length();i++)
     {
-        FareZone intPasmo;
-        intPasmo.name=stringPasma.at(i);
-        intPasmo.system=system;
+        FareZone fareZone;
+        fareZone.name=stringList.at(i);
+        fareZone.system=system;
 
-        if(intPasmo.name!="-")
+        if(fareZone.name!="-")
         {
             if(tl=="A")
             {
-                if(intPasmo.name=="P")
+                if(fareZone.name=="P")
                 {
-                    seznamPasem.append(intPasmo);
+                    fareZoneList.append(fareZone);
                 }
             }
             else
             {
-                if (intPasmo.name!="P")
+                if (fareZone.name!="P")
                 {
-                    seznamPasem.append(intPasmo);
+                    fareZoneList.append(fareZone);
                 }
             }
         }
     }
-    return seznamPasem;
+    return fareZoneList;
 }
 
 
 ///////////////////////// model view approach
 
-QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamLinekModel(QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::getLineListModel(QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    QString queryString2("SELECT DISTINCT l.c FROM l ");
+    QString queryString("SELECT DISTINCT l.c FROM l ");
     //QString queryString2("SELECT DISTINCT l.c,l.lc,l.n FROM l ");
-    queryString2+=("WHERE l.kj LIKE '");
-    queryString2+=(kj);
-    queryString2+=("' ");
-    queryString2+=("ORDER BY l.c;");
+    queryString+=("WHERE l.kj LIKE '");
+    queryString+=(kj);
+    queryString+=("' ");
+    queryString+=("ORDER BY l.c;");
 
-    qDebug()<<queryString2;
+    qDebug()<<queryString;
 
     QSqlQueryModel *model= new QSqlTableModel ;
-    model->setQuery(queryString2);
+    model->setQuery(queryString);
 
     return model;
 }
 
-QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamKmenovychLinekModel(QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::getRootLineListModel(QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -680,14 +656,14 @@ QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamKmenovychLinekModel(QString kj)
 }
 
 /*
-QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamSpojuModel(Line docasnaLinka, QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamSpojuModel(Line line, QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
     QString queryString2("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.aois FROM s ");
     queryString2+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
     queryString2+=("WHERE l.c=");
-    queryString2+=( QString::number(docasnaLinka.c));
+    queryString2+=( QString::number(line.c));
     queryString2+=(" AND  s.man !=1 ");
     queryString2+=(" AND s.kj LIKE '");
     queryString2+=(kj);
@@ -701,27 +677,27 @@ QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamSpojuModel(Line docasnaLinka, QS
 }
 */
 
-QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamPoradiModel(Line docasnaLinka, QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::getVehicleRunListModel(Line line, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
 
     this->pripoj();
     qInfo()<<"DebugPointA";
-    QString queryString2("SELECT DISTINCT o.l, o.p FROM o ");
-    queryString2+=("WHERE o.l=");
-    queryString2+=( QString::number(docasnaLinka.c));
-    queryString2+=(" AND o.kj LIKE '");
-    queryString2+=(kj);
-    queryString2+=("' ");
-    queryString2+=(" ORDER BY o.p");
+    QString queryString("SELECT DISTINCT o.l, o.p FROM o ");
+    queryString+=("WHERE o.l=");
+    queryString+=( QString::number(line.c));
+    queryString+=(" AND o.kj LIKE '");
+    queryString+=(kj);
+    queryString+=("' ");
+    queryString+=(" ORDER BY o.p");
     QSqlQuery query;
-    query.exec(queryString2);
+    query.exec(queryString);
     qDebug()<<"lasterror "<<query.lastError();
-    qDebug()<<queryString2;
+    qDebug()<<queryString;
     qDebug()<<"DebugPointB";
 
     QSqlQueryModel *model= new QSqlTableModel ;
-    model->setQuery(queryString2);
+    model->setQuery(queryString);
 
     return model;
 }
@@ -730,7 +706,7 @@ QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamPoradiModel(Line docasnaLinka, Q
 /*!
 
 */
-QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamTurnusSpojuModel(VehicleRun &docasnyObeh, QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &vehicleRun, QString kj)
 {
     //QVector<Spoj> &docasnySeznamSpoju,
     qDebug()<< Q_FUNC_INFO;
@@ -738,26 +714,26 @@ QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamTurnusSpojuModel(VehicleRun &doc
     this->pripoj();
     // bool platnost = true;
     qInfo()<<"DebugPointA";
-    QString queryString2("SELECT DISTINCT l.c, s.c FROM sp_po ");
-    queryString2+=("LEFT JOIN s ON sp_po.s=s.s ");
-    queryString2+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
-    queryString2+=("WHERE sp_po.l=");
-    queryString2+=( QString::number(docasnyObeh.rootLine.c));
+    QString queryString("SELECT DISTINCT l.c, s.c FROM sp_po ");
+    queryString+=("LEFT JOIN s ON sp_po.s=s.s ");
+    queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
+    queryString+=("WHERE sp_po.l=");
+    queryString+=( QString::number(vehicleRun.rootLine.c));
     //queryString2+=(" AND  s.c !=1000 ");
-    queryString2+=(" AND  s.man !=1 ");
-    queryString2+=(" AND  sp_po.p=");
-    queryString2+=( QString::number(docasnyObeh.order));
+    queryString+=(" AND  s.man !=1 ");
+    queryString+=(" AND  sp_po.p=");
+    queryString+=( QString::number(vehicleRun.order));
 
-    queryString2+=(" AND sp_po.kj LIKE '");
-    queryString2+=(kj);
-    queryString2+=("' ");
+    queryString+=(" AND sp_po.kj LIKE '");
+    queryString+=(kj);
+    queryString+=("' ");
 
-    queryString2+=(" ORDER BY sp_po.ord");
+    queryString+=(" ORDER BY sp_po.ord");
     QSqlQuery query;
-    query.exec(queryString2);
+    query.exec(queryString);
 
     QSqlQueryModel *model= new QSqlTableModel ;
-    model->setQuery(queryString2);
+    model->setQuery(queryString);
 
     return model;
 }
@@ -766,46 +742,46 @@ QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamTurnusSpojuModel(VehicleRun &doc
 //mapa
 
 
-QVector<MapaBod> SqlRopidXmlQueries::vytvorTrajektorii(int cisloSpoje, QString kj)
+QVector<MapaBod> SqlRopidXmlQueries::getTrajectoryFromTripS(int tripS, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
     //QVector<Spoj> &docasnySeznamSpoju,
-    QVector<MapaBod> vystup;
+    QVector<MapaBod> result;
 
 
 
     this->pripoj();
 
-    QString queryString2="";
+    QString queryString="";
 
 
-    queryString2+="SELECT DISTINCT ";
-    queryString2+="bod.u1, bod.u2, bod.z1, bod.z2, bod.poradi, bod.x, bod.y, ";
-    queryString2+="z.n, z.cis, z.ois,  ";
-    queryString2+="l.c, l.lc, l.tl,  ";
-    queryString2+="x.t, x.xorder, x.zsol, x.s1, x.s2, x.s_id,  ";
-    queryString2+="s.ns, s.c, s.vy ";
+    queryString+="SELECT DISTINCT ";
+    queryString+="bod.u1, bod.u2, bod.z1, bod.z2, bod.poradi, bod.x, bod.y, ";
+    queryString+="z.n, z.cis, z.ois,  ";
+    queryString+="l.c, l.lc, l.tl,  ";
+    queryString+="x.t, x.xorder, x.zsol, x.s1, x.s2, x.s_id,  ";
+    queryString+="s.ns, s.c, s.vy ";
 
-    queryString2+="FROM x LEFT JOIN s ON x.s_id=s.s ";
+    queryString+="FROM x LEFT JOIN s ON x.s_id=s.s ";
 
-    queryString2+="LEFT JOIN x AS x2 ON x.id+1=(x2.id) ";
-    queryString2+="LEFT JOIN z ON x.u = z.u AND x.z=z.z ";
-    queryString2+="LEFT JOIN l ON s.l=l.c  AND s.d=l.d ";
-    queryString2+="LEFT JOIN t ON t.u=x.u AND t.z=x.z ";
-    queryString2+="LEFT JOIN bod ON bod.u1=x.u AND bod.z1=x.z AND bod.u2=x2.u AND bod.z2=x2.z AND bod.var=x2.var ";
-    queryString2+="WHERE s.s=";
-    queryString2+=QString::number(cisloSpoje);
-    queryString2+=" AND  s.kj LIKE '"+kj+"'  AND s.d=l.d ";
-    queryString2+="ORDER BY x.xorder, bod.poradi ";
+    queryString+="LEFT JOIN x AS x2 ON x.id+1=(x2.id) ";
+    queryString+="LEFT JOIN z ON x.u = z.u AND x.z=z.z ";
+    queryString+="LEFT JOIN l ON s.l=l.c  AND s.d=l.d ";
+    queryString+="LEFT JOIN t ON t.u=x.u AND t.z=x.z ";
+    queryString+="LEFT JOIN bod ON bod.u1=x.u AND bod.z1=x.z AND bod.u2=x2.u AND bod.z2=x2.z AND bod.var=x2.var ";
+    queryString+="WHERE s.s=";
+    queryString+=QString::number(tripS);
+    queryString+=" AND  s.kj LIKE '"+kj+"'  AND s.d=l.d ";
+    queryString+="ORDER BY x.xorder, bod.poradi ";
 
     QSqlQuery query;
-    query.exec(queryString2);
-    qDebug().noquote()<<queryString2;
+    query.exec(queryString);
+    qDebug().noquote()<<queryString;
     qDebug()<<"lasterror "<<query.lastError();
 
     while (query.next())
     {
-        MapaBod bod;
+        MapaBod mapPoint;
 
         QString u1=query.value(query.record().indexOf("bod.u1")).toString();
         QString z1=query.value(query.record().indexOf("bod.z1")).toString();
@@ -815,43 +791,43 @@ QVector<MapaBod> SqlRopidXmlQueries::vytvorTrajektorii(int cisloSpoje, QString k
 
         //bod.radius =query.value( query.record().indexOf("z.rdisp")).toInt();
 
-        bod.lat=absolutniHodnota(query.value( query.record().indexOf("bod.x")).toDouble());
-        bod.lng=absolutniHodnota(query.value( query.record().indexOf("bod.y")).toDouble());
+        mapPoint.lat=absoluteValue(query.value( query.record().indexOf("bod.x")).toDouble());
+        mapPoint.lng=absoluteValue(query.value( query.record().indexOf("bod.y")).toDouble());
 
-        QString obsah="";
-        obsah+="u1: "+u1+" ";
-        obsah+="z1: "+z1+" ";
-        obsah+="u2: "+u2+" ";
-        obsah+="z2: "+z2+" ";
-        bod.obsah=obsah;
+        QString content="";
+        content+="u1: "+u1+" ";
+        content+="z1: "+z1+" ";
+        content+="u2: "+u2+" ";
+        content+="z2: "+z2+" ";
+        mapPoint.obsah=content;
 
-        if((bod.lat!=0.0)&&(bod.lng!=0.))
+        if((mapPoint.lat!=0.0)&&(mapPoint.lng!=0.))
         {
-            vystup.push_back(bod);
+            result.push_back(mapPoint);
         }
     }
 
     this->zavriDB();
 
-    return vystup;
+    return result;
 }
 
-double SqlRopidXmlQueries::absolutniHodnota(double vstup)
+double SqlRopidXmlQueries::absoluteValue(double input)
 {
-    if (vstup<0)
+    if (input<0)
     {
-        vstup=-vstup;
+        input=-input;
     }
-    return vstup;
+    return input;
 }
 
 
 
-QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamSpojuModel2(Line docasnaLinka, QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::getLineStopListModel(Line line, QString kj)
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    QString queryString2(" SELECT DISTINCT s.c, z.n AS Z, zz.n AS DO, substr(time(x.o, 'unixepoch'),1,5) AS start, substr(time(xx.p, 'unixepoch'),1,5) AS konec, s.s, l.c, l.lc   "
+    QString queryString(" SELECT DISTINCT s.c, z.n AS Z, zz.n AS DO, substr(time(x.o, 'unixepoch'),1,5) AS start, substr(time(xx.p, 'unixepoch'),1,5) AS konec, s.s, l.c, l.lc   "
                          " FROM s "
                          " LEFT JOIN l ON s.l=l.c  AND s.d=l.d "
                          " LEFT JOIN x ON s.s=x.s_id AND x.xorder=0"
@@ -864,13 +840,13 @@ QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamSpojuModel2(Line docasnaLinka, Q
                          " LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z ");
 
 
-    queryString2+=(" WHERE l.c="+QString::number(docasnaLinka.c)+" AND s.man !=1 AND s.kj LIKE '"+kj+"' ");
-    queryString2+=(" ORDER BY s.c ASC, s.s ASC");
+    queryString+=(" WHERE l.c="+QString::number(line.c)+" AND s.man !=1 AND s.kj LIKE '"+kj+"' ");
+    queryString+=(" ORDER BY s.c ASC, s.s ASC");
 
-    qDebug().noquote()<<queryString2;
+    qDebug().noquote()<<queryString;
 
     QSqlQueryModel *modelData= new QSqlTableModel ;
-    modelData->setQuery(queryString2);
+    modelData->setQuery(queryString);
     qDebug()<<modelData->lastError();
 
     while ( modelData->canFetchMore())

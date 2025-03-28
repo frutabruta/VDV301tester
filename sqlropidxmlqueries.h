@@ -5,17 +5,15 @@
 
 #include <QWidget>
 
-
-#include "VDV301publisher/VDV301DataStructures/stoppoint.h"
 #include "VDV301publisher/VDV301DataStructures/line.h"
 #include "VDV301publisher/VDV301DataStructures/trip.h"
 #include "VDV301publisher/VDV301DataStructures/farezone.h"
-#include "VDV301publisher/VDV301DataStructures/stoppointdestination.h"
 #include "VDV301publisher/VDV301DataStructures/vehiclerun.h"
 
+#include "MapaVykresleni/mapabod.h"
+
 #include "XmlRopidImportStream/sqlitezaklad.h"
-#include "MapaVykresleni/mnozinabodu.h"
-#include "MapaVykresleni/mapavykresleni.h"
+
 
 class SqlRopidXmlQueries: public  SqLiteZaklad
 {
@@ -24,36 +22,33 @@ public:
     
     SqlRopidXmlQueries();
 
-    int stahniSeznamCelySpojTurnus(QVector<Trip> &seznamSpoju, int indexSpoje, QString kj);
-    QString stahniSeznamSpolecnaCastDotazu();
+    QSqlQueryModel *getLineListModel(QString kj);
+    QSqlQueryModel *getRootLineListModel(QString kj);
+    QSqlQueryModel *getVehicleRunListModel(Line line, QString kj);
+    QSqlQueryModel *getTripListFromVehicleRunModel(VehicleRun &vehicleRun, QString kj);
+    QSqlQueryModel *getLineStopListModel(Line line, QString kj);
 
-    int vytvorSeznamTurnusSpoju(VehicleRun &docasnyObeh, QString kj);
+    //SQL queries
+    int getDatasetValidity(QDate &dateFrom, QDate &dateTo);
+    int getTripSfromC(Trip &trip, QString kj);
+    int getTripListFromVehicleRun(VehicleRun &vehicleRun, QString kj);
+    QVector<MapaBod> getTrajectoryFromTripS(int tripS, QString kj);
+    int getVehicleRunFromTripLC(Trip trip, int &rootLine, int &vehicleRun, int &tripIndex, QString kj);
+    int getVehicleRunStops(QVector<Trip> &tripList, int tripIndex, QString kj);
 
-    QString pasmaDoStringu(QVector<FareZone> pasma, QString delimiter);
-    QVector<FareZone> pasmoStringDoVectoru(QString vstup, QString system, QString tl);
-    QString doplnNulu(int cislo, int pocetMist = 2);
+    //auxiliary functions    
+    QString createValidyMaskFromDate(QDate workingDate, QDate validityStart, QDate validityEnd);
+    QString fareZoneToString(QVector<FareZone> fareZoneList, QString delimiter);
+    int getTripIndexOnList(QVector<Trip> tripList, Trip trip);
 
-    int najdiTurnusZeSpoje(Trip spoj, int &kmenovaLinka, int &poradi, int &order, QString kj);
-    int poziceSpojeNaSeznamu(QVector<Trip> seznamSpoju, Trip spoj);
-
-    QVector<QString> stahniPoznamky(int idSpoje, int xorder);
-
-    int nactiPlatnost(QDate &platnostOd, QDate &platnostDo);
-    QString maskaKalendarJizd(QDate pracDatum, QDate prvniDenPlatnosti, QDate konecPlatnosti);
-
-    QSqlQueryModel *stahniSeznamLinekModel(QString kj);
-   // QSqlQueryModel *stahniSeznamSpojuModel(Line docasnaLinka, QString kj); //unused
-    QSqlQueryModel *stahniSeznamKmenovychLinekModel(QString kj);
-    QSqlQueryModel *stahniSeznamPoradiModel(Line docasnaLinka, QString kj);
-    QSqlQueryModel *stahniSeznamTurnusSpojuModel(VehicleRun &docasnyObeh, QString kj);
-    QVector<MapaBod> vytvorTrajektorii(int cisloSpoje, QString kj);
-    static double absolutniHodnota(double vstup);
-    QSqlQueryModel *stahniSeznamSpojuModel2(Line docasnaLinka, QString kj);
-    int najdiIdSpojeZCisla(Trip &spoj, QString kj);
 private:
+    QVector<QString> getNotesFromTripS(int tripS, int xorder);
 
-    void vypisPole(QVector<StopPointDestination> docasnySeznamZastavek, int &pocetZastavek); //unused
-    QVector<FareZone> vyrobPasmaMezikraj(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc, QString cids, QString tl);
+    QString createGetTripQueryBase();
+
+    static double absoluteValue(double input);
+    QVector<FareZone> createInterRegionFareZones(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc, QString cids, QString tl);
+    QVector<FareZone> fareZoneListStringToVector(QString inputText, QString system, QString tl);
 };
 
 #endif // SQLROPIDXMLQUERIES_H

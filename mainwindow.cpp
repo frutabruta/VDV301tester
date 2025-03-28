@@ -568,12 +568,12 @@ int MainWindow::initializeTheTrip()
     }
 
 
-    vysledek=sqlRopidQueries.stahniSeznamCelySpojTurnus(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex,this->createDataValidityMask());
+    vysledek=sqlRopidQueries.getVehicleRunStops(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex,this->createDataValidityMask());
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     if (vehicleState.getCurrentTrip().continuesWithNextTrip==true)
     {
-        vysledek=sqlRopidQueries.stahniSeznamCelySpojTurnus(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex+1,this->createDataValidityMask());
+        vysledek=sqlRopidQueries.getVehicleRunStops(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex+1,this->createDataValidityMask());
         qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
     }
@@ -658,8 +658,8 @@ void MainWindow::initializeSelectionListView()
     
     ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
 
-    QSqlQueryModel* modelLinky=sqlRopidQueries.stahniSeznamLinekModel(this->createDataValidityMask());
-    QSqlQueryModel* modelKmenoveLinky=sqlRopidQueries.stahniSeznamKmenovychLinekModel(this->createDataValidityMask());
+    QSqlQueryModel* modelLinky=sqlRopidQueries.getLineListModel(this->createDataValidityMask());
+    QSqlQueryModel* modelKmenoveLinky=sqlRopidQueries.getRootLineListModel(this->createDataValidityMask());
 
     if (modelLinky->rowCount()>0)
     {
@@ -695,7 +695,7 @@ načte platnost a nastaví rozsahy klikatelných oblastí kalendáře
 void MainWindow::updateCalendar()
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(sqlRopidQueries.nactiPlatnost(validityFrom,validityTo))
+    if(sqlRopidQueries.getDatasetValidity(validityFrom,validityTo))
     {
         ui->calendarWidget_data_workingDate->setMinimumDate(validityFrom);
         ui->calendarWidget_data_workingDate->setMaximumDate(validityTo);
@@ -1166,7 +1166,7 @@ void MainWindow::on_listView_line_clicked(const QModelIndex &index)
     
     
     ui->lineEdit_lineNumber->setText(QString::number(vehicleState.currentLine.c ));
-    modelConnection=sqlRopidQueries.stahniSeznamSpojuModel2(vehicleState.currentLine, this->createDataValidityMask());
+    modelConnection=sqlRopidQueries.getLineStopListModel(vehicleState.currentLine, this->createDataValidityMask());
     qDebug()<<"model size:"<<modelConnection->rowCount()<<" "<<modelConnection->columnCount();
     
     
@@ -1190,7 +1190,7 @@ void MainWindow::on_listView_rootLine_clicked(const QModelIndex &index)
     
     ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c));
 
-    QSqlQueryModel* modelPoradi=sqlRopidQueries.stahniSeznamPoradiModel(vehicleState.currentVehicleRun.rootLine, this->createDataValidityMask());
+    QSqlQueryModel* modelPoradi=sqlRopidQueries.getVehicleRunListModel(vehicleState.currentVehicleRun.rootLine, this->createDataValidityMask());
     
     ui->listView_lineRun->setModel(modelPoradi);
     ui->listView_lineRun->setModelColumn(modelPoradi->record().indexOf("o.p"));
@@ -1210,7 +1210,7 @@ void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
             vehicleState.currentVehicleRun.order=index.data(Qt::DisplayRole).toString().toInt();
 
             /// zakomentovat?
-            if (sqlRopidQueries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
+            if (sqlRopidQueries.getTripListFromVehicleRun(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
             {
                 qDebug()<<"pocetSpoju: "<<vehicleState.currentVehicleRun.tripList.count();
             }
@@ -1219,7 +1219,7 @@ void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
                 qDebug()<<"spoje nenalezeny";
             }
 
-            QSqlQueryModel* modelTurnusSpoj=sqlRopidQueries.stahniSeznamTurnusSpojuModel(vehicleState.currentVehicleRun, this->createDataValidityMask());
+            QSqlQueryModel* modelTurnusSpoj=sqlRopidQueries.getTripListFromVehicleRunModel(vehicleState.currentVehicleRun, this->createDataValidityMask());
             ui->tableView_lineTrip->setModel(modelTurnusSpoj);
             ui->tableView_lineTrip->resizeColumnsToContents();
         }
@@ -1578,7 +1578,7 @@ void MainWindow::on_pushButton_ride_map_clicked()
     mapPlot.seznamMnozin.clear();
     mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),true,false,false,false,MnozinaBodu::WGS84);
     mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),false,false,false,true,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(sqlRopidQueries.vytvorTrajektorii(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false, MnozinaBodu::J_STSK);
+    mapPlot.pridejMnozinu(sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false, MnozinaBodu::J_STSK);
 
     mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( vehicleState.currentTrip));
 
@@ -1935,7 +1935,7 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
     vehicleState.currentTrip.line.c =ui->lineEdit_lineNumber->text().toInt();
     vehicleState.currentTrip.idRopid=ui->lineEdit_tripNumber->text().toInt();
 
-    if(!sqlRopidQueries.najdiIdSpojeZCisla(vehicleState.currentTrip,this->createDataValidityMask()))
+    if(!sqlRopidQueries.getTripSfromC(vehicleState.currentTrip,this->createDataValidityMask()))
     {
         popUpMessage(tr("trip does not exist"));
         return 0;
@@ -1947,16 +1947,16 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
     vehicleState.currentStopIndex0=0;
 
     Trip hledanySpoj=vehicleState.currentTrip;
-    if(sqlRopidQueries.najdiTurnusZeSpoje( vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() ))
+    if(sqlRopidQueries.getVehicleRunFromTripLC( vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() ))
     {
         vehicleState.currentVehicleRun.rootLine.c=kmenovaLinka;
         vehicleState.currentVehicleRun.order=poradi ;
-        if (sqlRopidQueries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
+        if (sqlRopidQueries.getTripListFromVehicleRun(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
         {
             // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
         }
 
-        vehicleState.currentTripIndex=sqlRopidQueries.poziceSpojeNaSeznamu(vehicleState.currentVehicleRun.tripList,hledanySpoj);
+        vehicleState.currentTripIndex=sqlRopidQueries.getTripIndexOnList(vehicleState.currentVehicleRun.tripList,hledanySpoj);
 
         if(vehicleState.currentTripIndex==-1)
         {
@@ -2129,7 +2129,7 @@ void MainWindow::on_tableView_trip_clicked(const QModelIndex &index)
             int order=0;
 
 
-            sqlRopidQueries.najdiTurnusZeSpoje(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
+            sqlRopidQueries.getVehicleRunFromTripLC(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
             qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
 
         }
@@ -2225,7 +2225,7 @@ void MainWindow::updataWorkingDate()
 
 
     this->createDataValidityMask();
-    sqlRopidQueries.maskaKalendarJizd(this->vehicleState.referenceDate,validityFrom,validityTo);
+    sqlRopidQueries.createValidyMaskFromDate(this->vehicleState.referenceDate,validityFrom,validityTo);
 
     initializeSelectionListView();
 }
@@ -2272,7 +2272,7 @@ void MainWindow::slotAktualizacePracData()
 QString MainWindow::createDataValidityMask()
 {
     qDebug() <<  Q_FUNC_INFO;
-    return sqlRopidQueries.maskaKalendarJizd(vehicleState.referenceDate,validityFrom, validityTo);
+    return sqlRopidQueries.createValidyMaskFromDate(vehicleState.referenceDate,validityFrom, validityTo);
 }
 
 

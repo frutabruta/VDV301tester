@@ -95,7 +95,7 @@ void MainWindowPomocne::dumpStopsToTable(int cisloporadi, QVector<StopPointDesti
         QString nazevZastavky2 = docasnySeznamZastavek.at(i).stopPoint.StopName;
         QString odjezdZeZastavky =  sqlRopidQuerries.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.DepartureTime);
         QString prijezdDoZastavky =  sqlRopidQuerries.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.ArrivalTime);
-        QString pasma= sqlRopidQuerries.pasmaDoStringu(docasnySeznamZastavek.at(i).stopPoint.fareZoneList,",");
+        QString pasma= sqlRopidQuerries.fareZoneToString(docasnySeznamZastavek.at(i).stopPoint.fareZoneList,",");
         QString znameni="";
         if (docasnySeznamZastavek.at(i).stopPoint.onRequest==true)
         {

@@ -142,6 +142,8 @@ mingw32-make install
 
 
 ## Changelog
+- 20250328_1325
+        - translate SqlRopidXmlQueries to English
 - 20250319_1747
         - ability to load trip without vehicle run
                 - MainWindow::on_pushButton_lineTrip_confirm_clicked()
