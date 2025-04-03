@@ -142,6 +142,13 @@ mingw32-make install
 
 
 ## Changelog
+- 20250403_2205
+        - Vdv301publisher
+                - Vdv301DataStructures
+                        - added Vdv301CurrentDisplayContent
+        - Vdv301subscriber
+                - IbisIpSubscriber::structureName added setter and getter     
+                 
 - 20250328_1540
         - default text in UI are now in English
 - 20250328_1419

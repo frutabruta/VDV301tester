@@ -83,7 +83,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -2614,7 +2614,7 @@ Stop</string>
                      </font>
                     </property>
                     <property name="text">
-                     <string>Vstupní data</string>
+                     <string>Data</string>
                     </property>
                    </widget>
                   </item>
@@ -2633,14 +2633,23 @@ Stop</string>
                   </item>
                   <item>
                    <widget class="QLabel" name="label_data_pathContent">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="maximumSize">
                      <size>
-                      <width>200</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
                     <property name="text">
                      <string>cesta_obsah</string>
+                    </property>
+                    <property name="alignment">
+                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                     </property>
                    </widget>
                   </item>
