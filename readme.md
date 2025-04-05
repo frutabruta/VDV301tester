@@ -142,6 +142,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20250405_2210
+        - Vdv301Publisher
+                - XmlCommon dependency on VehicleState variables removed
+        - 2.3CZ1.0 port can be changed in settings.ini
 - 20250403_2205
         - Vdv301publisher
                 - Vdv301DataStructures
