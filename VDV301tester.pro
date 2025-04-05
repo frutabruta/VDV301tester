@@ -91,6 +91,7 @@ SOURCES += \
     VDV301publisher/xmlcommon2_2cz1_0.cpp \
     VDV301publisher/xmlcommon2_3_new.cpp \
     VDV301publisher/xmlcommon2_3cz1_0.cpp \
+    VDV301publisher/xmlcommonvehiclestate.cpp \
     VDV301publisher/xmlcustomerinformationservice.cpp \
     VDV301publisher/xmlcustomerinformationservice2_2cz1_0.cpp \
     VDV301publisher/xmlcustomerinformationservice2_3_new.cpp \
@@ -176,6 +177,7 @@ HEADERS += \
     VDV301publisher/xmlcommon2_2cz1_0.h \
     VDV301publisher/xmlcommon2_3_new.h \
     VDV301publisher/xmlcommon2_3cz1_0.h \
+    VDV301publisher/xmlcommonvehiclestate.h \
     VDV301publisher/xmlcustomerinformationservice.h \
     VDV301publisher/xmlcustomerinformationservice2_2cz1_0.h \
     VDV301publisher/xmlcustomerinformationservice2_3_new.h \

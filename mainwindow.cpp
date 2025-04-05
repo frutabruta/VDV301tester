@@ -308,6 +308,7 @@ void MainWindow::loadConstantsFromSettingsFile()
     customerInformationService1_0.setPortNumber(settings->value("customerInformationService1_0/port").toInt() );
     customerInformationService2_2CZ1_0.setPortNumber(settings->value("customerInformationService2_2CZ1_0/port").toInt() );
     customerInformationService2_3.setPortNumber(settings->value("customerInformationService2_3/port").toInt());
+    customerInformationService2_3CZ1_0.setPortNumber(settings->value("customerInformationService2_3CZ1_0/port").toInt());
 
     ibisIsEnabled=settings->value("ibis/enable").toBool();
     ibisOvladani.setSerialPortName(settings->value("ibis/portName").toString());
