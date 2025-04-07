@@ -143,6 +143,9 @@ mingw32-make install
 
 ## Changelog
 - 20250405_2210
+        - Vdv301XmlRopidImportStream
+                - fix import xLed
+- 20250405_2210
         - Vdv301Publisher
                 - XmlCommon dependency on VehicleState variables removed
         - 2.3CZ1.0 port can be changed in settings.ini
