@@ -142,6 +142,9 @@ mingw32-make install
 
 
 ## Changelog
+- 20250410_1916
+        - save last imported filepath to settings.ini
+
 - 20250410_1354
         - VoiceAnnouncer
                 - add MetroD mp3 definitions + airport

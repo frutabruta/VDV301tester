@@ -2620,6 +2620,12 @@ Stop</string>
                   </item>
                   <item>
                    <widget class="QLabel" name="label_data_pathName">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="maximumSize">
                      <size>
                       <width>200</width>
@@ -2649,7 +2655,10 @@ Stop</string>
                      <string>cesta_obsah</string>
                     </property>
                     <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+                    </property>
+                    <property name="wordWrap">
+                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>

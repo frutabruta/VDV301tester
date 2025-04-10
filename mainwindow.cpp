@@ -315,6 +315,11 @@ void MainWindow::loadConstantsFromSettingsFile()
     ui->lineEdit_configuration_IbisPort->setText(ibisOvladani.serialPortName());
 
     ui->checkBox_configuration_logToFile->setChecked(settings->value("debug/logToFile").toBool());
+
+    xmlFilePath=settings->value("data/xmlPath").toString();
+    ui->label_data_pathContent->setText(xmlFilePath);
+    ui->pushButton_data_startXmlRopidImport->setEnabled(!xmlFilePath.isEmpty());
+
 }
 
 
@@ -1244,6 +1249,8 @@ void MainWindow::on_pushButton_data_startXmlRopidImport_clicked()
     xmlImportJr->truncateAll();
 
     xmlImportJr->vstupniXmlSouborCesta=xmlFilePath;
+
+    settings->setValue("data/xmlPath",xmlFilePath);
 
     connectyImport(xmlImportJr);
 
