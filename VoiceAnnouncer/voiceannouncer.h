@@ -55,6 +55,7 @@ private:
     QUrl zvukPrestupNaLinkyS;
     QUrl zvukPrestupNaMetro;
     QUrl zvukPrestupNaPrivoz;
+    QUrl zvukPrestupNaLetiste;
     QUrl zvukMA;
     QUrl zvukMB;
     QUrl zvukMC;

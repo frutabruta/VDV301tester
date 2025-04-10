@@ -233,6 +233,11 @@ QVector<QUrl> VoiceAnnouncer::priznakyDoSeznamu(StopPoint vstup)
         vystup.push_back(zvukPrestupNaPrivoz );
     }
 
+    if(vstup.transferAirplane)
+    {
+        vystup.push_back(zvukPrestupNaLetiste );
+    }
+
 
 
 
@@ -326,18 +331,19 @@ void VoiceAnnouncer::aktualizujCestyZvuku(QString cestaVnitrni)
     zvukPrestupNaLinkyS=QUrl::fromLocalFile(cestaVnitrni+"/special/H184.mp3");
     zvukPrestupNaMetro=QUrl::fromLocalFile(cestaVnitrni+"/special/H103.mp3");
     zvukPrestupNaPrivoz=QUrl::fromLocalFile(cestaVnitrni+"/special/H274.mp3");
+    zvukPrestupNaLetiste=QUrl::fromLocalFile(cestaVnitrni+"/special/H628.mp3");
     zvukMA=QUrl::fromLocalFile(cestaVnitrni+"/special/H104.mp3");
     zvukMB=QUrl::fromLocalFile(cestaVnitrni+"/special/H105.mp3");
     zvukMC=QUrl::fromLocalFile(cestaVnitrni+"/special/H106.mp3");
-    zvukMD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3"); //MP3 zatím neexistuje!
+    zvukMD=QUrl::fromLocalFile(cestaVnitrni+"/special/H010.mp3"); //MP3 zatím neexistuje!
 
 
     zvukMAaB=QUrl::fromLocalFile(cestaVnitrni+"/special/H107.mp3");
     zvukMAaC=QUrl::fromLocalFile(cestaVnitrni+"/special/H108.mp3");
-    zvukMAaD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3");
+    zvukMAaD=QUrl::fromLocalFile(cestaVnitrni+"/special/H011.mp3");
     zvukMBaC=QUrl::fromLocalFile(cestaVnitrni+"/special/H109.mp3");
-    zvukMBaD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3");
-    zvukMCaD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3");
+    zvukMBaD=QUrl::fromLocalFile(cestaVnitrni+"/special/H012.mp3");
+    zvukMCaD=QUrl::fromLocalFile(cestaVnitrni+"/special/H013.mp3");
 
 
     //H178 prosím pozor

@@ -144,6 +144,9 @@ mingw32-make install
 ## Changelog
 - 20250410_1354
         - VoiceAnnouncer
+                - add MetroD mp3 definitions + airport
+- 20250410_1354
+        - VoiceAnnouncer
                 - empty nonexisting file fix
 - 20250405_2210
         - Vdv301XmlRopidImportStream
