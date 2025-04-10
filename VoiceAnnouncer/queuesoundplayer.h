@@ -31,7 +31,9 @@ public:
      void pridejDoFrontyVyhlas(QVector<QUrl> vstup);
 
 
-protected:
+     bool souborExistuje(QString path);
+     bool souborExistuje(QUrl path);
+ protected:
 void prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres);
 
 QVector<QUrl> frontaZvuku;

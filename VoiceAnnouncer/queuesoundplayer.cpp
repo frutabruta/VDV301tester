@@ -22,12 +22,44 @@ QueueSoundPlayer::QueueSoundPlayer() {
 }
 
 
+bool QueueSoundPlayer::souborExistuje(QString path)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    QFileInfo check_file(path); //zdroj:: https://stackoverflow.com/questions/10273816/how-to-check-whether-file-exists-in-qt-in-c
+    // check if file exists and if yes: Is it really a file and no directory?
+    if (check_file.exists() && check_file.isFile()) {
+        qDebug()<<"soubor "<<path<<" existuje";
+        return true;
+    } else {
+        qDebug()<<"soubor "<<path<<" neexistuje";
+        return false;
+    }
+}
 
+
+bool QueueSoundPlayer::souborExistuje(QUrl path)
+{
+    qDebug() <<  Q_FUNC_INFO;
+
+    QString compoundPath=path.toLocalFile() ;
+    QFileInfo check_file(compoundPath); //zdroj:: https://stackoverflow.com/questions/10273816/how-to-check-whether-file-exists-in-qt-in-c
+    // check if file exists and if yes: Is it really a file and no directory?
+    if (check_file.exists() && check_file.isFile()) {
+        qDebug()<<"soubor "<<compoundPath<<" existuje";
+        return true;
+    } else {
+        qDebug()<<"soubor "<<compoundPath<<" neexistuje";
+        return false;
+    }
+}
 
 
 void QueueSoundPlayer::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
 {
     qDebug() <<  Q_FUNC_INFO;
+
+
+
     if (frontaZvuku.isEmpty())
     {
         qDebug()<<"fronta zvuku byla prazdna";
@@ -99,9 +131,18 @@ void QueueSoundPlayer::prehrajJedenZvuk(QUrl soubor2)
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
 
-    player->setSource(soubor2);
+    if(souborExistuje(soubor2))
+    {
+        player->setSource(soubor2);
+        player->play();
+    }
+    else
+    {
+        zmenaStavuHlaseniQt6(QMediaPlayer::StoppedState);
+    }
 
-    player->play();
+
+
 }
 
 

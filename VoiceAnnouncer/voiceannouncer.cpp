@@ -9,19 +9,7 @@ VoiceAnnouncer::VoiceAnnouncer()
 
 }
 
-bool VoiceAnnouncer::souborExistuje(QString path)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    QFileInfo check_file(path); //zdroj:: https://stackoverflow.com/questions/10273816/how-to-check-whether-file-exists-in-qt-in-c
-    // check if file exists and if yes: Is it really a file and no directory?
-    if (check_file.exists() && check_file.isFile()) {
-        qDebug()<<"soubor "<<path<<" existuje";
-        return true;
-    } else {
-        qDebug()<<"soubor "<<path<<" neexistuje";
-        return false;
-    }
-}
+
 
 
 QUrl VoiceAnnouncer::najdiCestuZastavka(int kodOis, int kodCis)

@@ -41,7 +41,6 @@ public slots:
 
 
 private:
-    bool souborExistuje(QString path);
     QUrl najdiCestuZastavka(int kodOis, int kodCis);
 
     QUrl zvukPristiZastavka;
