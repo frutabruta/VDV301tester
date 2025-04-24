@@ -142,6 +142,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20250424_2145
+        - Vdv301subscriber
+                - first implementation of PassengerCountingService
+                - DevMGMT class refactoring
 - 20250410_1916
         - save last imported filepath to settings.ini
 

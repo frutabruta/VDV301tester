@@ -105,7 +105,9 @@ SOURCES += \
     VDV301subscriber/devmgmtsubscriber2.cpp \
     VDV301subscriber/ibisipsubscriber.cpp \
     VDV301subscriber/httpserversubscriber.cpp \
+    VDV301subscriber/ibisipsubscribermultiplepublishers.cpp \
     VDV301subscriber/ibisipsubscriberonepublisher.cpp \
+    VDV301subscriber/publisherstruct.cpp \
     VDV301subscriber/xmlgeneratorsubscriber.cpp \
     VDV301subscriber/xmlparsersubscriber.cpp \
     VDV301testy/polozkatestu.cpp \
@@ -191,7 +193,9 @@ HEADERS += \
     VDV301subscriber/devmgmtsubscriber2.h \
     VDV301subscriber/ibisipsubscriber.h \
     VDV301subscriber/httpserversubscriber.h \
+    VDV301subscriber/ibisipsubscribermultiplepublishers.h \
     VDV301subscriber/ibisipsubscriberonepublisher.h \
+    VDV301subscriber/publisherstruct.h \
     VDV301subscriber/xmlgeneratorsubscriber.h \
     VDV301subscriber/xmlparsersubscriber.h \
     VDV301testy/polozkatestu.h \
