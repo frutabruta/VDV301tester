@@ -140,7 +140,6 @@ private:
     //IBIS-IP sluzby
     DeviceManagementService deviceManagementService1_0;
     CustomerInformationService customerInformationService1_0;
-    CustomerInformationService customerInformationService2_2CZ1_0;
     CustomerInformationService customerInformationService2_3;
     CustomerInformationService customerInformationService2_3CZ1_0;
 
@@ -184,7 +183,6 @@ private:
     //VDV301
 
     void dumpSubscribers1_0(QVector<Subscriber> adresy);
-    void dumpSubscribers2_2CZ1_0(QVector<Subscriber> adresy);
     void dumpSubscribers2_3CZ1_0(QVector<Subscriber> adresy);
     void dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget *tabulka);
     void startAllVdv301Services();
@@ -305,8 +303,7 @@ private slots:
     //tlacitka Manual
     void on_pushButton_manual_addsubscriber_clicked();
     void on_pushButton_manual_removeSubscriber_clicked();
-    void on_pushButton_manual_addsubscriber_2_clicked();
-    void on_pushButton_manual_removeSubscriber_2_clicked();
+
     void on_pushButton_manual_truncateCustomXml_clicked();
     void on_pushButton_manual_sendCustomXml_clicked();
     void on_pushButton_manual_addsubscriber_3_clicked();

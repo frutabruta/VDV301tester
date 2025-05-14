@@ -19,7 +19,6 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     logfile(QCoreApplication::applicationDirPath()),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
-    customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3"),
     customerInformationService2_3CZ1_0("CustomerInformationService","_ibisip_http._tcp",47482,"2.3CZ1.0"),
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
@@ -41,12 +40,12 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     ui->pushButton_data_startXmlRopidImport->setDisabled(true);
 
     vektorCis.push_back(&customerInformationService1_0);
-    vektorCis.push_back(&customerInformationService2_2CZ1_0);
+   // vektorCis.push_back(&customerInformationService2_2CZ1_0);
     vektorCis.push_back(&customerInformationService2_3);
     vektorCis.push_back(&customerInformationService2_3CZ1_0);
 
     vektorCisPermanent.push_back(&customerInformationService1_0);
-    vektorCisPermanent.push_back(&customerInformationService2_2CZ1_0);
+   // vektorCisPermanent.push_back(&customerInformationService2_2CZ1_0);
     vektorCisPermanent.push_back(&customerInformationService2_3);
     vektorCisPermanent.push_back(&customerInformationService2_3CZ1_0);
 
@@ -149,15 +148,14 @@ void MainWindow::allConnects()
     qDebug()<<Q_FUNC_INFO;
 
     this->dumpSubscribers1_0(customerInformationService1_0.subscriberList);
-    this->dumpSubscribers2_2CZ1_0(customerInformationService2_2CZ1_0.subscriberList);
+
 
     //vypisy subscriberu
     connect(&customerInformationService1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers1_0);
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_2CZ1_0);
+
     connect(&customerInformationService2_3CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_3CZ1_0);
 
     connect(&customerInformationService1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
     connect(&customerInformationService2_3,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
     connect(&customerInformationService2_3CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
 
@@ -181,18 +179,18 @@ void MainWindow::allConnects()
     connect(&testSubscribeServer,&Vdv301testy::update,this,&MainWindow::testPopulateTestPhases);
 
     //jednotliveTesty
-    connect(&testSubscribeServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotRemoveAllSubscribers);
-    connect(&testSubscribeServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
-    connect(&testSubscribeServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStopTimer);
-    connect(&testSubscribeServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotSendDataToSubscribers);
+  //  connect(&testSubscribeServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotRemoveAllSubscribers);
+  //  connect(&testSubscribeServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
+  //  connect(&testSubscribeServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStopTimer);
+  //  connect(&testSubscribeServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotSendDataToSubscribers);
 
 
-    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalDumpSubscriberList,&testSubscribeServer,&TestOdberuServer::slotAktualizaceSubscriberu);
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalReplyToPostReceived,&testSubscribeServer,&TestOdberuServer::slotVypisOdpovedServeru);
+ //   connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalDumpSubscriberList,&testSubscribeServer,&TestOdberuServer::slotAktualizaceSubscriberu);
+ //   connect(&customerInformationService2_2CZ1_0,&HttpService::signalReplyToPostReceived,&testSubscribeServer,&TestOdberuServer::slotVypisOdpovedServeru);
 
     //vypinani sluzeb pomoci prepinacu
-    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStartDnsSd);
-    connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStop);
+  //  connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStartDnsSd);
+  //  connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStop);
 
     connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStartDnsSd);
     connect(ui->radioButton_OFF2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStop);
@@ -212,7 +210,7 @@ void MainWindow::allConnects()
     // connect(this,&MainWindow::signalZahajImport, &xmlRopidImportStream,&XmlRopidImportStream::slotOtevriSoubor);
 
     //prepinani stavu radio prepinacu podle stavu sluzeb
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalStav,this,&MainWindow::radio1);
+ //   connect(&customerInformationService2_2CZ1_0,&HttpService::signalStav,this,&MainWindow::radio1);
     connect(&deviceManagementService1_0,&HttpService::signalStav,this,&MainWindow::radio2);
     connect(&ticketValidationService2_3CZ1_0,&HttpService::signalStav,this,&MainWindow::radio3);
     connect(&customerInformationService1_0,&HttpService::signalStav,this,&MainWindow::radio4);
@@ -306,7 +304,6 @@ void MainWindow::loadConstantsFromSettingsFile()
 
     deviceManagementService1_0.setPortNumber(settings->value("deviceManagementService1_0/port").toInt() ); //47477
     customerInformationService1_0.setPortNumber(settings->value("customerInformationService1_0/port").toInt() );
-    customerInformationService2_2CZ1_0.setPortNumber(settings->value("customerInformationService2_2CZ1_0/port").toInt() );
     customerInformationService2_3.setPortNumber(settings->value("customerInformationService2_3/port").toInt());
     customerInformationService2_3CZ1_0.setPortNumber(settings->value("customerInformationService2_3CZ1_0/port").toInt());
 
@@ -969,14 +966,7 @@ void MainWindow::dumpSubscribers1_0(QVector<Subscriber> adresy)
     dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList1_0);
 }
 
-/*!
 
-*/
-void MainWindow::dumpSubscribers2_2CZ1_0(QVector<Subscriber> adresy)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList2_2CZ1_0);
-}
 
 void MainWindow::dumpSubscribers2_3CZ1_0(QVector<Subscriber> adresy)
 {
@@ -1413,14 +1403,6 @@ void MainWindow::on_pushButton_manual_addsubscriber_clicked()
 
 
 
-/*!
-
-*/
-void MainWindow::on_pushButton_manual_addsubscriber_2_clicked()
-{
-    vypisDiagnostika(customerInformationService2_2CZ1_0.handleNewSubscriber(Subscriber(ui->lineEdit_manual_subscriberAddress->text(),ui->lineEdit_manual_subscriberStructure->text())));
-}
-
 
 void MainWindow::on_pushButton_manual_addsubscriber_3_clicked()
 {
@@ -1458,34 +1440,6 @@ void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 }
 
 
-/*!
-
-*/
-void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
-{
-    if (ui->tableWidget_manual_subscriberList2_2CZ1_0->rowCount()==0)
-    {
-        vypisDiagnostika("seznam je prazdny");
-        return;
-    }
-
-    if (ui->tableWidget_manual_subscriberList2_2CZ1_0->selectionModel()->selectedIndexes().size()==0)
-    {
-        vypisDiagnostika("nic neni vybrano");
-
-        return;
-    }
-    int indexPolozky = ui->tableWidget_manual_subscriberList2_2CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
-    if (customerInformationService2_2CZ1_0.removeSubscriber(indexPolozky)==1)
-    {
-        dumpSubscribers2_2CZ1_0(customerInformationService2_2CZ1_0.subscriberList);
-        vypisDiagnostika("odstraneno");
-    }
-    else
-    {
-        vypisDiagnostika("nepovedlo se odstranit");
-    }
-}
 
 
 void MainWindow::on_pushButton_manual_removeSubscriber_3_clicked()
@@ -1642,14 +1596,12 @@ void MainWindow::on_pushButton_manual_sendCustomXml_clicked()
     QByteArray vysledek2="";
 
     customerInformationService1_0.timer.stop();
-    customerInformationService2_2CZ1_0.timer.stop();
     customerInformationService2_3.timer.stop();
     customerInformationService2_3CZ1_0.timer.stop();
 
     timerDownloadConnections.stop();
     vysledek2=vysledek2+ui->plainTextEdit_manual_customXml->toPlainText().toUtf8();
     customerInformationService1_0.setBodyContent("AllData",vysledek2);
-    customerInformationService2_2CZ1_0.setBodyContent("AllData",vysledek2);
     customerInformationService2_3.setBodyContent("AllData",vysledek2);
     customerInformationService2_3CZ1_0.setBodyContent("AllData",vysledek2);
 
@@ -1658,10 +1610,6 @@ void MainWindow::on_pushButton_manual_sendCustomXml_clicked()
     for(int i=0;i<customerInformationService1_0.subscriberList.count();i++ )
     {
         customerInformationService1_0.postToSubscriber(customerInformationService1_0.subscriberList[i].address,vysledek2);
-    }
-    for(int i=0;i<customerInformationService2_2CZ1_0.subscriberList.count();i++ )
-    {
-        customerInformationService2_2CZ1_0.postToSubscriber(customerInformationService2_2CZ1_0.subscriberList[i].address,vysledek2);
     }
     for(int i=0;i<customerInformationService2_3.subscriberList.count();i++ )
     {

@@ -2524,7 +2524,7 @@ Stop</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -2805,18 +2805,6 @@ Stop</string>
              <layout class="QVBoxLayout" name="verticalLayout_10">
               <item>
                <layout class="QGridLayout" name="gridLayout_7">
-                <item row="2" column="1">
-                 <widget class="QPushButton" name="pushButton_manual_addsubscriber_2">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Add subs.</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="3" column="0">
                  <widget class="QPushButton" name="pushButton_manual_removeSubscriber">
                   <property name="font">
@@ -2878,25 +2866,6 @@ Stop</string>
                  <widget class="QLineEdit" name="lineEdit_manual_subscriberStructure">
                   <property name="text">
                    <string>AllData</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLabel" name="label_manual_V2">
-                  <property name="text">
-                   <string>V2.2CZ1.0</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Rem. subs.</string>
                   </property>
                  </widget>
                 </item>
@@ -3021,32 +2990,6 @@ window</string>
               </item>
               <item>
                <widget class="QTableWidget" name="tableWidget_manual_subscriberList1_0">
-                <column>
-                 <property name="text">
-                  <string>IP</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Structure</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Interval</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_manual_T2">
-                <property name="text">
-                 <string>Subscribers V2.2CZ1.0</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTableWidget" name="tableWidget_manual_subscriberList2_2CZ1_0">
                 <column>
                  <property name="text">
                   <string>IP</string>
