@@ -142,6 +142,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20250514_1613
+        - last version supporting VDV301 2.2CZ1.0
+        - Vdv301subscriber
+                - new slots and functions, non-related to VDV301tester       
 - 20250424_2145
         - Vdv301subscriber
                 - first implementation of PassengerCountingService
