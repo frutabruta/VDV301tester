@@ -142,6 +142,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20250519_1907
+    - VDV301publisher
+        - 1.0 overhaul
+    - MapyVykresleni
+        - removed for each loops
 - 20250514_1613
         - last version supporting VDV301 2.2CZ1.0
         - Vdv301subscriber

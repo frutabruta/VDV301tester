@@ -88,10 +88,10 @@ SOURCES += \
     VDV301publisher/subscriber.cpp \
     VDV301publisher/ticketvalidationservice.cpp \
     VDV301publisher/xmlcommon.cpp \
+    VDV301publisher/xmlcommon1_0_new.cpp \
     VDV301publisher/xmlcommon2_3_new.cpp \
     VDV301publisher/xmlcommon2_3cz1_0.cpp \
-    VDV301publisher/xmlcommonvehiclestate.cpp \
-    VDV301publisher/xmlcustomerinformationservice.cpp \
+    VDV301publisher/xmlcustomerinformationservice1_0_new.cpp \
     VDV301publisher/xmlcustomerinformationservice2_3_new.cpp \
     VDV301publisher/xmlcustomerinformationservice2_3cz1_0.cpp \
     VDV301publisher/xmldevicemanagementservice.cpp \
@@ -173,10 +173,10 @@ HEADERS += \
     VDV301publisher/subscriber.h \
     VDV301publisher/ticketvalidationservice.h \
     VDV301publisher/xmlcommon.h \
+    VDV301publisher/xmlcommon1_0_new.h \
     VDV301publisher/xmlcommon2_3_new.h \
     VDV301publisher/xmlcommon2_3cz1_0.h \
-    VDV301publisher/xmlcommonvehiclestate.h \
-    VDV301publisher/xmlcustomerinformationservice.h \
+    VDV301publisher/xmlcustomerinformationservice1_0_new.h \
     VDV301publisher/xmlcustomerinformationservice2_3_new.h \
     VDV301publisher/xmlcustomerinformationservice2_3cz1_0.h \
     VDV301publisher/xmldevicemanagementservice.h \
