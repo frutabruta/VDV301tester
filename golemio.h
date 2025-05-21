@@ -14,6 +14,32 @@
 
 #include <VDV301publisher/VDV301DataStructures/connectiongolemio.h>
 
+class GolemioInfotext
+{
+
+
+public:
+    enum DisplayType
+    {
+        DisplayTypeInline,
+        DisplayTypeGeneral,
+        DisplayTypeGeneralAlternate
+    };
+
+    DisplayType display_type=DisplayTypeGeneral;
+    QString text="";
+    QString text_en="";
+    QVector<QString> related_stops;
+    QDateTime valid_from;
+    QDateTime valid_to;
+
+    static QString displayTypeToQString(GolemioInfotext::DisplayType input);
+    static GolemioInfotext::DisplayType displayTypeFromQString(QString input);
+
+};
+
+
+
 class Golemio: public QObject
 {
     Q_OBJECT
@@ -24,10 +50,9 @@ public:
 
 
     QByteArray stazenaData="";
-  //  QByteArray vystupData="";
-   // QVector<PrestupMPV> seznamPrestupuMpv;
-    QVector<ConnectionGolemio> seznamPrestupuGolemio;
 
+    QVector<ConnectionGolemio> seznamPrestupuGolemio;
+    QVector<GolemioInfotext> golemioInfotextList;
 
 
     void naplnVstupDokument(QByteArray vstup);
@@ -36,12 +61,16 @@ public:
     QVector<ConnectionMPV> vyfiltrujPrestupy(QVector<ConnectionMPV> vstupniPrestupy, Line linka); //unused
     bool jePrestupNaSeznamu(ConnectionMPV prestup, QVector<ConnectionMPV> seznamPrestupu);
 
-    QVector<ConnectionGolemio> parsujDomDokument();
+    QVector<ConnectionGolemio> parseDomDocumentDepartures();
+    QVector<GolemioInfotext> parseDomDocumentInfotexts();
+
+
     void setKlic(const QByteArray &newKlic);
 
     void setParametry(const QString &newParametry);
 
     void setAdresa(const QString &newAdresa);
+
 
 private:
     //instance

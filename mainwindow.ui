@@ -2508,6 +2508,67 @@ Stop</string>
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Connections</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_24">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_9" stretch="4,1">
+          <item>
+           <widget class="QTableWidget" name="tableWidget_golemioConnections">
+            <column>
+             <property name="text">
+              <string>line</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>destination</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>minutes</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>departure
+scheduled</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>departure
+expected</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="tableWidget_golemioInfotexts">
+            <column>
+             <property name="text">
+              <string>type</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>text</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>text-en</string>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
       <widget class="QWidget" name="tab_moznosti">
        <attribute name="title">
         <string>Options</string>

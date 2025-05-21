@@ -40,12 +40,12 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     ui->pushButton_data_startXmlRopidImport->setDisabled(true);
 
     vektorCis.push_back(&customerInformationService1_0);
-   // vektorCis.push_back(&customerInformationService2_2CZ1_0);
+    // vektorCis.push_back(&customerInformationService2_2CZ1_0);
     vektorCis.push_back(&customerInformationService2_3);
     vektorCis.push_back(&customerInformationService2_3CZ1_0);
 
     vektorCisPermanent.push_back(&customerInformationService1_0);
-   // vektorCisPermanent.push_back(&customerInformationService2_2CZ1_0);
+    // vektorCisPermanent.push_back(&customerInformationService2_2CZ1_0);
     vektorCisPermanent.push_back(&customerInformationService2_3);
     vektorCisPermanent.push_back(&customerInformationService2_3CZ1_0);
 
@@ -179,18 +179,18 @@ void MainWindow::allConnects()
     connect(&testSubscribeServer,&Vdv301testy::update,this,&MainWindow::testPopulateTestPhases);
 
     //jednotliveTesty
-  //  connect(&testSubscribeServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotRemoveAllSubscribers);
-  //  connect(&testSubscribeServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
-  //  connect(&testSubscribeServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStopTimer);
-  //  connect(&testSubscribeServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotSendDataToSubscribers);
+    //  connect(&testSubscribeServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotRemoveAllSubscribers);
+    //  connect(&testSubscribeServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
+    //  connect(&testSubscribeServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStopTimer);
+    //  connect(&testSubscribeServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotSendDataToSubscribers);
 
 
- //   connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalDumpSubscriberList,&testSubscribeServer,&TestOdberuServer::slotAktualizaceSubscriberu);
- //   connect(&customerInformationService2_2CZ1_0,&HttpService::signalReplyToPostReceived,&testSubscribeServer,&TestOdberuServer::slotVypisOdpovedServeru);
+    //   connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalDumpSubscriberList,&testSubscribeServer,&TestOdberuServer::slotAktualizaceSubscriberu);
+    //   connect(&customerInformationService2_2CZ1_0,&HttpService::signalReplyToPostReceived,&testSubscribeServer,&TestOdberuServer::slotVypisOdpovedServeru);
 
     //vypinani sluzeb pomoci prepinacu
-  //  connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStartDnsSd);
-  //  connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStop);
+    //  connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStartDnsSd);
+    //  connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStop);
 
     connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStartDnsSd);
     connect(ui->radioButton_OFF2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStop);
@@ -210,7 +210,7 @@ void MainWindow::allConnects()
     // connect(this,&MainWindow::signalZahajImport, &xmlRopidImportStream,&XmlRopidImportStream::slotOtevriSoubor);
 
     //prepinani stavu radio prepinacu podle stavu sluzeb
- //   connect(&customerInformationService2_2CZ1_0,&HttpService::signalStav,this,&MainWindow::radio1);
+    //   connect(&customerInformationService2_2CZ1_0,&HttpService::signalStav,this,&MainWindow::radio1);
     connect(&deviceManagementService1_0,&HttpService::signalStav,this,&MainWindow::radio2);
     connect(&ticketValidationService2_3CZ1_0,&HttpService::signalStav,this,&MainWindow::radio3);
     connect(&customerInformationService1_0,&HttpService::signalStav,this,&MainWindow::radio4);
@@ -498,9 +498,13 @@ void MainWindow::slotGolemioReady()
     //qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
 
     golemio.naplnVstupDokument(golemio.stazenaData);
-    QVector<ConnectionGolemio> prestupyGolemio=golemio.parsujDomDokument();
+    QVector<ConnectionGolemio> prestupyGolemio=golemio.parseDomDocumentDepartures();
+    QVector<GolemioInfotext> infotextsGolemio=golemio.parseDomDocumentInfotexts();
 
     qDebug()<<"bum10";
+
+    connectionListToTable(prestupyGolemio,ui->tableWidget_golemioConnections);
+     infoTextListToTable(infotextsGolemio,ui->tableWidget_golemioInfotexts);
 
     QVector<Connection> prestupy;
     foreach(ConnectionGolemio polozka,prestupyGolemio)
@@ -2819,3 +2823,130 @@ void MainWindow::on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked()
 
 }
 
+
+
+
+
+
+void MainWindow::connectionListToTable(QVector<ConnectionGolemio> connectionList,QTableWidget* tableWidget)
+{
+
+    eraseTable(tableWidget);
+
+
+    foreach(ConnectionGolemio connection, connectionList)
+    {
+        connectionToTable(connection,tableWidget);
+    }
+}
+
+
+
+
+void MainWindow::connectionToTable(ConnectionGolemio connection, QTableWidget* tableWidget)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    qint32 row;
+    QTableWidgetItem *cell;
+
+
+
+    row = tableWidget->rowCount();
+    tableWidget->insertRow(row);
+
+    QString lineName=connection.routeShortName;
+    cell = new QTableWidgetItem(lineName);
+
+    tableWidget->setItem(row, 0, cell);
+
+    QString destinationName=connection.tripHeadsign;
+    cell = new QTableWidgetItem(destinationName);
+    tableWidget->setItem(row, 1, cell);
+
+    cell = new QTableWidgetItem(connection.departureTimestampMinutes);
+    tableWidget->setItem(row, 2, cell);
+
+    cell = new QTableWidgetItem(connection.departureTimestampScheduled.toString("hh:mm") );
+    tableWidget->setItem(row, 3, cell);
+
+    cell = new QTableWidgetItem(connection.departureTimestampPredicted.toString("hh:mm") );
+    tableWidget->setItem(row, 4, cell);
+
+    tableWidget->resizeColumnsToContents();
+
+
+
+
+
+}
+
+
+void MainWindow::infoTextListToTable(QVector<GolemioInfotext> infotextList,QTableWidget* tableWidget)
+{
+
+    eraseTable(tableWidget);
+
+
+    foreach(GolemioInfotext infoText, infotextList)
+    {
+        infoTextToTable(infoText,tableWidget);
+    }
+}
+
+
+
+
+void MainWindow::infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget* tableWidget)
+{
+    qDebug() <<  Q_FUNC_INFO;
+    qint32 row;
+    QTableWidgetItem *cell;
+
+
+
+    row = tableWidget->rowCount();
+    tableWidget->insertRow(row);
+
+
+    cell = new QTableWidgetItem(GolemioInfotext::displayTypeToQString(golemioInfotext.display_type));
+    tableWidget->setItem(row, 0, cell);
+
+    cell = new QTableWidgetItem(golemioInfotext.text);
+    tableWidget->setItem(row, 1, cell);
+
+    cell = new QTableWidgetItem(golemioInfotext.text_en);
+     tableWidget->setItem(row, 3, cell);
+/*
+    cell = new QTableWidgetItem(golemioInfotext.valid_from.toString("" .departureTimestampScheduled.toString("hh:mm") );
+    tableWidget->setItem(row, 2, cell);
+
+    cell = new QTableWidgetItem(golemioInfotext.departureTimestampPredicted.toString("hh:mm") );
+    tableWidget->setItem(row, 3, cell);
+*/
+    tableWidget->resizeColumnsToContents();
+
+
+
+
+
+}
+
+
+void MainWindow::eraseTable(QTableWidget *tableWidget)
+{
+    //used to erase tablewidgets without program crash due to signals
+    //  https://stackoverflow.com/a/31564541
+    qDebug() <<  Q_FUNC_INFO;
+
+    tableWidget->clearSelection();
+
+    // Disconnect all signals from table widget ! important !
+    tableWidget->disconnect();
+
+    // Remove all items
+    tableWidget->clearContents();
+
+    // Set row count to 0 (remove rows)
+    tableWidget->setRowCount(0);
+
+}

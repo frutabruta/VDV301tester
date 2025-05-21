@@ -66,19 +66,38 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QSettings*  qSettings= new QSettings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat);
 
 
- //   qSettings->setValue("debug/logToFile",true);
+
+
+    QCommandLineParser qCommandLineParser;
+    qCommandLineParser.addOption(QCommandLineOption("config", "Input file path", "file"));
+    qCommandLineParser.process(a.arguments());
+
+
+    QString filepath="";
+    //QApplication::applicationDirPath()+"/settings.ini";
+
+    if(!qCommandLineParser.value("config").isEmpty())
+    {
+        filepath=QCoreApplication::applicationDirPath()+"/"+qCommandLineParser.value("config");
+    }
+    else
+    {
+        filepath=QCoreApplication::applicationDirPath()+"/settings.ini";
+    }
+
+    QSettings*  qSettings= new QSettings(filepath, QSettings::IniFormat);
+
+
+    //   qSettings->setValue("debug/logToFile",true);
     if(qSettings->value("debug/logToFile").toBool())
     {
         createEmptyFile();
         qInstallMessageHandler(customMessageHandler);
     }
 
-
-
-    QCommandLineParser qCommandLineParser;
+    /*
     qCommandLineParser.addPositionalArgument("file", QCoreApplication::translate("main", "The file to open."));
     qCommandLineParser.process(a);
 
@@ -88,11 +107,11 @@ int main(int argc, char *argv[])
     {
         filename.append("");
     }
+*/
 
 
 
-
-    MainWindow w(qSettings,filename.first());
+    MainWindow w(qSettings,filepath);
     w.show();
     return a.exec();
 }

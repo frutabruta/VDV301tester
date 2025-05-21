@@ -142,6 +142,15 @@ mingw32-make install
 
 
 ## Changelog
+- 20250521_1641
+        - Golemio
+                - new class GolemioInfotext
+                - new function parseDomDocumentInfotexts
+        - VDV301publisher
+                - Vdv301DataStructures
+                        - added Golemio related variables
+        - added Connections and Infotexts debug window 
+        - repaired launching .exe with attribute to allow running with a different setting file
 - 20250519_1907
     - VDV301publisher
         - 1.0 overhaul

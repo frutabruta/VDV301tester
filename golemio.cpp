@@ -50,7 +50,7 @@ void Golemio::naplnVstupDokument(QByteArray vstup)
     mVstupniJson=mVstupniJson.fromJson(llooll);
 }
 
-QVector<ConnectionGolemio> Golemio::parsujDomDokument()
+QVector<ConnectionGolemio> Golemio::parseDomDocumentDepartures()
 {
     qDebug()<<Q_FUNC_INFO;
 
@@ -76,60 +76,63 @@ QVector<ConnectionGolemio> Golemio::parsujDomDokument()
         //var[""][""]
 
         ConnectionGolemio novy;
+        novy.arrivalTimestampPredicted=ConnectionMPV::qStringDoQDateTime(var["arrival_timestamp"]["predicted"].toString());
+        novy.arrivalTimestampScheduled=ConnectionMPV::qStringDoQDateTime(var["arrival_timestamp"]["scheduled"].toString());
+        novy.arrivalTimestampMinutes=var["arrival_timestamp"]["minutes"].toString();
 
-
-        if(var.toObject().contains("stop") )
+        if(var.toObject().contains("delay") )
         {
-            novy.stopPlatformCode=var["stop"]["platform_code"].toString();
+            novy.delayIsAvailable=var["delay"]["is_available"].toBool();
+            novy.delayMinutes=var["delay"]["minutes"].toInt();
+            novy.delaySeconds=var["delay"]["seconds"].toInt();
         }
+
+        novy.departureTimestampPredicted=ConnectionMPV::qStringDoQDateTime(var["departure_timestamp"]["predicted"].toString());
+        novy.departureTimestampScheduled=ConnectionMPV::qStringDoQDateTime(var["departure_timestamp"]["scheduled"].toString());
+        novy.departureTimestampMinutes=var["departure_timestamp"]["minutes"].toString();
+
+        //last stop
+
+        novy.lastStopName=(var["last_stop"]["name"].toString());
+        novy.lastStopName=(var["last_stop"]["id"].toString());
 
 
         if(var.toObject().contains("route") )
         {
             novy.routeShortName=var["route"]["short_name"].toString();
-
-            novy.routeIsSubstituteTransport=var["route"]["is_substitute_transport"].toBool();
+            novy.routeType=var["route"]["type"].toInt();
             novy.routeIsNight=var["route"]["is_night"].toBool();
             novy.routeIsRegional=var["route"]["is_regional"].toBool();
-
-
-            int type=var["route"]["type"].toInt();
-
-
-            if(type<14)
-            {
-                qDebug()<<" druh dopravy existuje:"<<QString::number(type);
-                novy.routeType=var["route"]["type"].toInt();
-            }
-            else
-            {
-                qDebug()<<"neznamy druh dopravy:"<<QString::number(type);
-            }
-
+            novy.routeIsSubstituteTransport=var["route"]["is_substitute_transport"].toBool();
         }
+
+
+        if(var.toObject().contains("stop") )
+        {
+            novy.stopId=var["stop"]["id"].toString();
+            novy.stopPlatformCode=var["stop"]["platform_code"].toString();
+        }
+
+
 
 
         if(var.toObject().contains("trip") )
         {
-
+            novy.tripDirection=var["trip"]["direction"].toString();
             novy.tripHeadsign=var["trip"]["headsign"].toString();
+            novy.tripId=var["trip"]["id"].toString();
+            novy.tripIsAtStop=var["trip"]["is_at_stop"].toBool();
+            novy.tripIsCanceled=var["trip"]["is_canceled"].toBool();
             novy.tripIsWheelchairAccessible=var["trip"]["is_wheelchair_accessible"].toBool();
+            novy.tripIsAirConditioned=var["trip"]["is_air_conditioned"].toBool();
+            novy.tripShortName=var["trip"]["short_name"].toString();
         }
 
         //     novy.t=nodes.at(i).attributes().namedItem("t").nodeValue();
 
-        if(var.toObject().contains("delay") )
-        {
-            novy.delayMinutes=var["delay"]["minutes"].toInt();
-            novy.delaySeconds=var["delay"]["seconds"].toInt();
-            novy.delayIsAvailable=var["delay"]["is_available"].toBool();
-        }
 
-        novy.arrivalTimestampScheduled=ConnectionMPV::qStringDoQDateTime(var["arrival_timestamp"]["scheduled"].toString());
-        novy.arrivalTimestampPredicted=ConnectionMPV::qStringDoQDateTime(var["arrival_timestamp"]["predicted"].toString());
 
-        novy.departureTimestampScheduled=ConnectionMPV::qStringDoQDateTime(var["departure_timestamp"]["scheduled"].toString());
-        novy.departureTimestampPredicted=ConnectionMPV::qStringDoQDateTime(var["departure_timestamp"]["predicted"].toString());
+
 
 
         seznamPrestupuGolemio.append(novy);
@@ -140,6 +143,59 @@ QVector<ConnectionGolemio> Golemio::parsujDomDokument()
 
 
     return seznamPrestupuGolemio;
+}
+
+
+QVector<GolemioInfotext> Golemio::parseDomDocumentInfotexts()
+{
+    qDebug()<<Q_FUNC_INFO;
+
+    //   qDebug()<<"vstup:"<<vstupniJson["departures"];
+    golemioInfotextList.clear();
+
+    if(!mVstupniJson["infotexts"].isArray())
+    {
+        return golemioInfotextList;
+    }
+    QJsonArray infotextArray=mVstupniJson["infotexts"].toArray();
+
+    if(infotextArray.isEmpty())
+    {
+        return golemioInfotextList;
+    }
+
+
+
+    foreach (QJsonValue var, infotextArray) {
+        qDebug()<<"odjezd: "<<var["route"]["short_name"].toString() ;
+
+        //var[""][""]
+
+        GolemioInfotext novy;
+
+        novy.text=var["text"].toString();
+        novy.text_en=var["text_en"].toString();
+        novy.valid_from=ConnectionMPV::qStringDoQDateTime(var["valid_from"].toString());
+        novy.valid_from=ConnectionMPV::qStringDoQDateTime(var["valid_to"].toString());
+
+
+
+
+        QJsonArray relatedStopsArray=   var["related_stops"].toArray();
+
+        foreach (QJsonValue relatedStop, relatedStopsArray )
+        {
+            novy.related_stops.append(relatedStop.toString());
+        }
+
+        golemioInfotextList.append(novy);
+
+    }
+
+
+
+
+    return golemioInfotextList;
 }
 
 void Golemio::setKlic(const QByteArray &newKlic)
@@ -234,6 +290,59 @@ bool Golemio::jePrestupNaSeznamu(ConnectionMPV prestup, QVector<ConnectionMPV> s
 }
 
 
+GolemioInfotext::DisplayType  GolemioInfotext::displayTypeFromQString(QString input)
+{
+    if(input=="general")
+    {
+        return GolemioInfotext::DisplayTypeGeneral;
+    }
+    else if(input=="general-alternate")
+    {
+        return GolemioInfotext::DisplayTypeGeneralAlternate;
+    }
+    else if(input=="inline")
+    {
+        return GolemioInfotext::DisplayTypeInline;
+    }
 
+    return GolemioInfotext::DisplayTypeGeneral;
+}
+
+QString GolemioInfotext::displayTypeToQString(GolemioInfotext::DisplayType input)
+{
+    switch (input) {
+    case GolemioInfotext::DisplayTypeGeneral:
+        return "general";
+
+        break;
+    case GolemioInfotext::DisplayTypeInline:
+        return "inline";
+        break;
+    case GolemioInfotext::DisplayTypeGeneralAlternate:
+        return "general-alternate";
+        break;
+    default:
+        return "";
+        break;
+    }
+
+
+
+/*
+    if(input=="general")
+    {
+        return GolemioInfotext::DisplayTypeGeneral;
+    }
+    else if(input=="general-alternate")
+    {
+        return GolemioInfotext::DisplayTypeGeneralAlternate;
+    }
+    else if(input=="inline")
+    {
+        return GolemioInfotext::DisplayTypeInline;
+    }
+
+    return GolemioInfotext::DisplayTypeGeneral;    */
+}
 
 

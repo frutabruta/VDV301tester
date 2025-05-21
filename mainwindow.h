@@ -60,6 +60,7 @@ public:
     QString applicationDirectory=QCoreApplication::applicationDirPath();
 
     void popUpMessage(QString messageText);
+
 private:
 
     void allConnects();
@@ -221,6 +222,11 @@ private:
     void eventStopTimersRide();
 
     void eventLineChange();
+    void connectionToTable(ConnectionGolemio connection, QTableWidget *tableWidget);
+    void connectionListToTable(QVector<ConnectionGolemio> connectionList, QTableWidget *tableWidget);
+    void eraseTable(QTableWidget *tableWidget);
+    void infoTextListToTable(QVector<GolemioInfotext> infotextList, QTableWidget *tableWidget);
+    void infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget *tableWidget);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
