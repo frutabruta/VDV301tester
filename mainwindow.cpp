@@ -1218,9 +1218,13 @@ void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
             {
                 qDebug()<<"spoje nenalezeny";
             }
-
+            
             QSqlQueryModel* modelTurnusSpoj=sqlRopidQueries.getTripListFromVehicleRunModel(vehicleState.currentVehicleRun, this->createDataValidityMask());
             ui->tableView_lineTrip->setModel(modelTurnusSpoj);
+
+            ui->tableView_lineTrip->hideColumn(6);
+            ui->tableView_lineTrip->hideColumn(7);
+
             ui->tableView_lineTrip->resizeColumnsToContents();
         }
     }

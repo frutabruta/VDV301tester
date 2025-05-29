@@ -703,10 +703,12 @@ QSqlQueryModel* SqlRopidXmlQueries::getVehicleRunListModel(Line line, QString kj
 }
 
 
-/*!
 
+
+/*!
+    simple version with 2 columns, abandoned
 */
-QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &vehicleRun, QString kj)
+QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModelLegacy(VehicleRun &vehicleRun, QString kj)
 {
     //QVector<Spoj> &docasnySeznamSpoju,
     qDebug()<< Q_FUNC_INFO;
@@ -736,6 +738,86 @@ QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &v
     model->setQuery(queryString);
 
     return model;
+}
+
+/*!
+    modified version to support additional information
+*/
+QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &vehicleRun, QString kj)
+{
+    //QVector<Spoj> &docasnySeznamSpoju,
+    qDebug()<< Q_FUNC_INFO;
+
+
+    qDebug() <<  Q_FUNC_INFO;
+
+
+
+
+    QString queryString("SELECT DISTINCT l.c, s.c, substr(time(x.o, 'unixepoch'),1,5) AS start, z.n AS Z, substr(time(xx.p, 'unixepoch'),1,5) AS konec,  zz.n AS DO, s.s,  l.lc "
+                        "FROM sp_po "
+                        "LEFT JOIN s ON sp_po.s=s.s "
+                        "LEFT JOIN l ON s.l=l.c  AND s.d=l.d "
+                        "LEFT JOIN x ON s.s=x.s_id AND x.xorder=0 "
+                        "LEFT JOIN z ON x.u=z.u AND x.z=z.z "
+                        " LEFT JOIN ("
+                        "SELECT x.u, x.z, x.s_id, MAX(x.p) AS p, MAX(x.xorder) AS pocet "
+                        "FROM (SELECT x.o,x.p,x.s_id,x.xorder, x.u, x.z FROM x WHERE s2=0) AS x "
+                        "GROUP BY x.s_id ) AS xx "
+                        "ON xx.s_id=s.s "
+                        "LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z "
+
+
+
+                        "WHERE sp_po.l ");
+    queryString+=("=");
+    queryString+=( QString::number(vehicleRun.rootLine.c));
+    //queryString2+=(" AND  s.c !=1000 ");
+    queryString+=(" AND  s.man !=1 "
+                    " AND  sp_po.p=");
+
+    queryString+=( QString::number(vehicleRun.order));
+
+    queryString+=(" AND sp_po.kj LIKE '");
+    queryString+=(kj);
+    queryString+=("' ");
+    queryString+=(" ORDER BY sp_po.ord");
+
+
+
+    /*
+
+    QString queryString(" SELECT DISTINCT s.c, z.n AS Z, zz.n AS DO, substr(time(x.o, 'unixepoch'),1,5) AS start, substr(time(xx.p, 'unixepoch'),1,5) AS konec, s.s, l.c, l.lc   "
+                        " FROM s "
+                        " LEFT JOIN l ON s.l=l.c  AND s.d=l.d "
+                        " LEFT JOIN x ON s.s=x.s_id AND x.xorder=0"
+                        " LEFT JOIN z ON x.u=z.u AND x.z=z.z"
+                        " LEFT JOIN ("
+                        " SELECT x.u, x.z, x.s_id, MAX(x.p) AS p, MAX(x.xorder) AS pocet "
+                        " FROM (SELECT x.o,x.p,x.s_id,x.xorder, x.u, x.z FROM x WHERE s2=0) AS x "
+                        " GROUP BY x.s_id ) AS xx"
+                        " ON xx.s_id=s.s"
+                        " LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z ");
+
+
+    queryString+=(" WHERE l.c="+QString::number(line.c)+" AND s.man !=1 AND s.kj LIKE '"+kj+"' ");
+    queryString+=(" ORDER BY s.c ASC, s.s ASC");
+    */
+
+    qDebug().noquote()<<queryString;
+
+    QSqlQueryModel *modelData= new QSqlTableModel ;
+    modelData->setQuery(queryString);
+    qDebug()<<modelData->lastError();
+
+    while ( modelData->canFetchMore())
+    {
+        modelData->fetchMore();
+    }
+
+    return modelData;
+
+
 }
 
 

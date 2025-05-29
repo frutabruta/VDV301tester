@@ -132,7 +132,7 @@ void MainWindowPomocne::dumpStopsToTable(int cisloporadi, QVector<StopPointDesti
             }
             else
             {
-                timeText=prijezdDoZastavky+" "+odjezdZeZastavky;
+                timeText=prijezdDoZastavky+"\n"+odjezdZeZastavky;
             }
 
         }

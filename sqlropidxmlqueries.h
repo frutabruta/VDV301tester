@@ -26,6 +26,7 @@ public:
     QSqlQueryModel *getRootLineListModel(QString kj);
     QSqlQueryModel *getVehicleRunListModel(Line line, QString kj);
     QSqlQueryModel *getTripListFromVehicleRunModel(VehicleRun &vehicleRun, QString kj);
+    QSqlQueryModel *getTripListFromVehicleRunModelLegacy(VehicleRun &vehicleRun, QString kj); //unused
     QSqlQueryModel *getLineStopListModel(Line line, QString kj);
 
     //SQL queries

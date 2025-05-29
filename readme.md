@@ -142,6 +142,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20250529_1426
+        - vehicleRun trip selection
+                - expanded table to contain start time and first stop of each trip
+        - arrival and departure time are now placed below each other
+        - menu button resize
 - 20250521_1641
         - Golemio
                 - new class GolemioInfotext
