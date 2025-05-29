@@ -15,21 +15,17 @@ class VoiceAnnouncer : public QueueSoundPlayer
 public:
     VoiceAnnouncer();
 
+    bool composeFirstStopDeparture(StopPoint stopPoint2);
+    bool composeLastStopAnnouncement(StopPoint vstup);
+    void composeFareZoneChange();
+    bool composeSpecialAnnouncement(AdditionalAnnoucement additionalAnnouncement);
+    bool announceThisAndNextStop(StopPoint stopPoint1, StopPoint stopPoint2);
 
-    bool kompletKonecna(StopPoint vstup);
-    void kompletZmenaTarifnihoPasma();
-    bool kompletSpecialniHlaseni(AdditionalAnnoucement specialniHlaseni);
-    bool announceThisAndNextStop(StopPoint zastavka1, StopPoint zastavka2);
+    QString applicationDirectory="";
+    QString announcmentSoundFolderPath=applicationDirectory+"/hlaseni";
 
-    QString cestaProgramu="";
-    QString cesta=cestaProgramu+"/hlaseni";
-
-    void nastavCestu(QString vstup); //unused
-    void zmenUmisteniProgramu(QString umisteni);
-
-
-    bool kompletOdjezdPrvniZastavka(StopPoint zastavka2);
-
+    void setPath(QString vstup); //unused
+    void setApplicationDirectory(QString umisteni);
 
 
     bool announceThisStop(StopPoint thisStop);
@@ -41,7 +37,7 @@ public slots:
 
 
 private:
-    QUrl najdiCestuZastavka(int kodOis, int kodCis);
+    QUrl getFilePathFromStopIds(int kodOis, int kodCis);
 
     QUrl zvukPristiZastavka;
     QUrl zvukGong;
@@ -73,7 +69,7 @@ private:
 
 
     QUrl najdiCestuSpecial(QString nazevSouboru);
-    QVector<QUrl> priznakyDoSeznamu(StopPoint vstup);
+    QVector<QUrl> stopAttributesToFileQurlList(StopPoint stopPoint);
 
     //qt6
 

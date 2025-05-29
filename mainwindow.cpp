@@ -94,7 +94,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     workingDateFirstDateOfDataValidity();
 
     //cesty souboru
-    voiceAnnouncer.zmenUmisteniProgramu(applicationDirectory);
+    voiceAnnouncer.setApplicationDirectory(applicationDirectory);
     konfigurace.createDefaultFile();
     konfigurace.openFile();
     
@@ -851,7 +851,7 @@ int MainWindow::eventArrival()
     }
     else
     {
-        voiceAnnouncer.kompletKonecna(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+        voiceAnnouncer.composeLastStopAnnouncement(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
     }
 
 
@@ -888,7 +888,7 @@ int MainWindow::eventDeparture()
     {
         if(vehicleState.currentStopIndex0==1)
         {
-            voiceAnnouncer.kompletOdjezdPrvniZastavka(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+            voiceAnnouncer.composeFirstStopDeparture(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
         }
     }
     break;
@@ -2291,7 +2291,7 @@ void MainWindow::eventFareZoneChange()
 
 
     //  xmlVdv301UpdateContent();
-    voiceAnnouncer.kompletZmenaTarifnihoPasma();
+    voiceAnnouncer.composeFareZoneChange();
 
     timerFareZoneChangeDuration.start();
 
@@ -2343,14 +2343,15 @@ void MainWindow::eventLineChangeHide()
 
 }
 
-void MainWindow::eventShowManualAnnoucement(int index, QVector<AdditionalAnnoucement> seznamHlaseni)
+void MainWindow::eventShowManualAnnoucement(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList)
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    if((index>=0)&&(index<seznamHlaseni.count()))
+    if((index>=0)&&(index<additionalAnnouncementList.count()))
     {
-        voiceAnnouncer.kompletSpecialniHlaseni(vehicleState.currentSpecialAnnoucement);
-        eventAddAnnoucement(seznamHlaseni.at(index));
+        //voiceAnnouncer.composeSpecialAnnouncement(vehicleState.currentSpecialAnnoucement);
+        voiceAnnouncer.composeSpecialAnnouncement(additionalAnnouncementList.at(index));
+        eventAddAnnoucement(additionalAnnouncementList.at(index));
 
         /*
         vehicleState.currentSpecialAnnoucement=seznamHlaseni.at(index);

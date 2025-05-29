@@ -132,7 +132,7 @@ private:
     void eventEnterService();
     void eventAnnouncementToDriver(QString poznamka);
     void eventGoToNextTrip();
-    void eventShowManualAnnoucement(int index, QVector<AdditionalAnnoucement> seznamHlaseni);
+    void eventShowManualAnnoucement(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList);
 
 
     void testPopulateWindow(int index);

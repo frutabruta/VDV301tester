@@ -13,7 +13,7 @@ QueueSoundPlayer::QueueSoundPlayer() {
 
 #else
     //qt6
-    connect(player,&QMediaPlayer::playbackStateChanged,this,&QueueSoundPlayer::zmenaStavuHlaseniQt6);
+    connect(player,&QMediaPlayer::playbackStateChanged,this,&QueueSoundPlayer::slotPlayStateChangedQt6);
     player->setAudioOutput(audioOutput);
     audioOutput->setVolume(50);
 #endif
@@ -22,7 +22,7 @@ QueueSoundPlayer::QueueSoundPlayer() {
 }
 
 
-bool QueueSoundPlayer::souborExistuje(QString path)
+bool QueueSoundPlayer::fileExists(QString path)
 {
     qDebug() <<  Q_FUNC_INFO;
     QFileInfo check_file(path); //zdroj:: https://stackoverflow.com/questions/10273816/how-to-check-whether-file-exists-in-qt-in-c
@@ -37,7 +37,7 @@ bool QueueSoundPlayer::souborExistuje(QString path)
 }
 
 
-bool QueueSoundPlayer::souborExistuje(QUrl path)
+bool QueueSoundPlayer::fileExists(QUrl path)
 {
     qDebug() <<  Q_FUNC_INFO;
 
@@ -64,7 +64,7 @@ void QueueSoundPlayer::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
     {
         qDebug()<<"fronta zvuku byla prazdna";
         frontaZvuku.append(vstup);
-        prehrajPolozkuZeSeznamu(frontaZvuku);
+        internalPlayOneSoundFromList(frontaZvuku);
     }
     else
 
@@ -87,12 +87,12 @@ void QueueSoundPlayer::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
     {
         qDebug()<<"pocet polozek "<<zasobnikAdres.size();
         zasobnikAdres.removeFirst();
-        prehrajPolozkuZeSeznamu(zasobnikAdres);
+        internalPlayOneSoundFromList(zasobnikAdres);
 
     }
 }
 
-void QueueSoundPlayer::prehrajJedenZvuk(QUrl soubor2)
+void QueueSoundPlayer::playOneSoundImmediately(QUrl soubor2)
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
     player->setMedia(soubor2);
@@ -100,12 +100,12 @@ void QueueSoundPlayer::prehrajJedenZvuk(QUrl soubor2)
     player->play();
 }
 
-void QueueSoundPlayer::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
+void QueueSoundPlayer::internalPlayOneSoundFromList(QVector<QUrl> soundList)
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(!zasobnikAdres.isEmpty())
+    if(!soundList.isEmpty())
     {
-        prehrajJedenZvuk(zasobnikAdres.first());
+        playOneSoundImmediately(soundList.first());
     }
 }
 
@@ -120,25 +120,25 @@ void QueueSoundPlayer::zmenaStavuHlaseni(QMediaPlayer::State state)
 
 #else
 //Qt6
-void QueueSoundPlayer::zmenaStavuHlaseniQt6(QMediaPlayer::PlaybackState state)
+void QueueSoundPlayer::slotPlayStateChangedQt6(QMediaPlayer::PlaybackState state)
 {
     qDebug() <<  Q_FUNC_INFO <<state;
-    vyhodPolozkuZeSeznamuQt6(frontaZvuku);
+    popSoundFromListQt6(frontaZvuku);
 }
 
 
-void QueueSoundPlayer::prehrajJedenZvuk(QUrl soubor2)
+void QueueSoundPlayer::playOneSoundImmediately(QUrl soubor2)
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
 
-    if(souborExistuje(soubor2))
+    if(fileExists(soubor2))
     {
         player->setSource(soubor2);
         player->play();
     }
     else
     {
-        zmenaStavuHlaseniQt6(QMediaPlayer::StoppedState);
+        slotPlayStateChangedQt6(QMediaPlayer::StoppedState);
     }
 
 
@@ -146,23 +146,23 @@ void QueueSoundPlayer::prehrajJedenZvuk(QUrl soubor2)
 }
 
 
-void QueueSoundPlayer::prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres)
+void QueueSoundPlayer::internalPlayOneSoundFromList(QVector<QUrl> soundList)
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(!zasobnikAdres.isEmpty())
+    if(!soundList.isEmpty())
     {
-        prehrajJedenZvuk(zasobnikAdres.first());
+        playOneSoundImmediately(soundList.first());
     }
 }
 
-void QueueSoundPlayer::vyhodPolozkuZeSeznamuQt6(QVector<QUrl> &zasobnikAdres)
+void QueueSoundPlayer::popSoundFromListQt6(QVector<QUrl> &soundList)
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(!zasobnikAdres.isEmpty()&&(player->playbackState()==QMediaPlayer::StoppedState) )
+    if(!soundList.isEmpty()&&(player->playbackState()==QMediaPlayer::StoppedState) )
     {
-        qDebug()<<"pocet polozek "<<zasobnikAdres.size();
-        zasobnikAdres.removeFirst();
-        prehrajPolozkuZeSeznamu(zasobnikAdres);
+        qDebug()<<"pocet polozek "<<soundList.size();
+        soundList.removeFirst();
+        internalPlayOneSoundFromList(soundList);
 
     }
 }

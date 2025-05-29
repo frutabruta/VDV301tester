@@ -5,29 +5,29 @@
 VoiceAnnouncer::VoiceAnnouncer()
 {
 
-    this->aktualizujCestyZvuku(cesta);
+    this->aktualizujCestyZvuku(announcmentSoundFolderPath);
 
 }
 
 
 
 
-QUrl VoiceAnnouncer::najdiCestuZastavka(int kodOis, int kodCis)
+QUrl VoiceAnnouncer::getFilePathFromStopIds(int kodOis, int kodCis)
 {
     qDebug() <<  Q_FUNC_INFO;
-    QString slozka=cesta+"/zastavky/";
+    QString folder=announcmentSoundFolderPath+"/zastavky/";
     QString testOis="";
     QString testCis="";
 
-    testOis+=slozka;
+    testOis+=folder;
     testOis+=QString::number(kodOis);
     testOis+=".mp3";
 
-    testCis+=slozka;
+    testCis+=folder;
     testCis+=QString::number(kodCis);
     testCis+=".mp3";
 
-    if(souborExistuje(testCis))
+    if(fileExists(testCis))
     {
         qDebug()<<"soubor s cis existuje,cislo:"<<QString::number(kodCis);
         return QUrl::fromLocalFile(testCis);
@@ -35,7 +35,7 @@ QUrl VoiceAnnouncer::najdiCestuZastavka(int kodOis, int kodCis)
     else
     {
 
-        if (souborExistuje(testOis))
+        if (fileExists(testOis))
         {
             qDebug()<<"soubor  cis "<<testCis<<" neexistuje, pouzivam cislo OIS:"<<testOis;
             return QUrl::fromLocalFile(testOis);
@@ -53,13 +53,13 @@ QUrl VoiceAnnouncer::najdiCestuZastavka(int kodOis, int kodCis)
 QUrl VoiceAnnouncer::najdiCestuSpecial(QString nazevSouboru)
 {
     qDebug() <<  Q_FUNC_INFO;
-    QString slozka=cesta+"/special/";
+    QString slozka=announcmentSoundFolderPath+"/special/";
     QString cestaSouboru="";
 
     cestaSouboru+=slozka;
     cestaSouboru+=nazevSouboru;
 
-    if(souborExistuje(cestaSouboru))
+    if(fileExists(cestaSouboru))
     {
 
         qDebug()<<"soubor specHlaseniExistuje:"<<nazevSouboru;
@@ -73,26 +73,26 @@ QUrl VoiceAnnouncer::najdiCestuSpecial(QString nazevSouboru)
 
 
 
-bool VoiceAnnouncer::announceThisAndNextStop(StopPoint zastavka1, StopPoint zastavka2)
+bool VoiceAnnouncer::announceThisAndNextStop(StopPoint stopPoint1, StopPoint stopPoint2)
 {
     qDebug() <<  Q_FUNC_INFO;
 
     qDebug()<<"zvuk gong adresa "<<zvukGong;
 
-    QVector<QUrl> kratkaFronta;
+    QVector<QUrl> subQueue;
 
-    kratkaFronta.push_back(zvukGong);
-    kratkaFronta.push_back(najdiCestuZastavka(zastavka1.idOis,zastavka1.idCis));
-    kratkaFronta.append(priznakyDoSeznamu(zastavka1));
-    kratkaFronta.push_back(zvukPristiZastavka);
-    kratkaFronta.push_back(najdiCestuZastavka(zastavka2.idOis,zastavka2.idCis));
+    subQueue.push_back(zvukGong);
+    subQueue.push_back(getFilePathFromStopIds(stopPoint1.idOis,stopPoint1.idCis));
+    subQueue.append(stopAttributesToFileQurlList(stopPoint1));
+    subQueue.push_back(zvukPristiZastavka);
+    subQueue.push_back(getFilePathFromStopIds(stopPoint2.idOis,stopPoint2.idCis));
 
-    if(zastavka2.onRequest&&(!zastavka2.neozn))
+    if(stopPoint2.onRequest&&(!stopPoint2.neozn))
     {
-        kratkaFronta.push_back(zvukNaZnameni);
+        subQueue.push_back(zvukNaZnameni);
     }
 
-    pridejDoFrontyVyhlas(kratkaFronta);
+    pridejDoFrontyVyhlas(subQueue);
 
     return 1;
 }
@@ -103,13 +103,13 @@ bool VoiceAnnouncer::announceThisStop(StopPoint thisStop)
 
     qDebug()<<"zvuk gong adresa "<<zvukGong;
 
-    QVector<QUrl> kratkaFronta;
+    QVector<QUrl> subQueue;
 
-    kratkaFronta.push_back(zvukGong);
-    kratkaFronta.push_back(najdiCestuZastavka(thisStop.idOis,thisStop.idCis));
-    kratkaFronta.append(priznakyDoSeznamu(thisStop));
+    subQueue.push_back(zvukGong);
+    subQueue.push_back(getFilePathFromStopIds(thisStop.idOis,thisStop.idCis));
+    subQueue.append(stopAttributesToFileQurlList(thisStop));
 
-    pridejDoFrontyVyhlas(kratkaFronta);
+    pridejDoFrontyVyhlas(subQueue);
 
     return 1;
 }
@@ -121,127 +121,127 @@ bool VoiceAnnouncer::announceNextStop(StopPoint nextStop)
 
     qDebug()<<"zvuk gong adresa "<<zvukGong;
 
-    QVector<QUrl> kratkaFronta;
+    QVector<QUrl> subQueue;
 
     //kratkaFronta.push_back(zvukGong);
-     kratkaFronta.push_back(zvukGongPristi);
-    kratkaFronta.push_back(zvukPristiZastavka);
-    kratkaFronta.push_back(najdiCestuZastavka(nextStop.idOis,nextStop.idCis));
+     subQueue.push_back(zvukGongPristi);
+    subQueue.push_back(zvukPristiZastavka);
+     subQueue.push_back(getFilePathFromStopIds(nextStop.idOis,nextStop.idCis));
 
     if(nextStop.onRequest&&(!nextStop.neozn))
     {
-        kratkaFronta.push_back(zvukNaZnameni);
+        subQueue.push_back(zvukNaZnameni);
     }
 
-    pridejDoFrontyVyhlas(kratkaFronta);
+    pridejDoFrontyVyhlas(subQueue);
 
     return 1;
 }
 
-bool VoiceAnnouncer::kompletOdjezdPrvniZastavka(StopPoint zastavka2)
+bool VoiceAnnouncer::composeFirstStopDeparture(StopPoint stopPoint2)
 {
     qDebug() <<  Q_FUNC_INFO;
 
     qDebug()<<"zvuk gong adresa "<<zvukGong;
 
-    QVector<QUrl> kratkaFronta;
+    QVector<QUrl> subQueue;
 
-    kratkaFronta.push_back(zvukPristiZastavka);
-    kratkaFronta.push_back(najdiCestuZastavka(zastavka2.idOis,zastavka2.idCis));
+    subQueue.push_back(zvukPristiZastavka);
+    subQueue.push_back(getFilePathFromStopIds(stopPoint2.idOis,stopPoint2.idCis));
 
-    if(zastavka2.onRequest&&(!zastavka2.neozn))
+    if(stopPoint2.onRequest&&(!stopPoint2.neozn))
     {
-        kratkaFronta.push_back(zvukNaZnameni);
+        subQueue.push_back(zvukNaZnameni);
     }
 
-    pridejDoFrontyVyhlas(kratkaFronta);
+    pridejDoFrontyVyhlas(subQueue);
 
     return 1;
 }
 
-QVector<QUrl> VoiceAnnouncer::priznakyDoSeznamu(StopPoint vstup)
+QVector<QUrl> VoiceAnnouncer::stopAttributesToFileQurlList(StopPoint stopPoint)
 {
-    QVector<QUrl> vystup;
-    if(vstup.onRequest&&(!vstup.neozn))
+    QVector<QUrl> urlList;
+    if(stopPoint.onRequest&&(!stopPoint.neozn))
     {
-        vystup.push_back(zvukNaZnameni);
+        urlList.push_back(zvukNaZnameni);
     }
 
-    if(vstup.transferMetroA)
+    if(stopPoint.transferMetroA)
     {
-        vystup.push_back(zvukPrestupNaMetro );
+        urlList.push_back(zvukPrestupNaMetro );
 
-        if(vstup.transferMetroB)
+        if(stopPoint.transferMetroB)
         {
-            vystup.push_back(zvukMAaB);
+            urlList.push_back(zvukMAaB);
         }
-        else if(vstup.transferMetroC)
+        else if(stopPoint.transferMetroC)
         {
-            vystup.push_back(zvukMAaC);
+            urlList.push_back(zvukMAaC);
         }
-        else if(vstup.transferMetroD)
+        else if(stopPoint.transferMetroD)
         {
-            vystup.push_back(zvukMAaD);
+            urlList.push_back(zvukMAaD);
         }
         else
         {
-            vystup.push_back(zvukMA);
+            urlList.push_back(zvukMA);
         }
     }
-    else if(vstup.transferMetroB)
+    else if(stopPoint.transferMetroB)
     {
-        vystup.push_back(zvukPrestupNaMetro );
+        urlList.push_back(zvukPrestupNaMetro );
 
-        if(vstup.transferMetroC)
+        if(stopPoint.transferMetroC)
         {
-            vystup.push_back(zvukMBaC);
+            urlList.push_back(zvukMBaC);
         }
-        else if(vstup.transferMetroD)
+        else if(stopPoint.transferMetroD)
         {
-            vystup.push_back(zvukMBaD);
+            urlList.push_back(zvukMBaD);
         }
         else
         {
-            vystup.push_back(zvukMB);
+            urlList.push_back(zvukMB);
         }
     }
-    else if(vstup.transferMetroC)
+    else if(stopPoint.transferMetroC)
     {
-        vystup.push_back(zvukPrestupNaMetro );
-        if(vstup.transferMetroD)
+        urlList.push_back(zvukPrestupNaMetro );
+        if(stopPoint.transferMetroD)
         {
-            vystup.push_back(zvukMCaD);
+            urlList.push_back(zvukMCaD);
         }
         else
         {
-            vystup.push_back(zvukMC);
+            urlList.push_back(zvukMC);
         }
     }
-    else if(vstup.transferMetroD)
+    else if(stopPoint.transferMetroD)
     {
-        vystup.push_back(zvukPrestupNaMetro );
-        vystup.push_back(zvukMD);
+        urlList.push_back(zvukPrestupNaMetro );
+        urlList.push_back(zvukMD);
     }
 
 
-    if(vstup.transferTrain)
+    if(stopPoint.transferTrain)
     {
-        vystup.push_back(zvukPrestupNaLinkyS );
+        urlList.push_back(zvukPrestupNaLinkyS );
     }
-    if(vstup.transferFerry)
+    if(stopPoint.transferFerry)
     {
-        vystup.push_back(zvukPrestupNaPrivoz );
-    }
-
-    if(vstup.transferAirplane)
-    {
-        vystup.push_back(zvukPrestupNaLetiste );
+        urlList.push_back(zvukPrestupNaPrivoz );
     }
 
+    if(stopPoint.transferAirplane)
+    {
+        urlList.push_back(zvukPrestupNaLetiste );
+    }
 
 
 
-    return vystup;
+
+    return urlList;
 
 }
 
@@ -249,59 +249,59 @@ QVector<QUrl> VoiceAnnouncer::priznakyDoSeznamu(StopPoint vstup)
 
 
 
-void VoiceAnnouncer::kompletZmenaTarifnihoPasma()
+void VoiceAnnouncer::composeFareZoneChange()
 {
     qDebug() <<  Q_FUNC_INFO;
-    QVector<QUrl> kratkaFronta;
-    kratkaFronta.push_back(zvukProsimPozor);
-    kratkaFronta.push_back(zvukZmenaPasma);
+    QVector<QUrl> subQueue;
+    subQueue.push_back(zvukProsimPozor);
+    subQueue.push_back(zvukZmenaPasma);
 
-    pridejDoFrontyVyhlas(kratkaFronta);
+    pridejDoFrontyVyhlas(subQueue);
 
 
 
 }
 
 
-bool VoiceAnnouncer::kompletSpecialniHlaseni(AdditionalAnnoucement specialniHlaseni)
+bool VoiceAnnouncer::composeSpecialAnnouncement(AdditionalAnnoucement additionalAnnouncement)
 {
-    qDebug() <<  Q_FUNC_INFO <<" segmentu:"<<QString::number(specialniHlaseni.mp3.count());
-    QVector<QUrl> seznamAdres;
+    qDebug() <<  Q_FUNC_INFO <<" segmentu:"<<QString::number(additionalAnnouncement.mp3.count());
+    QVector<QUrl> qurlList;
 
 
-    foreach(QString segment, specialniHlaseni.mp3)
+    foreach(QString segment, additionalAnnouncement.mp3)
     {
-        QUrl adresa= najdiCestuSpecial(segment);
-        if(!adresa.isEmpty())
+        QUrl qurl= najdiCestuSpecial(segment);
+        if(!qurl.isEmpty())
         {
-            seznamAdres.push_back(adresa);
+            qurlList.push_back(qurl);
         }
     }
 
-    if(seznamAdres.isEmpty())
+    if(qurlList.isEmpty())
     {
-        qDebug()<<"seznam adres is empty";
+        qDebug()<<"file list is empty";
         return 0;
     }
-    pridejDoFrontyVyhlas(seznamAdres);
+    pridejDoFrontyVyhlas(qurlList);
     return 1;
 
 }
 
 
-bool VoiceAnnouncer::kompletKonecna(StopPoint vstup)
+bool VoiceAnnouncer::composeLastStopAnnouncement(StopPoint vstup)
 {
     qDebug() <<  Q_FUNC_INFO;
 
-    QVector<QUrl> zasobnikAdres;
+    QVector<QUrl> subQueue;
 
-    zasobnikAdres.push_back(zvukGong);
-    zasobnikAdres.push_back(najdiCestuZastavka(vstup.idOis, vstup.idCis));
-    zasobnikAdres.append(priznakyDoSeznamu(vstup));
-    zasobnikAdres.push_back(zvukKonecna);
-    zasobnikAdres.push_back(zvukProsimeVystupte);
+    subQueue.push_back(zvukGong);
+    subQueue.push_back(getFilePathFromStopIds(vstup.idOis, vstup.idCis));
+    subQueue.append(stopAttributesToFileQurlList(vstup));
+    subQueue.push_back(zvukKonecna);
+    subQueue.push_back(zvukProsimeVystupte);
 
-    pridejDoFrontyVyhlas(zasobnikAdres);
+    pridejDoFrontyVyhlas(subQueue);
     // prehrajCelySeznamUrl(zasobnikAdres);
 
 
@@ -310,11 +310,11 @@ bool VoiceAnnouncer::kompletKonecna(StopPoint vstup)
 
 
 
-void VoiceAnnouncer::nastavCestu(QString vstup)
+void VoiceAnnouncer::setPath(QString vstup)
 {
     qDebug() <<  Q_FUNC_INFO;
-    cesta=vstup;
-    aktualizujCestyZvuku(cesta);
+    announcmentSoundFolderPath=vstup;
+    aktualizujCestyZvuku(announcmentSoundFolderPath);
 }
 void VoiceAnnouncer::aktualizujCestyZvuku(QString cestaVnitrni)
 {
@@ -357,12 +357,12 @@ void VoiceAnnouncer::aktualizujCestyZvuku(QString cestaVnitrni)
 }
 
 
-void VoiceAnnouncer::zmenUmisteniProgramu(QString umisteni)
+void VoiceAnnouncer::setApplicationDirectory(QString umisteni)
 {
     qDebug() <<  Q_FUNC_INFO;
-    cestaProgramu=umisteni;
-    cesta=cestaProgramu+"/hlaseni";
-    aktualizujCestyZvuku(cesta);
+    applicationDirectory=umisteni;
+    announcmentSoundFolderPath=applicationDirectory+"/hlaseni";
+    aktualizujCestyZvuku(announcmentSoundFolderPath);
 }
 
 

@@ -142,6 +142,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20250529_1706
+        - special announcement sound fix
+        - QueueSoundPlayer partial English translation
+        - VoiceAnnouncer partial English translation
 - 20250529_1426
         - vehicleRun trip selection
                 - expanded table to contain start time and first stop of each trip
