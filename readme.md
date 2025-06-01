@@ -90,6 +90,7 @@ Special sounds are stored in hlaseni/special
 ## After compiling
 - Copy all programs from folder *copy_to_program_directory* to the build directory
 - Copy *data.sqlite* from folder *XmlRopidImportStream* to build directory
+- Copy whole *mapFiles* folder from *MapaVykresleni/copy_to_program_directory* to build directory
 ## Loading of new XML data
 
  - Options -> Truncate, 
@@ -142,6 +143,18 @@ mingw32-make install
 
 
 ## Changelog
+- 20250601_1438
+        - first implementatinon of GNSS position simulation
+        - position on map is set by selecting a stop
+        - simulation is started by pressing the map button
+        - MapaVykresleni
+                - position on map view 
+                - new class GNSSWebSocketServer
+                - new class TrajectoryJumper
+- 20250531_2328
+        - MapaVykresleni
+                - switch to leaflet map api
+                - moved map files to separate folder
 - 20250529_1706
         - special announcement sound fix
         - QueueSoundPlayer partial English translation

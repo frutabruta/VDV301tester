@@ -26,7 +26,6 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
     // devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
     devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),
-
     ui(new Ui::MainWindow)
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -52,7 +51,8 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     //QString konstantaPocetDni=settings.value("konstanty/pocetDni").toString();
     //settings.setValue("golemio/api-key","XXX");
 
-    mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath());
+    mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath()+"/mapFiles");
+  //  mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath());
 
 
 
@@ -830,6 +830,7 @@ int MainWindow::eventArrival()
     qDebug() <<  Q_FUNC_INFO;
     eventStopTimersRide();
 
+    StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateDoorsOpen;
 
     if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()-1))
@@ -837,10 +838,10 @@ int MainWindow::eventArrival()
         switch(announcementType)
         {
         case 0:
-            voiceAnnouncer.announceThisAndNextStop(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0+1].stopPoint);
+            voiceAnnouncer.announceThisAndNextStop(currentStopPointDestination.stopPoint,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0+1].stopPoint);
             break;
         case 1:
-            voiceAnnouncer.announceThisStop(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+            voiceAnnouncer.announceThisStop(currentStopPointDestination.stopPoint);
             break;
         case 2:
             break;
@@ -851,7 +852,7 @@ int MainWindow::eventArrival()
     }
     else
     {
-        voiceAnnouncer.composeLastStopAnnouncement(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+        voiceAnnouncer.composeLastStopAnnouncement(currentStopPointDestination.stopPoint);
     }
 
 
@@ -866,6 +867,8 @@ int MainWindow::eventArrival()
     {
         eventAnnouncementToDriver(poznamka);
     }
+
+    trajectoryJumper.gnssWebSockerServer.setData(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng,MnozinaBodu::WGS84);
 
     return 1;
 }
@@ -1546,12 +1549,17 @@ settings.setValue("myKey", storeMap);
 void MainWindow::on_pushButton_ride_map_clicked()
 {
     mapPlot.seznamMnozin.clear();
-    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),true,false,false,false,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),false,false,false,true,MnozinaBodu::WGS84);
+    QVector<StopPointDestination> stopPointList=vehicleState.getCurrentTrip().globalStopPointDestinationList;
+
+    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),true,false,false,false,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),false,false,false,true,MnozinaBodu::WGS84);
     mapPlot.pridejMnozinu(sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false, MnozinaBodu::J_STSK);
+
 
     mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( vehicleState.currentTrip));
 
+    trajectoryJumper.seznamMapaBodu=sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask());
+    trajectoryJumper.start();
 }
 
 

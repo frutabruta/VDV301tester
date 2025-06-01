@@ -50,7 +50,9 @@ SOURCES += \
     IbisSender/ipispid.cpp \
     IbisSender/ipissender.cpp \
     IbisSender/ipistelegramcompose.cpp \
+    MapaVykresleni/gnsswebsocketserver.cpp \
     MapaVykresleni/mapyapistops.cpp \
+    MapaVykresleni/trajectoryjumper.cpp \
     VDV301publisher/VDV301DataStructures/additionalannoucement.cpp \
     VDV301publisher/VDV301DataStructures/additionalannoucement2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/connection.cpp \
@@ -135,7 +137,9 @@ HEADERS += \
     IbisSender/ipispid.h \
     IbisSender/ipissender.h \
     IbisSender/ipistelegramcompose.h \
+    MapaVykresleni/gnsswebsocketserver.h \
     MapaVykresleni/mapyapistops.h \
+    MapaVykresleni/trajectoryjumper.h \
     VDV301publisher/VDV301DataStructures/additionalannoucement.h \
     VDV301publisher/VDV301DataStructures/additionalannoucement2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/connection.h \

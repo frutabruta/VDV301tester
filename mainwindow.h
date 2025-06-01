@@ -43,6 +43,8 @@
 #include "logfile.h"
 #include "MapaVykresleni/mapyapistops.h"
 
+#include "MapaVykresleni/trajectoryjumper.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -100,6 +102,9 @@ private:
     Logfile logfile;
     QFile logFileQFile;
     MapyApiStops mapPlot;
+    TrajectoryJumper trajectoryJumper;
+
+
 
     //VDV301testy
     TestDemo testDemo;
