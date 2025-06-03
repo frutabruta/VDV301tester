@@ -44,6 +44,8 @@
 #include "MapaVykresleni/mapyapistops.h"
 
 #include "MapaVykresleni/trajectoryjumper.h"
+#include "MapaVykresleni/coordinatestools.h"
+#include "locationevents.h"
 
 namespace Ui {
 class MainWindow;
@@ -54,8 +56,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    //explicit MainWindow(QWidget *parent = nullptr);
-  MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent = nullptr);
+        //explicit MainWindow(QWidget *parent = nullptr);
+    MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent = nullptr);
     ~MainWindow();
 
     //konstanty
@@ -103,7 +105,8 @@ private:
     QFile logFileQFile;
     MapyApiStops mapPlot;
     TrajectoryJumper trajectoryJumper;
-
+    CoordinatesTools coordinateTools;
+    LocationEvents locationEvents;
 
 
     //VDV301testy
@@ -232,6 +235,7 @@ private:
     void eraseTable(QTableWidget *tableWidget);
     void infoTextListToTable(QVector<GolemioInfotext> infotextList, QTableWidget *tableWidget);
     void infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget *tableWidget);
+
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
@@ -336,7 +340,7 @@ private slots:
     void eventFareZoneChangeHide();
     void eventLineChangeHide();
     void eventSpecialAnnouncementHide();
-      void eventAnnouncementContinue();
+    void eventAnnouncementContinue();
 
     //VDV301
     void slotVdv301ServiceStartResult(QString nastartovanaSluzba);
@@ -375,6 +379,7 @@ private slots:
     //misc
     void on_tableWidget_specialAnnouncements_cellClicked(int row, int column);
     void slotServiceTableUpdate();
+    void slotGnssUpdate(MapaBod coordinates);
 
 
 
@@ -387,6 +392,18 @@ private slots:
     void on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked();
 
     void eventAddAnnoucement(AdditionalAnnoucement announcement);
+    void on_pushButton_positionStart_clicked();
+
+    void on_pushButton_positionStop_clicked();
+
+    void slotLocationEnterArea(StopPointDestination stopPoint);
+    void slotLocationLeaveArea(StopPointDestination stopPoint);
+
+
+    void on_checkBox_positionCenterMap_stateChanged(int arg1);
+
+    void on_checkBox_positionStopAtStops_stateChanged(int arg1);
+
 signals:
          // void signalZahajImport(QString cesta);
 };

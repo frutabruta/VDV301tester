@@ -52,7 +52,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     //settings.setValue("golemio/api-key","XXX");
 
     mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath()+"/mapFiles");
-  //  mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath());
+    //  mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath());
 
 
 
@@ -224,6 +224,14 @@ void MainWindow::allConnects()
     connect(&timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
     connect(&timerDownloadConnections,&QTimer::timeout,this,&MainWindow::slotDownloadConnectionsFromCurrentStop);
     connect(&timerSpecialAnnoucementHide,&QTimer::timeout,this,&MainWindow::eventSpecialAnnouncementHide);
+
+    //position simulator
+    connect(&trajectoryJumper,&TrajectoryJumper::signalMapaBod,&locationEvents,&LocationEvents::slotGnssUpdate);
+
+
+    //position reader
+    connect(&locationEvents,&LocationEvents::signalArrivedAtStop,this,&MainWindow::slotLocationEnterArea);
+    connect(&locationEvents,&LocationEvents::signalDepartedStop,this,&MainWindow::slotLocationLeaveArea);
 }
 
 void MainWindow::retranslateUi(QString language)
@@ -316,6 +324,12 @@ void MainWindow::loadConstantsFromSettingsFile()
     xmlFilePath=settings->value("data/xmlPath").toString();
     ui->label_data_pathContent->setText(xmlFilePath);
     ui->pushButton_data_startXmlRopidImport->setEnabled(!xmlFilePath.isEmpty());
+
+    trajectoryJumper.centerMap=settings->value("locationSimulator/centerMap").toBool();
+    ui->checkBox_positionCenterMap->setChecked(trajectoryJumper.centerMap);
+
+    trajectoryJumper.stopAtStops=settings->value("locationSimulator/stopAtStops").toBool();
+    ui->checkBox_positionStopAtStops->setChecked(trajectoryJumper.stopAtStops);
 
 }
 
@@ -504,7 +518,7 @@ void MainWindow::slotGolemioReady()
     qDebug()<<"bum10";
 
     connectionListToTable(prestupyGolemio,ui->tableWidget_golemioConnections);
-     infoTextListToTable(infotextsGolemio,ui->tableWidget_golemioInfotexts);
+    infoTextListToTable(infotextsGolemio,ui->tableWidget_golemioInfotexts);
 
     QVector<Connection> prestupy;
     foreach(ConnectionGolemio polozka,prestupyGolemio)
@@ -822,6 +836,17 @@ void MainWindow::slotImportAktivujTlacitka()
 
 }
 
+
+void MainWindow::slotLocationEnterArea(StopPointDestination stopPoint)
+{
+    eventArrival();
+}
+
+void MainWindow::slotLocationLeaveArea(StopPointDestination stopPoint)
+{
+    eventDeparture();
+}
+
 /*!
 
 */
@@ -831,6 +856,7 @@ int MainWindow::eventArrival()
     eventStopTimersRide();
 
     StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateDoorsOpen;
 
     if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()-1))
@@ -855,8 +881,6 @@ int MainWindow::eventArrival()
         voiceAnnouncer.composeLastStopAnnouncement(currentStopPointDestination.stopPoint);
     }
 
-
-
     vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
     updateDriverDisplay();
     xmlVdv301UpdateContent();
@@ -868,8 +892,13 @@ int MainWindow::eventArrival()
         eventAnnouncementToDriver(poznamka);
     }
 
-    trajectoryJumper.gnssWebSockerServer.setData(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng,MnozinaBodu::WGS84);
+    //manual plot of current stop when simulation is not running
+    if(!trajectoryJumper.isRunning)
+    {
+        trajectoryJumper.gnssWebSockerServer.setData(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng,MnozinaBodu::WGS84, trajectoryJumper.centerMap);
+    }
 
+    locationEvents.expectedStopPointDestination=currentStopPointDestination;
     return 1;
 }
 
@@ -881,9 +910,21 @@ int MainWindow::eventArrival()
 int MainWindow::eventDeparture()
 {
     qDebug() <<  Q_FUNC_INFO;
+
     eventStopTimersRide();
+    vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
+    vehicleState.currentStopIndex0++;
 
+    if(!isInRange(vehicleState.currentStopIndex0,this->vehicleState.getCurrentTrip().globalStopPointDestinationList.count(),Q_FUNC_INFO))
+    {
+        qDebug()<<"departure from last stop";
+        return 0;
+    }
+    StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+    locationEvents.expectedStopPointDestination=currentStopPointDestination;
 
+    xmlVdv301UpdateContent();
+    updateDriverDisplay();
 
     switch(announcementType)
     {
@@ -891,12 +932,13 @@ int MainWindow::eventDeparture()
     {
         if(vehicleState.currentStopIndex0==1)
         {
-            voiceAnnouncer.composeFirstStopDeparture(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+            voiceAnnouncer.composeFirstStopDeparture(currentStopPointDestination.stopPoint);
         }
     }
     break;
     case 1:
-        voiceAnnouncer.announceNextStop(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+        voiceAnnouncer.announceNextStop(currentStopPointDestination.stopPoint);
+
         break;
     case 2:
         break;
@@ -904,7 +946,7 @@ int MainWindow::eventDeparture()
         break;
 
     }
-    xmlVdv301UpdateContent();
+
 
     //timerAfterStopToBetweenStop.start(); //disabled due to possible crashes caused by this
 
@@ -1558,8 +1600,7 @@ void MainWindow::on_pushButton_ride_map_clicked()
 
     mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( vehicleState.currentTrip));
 
-    trajectoryJumper.seznamMapaBodu=sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask());
-    trajectoryJumper.start();
+
 }
 
 
@@ -1790,8 +1831,8 @@ void MainWindow::on_pushButton_ride_arrowNextState_clicked()
     {
         if((vehicleState.locationState==Vdv301Enumerations::LocationStateAtStop)&&((vehicleState.currentStopIndex0<(vehicleState.countCurrentTripStops()-1) )))
         {
-            vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
-            vehicleState.currentStopIndex0++;
+
+
             eventDeparture();
         }
         else
@@ -2475,6 +2516,7 @@ void MainWindow::eventEnterService()
 {
     qDebug() <<  Q_FUNC_INFO;
     ui->pushButton_menu_ride->setDisabled(false);
+    locationEvents.expectedStopPointDestination=vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
     xmlVdv301UpdateContent();
 }
 
@@ -2928,8 +2970,8 @@ void MainWindow::infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget* 
     tableWidget->setItem(row, 1, cell);
 
     cell = new QTableWidgetItem(golemioInfotext.text_en);
-     tableWidget->setItem(row, 3, cell);
-/*
+    tableWidget->setItem(row, 3, cell);
+    /*
     cell = new QTableWidgetItem(golemioInfotext.valid_from.toString("" .departureTimestampScheduled.toString("hh:mm") );
     tableWidget->setItem(row, 2, cell);
 
@@ -2963,3 +3005,40 @@ void MainWindow::eraseTable(QTableWidget *tableWidget)
     tableWidget->setRowCount(0);
 
 }
+
+void MainWindow::on_pushButton_positionStart_clicked()
+{
+    trajectoryJumper.seznamMapaBodu=sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask());
+    trajectoryJumper.start();
+}
+
+
+void MainWindow::on_pushButton_positionStop_clicked()
+{
+
+    trajectoryJumper.stop();
+}
+
+
+void MainWindow::slotGnssUpdate(MapaBod coordinates)
+{
+
+}
+
+
+
+
+
+void MainWindow::on_checkBox_positionCenterMap_stateChanged(int arg1)
+{
+    trajectoryJumper.centerMap=arg1;
+    settings->setValue("locationSimulator/centerMap",trajectoryJumper.centerMap);
+}
+
+
+void MainWindow::on_checkBox_positionStopAtStops_stateChanged(int arg1)
+{
+    trajectoryJumper.stopAtStops=arg1;
+    settings->setValue("locationSimulator/stopAtStops",trajectoryJumper.stopAtStops);
+}
+

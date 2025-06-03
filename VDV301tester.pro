@@ -50,6 +50,7 @@ SOURCES += \
     IbisSender/ipispid.cpp \
     IbisSender/ipissender.cpp \
     IbisSender/ipistelegramcompose.cpp \
+    MapaVykresleni/coordinatestools.cpp \
     MapaVykresleni/gnsswebsocketserver.cpp \
     MapaVykresleni/mapyapistops.cpp \
     MapaVykresleni/trajectoryjumper.cpp \
@@ -119,6 +120,7 @@ SOURCES += \
     XmlRopidImportStream/xmlimportjr.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
     golemio.cpp \
+    locationevents.cpp \
     logfile.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -137,6 +139,7 @@ HEADERS += \
     IbisSender/ipispid.h \
     IbisSender/ipissender.h \
     IbisSender/ipistelegramcompose.h \
+    MapaVykresleni/coordinatestools.h \
     MapaVykresleni/gnsswebsocketserver.h \
     MapaVykresleni/mapyapistops.h \
     MapaVykresleni/trajectoryjumper.h \
@@ -207,6 +210,7 @@ HEADERS += \
     XmlRopidImportStream/xmlropidimportstream.h \
     XmlRopidImportStream/sqlitezaklad.h \
     golemio.h \
+    locationevents.h \
     logfile.h \
     mainwindow.h \
     mainwindowpomocne.h \

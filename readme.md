@@ -143,6 +143,27 @@ mingw32-make install
 
 
 ## Changelog
+- 20250603_1819
+        - switching stops by entering GNSS zones
+                - new class LocationEvents
+        - UI tweaks to remove spaces between selection columns
+        - added checkboxes to stop at stops and center the map
+        - settings.ini store Map location variables
+        - MainWindow::slotLocationEnterArea
+                - new class
+        - MainWindow::slotLocationLeaveArea
+                - new class
+        - MainWindow::eventDeparture
+                - overhaul
+        - SqlRopidXmlQueries::getVehicleRunStops
+                - import z.sx and z.sy
+        - SqlRopidXmlQueries::getTrajectoryFromTripS
+                - added information to distinguish point in stop
+        - VDV301publisher
+                - VDV301DataStructures
+                        - stopPoint
+                                - added S_JTSK coordinates
+
 - 20250601_1438
         - first implementatinon of GNSS position simulation
         - position on map is set by selecting a stop

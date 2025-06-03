@@ -139,6 +139,8 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
             stopPoint.zsol=query.value(query.record().indexOf("x.zsol")).toBool();
             stopPoint.lng=query.value(query.record().indexOf("z.lng")).toDouble();
             stopPoint.lat=query.value(query.record().indexOf("z.lat")).toDouble();
+            stopPoint.sx=query.value(query.record().indexOf("z.sx")).toDouble();
+            stopPoint.sy=query.value(query.record().indexOf("z.sy")).toDouble();
             stopPoint.radius=query.value(query.record().indexOf("z.rdisp")).toInt();
             qDebug()<<"radius is: "<<stopPoint.radius;
 
@@ -236,7 +238,7 @@ dbManager->query.exec();
 
       */
     QString queryString("SELECT DISTINCT   ");
-    queryString+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.u, z.z, z.lng, z.lat, z.rdisp, z.sta, ");
+    queryString+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.u, z.z, z.lng, z.lat, z.sx, z.sy, z.rdisp, z.sta, ");
     queryString+=("t.ri,t.hl, ");
     queryString+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
     queryString+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
@@ -872,10 +874,20 @@ QVector<MapaBod> SqlRopidXmlQueries::getTrajectoryFromTripS(int tripS, QString k
         QString z2=query.value(query.record().indexOf("bod.z2")).toString();
 
         //bod.radius =query.value( query.record().indexOf("z.rdisp")).toInt();
-
+/*
         mapPoint.lat=absoluteValue(query.value( query.record().indexOf("bod.x")).toDouble());
         mapPoint.lng=absoluteValue(query.value( query.record().indexOf("bod.y")).toDouble());
+        */
 
+        mapPoint.lat=query.value( query.record().indexOf("bod.x")).toDouble();
+        mapPoint.lng=query.value( query.record().indexOf("bod.y")).toDouble();
+
+        int order=query.value(query.record().indexOf("bod.poradi")).toInt();
+
+        if(order==0)
+        {
+            mapPoint.isStop=true;
+        }
         QString content="";
         content+="u1: "+u1+" ";
         content+="z1: "+z1+" ";
