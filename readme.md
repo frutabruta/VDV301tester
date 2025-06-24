@@ -143,6 +143,16 @@ mingw32-make install
 
 
 ## Changelog
+- 20250623_1918
+        - translations fix
+        - stop position simulator on ride exit
+        - MapaVykresleni
+                - GNSSWebSocketServer::sendGnssData Qt5:15 fix
+        
+        - VDV301publisher
+                - preparation for TicketValidationService 1_0 and 2_3CZ1_0
+        - xlsx files moved to tools folder
+
 - 20250603_1819
         - switching stops by entering GNSS zones
                 - new class LocationEvents

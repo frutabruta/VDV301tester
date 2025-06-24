@@ -17,6 +17,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     //  settings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat),
     golemio(""), //klic do golemia
     logfile(QCoreApplication::applicationDirPath()),
+  //  timeService1_0("TimeService","_ibisip_udp._udp",123,"1.0"),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3"),
@@ -2525,6 +2526,7 @@ void MainWindow::eventExitService()
     qDebug() <<  Q_FUNC_INFO;
 
     ui->pushButton_menu_ride->setDisabled(true);
+    trajectoryJumper.stop();
     timerAfterStopToBetweenStop.stop();
     timerDownloadConnections.stop();
     timerFareZoneChangeDuration.stop();

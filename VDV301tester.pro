@@ -90,6 +90,7 @@ SOURCES += \
     VDV301publisher/httpserverpublisher.cpp \
     VDV301publisher/subscriber.cpp \
     VDV301publisher/ticketvalidationservice.cpp \
+    VDV301publisher/timeservice.cpp \
     VDV301publisher/xmlcommon.cpp \
     VDV301publisher/xmlcommon1_0_new.cpp \
     VDV301publisher/xmlcommon2_3_new.cpp \
@@ -99,6 +100,8 @@ SOURCES += \
     VDV301publisher/xmlcustomerinformationservice2_3cz1_0.cpp \
     VDV301publisher/xmldevicemanagementservice.cpp \
     VDV301publisher/xmlticketvalidationservice.cpp \
+    VDV301publisher/xmlticketvalidationservice1_0_new.cpp \
+    VDV301publisher/xmlticketvalidationservice2_3_new.cpp \
     VDV301subscriber/devmgmtpublisherstruct.cpp \
     VDV301subscriber/devmgmtsubscriber.cpp \
     VDV301subscriber/devmgmtsubscriber1.cpp \
@@ -179,6 +182,7 @@ HEADERS += \
     VDV301publisher/httpserverpublisher.h \
     VDV301publisher/subscriber.h \
     VDV301publisher/ticketvalidationservice.h \
+    VDV301publisher/timeservice.h \
     VDV301publisher/xmlcommon.h \
     VDV301publisher/xmlcommon1_0_new.h \
     VDV301publisher/xmlcommon2_3_new.h \
@@ -188,6 +192,8 @@ HEADERS += \
     VDV301publisher/xmlcustomerinformationservice2_3cz1_0.h \
     VDV301publisher/xmldevicemanagementservice.h \
     VDV301publisher/xmlticketvalidationservice.h \
+    VDV301publisher/xmlticketvalidationservice1_0_new.h \
+    VDV301publisher/xmlticketvalidationservice2_3_new.h \
     VDV301subscriber/devmgmtpublisherstruct.h \
     VDV301subscriber/devmgmtsubscriber.h \
     VDV301subscriber/devmgmtsubscriber1.h \

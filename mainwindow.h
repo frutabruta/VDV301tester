@@ -22,6 +22,7 @@
 #include "VDV301publisher/customerinformationservice.h"
 #include "VDV301publisher/ticketvalidationservice.h"
 #include "VDV301publisher/devicemanagementservice.h"
+//#include "VDV301publisher/timeservice.h"
 
 //#include "VDV301subscriber/ibisipsubscriber.h"
 #include "VDV301subscriber/devmgmtsubscriber.h"
@@ -147,6 +148,7 @@ private:
 
 
     //IBIS-IP sluzby
+  //  TimeService timeService1_0;  //just publishes OS built in server
     DeviceManagementService deviceManagementService1_0;
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_3;
