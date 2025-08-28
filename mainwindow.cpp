@@ -957,6 +957,7 @@ int MainWindow::eventDeparture()
 void MainWindow::eventAfterStopToBetweenStop()
 {
     qDebug() <<  Q_FUNC_INFO;
+    vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
     if(FareZone::showZoneChangeCheck(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.fareZoneList,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.fareZoneList))
     {
         qDebug()<<"srovnani pasem zastavek "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.StopName<<" a "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.StopName;
@@ -965,10 +966,11 @@ void MainWindow::eventAfterStopToBetweenStop()
     else
     {
         eventFareZoneChangeHide();
+        xmlVdv301UpdateContent();
     }
-    vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
+
     updateDriverDisplay();
-    xmlVdv301UpdateContent();
+
 
 }
 

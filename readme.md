@@ -4,43 +4,43 @@ This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1
 
 # Features
 - XML ROPID timetable import
-        - selecting of a trip by line/trip or line/vehicleRun
+  - selecting of a trip by line/trip or line/vehicleRun
 - map plot of route
 - voice announcements
 - configuration with settings file
 - changing languages in menu (English/Czech)
 - touch optimised ui (for resolution 800x480px)
 - VDV301
-        - deviceManagementService
-                - change V1.0 device ID
-                - get DeviceStatus
-                - get DeviceInformation
+  - deviceManagementService
+    - change V1.0 device ID
+    - get DeviceStatus
+    - get DeviceInformation
 
-        - CustomerInformationService
-                - AllData
-                - CurrentDisplayContent
-        - publish and subscribe request
-        - service discovery using DNS-SD (Bonjour)
+  - CustomerInformationService
+    - AllData
+    - CurrentDisplayContent
+  - publish and subscribe request
+  - service discovery using DNS-SD (Bonjour)
 
-        - automated subscription and loss of subscription test (development abandoned for now)
+  - automated subscription and loss of subscription test (development abandoned for now)
 - VDV300
-        - manually activated sending telegrams according to IPIS (czech modification of IBIS)
+  - manually activated sending telegrams according to IPIS (czech modification of IBIS)
 
 # Planned features
 
 - Asynchronous serial port IBIS sending
 - VDV301
-        - Time service
-        - Location service
-        - CustomerInformationService
-                -       GlobalDisplayContent
-        - DeviceManagementService
-                - firmware update in devices
-        - full translation of sourcode to English
+  - Time service
+  - Location service
+  - CustomerInformationService
+    -       GlobalDisplayContent
+  - DeviceManagementService
+    - firmware update in devices
+  - full translation of sourcode to English
 # Known bugs
 - IbisSender
-        - viapoints over certain length will not display on BS210
-        
+  - viapoints over certain length will not display on BS210
+  
 # Voice annoucements
 MP3 files are not provided with the program.
 
@@ -48,44 +48,44 @@ Stop names have to be stored in hlaseni/zastavky folder, using CIS od OIS number
 
 Special sounds are stored in hlaseni/special
 
-| content                 | filename |
+| content     | filename |
 |-------------------------|----------|
-| jingle                  | H000.mp3 |
-| next stop               | H001.mp3 |
-| request stop            | H002.mp3 |
-| last stop               | H113.mp3 |
-| please, get off         | H114.mp3 |
+| jingle      | H000.mp3 |
+| next stop         | H001.mp3 |
+| request stop      | H002.mp3 |
+| last stop         | H113.mp3 |
+| please, get off   | H114.mp3 |
 | attention, please       | H178.mp3 |
-| fare zone change        | H170.mp3 |
+| fare zone change  | H170.mp3 |
 | transfer to train lines | H184.mp3 |
 | transfer to Metro       | H103.mp3 |
 | transfer to ferry       | H274.mp3 |
-| A                       | H104.mp3 |
-| B                       | H105.mp3 |
-| C                       | H106.mp3 |
-| A and B                 | H107.mp3 |
-| A and C                 | H108.mp3 |
-| B and C                 | H109.mp3 |
+| A           | H104.mp3 |
+| B           | H105.mp3 |
+| C           | H106.mp3 |
+| A and B     | H107.mp3 |
+| A and C     | H108.mp3 |
+| B and C     | H109.mp3 |
 
 
 
 ## Requirements:
 ### Windows
-        Bonjour
-        QtHttpServer (Qt Maintenance Tool can be used)
-        OpenSSL (only for HTTPS Golemio access)
+  Bonjour
+  QtHttpServer (Qt Maintenance Tool can be used)
+  OpenSSL (only for HTTPS Golemio access)
 ### Linux
-        Avahi
-        QtHttpServer  (https://github.com/qt/qthttpserver/tree/5.15) (qmake, make, make install)
-        OpenSSL? (Golemio is not tested on Linux yet)
+  Avahi
+  QtHttpServer  (https://github.com/qt/qthttpserver/tree/5.15) (qmake, make, make install)
+  OpenSSL? (Golemio is not tested on Linux yet)
 
 
 ### Tested Qt versions:
 - 5.15.2
-        - available in 32bit and 64bit versions
+  - available in 32bit and 64bit versions
 - 6.5.0
-        - available in 64bit version only
-        - improved spacing of voice announcement segments
+  - available in 64bit version only
+  - improved spacing of voice announcement segments
 
 ## After compiling
 - Copy all programs from folder *copy_to_program_directory* to the build directory
@@ -143,610 +143,617 @@ mingw32-make install
 
 
 ## Changelog
+- 20250828_1640
+  - Vdv301publisher
+    - fixed color rules for trolleybus, replacement etc.
+  - MainWindow::eventAfterStopToBetweenStop()
+    -  fixed double sending of the same content 
+  - readme.md
+    - fixed indentation
 - 20250623_1918
-        - translations fix
-        - stop position simulator on ride exit
-        - MapaVykresleni
-                - GNSSWebSocketServer::sendGnssData Qt5:15 fix
-        
-        - VDV301publisher
-                - preparation for TicketValidationService 1_0 and 2_3CZ1_0
-        - xlsx files moved to tools folder
+  - translations fix
+  - stop position simulator on ride exit
+  - MapaVykresleni
+    - GNSSWebSocketServer::sendGnssData Qt5:15 fix
+  
+  - VDV301publisher
+    - preparation for TicketValidationService 1_0 and 2_3CZ1_0
+  - xlsx files moved to tools folder
 
 - 20250603_1819
-        - switching stops by entering GNSS zones
-                - new class LocationEvents
-        - UI tweaks to remove spaces between selection columns
-        - added checkboxes to stop at stops and center the map
-        - settings.ini store Map location variables
-        - MainWindow::slotLocationEnterArea
-                - new class
-        - MainWindow::slotLocationLeaveArea
-                - new class
-        - MainWindow::eventDeparture
-                - overhaul
-        - SqlRopidXmlQueries::getVehicleRunStops
-                - import z.sx and z.sy
-        - SqlRopidXmlQueries::getTrajectoryFromTripS
-                - added information to distinguish point in stop
-        - VDV301publisher
-                - VDV301DataStructures
-                        - stopPoint
-                                - added S_JTSK coordinates
+  - switching stops by entering GNSS zones
+    - new class LocationEvents
+  - UI tweaks to remove spaces between selection columns
+  - added checkboxes to stop at stops and center the map
+  - settings.ini store Map location variables
+  - MainWindow::slotLocationEnterArea
+    - new class
+  - MainWindow::slotLocationLeaveArea
+    - new class
+  - MainWindow::eventDeparture
+    - overhaul
+  - SqlRopidXmlQueries::getVehicleRunStops
+    - import z.sx and z.sy
+  - SqlRopidXmlQueries::getTrajectoryFromTripS
+    - added information to distinguish point in stop
+  - VDV301publisher
+    - VDV301DataStructures
+      - stopPoint
+        - added S_JTSK coordinates
 
 - 20250601_1438
-        - first implementatinon of GNSS position simulation
-        - position on map is set by selecting a stop
-        - simulation is started by pressing the map button
-        - MapaVykresleni
-                - position on map view 
-                - new class GNSSWebSocketServer
-                - new class TrajectoryJumper
+  - first implementatinon of GNSS position simulation
+  - position on map is set by selecting a stop
+  - simulation is started by pressing the map button
+  - MapaVykresleni
+    - position on map view 
+    - new class GNSSWebSocketServer
+    - new class TrajectoryJumper
 - 20250531_2328
-        - MapaVykresleni
-                - switch to leaflet map api
-                - moved map files to separate folder
+  - MapaVykresleni
+    - switch to leaflet map api
+    - moved map files to separate folder
 - 20250529_1706
-        - special announcement sound fix
-        - QueueSoundPlayer partial English translation
-        - VoiceAnnouncer partial English translation
+  - special announcement sound fix
+  - QueueSoundPlayer partial English translation
+  - VoiceAnnouncer partial English translation
 - 20250529_1426
-        - vehicleRun trip selection
-                - expanded table to contain start time and first stop of each trip
-        - arrival and departure time are now placed below each other
-        - menu button resize
+  - vehicleRun trip selection
+    - expanded table to contain start time and first stop of each trip
+  - arrival and departure time are now placed below each other
+  - menu button resize
 - 20250521_1641
-        - Golemio
-                - new class GolemioInfotext
-                - new function parseDomDocumentInfotexts
-        - VDV301publisher
-                - Vdv301DataStructures
-                        - added Golemio related variables
-        - added Connections and Infotexts debug window 
-        - repaired launching .exe with attribute to allow running with a different setting file
+  - Golemio
+    - new class GolemioInfotext
+    - new function parseDomDocumentInfotexts
+  - VDV301publisher
+    - Vdv301DataStructures
+      - added Golemio related variables
+  - added Connections and Infotexts debug window 
+  - repaired launching .exe with attribute to allow running with a different setting file
 - 20250519_1907
     - VDV301publisher
-        - 1.0 overhaul
+  - 1.0 overhaul
     - MapyVykresleni
-        - removed for each loops
+  - removed for each loops
 - 20250514_1613
-        - last version supporting VDV301 2.2CZ1.0
-        - Vdv301subscriber
-                - new slots and functions, non-related to VDV301tester       
+  - last version supporting VDV301 2.2CZ1.0
+  - Vdv301subscriber
+    - new slots and functions, non-related to VDV301tester       
 - 20250424_2145
-        - Vdv301subscriber
-                - first implementation of PassengerCountingService
-                - DevMGMT class refactoring
+  - Vdv301subscriber
+    - first implementation of PassengerCountingService
+    - DevMGMT class refactoring
 - 20250410_1916
-        - save last imported filepath to settings.ini
+  - save last imported filepath to settings.ini
 
 - 20250410_1354
-        - VoiceAnnouncer
-                - add MetroD mp3 definitions + airport
+  - VoiceAnnouncer
+    - add MetroD mp3 definitions + airport
 - 20250410_1354
-        - VoiceAnnouncer
-                - empty nonexisting file fix
+  - VoiceAnnouncer
+    - empty nonexisting file fix
 - 20250405_2210
-        - Vdv301XmlRopidImportStream
-                - fix import xLed
+  - Vdv301XmlRopidImportStream
+    - fix import xLed
 - 20250405_2210
-        - Vdv301Publisher
-                - XmlCommon dependency on VehicleState variables removed
-        - 2.3CZ1.0 port can be changed in settings.ini
+  - Vdv301Publisher
+    - XmlCommon dependency on VehicleState variables removed
+  - 2.3CZ1.0 port can be changed in settings.ini
 - 20250403_2205
-        - Vdv301publisher
-                - Vdv301DataStructures
-                        - added Vdv301CurrentDisplayContent
-        - Vdv301subscriber
-                - IbisIpSubscriber::structureName added setter and getter     
-                 
+  - Vdv301publisher
+    - Vdv301DataStructures
+      - added Vdv301CurrentDisplayContent
+  - Vdv301subscriber
+    - IbisIpSubscriber::structureName added setter and getter     
+     
 - 20250328_1540
-        - default text in UI are now in English
+  - default text in UI are now in English
 - 20250328_1419
-        - MainWindow::modelDoTabulkySeradit
-                - fix of not deleting the tableview when model is empty
+  - MainWindow::modelDoTabulkySeradit
+    - fix of not deleting the tableview when model is empty
 - 20250328_1325
-        - translate SqlRopidXmlQueries to English
+  - translate SqlRopidXmlQueries to English
 - 20250319_1747
-        - ability to load trip without vehicle run
-                - MainWindow::on_pushButton_lineTrip_confirm_clicked()
-                - new function SqlRopidXmlQueries::najdiIdSpojeZCisla
+  - ability to load trip without vehicle run
+    - MainWindow::on_pushButton_lineTrip_confirm_clicked()
+    - new function SqlRopidXmlQueries::najdiIdSpojeZCisla
 - 20250316_1818
-        - known issues - special voice announcements work with index n-1 - first mp3 in que doesnt play
-        - MainWindowPomocne::naplnTabulkuHlaseni
-                - removed unnecessary columns
-        - SpecialAnnouncementParser::loadSpecialAnnouncementList
-                - now parsing announcement duration from config file
-        - announcementList.xml
-                - modified texts
-                - added duration element
-        - service_texts_generator2_3CZ1_0.xlsx
-                - added duration element
-                - reordered announcements
-        
+  - known issues - special voice announcements work with index n-1 - first mp3 in que doesnt play
+  - MainWindowPomocne::naplnTabulkuHlaseni
+    - removed unnecessary columns
+  - SpecialAnnouncementParser::loadSpecialAnnouncementList
+    - now parsing announcement duration from config file
+  - announcementList.xml
+    - modified texts
+    - added duration element
+  - service_texts_generator2_3CZ1_0.xlsx
+    - added duration element
+    - reordered announcements
+  
 
 - 20250314_1857
-        - special announcement config file overhaul
-            - konfigurace renamed to specialAnnouncementParser
-            - fareZoneChange and lineChange show mockup values
-        - display special announcements from a queue
+  - special announcement config file overhaul
+      - konfigurace renamed to specialAnnouncementParser
+      - fareZoneChange and lineChange show mockup values
+  - display special announcements from a queue
 - 20250312_1907
-        - VDV301publisher
-                - neozn=true implementation
-        - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
-                - x.neozn, x.zast
-        - MainWindowPomocne::dumpStopsToTable
-                - added z when zast=true
-        - VoiceAnnouncer
-                - implemented neozn=true attribute
-        - konfigurace.xml
-                - added formatting to special announcements
-        - XmlRopidImportStream
-                - import x.neozn and x.zast
+  - VDV301publisher
+    - neozn=true implementation
+  - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
+    - x.neozn, x.zast
+  - MainWindowPomocne::dumpStopsToTable
+    - added z when zast=true
+  - VoiceAnnouncer
+    - implemented neozn=true attribute
+  - konfigurace.xml
+    - added formatting to special announcements
+  - XmlRopidImportStream
+    - import x.neozn and x.zast
 
 
 - 20250223_0019
-        - Vdv301Publisher
-                - 2.3CZ1.0
-                        - fareZoneChange using additionalTextMessage1-9
-        - Vdv301Subscriber
-                - 2.3CZ1.0
-                        - fareZoneChange using additionalTextMessage1-9
-        - konfigurace.xml
-                - added icons for 2.3CZ1.0
-        - MainWindow
-                - hide announcement timer
-        - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
-                - fix of Destination in semi-circular lines
+  - Vdv301Publisher
+    - 2.3CZ1.0
+      - fareZoneChange using additionalTextMessage1-9
+  - Vdv301Subscriber
+    - 2.3CZ1.0
+      - fareZoneChange using additionalTextMessage1-9
+  - konfigurace.xml
+    - added icons for 2.3CZ1.0
+  - MainWindow
+    - hide announcement timer
+  - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
+    - fix of Destination in semi-circular lines
 
 
 
 - 20250114_1851
-        - VDV301publisher
-                - 2.3 remove colon in fareZone + fix icons order
-        - MainWindow::on_pushButton_manual_sendCustomXml_clicked
-                - enabled 2.3CZ1.0
-                - stoping all timers to avoid override of manual data with periodic updates from timetable
+  - VDV301publisher
+    - 2.3 remove colon in fareZone + fix icons order
+  - MainWindow::on_pushButton_manual_sendCustomXml_clicked
+    - enabled 2.3CZ1.0
+    - stoping all timers to avoid override of manual data with periodic updates from timetable
 - 20250108_1636
-        - golemio fix + sending Vdv301 updates several times
-        - XmlRopidImportStream
-                - DB support for import XML version 1.38
-        - MainWindow
-                - MainWindow::on_pushButton_ride_arrowNextState_clicked
-                        - fix VDV301 data updating twice
-                - MainWindow::on_pushButton_ride_arrowPreviousState_clicked
-                        - fix VDV301 data updating twice
-                - MainWindow::xmlVdv301UpdateContent()      
-                        - wait for receiving connections, when connections are enabled
-        
-                - MainWindow::slotGolemioReady()
-                        - connections refresh fix when coinnection list is empty
-                - MainWindow::initializeTheTrip()
-                        -  removed redundat xmlVdv301UpdateContent
-                - MainWindow::eventDeparture
-                        - added xmlVdv301UpdateContent
-                - MainWindow::xmlVdv301UpdateContent()
-                        - xmlUpdateCis when triplist is empty
-                - MainWindow::eventFareZoneChange
-                        - disable all content to avoid timer issues and multiple data send
-                - changed subscriber table from 2.3 to 2.3CZ1.0
-                - 2.3CZ1.0 remove subscriber button now works
-        - Vdv301Publisher
-                - fix 2.3CZ1.0 Connection to StopPoint index
-        - Golemio::Golemio
-                - modified default Golemio parameters
-        - SqlRopidXmlQueries::stahniSeznamSpojuModel
-                - unused, removed
-        - settings.ini
-                - modified default Golemio parameters
-        
+  - golemio fix + sending Vdv301 updates several times
+  - XmlRopidImportStream
+    - DB support for import XML version 1.38
+  - MainWindow
+    - MainWindow::on_pushButton_ride_arrowNextState_clicked
+      - fix VDV301 data updating twice
+    - MainWindow::on_pushButton_ride_arrowPreviousState_clicked
+      - fix VDV301 data updating twice
+    - MainWindow::xmlVdv301UpdateContent()      
+      - wait for receiving connections, when connections are enabled
+  
+    - MainWindow::slotGolemioReady()
+      - connections refresh fix when coinnection list is empty
+    - MainWindow::initializeTheTrip()
+      -  removed redundat xmlVdv301UpdateContent
+    - MainWindow::eventDeparture
+      - added xmlVdv301UpdateContent
+    - MainWindow::xmlVdv301UpdateContent()
+      - xmlUpdateCis when triplist is empty
+    - MainWindow::eventFareZoneChange
+      - disable all content to avoid timer issues and multiple data send
+    - changed subscriber table from 2.3 to 2.3CZ1.0
+    - 2.3CZ1.0 remove subscriber button now works
+  - Vdv301Publisher
+    - fix 2.3CZ1.0 Connection to StopPoint index
+  - Golemio::Golemio
+    - modified default Golemio parameters
+  - SqlRopidXmlQueries::stahniSeznamSpojuModel
+    - unused, removed
+  - settings.ini
+    - modified default Golemio parameters
+  
 
 
 - 20241213_0100
-        - Vdv301Publisher
-                - 2.3CZ1.0 fareZoneChange out of range check
+  - Vdv301Publisher
+    - 2.3CZ1.0 fareZoneChange out of range check
 - 20241213_0045
-        - CIS doesn't update after API request when connections list is empty
+  - CIS doesn't update after API request when connections list is empty
 - 20241213_0003
-        - log to file (can be turned on in settings)
-                - custom message handler in main.cpp
-        - fixed index out of range crash in MainWindow::slotDownloadConnectionsFromCurrentStop()
-        - disabled timerAfterStopToBetweenStop in  MainWindow::eventDeparture() to prevent crashes when manually moving from afterStop to betweenStop
-        - additional checks when selecting vehicle run to prevent crashes
+  - log to file (can be turned on in settings)
+    - custom message handler in main.cpp
+  - fixed index out of range crash in MainWindow::slotDownloadConnectionsFromCurrentStop()
+  - disabled timerAfterStopToBetweenStop in  MainWindow::eventDeparture() to prevent crashes when manually moving from afterStop to betweenStop
+  - additional checks when selecting vehicle run to prevent crashes
 
 - 20241206_1838
-        - Vdv301Publisher
-                - 2.3CZ1.0
-                        - change Inner DisplayContentRef to Interior to comply with documentation
-        - setting.ini
-                - remove slash from Golemio API path to comply with latest specs 
+  - Vdv301Publisher
+    - 2.3CZ1.0
+      - change Inner DisplayContentRef to Interior to comply with documentation
+  - setting.ini
+    - remove slash from Golemio API path to comply with latest specs 
 - 20241205_1818
-        - Vdv301Publisher
-                - XmlCommon2_3_new
-                        - changed default lcdClass to DisplayContentInner
-                - XmlCustomerInformationService2_3_new
-                        - new function CurrentDisplayContentFromAllData2_3new
-                        - new function CurrentDisplayContent2_3gen
-                - XmlCustomerInformationService2_3CZ1_0
-                        - new function CurrentDisplayContentFromAllData2_3new
-                - Vdv301DataStructures
-                        - Vdv301Trip2_3CZ1_0
-                                - added runNumber, formally changed to IBIS-IP.string (was already represented by QString)
-                        - StopPoint2_3CZ1_0
-                                - added GlobalStopRef
-                - XmlCommon2_3CZ1_0
-                        - new function vehicleRunToRunNumber generating rootLine_order
-                        - StopPoint2_3CZ1_0new
-                                - generates GlobalStopRef to Xml
-                - fixes of include files in Xml Generators
-                - 2.3 metro icon generator in connections
+  - Vdv301Publisher
+    - XmlCommon2_3_new
+      - changed default lcdClass to DisplayContentInner
+    - XmlCustomerInformationService2_3_new
+      - new function CurrentDisplayContentFromAllData2_3new
+      - new function CurrentDisplayContent2_3gen
+    - XmlCustomerInformationService2_3CZ1_0
+      - new function CurrentDisplayContentFromAllData2_3new
+    - Vdv301DataStructures
+      - Vdv301Trip2_3CZ1_0
+        - added runNumber, formally changed to IBIS-IP.string (was already represented by QString)
+      - StopPoint2_3CZ1_0
+        - added GlobalStopRef
+    - XmlCommon2_3CZ1_0
+      - new function vehicleRunToRunNumber generating rootLine_order
+      - StopPoint2_3CZ1_0new
+        - generates GlobalStopRef to Xml
+    - fixes of include files in Xml Generators
+    - 2.3 metro icon generator in connections
 
 - 20241102_1353
-        - VDV301publisher
-                - 2.3 connection line style color fix 
-        - MainWindow
-                - selected connection download enable now gets stored to settings file
-                - golemio key automatically fills lineEdit
-        - some unused functions market for deletion
+  - VDV301publisher
+    - 2.3 connection line style color fix 
+  - MainWindow
+    - selected connection download enable now gets stored to settings file
+    - golemio key automatically fills lineEdit
+  - some unused functions market for deletion
 - 20241102_0012
-        - VDV301publisher
-                - .ref fixes (trip, stopPoint etc.)
-                - 2.3 LCD choose class
-        - SqlRopidXmlQueries
-                - stahniSeznamCelySpojTurnus
-                        - fixed loading of c variable to Line class 
-                - deletion of unused counters
+  - VDV301publisher
+    - .ref fixes (trip, stopPoint etc.)
+    - 2.3 LCD choose class
+  - SqlRopidXmlQueries
+    - stahniSeznamCelySpojTurnus
+      - fixed loading of c variable to Line class 
+    - deletion of unused counters
 - 20241101_1948
-        - fix selection of line/trip
-        
+  - fix selection of line/trip
+  
 - 20241030_2015
-        - VDV301Publisher
-                - 2.3 generator platform fix
-        - MainWindow
-                - fixed crash when no line is selected
-        - SqlRopidXmlQueries
-                - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
-                        - added import of platform name from databaze (z.sta)
+  - VDV301Publisher
+    - 2.3 generator platform fix
+  - MainWindow
+    - fixed crash when no line is selected
+  - SqlRopidXmlQueries
+    - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
+      - added import of platform name from databaze (z.sta)
 - 20241018_1621
-        - VDV301Publisher
-                - 2.3CZ1.0 fare zone change
-                - Xml generators split by versions
+  - VDV301Publisher
+    - 2.3CZ1.0 fare zone change
+    - Xml generators split by versions
 - 20240907_1646
-        - VDV301Publisher
-                - out of service empty triplist fix
-        - MainWindow::xmlVdv301UpdateContent
-                - empty trip list doesn't stop XML from generating xml (out of service global display content)
-        - MainWindow::xmlVdv301UpdateCis
-                - mStavSystemu now sent by reference instead of value
-        - MainWindow::initializeTheTrip
-                - added  globalDisplayContentList2_3CZ1_0.clear();
-        - MainWindow::eventExitService
-                - removed all selectedService->outOfService();
+  - VDV301Publisher
+    - out of service empty triplist fix
+  - MainWindow::xmlVdv301UpdateContent
+    - empty trip list doesn't stop XML from generating xml (out of service global display content)
+  - MainWindow::xmlVdv301UpdateCis
+    - mStavSystemu now sent by reference instead of value
+  - MainWindow::initializeTheTrip
+    - added  globalDisplayContentList2_3CZ1_0.clear();
+  - MainWindow::eventExitService
+    - removed all selectedService->outOfService();
 
 
 - 20240823_1129
-        - GlobalDisplayContent basic implementation
-        - MainWindow
-                - new function createGlobalDisplayContentOutOfService2_3()
-                - new variable vektorCisPermanent;
-                - new variable customerInformationService2_3CZ1_0
-                - new variable globalDisplayContentList2_3CZ1_0;
-                - MainWindow::xmlVdv301UpdateCis
-                        - modified to use foreach cycle
-                - MainWindow::on_tableWidget_ride_stopList_cellClicked
-                        - fixed overlap of events and multiple sending of data to display
-                - MainWindow::eventExitService
-                        - outOfService suing foreach cycle
-                - new function MainWindow::createGlobalDisplayContentOutOfService2_3()
-        - Vdv301publisher
-                - new way of generating 2.3 using VDV301 structures
-                - GlobalDisplayContent in 2.3CZ1.0
-        - XmlRopidImportStream
-                - fix of thread errors during import
+  - GlobalDisplayContent basic implementation
+  - MainWindow
+    - new function createGlobalDisplayContentOutOfService2_3()
+    - new variable vektorCisPermanent;
+    - new variable customerInformationService2_3CZ1_0
+    - new variable globalDisplayContentList2_3CZ1_0;
+    - MainWindow::xmlVdv301UpdateCis
+      - modified to use foreach cycle
+    - MainWindow::on_tableWidget_ride_stopList_cellClicked
+      - fixed overlap of events and multiple sending of data to display
+    - MainWindow::eventExitService
+      - outOfService suing foreach cycle
+    - new function MainWindow::createGlobalDisplayContentOutOfService2_3()
+  - Vdv301publisher
+    - new way of generating 2.3 using VDV301 structures
+    - GlobalDisplayContent in 2.3CZ1.0
+  - XmlRopidImportStream
+    - fix of thread errors during import
 
 - 20240620_1123
-        - application of Vdv301Enumerations::DoorOpenStateEnumeration
-                - Vdv301publisher
-                - MainWindows
-                
+  - application of Vdv301Enumerations::DoorOpenStateEnumeration
+    - Vdv301publisher
+    - MainWindows
+    
 - 20240619_XXXX
-        - Vdv301publisher 
-                - RouteDeviationEnumeration
+  - Vdv301publisher 
+    - RouteDeviationEnumeration
 - 20240619_1751
-        - MapaVykresleni
-                - new Vdv301DataStructures
-        - VDV301publisher
-                - changed locationState data type
-        - MainWindow
-                - sqlRopidQuerries renamed to sqlRopidQueries
-                - function dumpStopsToTable moved to MainWindowPomocne
-                - functions modified to support LocationStateEnumerations
+  - MapaVykresleni
+    - new Vdv301DataStructures
+  - VDV301publisher
+    - changed locationState data type
+  - MainWindow
+    - sqlRopidQuerries renamed to sqlRopidQueries
+    - function dumpStopsToTable moved to MainWindowPomocne
+    - functions modified to support LocationStateEnumerations
 - 20240611_1858
-        - VDV301publisher
-                - 2_3 removed ZoneChange to comply with XSD of CIS 2.3 from vdv.de
-        - XmlRopidImportStream
-                - XmlImportJr::vlozS
-                        - added import of columms: sm, np
-                - SqLiteZaklad
-                        - SqLiteZaklad::vytvorCasHodinyMinuty
-                                - if value from DB is empty string, returns empty string (used to return 00:00)
-        - UI
-                - added departure to stops where arrival is not available and vice versa
-        - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
-                - added import of ArrivalTime
+  - VDV301publisher
+    - 2_3 removed ZoneChange to comply with XSD of CIS 2.3 from vdv.de
+  - XmlRopidImportStream
+    - XmlImportJr::vlozS
+      - added import of columms: sm, np
+    - SqLiteZaklad
+      - SqLiteZaklad::vytvorCasHodinyMinuty
+        - if value from DB is empty string, returns empty string (used to return 00:00)
+  - UI
+    - added departure to stops where arrival is not available and vice versa
+  - SqlRopidXmlQueries::stahniSeznamCelySpojTurnus
+    - added import of ArrivalTime
 - 20240607_1817
-        - submodule VDV301DataStructures moved to other submodules which require it
-        - IbisSender
-                - VDV301DataStructures includions moved to pisPid and IpisTelegramCompose
-        - MapaVykresleni
-                - changed to MapyApiStops
-        - VDV301publisher
-                - added examples
-                - VDV301DataStructures included
-        - VDV301subscriber
-                - added examples
-        - VDV301DataStructures path changed to one included in VDV301publisher:
-                - VoiceAnnouncer
-                - Golemio
-                - konfigurace
-                - SqlRopidXmlQueries
-                - XmlMpvParser
+  - submodule VDV301DataStructures moved to other submodules which require it
+  - IbisSender
+    - VDV301DataStructures includions moved to pisPid and IpisTelegramCompose
+  - MapaVykresleni
+    - changed to MapyApiStops
+  - VDV301publisher
+    - added examples
+    - VDV301DataStructures included
+  - VDV301subscriber
+    - added examples
+  - VDV301DataStructures path changed to one included in VDV301publisher:
+    - VoiceAnnouncer
+    - Golemio
+    - konfigurace
+    - SqlRopidXmlQueries
+    - XmlMpvParser
 
 - 20240514_1556
-        - VDV301publisher
-                - 5.15 compatibility fix
-        - VDV301publisher
-                - 5.15 compatibility fix
+  - VDV301publisher
+    - 5.15 compatibility fix
+  - VDV301publisher
+    - 5.15 compatibility fix
 
-        - VoiceAnnouncer
-                - moved into separate folder
-                - new parent class QueueSoundPlayer
+  - VoiceAnnouncer
+    - moved into separate folder
+    - new parent class QueueSoundPlayer
 
 
 - 20240514_1039
-        - VoiceAnnouncer
-                - added option to split this and next stop announcements (announcement type)
+  - VoiceAnnouncer
+    - added option to split this and next stop announcements (announcement type)
 - 20240513_1725
-        - IbisSender
-                - IpisTelegramCompose 
-                        - address of the device as variable
-                        - added delay between commands 
-        - settings.ini
-                -added option IBIS/enable=true
+  - IbisSender
+    - IpisTelegramCompose 
+      - address of the device as variable
+      - added delay between commands 
+  - settings.ini
+    -added option IBIS/enable=true
 - 20240510_0038
-        - splitting IbisOvladani into several classes
-        - settings.ini
-                - added IBIS com port setting
-        - IBIS serial port stop and start added to Change port button
-        - added program icon
-        - VDV301publisher
-                -  fix of < escaping using CDATA
+  - splitting IbisOvladani into several classes
+  - settings.ini
+    - added IBIS com port setting
+  - IBIS serial port stop and start added to Change port button
+  - added program icon
+  - VDV301publisher
+    -  fix of < escaping using CDATA
 - 20240422_1414
-        - VDV301subscriber
-                - using XmlParserSubscriber
-                - select ip from list
-        - XmlRopidImportStream
-                - allow to import multiple lines with one license number 
-        - settings.ini
-        - devMgmtSubscriber still highly experimental
-        - devMgmtSubscriber2 looks for version 2.2 publishers
+  - VDV301subscriber
+    - using XmlParserSubscriber
+    - select ip from list
+  - XmlRopidImportStream
+    - allow to import multiple lines with one license number 
+  - settings.ini
+  - devMgmtSubscriber still highly experimental
+  - devMgmtSubscriber2 looks for version 2.2 publishers
 
 - 20240215_1538
-        - set ID of selected device in detected devices table
-        - Vdv301subscriber
-                - new version supporting setDeviceID
-        - button to setDeviceId activated
+  - set ID of selected device in detected devices table
+  - Vdv301subscriber
+    - new version supporting setDeviceID
+  - button to setDeviceId activated
 - 20240214_1029
-        - rename of mainwindow.ui elements to English
-                - applies to slot names
+  - rename of mainwindow.ui elements to English
+    - applies to slot names
 
 - 20240208_1959
-        - MainWindow
-                - functions reorder
+  - MainWindow
+    - functions reorder
 - 20240208_1900
-        - MainWindow
-                - most of functions and variable names translated to English
-        - SqlRopidXmlDotazy
-                - renamed to SqlRopidXmlQueries
-        - Hlasic
-                - renamed to VoiceAnnouncer
+  - MainWindow
+    - most of functions and variable names translated to English
+  - SqlRopidXmlDotazy
+    - renamed to SqlRopidXmlQueries
+  - Hlasic
+    - renamed to VoiceAnnouncer
 
 - 20240208_1553
-        - VDV301DataStructures
-                - Vdv301Trip added
-        - VDV301publisher
-                - currentDisplayContent 2.3 fix
+  - VDV301DataStructures
+    - Vdv301Trip added
+  - VDV301publisher
+    - currentDisplayContent 2.3 fix
 
 - 20240204_1145
-        - nastaveni.ini renamed to settings.ini
-        - folders renamed to English
-        - show device status in device detection
-        - new approach for showing LED displays in 2.3 version (using DisplayContent)
-        - VDV301publisher
-                - 2.3 out of service fix
-        - VDV301subscriber
-                - experimental implementation of deviceManagementService v2.2 subscriber
-        - VDV301DataStructures
-                - vehicleState submode default value fix
-        - MainWindow
-                - build number now does not get lost in English translation
-                - new functions
-                        - MainWindow::retranslateUi (prepar)
-                        - MainWindow::ledLabelInitialize2_3
+  - nastaveni.ini renamed to settings.ini
+  - folders renamed to English
+  - show device status in device detection
+  - new approach for showing LED displays in 2.3 version (using DisplayContent)
+  - VDV301publisher
+    - 2.3 out of service fix
+  - VDV301subscriber
+    - experimental implementation of deviceManagementService v2.2 subscriber
+  - VDV301DataStructures
+    - vehicleState submode default value fix
+  - MainWindow
+    - build number now does not get lost in English translation
+    - new functions
+      - MainWindow::retranslateUi (prepar)
+      - MainWindow::ledLabelInitialize2_3
 
-        - LabelVykreslovani
-                - new functions 
-                        - LabelVykreslovani::ledDisplaySetDisplayContent
-                        - LabelVykreslovani::ledWriteToDisplay
-                - new class
-                        - LedLabelDisplay
-        - XmlParser
-                - new function
-                        - XmlParser::parseAllData2_3
-                        - XmlParser::domTripInformationToVdv301Trip
-                        - XmlParser::domStopListToVdv301TripStopList
-                        - XmlParser::tripDoSeznamuZastavek2_3
+  - LabelVykreslovani
+    - new functions 
+      - LabelVykreslovani::ledDisplaySetDisplayContent
+      - LabelVykreslovani::ledWriteToDisplay
+    - new class
+      - LedLabelDisplay
+  - XmlParser
+    - new function
+      - XmlParser::parseAllData2_3
+      - XmlParser::domTripInformationToVdv301Trip
+      - XmlParser::domStopListToVdv301TripStopList
+      - XmlParser::tripDoSeznamuZastavek2_3
 - 20240123
-        - SqlRopidXmlDotazy
-                - transferMetroC fix
+  - SqlRopidXmlDotazy
+    - transferMetroC fix
 - 20240109_1404
-        - fixed setting golemio API key in configuration tab
+  - fixed setting golemio API key in configuration tab
 
 - 20240105_1123
-        - VDV301publisher 
-                - unsubscribe response fix
-        - VDV301subscriber
-                - unsubscribe response fix
-                - HTTP status check
-        - language selector in Settings now works
+  - VDV301publisher 
+    - unsubscribe response fix
+  - VDV301subscriber
+    - unsubscribe response fix
+    - HTTP status check
+  - language selector in Settings now works
 
 - 20231214_1750
-        - VDV301publisher 
-                - unsubscribe functionality
-        - VDV301subscriber
-                - unsubscribe functionality
+  - VDV301publisher 
+    - unsubscribe functionality
+  - VDV301subscriber
+    - unsubscribe functionality
 
 - 20231206_2100
-        - ui
-                - smaller padding in tabWidget_hlavni
-                - removed one excessive Connections checkbox
+  - ui
+    - smaller padding in tabWidget_hlavni
+    - removed one excessive Connections checkbox
 
 - 20231206_2031
-        - ui
-                - selection of trip from QTableView
-                - added new tabs in Options menu
-                - Connections checkbox moved to Options              
-        - XmlRopidImportStream
-                - new truncate functions
-                - new columns added
-        - timerTrvaniZmenyPasma is not a pointer now  
+  - ui
+    - selection of trip from QTableView
+    - added new tabs in Options menu
+    - Connections checkbox moved to Options        
+  - XmlRopidImportStream
+    - new truncate functions
+    - new columns added
+  - timerTrvaniZmenyPasma is not a pointer now  
 
 - 20231124_1706
-        - added SQL VACUUM after tables truncate
+  - added SQL VACUUM after tables truncate
 - 20231124_1453
-        - translations fix
-        - new buttons to manually add 2.3 subscriber
-        - manual mode subscriber lists layout change
-        - default language changed to English
-        - removed non-functional STOP requested checkbox from Vehicle run screen
-        - VDV301subscriber
-                - set port number fix
-        - readme.md description fixes
+  - translations fix
+  - new buttons to manually add 2.3 subscriber
+  - manual mode subscriber lists layout change
+  - default language changed to English
+  - removed non-functional STOP requested checkbox from Vehicle run screen
+  - VDV301subscriber
+    - set port number fix
+  - readme.md description fixes
 
 
 - 20231107_2339
-        - VDV301publisher
-                - 2.4 functions renamed to 2.3
-        - VDV301subscriber
-                - 2.4 functions renamed to 2.3
-                - service name change fix (unsuccessful subscription)
-        - default configuration (nastaveni.ini)
-                - 2.4 CIS renamed to 2.3
+  - VDV301publisher
+    - 2.4 functions renamed to 2.3
+  - VDV301subscriber
+    - 2.4 functions renamed to 2.3
+    - service name change fix (unsuccessful subscription)
+  - default configuration (nastaveni.ini)
+    - 2.4 CIS renamed to 2.3
 
 - 20231103_1633
-        - VDV301publisher
-                - 2.4 farezone compliance
-        - stop requested checkbox in Ride mode
+  - VDV301publisher
+    - 2.4 farezone compliance
+  - stop requested checkbox in Ride mode
 
 - 20231101_1601
-        - VDV301publisher
-                - 1.0 Connections fix
+  - VDV301publisher
+    - 1.0 Connections fix
 - 20231030_1931
-        - detection of subscriber ID fixed
-        - changed english UI translation to comply with VDV301 (connection, trip, vehicle run) 
-        - VDV301publisher
-                - fix of wrong xml file generating (XML pass by reference error)
-        - VDV301subscriber
-                - fix of empty service name in DevMgmtSubscriber
-        - DeviceManagementService publisher reenabled      
+  - detection of subscriber ID fixed
+  - changed english UI translation to comply with VDV301 (connection, trip, vehicle run) 
+  - VDV301publisher
+    - fix of wrong xml file generating (XML pass by reference error)
+  - VDV301subscriber
+    - fix of empty service name in DevMgmtSubscriber
+  - DeviceManagementService publisher reenabled      
 
 - 20231030_1401
-        - English version of libraries
-                - VDV301publisher
-                - VDV301subscriber
-                - VDV301DataStructures               
+  - English version of libraries
+    - VDV301publisher
+    - VDV301subscriber
+    - VDV301DataStructures         
 
 - 20231025_1111
-        - XmlRopidImportStream
-                - import now doesn't stop when unknown tag occurs
-        - last version of sourcecode in czech
+  - XmlRopidImportStream
+    - import now doesn't stop when unknown tag occurs
+  - last version of sourcecode in czech
 
 - 20230907_1845
-        - VDV301 publisher
-                - metro icon transfer
-        - VDV301struktury
-                - regionalRail fix
-        - golemio.cpp
-                - debug messages removal
-        - V2.4 subscribers table   
+  - VDV301 publisher
+    - metro icon transfer
+  - VDV301struktury
+    - regionalRail fix
+  - golemio.cpp
+    - debug messages removal
+  - V2.4 subscribers table   
 
 - 20230831_1130
-        - VDV301publisher VDV301 2.4
-                - in-line color formatting of line number
-                - removal of lineProperty
+  - VDV301publisher VDV301 2.4
+    - in-line color formatting of line number
+    - removal of lineProperty
 
 - 20230830_1341
-        - new verion of VDV301publisher (2.4 viaPoint fix)
-        - new version of VDV301subscriber (subscriber version)
-        - new version of XmlRopidImportStream
-                - import of APC data
-                - timetables import in new class xmlimportjr.cpp
-        - devMgmtSubscriber renamed to deviceManagementServiceSubscriber
-        - MapaVykresleni (mapdrawing module) moved to a submodule
+  - new verion of VDV301publisher (2.4 viaPoint fix)
+  - new version of VDV301subscriber (subscriber version)
+  - new version of XmlRopidImportStream
+    - import of APC data
+    - timetables import in new class xmlimportjr.cpp
+  - devMgmtSubscriber renamed to deviceManagementServiceSubscriber
+  - MapaVykresleni (mapdrawing module) moved to a submodule
 
 - 20230622_1447
-        - VDV301publisher
-                -DisplayContentClass
-        - changelog.txt merged to readme.md
-        - hlasic
-                -compability with Qt 5.15 and Qt 6.5        
+  - VDV301publisher
+    -DisplayContentClass
+  - changelog.txt merged to readme.md
+  - hlasic
+    -compability with Qt 5.15 and Qt 6.5  
 
 ## Old Changelog (in Czech)
 
 - 20230614_1001
-        - VDV301 2.4
-                - generování různých DisplayContent pro LCD, Front, Side, Rear panely
+  - VDV301 2.4
+    - generování různých DisplayContent pro LCD, Front, Side, Rear panely
 - 20230608_1055
-        - oprava mapy
-        - oprava přiložené databáze 
+  - oprava mapy
+  - oprava přiložené databáze 
 - 20230607_2028
-        - verze se dá zkopírovat
-        - verze mapy s příznaky
-        - nová verze VDV301publisher
-               - nový signál SluzbaPublikovana
-        - nová verze VDV301subscriber
-                - nastavení portu
-        - postupné spouštění verzí CustomerInformationService
-        - přesunutí konfiguračních souborů ve zdrojových souborech do samotatné složky
+  - verze se dá zkopírovat
+  - verze mapy s příznaky
+  - nová verze VDV301publisher
+         - nový signál SluzbaPublikovana
+  - nová verze VDV301subscriber
+    - nastavení portu
+  - postupné spouštění verzí CustomerInformationService
+  - přesunutí konfiguračních souborů ve zdrojových souborech do samotatné složky
 
 
 - 2023_05_22
-        - úprava mapy (popis spoje)
-        - nová verze DB
-        - nová verze struktura
-        - oprava XML dotazů  pro eliminaci duplicitních spojů
+  - úprava mapy (popis spoje)
+  - nová verze DB
+  - nová verze struktura
+  - oprava XML dotazů  pro eliminaci duplicitních spojů
 
 - 2023_05_02
-        - vykreslení radiusu zastávky
+  - vykreslení radiusu zastávky
 
 - 2023_04_25
-        - změna datového typu souřadnic na double
-        - oprava dotazu pro natažení souřadnic
-        - odmazaní funkčí pro vykreslení mapy využívající přímý zápis HTML
+  - změna datového typu souřadnic na double
+  - oprava dotazu pro natažení souřadnic
+  - odmazaní funkčí pro vykreslení mapy využívající přímý zápis HTML
 
 - 2023_04_24
-        - možnost zobrazit trasu linky
-        - import GPS souřadnic
+  - možnost zobrazit trasu linky
+  - import GPS souřadnic
 
 - 2023_02_16_1152
-        - možnost změnit port u služeb
+  - možnost změnit port u služeb
 
 - 2023_02_08_1239
-        - oprava DB
-        - aktualizace XmlImportStream
+  - oprava DB
+  - aktualizace XmlImportStream
 
 - 2023_01_24_1850 18:50
-        - změna jazyka přes nastaveni.ini
+  - změna jazyka přes nastaveni.ini
 
 - 2023_01_24
-        - konfigurace přes nastaveni.ini
+  - konfigurace přes nastaveni.ini
