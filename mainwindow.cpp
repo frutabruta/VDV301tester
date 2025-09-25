@@ -26,7 +26,8 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
     // devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
-    devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),
+    //devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),
+    devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.3CZ1.0","_ibisip_http._tcp",48477),
     ui(new Ui::MainWindow)
 {
     qDebug() <<  Q_FUNC_INFO;

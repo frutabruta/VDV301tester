@@ -1,6 +1,6 @@
  # VDV301tester
 
-This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1.0 and VDV301 2.2CZ1.0, written in Qt Framework.
+This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1.0 and VDV301 2.3CZ1.0, written in Qt Framework.
 
 # Features
 - XML ROPID timetable import
@@ -143,6 +143,37 @@ mingw32-make install
 
 
 ## Changelog
+- 20250925_1740
+  - VDV301publisher
+    - ColorDisplayRules::fillColorMap()
+      - fixed regionalBus color
+      - added railReplacementBusReplacementDiversion
+    - HttpService::slotDumpRequestContent
+      - added support for replyPath including /
+      - fixed else if statement to prevent response clash
+  - VDV301subscriber
+    - CisSubscriber
+      - added replyPath attribute
+    - DevMgmtSubscriber2::slotHttpRequestSubscriptionFinished
+      - null pointer fix
+      - empty result check
+    - HttpServerSubscriber::route
+      - added replyPath handeling and support for / in beginning
+    - IbisIpSubscriber
+      - added replyPath support
+      - changed reply type to QPointer<QNetworkReply> to fix crashes
+    - IbisIpSubscriberOnePublisher
+      - added replyPath support
+    - XmlGeneratorSubscriber::createSubscribeRequest
+      - simplified using value function
+      - added replyPath
+    - XmlGeneratorSubscriber::createUnsubscribeRequest
+      - simplified using value function
+      - added replyPath
+    - XmlGeneratorSubscriber::createUnsubscribeRequest
+      - header fix
+    - DevMGMT subscriber changed to version 2.2
+
 - 20250828_1640
   - Vdv301publisher
     - fixed color rules for trolleybus, replacement etc.
@@ -150,6 +181,7 @@ mingw32-make install
     -  fixed double sending of the same content 
   - readme.md
     - fixed indentation
+
 - 20250623_1918
   - translations fix
   - stop position simulator on ride exit
