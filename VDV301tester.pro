@@ -46,6 +46,11 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 #LIBS += -lqhttpserver
 
 SOURCES += \
+    GolemioClient/connectiongolemio.cpp \
+    GolemioClient/connectiongolemiov4.cpp \
+    GolemioClient/golemioresultv4.cpp \
+    GolemioClient/golemiov4.cpp \
+    GolemioClient/stopgolemio.cpp \
     IbisSender/ibissender.cpp \
     IbisSender/ipispid.cpp \
     IbisSender/ipissender.cpp \
@@ -57,7 +62,7 @@ SOURCES += \
     VDV301publisher/VDV301DataStructures/additionalannoucement.cpp \
     VDV301publisher/VDV301DataStructures/additionalannoucement2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/connection.cpp \
-    VDV301publisher/VDV301DataStructures/connectiongolemio.cpp \
+ #   VDV301publisher/VDV301DataStructures/connectiongolemio.cpp \
     VDV301publisher/VDV301DataStructures/connectionmpv.cpp \
     VDV301publisher/VDV301DataStructures/farezone.cpp \
     VDV301publisher/VDV301DataStructures/line.cpp \
@@ -122,7 +127,7 @@ SOURCES += \
     VoiceAnnouncer/voiceannouncer.cpp \
     XmlRopidImportStream/xmlimportjr.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
-    golemio.cpp \
+    GolemioClient/golemio.cpp \
     locationevents.cpp \
     logfile.cpp \
     main.cpp \
@@ -135,9 +140,15 @@ SOURCES += \
     specialannouncementparser.cpp \
     sqldotazymodel.cpp \
     sqlropidxmlqueries.cpp \
+    typeconvertor.cpp \
     xmlmpvparser.cpp
 
 HEADERS += \
+    GolemioClient/connectiongolemio.h \
+    GolemioClient/connectiongolemiov4.h \
+    GolemioClient/golemioresultv4.h \
+    GolemioClient/golemiov4.h \
+    GolemioClient/stopgolemio.h \
     IbisSender/ibissender.h \
     IbisSender/ipispid.h \
     IbisSender/ipissender.h \
@@ -149,7 +160,7 @@ HEADERS += \
     VDV301publisher/VDV301DataStructures/additionalannoucement.h \
     VDV301publisher/VDV301DataStructures/additionalannoucement2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/connection.h \
-    VDV301publisher/VDV301DataStructures/connectiongolemio.h \
+  #  VDV301publisher/VDV301DataStructures/connectiongolemio.h \
     VDV301publisher/VDV301DataStructures/connectionmpv.h \
     VDV301publisher/VDV301DataStructures/farezone.h \
     VDV301publisher/VDV301DataStructures/line.h \
@@ -215,7 +226,7 @@ HEADERS += \
     XmlRopidImportStream/xmlimportjr.h \
     XmlRopidImportStream/xmlropidimportstream.h \
     XmlRopidImportStream/sqlitezaklad.h \
-    golemio.h \
+    GolemioClient/golemio.h \
     locationevents.h \
     logfile.h \
     mainwindow.h \
@@ -226,6 +237,7 @@ HEADERS += \
     specialannouncementparser.h \
     sqldotazymodel.h \
     sqlropidxmlqueries.h \
+    typeconvertor.h \
     xmlmpvparser.h
 
 FORMS += \

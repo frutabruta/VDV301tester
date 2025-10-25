@@ -316,6 +316,69 @@ QVector<QString> SqlRopidXmlQueries::getNotesFromTripS(int tripS, int xorder)
     return noteList;
 }
 
+
+
+Trip SqlRopidXmlQueries::getTripDescriptionFromId(int tripId, QString kj)
+{
+    qDebug()<< Q_FUNC_INFO;
+    this->otevriDB();
+    Trip trip;
+
+    QString  queryString= R"(
+ SELECT DISTINCT l.c, l.aois,  l.lc, s.c,s.s, z.n AS Z, zz.n AS DO, substr(time(x.o, 'unixepoch'),1,5) AS start, substr(time(xx.p, 'unixepoch'),1,5) AS konec
+FROM s
+                          LEFT JOIN l ON s.l=l.c  AND s.d=l.d
+                          LEFT JOIN x ON s.s=x.s_id AND x.xorder=0
+                          LEFT JOIN z ON x.u=z.u AND x.z=z.z
+                          LEFT JOIN (
+                          SELECT x.u, x.z, x.s_id, MAX(x.p) AS p, MAX(x.xorder) AS pocet
+                          FROM (SELECT x.o,x.p,x.s_id,x.xorder, x.u, x.z FROM x WHERE s2=0) AS x
+                          GROUP BY x.s_id ) AS xx
+                          ON xx.s_id=s.s
+                          LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z
+
+
+ WHERE s.s=)";
+    queryString+=QString::number(tripId);
+    queryString+= R"(
+AND s.man !=1 AND s.kj LIKE ')";
+    queryString+=kj;
+    queryString+= R"('
+ ORDER BY s.c ASC, s.s ASC
+)";
+
+
+    QSqlQuery query;
+    query.exec(queryString);
+    qDebug()<<"lasterror"<<  query.lastError();
+    qDebug().noquote()<<queryString;
+    //  qDebug()<<"DebugPointB";
+
+    while (query.next())
+    {
+        trip.line.c=query.value(query.record().indexOf("l.c")).toInt();
+        trip.line.lineName=query.value(query.record().indexOf("l.aois")).toString();
+        trip.line.lc=query.value(query.record().indexOf("l.lc")).toInt();
+        trip.line.lineNumber=query.value(query.record().indexOf("l.lc")).toString();
+
+        trip.idRopid=query.value(query.record().indexOf("s.c")).toInt();
+        trip.id=query.value(query.record().indexOf("s.s")).toInt();
+
+        StopPointDestination firstStop;
+        StopPointDestination lastStop;
+
+        firstStop.stopPoint.NameLcd=query.value(query.record().indexOf("Z")).toString();
+        lastStop.stopPoint.NameLcd=query.value(query.record().indexOf("DO")).toString();
+
+        trip.globalStopPointDestinationList.append(firstStop);
+        trip.globalStopPointDestinationList.append(lastStop);
+    }
+    // this->zavriDB();
+
+
+    return trip;
+}
+
 int SqlRopidXmlQueries::getVehicleRunFromTripLC(Trip trip, int &rootLine, int &vehicleRun, int &tripIndex, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
@@ -833,27 +896,42 @@ QVector<MapaBod> SqlRopidXmlQueries::getTrajectoryFromTripS(int tripS, QString k
     QVector<MapaBod> result;
 
 
-
     this->pripoj();
 
     QString queryString="";
 
+    queryString+= R"(
+SELECT DISTINCT
+bod.u1, bod.u2, bod.z1, bod.z2, bod.poradi, x2.u, x2.z, x.id, bod.x, bod.y, bod.lat, bod.lon,
+z.n, z.cis, z.ois,
+l.c, l.lc, l.tl,
+x.t, x.xorder, x.zsol, x.s1, x.s2, x.s_id,
+s.ns, s.c, s.vy, x.ROWID, x2.ROWID
 
-    queryString+="SELECT DISTINCT ";
-    queryString+="bod.u1, bod.u2, bod.z1, bod.z2, bod.poradi, bod.x, bod.y, ";
-    queryString+="z.n, z.cis, z.ois,  ";
-    queryString+="l.c, l.lc, l.tl,  ";
-    queryString+="x.t, x.xorder, x.zsol, x.s1, x.s2, x.s_id,  ";
-    queryString+="s.ns, s.c, s.vy ";
+FROM (
+        SELECT x.z, x.id, x.ROWID, x.t, x.xorder, x.zsol, x.s1,x.s2, x.s_id, x.u , ROW_NUMBER() OVER (ORDER BY x.ROWID) AS row_number
+        FROM x
+        WHERE x.t IS NULL
+    ) AS x
+LEFT JOIN s ON x.s_id=s.s
+LEFT JOIN (
+        SELECT x.z, x.id, x.ROWID, x.t, x.xorder, x.zsol, x.s1,x.s2, x.s_id, x.u , x.var, ROW_NUMBER() OVER (ORDER BY x.ROWID) AS row_number
+        FROM x
+        WHERE x.t IS NULL
+        ) AS x2 ON x.row_number+1=(x2.row_number)
+LEFT JOIN z ON x.u = z.u AND x.z=z.z AND z.kj LIKE ')";
+    queryString+=kj;
+    queryString+= R"('
+LEFT JOIN l ON s.l=l.c
+LEFT JOIN t ON t.u=x.u AND t.z=x.z
+LEFT JOIN bod ON bod.u1=x.u AND bod.z1=x.z AND bod.u2=x2.u AND bod.z2=x2.z AND bod.var=x2.var AND bod.kj LIKE )";
 
-    queryString+="FROM x LEFT JOIN s ON x.s_id=s.s ";
-
-    queryString+="LEFT JOIN x AS x2 ON x.id+1=(x2.id) ";
-    queryString+="LEFT JOIN z ON x.u = z.u AND x.z=z.z ";
-    queryString+="LEFT JOIN l ON s.l=l.c  AND s.d=l.d ";
-    queryString+="LEFT JOIN t ON t.u=x.u AND t.z=x.z ";
-    queryString+="LEFT JOIN bod ON bod.u1=x.u AND bod.z1=x.z AND bod.u2=x2.u AND bod.z2=x2.z AND bod.var=x2.var ";
+    queryString+="'"+kj+"' ";
     queryString+="WHERE s.s=";
+
+
+
+
     queryString+=QString::number(tripS);
     queryString+=" AND  s.kj LIKE '"+kj+"'  AND s.d=l.d ";
     queryString+="ORDER BY x.xorder, bod.poradi ";
@@ -863,9 +941,11 @@ QVector<MapaBod> SqlRopidXmlQueries::getTrajectoryFromTripS(int tripS, QString k
     qDebug().noquote()<<queryString;
     qDebug()<<"lasterror "<<query.lastError();
 
+    //  qDebug()<<"DebugPointB";
+
     while (query.next())
     {
-        MapaBod mapPoint;
+        MapaBod bod;
 
         QString u1=query.value(query.record().indexOf("bod.u1")).toString();
         QString z1=query.value(query.record().indexOf("bod.z1")).toString();
@@ -874,32 +954,42 @@ QVector<MapaBod> SqlRopidXmlQueries::getTrajectoryFromTripS(int tripS, QString k
         QString z2=query.value(query.record().indexOf("bod.z2")).toString();
 
         //bod.radius =query.value( query.record().indexOf("z.rdisp")).toInt();
-/*
-        mapPoint.lat=absoluteValue(query.value( query.record().indexOf("bod.x")).toDouble());
-        mapPoint.lng=absoluteValue(query.value( query.record().indexOf("bod.y")).toDouble());
-        */
 
-        mapPoint.lat=query.value( query.record().indexOf("bod.x")).toDouble();
-        mapPoint.lng=query.value( query.record().indexOf("bod.y")).toDouble();
 
-        int order=query.value(query.record().indexOf("bod.poradi")).toInt();
+        //bod.x=absoluteValue(query.value( query.record().indexOf("bod.x")).toDouble());
+        //bod.y=absoluteValue(query.value( query.record().indexOf("bod.y")).toDouble());
 
-        if(order==0)
+        bod.x=query.value( query.record().indexOf("bod.x")).toDouble();
+        bod.y=query.value( query.record().indexOf("bod.y")).toDouble();
+
+        bod.lat=absoluteValue(query.value( query.record().indexOf("bod.lat")).toDouble());
+        bod.lng=absoluteValue(query.value( query.record().indexOf("bod.lon")).toDouble());
+
+        QString obsah="";
+        obsah+="u1: "+u1+" ";
+        obsah+="z1: "+z1+" ";
+        obsah+="u2: "+u2+" ";
+        obsah+="z2: "+z2+" ";
+        bod.obsah=obsah;
+
+        if((bod.x!=0.0)&&(bod.y!=0.0))
         {
-            mapPoint.isStop=true;
+            result.push_back(bod);
         }
-        QString content="";
-        content+="u1: "+u1+" ";
-        content+="z1: "+z1+" ";
-        content+="u2: "+u2+" ";
-        content+="z2: "+z2+" ";
-        mapPoint.obsah=content;
-
-        if((mapPoint.lat!=0.0)&&(mapPoint.lng!=0.))
+        else if((bod.lng!=0.0)&&(bod.lat!=0.0))
         {
-            result.push_back(mapPoint);
+            result.push_back(bod);
         }
+        else
+        {
+            qDebug()<<"invalid coordinates";
+        }
+
+
+        // qDebug()<<docasnySpoj.cisloRopid;
     }
+
+
 
     this->zavriDB();
 
@@ -952,3 +1042,71 @@ QSqlQueryModel* SqlRopidXmlQueries::getLineStopListModel(Line line, QString kj)
 }
 
 
+
+bool SqlRopidXmlQueries::getPolygonFromStopPoint(StopPoint &stopPoint, QString kj)
+{
+    qDebug()<< Q_FUNC_INFO;
+    //qDebug()<<" idSpoje:"<<idSpoje<<" kj:"<<kj;
+    this->otevriDB();
+
+    QPolygonF temporaryPolygon;
+
+
+    QString queryString2="SELECT * FROM bod_polygon ";
+
+    //eliminace všech smyček
+    // queryString2+=(" AND  x.s2=0 ");
+
+
+    queryString2+=(" WHERE bod_polygon.u=");
+    queryString2+=( QString::number(stopPoint.idU));
+
+    queryString2+=(" AND bod_polygon.z=");
+    queryString2+=( QString::number(stopPoint.idZ));
+
+
+
+    queryString2+=(" AND  bod_polygon.kj LIKE '");
+    queryString2+=(kj);
+    queryString2+=("' ");
+
+    queryString2+=("ORDER BY bod_polygon.poradi");
+
+
+    QSqlQuery query(queryString2,this->mojeDatabaze);
+
+    qDebug()<<queryString2;
+
+    int citacD=0;
+
+    while (query.next())
+    {
+        citacD++;
+
+        if (query.value(0).toString()!="")
+        {
+            double lat=0.0;
+            double lng=0.0;
+
+
+            lat=query.value(query.record().indexOf("bod_polygon.lat")).toDouble();
+            lng=query.value(query.record().indexOf("bod_polygon.lon")).toDouble();
+
+            stopPoint.polygonWgs84.append(QPointF(lat,lng));
+
+        }
+    }
+
+
+    this->zavriDB();
+
+    if(stopPoint.polygonWgs84.isEmpty())
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+
+}

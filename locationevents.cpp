@@ -3,13 +3,14 @@
 LocationEvents::LocationEvents() {}
 
 
-
+/*
+Only works for S_JTSK!
+*/
 void LocationEvents::slotGnssUpdate(MapaBod coordinates)
 {
-
     if(isAtStop)
     {
-        if(!coordinatesTools.isPointInsideCircle(coordinates.lat,coordinates.lng,expectedStopPointDestination.stopPoint.sx,expectedStopPointDestination.stopPoint.sy,expectedStopPointDestination.stopPoint.radius))
+        if(!coordinatesTools.isPointInsideCircle(coordinates.x,coordinates.y,expectedStopPointDestination.stopPoint.sx,expectedStopPointDestination.stopPoint.sy,expectedStopPointDestination.stopPoint.radius))
         {
             isAtStop=false;
             emit signalDepartedStop(expectedStopPointDestination);
@@ -22,7 +23,7 @@ void LocationEvents::slotGnssUpdate(MapaBod coordinates)
     }
     else
     {
-        if(coordinatesTools.isPointInsideCircle(coordinates.lat,coordinates.lng,expectedStopPointDestination.stopPoint.sx,expectedStopPointDestination.stopPoint.sy,expectedStopPointDestination.stopPoint.radius))
+        if(coordinatesTools.isPointInsideCircle(coordinates.x,coordinates.y,expectedStopPointDestination.stopPoint.sx,expectedStopPointDestination.stopPoint.sy,expectedStopPointDestination.stopPoint.radius))
         {
             isAtStop=true;
             emit signalArrivedAtStop(expectedStopPointDestination);

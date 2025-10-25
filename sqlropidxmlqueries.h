@@ -42,6 +42,8 @@ public:
     QString fareZoneToString(QVector<FareZone> fareZoneList, QString delimiter);
     int getTripIndexOnList(QVector<Trip> tripList, Trip trip);
 
+    bool getPolygonFromStopPoint(StopPoint &stopPoint, QString kj);
+    Trip getTripDescriptionFromId(int idSpoje, QString kj);
 private:
     QVector<QString> getNotesFromTripS(int tripS, int xorder);
 

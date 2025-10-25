@@ -13,6 +13,7 @@
 #include <QRegularExpression> //qt6
 #include <QTableWidget>
 #include <QTableView>
+#include <QLoggingCategory>
 
 
 #include "VDV301publisher/VDV301DataStructures/vehiclestate.h"
@@ -36,13 +37,14 @@
 
 #include "sqlropidxmlqueries.h"
 #include "xmlmpvparser.h"
-#include "golemio.h"
+#include "GolemioClient/golemio.h"
 #include "XmlRopidImportStream/xmlimportjr.h"
 #include "IbisSender/ipispid.h"
 #include "VoiceAnnouncer/voiceannouncer.h"
 #include "specialannouncementparser.h"
 #include "logfile.h"
 #include "MapaVykresleni/mapyapistops.h"
+#include "typeconvertor.h"
 
 #include "MapaVykresleni/trajectoryjumper.h"
 #include "MapaVykresleni/coordinatestools.h"
@@ -81,6 +83,7 @@ private:
     // 1 Prague Metro
     // 2 Berlin
 
+    bool blockBonjour=true;
 
     //ve vterinach
 

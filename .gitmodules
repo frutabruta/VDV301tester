@@ -13,3 +13,6 @@
 [submodule "VDV301DataStructures"]
 	path = VDV301DataStructures
 	url = https://github.com/frutabruta/VDV301DataStructures
+[submodule "GolemioClient"]
+	path = GolemioClient
+	url = https://github.com/frutabruta/GolemioClient

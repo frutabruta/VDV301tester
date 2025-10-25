@@ -17,7 +17,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     //  settings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat),
     golemio(""), //klic do golemia
     logfile(QCoreApplication::applicationDirPath()),
-  //  timeService1_0("TimeService","_ibisip_udp._udp",123,"1.0"),
+    //  timeService1_0("TimeService","_ibisip_udp._udp",123,"1.0"),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3"),
@@ -31,6 +31,9 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     ui(new Ui::MainWindow)
 {
     qDebug() <<  Q_FUNC_INFO;
+
+    QLoggingCategory::setFilterRules("com.mycompany.myclass.debug=false");
+
     ui->setupUi(this);
     settings=newQSettings;
 
@@ -56,7 +59,12 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath()+"/mapFiles");
     //  mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath());
 
+    loadConstantsFromSettingsFile();
 
+    if(blockBonjour)
+    {
+        setWindowTitle(windowTitle()+" "+tr("no Bonjour mode"));
+    }
 
 
     //settings.setValue("General/language","en");
@@ -66,12 +74,18 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     retranslateUi(jazyk);
 
 
-    loadConstantsFromSettingsFile();
+
+
+
+
 
     if(ibisIsEnabled)
     {
         ibisOvladani.start();
     }
+
+
+    devMgmtSubscriber.start();
 
     //ui->stackedWidget_palPc->setWindowState(Qt::WindowFullScreen);
 
@@ -86,7 +100,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
 
 
     startAllVdv301Services();
-    startServiceFromList(vektorCis);
+
 
 
     //vyplneni polozky build pro rozliseni zkompilovanych verzi
@@ -257,11 +271,13 @@ void MainWindow::retranslateUi(QString language)
 
 void MainWindow::startServiceFromList(QVector<CustomerInformationService*> &seznamSluzeb)
 {
+    qDebug()<<Q_FUNC_INFO;
     if(!seznamSluzeb.isEmpty())
     {
-        CustomerInformationService* aktualniSluzba=seznamSluzeb.takeFirst();
+        CustomerInformationService* aktualniSluzba=seznamSluzeb.takeFirst();      
+        aktualniSluzba->blockBonjour=blockBonjour;
         qDebug()<<"v zasobniku zustava sluzeb: "<<seznamSluzeb.count();
-        qDebug()<<Q_FUNC_INFO<<" "<<aktualniSluzba->mServiceName<<" "<<aktualniSluzba->version();
+        qDebug()<<"starting"<<aktualniSluzba->mServiceName<<" "<<aktualniSluzba->version()<<" "<<aktualniSluzba->portNumber();
         aktualniSluzba->slotStartServer();
     }
 }
@@ -299,6 +315,8 @@ void MainWindow::loadConstantsFromSettingsFile()
     vehicleState.showConnections=settings->value("golemio/enabled").toBool();
     ui->checkBox_configuration_enableConnections->setChecked(vehicleState.showConnections);
 
+    blockBonjour=settings->value("app/blockBonjour").toBool();
+
     ui->label_build->setText(textVerze());
     ui->label_build->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
@@ -311,11 +329,15 @@ void MainWindow::loadConstantsFromSettingsFile()
     deviceManagementService1_0.setDeviceId(settings->value("deviceManagementService1_0/deviceId").toString());
     deviceManagementService1_0.setSwVersion(textVerze());
     deviceManagementService1_0.slotDataUpdate();
-
+    deviceManagementService1_0.blockBonjour=blockBonjour;
     deviceManagementService1_0.setPortNumber(settings->value("deviceManagementService1_0/port").toInt() ); //47477
+
     customerInformationService1_0.setPortNumber(settings->value("customerInformationService1_0/port").toInt() );
     customerInformationService2_3.setPortNumber(settings->value("customerInformationService2_3/port").toInt());
     customerInformationService2_3CZ1_0.setPortNumber(settings->value("customerInformationService2_3CZ1_0/port").toInt());
+
+
+    devMgmtSubscriber.blockBonjour=blockBonjour;
 
     ibisIsEnabled=settings->value("ibis/enable").toBool();
     ibisOvladani.setSerialPortName(settings->value("ibis/portName").toString());
@@ -408,13 +430,28 @@ void MainWindow::testStop(int index)
 void MainWindow::startAllVdv301Services()
 {
     qDebug() <<  Q_FUNC_INFO;
+
+    deviceManagementService1_0.blockBonjour=blockBonjour;
     deviceManagementService1_0.slotStartServer();
     /*
     customerInformationService1_0.slotStartServer();
     customerInformationService2_2CZ1_0.slotStartServer();
     customerInformationService2_4.slotStartServer();
     */
+    ticketValidationService2_3CZ1_0.blockBonjour=blockBonjour;
     ticketValidationService2_3CZ1_0.slotStartServer();
+
+    if(blockBonjour)
+    {
+        foreach (CustomerInformationService *cisService, vektorCis) {
+            cisService->blockBonjour=blockBonjour;
+            cisService->slotStartServer();
+        }
+    }
+    else
+    {
+        startServiceFromList(vektorCis);
+    }
 }
 
 
@@ -468,7 +505,7 @@ void MainWindow::slotDownloadConnectionsFromCurrentStop()
             StopPoint aktZastavka=vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint;
             if(useGolemioApi)
             {
-                golemio.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
+                golemio.startDataDownload(aktZastavka.idCis);
             }
             else
             {
@@ -525,7 +562,7 @@ void MainWindow::slotGolemioReady()
     QVector<Connection> prestupy;
     foreach(ConnectionGolemio polozka,prestupyGolemio)
     {
-        prestupy.push_back(polozka.toConnection());
+        prestupy.push_back(TypeConvertor::connectionGolemioToConnection(polozka));
     }
     qDebug()<<"bum11";
     if(filterConnections)
@@ -1597,12 +1634,29 @@ void MainWindow::on_pushButton_ride_map_clicked()
     mapPlot.seznamMnozin.clear();
     QVector<StopPointDestination> stopPointList=vehicleState.getCurrentTrip().globalStopPointDestinationList;
 
-    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),true,false,false,false,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),false,false,false,true,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false, MnozinaBodu::J_STSK);
+
+    for(StopPointDestination &stopPointDestination : stopPointList)
+    {
+        sqlRopidQueries.getPolygonFromStopPoint(stopPointDestination.stopPoint,this->createDataValidityMask());
+    }
 
 
-    mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( vehicleState.currentTrip));
+    foreach(StopPointDestination stopPoint, stopPointList)
+    {
+        mapPlot.pridejMnozinu(MapyApiStops::polygonToSeznamMapaBod(stopPoint.stopPoint.polygonWgs84),false,true,false,true,true,MnozinaBodu::WGS84);
+
+    }
+
+
+    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),true,false,false,false,false,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),false,false,false,true,false,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false,false,MnozinaBodu::S_JTSK);
+
+
+    Trip temporaryTrip=sqlRopidQueries.getTripDescriptionFromId(vehicleState.getCurrentTrip().id,this->createDataValidityMask())  ;
+
+
+    mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( temporaryTrip));
 
 
 }

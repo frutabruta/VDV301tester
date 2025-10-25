@@ -143,6 +143,42 @@ mingw32-make install
 
 
 ## Changelog
+- 20251025_2053
+  - LocationEvents::slotGnssUpdate
+    - coordinates fix
+  - MainWindow
+    - added blockBonjour variable to enable running in manual on PCs withou bonjour installed
+    - MainWindow::on_pushButton_ride_map_clicked
+      - implemented polygons
+  - SqlRopidXmlQueries::getTripDescriptionFromId
+    - new function taken from RopidXmlTools to improve trip description table in the map
+  - SqlRopidXmlQueries::getTrajectoryFromTripS
+    - fix by using new version from RopidXmlTools
+  - TypeConvertor
+    - new class to reduce neccessary includes between other filetypes
+  - MapaVykresleni
+    - TrajectoryJumper fix
+  - new submodule GolemioClient
+  - VDV301publisher
+    - devMgmt crash fix
+    - bonjourBlock option
+  - VDV301subscriber
+    - DevMgmtSubscriber::start
+    - bonjourBlock option
+  - XmlRopidImportStream
+    - night stop names and wgs trajectory and polygon import
+
+
+
+- 20251012_1943
+  - VDV301publisher
+  - XmlRopidImportStream
+    - import night names
+    - import polygons
+
+  - MapaVykresleni
+    - added polygons and WGS84 trajectories
+
 - 20250925_1740
   - VDV301publisher
     - ColorDisplayRules::fillColorMap()
