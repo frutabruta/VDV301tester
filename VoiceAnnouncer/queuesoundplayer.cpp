@@ -13,9 +13,9 @@ QueueSoundPlayer::QueueSoundPlayer() {
 
 #else
     //qt6
-    connect(player,&QMediaPlayer::playbackStateChanged,this,&QueueSoundPlayer::slotPlayStateChangedQt6);
-    player->setAudioOutput(audioOutput);
-    audioOutput->setVolume(50);
+    connect(&player,&QMediaPlayer::playbackStateChanged,this,&QueueSoundPlayer::slotPlayStateChangedQt6);
+    player.setAudioOutput(&audioOutput);
+    audioOutput.setVolume(50);
 #endif
 
 
@@ -83,7 +83,7 @@ void QueueSoundPlayer::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
 void QueueSoundPlayer::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(!zasobnikAdres.isEmpty()&&(player->state()==QMediaPlayer::StoppedState) )
+    if(!zasobnikAdres.isEmpty()&&(player.state()==QMediaPlayer::StoppedState) )
     {
         qDebug()<<"pocet polozek "<<zasobnikAdres.size();
         zasobnikAdres.removeFirst();
@@ -95,9 +95,9 @@ void QueueSoundPlayer::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
 void QueueSoundPlayer::playOneSoundImmediately(QUrl soubor2)
 {
     qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
-    player->setMedia(soubor2);
+    player.setMedia(soubor2);
 
-    player->play();
+    player.play();
 }
 
 void QueueSoundPlayer::internalPlayOneSoundFromList(QVector<QUrl> soundList)
@@ -133,8 +133,8 @@ void QueueSoundPlayer::playOneSoundImmediately(QUrl soubor2)
 
     if(fileExists(soubor2))
     {
-        player->setSource(soubor2);
-        player->play();
+        player.setSource(soubor2);
+        player.play();
     }
     else
     {
@@ -158,7 +158,7 @@ void QueueSoundPlayer::internalPlayOneSoundFromList(QVector<QUrl> soundList)
 void QueueSoundPlayer::popSoundFromListQt6(QVector<QUrl> &soundList)
 {
     qDebug() <<  Q_FUNC_INFO;
-    if(!soundList.isEmpty()&&(player->playbackState()==QMediaPlayer::StoppedState) )
+    if(!soundList.isEmpty()&&(player.playbackState()==QMediaPlayer::StoppedState) )
     {
         qDebug()<<"pocet polozek "<<soundList.size();
         soundList.removeFirst();

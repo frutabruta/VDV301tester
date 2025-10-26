@@ -40,8 +40,12 @@ protected:
     QMediaPlayer * player =  new QMediaPlayer(NULL, QMediaPlayer::StreamPlayback);
 #else
     //Qt6
-    QMediaPlayer *player =  new QMediaPlayer(NULL); //qt6
-    QAudioOutput  *audioOutput = new QAudioOutput;
+    QMediaPlayer player; //qt6
+    //QMediaPlayer *player =  new QMediaPlayer(NULL); //qt6
+
+    QAudioOutput  audioOutput;
+
+    //QAudioOutput  *audioOutput = new QAudioOutput;
 #endif
 
 private slots:

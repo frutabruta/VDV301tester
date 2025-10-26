@@ -143,6 +143,16 @@ mingw32-make install
 
 
 ## Changelog
+- 20251027_0025
+  - main.cpp
+    - QSettings pointer fix
+  - MainWindow
+    - pointer fixes
+  - SqlRopidXmlQueries
+    - added parent to models
+  - QueueSoundPlayer:
+    - pointer fixes
+
 - 20251026_2213
   - translations update
   - GolemioClient submodule fit

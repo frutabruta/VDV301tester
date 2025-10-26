@@ -691,7 +691,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getLineListModel(QString kj)
 
     qDebug()<<queryString;
 
-    QSqlQueryModel *model= new QSqlTableModel ;
+    QSqlQueryModel *model= new QSqlTableModel(this) ;
     model->setQuery(queryString);
 
     return model;
@@ -715,7 +715,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getRootLineListModel(QString kj)
     QSqlQuery query;
     query.exec(queryString2);
 
-    QSqlQueryModel *model= new QSqlTableModel ;
+    QSqlQueryModel *model= new QSqlTableModel(this) ;
     model->setQuery(queryString2);
     return model;
 }
@@ -735,7 +735,7 @@ QSqlQueryModel* SqlRopidXmlQueries::stahniSeznamSpojuModel(Line line, QString kj
     queryString2+=("' ");
     queryString2+=(" ORDER BY s.c");
 
-    QSqlQueryModel *model= new QSqlTableModel ;
+    QSqlQueryModel *model= new QSqlTableModel(this) ;
     model->setQuery(queryString2);
 
     return model;
@@ -761,7 +761,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getVehicleRunListModel(Line line, QString kj
     qDebug()<<queryString;
     qDebug()<<"DebugPointB";
 
-    QSqlQueryModel *model= new QSqlTableModel ;
+    QSqlQueryModel *model= new QSqlTableModel(this) ;
     model->setQuery(queryString);
 
     return model;
@@ -799,7 +799,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModelLegacy(Vehicle
     QSqlQuery query;
     query.exec(queryString);
 
-    QSqlQueryModel *model= new QSqlTableModel ;
+    QSqlQueryModel *model= new QSqlTableModel(this) ;
     model->setQuery(queryString);
 
     return model;
@@ -871,7 +871,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &v
 
     qDebug().noquote()<<queryString;
 
-    QSqlQueryModel *modelData= new QSqlTableModel ;
+    QSqlQueryModel *modelData= new QSqlTableModel(this) ;
     modelData->setQuery(queryString);
     qDebug()<<modelData->lastError();
 
@@ -1029,7 +1029,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getLineStopListModel(Line line, QString kj)
 
     qDebug().noquote()<<queryString;
 
-    QSqlQueryModel *modelData= new QSqlTableModel ;
+    QSqlQueryModel *modelData= new QSqlTableModel(this) ;
     modelData->setQuery(queryString);
     qDebug()<<modelData->lastError();
 

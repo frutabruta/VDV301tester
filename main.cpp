@@ -87,11 +87,12 @@ int main(int argc, char *argv[])
         filepath=QCoreApplication::applicationDirPath()+"/settings.ini";
     }
 
-    QSettings*  qSettings= new QSettings(filepath, QSettings::IniFormat);
+    QSettings  qSettings(filepath, QSettings::IniFormat);
+    //QSettings*  qSettings= new QSettings(filepath, QSettings::IniFormat);
 
 
     //   qSettings->setValue("debug/logToFile",true);
-    if(qSettings->value("debug/logToFile").toBool())
+    if(qSettings.value("debug/logToFile").toBool())
     {
         createEmptyFile();
         qInstallMessageHandler(customMessageHandler);
@@ -111,7 +112,7 @@ int main(int argc, char *argv[])
 
 
 
-    MainWindow w(qSettings,filepath);
+    MainWindow w(&qSettings,filepath);
     w.show();
     return a.exec();
 }

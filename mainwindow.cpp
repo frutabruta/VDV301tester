@@ -144,7 +144,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
 
 MainWindow::~MainWindow()
 {
-    delete proxyModel;
+   // delete proxyModel;
     delete modelConnection;
     delete ui;
 }
@@ -705,8 +705,6 @@ void MainWindow::initializeSelectionListView()
     qDebug() <<  Q_FUNC_INFO;
     sqlRopidQueries.pripoj();
     
-    
-    
     ui->listView_lineRun->setModel(&emptyQSqlQueryModel);
     ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
     
@@ -1254,10 +1252,6 @@ void MainWindow::on_listView_line_clicked(const QModelIndex &index)
     ui->tableView_trip->hideColumn(5);
     ui->tableView_trip->hideColumn(6);
     ui->tableView_trip->hideColumn(7);
-
-
-
-
 }
 
 
@@ -1818,10 +1812,11 @@ void MainWindow::on_pushButton_ride_betweenStop_clicked()
 void MainWindow::on_pushButton_data_truncate_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    XmlImportJr *xmlImportJr =  new XmlImportJr();
+    //XmlImportJr *xmlImportJr =  new XmlImportJr();
 
-    xmlImportJr->truncateAll();
-    xmlImportJr->vacuum();
+    XmlImportJr xmlImportJr;
+    xmlImportJr.truncateAll();
+    xmlImportJr.vacuum();
 }
 
 
@@ -2623,13 +2618,14 @@ void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* ta
     }
 
 
-    proxyModel->setSourceModel(modelInput);
+    proxyModel.setSourceModel(modelInput);
 
-    tableView->setModel(proxyModel);
+
+    tableView->setModel(&proxyModel);
     tableView->show();
     tableView->resizeColumnsToContents();
     connect(tableView->horizontalHeader(),SIGNAL(sortIndicatorChanged(int,Qt::SortOrder)),tableView,SLOT(sortByColumn(int,Qt::SortOrder)));
-    int pocet= proxyModel->rowCount();
+    int pocet= proxyModel.rowCount();
     qDebug()<<"pocet vysledku: "<<QString::number(pocet);
     //existujeLastError(model);
 }

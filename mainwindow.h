@@ -132,7 +132,8 @@ private:
 
     QSqlQueryModel *modelConnection;
     QSqlQueryModel emptyQSqlQueryModel;
-    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
+
+    QSortFilterProxyModel proxyModel; //= new QSortFilterProxyModel(this);
 
     //udalosti
 
