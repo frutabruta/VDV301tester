@@ -143,6 +143,9 @@ mingw32-make install
 
 
 ## Changelog
+- 20251026_2213
+  - translations update
+  - GolemioClient submodule fit
 - 20251025_2053
   - LocationEvents::slotGnssUpdate
     - coordinates fix

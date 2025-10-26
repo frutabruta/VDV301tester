@@ -43,7 +43,7 @@ public:
     int getTripIndexOnList(QVector<Trip> tripList, Trip trip);
 
     bool getPolygonFromStopPoint(StopPoint &stopPoint, QString kj);
-    Trip getTripDescriptionFromId(int idSpoje, QString kj);
+    Trip getTripDescriptionFromId(int tripId, QString kj);
 private:
     QVector<QString> getNotesFromTripS(int tripS, int xorder);
 

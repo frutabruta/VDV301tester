@@ -61,11 +61,6 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
 
     loadConstantsFromSettingsFile();
 
-    if(blockBonjour)
-    {
-        setWindowTitle(windowTitle()+" "+tr("no Bonjour mode"));
-    }
-
 
     //settings.setValue("General/language","en");
     QString jazyk=settings->value("app/language").toString();
@@ -73,11 +68,10 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     qDebug()<<" novy jazyk:"<<jazyk;
     retranslateUi(jazyk);
 
-
-
-
-
-
+    if(blockBonjour)
+    {
+        setWindowTitle(windowTitle()+" | "+tr("režim bez Bonjour"));
+    }
 
     if(ibisIsEnabled)
     {

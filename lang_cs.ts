@@ -356,8 +356,8 @@ Run</source>
         <location filename="mainwindow.ui" line="267"/>
         <source>special
 announcements</source>
-        <translation>spec.
-ozn.</translation>
+        <translation>speciální
+oznámení</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="1260"/>
@@ -450,13 +450,15 @@ ozn.</translation>
         <location filename="mainwindow.ui" line="2518"/>
         <source>departure
 scheduled</source>
-        <translation type="unfinished"></translation>
+        <translation>plánovaný
+odjezd</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2524"/>
         <source>departure
 expected</source>
-        <translation type="unfinished"></translation>
+        <translation>očekávaný
+odjezd</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="2534"/>
@@ -723,29 +725,34 @@ test</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="252"/>
+        <location filename="mainwindow.cpp" line="66"/>
+        <source>no Bonjour mode</source>
+        <translation>mód bez Bonjour</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="267"/>
         <source>language file not found</source>
-        <translation type="unfinished"></translation>
+        <translation>soubor jazyku nenalezen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1954"/>
+        <location filename="mainwindow.cpp" line="2011"/>
         <source>trip does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>spoj neexistuje</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1979"/>
+        <location filename="mainwindow.cpp" line="2036"/>
         <source>trip without vehicle run</source>
-        <translation type="unfinished"></translation>
+        <translation>spoj bez oběhu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2219"/>
+        <location filename="mainwindow.cpp" line="2276"/>
         <source>Otevři soubor</source>
         <translation>Otevři soubor</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="2220"/>
+        <location filename="mainwindow.cpp" line="2277"/>
         <source>XML Ropid JŘ (*.xml);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>XML Ropid timetables (*.xml);;All Files (*)</translation>
     </message>
 </context>
 <context>
@@ -753,14 +760,14 @@ test</source>
     <message>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="124"/>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="140"/>
-        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="97"/>
+        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="162"/>
         <source>Server failed to listen on a port.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="132"/>
         <location filename="VDV301publisher/httpserverpublisher.cpp" line="147"/>
-        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="111"/>
+        <location filename="VDV301subscriber/httpserversubscriber.cpp" line="176"/>
         <source>Running on http://127.0.0.1:%1/ (Press CTRL+C to quit)</source>
         <translation type="unfinished"></translation>
     </message>
