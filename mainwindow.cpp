@@ -18,12 +18,12 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     golemio(""), //klic do golemia
     logfile(QCoreApplication::applicationDirPath()),
     //  timeService1_0("TimeService","_ibisip_udp._udp",123,"1.0"),
-    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
+    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0","_ropid_vdv301tester"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
-    customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3"),
-    customerInformationService2_3CZ1_0("CustomerInformationService","_ibisip_http._tcp",47482,"2.3CZ1.0"),
+    customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3","_ropid_vdv301tester_2_3"),
+    customerInformationService2_3CZ1_0("CustomerInformationService","_ibisip_http._tcp",47482,"2.3CZ1.0","_ropid_vdv301tester_2_3cz1_0"),
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
-    ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0"),
+    ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0","_ropid_vdv301tester_2_2cz1_0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
     // devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
     //devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),

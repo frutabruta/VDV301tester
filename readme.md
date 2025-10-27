@@ -143,6 +143,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20251027_1950
+  - VDV301publisher
+    - added serviceNamePostfix parameter
+  - added postfix to all service names to achieve uniqe service names on DNS-SD on linux
+
 - 20251027_0025
   - main.cpp
     - QSettings pointer fix
