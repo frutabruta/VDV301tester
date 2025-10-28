@@ -309,6 +309,12 @@ void MainWindow::loadConstantsFromSettingsFile()
     vehicleState.showConnections=settings->value("golemio/enabled").toBool();
     ui->checkBox_configuration_enableConnections->setChecked(vehicleState.showConnections);
 
+    vehicleState.vehicleNumber=settings->value("vehicleProperties/vehicleRef").toInt();
+    ui->lineEdit_vehicleRef->setText(QString::number(vehicleState.vehicleNumber));
+    vehicleState.vehicleMode=settings->value("vehicleProperties/vehicleMode").toString();
+    vehicleState.vehicleSubMode=settings->value("vehicleProperties/vehicleSubMode").toString();
+
+
     blockBonjour=settings->value("app/blockBonjour").toBool();
 
     ui->label_build->setText(textVerze());
@@ -2106,7 +2112,7 @@ void MainWindow::on_pushButton_menu2_quit_clicked()
 void MainWindow::on_pushButton_configuration_setGolemioKey_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    settings->setValue("golemio/apikey",ui->lineEdit_configuration_golemioKey->text());
+    settings->setValue("golemio/apiKey",ui->lineEdit_configuration_golemioKey->text());
     golemio.setKlic(settings->value("golemio/apiKey").toByteArray());
 }
 
@@ -3089,5 +3095,12 @@ void MainWindow::on_checkBox_positionStopAtStops_stateChanged(int arg1)
 {
     trajectoryJumper.stopAtStops=arg1;
     settings->setValue("locationSimulator/stopAtStops",trajectoryJumper.stopAtStops);
+}
+
+
+void MainWindow::on_pushButton_vehicleRefSet_clicked()
+{
+    vehicleState.vehicleNumber=ui->lineEdit_vehicleRef->text().toInt();
+    settings->setValue("vehicleProperties/vehicleRef",vehicleState.vehicleNumber);
 }
 

@@ -143,6 +143,15 @@ mingw32-make install
 
 
 ## Changelog
+- 20251028_1418
+  - Vdv301Publisher
+    - VDV301DataStructures
+      - prevent vehisleRef reset
+  - MainWindow
+    - added vehicleRef setting window
+  - settings.ini 
+    - added vehicleProperties section
+
 - 20251027_1950
   - VDV301publisher
     - added serviceNamePostfix parameter

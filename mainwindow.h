@@ -410,6 +410,8 @@ private slots:
 
     void on_checkBox_positionStopAtStops_stateChanged(int arg1);
 
+    void on_pushButton_vehicleRefSet_clicked();
+
 signals:
          // void signalZahajImport(QString cesta);
 };
