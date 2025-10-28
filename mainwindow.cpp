@@ -1249,7 +1249,7 @@ void MainWindow::on_listView_line_clicked(const QModelIndex &index)
     
     
     
-    ui->lineEdit_lineNumber->setText(QString::number(vehicleState.currentLine.c ));
+  //  ui->lineEdit_lineNumber->setText(QString::number(vehicleState.currentLine.c ));
     modelConnection=sqlRopidQueries.getLineStopListModel(vehicleState.currentLine, this->createDataValidityMask());
     qDebug()<<"model size:"<<modelConnection->rowCount()<<" "<<modelConnection->columnCount();
     
@@ -1268,7 +1268,7 @@ void MainWindow::on_listView_rootLine_clicked(const QModelIndex &index)
 
     vehicleState.currentVehicleRun.rootLine.c= index.data(Qt::DisplayRole).toString().toInt();
     
-    ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c));
+   // ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c));
 
     QSqlQueryModel* modelPoradi=sqlRopidQueries.getVehicleRunListModel(vehicleState.currentVehicleRun.rootLine, this->createDataValidityMask());
     
@@ -1990,7 +1990,7 @@ void MainWindow::on_pushButton_menu2_rezerva_clicked()
 int MainWindow::on_pushButton_lineTrip_confirm_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
-    vehicleState.reset();
+ //   vehicleState.reset();
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
 
 
@@ -1998,6 +1998,8 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
      * odeslani spoje doplneneho na turnus
 */
     
+
+    /*
     vehicleState.currentTrip.line.c =ui->lineEdit_lineNumber->text().toInt();
     vehicleState.currentTrip.idRopid=ui->lineEdit_tripNumber->text().toInt();
 
@@ -2007,14 +2009,17 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
         return 0;
     }
 
+*/
     int kmenovaLinka=0;;
     int poradi=0;
     int order=0;
     vehicleState.currentStopIndex0=0;
 
     Trip hledanySpoj=vehicleState.currentTrip;
-    if(sqlRopidQueries.getVehicleRunFromTripLC( vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() ))
+
+    if(sqlRopidQueries.getVehicleRunFromTripS(vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() ))
     {
+
         vehicleState.currentVehicleRun.rootLine.c=kmenovaLinka;
         vehicleState.currentVehicleRun.order=poradi ;
         if (sqlRopidQueries.getTripListFromVehicleRun(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
@@ -2022,7 +2027,7 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
             // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
         }
 
-        vehicleState.currentTripIndex=sqlRopidQueries.getTripIndexOnList(vehicleState.currentVehicleRun.tripList,hledanySpoj);
+        vehicleState.currentTripIndex=vehicleState.currentVehicleRun.tripList.indexOf(hledanySpoj);
 
         if(vehicleState.currentTripIndex==-1)
         {
@@ -2035,24 +2040,16 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
             if(! MainWindowPomocne::jeVRozsahu(vehicleState.currentTripIndex,vehicleState.currentVehicleRun.tripList.size(),Q_FUNC_INFO))
             {
                 return 0;
-                    //vehicleState.currentTrip=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex);
             }
             else
             {
                 vehicleState.currentTrip=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex);
-                ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentTrip.line.c));
-                ui->lineEdit_rootLineTripNumber->setText(QString::number(vehicleState.currentTrip.idRopid));
             }
         }
 
 
     }
 
-
-
-    ui->lineEdit_rootLine->setText(QString::number(kmenovaLinka));
-
-    vehicleState.currentLine.lineNumber =ui->lineEdit_rootLine->text();
 
     vehicleState.currentStopIndex0=0;
 
@@ -2072,7 +2069,7 @@ int MainWindow::on_pushButton_lineRun_confirm_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
-    vehicleState.currentLine.lineNumber =ui->lineEdit_rootLine->text();
+    //vehicleState.currentLine.lineNumber =ui->lineEdit_rootLine->text();
 
     vehicleState.currentStopIndex0=0;
 
@@ -2187,7 +2184,7 @@ void MainWindow::on_tableView_trip_clicked(const QModelIndex &index)
             
             
             
-            ui->lineEdit_tripNumber->setText(QString::number(docasnySpoj.idRopid));
+          //  ui->lineEdit_tripNumber->setText(QString::number(docasnySpoj.idRopid));
 
             vehicleState.currentTrip=docasnySpoj;
             int kmenovaLinka=0;
@@ -2195,13 +2192,15 @@ void MainWindow::on_tableView_trip_clicked(const QModelIndex &index)
             int order=0;
 
 
-            sqlRopidQueries.getVehicleRunFromTripLC(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
+            sqlRopidQueries.getVehicleRunFromTripS(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
             qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
 
         }
     }
 
     qDebug()<<"IDspoje:"<<docasnySpoj.id;
+
+    vehicleState.currentTrip=docasnySpoj;
 }
 
 
@@ -2215,15 +2214,17 @@ void MainWindow::on_tableView_lineTrip_clicked(const QModelIndex &index)
 
         vehicleState.currentTrip.line.c=index.siblingAtColumn(0).data().toInt();
         vehicleState.currentTrip.idRopid=index.siblingAtColumn(1).data().toInt();
+        vehicleState.currentTrip.id=index.siblingAtColumn(6).data().toInt();
 
         vehicleState.currentTripIndex=vehicleState.currentVehicleRun.tripList.indexOf(vehicleState.currentTrip);
+
         qDebug()<<"index spoje na obehu: "<<QString::number(vehicleState.currentTripIndex)<<" delkaSeznamu: "<<vehicleState.currentVehicleRun.tripList.count();
         qDebug()<<"hodnota polozky"<<QString::number(vehicleState.currentTrip.line.c)<<" spoj:"<<QString::number(vehicleState.currentTrip.idRopid);
 
         //NUTNE DOPLNIT
         
-        ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentTrip.line.c));
-        ui->lineEdit_rootLineTripNumber->setText(QString::number(vehicleState.currentTrip.idRopid));
+     //   ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentTrip.line.c));
+     //   ui->lineEdit_rootLineTripNumber->setText(QString::number(vehicleState.currentTrip.idRopid));
     }
 }
 

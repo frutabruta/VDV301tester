@@ -143,6 +143,15 @@ mingw32-make install
 
 
 ## Changelog
+- 20251028_1857
+  - select trip fix for DPP trips without RopidIds
+  - removed trip selection text fields
+  - new function SqlRopidXmlQueries::getVehicleRunFromTripS
+  - removed SqlRopidXmlQueries::getTripIndexOnList(
+  - VDV301publisher
+    - VDv301datastructures
+      - Trip == operator fix
+      
 - 20251028_1418
   - Vdv301Publisher
     - VDV301DataStructures

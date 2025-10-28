@@ -31,19 +31,20 @@ public:
 
     //SQL queries
     int getDatasetValidity(QDate &dateFrom, QDate &dateTo);
-    int getTripSfromC(Trip &trip, QString kj);
+    int getTripSfromC(Trip &trip, QString kj); //unused
     int getTripListFromVehicleRun(VehicleRun &vehicleRun, QString kj);
     QVector<MapaBod> getTrajectoryFromTripS(int tripS, QString kj);
-    int getVehicleRunFromTripLC(Trip trip, int &rootLine, int &vehicleRun, int &tripIndex, QString kj);
+    int getVehicleRunFromTripLC(Trip trip, int &rootLine, int &vehicleRun, int &tripIndex, QString kj); //unused
     int getVehicleRunStops(QVector<Trip> &tripList, int tripIndex, QString kj);
 
     //auxiliary functions    
     QString createValidyMaskFromDate(QDate workingDate, QDate validityStart, QDate validityEnd);
     QString fareZoneToString(QVector<FareZone> fareZoneList, QString delimiter);
-    int getTripIndexOnList(QVector<Trip> tripList, Trip trip);
+
 
     bool getPolygonFromStopPoint(StopPoint &stopPoint, QString kj);
     Trip getTripDescriptionFromId(int tripId, QString kj);
+    int getVehicleRunFromTripS(Trip trip, int &rootLine, int &vehicleRun, int &tripIndex, QString kj);
 private:
     QVector<QString> getNotesFromTripS(int tripS, int xorder);
 

@@ -17,6 +17,12 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
 {
     qDebug()<< Q_FUNC_INFO;
     qDebug()<<"trip list length: "<<tripList.length()<<" trip index:"<<tripIndex<<" kj:"<<kj;
+
+    if(tripIndex>=tripList.count())
+    {
+        qDebug()<< "trip index out of range";
+        return  0;
+    }
     this->otevriDB();
     //Spoj docasnySpoj;
     QVector<StopPointDestination> temporaryTripList;
@@ -426,6 +432,51 @@ int SqlRopidXmlQueries::getVehicleRunFromTripLC(Trip trip, int &rootLine, int &v
     }
 }
 
+int SqlRopidXmlQueries::getVehicleRunFromTripS(Trip trip, int &rootLine, int &vehicleRun, int &tripIndex, QString kj)
+{
+    qDebug()<< Q_FUNC_INFO;
+
+    this->pripoj();
+
+    QString queryString("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord FROM s ");
+    queryString+=("LEFT JOIN sp_po ON sp_po.s=s.s ");
+    queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
+    queryString+=("WHERE s.s=");
+    queryString+=(QString::number(trip.id));
+    queryString+=(" AND  s.man !=1 ");
+    queryString+=(" AND s.kj LIKE '");
+    queryString+=(kj);
+    queryString+=("' ");
+    queryString+=(" ORDER BY s.s");
+    QSqlQuery query;
+    query.exec(queryString);
+    qDebug()<<"lasterror "<<query.lastError();
+    qDebug()<<queryString;
+    // qDebug()<<"DebugPointB";
+    int resdultCounter=0;
+    while (query.next())
+    {
+        if (query.value(0).toString()!="")
+        {
+            resdultCounter++;
+            rootLine=query.value(query.record().indexOf("sp_po.l")).toInt();
+            vehicleRun=query.value(query.record().indexOf("sp_po.p")).toInt();
+            tripIndex=query.value(query.record().indexOf("sp_po.ord")).toInt()-1;
+        }
+    }
+
+    qDebug()<<"Trip "<<trip.line.c<<"/"<<trip.idRopid<<" belongs to vehicle run: "<<rootLine<<"/"<<vehicleRun<<" index on line:"<<tripIndex;
+    this->zavriDB();
+    if (resdultCounter==0)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
 
 int SqlRopidXmlQueries::getTripSfromC(Trip &trip, QString kj)
 {
@@ -538,21 +589,6 @@ int SqlRopidXmlQueries::getTripListFromVehicleRun(VehicleRun &vehicleRun, QStrin
     }
 }
 
-
-int SqlRopidXmlQueries::getTripIndexOnList(QVector<Trip> tripList, Trip trip)
-{
-    qDebug()<< Q_FUNC_INFO;
-    qDebug()<<"triplist length: "<<tripList.count();
-    for(int i=0;i<tripList.count();i++)
-    {
-        if((tripList.at(i).line.c==trip.line.c)&&(tripList.at(i).idRopid)==trip.idRopid)
-        {
-            return i;
-        }
-    }
-
-    return -1;
-}
 
 
 /*!
