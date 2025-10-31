@@ -143,6 +143,9 @@ mingw32-make install
 
 
 ## Changelog
+- 20251031_1143
+  - Czech translation fixes (vehicle ref set)
+
 - 20251028_1857
   - select trip fix for DPP trips without RopidIds
   - removed trip selection text fields
