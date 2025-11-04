@@ -145,13 +145,17 @@ mingw32-make install
 ## Changelog
 - 20251104_1834
   - MapaVykresleni
+    - trajectory interpolation fix
+    
+- 20251104_1834
+  - MapaVykresleni
     - TrajectoryJumper
       - fixed missing first point of trajectory
   - SqlRopidXmlQueries::getTrajectoryFromTripS
     - isStop fix
   - ui
     - Confirm buttons moved to right and font size change at trip selection table
-    
+
 - 20251104_1536
   - MainWindow::setLineToSubMode
     - option to override vehicleMode from lineType
