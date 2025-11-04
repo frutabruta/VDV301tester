@@ -856,12 +856,6 @@ QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &v
     //QVector<Spoj> &docasnySeznamSpoju,
     qDebug()<< Q_FUNC_INFO;
 
-
-    qDebug() <<  Q_FUNC_INFO;
-
-
-
-
     QString queryString("SELECT DISTINCT l.c, s.c, substr(time(x.o, 'unixepoch'),1,5) AS start, z.n AS Z, substr(time(xx.p, 'unixepoch'),1,5) AS konec,  zz.n AS DO, s.s,  l.lc "
                         "FROM sp_po "
                         "LEFT JOIN s ON sp_po.s=s.s "
@@ -874,8 +868,6 @@ QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &v
                         "GROUP BY x.s_id ) AS xx "
                         "ON xx.s_id=s.s "
                         "LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z "
-
-
 
                         "WHERE sp_po.l ");
     queryString+=("=");
@@ -1004,6 +996,13 @@ LEFT JOIN bod ON bod.u1=x.u AND bod.z1=x.z AND bod.u2=x2.u AND bod.z2=x2.z AND b
 
         bod.x=query.value( query.record().indexOf("bod.x")).toDouble();
         bod.y=query.value( query.record().indexOf("bod.y")).toDouble();
+
+        int poradi=query.value( query.record().indexOf("bod.poradi")).toInt();
+        if(poradi==0)
+        {
+            bod.isStop=true;
+        }
+
 
         bod.lat=absoluteValue(query.value( query.record().indexOf("bod.lat")).toDouble());
         bod.lng=absoluteValue(query.value( query.record().indexOf("bod.lon")).toDouble());
