@@ -143,6 +143,16 @@ mingw32-make install
 
 
 ## Changelog
+- 20251104_1536
+  - MainWindow::setLineToSubMode
+    - option to override vehicleMode from lineType
+  - SqlRopidXmlQueries::getVehicleRunStops
+    - added s.s, l.lc
+  - SqlRopidXmlQueries::getTripListFromVehicleRun
+    - fixed l.kli
+  - settings.ini
+    - added vehicleProperties/overrideByLineType
+
 - 20251031_1143
   - Czech translation fixes (vehicle ref set)
 
@@ -150,7 +160,7 @@ mingw32-make install
   - select trip fix for DPP trips without RopidIds
   - removed trip selection text fields
   - new function SqlRopidXmlQueries::getVehicleRunFromTripS
-  - removed SqlRopidXmlQueries::getTripIndexOnList(
+  - removed SqlRopidXmlQueries::getTripIndexOnList
   - VDV301publisher
     - VDv301datastructures
       - Trip == operator fix

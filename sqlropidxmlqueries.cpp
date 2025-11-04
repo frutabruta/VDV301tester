@@ -78,6 +78,7 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
                 line.lineName=query.value(query.record().indexOf("l.c")).toString();
             }
             line.c=query.value(query.record().indexOf("l.c")).toInt();
+            line.lc=query.value(query.record().indexOf("l.lc")).toInt();
             line.lineNumber=query.value(query.record().indexOf("l.lc")).toString();
             line.lineType=query.value(query.record().indexOf("l.tl")).toString();
             line.isNight=query.value(query.record().indexOf("l.noc")).toBool();
@@ -85,6 +86,9 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
             line.kli=query.value(query.record().indexOf("l.kli")).toInt();
 
             trip.idRopid=query.value(query.record().indexOf("s.c")).toInt();
+            trip.id=query.value(query.record().indexOf("s.s")).toInt();
+            trip.line=line;
+
             stopPoint.idCis=query.value( query.record().indexOf("z.cis")).toInt();
             stopPoint.idOis=query.value(query.record().indexOf("z.ois")).toUInt();
 
@@ -530,7 +534,7 @@ int SqlRopidXmlQueries::getTripListFromVehicleRun(VehicleRun &vehicleRun, QStrin
     qDebug()<< Q_FUNC_INFO;
     vehicleRun.tripList.clear();
     this->pripoj();
-    QString queryString("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.aois FROM sp_po ");
+    QString queryString("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.kli, l.aois FROM sp_po ");
     queryString+=("LEFT JOIN s ON sp_po.s=s.s ");
     queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
     queryString+=("WHERE sp_po.l=");
@@ -557,9 +561,12 @@ int SqlRopidXmlQueries::getTripListFromVehicleRun(VehicleRun &vehicleRun, QStrin
 
         Trip trip;
         trip.id=query.value(query.record().indexOf("s.s")).toInt();
-        trip.idRopid=query.value(query.record().indexOf("s.c")).toInt();
-        trip.line.c=query.value(query.record().indexOf("s.l")).toInt();
+        trip.idRopid=query.value(query.record().indexOf("s.c")).toInt();       
         trip.continuesWithNextTrip=query.value(query.record().indexOf("sp_po.pokrac")).toBool();
+
+        trip.line.c=query.value(query.record().indexOf("s.l")).toInt();
+        trip.line.lc=query.value(query.record().indexOf("l.lc")).toInt();
+        trip.line.kli=query.value(query.record().indexOf("l.kli")).toInt();
 
         QString alias=query.value(query.record().indexOf("l.aois")).toString();
         //  qDebug()<<"alias "<<alias<<" linka.c "<<docasnySpoj.linka.c;

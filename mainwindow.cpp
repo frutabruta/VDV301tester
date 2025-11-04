@@ -314,6 +314,9 @@ void MainWindow::loadConstantsFromSettingsFile()
     vehicleState.vehicleMode=settings->value("vehicleProperties/vehicleMode").toString();
     vehicleState.vehicleSubMode=settings->value("vehicleProperties/vehicleSubMode").toString();
 
+    setVehicleTypeFromLineType=settings->value("vehicleProperties/overrideByLineType").toBool();
+    ui->checkBox_vechicleTypeFromLine->setChecked(setVehicleTypeFromLineType);
+
 
     blockBonjour=settings->value("app/blockBonjour").toBool();
 
@@ -464,6 +467,12 @@ void MainWindow::xmlVdv301UpdateContent()
     qDebug()<<"delka seznamu tripu "<<vehicleState.currentVehicleRun.tripList.length();
     QVector<Connection> emptyConnectionList;
 
+    if(setVehicleTypeFromLineType)
+    {
+        setLineToSubMode();
+    }
+
+
     if (vehicleState.currentVehicleRun.tripList.isEmpty())
     {
         qDebug()<<"seznam tripu je prazdny";
@@ -493,6 +502,15 @@ void MainWindow::xmlVdv301UpdateContent()
 
 }
 
+
+void MainWindow::setLineToSubMode()
+{
+    qDebug()<<Q_FUNC_INFO;
+    //ConnectionMPV::ddDoVdv301VehicleMode(vehicleState.getCurrentTrip().line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode);
+    Line dummyLine;
+    ConnectionMPV::ddDoVehicleMode(vehicleState.getCurrentTrip().line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,dummyLine);
+}
+
 void MainWindow::slotDownloadConnectionsFromCurrentStop()
 {
     qDebug() <<  Q_FUNC_INFO;
@@ -502,7 +520,7 @@ void MainWindow::slotDownloadConnectionsFromCurrentStop()
     {
         if(isInRange(vehicleState.currentStopIndex0,currentTrip.globalStopPointDestinationList.count(),Q_FUNC_INFO ))
         {
-            StopPoint aktZastavka=vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint;
+            StopPoint aktZastavka=currentTrip.globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint;
             if(useGolemioApi)
             {
                 golemio.startDataDownload(aktZastavka.idCis);
@@ -803,7 +821,10 @@ void MainWindow::updateDriverDisplay()
         return;
     }
 
+
     ui->label_ride_stopIndex->setText(QString::number(vehicleState.currentStopIndex0+1));
+    vehicleState.currentTrip=vehicleState.getCurrentTrip();
+
     ui->label_ride_currentLineNumber->setText(this->vehicleState.getCurrentTrip().globalStopPointDestinationList.at(vehicleState.currentStopIndex0).line.lineNumber);
     ui->label_ride_currentTripNumber->setText(QString::number(this->vehicleState.getCurrentTrip().idRopid));
 
@@ -3103,5 +3124,12 @@ void MainWindow::on_pushButton_vehicleRefSet_clicked()
 {
     vehicleState.vehicleNumber=ui->lineEdit_vehicleRef->text().toInt();
     settings->setValue("vehicleProperties/vehicleRef",vehicleState.vehicleNumber);
+}
+
+
+void MainWindow::on_checkBox_vechicleTypeFromLine_stateChanged(int arg1)
+{
+    setVehicleTypeFromLineType=arg1;
+    settings->setValue("vehicleProperties/overrideByLineType",setVehicleTypeFromLineType);
 }
 

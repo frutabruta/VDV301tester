@@ -85,6 +85,8 @@ private:
 
     bool blockBonjour=true;
 
+    bool setVehicleTypeFromLineType=true;
+
     //ve vterinach
 
     //datove struktury
@@ -242,6 +244,7 @@ private:
     void infoTextListToTable(QVector<GolemioInfotext> infotextList, QTableWidget *tableWidget);
     void infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget *tableWidget);
 
+    void setLineToSubMode();
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
@@ -411,6 +414,8 @@ private slots:
     void on_checkBox_positionStopAtStops_stateChanged(int arg1);
 
     void on_pushButton_vehicleRefSet_clicked();
+
+    void on_checkBox_vechicleTypeFromLine_stateChanged(int arg1);
 
 signals:
          // void signalZahajImport(QString cesta);

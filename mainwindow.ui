@@ -77,13 +77,13 @@
        <string notr="true"/>
       </property>
       <property name="tabPosition">
-       <enum>QTabWidget::TabPosition::North</enum>
+       <enum>QTabWidget::North</enum>
       </property>
       <property name="tabShape">
-       <enum>QTabWidget::TabShape::Rounded</enum>
+       <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -111,7 +111,7 @@
            <number>0</number>
           </property>
           <property name="sizeConstraint">
-           <enum>QLayout::SizeConstraint::SetMaximumSize</enum>
+           <enum>QLayout::SetMaximumSize</enum>
           </property>
           <property name="leftMargin">
            <number>0</number>
@@ -119,7 +119,7 @@
           <item>
            <layout class="QVBoxLayout" name="bocniMenu">
             <property name="sizeConstraint">
-             <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+             <enum>QLayout::SetDefaultConstraint</enum>
             </property>
             <item>
              <widget class="QPushButton" name="pushButton_menu_lineTrip">
@@ -327,9 +327,39 @@ announcements</string>
               </property>
               <property name="palette">
                <palette>
-                <active/>
-                <inactive/>
-                <disabled/>
+                <active>
+                 <colorrole role="Highlight">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>31</red>
+                    <green>155</green>
+                    <blue>93</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </active>
+                <inactive>
+                 <colorrole role="Highlight">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>31</red>
+                    <green>155</green>
+                    <blue>93</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </inactive>
+                <disabled>
+                 <colorrole role="Highlight">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>31</red>
+                    <green>155</green>
+                    <blue>93</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </disabled>
                </palette>
               </property>
               <property name="font">
@@ -858,13 +888,13 @@ padding: 0 px;</string>
                      </font>
                     </property>
                     <property name="horizontalScrollBarPolicy">
-                     <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+                     <enum>Qt::ScrollBarAsNeeded</enum>
                     </property>
                     <property name="selectionMode">
-                     <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+                     <enum>QAbstractItemView::SingleSelection</enum>
                     </property>
                     <property name="selectionBehavior">
-                     <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+                     <enum>QAbstractItemView::SelectRows</enum>
                     </property>
                     <attribute name="horizontalHeaderVisible">
                      <bool>false</bool>
@@ -966,7 +996,7 @@ padding: 0 px;</string>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_ride_arrows">
                   <property name="sizeConstraint">
-                   <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+                   <enum>QLayout::SetDefaultConstraint</enum>
                   </property>
                   <item>
                    <widget class="QPushButton" name="pushButton_ride_arrowPreviousStateSkip">
@@ -1086,10 +1116,10 @@ padding: 0 px;</string>
                      <string>0</string>
                     </property>
                     <property name="textFormat">
-                     <enum>Qt::TextFormat::PlainText</enum>
+                     <enum>Qt::PlainText</enum>
                     </property>
                     <property name="alignment">
-                     <set>Qt::AlignmentFlag::AlignCenter</set>
+                     <set>Qt::AlignCenter</set>
                     </property>
                    </widget>
                   </item>
@@ -1098,7 +1128,7 @@ padding: 0 px;</string>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_5">
                   <property name="sizeConstraint">
-                   <enum>QLayout::SizeConstraint::SetNoConstraint</enum>
+                   <enum>QLayout::SetNoConstraint</enum>
                   </property>
                   <item>
                    <widget class="QPushButton" name="pushButton_ride_beforeStop">
@@ -1304,17 +1334,17 @@ Stop</string>
                    </font>
                   </property>
                   <property name="editTriggers">
-                   <set>QAbstractItemView::EditTrigger::EditKeyPressed</set>
+                   <set>QAbstractItemView::EditKeyPressed</set>
                   </property>
                  </widget>
                 </item>
                 <item row="2" column="1">
                  <widget class="QTableView" name="tableView_trip">
                   <property name="selectionMode">
-                   <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+                   <enum>QAbstractItemView::SingleSelection</enum>
                   </property>
                   <property name="selectionBehavior">
-                   <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+                   <enum>QAbstractItemView::SelectRows</enum>
                   </property>
                   <attribute name="verticalHeaderVisible">
                    <bool>false</bool>
@@ -1356,7 +1386,7 @@ Stop</string>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_16">
                 <property name="sizeConstraint">
-                 <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+                 <enum>QLayout::SetDefaultConstraint</enum>
                 </property>
                 <item>
                  <widget class="QLabel" name="label_18">
@@ -1462,7 +1492,7 @@ Stop</string>
                    </font>
                   </property>
                   <property name="selectionBehavior">
-                   <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+                   <enum>QAbstractItemView::SelectRows</enum>
                   </property>
                   <attribute name="horizontalHeaderVisible">
                    <bool>false</bool>
@@ -1500,10 +1530,10 @@ Stop</string>
                  <string notr="true"/>
                 </property>
                 <property name="selectionMode">
-                 <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+                 <enum>QAbstractItemView::SingleSelection</enum>
                 </property>
                 <property name="selectionBehavior">
-                 <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+                 <enum>QAbstractItemView::SelectRows</enum>
                 </property>
                 <column>
                  <property name="text">
@@ -1744,16 +1774,16 @@ expected</string>
                      </size>
                     </property>
                     <property name="firstDayOfWeek">
-                     <enum>Qt::DayOfWeek::Monday</enum>
+                     <enum>Qt::Monday</enum>
                     </property>
                     <property name="selectionMode">
-                     <enum>QCalendarWidget::SelectionMode::SingleSelection</enum>
+                     <enum>QCalendarWidget::SingleSelection</enum>
                     </property>
                     <property name="horizontalHeaderFormat">
-                     <enum>QCalendarWidget::HorizontalHeaderFormat::ShortDayNames</enum>
+                     <enum>QCalendarWidget::ShortDayNames</enum>
                     </property>
                     <property name="verticalHeaderFormat">
-                     <enum>QCalendarWidget::VerticalHeaderFormat::NoVerticalHeader</enum>
+                     <enum>QCalendarWidget::NoVerticalHeader</enum>
                     </property>
                    </widget>
                   </item>
@@ -1810,7 +1840,7 @@ expected</string>
                      <string>cesta_obsah</string>
                     </property>
                     <property name="alignment">
-                     <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing</set>
+                     <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
                     </property>
                     <property name="wordWrap">
                      <bool>true</bool>
@@ -2212,7 +2242,7 @@ window</string>
                <bool>true</bool>
               </property>
               <property name="selectionMode">
-               <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
+               <enum>QAbstractItemView::SingleSelection</enum>
               </property>
               <column>
                <property name="text">
@@ -2548,7 +2578,7 @@ HW config</string>
              <string>Language</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
+             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
             </property>
             <property name="flat">
              <bool>false</bool>
@@ -2609,12 +2639,25 @@ HW config</string>
              <rect>
               <x>240</x>
               <y>60</y>
-              <width>121</width>
+              <width>341</width>
               <height>24</height>
              </rect>
             </property>
             <property name="text">
              <string>Set vehicleRef</string>
+            </property>
+           </widget>
+           <widget class="QCheckBox" name="checkBox_vechicleTypeFromLine">
+            <property name="geometry">
+             <rect>
+              <x>110</x>
+              <y>140</y>
+              <width>311</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>override vehicle type from line</string>
             </property>
            </widget>
           </widget>
@@ -2804,9 +2847,39 @@ steps</string>
               </property>
               <property name="palette">
                <palette>
-                <active/>
-                <inactive/>
-                <disabled/>
+                <active>
+                 <colorrole role="Highlight">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>31</red>
+                    <green>155</green>
+                    <blue>93</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </active>
+                <inactive>
+                 <colorrole role="Highlight">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>31</red>
+                    <green>155</green>
+                    <blue>93</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </inactive>
+                <disabled>
+                 <colorrole role="Highlight">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>31</red>
+                    <green>155</green>
+                    <blue>93</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </disabled>
                </palette>
               </property>
               <property name="font">
