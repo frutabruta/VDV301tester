@@ -144,7 +144,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
 
 MainWindow::~MainWindow()
 {
-   // delete proxyModel;
+    // delete proxyModel;
     delete modelConnection;
     delete ui;
 }
@@ -1270,7 +1270,7 @@ void MainWindow::on_listView_line_clicked(const QModelIndex &index)
     
     
     
-  //  ui->lineEdit_lineNumber->setText(QString::number(vehicleState.currentLine.c ));
+    //  ui->lineEdit_lineNumber->setText(QString::number(vehicleState.currentLine.c ));
     modelConnection=sqlRopidQueries.getLineStopListModel(vehicleState.currentLine, this->createDataValidityMask());
     qDebug()<<"model size:"<<modelConnection->rowCount()<<" "<<modelConnection->columnCount();
     
@@ -1289,7 +1289,7 @@ void MainWindow::on_listView_rootLine_clicked(const QModelIndex &index)
 
     vehicleState.currentVehicleRun.rootLine.c= index.data(Qt::DisplayRole).toString().toInt();
     
-   // ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c));
+    // ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c));
 
     QSqlQueryModel* modelPoradi=sqlRopidQueries.getVehicleRunListModel(vehicleState.currentVehicleRun.rootLine, this->createDataValidityMask());
     
@@ -1652,20 +1652,22 @@ void MainWindow::on_pushButton_ride_map_clicked()
 
     for(StopPointDestination &stopPointDestination : stopPointList)
     {
-        sqlRopidQueries.getPolygonFromStopPoint(stopPointDestination.stopPoint,this->createDataValidityMask());
+        sqlRopidQueries.getPolygonFromStopPoint(stopPointDestination.stopPoint,this->createDataValidityMask(),false);
+        sqlRopidQueries.getPolygonFromStopPoint(stopPointDestination.stopPoint,this->createDataValidityMask(),true);
     }
 
 
     foreach(StopPointDestination stopPoint, stopPointList)
     {
-        mapPlot.pridejMnozinu(MapyApiStops::polygonToSeznamMapaBod(stopPoint.stopPoint.polygonWgs84),false,true,false,true,true,MnozinaBodu::WGS84);
+        mapPlot.pridejMnozinu(MapyApiStops::polygonToSeznamMapaBod(stopPoint.stopPoint.polygonWgs84),false,false,false,false,true,false,MnozinaBodu::WGS84);
+        mapPlot.pridejMnozinu(MapyApiStops::polygonToSeznamMapaBod(stopPoint.stopPoint.polygonWgs84_out ),false,false,false,false,false,true,MnozinaBodu::WGS84);
 
     }
 
 
-    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),true,false,false,false,false,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),false,false,false,true,false,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false,false,MnozinaBodu::S_JTSK);
+    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),true,false,false,false,false,false,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),false,false,false,true,false,false,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false,false,false,MnozinaBodu::S_JTSK);
 
 
     Trip temporaryTrip=sqlRopidQueries.getTripDescriptionFromId(vehicleState.getCurrentTrip().id,this->createDataValidityMask())  ;
@@ -2011,7 +2013,7 @@ void MainWindow::on_pushButton_menu2_rezerva_clicked()
 int MainWindow::on_pushButton_lineTrip_confirm_clicked()
 {
     qDebug() <<  Q_FUNC_INFO;
- //   vehicleState.reset();
+    //   vehicleState.reset();
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
 
 
@@ -2205,7 +2207,7 @@ void MainWindow::on_tableView_trip_clicked(const QModelIndex &index)
             
             
             
-          //  ui->lineEdit_tripNumber->setText(QString::number(docasnySpoj.idRopid));
+            //  ui->lineEdit_tripNumber->setText(QString::number(docasnySpoj.idRopid));
 
             vehicleState.currentTrip=docasnySpoj;
             int kmenovaLinka=0;
@@ -2244,8 +2246,8 @@ void MainWindow::on_tableView_lineTrip_clicked(const QModelIndex &index)
 
         //NUTNE DOPLNIT
         
-     //   ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentTrip.line.c));
-     //   ui->lineEdit_rootLineTripNumber->setText(QString::number(vehicleState.currentTrip.idRopid));
+        //   ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentTrip.line.c));
+        //   ui->lineEdit_rootLineTripNumber->setText(QString::number(vehicleState.currentTrip.idRopid));
     }
 }
 

@@ -40,9 +40,9 @@ public:
     //auxiliary functions    
     QString createValidyMaskFromDate(QDate workingDate, QDate validityStart, QDate validityEnd);
     QString fareZoneToString(QVector<FareZone> fareZoneList, QString delimiter);
-
-
-    bool getPolygonFromStopPoint(StopPoint &stopPoint, QString kj);
+    
+    
+    bool getPolygonFromStopPoint(StopPoint &stopPoint, QString kj, bool out);
     Trip getTripDescriptionFromId(int tripId, QString kj);
     int getVehicleRunFromTripS(Trip trip, int &rootLine, int &vehicleRun, int &tripIndex, QString kj);
 private:

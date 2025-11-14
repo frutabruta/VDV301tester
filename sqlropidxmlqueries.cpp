@@ -116,17 +116,42 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
 
             if(line.lineType!="A")
             {
-                stopPoint.NameFront=query.value(query.record().indexOf("t.ctn")).toString();
-                stopPoint.NameSide=query.value(query.record().indexOf("t.btn")).toString();
-                stopPoint.NameLcd=query.value(query.record().indexOf("t.lcdn")).toString();
-                stopPoint.NameInner=query.value(query.record().indexOf("t.vtn")).toString();
+                if(!line.isNight)
+                {
+                    stopPoint.NameFront=query.value(query.record().indexOf("t.ctn")).toString();
+                    stopPoint.NameSide=query.value(query.record().indexOf("t.btn")).toString();
+                    stopPoint.NameLcd=query.value(query.record().indexOf("t.lcdn")).toString();
+                    stopPoint.NameInner=query.value(query.record().indexOf("t.vtn")).toString();
+                }
+                else
+                {
+                    stopPoint.NameFront=query.value(query.record().indexOf("t.ctnnoc")).toString();
+                    stopPoint.NameSide=query.value(query.record().indexOf("t.btnnoc")).toString();
+                    stopPoint.NameLcd=query.value(query.record().indexOf("t.lcdnnoc")).toString();
+                    stopPoint.NameInner=query.value(query.record().indexOf("t.vtnnoc")).toString();
+                }
+
+
+
             }
             else
             {
-                stopPoint.NameFront=query.value(query.record().indexOf("t.ctm")).toString();
-                stopPoint.NameSide=query.value(query.record().indexOf("t.btm")).toString();
-                stopPoint.NameLcd=query.value(query.record().indexOf("t.lcdm")).toString();
-                stopPoint.NameInner=query.value(query.record().indexOf("t.vtm")).toString();
+                if(!line.isNight)
+                {
+                    stopPoint.NameFront=query.value(query.record().indexOf("t.ctm")).toString();
+                    stopPoint.NameSide=query.value(query.record().indexOf("t.btm")).toString();
+                    stopPoint.NameLcd=query.value(query.record().indexOf("t.lcdm")).toString();
+                    stopPoint.NameInner=query.value(query.record().indexOf("t.vtm")).toString();
+                }
+                else
+                {
+                    stopPoint.NameFront=query.value(query.record().indexOf("t.ctmnoc")).toString();
+                    stopPoint.NameSide=query.value(query.record().indexOf("t.btmnoc")).toString();
+                    stopPoint.NameLcd=query.value(query.record().indexOf("t.lcdmnoc")).toString();
+                    stopPoint.NameInner=query.value(query.record().indexOf("t.vtmnoc")).toString();
+                }
+
+
             }
 
             stopPoint.additionalTextMessage =query.value(query.record().indexOf("t.hl")).toString();
@@ -251,8 +276,10 @@ dbManager->query.exec();
     queryString+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.u, z.z, z.lng, z.lat, z.sx, z.sy, z.rdisp, z.sta, ");
     queryString+=("t.ri,t.hl, ");
     queryString+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
+    queryString+=("t.ctnnoc, t.btnnoc, t.lcdnnoc, t.vtnnoc, ");
     queryString+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
-    queryString+=("l.c, l.lc, l.tl, l.aois,l.noc, l.cids, l.tl, l.kli, ");
+    queryString+=("t.ctmnoc, t.btmnoc, t.lcdmnoc, t.vtmnoc, ");
+    queryString+=("l.c, l.lc, l.tl, l.aois, l.noc, l.cids, l.tl, l.kli, ");
     queryString+=("x.o, x.p, x.t, x.na, x.zn, x.neozn, x.zast, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, x.s_id, ");
     queryString+=("s.ns, s.c, s.vy, ");
     queryString+=("ids.z AS pz1, ");
@@ -1085,7 +1112,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getLineStopListModel(Line line, QString kj)
 
 
 
-bool SqlRopidXmlQueries::getPolygonFromStopPoint(StopPoint &stopPoint, QString kj)
+bool SqlRopidXmlQueries::getPolygonFromStopPoint(StopPoint &stopPoint, QString kj, bool out)
 {
     qDebug()<< Q_FUNC_INFO;
     //qDebug()<<" idSpoje:"<<idSpoje<<" kj:"<<kj;
@@ -1093,26 +1120,34 @@ bool SqlRopidXmlQueries::getPolygonFromStopPoint(StopPoint &stopPoint, QString k
 
     QPolygonF temporaryPolygon;
 
+    QString tableName="bod_polygon";
 
-    QString queryString2="SELECT * FROM bod_polygon ";
+    if(out)
+    {
+        tableName="bod_polygon_out";
+    }
+
+
+    QString queryString2="SELECT * FROM ";
+    queryString2+=tableName;
 
     //eliminace všech smyček
     // queryString2+=(" AND  x.s2=0 ");
 
 
-    queryString2+=(" WHERE bod_polygon.u=");
+    queryString2+=(" WHERE u=");
     queryString2+=( QString::number(stopPoint.idU));
 
-    queryString2+=(" AND bod_polygon.z=");
+    queryString2+=(" AND z=");
     queryString2+=( QString::number(stopPoint.idZ));
 
 
 
-    queryString2+=(" AND  bod_polygon.kj LIKE '");
+    queryString2+=(" AND  kj LIKE '");
     queryString2+=(kj);
     queryString2+=("' ");
 
-    queryString2+=("ORDER BY bod_polygon.poradi");
+    queryString2+=("ORDER BY poradi");
 
 
     QSqlQuery query(queryString2,this->mojeDatabaze);
@@ -1130,25 +1165,44 @@ bool SqlRopidXmlQueries::getPolygonFromStopPoint(StopPoint &stopPoint, QString k
             double lat=0.0;
             double lng=0.0;
 
+            lat=query.value(query.record().indexOf("lat")).toDouble();
+            lng=query.value(query.record().indexOf("lon")).toDouble();
 
-            lat=query.value(query.record().indexOf("bod_polygon.lat")).toDouble();
-            lng=query.value(query.record().indexOf("bod_polygon.lon")).toDouble();
-
-            stopPoint.polygonWgs84.append(QPointF(lat,lng));
-
+            if(out)
+            {
+                stopPoint.polygonWgs84_out.append(QPointF(lat,lng));
+            }
+            else
+            {
+                stopPoint.polygonWgs84.append(QPointF(lat,lng));
+            }
         }
     }
 
 
     this->zavriDB();
 
-    if(stopPoint.polygonWgs84.isEmpty())
+    if(out)
     {
-        return false;
+        if(stopPoint.polygonWgs84.isEmpty())
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
     else
     {
-        return true;
+        if(stopPoint.polygonWgs84_out.isEmpty())
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
 }

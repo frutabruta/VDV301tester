@@ -143,6 +143,23 @@ mingw32-make install
 
 
 ## Changelog
+- 20251114_1812
+  - .gitmodules fix
+  - MainWindow::on_pushButton_ride_map_clicked
+    - added polygon out
+  - SqlRopidXmlQueries::getVehicleRunStops
+    - night stop names
+  - SqlRopidXmlQueries::createGetTripQueryBase
+    - night stop names
+  - SqlRopidXmlQueries::getPolygonFromStopPoint
+    - added polygon out
+  - MapaVykresleni
+    - added poly out
+    - interpolation fix
+  - XmlRopidImportStream
+    - added poly out
+
+  
 - 20251104_1834
   - MapaVykresleni
     - trajectory interpolation fix
