@@ -143,6 +143,16 @@ mingw32-make install
 
 
 ## Changelog
+- 20251118_1624
+  - VDV301publisher
+    - Qt5 compatibility fix
+  - VDV301subscriber
+    - replyPath fix
+  - TypeConvertor::connectionGolemioToConnection
+    - trolleybus mode fix
+  - QueueSoundPlayer 
+    - Qt5 fixes
+    
 - 20251114_1812
   - .gitmodules fix
   - MainWindow::on_pushButton_ride_map_clicked

@@ -37,7 +37,8 @@ protected:
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     //Qt5
-    QMediaPlayer * player =  new QMediaPlayer(NULL, QMediaPlayer::StreamPlayback);
+    QMediaPlayer player;
+  //  QMediaPlayer * player =  new QMediaPlayer(NULL, QMediaPlayer::StreamPlayback);
 #else
     //Qt6
     QMediaPlayer player; //qt6
@@ -56,7 +57,7 @@ public slots:
               //Qt5
     void zmenaStavuHlaseni(QMediaPlayer::State state);
     void vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres);
-#else \
+#else
     //Qt6
     void slotPlayStateChangedQt6(QMediaPlayer::PlaybackState state);
     void popSoundFromListQt6(QVector<QUrl> &soundList);

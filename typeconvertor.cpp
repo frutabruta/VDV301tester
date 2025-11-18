@@ -98,14 +98,14 @@ Connection TypeConvertor::connectionGolemioToConnection(ConnectionGolemio input)
         output.mainMode="";
         output.subMode="";
 
-        output.mainMode="BusSubmode";
+        output.mainMode="TrolleybusSubmode";
         if(input.routeIsRegional)
         {
-            output.subMode="regionalBus";
+            output.subMode="regionalTrolleybus";
         }
         else
         {
-            output.subMode="localBus";
+            output.subMode="localTrolleybus";
         }
 
         break;

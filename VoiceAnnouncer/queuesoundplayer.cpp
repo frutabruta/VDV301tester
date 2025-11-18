@@ -1,15 +1,18 @@
 #include "queuesoundplayer.h"
 
-QueueSoundPlayer::QueueSoundPlayer() {
 
-
-
-
+QueueSoundPlayer::QueueSoundPlayer()
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    : player(nullptr, QMediaPlayer::StreamPlayback)
+#else
+    : player(), audioOutput()
+#endif
+{
 
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     //qt5
-    connect(player,&QMediaPlayer::stateChanged,this,&QueueSoundPlayer::zmenaStavuHlaseni);
+    connect(&player,&QMediaPlayer::stateChanged,this,&QueueSoundPlayer::zmenaStavuHlaseni);
 
 #else
     //qt6
