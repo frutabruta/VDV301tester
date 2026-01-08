@@ -143,6 +143,24 @@ mingw32-make install
 
 
 ## Changelog
+- 20260108_XXXX
+  - VDV301subscriber
+    - DevMGMTsubscriber reply handling fixes
+  - VDV301publisher
+    - train color fix
+  - new class AVL
+  - new class AvlWebsocketSender
+  - TypeConvertor
+    - new functions
+      - QString idUidZtoMpvNumber(int idu, int idz);
+      - QString qTimeToMpvDatetime(QTime input);
+  - MainWindow
+    - QLoggingCategory setup window
+    - new function 
+      - MainWindow::generateMpvMessage
+    - int MainWindow::eventArrival()
+      - Avl::generateMpvMessage
+    
 - 20251118_1624
   - VDV301publisher
     - Qt5 compatibility fix

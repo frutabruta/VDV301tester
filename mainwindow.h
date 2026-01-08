@@ -49,6 +49,7 @@
 #include "MapaVykresleni/trajectoryjumper.h"
 #include "MapaVykresleni/coordinatestools.h"
 #include "locationevents.h"
+#include "Avl/avl.h"
 
 namespace Ui {
 class MainWindow;
@@ -87,7 +88,7 @@ private:
 
     bool setVehicleTypeFromLineType=true;
 
-    //ve vterinach
+    int pkt=333; //message pkt counter
 
     //datove struktury
     VehicleState vehicleState;
@@ -113,6 +114,7 @@ private:
     TrajectoryJumper trajectoryJumper;
     CoordinatesTools coordinateTools;
     LocationEvents locationEvents;
+    Avl avl; //vehicle state sender
 
 
     //VDV301testy
@@ -245,6 +247,7 @@ private:
     void infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget *tableWidget);
 
     void setLineToSubMode();
+    QString generateMpvMessage(StopPointDestination currentStopPointDestination);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
@@ -416,6 +419,8 @@ private slots:
     void on_pushButton_vehicleRefSet_clicked();
 
     void on_checkBox_vechicleTypeFromLine_stateChanged(int arg1);
+
+    void on_pushButton_options_debug_set_clicked();
 
 signals:
          // void signalZahajImport(QString cesta);

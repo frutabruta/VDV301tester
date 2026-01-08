@@ -46,6 +46,8 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 #LIBS += -lqhttpserver
 
 SOURCES += \
+    Avl/avl.cpp \
+    Avl/avlwebsocketsender.cpp \
     GolemioClient/connectiongolemio.cpp \
     GolemioClient/connectiongolemiov4.cpp \
     GolemioClient/golemioresultv4.cpp \
@@ -144,6 +146,8 @@ SOURCES += \
     xmlmpvparser.cpp
 
 HEADERS += \
+    Avl/avl.h \
+    Avl/avlwebsocketsender.h \
     GolemioClient/connectiongolemio.h \
     GolemioClient/connectiongolemiov4.h \
     GolemioClient/golemioresultv4.h \

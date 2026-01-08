@@ -7,7 +7,7 @@
 
 //MAIN
 
-
+Q_LOGGING_CATEGORY(MainWindowLog, "MainWindow")
 
 //koment
 
@@ -31,10 +31,26 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     ui(new Ui::MainWindow)
 {
     qDebug() <<  Q_FUNC_INFO;
-
-    QLoggingCategory::setFilterRules("com.mycompany.myclass.debug=false");
-
     ui->setupUi(this);
+
+    QString loggingRules="";
+    loggingRules+="DisplayLabel=false\n";
+    loggingRules+="DisplayLabelLcd=false\n";
+    loggingRules+="DisplayLabelLcd2_3=false\n";
+    loggingRules+="DisplayLabelLcd2_3CZ1_0=false\n";
+    loggingRules+="DisplayLabelLcd2_3CZ1_0_Jis=false\n";
+    loggingRules+="DisplayLabelLed=false\n";
+    loggingRules+="InLineFormatParser=false\n";
+    loggingRules+="XmlParser=false\n";
+    loggingRules+="XmlParser2_3=false\n";
+    loggingRules+="MainWindow=false\n";
+    loggingRules+="SvgVykreslovani=false\n";
+
+    ui->plainTextEdit_debug_rules->setPlainText(loggingRules);
+
+    QLoggingCategory::setFilterRules(loggingRules);
+
+
     settings=newQSettings;
 
     ui->pushButton_menu_ride->setEnabled(false);
@@ -145,7 +161,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
 MainWindow::~MainWindow()
 {
     // delete proxyModel;
-    delete modelConnection;
+    modelConnection->deleteLater();
     delete ui;
 }
 
@@ -905,15 +921,38 @@ void MainWindow::slotLocationLeaveArea(StopPointDestination stopPoint)
     eventDeparture();
 }
 
+
+QString MainWindow::generateMpvMessage(StopPointDestination currentStopPointDestination)
+{
+    avl.setTurnus(vehicleState.currentVehicleRun.rootLine.c,vehicleState.currentVehicleRun.order);
+    avl.setLine(currentStopPointDestination.line.c);
+    avl.setEvc(vehicleState.vehicleNumber);
+    avl.setCoordinates(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng);
+    avl.setAkt(TypeConvertor::idUidZtoMpvNumber(currentStopPointDestination.stopPoint.idU,currentStopPointDestination.stopPoint.idZ));
+    avl.setTakt(TypeConvertor::qTimeToMpvDatetime(QTime::currentTime()));
+    avl.setKonc(TypeConvertor::idUidZtoMpvNumber(currentStopPointDestination.destination.idU,currentStopPointDestination.destination.idZ));
+    avl.setTjr(TypeConvertor::qTimeToMpvDatetime(currentStopPointDestination.stopPoint.departureToQTime()));
+    avl.setTm(TypeConvertor::qTimeToMpvDatetime(QTime::currentTime()));
+    avl.setEvents("O");
+
+    avl.generateJsonMessage();
+    avl.generateMpvMessage();
+
+    return "";
+}
+
 /*!
 
 */
+
 int MainWindow::eventArrival()
 {
     qDebug() <<  Q_FUNC_INFO;
     eventStopTimersRide();
 
     StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+
+    generateMpvMessage(currentStopPointDestination);
 
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateDoorsOpen;
 
@@ -3133,5 +3172,11 @@ void MainWindow::on_checkBox_vechicleTypeFromLine_stateChanged(int arg1)
 {
     setVehicleTypeFromLineType=arg1;
     settings->setValue("vehicleProperties/overrideByLineType",setVehicleTypeFromLineType);
+}
+
+
+void MainWindow::on_pushButton_options_debug_set_clicked()
+{
+    QLoggingCategory::setFilterRules(ui->plainTextEdit_debug_rules->toPlainText());
 }
 

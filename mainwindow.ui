@@ -83,7 +83,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -1679,7 +1679,7 @@ expected</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>4</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -2630,6 +2630,23 @@ HW config</string>
              <string>override vehicle type from line</string>
             </property>
            </widget>
+          </widget>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>Debug</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_12">
+            <item>
+             <widget class="QPlainTextEdit" name="plainTextEdit_debug_rules"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton_options_debug_set">
+              <property name="text">
+               <string>set debug rules</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>

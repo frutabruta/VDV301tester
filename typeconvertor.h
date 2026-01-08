@@ -13,6 +13,8 @@ public:
     static Connection connectionGolemioToConnection(ConnectionGolemio input);
     static QDateTime minutesToTimestamp(QDateTime referenceDateTime, QString minutesString);
     QVector<Connection> ConnectionGolemioV4ListToConnectionList(QVector<ConnectionGolemioV4> inputList);
+    static QString idUidZtoMpvNumber(int idu, int idz);
+    static QString qTimeToMpvDatetime(QTime input);
 };
 
 #endif // TYPECONVERTOR_H

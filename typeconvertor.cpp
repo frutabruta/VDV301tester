@@ -478,3 +478,20 @@ QDateTime TypeConvertor::minutesToTimestamp(QDateTime referenceDateTime,QString 
     }
 
 }
+
+QString TypeConvertor::idUidZtoMpvNumber(int idu, int idz)
+{
+    QString number = QStringLiteral("%1%2").arg(idu, 4, 10, QLatin1Char('0')).arg(idz, 4, 10, QLatin1Char('0'));
+    return number;
+}
+
+
+
+
+QString TypeConvertor::qTimeToMpvDatetime(QTime input)
+{
+    QDateTime output;
+    output=QDateTime::currentDateTime();
+    output.setTime(input);
+    return output.toUTC().toString("yyyy-MM-ddThh:mm:ss");
+}
