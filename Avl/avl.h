@@ -7,13 +7,15 @@
 #include <QDomDocument>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QUrl>
+#include <QStringLiteral>
 
 
 class Avl: public QObject
 {
     Q_OBJECT
 public:
-    Avl();
+    Avl(int port);
 
     AvlWebsocketSender avlWebsocketSender;
 
@@ -21,7 +23,7 @@ public:
     void setTurnus(const QString &newTurnus);
 
     void setTurnus(int rootLine, int order);
-    QString generateMpvMessage();
+
     int line() const;
     void setLine(int newLine);
 
@@ -49,6 +51,7 @@ public:
 
     QString generateJsonMessage();
     void dumpValues();
+    void triggerUpdate(QString event);
 private:
     QString mTurnus="";
     int mLine=0;
@@ -61,6 +64,7 @@ private:
     QString mTjr="";
     QString mTm="";
     QString mEvents="";
+
 
     int mPkt=333;
 

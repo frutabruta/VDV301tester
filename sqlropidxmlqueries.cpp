@@ -1,5 +1,5 @@
 #include "sqlropidxmlqueries.h"
-
+#include <QLoggingCategory>
 
 SqlRopidXmlQueries::SqlRopidXmlQueries()
 {
@@ -24,6 +24,7 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
         return  0;
     }
     this->otevriDB();
+
     //Spoj docasnySpoj;
     QVector<StopPointDestination> temporaryTripList;
 
@@ -34,22 +35,29 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
     // queryString2+=(" AND  x.s2=0 ");
 
 
-    queryString+=("WHERE s.s=");
-    queryString+=( QString::number(tripList.at(tripIndex).id));
-    //  queryString2+=(" AND  x.s2=0 ");
+    queryString+=R"(
+    WHERE s.s=:currentTripId
+        AND ((x.s2=0) OR (x.xorder=0))
+        AND s.kj LIKE :kj
+        AND s.d=l.d
+        AND z.tu IS NULL
+    ORDER BY x.xorder
+       )";
 
 
-    queryString+=(" AND  s.kj LIKE '");
-    queryString+=(kj);
-    queryString+=("' ");
-    queryString+=(" AND s.d=l.d ");
+    QSqlQuery query(this->mojeDatabaze);
+    query.prepare(queryString);
 
-    queryString+=("ORDER BY x.xorder");
+    query.bindValue(":currentTripId", tripList.at(tripIndex).id);
+    query.bindValue(":kj", kj);
 
+    if (!query.exec())
+    {
+        qDebug() << "exec failed:" << query.lastError();
+    }
 
-    QSqlQuery query(queryString,this->mojeDatabaze);
     int stopCount=0;
-    qDebug()<<queryString;
+    qDebug().noquote()<<queryString;
 
     int citacD=0;
 
@@ -177,10 +185,9 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
             stopPoint.sx=query.value(query.record().indexOf("z.sx")).toDouble();
             stopPoint.sy=query.value(query.record().indexOf("z.sy")).toDouble();
             stopPoint.radius=query.value(query.record().indexOf("z.rdisp")).toInt();
+            bool s2=query.value(query.record().indexOf("x.s2")).toBool();
             qDebug()<<"radius is: "<<stopPoint.radius;
 
-
-            stopPoint.notesList=getNotesFromTripS(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
 
             qDebug()<<"note count: "<<QString::number(stopPoint.notesList.count());
 
@@ -194,6 +201,8 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
                 ignore=true;
             }
 
+            stopPoint.notesList=getNotesFromTripS(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
+
 
             if(stopPoint.additionalTextMessage!="")
             {
@@ -204,7 +213,7 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
             stopPointDestination.line=line;
             stopPointDestination.stopPoint=stopPoint;
 
-            bool s2=query.value(query.record().indexOf("x.s2")).toBool();
+
 
             if((citacD!=1)&&(s2==true))
             {
@@ -261,42 +270,33 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
 QString SqlRopidXmlQueries::createGetTripQueryBase()
 {
     qDebug()<< Q_FUNC_INFO;
-    /*
-   Mozna nahrada!
 
-dbManager->query.prepare("INSERT INTO users (username, pass, userGroup) VALUES (:name, :pass, :group)");
-
-dbManager->query.bindValue(":name", username);
-dbManager->query.bindValue(":pass", password);
-dbManager->query.bindValue(":group", 0);
-dbManager->query.exec();
-
-      */
-    QString queryString("SELECT DISTINCT   ");
-    queryString+=("z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.u, z.z, z.lng, z.lat, z.sx, z.sy, z.rdisp, z.sta, ");
-    queryString+=("t.ri,t.hl, ");
-    queryString+=("t.ctn, t.btn, t.lcdn, t.vtn, ");
-    queryString+=("t.ctnnoc, t.btnnoc, t.lcdnnoc, t.vtnnoc, ");
-    queryString+=("t.ctm, t.btm, t.lcdm, t.vtm, ");
-    queryString+=("t.ctmnoc, t.btmnoc, t.lcdmnoc, t.vtmnoc, ");
-    queryString+=("l.c, l.lc, l.tl, l.aois, l.noc, l.cids, l.tl, l.kli, ");
-    queryString+=("x.o, x.p, x.t, x.na, x.zn, x.neozn, x.zast, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, x.s_id, ");
-    queryString+=("s.ns, s.c, s.vy, ");
-    queryString+=("ids.z AS pz1, ");
-    queryString+=("ids2.z AS pz2, ");
-    queryString+=("ids3.z AS pz3, ");
-    queryString+=("ids.c AS pc1, ");
-    queryString+=("ids2.c AS pc2, ");
-    queryString+=("ids3.c AS pc3 ");
-    queryString+=("FROM x ");
-    queryString+=("LEFT JOIN s ON x.s_id=s.s ");
-    queryString+=("LEFT JOIN z ON x.u = z.u AND x.z=z.z ");
-    queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
-    queryString+=("LEFT JOIN t ON t.u=x.u AND t.z=x.z " );
-    queryString+=("LEFT JOIN ids ON z.ids=ids.c " );
-    queryString+=("LEFT JOIN ids AS ids2 ON z.ids2=ids2.c " );
-    queryString+=("LEFT JOIN ids AS ids3 ON z.ids3=ids3.c " );
-
+    QString queryString=R"(
+        SELECT DISTINCT
+        z.n, z.tp, z.tp2, z.tp3, z.cis, z.ois, z.u, z.z, z.lng, z.lat, z.sx, z.sy, z.rdisp, z.sta,
+        t.ri,t.hl,
+        t.ctn, t.btn, t.lcdn, t.vtn,
+        t.ctnnoc, t.btnnoc, t.lcdnnoc, t.vtnnoc,
+        t.ctm, t.btm, t.lcdm, t.vtm,
+        t.ctmnoc, t.btmnoc, t.lcdmnoc, t.vtmnoc,
+        l.c, l.lc, l.tl, l.aois, l.noc, l.cids, l.tl, l.kli,
+        x.o, x.p, x.t, x.na, x.zn, x.neozn, x.zast, x.xA, x.xB, x.xC, x.xD, x.xVla, x.xLet, x.xLod, x.xorder, x.zsol, x.s1, x.s2, x.s_id,
+        s.ns, s.c, s.vy,
+        ids.z AS pz1,
+        ids2.z AS pz2,
+        ids3.z AS pz3,
+        ids.c AS pc1,
+        ids2.c AS pc2,
+        ids3.c AS pc3
+        FROM x
+        LEFT JOIN s ON x.s_id=s.s
+        LEFT JOIN z ON x.u = z.u AND x.z=z.z
+        LEFT JOIN l ON s.l=l.c  AND s.d=l.d
+        LEFT JOIN t ON t.u=x.u AND t.z=x.z
+        LEFT JOIN ids ON z.ids=ids.c
+        LEFT JOIN ids AS ids2 ON z.ids2=ids2.c
+        LEFT JOIN ids AS ids3 ON z.ids3=ids3.c
+    )";
     return queryString;
 }
 
@@ -327,25 +327,31 @@ QVector<QString> SqlRopidXmlQueries::getNotesFromTripS(int tripS, int xorder)
     //this->otevriDB();
     QVector<QString> noteList;
 
-    QString queryString("");
-    queryString+=("SELECT x_po.s, x_po.xorder, x_po.po,  po.c, po.t, po.ois ");
-    queryString+=("FROM  x_po  ");
-    queryString+=("LEFT JOIN po ON x_po.po=po.c ");
-    queryString+=("WHERE po.t<>\"\" ");
-    queryString+=("AND po.ois=1 ");
-    queryString+=("AND  x_po.s=");
-    queryString+=QString::number(tripS);
-    queryString+=(" AND x_po.xorder=");
-    queryString+=QString::number(xorder);
+    QString queryString=R"(
+        SELECT x_po.s, x_po.xorder, x_po.po,  po.c, po.t, po.ois
+        FROM  x_po
+        LEFT JOIN po ON x_po.po=po.c
+        WHERE po.t<>""
+            AND po.ois=1
+            AND  x_po.s=:tripS
+            AND x_po.xorder=:xorder
+    )";
 
     QSqlQuery query;
-    query.exec(queryString);
-    qDebug()<<"lasterror"<<  query.lastError();
-    qDebug().noquote()<<queryString;
+    query.prepare(queryString);
+    query.bindValue(":tripS", tripS);
+    query.bindValue(":xorder",xorder);
 
+
+    if (!query.exec())
+    {
+        qDebug() << "exec failed:" << query.lastError();
+    }
 
     while (query.next())
     {
+        int index=query.record().indexOf("po.t");
+        qDebug()<<" index: "<<index;
         QString noteText=query.value(query.record().indexOf("po.t")).toString();
         noteList.push_back(noteText);
     }
@@ -362,34 +368,38 @@ Trip SqlRopidXmlQueries::getTripDescriptionFromId(int tripId, QString kj)
     Trip trip;
 
     QString  queryString= R"(
- SELECT DISTINCT l.c, l.aois,  l.lc, s.c,s.s, z.n AS Z, zz.n AS DO, substr(time(x.o, 'unixepoch'),1,5) AS start, substr(time(xx.p, 'unixepoch'),1,5) AS konec
-FROM s
-                          LEFT JOIN l ON s.l=l.c  AND s.d=l.d
-                          LEFT JOIN x ON s.s=x.s_id AND x.xorder=0
-                          LEFT JOIN z ON x.u=z.u AND x.z=z.z
-                          LEFT JOIN (
-                          SELECT x.u, x.z, x.s_id, MAX(x.p) AS p, MAX(x.xorder) AS pocet
-                          FROM (SELECT x.o,x.p,x.s_id,x.xorder, x.u, x.z FROM x WHERE s2=0) AS x
-                          GROUP BY x.s_id ) AS xx
-                          ON xx.s_id=s.s
-                          LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z
-
-
- WHERE s.s=)";
-    queryString+=QString::number(tripId);
-    queryString+= R"(
-AND s.man !=1 AND s.kj LIKE ')";
-    queryString+=kj;
-    queryString+= R"('
- ORDER BY s.c ASC, s.s ASC
-)";
+        SELECT DISTINCT l.c, l.aois,  l.lc, s.c,s.s, z.n AS Z, zz.n AS DO, substr(time(x.o, 'unixepoch'),1,5) AS start, substr(time(xx.p, 'unixepoch'),1,5) AS konec
+        FROM s
+        LEFT JOIN l ON s.l=l.c  AND s.d=l.d
+        LEFT JOIN x ON s.s=x.s_id AND x.xorder=0
+        LEFT JOIN z ON x.u=z.u AND x.z=z.z
+        LEFT JOIN (
+            SELECT x.u, x.z, x.s_id, MAX(x.p) AS p, MAX(x.xorder) AS pocet
+            FROM (SELECT x.o,x.p,x.s_id,x.xorder, x.u, x.z FROM x WHERE s2=0) AS x
+            GROUP BY x.s_id ) AS xx ON xx.s_id=s.s
+        LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z
+        WHERE s.s=:tripId
+            AND s.man !=1
+            AND s.kj LIKE :kj
+        ORDER BY s.c ASC, s.s ASC
+    )";
 
 
     QSqlQuery query;
-    query.exec(queryString);
-    qDebug()<<"lasterror"<<  query.lastError();
+    query.prepare(queryString);
+    query.bindValue(":tripId", tripId);
+    query.bindValue(":kj",kj);
+
+
+    if (!query.exec())
+    {
+        qDebug() << "exec failed:" << query.lastError();
+    }
+
+
     qDebug().noquote()<<queryString;
     //  qDebug()<<"DebugPointB";
+
 
     while (query.next())
     {
@@ -422,21 +432,30 @@ int SqlRopidXmlQueries::getVehicleRunFromTripLC(Trip trip, int &rootLine, int &v
 
     this->pripoj();
 
-    QString queryString("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord FROM s ");
-    queryString+=("LEFT JOIN sp_po ON sp_po.s=s.s ");
-    queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
-    queryString+=("WHERE l.c=");
-    queryString+=(QString::number(trip.line.c));
-    queryString+=(" AND s.c=");
-    queryString+=(QString::number(trip.idRopid));
-    queryString+=(" AND  s.man !=1 ");
-    queryString+=(" AND s.kj LIKE '");
-    queryString+=(kj);
-    queryString+=("' ");
-    queryString+=(" ORDER BY s.s");
+    QString queryString= R"("
+        SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord
+        FROM s
+        LEFT JOIN sp_po ON sp_po.s=s.s
+        LEFT JOIN l ON s.l=l.c  AND s.d=l.d
+        WHERE l.c=:trip_line_c
+            AND s.c=:trip_idRopid
+            AND  s.man !=1
+            AND s.kj LIKE :kj
+        ORDER BY s.s
+    )";
+
     QSqlQuery query;
-    query.exec(queryString);
-    qDebug()<<"lasterror "<<query.lastError();
+    query.prepare(queryString);
+    query.bindValue(":trip_line_c", trip.line.c);
+    query.bindValue(":trip_idRopid",trip.idRopid);
+    query.bindValue(":kj",kj);
+
+
+    if (!query.exec())
+    {
+        qDebug() << "exec failed:" << query.lastError();
+    }
+
     qDebug()<<queryString;
     // qDebug()<<"DebugPointB";
     int resdultCounter=0;
@@ -469,19 +488,29 @@ int SqlRopidXmlQueries::getVehicleRunFromTripS(Trip trip, int &rootLine, int &ve
 
     this->pripoj();
 
-    QString queryString("SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord FROM s ");
-    queryString+=("LEFT JOIN sp_po ON sp_po.s=s.s ");
-    queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
-    queryString+=("WHERE s.s=");
-    queryString+=(QString::number(trip.id));
-    queryString+=(" AND  s.man !=1 ");
-    queryString+=(" AND s.kj LIKE '");
-    queryString+=(kj);
-    queryString+=("' ");
-    queryString+=(" ORDER BY s.s");
+    QString queryString=R"(
+        SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord
+        FROM s
+        LEFT JOIN sp_po ON sp_po.s=s.s
+        LEFT JOIN l ON s.l=l.c  AND s.d=l.d
+        WHERE s.s=:trip_id
+            AND  s.man !=1
+            AND s.kj LIKE :kj
+        ORDER BY s.s
+    )";
+
     QSqlQuery query;
-    query.exec(queryString);
-    qDebug()<<"lasterror "<<query.lastError();
+    query.prepare(queryString);
+    query.bindValue(":trip_id",trip.id);
+    query.bindValue(":kj",kj);
+
+
+    if (!query.exec())
+    {
+        qDebug() << "exec failed:" << query.lastError();
+    }
+
+
     qDebug()<<queryString;
     // qDebug()<<"DebugPointB";
     int resdultCounter=0;
@@ -515,19 +544,26 @@ int SqlRopidXmlQueries::getTripSfromC(Trip &trip, QString kj)
 
     this->pripoj();
 
-    QString queryString("SELECT DISTINCT s.s FROM s ");
-    queryString+=("WHERE s.l=");
-    queryString+=(QString::number(trip.line.c));
-    queryString+=(" AND s.c=");
-    queryString+=(QString::number(trip.idRopid));
-    queryString+=(" AND s.kj LIKE '");
-    queryString+=(kj);
-    queryString+=("' ");
-    queryString+=(" ORDER BY s.c");
+    QString queryString=R"(
+        SELECT DISTINCT s.s FROM s
+        WHERE s.l=:trip_line_c
+            AND s.c=:trip_idRopid
+            AND s.kj LIKE :kj
+        ORDER BY s.c
+    )";
+
     QSqlQuery query;
-    query.exec(queryString);
-    qDebug()<<"lasterror "<<query.lastError();
-    qDebug()<<queryString;
+    query.prepare(queryString);
+    query.bindValue(":trip_line_c", trip.line.c);
+    query.bindValue(":trip_idRopid", trip.idRopid);
+    query.bindValue(":kj",kj);
+
+    if (!query.exec())
+    {
+        qDebug() << "exec failed:" << query.lastError();
+    }
+
+    qDebug().noquote()<<queryString;
 
     int counter=0;
     while (query.next())
@@ -557,31 +593,44 @@ int SqlRopidXmlQueries::getTripSfromC(Trip &trip, QString kj)
 */
 int SqlRopidXmlQueries::getTripListFromVehicleRun(VehicleRun &vehicleRun, QString kj)
 {
-    //QVector<Spoj> &docasnySeznamSpoju,
     qDebug()<< Q_FUNC_INFO;
     vehicleRun.tripList.clear();
     this->pripoj();
-    QString queryString("SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.kli, l.aois FROM sp_po ");
-    queryString+=("LEFT JOIN s ON sp_po.s=s.s ");
-    queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
-    queryString+=("WHERE sp_po.l=");
-    queryString+=( QString::number(vehicleRun.rootLine.c));
-    //queryString2+=(" AND  s.c !=1000 ");
-    queryString+=(" AND  s.man !=1 ");
-    queryString+=(" AND  sp_po.p=");
-    queryString+=( QString::number(vehicleRun.order));
+    QString queryString=R"(
+        SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.kli, l.aois
+        FROM sp_po
+        LEFT JOIN s ON sp_po.s=s.s
+        LEFT JOIN l ON s.l=l.c  AND s.d=l.d
+        WHERE sp_po.l= :vehicleRun_rootline_c
+            AND  (( s.man !=1) OR (s.zvd=12))
+            AND  sp_po.p=:vehicleRunOrder
+            AND sp_po.kj LIKE :kj
+        ORDER BY sp_po.ord
+    )";
 
-
-    queryString+=(" AND sp_po.kj LIKE '");
-    queryString+=(kj);
-    queryString+=("' ");
-
-    queryString+=(" ORDER BY sp_po.ord");
     QSqlQuery query;
-    query.exec(queryString);
-    qDebug()<<"lasterror "<<query.lastError();
-    qDebug()<<queryString;
-    //  qDebug()<<"DebugPointB";
+
+    if (!query.prepare(queryString))
+    {
+        qDebug() << "prepare failed:" << query.lastError();
+        qDebug().noquote() << queryString;
+        //return query; // inactive, caller should check isActive()
+    }
+
+    query.bindValue(":vehicleRun_rootline_c", vehicleRun.rootLine.c);
+    query.bindValue(":vehicleRunOrder", vehicleRun.order);
+    query.bindValue(":kj", kj);
+
+    qDebug().noquote() << queryString;
+
+    if (!query.exec())
+    {
+        qDebug() << "exec failed:" << query.lastError();
+
+    }
+
+    qDebug().noquote() << "SQL:" << query.boundValues();
+
     int resultCounter=0;
     while (query.next())
     {
@@ -778,6 +827,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getRootLineListModel(QString kj)
     queryString2+=("WHERE o.kj LIKE '");
     queryString2+=(kj);
     queryString2+=("' ");
+    queryString2+=("AND l.c IS NOT NULL ");
     queryString2+=("ORDER BY l.c;");
 
     qDebug()<<queryString2;
@@ -839,102 +889,64 @@ QSqlQueryModel* SqlRopidXmlQueries::getVehicleRunListModel(Line line, QString kj
 
 
 
-
-/*!
-    simple version with 2 columns, abandoned
-*/
-QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModelLegacy(VehicleRun &vehicleRun, QString kj)
-{
-    //QVector<Spoj> &docasnySeznamSpoju,
-    qDebug()<< Q_FUNC_INFO;
-
-    this->pripoj();
-    // bool platnost = true;
-    qInfo()<<"DebugPointA";
-    QString queryString("SELECT DISTINCT l.c, s.c FROM sp_po ");
-    queryString+=("LEFT JOIN s ON sp_po.s=s.s ");
-    queryString+=("LEFT JOIN l ON s.l=l.c  AND s.d=l.d ");
-    queryString+=("WHERE sp_po.l=");
-    queryString+=( QString::number(vehicleRun.rootLine.c));
-    //queryString2+=(" AND  s.c !=1000 ");
-    queryString+=(" AND  s.man !=1 ");
-    queryString+=(" AND  sp_po.p=");
-    queryString+=( QString::number(vehicleRun.order));
-
-    queryString+=(" AND sp_po.kj LIKE '");
-    queryString+=(kj);
-    queryString+=("' ");
-
-    queryString+=(" ORDER BY sp_po.ord");
-    QSqlQuery query;
-    query.exec(queryString);
-
-    QSqlQueryModel *model= new QSqlTableModel(this) ;
-    model->setQuery(queryString);
-
-    return model;
-}
-
 /*!
     modified version to support additional information
 */
 QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &vehicleRun, QString kj)
 {
-    //QVector<Spoj> &docasnySeznamSpoju,
     qDebug()<< Q_FUNC_INFO;
 
-    QString queryString("SELECT DISTINCT l.c, s.c, substr(time(x.o, 'unixepoch'),1,5) AS start, z.n AS Z, substr(time(xx.p, 'unixepoch'),1,5) AS konec,  zz.n AS DO, s.s,  l.lc "
-                        "FROM sp_po "
-                        "LEFT JOIN s ON sp_po.s=s.s "
-                        "LEFT JOIN l ON s.l=l.c  AND s.d=l.d "
-                        "LEFT JOIN x ON s.s=x.s_id AND x.xorder=0 "
-                        "LEFT JOIN z ON x.u=z.u AND x.z=z.z "
-                        " LEFT JOIN ("
-                        "SELECT x.u, x.z, x.s_id, MAX(x.p) AS p, MAX(x.xorder) AS pocet "
-                        "FROM (SELECT x.o,x.p,x.s_id,x.xorder, x.u, x.z FROM x WHERE s2=0) AS x "
-                        "GROUP BY x.s_id ) AS xx "
-                        "ON xx.s_id=s.s "
-                        "LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z "
+    if (!this->pripoj())
+    {
+        qDebug() << "DB connect failed";
+        return nullptr;
+    }
 
-                        "WHERE sp_po.l ");
-    queryString+=("=");
-    queryString+=( QString::number(vehicleRun.rootLine.c));
-    //queryString2+=(" AND  s.c !=1000 ");
-    queryString+=(" AND  s.man !=1 "
-                    " AND  sp_po.p=");
+    QString queryString=R"(
+        SELECT DISTINCT l.c, s.c, substr(time(x.o, 'unixepoch'),1,5) AS start, z.n AS Z, substr(time(xx.p, 'unixepoch'),1,5) AS konec,  zz.n AS DO, s.s,  l.lc
+        FROM sp_po
+        LEFT JOIN s ON sp_po.s=s.s
+        LEFT JOIN l ON s.l=l.c  AND s.d=l.d
+        LEFT JOIN x ON s.s=x.s_id AND x.xorder=0
+        LEFT JOIN z ON x.u=z.u AND x.z=z.z
+        LEFT JOIN (
+        SELECT x.u, x.z, x.s_id, MAX(x.p) AS p, MAX(x.xorder) AS pocet
+        FROM (SELECT x.o,x.p,x.s_id,x.xorder, x.u, x.z FROM x WHERE s2=0) AS x
+        GROUP BY x.s_id ) AS xx
+        ON xx.s_id=s.s
+        LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z
 
-    queryString+=( QString::number(vehicleRun.order));
+        WHERE sp_po.l = :vehicleRun_rootLine_c
+            AND  ((s.man !=1) OR (s.zvd=12))
+            AND  sp_po.p=:vehicleRun_order
+            AND sp_po.kj LIKE :kj
+            ORDER BY sp_po.ord
+        )";
 
-    queryString+=(" AND sp_po.kj LIKE '");
-    queryString+=(kj);
-    queryString+=("' ");
-    queryString+=(" ORDER BY sp_po.ord");
+    QSqlQuery query(this->mojeDatabaze);
 
+    if (!query.prepare(queryString))
+    {
+        qDebug() << "prepare failed:" << query.lastError();
+        qDebug().noquote() << queryString;
+        return nullptr;
+    }
 
+    query.bindValue(":vehicleRun_rootLine_c", vehicleRun.rootLine.c);  // int
+    query.bindValue(":vehicleRun_order",      vehicleRun.order);       // int
+    query.bindValue(":kj",                    kj);              // QString
 
-    /*
-
-    QString queryString(" SELECT DISTINCT s.c, z.n AS Z, zz.n AS DO, substr(time(x.o, 'unixepoch'),1,5) AS start, substr(time(xx.p, 'unixepoch'),1,5) AS konec, s.s, l.c, l.lc   "
-                        " FROM s "
-                        " LEFT JOIN l ON s.l=l.c  AND s.d=l.d "
-                        " LEFT JOIN x ON s.s=x.s_id AND x.xorder=0"
-                        " LEFT JOIN z ON x.u=z.u AND x.z=z.z"
-                        " LEFT JOIN ("
-                        " SELECT x.u, x.z, x.s_id, MAX(x.p) AS p, MAX(x.xorder) AS pocet "
-                        " FROM (SELECT x.o,x.p,x.s_id,x.xorder, x.u, x.z FROM x WHERE s2=0) AS x "
-                        " GROUP BY x.s_id ) AS xx"
-                        " ON xx.s_id=s.s"
-                        " LEFT JOIN z AS zz ON xx.u=zz.u AND xx.z=zz.z ");
-
-
-    queryString+=(" WHERE l.c="+QString::number(line.c)+" AND s.man !=1 AND s.kj LIKE '"+kj+"' ");
-    queryString+=(" ORDER BY s.c ASC, s.s ASC");
-    */
-
-    qDebug().noquote()<<queryString;
+    if (!query.exec())
+    {
+        qDebug() << "exec failed:" << query.lastError();
+        qDebug().noquote() << queryString;
+        return nullptr;
+    }
 
     QSqlQueryModel *modelData= new QSqlTableModel(this) ;
-    modelData->setQuery(queryString);
+
+    //modelData->setQuery(queryString);
+    modelData->setQuery(std::move(query));
     qDebug()<<modelData->lastError();
 
     while ( modelData->canFetchMore())
@@ -943,8 +955,6 @@ QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &v
     }
 
     return modelData;
-
-
 }
 
 
@@ -963,46 +973,46 @@ QVector<MapaBod> SqlRopidXmlQueries::getTrajectoryFromTripS(int tripS, QString k
     QString queryString="";
 
     queryString+= R"(
-SELECT DISTINCT
-bod.u1, bod.u2, bod.z1, bod.z2, bod.poradi, x2.u, x2.z, x.id, bod.x, bod.y, bod.lat, bod.lon,
-z.n, z.cis, z.ois,
-l.c, l.lc, l.tl,
-x.t, x.xorder, x.zsol, x.s1, x.s2, x.s_id,
-s.ns, s.c, s.vy, x.ROWID, x2.ROWID
+        SELECT DISTINCT
+        bod.u1, bod.u2, bod.z1, bod.z2, bod.poradi, x2.u, x2.z, x.id, bod.x, bod.y, bod.lat, bod.lon,
+        z.n, z.cis, z.ois,
+        l.c, l.lc, l.tl,
+        x.t, x.xorder, x.zsol, x.s1, x.s2, x.s_id,
+        s.ns, s.c, s.vy, x.ROWID, x2.ROWID
 
-FROM (
-        SELECT x.z, x.id, x.ROWID, x.t, x.xorder, x.zsol, x.s1,x.s2, x.s_id, x.u , ROW_NUMBER() OVER (ORDER BY x.ROWID) AS row_number
-        FROM x
-        WHERE x.t IS NULL
-    ) AS x
-LEFT JOIN s ON x.s_id=s.s
-LEFT JOIN (
-        SELECT x.z, x.id, x.ROWID, x.t, x.xorder, x.zsol, x.s1,x.s2, x.s_id, x.u , x.var, ROW_NUMBER() OVER (ORDER BY x.ROWID) AS row_number
-        FROM x
-        WHERE x.t IS NULL
-        ) AS x2 ON x.row_number+1=(x2.row_number)
-LEFT JOIN z ON x.u = z.u AND x.z=z.z AND z.kj LIKE ')";
-    queryString+=kj;
-    queryString+= R"('
-LEFT JOIN l ON s.l=l.c
-LEFT JOIN t ON t.u=x.u AND t.z=x.z
-LEFT JOIN bod ON bod.u1=x.u AND bod.z1=x.z AND bod.u2=x2.u AND bod.z2=x2.z AND bod.var=x2.var AND bod.kj LIKE )";
-
-    queryString+="'"+kj+"' ";
-    queryString+="WHERE s.s=";
-
+        FROM (
+            SELECT x.z, x.id, x.ROWID, x.t, x.xorder, x.zsol, x.s1,x.s2, x.s_id, x.u , ROW_NUMBER() OVER (ORDER BY x.ROWID) AS row_number
+            FROM x
+            WHERE x.t IS NULL
+            ) AS x
+        LEFT JOIN s ON x.s_id=s.s
+        LEFT JOIN (
+            SELECT x.z, x.id, x.ROWID, x.t, x.xorder, x.zsol, x.s1,x.s2, x.s_id, x.u , x.var, ROW_NUMBER() OVER (ORDER BY x.ROWID) AS row_number
+            FROM x
+            WHERE x.t IS NULL
+            ) AS x2 ON x.row_number+1=(x2.row_number)
+        LEFT JOIN z ON x.u = z.u AND x.z=z.z AND z.kj LIKE :kj
+        LEFT JOIN l ON s.l=l.c
+        LEFT JOIN t ON t.u=x.u AND t.z=x.z
+        LEFT JOIN bod ON bod.u1=x.u AND bod.z1=x.z AND bod.u2=x2.u AND bod.z2=x2.z AND bod.var=x2.var AND bod.kj LIKE :kj
+        WHERE s.s=:tripS
+            AND  s.kj LIKE :kj  AND s.d=l.d
+        ORDER BY x.xorder, bod.poradi
+    )";
 
 
-
-    queryString+=QString::number(tripS);
-    queryString+=" AND  s.kj LIKE '"+kj+"'  AND s.d=l.d ";
-    queryString+="ORDER BY x.xorder, bod.poradi ";
 
     QSqlQuery query;
-    query.exec(queryString);
-    qDebug().noquote()<<queryString;
-    qDebug()<<"lasterror "<<query.lastError();
+    query.prepare(queryString);
+    query.bindValue(":kj", kj);
+    query.bindValue(":tripS",tripS);
 
+    if (!query.exec())
+    {
+        qDebug() << "exec failed:" << query.lastError();
+    }
+
+    qDebug().noquote()<<queryString;
     //  qDebug()<<"DebugPointB";
 
     while (query.next())

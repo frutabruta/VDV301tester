@@ -140,9 +140,36 @@ mingw32-make install
 ```
 
 
-
-
 ## Changelog
+- 20260112_1429
+  - MainWindow
+    - Avl set port
+    - MainWindow::initializeTheTrip
+      - fix crash when last trip has a following one
+    - MainWindow::generateMpvMessage
+      - changed to support Avl trigger events
+  - SqlRopidXmlQueries
+    - queries overhaul using query.bind to avoid appendg strings
+      - getVehicleRunStops
+      - createGetTripQueryBase
+      - getNotesFromTripS
+      - getTripDescriptionFromId
+      - getVehicleRunFromTripLC
+      - getVehicleRunFromTripS
+      - getTripSfromC
+      - getTripListFromVehicleRun
+      - getVehicleRunStops
+      - getTripListFromVehicleRunModel (s.man tramv fix)
+      - getTrajectoryFromTripS
+    - SqlRopidXmlQueries::getRootLineListModel
+      - added filter for lines where number is not present
+    - SqlRopidXmlQueries::getTripListFromVehicleRunModelLegacy
+      - removed
+  - AvlWebsocketSender
+    - complete rework
+  - Avl
+    - added triggerUpdate
+
 - 20260108_XXXX
   - VDV301subscriber
     - DevMGMTsubscriber reply handling fixes

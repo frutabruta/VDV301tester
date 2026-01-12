@@ -26,7 +26,6 @@ public:
     QSqlQueryModel *getRootLineListModel(QString kj);
     QSqlQueryModel *getVehicleRunListModel(Line line, QString kj);
     QSqlQueryModel *getTripListFromVehicleRunModel(VehicleRun &vehicleRun, QString kj);
-    QSqlQueryModel *getTripListFromVehicleRunModelLegacy(VehicleRun &vehicleRun, QString kj); //unused
     QSqlQueryModel *getLineStopListModel(Line line, QString kj);
 
     //SQL queries
@@ -53,6 +52,7 @@ private:
     static double absoluteValue(double input);
     QVector<FareZone> createInterRegionFareZones(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc, QString cids, QString tl);
     QVector<FareZone> fareZoneListStringToVector(QString inputText, QString system, QString tl);
+
 };
 
 #endif // SQLROPIDXMLQUERIES_H

@@ -2,7 +2,7 @@
 
 Q_LOGGING_CATEGORY(avlLog, "Avl")
 
-Avl::Avl(): avlWebsocketSender(12346,this)
+Avl::Avl(int port): avlWebsocketSender(QUrl("ws://127.0.0.1:"+QString::number(port)),this)
 {
 
 }
@@ -39,53 +39,12 @@ void Avl::dumpValues()
     qInfo()<<"events: "<<mEvents;
 }
 
-QString Avl::generateMpvMessage()
+void Avl::triggerUpdate(QString event)
 {
-    qCDebug(avlLog)<<Q_FUNC_INFO;
-    QDomDocument document;
-    QDomElement message=document.createElement("M");
-    QDomElement vehicle=document.createElement("V");
+    mEvents=event;
 
-
-    vehicle.setAttribute("turnus",mTurnus);
-    vehicle.setAttribute("line",mLine);
-    vehicle.setAttribute("evc",mEvc);
-    vehicle.setAttribute("np","ano");
-
-    vehicle.setAttribute("lat",mLat);
-    vehicle.setAttribute("lng",mLng);
-    vehicle.setAttribute("akt",mAkt);
-
-
-    vehicle.setAttribute("takt",mTakt);
-
-    vehicle.setAttribute("konc",mKonc);
-
-
-    vehicle.setAttribute("tjr",mTjr);
-
-    vehicle.setAttribute("pkt",mPkt);
-
-    vehicle.setAttribute("tm",mTm);
-
-    vehicle.setAttribute("events",mEvents);
-    //vehicle.setAttribute("","");
-
-    message.appendChild(vehicle);
-
-    document.appendChild(message);
-
-    QString messageString=document.toString();
-    messageString.remove("\n");
-    messageString.remove("\r");
-    messageString.remove("\t");
-
-    qCDebug(avlLog).noquote()<<messageString;
-
-    mPkt++;
-
-
-    return messageString;
+    avlWebsocketSender.setData(generateJsonMessage());
+    dumpValues();
 }
 
 

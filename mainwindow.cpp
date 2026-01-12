@@ -18,6 +18,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     golemio(""), //klic do golemia
     logfile(QCoreApplication::applicationDirPath()),
     //  timeService1_0("TimeService","_ibisip_udp._udp",123,"1.0"),
+    avl(12346),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0","_ropid_vdv301tester"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3","_ropid_vdv301tester_2_3"),
@@ -45,6 +46,19 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     loggingRules+="XmlParser2_3=false\n";
     loggingRules+="MainWindow=false\n";
     loggingRules+="SvgVykreslovani=false\n";
+    /*
+    loggingRules+="DisplayLabel=false\n";
+    loggingRules+="DisplayLabelLcd=false\n";
+    loggingRules+="DisplayLabelLcd2_3=false\n";
+    loggingRules+="DisplayLabelLcd2_3CZ1_0=false\n";
+    loggingRules+="DisplayLabelLcd2_3CZ1_0_Jis=false\n";
+    loggingRules+="DisplayLabelLed=false\n";
+    loggingRules+="InLineFormatParser=false\n";
+    loggingRules+="XmlParser=false\n";
+    loggingRules+="XmlParser2_3=false\n";
+    loggingRules+="MainWindow=false\n";
+    loggingRules+="SvgVykreslovani=false\n";
+    */
 
     ui->plainTextEdit_debug_rules->setPlainText(loggingRules);
 
@@ -643,7 +657,7 @@ int MainWindow::initializeTheTrip()
     int vysledek=0;
     Trip iterSpoj;
     
-
+    qDebug() <<" vehicleState.currentTripIndex "<<vehicleState.currentTripIndex;
 
     if((ui->tableView_lineTrip->model()->rowCount()==0)&&(ui->tableView_trip->model()->rowCount()==0))
     {
@@ -665,12 +679,21 @@ int MainWindow::initializeTheTrip()
     vysledek=sqlRopidQueries.getVehicleRunStops(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex,this->createDataValidityMask());
     qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
-    if (vehicleState.getCurrentTrip().continuesWithNextTrip==true)
+
+    if (vehicleState.getCurrentTrip().continuesWithNextTrip)
     {
         vysledek=sqlRopidQueries.getVehicleRunStops(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex+1,this->createDataValidityMask());
-        qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
-
+        if(vysledek)
+        {
+            qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
+        }
+        else
+        {
+            qDebug()<<"following trip not loaded";
+            vysledek=1;
+        }
     }
+
 
     qDebug()<<"je nacteno "<<vehicleState.currentVehicleRun.tripList.length()<<" spoju";
 
@@ -936,7 +959,10 @@ QString MainWindow::generateMpvMessage(StopPointDestination currentStopPointDest
     avl.setEvents("O");
 
     avl.generateJsonMessage();
-    avl.generateMpvMessage();
+
+    avl.triggerUpdate("O");
+
+
 
     return "";
 }
@@ -2090,7 +2116,7 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
         }
 
         vehicleState.currentTripIndex=vehicleState.currentVehicleRun.tripList.indexOf(hledanySpoj);
-
+        qDebug()<<"current trip index: "<< vehicleState.currentTripIndex<<" trip count: "<<vehicleState.currentVehicleRun.tripList.count();
         if(vehicleState.currentTripIndex==-1)
         {
             vehicleState.currentVehicleRun.tripList<<vehicleState.currentTrip;
@@ -2110,6 +2136,10 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
         }
 
 
+    }
+    else
+    {
+        qDebug()<<"vehicle run not found";
     }
 
 
