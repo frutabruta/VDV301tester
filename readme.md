@@ -141,6 +141,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20260113_1401
+  - MainWindow.cpp
+    - functions reorder
+    
 - 20260112_1429
   - MainWindow
     - Avl set port
