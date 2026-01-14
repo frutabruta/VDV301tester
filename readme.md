@@ -141,6 +141,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20260114_1532
+  - MainWindow
+    - qCDebug implementation
+    - MainWindow.h functions reorder
+
 - 20260113_1401
   - MainWindow.cpp
     - functions reorder

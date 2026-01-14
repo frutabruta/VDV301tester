@@ -336,6 +336,9 @@ private slots:
     void on_pushButton_manual_addsubscriber_3_clicked();
     void on_pushButton_manual_removeSubscriber_3_clicked();
 
+    void on_pushButton_manual_addsubscriber_2_3CZ1_0_clicked();
+    void on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked();
+
     //radio buttons
     void radio1(bool stav);
     void radio2(bool stav);
@@ -347,12 +350,14 @@ private slots:
     void vypisDiagnostika(QString vstup);
 
     //eventy zobrazeni na periferiích
+    void eventAddAnnoucement(AdditionalAnnoucement announcement);
+    void eventAnnouncementContinue();
     void eventFareSystemChangeShow();
     void eventFareSystemChangeHide();
     void eventFareZoneChangeHide();
     void eventLineChangeHide();
     void eventSpecialAnnouncementHide();
-    void eventAnnouncementContinue();
+
 
     //VDV301
     void slotVdv301ServiceStartResult(QString nastartovanaSluzba);
@@ -365,6 +370,8 @@ private slots:
 
     void on_radioButton_configuration_language_cs_clicked();
     void on_radioButton_configuration_language_en_clicked();
+
+    void on_checkBox_configuration_logToFile_stateChanged(int arg1);
 
     //XML import
     void slotImportFinished();
@@ -391,33 +398,21 @@ private slots:
     //misc
     void on_tableWidget_specialAnnouncements_cellClicked(int row, int column);
     void slotServiceTableUpdate();
+
+    //avl slots
     void slotGnssUpdate(MapaBod coordinates);
-
-
-
-    void on_pushButton_detection_setId_clicked();
-
-    void on_checkBox_configuration_logToFile_stateChanged(int arg1);
-
-    void on_pushButton_manual_addsubscriber_2_3CZ1_0_clicked();
-
-    void on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked();
-
-    void eventAddAnnoucement(AdditionalAnnoucement announcement);
-    void on_pushButton_positionStart_clicked();
-
-    void on_pushButton_positionStop_clicked();
-
     void slotLocationEnterArea(StopPointDestination stopPoint);
     void slotLocationLeaveArea(StopPointDestination stopPoint);
 
+    void on_pushButton_detection_setId_clicked();
+
+    void on_pushButton_positionStart_clicked();
+    void on_pushButton_positionStop_clicked();
 
     void on_checkBox_positionCenterMap_stateChanged(int arg1);
-
     void on_checkBox_positionStopAtStops_stateChanged(int arg1);
 
     void on_pushButton_vehicleRefSet_clicked();
-
     void on_checkBox_vechicleTypeFromLine_stateChanged(int arg1);
 
     void on_pushButton_options_debug_set_clicked();
