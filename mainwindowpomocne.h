@@ -20,6 +20,8 @@ public:
     static void naplnTabulkuHlaseni(QTableWidget *vstup, QVector<AdditionalAnnoucement> seznamHlaseni);
 
     static void dumpStopsToTable(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, Vdv301Enumerations::LocationStateEnumeration locationState, SqlRopidXmlQueries &sqlRopidQuerries, QTableWidget *table);
+    static int getSecondsDelayFromStop(QTime timePeriod, QTime timePeriodBackup);
+    static QString secondsToString(int seconds);
 };
 
 #endif // MAINWINDOWPOMOCNE_H

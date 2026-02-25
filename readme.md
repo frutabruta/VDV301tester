@@ -141,6 +141,34 @@ mingw32-make install
 
 
 ## Changelog
+- 20260212_2218
+  - trajectory jumper overhaul to allow even speed at corners 
+  - LocationEvents::slotGnssUpdate
+    - complete overhaul
+  - MainWindow
+    - added MPV trigger events
+    - implemented avl timer
+    - eventArrival
+      - set secondsDelay
+    - eventDeparture
+      - set secondsDelay
+ 
+  - MapaVykresleni
+    - trajectory jumper overhaul
+
+  - VDV301subscriber
+    - added handling of publisher published on multiple IPs
+  - XmlRopidImportStream
+    - added apc columns do database
+  - Avl
+    - complete overhaul of trajectory jumper
+
+  - VDV301publisher
+    - added expectedDepartureTime handling for version 2.3CZ1.0
+  - MainWindowPomocne
+    - new function getSecondsDelayFromStop
+    - secondsToString
+
 - 20260114_1532
   - MainWindow
     - qCDebug implementation

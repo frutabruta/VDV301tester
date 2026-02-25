@@ -31,7 +31,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.3CZ1.0","_ibisip_http._tcp",48477),
     ui(new Ui::MainWindow)
 {
-  // qCDebug(MainWindowLog)
+    // qCDebug(MainWindowLog)
     qCDebug(MainWindowLog)<<  Q_FUNC_INFO;
     ui->setupUi(this);
 
@@ -96,7 +96,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     //settings.setValue("General/language","en");
     QString jazyk=settings->value("app/language").toString();
 
-   qCDebug(MainWindowLog)<<" novy jazyk:"<<jazyk;
+    qCDebug(MainWindowLog)<<" novy jazyk:"<<jazyk;
     retranslateUi(jazyk);
 
     if(blockBonjour)
@@ -186,7 +186,7 @@ přesunutí connectů pro větší přehlednost
 */
 void MainWindow::allConnects()
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
 
     this->dumpSubscribers1_0(customerInformationService1_0.subscriberList);
 
@@ -269,6 +269,8 @@ void MainWindow::allConnects()
     //position simulator
     connect(&trajectoryJumper,&TrajectoryJumper::signalMapaBod,&locationEvents,&LocationEvents::slotGnssUpdate);
 
+    connect(&trajectoryJumper,&TrajectoryJumper::signalChangeWgs,&avl,&Avl::slotUpdatePosition);
+
 
     //position reader
     connect(&locationEvents,&LocationEvents::signalArrivedAtStop,this,&MainWindow::slotLocationEnterArea);
@@ -276,6 +278,34 @@ void MainWindow::allConnects()
 }
 
 
+QString MainWindow::avlSetGeneral()
+{
+    avl.setTurnus(vehicleState.currentVehicleRun.rootLine.c,vehicleState.currentVehicleRun.order);
+
+    avl.setEvc(vehicleState.vehicleNumber);
+
+
+    // avl.setEvents("O");
+
+    // avl.generateJsonMessage();
+
+    // avl.triggerUpdate("O");
+
+
+
+    return "";
+}
+
+void MainWindow::avlSetStop(StopPointDestination currentStopPointDestination)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    avl.setLine(currentStopPointDestination.line.c);
+    avl.setAkt(TypeConvertor::idUidZtoMpvNumber(currentStopPointDestination.stopPoint.idU,currentStopPointDestination.stopPoint.idZ));
+    avl.setTakt(TypeConvertor::qTimeToMpvDatetime(QTime::currentTime()));
+    avl.setKonc(TypeConvertor::idUidZtoMpvNumber(currentStopPointDestination.destination.idU,currentStopPointDestination.destination.idZ));
+    avl.setTjr(TypeConvertor::qTimeToMpvDatetime(currentStopPointDestination.stopPoint.departureToQTime()));
+    //  avl.setCoordinates(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng);
+}
 
 
 
@@ -295,7 +325,7 @@ void MainWindow::connectionListToTable(QVector<ConnectionGolemio> connectionList
 
 void MainWindow::connectionToTable(ConnectionGolemio connection, QTableWidget* tableWidget)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     qint32 row;
     QTableWidgetItem *cell;
 
@@ -353,7 +383,7 @@ void MainWindow::connectyImport(XmlImportJr *xmlImportJr)
 */
 QString MainWindow::createDataValidityMask()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     return sqlRopidQueries.createValidyMaskFromDate(vehicleState.referenceDate,validityFrom, validityTo);
 }
 
@@ -415,7 +445,7 @@ QVector<Vdv301DisplayContent> MainWindow::createGlobalDisplayContentOutOfService
 
 void MainWindow::dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceListDetected, QVector<DevMgmtPublisherStruct> serviceListConfigured)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     // ui->tabulkaSubscriberu->setRowCount(0);
     truncateSubscriberTable(ui->tableWidget_detection_deviceList);
 
@@ -442,7 +472,7 @@ void MainWindow::dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceList
 */
 void MainWindow::dumpSubscribers1_0(QVector<Subscriber> adresy)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList1_0);
 }
 
@@ -450,7 +480,7 @@ void MainWindow::dumpSubscribers1_0(QVector<Subscriber> adresy)
 
 void MainWindow::dumpSubscribers2_3CZ1_0(QVector<Subscriber> adresy)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList2_3CZ1_0);
 }
 
@@ -458,12 +488,12 @@ void MainWindow::dumpSubscribers2_3CZ1_0(QVector<Subscriber> adresy)
 
 void MainWindow::dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget* tabulka)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     tabulka->setRowCount(0);
-   qCDebug(MainWindowLog)<<"smazano"<<" adresy.size="<<adresy.size();
+    qCDebug(MainWindowLog)<<"smazano"<<" adresy.size="<<adresy.size();
     if (adresy.size()==0)
     {
-       qCDebug(MainWindowLog)<<"vracim 0";
+        qCDebug(MainWindowLog)<<"vracim 0";
     }
     else
     {
@@ -483,7 +513,7 @@ void MainWindow::dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget
             tabulka->setItem(row, 1, cell);
             tabulka->resizeColumnsToContents();
         }
-       qCDebug(MainWindowLog)<<"vracim 1";
+        qCDebug(MainWindowLog)<<"vracim 1";
     }
 
 
@@ -494,7 +524,7 @@ void MainWindow::eraseTable(QTableWidget *tableWidget)
 {
     //used to erase tablewidgets without program crash due to signals
     //  https://stackoverflow.com/a/31564541
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     tableWidget->clearSelection();
 
@@ -511,7 +541,7 @@ void MainWindow::eraseTable(QTableWidget *tableWidget)
 
 void MainWindow::eventAddAnnoucement(AdditionalAnnoucement announcement)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     vehicleState.specialAnnouncementQueue<<announcement;
     eventAnnouncementContinue();
 
@@ -520,11 +550,11 @@ void MainWindow::eventAddAnnoucement(AdditionalAnnoucement announcement)
 
 void MainWindow::eventAfterStopToBetweenStop()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
     if(FareZone::showZoneChangeCheck(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.fareZoneList,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.fareZoneList))
     {
-       qCDebug(MainWindowLog)<<"srovnani pasem zastavek "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.StopName<<" a "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.StopName;
+        qCDebug(MainWindowLog)<<"srovnani pasem zastavek "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.StopName<<" a "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.StopName;
         eventFareZoneChange();
     }
     else
@@ -541,18 +571,18 @@ void MainWindow::eventAfterStopToBetweenStop()
 
 void MainWindow::eventAnnouncementContinue()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     if(vehicleState.isSpecialAnnoucementUsed)
     {
         // vehicleState.isSpecialAnnoucementUsed=true;
-       qCDebug(MainWindowLog)<<"queue is already running";
-       qCDebug(MainWindowLog)<<"announcement queue count running"<<vehicleState.specialAnnouncementQueue.count();
+        qCDebug(MainWindowLog)<<"queue is already running";
+        qCDebug(MainWindowLog)<<"announcement queue count running"<<vehicleState.specialAnnouncementQueue.count();
     }
     else
     {
         if(!vehicleState.specialAnnouncementQueue.isEmpty())
         {
-           qCDebug(MainWindowLog)<<"announcement queue count not running"<<vehicleState.specialAnnouncementQueue.count();
+            qCDebug(MainWindowLog)<<"announcement queue count not running"<<vehicleState.specialAnnouncementQueue.count();
             vehicleState.currentSpecialAnnoucement=vehicleState.specialAnnouncementQueue.first();
             vehicleState.specialAnnouncementQueue.removeFirst();
             timerSpecialAnnoucementHide.setInterval(vehicleState.currentSpecialAnnoucement.duration);
@@ -562,7 +592,7 @@ void MainWindow::eventAnnouncementContinue()
         }
         else
         {
-           qCDebug(MainWindowLog)<<"announcement queue is empty";
+            qCDebug(MainWindowLog)<<"announcement queue is empty";
         }
         xmlVdv301UpdateContent();
 
@@ -571,7 +601,7 @@ void MainWindow::eventAnnouncementContinue()
 
 void MainWindow::eventAnnouncementToDriver(QString poznamka)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     QMessageBox msgBox;
     msgBox.setText(replaceDriverAnnouncementFormatting(poznamka));
     QFont font;
@@ -590,12 +620,19 @@ void MainWindow::eventAnnouncementToDriver(QString poznamka)
 
 int MainWindow::eventArrival()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     eventStopTimersRide();
 
     StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
 
-    generateMpvMessage(currentStopPointDestination);
+    vehicleState.secondsDelay=MainWindowPomocne::getSecondsDelayFromStop(currentStopPointDestination.stopPoint.arrivalToQTime(),currentStopPointDestination.stopPoint.departureToQTime());
+
+    avlSetStop(currentStopPointDestination);
+    if(!trajectoryJumper.isRunning)
+    {
+        avl.setCoordinates(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng);
+    }
+    avl.triggerUpdate("O");
 
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateDoorsOpen;
 
@@ -626,7 +663,7 @@ int MainWindow::eventArrival()
     xmlVdv301UpdateContent();
 
     QVector<QString> poznamky=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.notesList;
-   qCDebug(MainWindowLog)<<"poznamek je tolik: "<<QString::number(poznamky.count());
+    qCDebug(MainWindowLog)<<"poznamek je tolik: "<<QString::number(poznamky.count());
     foreach(QString poznamka, poznamky)
     {
         eventAnnouncementToDriver(poznamka);
@@ -649,7 +686,7 @@ int MainWindow::eventArrival()
 */
 int MainWindow::eventDeparture()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     eventStopTimersRide();
     vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
@@ -657,11 +694,15 @@ int MainWindow::eventDeparture()
 
     if(!isInRange(vehicleState.currentStopIndex0,this->vehicleState.getCurrentTrip().globalStopPointDestinationList.count(),Q_FUNC_INFO))
     {
-       qCDebug(MainWindowLog)<<"departure from last stop";
+        qCDebug(MainWindowLog)<<"departure from last stop";
         return 0;
     }
     StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
     locationEvents.expectedStopPointDestination=currentStopPointDestination;
+    avlSetStop(currentStopPointDestination);
+    avl.triggerUpdate("O");
+
+    vehicleState.secondsDelay=MainWindowPomocne::getSecondsDelayFromStop(currentStopPointDestination.stopPoint.departureToQTime(),currentStopPointDestination.stopPoint.arrivalToQTime());
 
     xmlVdv301UpdateContent();
     updateDriverDisplay();
@@ -696,22 +737,27 @@ int MainWindow::eventDeparture()
 
 void MainWindow::eventEnterService()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     ui->pushButton_menu_ride->setDisabled(false);
     locationEvents.expectedStopPointDestination=vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
     xmlVdv301UpdateContent();
+    avlSetGeneral();
+
+    avl.timerStart();
+
 }
 
 
 void MainWindow::eventExitService()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     ui->pushButton_menu_ride->setDisabled(true);
     trajectoryJumper.stop();
     timerAfterStopToBetweenStop.stop();
     timerDownloadConnections.stop();
     timerFareZoneChangeDuration.stop();
+    avl.timerStop();
     resetTripList();
 
 
@@ -731,7 +777,7 @@ void MainWindow::eventExitService()
 //není implementováno
 void MainWindow::eventFareSystemChangeHide()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     /* stavSystemu.zobrazZmenuPasma=false;
    xmlVdv301HromadnyUpdate();
    */
@@ -741,7 +787,7 @@ void MainWindow::eventFareSystemChangeHide()
 //není implementováno
 void MainWindow::eventFareSystemChangeShow()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     /*stavSystemu.zobrazZmenuPasma=true;
     xmlVdv301HromadnyUpdate();
 
@@ -757,15 +803,15 @@ void MainWindow::eventFareSystemChangeShow()
 
 void MainWindow::eventFareZoneChange()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     vehicleState.showFareZoneChange=true;
 
 
     QString fareZoneChangeText=R"(
-<font size="90"><color fg="#ffffff"><b>Prosím pozor! Změna tarifního pásma.</b></color></font><br>
-<font size="68"><color fg="#969696">Attention please! Change of fare zone.</color></font>
-        )";
+        <font size="90"><color fg="#ffffff"><b>Prosím pozor! Změna tarifního pásma.</b></color></font><br>
+        <font size="68"><color fg="#969696">Attention please! Change of fare zone.</color></font>
+    )";
 
     AdditionalAnnoucement fareZoneChangeAnnouncement;
     fareZoneChangeAnnouncement.text=fareZoneChangeText;
@@ -786,7 +832,7 @@ void MainWindow::eventFareZoneChange()
 
 void MainWindow::eventFareZoneChangeHide()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     vehicleState.showFareZoneChange=false;
     //  eventAnnouncementContinue();
     // xmlVdv301UpdateContent();
@@ -794,9 +840,9 @@ void MainWindow::eventFareZoneChangeHide()
 
 void MainWindow::eventGoToNextTrip()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
-   qCDebug(MainWindowLog)<<"index "<<vehicleState.currentTripIndex<<" pocetSpoju "<<vehicleState.currentVehicleRun.tripList.count();
+    qCDebug(MainWindowLog)<<"index "<<vehicleState.currentTripIndex<<" pocetSpoju "<<vehicleState.currentVehicleRun.tripList.count();
     if ((vehicleState.currentTripIndex)<(vehicleState.currentVehicleRun.tripList.count()-1))
     {
         eventLineChange();
@@ -809,19 +855,19 @@ void MainWindow::eventGoToNextTrip()
     }
     else
     {
-       qCDebug(MainWindowLog)<<"posledni spoj ze seznamu, nelze se dale posouvat";
+        qCDebug(MainWindowLog)<<"posledni spoj ze seznamu, nelze se dale posouvat";
     }
 }
 
 void MainWindow::eventLineChange()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
 
     QString lineChangeText=R"(
-<font size="90"><color fg="#ffffff"><b>Prosím pozor! Změna čísla linky.</b></color></font><br>
-<font size="72"><color fg="#969696">Attention please! Line number change.</color></font>
-        )";
+        <font size="90"><color fg="#ffffff"><b>Prosím pozor! Změna čísla linky.</b></color></font><br>
+        <font size="72"><color fg="#969696">Attention please! Line number change.</color></font>
+    )";
 
     //values are a mock-up at the moment
     AdditionalAnnoucement lineChangeAnnouncement;
@@ -842,7 +888,7 @@ void MainWindow::eventLineChange()
 
 void MainWindow::eventLineChangeHide()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     // now handled as an announcement
 
 
@@ -851,7 +897,7 @@ void MainWindow::eventLineChangeHide()
 
 void MainWindow::eventShowManualAnnoucement(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     if((index>=0)&&(index<additionalAnnouncementList.count()))
     {
@@ -877,7 +923,7 @@ void MainWindow::eventShowManualAnnoucement(int index, QVector<AdditionalAnnouce
 
 void MainWindow::eventSpecialAnnouncementHide()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     vehicleState.isSpecialAnnoucementUsed=false;
     eventAnnouncementContinue();
     //xmlVdv301UpdateContent();
@@ -898,29 +944,6 @@ void MainWindow::eventStopTimersRide()
 
 
 
-QString MainWindow::generateMpvMessage(StopPointDestination currentStopPointDestination)
-{
-    avl.setTurnus(vehicleState.currentVehicleRun.rootLine.c,vehicleState.currentVehicleRun.order);
-    avl.setLine(currentStopPointDestination.line.c);
-    avl.setEvc(vehicleState.vehicleNumber);
-    avl.setCoordinates(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng);
-    avl.setAkt(TypeConvertor::idUidZtoMpvNumber(currentStopPointDestination.stopPoint.idU,currentStopPointDestination.stopPoint.idZ));
-    avl.setTakt(TypeConvertor::qTimeToMpvDatetime(QTime::currentTime()));
-    avl.setKonc(TypeConvertor::idUidZtoMpvNumber(currentStopPointDestination.destination.idU,currentStopPointDestination.destination.idZ));
-    avl.setTjr(TypeConvertor::qTimeToMpvDatetime(currentStopPointDestination.stopPoint.departureToQTime()));
-    avl.setTm(TypeConvertor::qTimeToMpvDatetime(QTime::currentTime()));
-    avl.setEvents("O");
-
-    avl.generateJsonMessage();
-
-    avl.triggerUpdate("O");
-
-
-
-    return "";
-}
-
-
 void MainWindow::infoTextListToTable(QVector<GolemioInfotext> infotextList,QTableWidget* tableWidget)
 {
 
@@ -936,7 +959,7 @@ void MainWindow::infoTextListToTable(QVector<GolemioInfotext> infotextList,QTabl
 
 void MainWindow::infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget* tableWidget)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     qint32 row;
     QTableWidgetItem *cell;
 
@@ -973,22 +996,22 @@ void MainWindow::infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget* 
  */
 int MainWindow::initializeTheTrip()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     QString textDoPole="";
     int vysledek=0;
     Trip iterSpoj;
 
-   qCDebug(MainWindowLog) <<" vehicleState.currentTripIndex "<<vehicleState.currentTripIndex;
+    qCDebug(MainWindowLog) <<" vehicleState.currentTripIndex "<<vehicleState.currentTripIndex;
 
     if((ui->tableView_lineTrip->model()->rowCount()==0)&&(ui->tableView_trip->model()->rowCount()==0))
     {
-       qCDebug(MainWindowLog)<<"neni zvoleny spoj";
+        qCDebug(MainWindowLog)<<"neni zvoleny spoj";
         this->vypisDiagnostika("není zvoleno pořadí");
         return 0;
     }
     else
     {
-       qCDebug(MainWindowLog)<<"zjisteni zvolene pozice v seznamu"<<vehicleState.currentTripIndex;
+        qCDebug(MainWindowLog)<<"zjisteni zvolene pozice v seznamu"<<vehicleState.currentTripIndex;
         if (vehicleState.currentTripIndex<0)
         {
             this->vypisDiagnostika("není zvolený spoj");
@@ -998,7 +1021,7 @@ int MainWindow::initializeTheTrip()
 
 
     vysledek=sqlRopidQueries.getVehicleRunStops(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex,this->createDataValidityMask());
-   qCDebug(MainWindowLog)<<"nacetl jsem spoj s vysledkem "<<vysledek;
+    qCDebug(MainWindowLog)<<"nacetl jsem spoj s vysledkem "<<vysledek;
 
 
     if (vehicleState.getCurrentTrip().continuesWithNextTrip)
@@ -1006,21 +1029,21 @@ int MainWindow::initializeTheTrip()
         vysledek=sqlRopidQueries.getVehicleRunStops(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex+1,this->createDataValidityMask());
         if(vysledek)
         {
-           qCDebug(MainWindowLog)<<"nacetl jsem spoj s vysledkem "<<vysledek;
+            qCDebug(MainWindowLog)<<"nacetl jsem spoj s vysledkem "<<vysledek;
         }
         else
         {
-           qCDebug(MainWindowLog)<<"following trip not loaded";
+            qCDebug(MainWindowLog)<<"following trip not loaded";
             vysledek=1;
         }
     }
 
 
-   qCDebug(MainWindowLog)<<"je nacteno "<<vehicleState.currentVehicleRun.tripList.length()<<" spoju";
+    qCDebug(MainWindowLog)<<"je nacteno "<<vehicleState.currentVehicleRun.tripList.length()<<" spoju";
 
     if (vysledek==2)
     {
-       qCDebug(MainWindowLog)<<"existuje navazujici spoj";
+        qCDebug(MainWindowLog)<<"existuje navazujici spoj";
     }
 
     if (vysledek==0)
@@ -1034,7 +1057,7 @@ int MainWindow::initializeTheTrip()
     //   xmlVdv301UpdateContent();
     if(this->vehicleState.getCurrentTrip().globalStopPointDestinationList.empty()==1)
     {
-       qCDebug(MainWindowLog)<<"seznam zastavek  je prazdny";
+        qCDebug(MainWindowLog)<<"seznam zastavek  je prazdny";
         return 0;
     }
     else
@@ -1059,7 +1082,7 @@ pripoji se k databazi a naplni okna pro vyber spoju
 */
 void MainWindow::initializeSelectionListView()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     sqlRopidQueries.pripoj();
 
     ui->listView_lineRun->setModel(&emptyQSqlQueryModel);
@@ -1092,7 +1115,7 @@ void MainWindow::initializeSelectionListView()
     else
     {
 
-       qCDebug(MainWindowLog)<<"chyba nacitani linek";
+        qCDebug(MainWindowLog)<<"chyba nacitani linek";
     }
 }
 
@@ -1102,7 +1125,7 @@ void MainWindow::initializeSelectionListView()
 
 int MainWindow::isInRange(int index, int valueCount, QString functionName)
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     if((index<valueCount)&&(index>=0))
     {
         return 1;
@@ -1113,7 +1136,7 @@ int MainWindow::isInRange(int index, int valueCount, QString functionName)
         QString errorText="value "+QString::number(index)+" is out of range "+ QString::number(valueCount)+" "+functionName;
         popUpMessage(errorText);
 
-       qCDebug(MainWindowLog)<<errorText;
+        qCDebug(MainWindowLog)<<errorText;
 
         return 0;
     }
@@ -1123,7 +1146,7 @@ int MainWindow::isInRange(int index, int valueCount, QString functionName)
 
 void MainWindow::loadConstantsFromSettingsFile()
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
 
 
     if(settings->value("golemio/adresa").isNull())
@@ -1132,9 +1155,9 @@ void MainWindow::loadConstantsFromSettingsFile()
     }
     else
     {
-       qCDebug(MainWindowLog)<<"konfiguracni soubor nacten";
+        qCDebug(MainWindowLog)<<"konfiguracni soubor nacten";
     }
-   qCDebug(MainWindowLog)<<" konstanty status "<<settings->status();
+    qCDebug(MainWindowLog)<<" konstanty status "<<settings->status();
 
 
     if(settings->value("golemio/datovyZdroj").toString()=="mpvnet")
@@ -1201,15 +1224,15 @@ void MainWindow::loadConstantsFromSettingsFile()
 
 void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* tableView)
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     QStringListModel emptyModel;
     if(modelInput==NULL)
     {
-       qCDebug(MainWindowLog)<<"model je prazdny";
+        qCDebug(MainWindowLog)<<"model je prazdny";
         tableView->setModel(&emptyModel);
         return;
     }
-   qCDebug(MainWindowLog)<<"model size:"<<modelInput->rowCount()<<" "<<modelInput->columnCount();
+    qCDebug(MainWindowLog)<<"model size:"<<modelInput->rowCount()<<" "<<modelInput->columnCount();
 
 
 
@@ -1233,7 +1256,7 @@ void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* ta
     tableView->resizeColumnsToContents();
     connect(tableView->horizontalHeader(),SIGNAL(sortIndicatorChanged(int,Qt::SortOrder)),tableView,SLOT(sortByColumn(int,Qt::SortOrder)));
     int pocet= proxyModel.rowCount();
-   qCDebug(MainWindowLog)<<"pocet vysledku: "<<QString::number(pocet);
+    qCDebug(MainWindowLog)<<"pocet vysledku: "<<QString::number(pocet);
     //existujeLastError(model);
 }
 
@@ -1244,7 +1267,7 @@ void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* ta
 */
 void MainWindow::on_calendarWidget_data_workingDate_selectionChanged()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     vehicleState.referenceDate=ui->calendarWidget_data_workingDate->selectedDate();
     updataWorkingDate();
 }
@@ -1256,14 +1279,14 @@ void MainWindow::on_calendarWidget_data_workingDate_selectionChanged()
 */
 void MainWindow::on_checkBox_configuration_enableConnections_stateChanged(int arg1)
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     vehicleState.showConnections=ui->checkBox_configuration_enableConnections->isChecked();
     settings->setValue("golemio/enabled",vehicleState.showConnections);
 }
 
 void MainWindow::on_checkBox_configuration_logToFile_stateChanged(int arg1)
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     settings->setValue("debug/logToFile",arg1);
 }
 
@@ -1298,7 +1321,7 @@ void MainWindow::on_checkBox_vechicleTypeFromLine_stateChanged(int arg1)
 
 void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     vehicleState.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
 
     if (ui->listView_lineRun->model()->rowCount()!=0)
@@ -1310,11 +1333,11 @@ void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
             /// zakomentovat?
             if (sqlRopidQueries.getTripListFromVehicleRun(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
             {
-               qCDebug(MainWindowLog)<<"pocetSpoju: "<<vehicleState.currentVehicleRun.tripList.count();
+                qCDebug(MainWindowLog)<<"pocetSpoju: "<<vehicleState.currentVehicleRun.tripList.count();
             }
             else
             {
-               qCDebug(MainWindowLog)<<"spoje nenalezeny";
+                qCDebug(MainWindowLog)<<"spoje nenalezeny";
             }
 
             QSqlQueryModel* modelTurnusSpoj=sqlRopidQueries.getTripListFromVehicleRunModel(vehicleState.currentVehicleRun, this->createDataValidityMask());
@@ -1333,15 +1356,15 @@ void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
 
 void MainWindow::on_listView_line_clicked(const QModelIndex &index)
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     vehicleState.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
-   qCDebug(MainWindowLog)<<"cislo linky:"<<vehicleState.currentLine.c;
+    qCDebug(MainWindowLog)<<"cislo linky:"<<vehicleState.currentLine.c;
 
 
 
     //  ui->lineEdit_lineNumber->setText(QString::number(vehicleState.currentLine.c ));
     modelConnection=sqlRopidQueries.getLineStopListModel(vehicleState.currentLine, this->createDataValidityMask());
-   qCDebug(MainWindowLog)<<"model size:"<<modelConnection->rowCount()<<" "<<modelConnection->columnCount();
+    qCDebug(MainWindowLog)<<"model size:"<<modelConnection->rowCount()<<" "<<modelConnection->columnCount();
 
 
     modelDoTabulkySeradit(modelConnection,ui->tableView_trip);
@@ -1354,7 +1377,7 @@ void MainWindow::on_listView_line_clicked(const QModelIndex &index)
 
 void MainWindow::on_listView_rootLine_clicked(const QModelIndex &index)
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
 
     vehicleState.currentVehicleRun.rootLine.c= index.data(Qt::DisplayRole).toString().toInt();
 
@@ -1373,7 +1396,7 @@ void MainWindow::on_listView_rootLine_clicked(const QModelIndex &index)
 */
 void MainWindow::on_pushButton_configuration_IbisSetPort_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     ibisOvladani.stop();
     ibisOvladani.setSerialPortName(ui->lineEdit_configuration_IbisPort->text());
     ibisOvladani.start();
@@ -1387,7 +1410,7 @@ void MainWindow::on_pushButton_configuration_IbisSetPort_clicked()
 
 void MainWindow::on_pushButton_configuration_setGolemioKey_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     settings->setValue("golemio/apiKey",ui->lineEdit_configuration_golemioKey->text());
     golemio.setKlic(settings->value("golemio/apiKey").toByteArray());
 }
@@ -1402,7 +1425,7 @@ void MainWindow::on_pushButton_configuration_setGolemioKey_clicked()
 */
 void MainWindow::on_pushButton_ride_IBIS_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     ibisOvladani.sendIpisTelegram("xC2");
     ibisOvladani.odesliFrontKomplet("1",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
     ibisOvladani.odesliSideKomplet("2",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
@@ -1419,7 +1442,7 @@ void MainWindow::on_pushButton_ride_IBIS_clicked()
 */
 void MainWindow::on_pushButton_data_startXmlRopidImport_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     //   emit signalZahajImport(xmlRopidImportStream.vstupniXmlSouborCesta);
 
     eventExitService();
@@ -1449,7 +1472,7 @@ void MainWindow::on_pushButton_data_startXmlRopidImport_clicked()
 */
 void MainWindow::on_pushButton_data_truncate_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     //XmlImportJr *xmlImportJr =  new XmlImportJr();
 
     XmlImportJr xmlImportJr;
@@ -1593,7 +1616,7 @@ void MainWindow::on_pushButton_menu_lineTrip_clicked()
 
 void MainWindow::on_pushButton_ride_arrowNextStateSkip_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()-1))
     {
         vehicleState.currentStopIndex0++;
@@ -1694,7 +1717,7 @@ void MainWindow::on_pushButton_manual_removeSubscriber_3_clicked()
 
 void MainWindow::on_pushButton_detection_refresh_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     devMgmtSubscriber.slotUpdateDeviceInfo();
 }
 
@@ -1702,7 +1725,7 @@ void MainWindow::on_pushButton_detection_refresh_clicked()
 void MainWindow::on_pushButton_detection_saveHwConfig_clicked()
 {
 
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     int i=0;
     settings->beginWriteArray("hwConfig");
@@ -1722,7 +1745,7 @@ void MainWindow::on_pushButton_detection_saveHwConfig_clicked()
 
 void MainWindow::on_pushButton_detection_loadHwConfig_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     devMgmtSubscriber.deviceListConfigured.clear();
 
@@ -1735,11 +1758,11 @@ void MainWindow::on_pushButton_detection_loadHwConfig_clicked()
         zarizeni.deviceClass= settings->value("deviceClass").toString();
         zarizeni.hwConfig=true;
         devMgmtSubscriber.deviceListConfigured.append(zarizeni);
-       qCDebug(MainWindowLog)<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
+        qCDebug(MainWindowLog)<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
     }
     settings->endArray();
 
-   qCDebug(MainWindowLog)<<"nacteno "<<QString::number(devMgmtSubscriber.deviceListConfigured.count())<<" zarizeni";
+    qCDebug(MainWindowLog)<<"nacteno "<<QString::number(devMgmtSubscriber.deviceListConfigured.count())<<" zarizeni";
     dumpServicesToTable(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
 }
 
@@ -1857,7 +1880,7 @@ void MainWindow::on_pushButton_menu_ride_clicked()
 */
 void MainWindow::on_pushButton_menu_fullscreen_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     this->toggleFullscreen();
 }
 
@@ -1867,7 +1890,7 @@ void MainWindow::on_pushButton_menu_fullscreen_clicked()
 */
 void MainWindow::on_pushButton_menu2_fullscreen_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     this->toggleFullscreen();
 }
 
@@ -1877,7 +1900,7 @@ void MainWindow::on_pushButton_menu2_fullscreen_clicked()
 */
 void MainWindow::on_pushButton_manual_sendCustomXml_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     QByteArray vysledek2="";
 
     customerInformationService1_0.timer.stop();
@@ -1891,20 +1914,22 @@ void MainWindow::on_pushButton_manual_sendCustomXml_clicked()
     customerInformationService2_3CZ1_0.setBodyContent("AllData",vysledek2);
 
 
-
     for(int i=0;i<customerInformationService1_0.subscriberList.count();i++ )
     {
         customerInformationService1_0.postToSubscriber(customerInformationService1_0.subscriberList[i].address,vysledek2);
     }
+
     for(int i=0;i<customerInformationService2_3.subscriberList.count();i++ )
     {
         customerInformationService2_3.postToSubscriber(customerInformationService2_3.subscriberList[i].address,vysledek2);
     }
+
     for(int i=0;i<customerInformationService2_3CZ1_0.subscriberList.count();i++ )
     {
         customerInformationService2_3CZ1_0.postToSubscriber(customerInformationService2_3CZ1_0.subscriberList[i].address,vysledek2);
     }
-   qCDebug(MainWindowLog)<<"\n MainWindow::xmlUpdate";
+
+    qCDebug(MainWindowLog)<<"\n MainWindow::xmlUpdate";
 }
 
 
@@ -1914,7 +1939,7 @@ void MainWindow::on_pushButton_manual_sendCustomXml_clicked()
 */
 void MainWindow::on_pushButton_ride_arrowPreviousStateSkip_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     if (vehicleState.currentStopIndex0>=2)
     {
         vehicleState.currentStopIndex0--;
@@ -1922,7 +1947,6 @@ void MainWindow::on_pushButton_ride_arrowPreviousStateSkip_clicked()
     ui->label_ride_stopIndex->setText(QString::number(vehicleState.currentStopIndex0));
     updateDriverDisplay();
     xmlVdv301UpdateContent();
-
 }
 
 
@@ -1932,11 +1956,10 @@ void MainWindow::on_pushButton_ride_arrowPreviousStateSkip_clicked()
 */
 void MainWindow::on_pushButton_menu_quit_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     MainWindow::close();
     QApplication::exit(0);
     //QCoreApplication::exit(0);
-
 }
 
 
@@ -1993,7 +2016,7 @@ void MainWindow::on_pushButton_ride_betweenStop_clicked()
 */
 void MainWindow::on_pushButton_configuration_IbisSendTest_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     // ibisOvladani.dopocetCelni("l006");
 }
 
@@ -2004,7 +2027,7 @@ void MainWindow::on_pushButton_configuration_IbisSendTest_clicked()
 */
 void MainWindow::on_pushButton_ride_arrowNextState_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
 
     if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()))
@@ -2017,7 +2040,7 @@ void MainWindow::on_pushButton_ride_arrowNextState_clicked()
         }
         else
         {
-           qCDebug(MainWindowLog)<<"dalsi? index:"<<vehicleState.currentStopIndex0<<" pocetZastavek:"<<vehicleState.countCurrentTripStops();
+            qCDebug(MainWindowLog)<<"dalsi? index:"<<vehicleState.currentStopIndex0<<" pocetZastavek:"<<vehicleState.countCurrentTripStops();
             if((vehicleState.locationState==Vdv301Enumerations::LocationStateAtStop)&&((vehicleState.currentStopIndex0+1)==vehicleState.countCurrentTripStops()))
             {
                 this->eventGoToNextTrip();
@@ -2044,12 +2067,9 @@ void MainWindow::on_pushButton_ride_arrowNextState_clicked()
                 break;
             }
 
-
             default:
                 break;
             }
-
-
         }
     }
 
@@ -2068,7 +2088,7 @@ void MainWindow::on_pushButton_ride_arrowNextState_clicked()
 */
 void MainWindow::on_pushButton_ride_arrowPreviousState_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     if (vehicleState.currentStopIndex0>=1)
     {
         switch(vehicleState.locationState)
@@ -2116,7 +2136,7 @@ void MainWindow::on_pushButton_menu2_rezerva_clicked()
 */
 int MainWindow::on_pushButton_lineTrip_confirm_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     //   vehicleState.reset();
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
 
@@ -2155,7 +2175,7 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
         }
 
         vehicleState.currentTripIndex=vehicleState.currentVehicleRun.tripList.indexOf(hledanySpoj);
-       qCDebug(MainWindowLog)<<"current trip index: "<< vehicleState.currentTripIndex<<" trip count: "<<vehicleState.currentVehicleRun.tripList.count();
+        qCDebug(MainWindowLog)<<"current trip index: "<< vehicleState.currentTripIndex<<" trip count: "<<vehicleState.currentVehicleRun.tripList.count();
         if(vehicleState.currentTripIndex==-1)
         {
             vehicleState.currentVehicleRun.tripList<<vehicleState.currentTrip;
@@ -2178,7 +2198,7 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
     }
     else
     {
-       qCDebug(MainWindowLog)<<"vehicle run not found";
+        qCDebug(MainWindowLog)<<"vehicle run not found";
     }
 
 
@@ -2198,7 +2218,7 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
 */
 int MainWindow::on_pushButton_lineRun_confirm_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
     //vehicleState.currentLine.lineNumber =ui->lineEdit_rootLine->text();
 
@@ -2206,12 +2226,12 @@ int MainWindow::on_pushButton_lineRun_confirm_clicked()
 
     if(!ui->listView_rootLine->currentIndex().isValid())
     {
-       qCDebug(MainWindowLog)<<"no root line selected";
+        qCDebug(MainWindowLog)<<"no root line selected";
         return 0;
     }
     if(!ui->listView_lineRun->currentIndex().isValid())
     {
-       qCDebug(MainWindowLog)<<"no vehicle run selected";
+        qCDebug(MainWindowLog)<<"no vehicle run selected";
         return 0;
     }
     return initializeTheTrip();
@@ -2233,7 +2253,7 @@ void MainWindow::on_pushButton_menu_vehicleRun_clicked()
 */
 void MainWindow::on_pushButton_menu2_quit_clicked()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     this->on_pushButton_menu_quit_clicked();
 }
 
@@ -2247,6 +2267,7 @@ void MainWindow::on_pushButton_options_debug_set_clicked()
 void MainWindow::on_pushButton_positionStart_clicked()
 {
     trajectoryJumper.seznamMapaBodu=sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask());
+    trajectoryJumper.coordinatesSystem=trajectoryJumper.coordinateSystemFromMapaPointList(trajectoryJumper.seznamMapaBodu);
     trajectoryJumper.start();
 }
 
@@ -2261,6 +2282,7 @@ void MainWindow::on_pushButton_vehicleRefSet_clicked()
 {
     vehicleState.vehicleNumber=ui->lineEdit_vehicleRef->text().toInt();
     settings->setValue("vehicleProperties/vehicleRef",vehicleState.vehicleNumber);
+    avlSetGeneral();
 }
 
 
@@ -2312,7 +2334,7 @@ void MainWindow::on_radioButton_configuration_language_en_clicked()
 
 void MainWindow::on_tableView_trip_clicked(const QModelIndex &index)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     Trip docasnySpoj;
 
     if (ui->tableView_trip->model()->rowCount()>0)
@@ -2344,12 +2366,12 @@ void MainWindow::on_tableView_trip_clicked(const QModelIndex &index)
 
 
             sqlRopidQueries.getVehicleRunFromTripS(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
-           qCDebug(MainWindowLog)<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
+            qCDebug(MainWindowLog)<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
 
         }
     }
 
-   qCDebug(MainWindowLog)<<"IDspoje:"<<docasnySpoj.id;
+    qCDebug(MainWindowLog)<<"IDspoje:"<<docasnySpoj.id;
 
     vehicleState.currentTrip=docasnySpoj;
 }
@@ -2358,10 +2380,10 @@ void MainWindow::on_tableView_trip_clicked(const QModelIndex &index)
 
 void MainWindow::on_tableView_lineTrip_clicked(const QModelIndex &index)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     if (index.model()->rowCount()!=0)
     {
-       qCDebug(MainWindowLog)<<"current item bum";
+        qCDebug(MainWindowLog)<<"current item bum";
 
         vehicleState.currentTrip.line.c=index.siblingAtColumn(0).data().toInt();
         vehicleState.currentTrip.idRopid=index.siblingAtColumn(1).data().toInt();
@@ -2369,8 +2391,8 @@ void MainWindow::on_tableView_lineTrip_clicked(const QModelIndex &index)
 
         vehicleState.currentTripIndex=vehicleState.currentVehicleRun.tripList.indexOf(vehicleState.currentTrip);
 
-       qCDebug(MainWindowLog)<<"index spoje na obehu: "<<QString::number(vehicleState.currentTripIndex)<<" delkaSeznamu: "<<vehicleState.currentVehicleRun.tripList.count();
-       qCDebug(MainWindowLog)<<"hodnota polozky"<<QString::number(vehicleState.currentTrip.line.c)<<" spoj:"<<QString::number(vehicleState.currentTrip.idRopid);
+        qCDebug(MainWindowLog)<<"index spoje na obehu: "<<QString::number(vehicleState.currentTripIndex)<<" delkaSeznamu: "<<vehicleState.currentVehicleRun.tripList.count();
+        qCDebug(MainWindowLog)<<"hodnota polozky"<<QString::number(vehicleState.currentTrip.line.c)<<" spoj:"<<QString::number(vehicleState.currentTrip.idRopid);
 
         //NUTNE DOPLNIT
 
@@ -2381,19 +2403,17 @@ void MainWindow::on_tableView_lineTrip_clicked(const QModelIndex &index)
 
 void MainWindow::on_tableWidget_specialAnnouncements_cellClicked(int row, int column)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     eventShowManualAnnoucement(row,konfigurace.announcementList);
 }
 
 void MainWindow::on_tableWidget_ride_stopList_cellClicked(int row, int column)
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
     ui->pushButton_ride_atStop->setChecked(true);
     vehicleState.currentStopIndex0=row;
-
-
 
     eventArrival();
 
@@ -2410,7 +2430,7 @@ void MainWindow::on_tableWidget_ride_stopList_cellClicked(int row, int column)
 */
 QString MainWindow::openXmlSelectDialogue(QString cesta)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Otevři soubor"), cesta,
                                                     tr("XML Ropid JŘ (*.xml);;All Files (*)"));
@@ -2474,7 +2494,7 @@ QString MainWindow::replaceDriverAnnouncementFormatting(QString input)
 {
     QString output="";
 
-   qCDebug(MainWindowLog).noquote()<<"retezec pred: "<<input;
+    qCDebug(MainWindowLog).noquote()<<"retezec pred: "<<input;
     //  vysledek=vstup.replace(QRegExp("a"),"b");
 
 
@@ -2492,7 +2512,7 @@ QString MainWindow::replaceDriverAnnouncementFormatting(QString input)
 
 
     output=input.replace(vyraz,"<b>\\1</b>");
-   qCDebug(MainWindowLog).noquote()<<"retezec po: "<<output;
+    qCDebug(MainWindowLog).noquote()<<"retezec po: "<<output;
 
     return output;
 }
@@ -2500,7 +2520,7 @@ QString MainWindow::replaceDriverAnnouncementFormatting(QString input)
 
 void MainWindow::resetTripList()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     vehicleState.reset();
 }
 
@@ -2515,7 +2535,7 @@ void MainWindow::retranslateUi(QString language)
     {
         qApp->installTranslator(&translator);
         ui->calendarWidget_data_workingDate->setLocale(QLocale::English);
-       qCDebug(MainWindowLog)<<"zmena jazyka";
+        qCDebug(MainWindowLog)<<"zmena jazyka";
         ui->retranslateUi(this);
     }
     else
@@ -2531,7 +2551,7 @@ void MainWindow::retranslateUi(QString language)
 
 void MainWindow::setLineToSubMode()
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     //ConnectionMPV::ddDoVdv301VehicleMode(vehicleState.getCurrentTrip().line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode);
     Line dummyLine;
     ConnectionMPV::ddDoVehicleMode(vehicleState.getCurrentTrip().line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,dummyLine);
@@ -2542,7 +2562,7 @@ void MainWindow::setLineToSubMode()
 */
 void MainWindow::setXmlPathLabel()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     ui->label_data_pathContent->setText(xmlFilePath);
 
 }
@@ -2552,7 +2572,7 @@ void MainWindow::setXmlPathLabel()
 void MainWindow::serviceToTable(DevMgmtPublisherStruct zarizeni)
 {
     //QZeroConfService zcs
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     qint32 row;
     QTableWidgetItem *cell;
 
@@ -2620,7 +2640,7 @@ void MainWindow::serviceToTable(DevMgmtPublisherStruct zarizeni)
 
     ui->tableWidget_detection_deviceList->resizeColumnsToContents();
 
-   qCDebug(MainWindowLog)<<"sluzbaDoTabulky_konec";
+    qCDebug(MainWindowLog)<<"sluzbaDoTabulky_konec";
 }
 
 
@@ -2635,7 +2655,7 @@ void MainWindow::slotAktualizacePracData()
 
 void MainWindow::slotDownloadConnectionsFromCurrentStop()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     //
     Trip currentTrip=vehicleState.getCurrentTrip();
     if(!currentTrip.globalStopPointDestinationList.isEmpty())
@@ -2671,14 +2691,14 @@ void MainWindow::slotGnssUpdate(MapaBod coordinates)
 
 void MainWindow::slotGolemioReady()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     //qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
 
     golemio.naplnVstupDokument(golemio.stazenaData);
     QVector<ConnectionGolemio> prestupyGolemio=golemio.parseDomDocumentDepartures();
     QVector<GolemioInfotext> infotextsGolemio=golemio.parseDomDocumentInfotexts();
 
-   qCDebug(MainWindowLog)<<"bum10";
+    qCDebug(MainWindowLog)<<"bum10";
 
     connectionListToTable(prestupyGolemio,ui->tableWidget_golemioConnections);
     infoTextListToTable(infotextsGolemio,ui->tableWidget_golemioInfotexts);
@@ -2688,12 +2708,12 @@ void MainWindow::slotGolemioReady()
     {
         prestupy.push_back(TypeConvertor::connectionGolemioToConnection(polozka));
     }
-   qCDebug(MainWindowLog)<<"bum11";
+    qCDebug(MainWindowLog)<<"bum11";
     if(filterConnections)
     {
         //   prestupy=xmlMpvParser.vyfiltrujPrestupy(prestupy,stavSystemu.aktlinka);
     }
-   qCDebug(MainWindowLog)<<"pocet Prestupu ve vektoru: "<<prestupy.count();
+    qCDebug(MainWindowLog)<<"pocet Prestupu ve vektoru: "<<prestupy.count();
 
 
     xmlVdv301UpdateCis(prestupy,vehicleState);
@@ -2703,7 +2723,7 @@ void MainWindow::slotGolemioReady()
 
 void MainWindow::slotImportFinished()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     this->workingDateFirstDateOfDataValidity();
     this->initializeSelectionListView();
 }
@@ -2711,13 +2731,13 @@ void MainWindow::slotImportFinished()
 
 void MainWindow::slotImportDeaktivujTlacitka()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
 }
 
 void MainWindow::slotImportAktivujTlacitka()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
 }
 
@@ -2729,6 +2749,7 @@ void MainWindow::slotLocationEnterArea(StopPointDestination stopPoint)
 
 void MainWindow::slotLocationLeaveArea(StopPointDestination stopPoint)
 {
+    // implement checks for departure from last stop!
     eventDeparture();
 }
 
@@ -2737,8 +2758,8 @@ void MainWindow::slotLocationLeaveArea(StopPointDestination stopPoint)
 */
 void MainWindow::slotMpvNetReady()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
-   qCDebug(MainWindowLog)<<"povypisu "<<xmlMpvParser.stazenaData.length();
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<"povypisu "<<xmlMpvParser.stazenaData.length();
 
     xmlMpvParser.naplnVstupDokument(xmlMpvParser.stazenaData);
     QVector<ConnectionMPV> prestupyMpv=xmlMpvParser.parsujDomDokument();
@@ -2762,7 +2783,7 @@ void MainWindow::slotMpvNetReady()
 
 void MainWindow::slotServiceTableUpdate()
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     dumpServicesToTable(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
 }
 
@@ -2779,14 +2800,14 @@ void MainWindow::slotSetProgress(int hodnota)
 void MainWindow::slotSetProgressMax(int hodnota)
 {
     //resetujProgressBar();
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO<<" "<<QString::number(hodnota);
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO<<" "<<QString::number(hodnota);
     ui->progressBar_data_importXml->setMaximum(hodnota);
 }
 
 
 void MainWindow::slotVdv301ServiceStartResult(QString nastartovanaSluzba)
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO<<" "<<nastartovanaSluzba;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO<<" "<<nastartovanaSluzba;
     startServiceFromList(vektorCis);
 
 }
@@ -2799,7 +2820,7 @@ void MainWindow::slotVdv301ServiceStartResult(QString nastartovanaSluzba)
 */
 void MainWindow::startAllVdv301Services()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     deviceManagementService1_0.blockBonjour=blockBonjour;
     deviceManagementService1_0.slotStartServer();
@@ -2830,13 +2851,13 @@ void MainWindow::startAllVdv301Services()
 
 void MainWindow::startServiceFromList(QVector<CustomerInformationService*> &seznamSluzeb)
 {
-   qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     if(!seznamSluzeb.isEmpty())
     {
         CustomerInformationService* aktualniSluzba=seznamSluzeb.takeFirst();
         aktualniSluzba->blockBonjour=blockBonjour;
-       qCDebug(MainWindowLog)<<"v zasobniku zustava sluzeb: "<<seznamSluzeb.count();
-       qCDebug(MainWindowLog)<<"starting"<<aktualniSluzba->mServiceName<<" "<<aktualniSluzba->version()<<" "<<aktualniSluzba->portNumber();
+        qCDebug(MainWindowLog)<<"v zasobniku zustava sluzeb: "<<seznamSluzeb.count();
+        qCDebug(MainWindowLog)<<"starting"<<aktualniSluzba->mServiceName<<" "<<aktualniSluzba->version()<<" "<<aktualniSluzba->portNumber();
         aktualniSluzba->slotStartServer();
     }
 }
@@ -2861,7 +2882,7 @@ void MainWindow::stopServices()
 */
 void MainWindow::testPopulateWindow(int index)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     switch (index)
     {
     case 0:
@@ -2882,7 +2903,7 @@ start vzorového testu
 */
 void MainWindow::testStart(int index)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     switch (index)
     {
     case 0:
@@ -2892,7 +2913,7 @@ void MainWindow::testStart(int index)
         testSubscribeServer.start();
         break;
     default:
-       qCDebug(MainWindowLog)<<"test s indexem "<<QString::number(index)<<" neexistuje";
+        qCDebug(MainWindowLog)<<"test s indexem "<<QString::number(index)<<" neexistuje";
         break;
     }
 }
@@ -2903,7 +2924,7 @@ void MainWindow::testStart(int index)
 */
 void MainWindow::testStop(int index)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     switch (index)
     {
     case 0:
@@ -2913,7 +2934,7 @@ void MainWindow::testStop(int index)
         testSubscribeServer.stop();
         break;
     default:
-       qCDebug(MainWindowLog)<<"test s indexem "<<QString::number(index)<<" neexistuje";
+        qCDebug(MainWindowLog)<<"test s indexem "<<QString::number(index)<<" neexistuje";
         break;
     }
 }
@@ -2967,17 +2988,17 @@ void MainWindow::toggleFullscreen()
 void MainWindow::testPopulateTestPhases(QVector<PolozkaTestu> &seznamPolozek)
 {
 
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     for(int i =0;i<seznamPolozek.size();i++)
     {
-       qCDebug(MainWindowLog)<<i<<" "<<seznamPolozek.at(i).nazev<<" "<<seznamPolozek.at(i).vysledek;
+        qCDebug(MainWindowLog)<<i<<" "<<seznamPolozek.at(i).nazev<<" "<<seznamPolozek.at(i).vysledek;
     }
 
     ui->tableWidgetCastiTestu->setRowCount(0);
-   qCDebug(MainWindowLog)<<"smazano"<<" adresy.size="<<seznamPolozek.size();
+    qCDebug(MainWindowLog)<<"smazano"<<" adresy.size="<<seznamPolozek.size();
     if (seznamPolozek.size()==0)
     {
-       qCDebug(MainWindowLog)<<"vracim 0";
+        qCDebug(MainWindowLog)<<"vracim 0";
         //return 0;
     }
     else
@@ -2999,7 +3020,7 @@ void MainWindow::testPopulateTestPhases(QVector<PolozkaTestu> &seznamPolozek)
 
             ui->tableWidgetCastiTestu->resizeColumnsToContents();
         }
-       qCDebug(MainWindowLog)<<"vracim 1";
+        qCDebug(MainWindowLog)<<"vracim 1";
         //return 1;
     }
 }
@@ -3009,7 +3030,7 @@ void MainWindow::testPopulateTestPhases(QVector<PolozkaTestu> &seznamPolozek)
 
 void MainWindow::truncateSubscriberTable(QTableWidget *tableWidget)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     //  https://stackoverflow.com/a/31564541
     tableWidget->clearSelection();
 
@@ -3028,7 +3049,7 @@ QString MainWindow::textVerze()
 {
     QDate datumKompilace=QLocale("en_US").toDate(QString(__DATE__).simplified(), "MMM d yyyy");
     QTime casKompilace=QTime::fromString(__TIME__,"hh:mm:ss");
-   qCDebug(MainWindowLog)<<" date:"<<datumKompilace<<" time:"<<casKompilace;
+    qCDebug(MainWindowLog)<<" date:"<<datumKompilace<<" time:"<<casKompilace;
     QString verze=datumKompilace.toString("yyyyMMdd")+"_"+casKompilace.toString("hhmm");
     return verze;
 }
@@ -3041,7 +3062,7 @@ načte platnost a nastaví rozsahy klikatelných oblastí kalendáře
 */
 void MainWindow::updateCalendar()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     if(sqlRopidQueries.getDatasetValidity(validityFrom,validityTo))
     {
         ui->calendarWidget_data_workingDate->setMinimumDate(validityFrom);
@@ -3061,22 +3082,22 @@ void MainWindow::updateCalendar()
 
 void MainWindow::updateDriverDisplay()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     if(this->vehicleState.currentVehicleRun.tripList.length()<=vehicleState.currentTripIndex)
     {
-       qCDebug(MainWindowLog)<<"spoj odpovidajici indexu neexistuje";
+        qCDebug(MainWindowLog)<<"spoj odpovidajici indexu neexistuje";
         return;
     }
 
     MainWindowPomocne::dumpStopsToTable(vehicleState.currentStopIndex0,this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.locationState,sqlRopidQueries,  ui->tableWidget_ride_stopList);
     int delkaGlobalnihoSeznamu= this->vehicleState.countCurrentTripStops();
     int indexZastavky=vehicleState.currentStopIndex0;
-   qCDebug(MainWindowLog)<<"delka seznamu spoju "<<this->vehicleState.currentVehicleRun.tripList.length()<<" index "<<vehicleState.currentTripIndex<<" delka globsezzast "<< delkaGlobalnihoSeznamu  << " indexAktZast "<<indexZastavky   ;
+    qCDebug(MainWindowLog)<<"delka seznamu spoju "<<this->vehicleState.currentVehicleRun.tripList.length()<<" index "<<vehicleState.currentTripIndex<<" delka globsezzast "<< delkaGlobalnihoSeznamu  << " indexAktZast "<<indexZastavky   ;
 
     if (indexZastavky>=delkaGlobalnihoSeznamu)
     {
-       qCDebug(MainWindowLog)<<"index zastavky je mimo rozsah";
+        qCDebug(MainWindowLog)<<"index zastavky je mimo rozsah";
         return;
     }
 
@@ -3086,6 +3107,12 @@ void MainWindow::updateDriverDisplay()
 
     ui->label_ride_currentLineNumber->setText(this->vehicleState.getCurrentTrip().globalStopPointDestinationList.at(vehicleState.currentStopIndex0).line.lineNumber);
     ui->label_ride_currentTripNumber->setText(QString::number(this->vehicleState.getCurrentTrip().idRopid));
+
+    ui->label_ride_currentVehicleRun->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c)+"/"+QString::number(vehicleState.currentVehicleRun.order));
+
+    ui->label_ride_currentDelay->setText(MainWindowPomocne::secondsToString(vehicleState.secondsDelay));
+
+  //  ui->label_ride_currentDelay->setText(QTime::fromString(QString::number(vehicleState.secondsDelay),"s").toString("m:ss"));
 
 
     updateVehicleLocationDisplay(vehicleState.locationState);
@@ -3099,7 +3126,7 @@ void MainWindow::updateDriverDisplay()
 
 void MainWindow::updateVehicleLocationDisplay(Vdv301Enumerations::LocationStateEnumeration locationState)
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     switch(locationState)
     {
     case Vdv301Enumerations::LocationStateBeforeStop:
@@ -3131,12 +3158,12 @@ void MainWindow::updateVehicleLocationDisplay(Vdv301Enumerations::LocationStateE
 */
 void MainWindow::updataWorkingDate()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     ui->dateEdit_data_workingDate->setDate(vehicleState.referenceDate);
     ui->calendarWidget_data_workingDate->setSelectedDate(vehicleState.referenceDate);
 
-   qCDebug(MainWindowLog)<<"od "<<validityFrom<<" do "<<validityTo<<" pracovni "<<vehicleState.referenceDate ;
-   qCDebug(MainWindowLog)<<"dnu do pracovnihodata "<< vehicleState.referenceDate.daysTo(validityFrom) <<" dnu do zacatku platnosti " << vehicleState.referenceDate.daysTo(validityTo);
+    qCDebug(MainWindowLog)<<"od "<<validityFrom<<" do "<<validityTo<<" pracovni "<<vehicleState.referenceDate ;
+    qCDebug(MainWindowLog)<<"dnu do pracovnihodata "<< vehicleState.referenceDate.daysTo(validityFrom) <<" dnu do zacatku platnosti " << vehicleState.referenceDate.daysTo(validityTo);
 
 
     this->createDataValidityMask();
@@ -3152,7 +3179,7 @@ void MainWindow::updataWorkingDate()
 */
 void MainWindow::vypisDiagnostika(QString vstup)
 {
-   qCDebug(MainWindowLog)<<" MainWindow::vypisDiagnostika "<<vstup;
+    qCDebug(MainWindowLog)<<" MainWindow::vypisDiagnostika "<<vstup;
     ui->label_diagnostika_manual->clear();
     ui->label_diagnostika_manual->setText(vstup);
     ui->statusBar->showMessage(vstup);
@@ -3167,7 +3194,7 @@ xxxxxx
 */
 void MainWindow::workingDateToday()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     vehicleState.referenceDate=QDate::currentDate();
     updataWorkingDate();
 }
@@ -3178,7 +3205,7 @@ void MainWindow::workingDateToday()
 */
 void MainWindow::workingDateFirstDateOfDataValidity()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     updateCalendar();
 
 
@@ -3192,8 +3219,8 @@ void MainWindow::workingDateFirstDateOfDataValidity()
 */
 void MainWindow::xmlVdv301UpdateContent()
 {
-   qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
-   qCDebug(MainWindowLog)<<"delka seznamu tripu "<<vehicleState.currentVehicleRun.tripList.length();
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<"delka seznamu tripu "<<vehicleState.currentVehicleRun.tripList.length();
     QVector<Connection> emptyConnectionList;
 
     if(setVehicleTypeFromLineType)
@@ -3204,7 +3231,7 @@ void MainWindow::xmlVdv301UpdateContent()
 
     if (vehicleState.currentVehicleRun.tripList.isEmpty())
     {
-       qCDebug(MainWindowLog)<<"seznam tripu je prazdny";
+        qCDebug(MainWindowLog)<<"seznam tripu je prazdny";
         xmlVdv301UpdateCis(emptyConnectionList,vehicleState);
     }
     else

@@ -83,7 +83,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -838,7 +838,7 @@ announcements</string>
 padding: 0 px;</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_ride">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -856,7 +856,7 @@ padding: 0 px;</string>
                        </font>
                       </property>
                       <property name="text">
-                       <string>Linka</string>
+                       <string>Line</string>
                       </property>
                      </widget>
                     </item>
@@ -868,7 +868,31 @@ padding: 0 px;</string>
                        </font>
                       </property>
                       <property name="text">
-                       <string>Spoj</string>
+                       <string>Trip</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_ride_currentVehicleRun">
+                      <property name="font">
+                       <font>
+                        <pointsize>15</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>VehicleRun</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_ride_currentDelay">
+                      <property name="font">
+                       <font>
+                        <pointsize>15</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>Delay</string>
                       </property>
                      </widget>
                     </item>

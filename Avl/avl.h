@@ -9,7 +9,8 @@
 #include <QJsonDocument>
 #include <QUrl>
 #include <QStringLiteral>
-
+#include <QTimer>
+#include <QPointF>
 
 class Avl: public QObject
 {
@@ -52,6 +53,15 @@ public:
     QString generateJsonMessage();
     void dumpValues();
     void triggerUpdate(QString event);
+
+    QTimer timerSendMessage;
+    QString qTimeToMpvDatetime(QTime input);
+    void timerStart();
+    void timerStop();
+public slots:
+    void slotUpdatePosition(QPointF input);
+private slots:
+    void slotTimerTimout();
 private:
     QString mTurnus="";
     int mLine=0;
@@ -66,12 +76,10 @@ private:
     QString mEvents="";
 
 
+    int mTimerInterval=5000;
+
+
     int mPkt=333;
-
-
-
-
-
 
 };
 

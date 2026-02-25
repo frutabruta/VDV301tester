@@ -10,28 +10,63 @@ void LocationEvents::slotGnssUpdate(MapaBod coordinates)
 {
     if(isAtStop)
     {
-        if(!coordinatesTools.isPointInsideCircle(coordinates.x,coordinates.y,expectedStopPointDestination.stopPoint.sx,expectedStopPointDestination.stopPoint.sy,expectedStopPointDestination.stopPoint.radius))
+        if(coordinates.x==0.0) //check for sjtsk coordinates
         {
-            isAtStop=false;
-            emit signalDepartedStop(expectedStopPointDestination);
-            //   eventDeparture();
+            if(!coordinatesTools.isPointInsideCircleWgs84(coordinates.lat,coordinates.lng,expectedStopPointDestination.stopPoint.lat,expectedStopPointDestination.stopPoint.lng,expectedStopPointDestination.stopPoint.radius))
+            {
+                isAtStop=false;
+                emit signalDepartedStop(expectedStopPointDestination);
+                //   eventDeparture();
+            }
+            else
+            {
+                isAtStop=true;
+            }
         }
         else
         {
-            isAtStop=true;
+            if(!coordinatesTools.isPointInsideCircleSjtsk(coordinates.x,coordinates.y,expectedStopPointDestination.stopPoint.sx,expectedStopPointDestination.stopPoint.sy,expectedStopPointDestination.stopPoint.radius))
+            {
+                isAtStop=false;
+                emit signalDepartedStop(expectedStopPointDestination);
+                //   eventDeparture();
+            }
+            else
+            {
+                isAtStop=true;
+            }
         }
+
     }
     else
     {
-        if(coordinatesTools.isPointInsideCircle(coordinates.x,coordinates.y,expectedStopPointDestination.stopPoint.sx,expectedStopPointDestination.stopPoint.sy,expectedStopPointDestination.stopPoint.radius))
+        if(coordinates.x==0.0) //check for sjtsk coordinates
         {
-            isAtStop=true;
-            emit signalArrivedAtStop(expectedStopPointDestination);
-            //   eventDeparture();
+
+            if(coordinatesTools.isPointInsideCircleWgs84(coordinates.lat,coordinates.lng,expectedStopPointDestination.stopPoint.lat,expectedStopPointDestination.stopPoint.lng,expectedStopPointDestination.stopPoint.radius))
+            {
+                isAtStop=true;
+                emit signalArrivedAtStop(expectedStopPointDestination);
+                //   eventDeparture();
+            }
+            else
+            {
+                isAtStop=false;
+            }
         }
         else
         {
-            isAtStop=false;
+
+            if(coordinatesTools.isPointInsideCircleSjtsk(coordinates.x,coordinates.y,expectedStopPointDestination.stopPoint.sx,expectedStopPointDestination.stopPoint.sy,expectedStopPointDestination.stopPoint.radius))
+            {
+                isAtStop=true;
+                emit signalArrivedAtStop(expectedStopPointDestination);
+                //   eventDeparture();
+            }
+            else
+            {
+                isAtStop=false;
+            }
         }
     }
 

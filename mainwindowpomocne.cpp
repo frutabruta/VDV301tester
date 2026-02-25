@@ -218,3 +218,30 @@ void MainWindowPomocne::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
 
 }
 */
+
+
+int MainWindowPomocne::getSecondsDelayFromStop(QTime timePeriod, QTime timePeriodBackup)
+{
+    if(!timePeriod.isNull())
+    {
+        return timePeriod.secsTo(QTime::currentTime());
+    }
+    else if(!timePeriodBackup.isNull())
+    {
+        return timePeriodBackup.secsTo(QTime::currentTime());
+    }
+
+    return 0;
+}
+
+QString MainWindowPomocne::secondsToString(int seconds)
+{
+    QString output="";
+
+    QString minutesString=QString::number(seconds/60);
+    QString secondsString=QString::number(abs(seconds%60));
+
+    return minutesString+":"+secondsString.leftJustified(2,'0');
+}
+
+

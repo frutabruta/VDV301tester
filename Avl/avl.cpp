@@ -4,53 +4,30 @@ Q_LOGGING_CATEGORY(avlLog, "Avl")
 
 Avl::Avl(int port): avlWebsocketSender(QUrl("ws://127.0.0.1:"+QString::number(port)),this)
 {
+    timerSendMessage.setInterval(mTimerInterval);
 
-}
-
-QString Avl::turnus() const
-{
-    return mTurnus;
-}
-
-void Avl::setTurnus(const QString &newTurnus)
-{
-
-    mTurnus = newTurnus;
-}
-
-void Avl::setTurnus(int rootLine, int order)
-{
-
-    mTurnus = QString::number(rootLine)+"/"+QString::number(order);
+    connect(&timerSendMessage,&QTimer::timeout,this,&Avl::slotTimerTimout);
 }
 
 void Avl::dumpValues()
 {
-    qInfo()<<"turnus: "<<mTurnus;
-    qInfo()<<"line: "<<mLine;
-    qInfo()<<"evc:" <<mEvc;
-    qInfo()<<"lat: "<<mLat;
-    qInfo()<<"lng: "<<mLng;
-    qInfo()<<"akt: "<<mAkt;
-    qInfo()<<"takt: "<<mTakt;
-    qInfo()<<"konc: "<<mKonc;
-    qInfo()<<"tjr: "<<mTjr;
-    qInfo()<<"tm: "<<mTm;
-    qInfo()<<"events: "<<mEvents;
+    qCDebug(avlLog)<<"turnus: "<<mTurnus;
+    qCDebug(avlLog)<<"line: "<<mLine;
+    qCDebug(avlLog)<<"evc:" <<mEvc;
+    qCDebug(avlLog)<<"lat: "<<mLat;
+    qCDebug(avlLog)<<"lng: "<<mLng;
+    qCDebug(avlLog)<<"akt: "<<mAkt;
+    qCDebug(avlLog)<<"takt: "<<mTakt;
+    qCDebug(avlLog)<<"konc: "<<mKonc;
+    qCDebug(avlLog)<<"tjr: "<<mTjr;
+    qCDebug(avlLog)<<"tm: "<<mTm;
+    qCDebug(avlLog)<<"events: "<<mEvents;
 }
-
-void Avl::triggerUpdate(QString event)
-{
-    mEvents=event;
-
-    avlWebsocketSender.setData(generateJsonMessage());
-    dumpValues();
-}
-
 
 QString Avl::generateJsonMessage()
 {
     qCDebug(avlLog)<<Q_FUNC_INFO;
+
     QJsonObject gnssData;
     gnssData["turnus"] = mTurnus;
     gnssData["line"] = mLine;
@@ -73,6 +50,45 @@ QString Avl::generateJsonMessage()
     qCDebug(avlLog).noquote()<<jsonString;
     return jsonString;
 }
+
+void Avl::slotUpdatePosition(QPointF input)
+{
+    qCDebug(avlLog)<<Q_FUNC_INFO;
+    mLat=input.x();
+    mLng=input.y();
+    qCDebug(avlLog).noquote()<<input;
+}
+
+QString Avl::turnus() const
+{
+    return mTurnus;
+}
+
+void Avl::setTurnus(const QString &newTurnus)
+{
+
+    mTurnus = newTurnus;
+}
+
+void Avl::setTurnus(int rootLine, int order)
+{
+
+    mTurnus = QString::number(rootLine)+"/"+QString::number(order);
+}
+
+
+
+void Avl::triggerUpdate(QString event)
+{
+    mEvents=event;
+    mTm=qTimeToMpvDatetime(QTime::currentTime());
+
+    avlWebsocketSender.setData(generateJsonMessage());
+    dumpValues();
+}
+
+
+
 
 int Avl::line() const
 {
@@ -158,6 +174,32 @@ QString Avl::events() const
 void Avl::setEvents(const QString &newEvents)
 {
     mEvents = newEvents;
+}
+
+void Avl::timerStart()
+{
+    qCDebug(avlLog)<<Q_FUNC_INFO;
+    timerSendMessage.setInterval(mTimerInterval);
+    timerSendMessage.start();
+}
+
+
+void Avl::timerStop()
+{
+    timerSendMessage.stop();
+}
+
+QString Avl::qTimeToMpvDatetime(QTime input)
+{
+    QDateTime output;
+    output=QDateTime::currentDateTime();
+    output.setTime(input);
+    return output.toUTC().toString("yyyy-MM-ddThh:mm:ss");
+}
+
+void Avl::slotTimerTimout()
+{
+    triggerUpdate("O");;
 }
 
 

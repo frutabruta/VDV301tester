@@ -247,7 +247,8 @@ private:
     void infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget *tableWidget);
 
     void setLineToSubMode();
-    QString generateMpvMessage(StopPointDestination currentStopPointDestination);
+    QString avlSetGeneral();
+    void avlSetStop(StopPointDestination currentStopPointDestination);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 

@@ -70,7 +70,7 @@ void AvlWebsocketSender::setData(const QString &data)
     if (isConnected())
     {
         m_socket->sendTextMessage(data);
-        qInfo() << "Sender: Sent message:" << data;
+        qInfo().noquote() << "Sender: Sent message:" << data;
         return;
     }
 
@@ -107,7 +107,7 @@ void AvlWebsocketSender::onConnected()
     if (m_hasPendingData && !m_pendingData.isEmpty())
     {
         m_socket->sendTextMessage(m_pendingData);
-        qInfo() << "Sender: Sent pending message:" << m_pendingData;
+        qInfo().noquote() << "Sender: Sent pending message:" << m_pendingData;
         m_hasPendingData = false;
         m_pendingData.clear();
     }
