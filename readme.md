@@ -36,7 +36,7 @@ This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1
     -       GlobalDisplayContent
   - DeviceManagementService
     - firmware update in devices
-  - full translation of sourcode to English
+  - full translation of sourcecode to English
 # Known bugs
 - IbisSender
   - viapoints over certain length will not display on BS210
@@ -141,6 +141,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20260310_1836
+  - VDV301publisher
+    - for version 2.3 and 2.3CZ1.0 c_Train changed to c_SBahn
+    
 - 20260310_1750
   - FareZoneChange fix
   - LineNameChange fix
