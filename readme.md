@@ -141,6 +141,19 @@ mingw32-make install
 
 
 ## Changelog
+- 20260310_1750
+  - FareZoneChange fix
+  - LineNameChange fix
+  - VDV301publisher
+    - crash prevention with empty stop list
+  - VDV301subscriber
+    - data structures update
+  - MainWindow::eventFareZoneChange
+    - new overload
+    - displays real numbers instead of XY->Z
+  - MainWindow::eventGoToNextTrip
+    - lineChange fixes
+
 - 20260212_2218
   - trajectory jumper overhaul to allow even speed at corners 
   - LocationEvents::slotGnssUpdate

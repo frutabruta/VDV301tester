@@ -555,7 +555,7 @@ void MainWindow::eventAfterStopToBetweenStop()
     if(FareZone::showZoneChangeCheck(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.fareZoneList,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.fareZoneList))
     {
         qCDebug(MainWindowLog)<<"srovnani pasem zastavek "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.StopName<<" a "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.StopName;
-        eventFareZoneChange();
+        eventFareZoneChange(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.fareZoneList,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.fareZoneList);
     }
     else
     {
@@ -801,7 +801,7 @@ void MainWindow::eventFareSystemChangeShow()
 
 
 
-void MainWindow::eventFareZoneChange()
+void MainWindow::eventFareZoneChange(QString zoneFrom, QString zoneTo)
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
@@ -813,11 +813,13 @@ void MainWindow::eventFareZoneChange()
         <font size="68"><color fg="#969696">Attention please! Change of fare zone.</color></font>
     )";
 
+   // vehicleState.
+
     AdditionalAnnoucement fareZoneChangeAnnouncement;
     fareZoneChangeAnnouncement.text=fareZoneChangeText;
     fareZoneChangeAnnouncement.type="FareZoneChange";
-    fareZoneChangeAnnouncement.changeFrom="X,Y";
-    fareZoneChangeAnnouncement.changeTo="Z";
+    fareZoneChangeAnnouncement.changeFrom=zoneFrom;
+    fareZoneChangeAnnouncement.changeTo=zoneTo;
     fareZoneChangeAnnouncement.duration=konfigurace.trvaniZobrazeniPasma;
     eventAddAnnoucement(fareZoneChangeAnnouncement);
 
@@ -828,6 +830,12 @@ void MainWindow::eventFareZoneChange()
     timerFareZoneChangeDuration.start();
 
 
+}
+
+
+void MainWindow::eventFareZoneChange(QVector<FareZone> fareZoneListFrom, QVector<FareZone> fareZoneListTo)
+{
+        eventFareZoneChange(FareZone::fareZoneListToString(FareZone::filterZonesFromSystem(fareZoneListFrom,"PID"),","),FareZone::fareZoneListToString(FareZone::filterZonesFromSystem(fareZoneListTo,"PID"),","));
 }
 
 void MainWindow::eventFareZoneChangeHide()
@@ -845,11 +853,53 @@ void MainWindow::eventGoToNextTrip()
     qCDebug(MainWindowLog)<<"index "<<vehicleState.currentTripIndex<<" pocetSpoju "<<vehicleState.currentVehicleRun.tripList.count();
     if ((vehicleState.currentTripIndex)<(vehicleState.currentVehicleRun.tripList.count()-1))
     {
-        eventLineChange();
+        QString lineFrom="";
+        QString lineTo="";
+
+
+        if(!vehicleState.getCurrentTrip().globalStopPointDestinationList.isEmpty())
+        {
+            lineFrom=vehicleState.getCurrentTrip().globalStopPointDestinationList.last().line.lineName;
+        }
+
+        bool doEventLineChange=false;
+        if(vehicleState.getCurrentTrip().continuesWithNextTrip)
+        {
+            doEventLineChange=true;
+
+        }
+
         vehicleState.currentTripIndex++;
         vehicleState.currentStopIndex0=0;
-        // AktualizaceDispleje();
 
+        if(!vehicleState.getCurrentTrip().globalStopPointDestinationList.isEmpty())
+        {
+            lineTo=vehicleState.getCurrentTrip().globalStopPointDestinationList.first().line.lineName;
+        }
+
+        if(doEventLineChange)
+        {
+            eventLineChange(lineFrom,lineTo);
+        }
+        /*
+        lineFrom=vehicleState.getCurrentTrip().globalStopPointDestinationList.last().line.lineName;
+
+        
+
+
+        //vehicleState.currentTrip=vehicleState.getCurrentTrip();
+        if(vehicleState.currentTrip.globalStopPointDestinationList.isEmpty())
+        {
+            qCDebug(MainWindowLog)<<"globalStopPointDestinationList is empty";
+        }
+        else
+        {
+            lineTo=vehicleState.getCurrentTrip().globalStopPointDestinationList.first().line.lineName;
+        }
+
+        // AktualizaceDispleje();
+*/
+        
         initializeTheTrip();
         //xmlVdv301UpdateContent(); initialize the trip already contains update content
     }
@@ -859,7 +909,7 @@ void MainWindow::eventGoToNextTrip()
     }
 }
 
-void MainWindow::eventLineChange()
+void MainWindow::eventLineChange(QString lineFrom, QString lineTo)
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
@@ -873,8 +923,8 @@ void MainWindow::eventLineChange()
     AdditionalAnnoucement lineChangeAnnouncement;
     lineChangeAnnouncement.text=lineChangeText;
     lineChangeAnnouncement.type="LineChange";
-    lineChangeAnnouncement.changeFrom="123";
-    lineChangeAnnouncement.changeTo="456";
+    lineChangeAnnouncement.changeFrom=lineFrom;
+    lineChangeAnnouncement.changeTo=lineTo;
     lineChangeAnnouncement.duration=konfigurace.trvaniZobrazeniPasma;
     eventAddAnnoucement(lineChangeAnnouncement);
 

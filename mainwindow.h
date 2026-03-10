@@ -60,7 +60,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-        //explicit MainWindow(QWidget *parent = nullptr);
+    //explicit MainWindow(QWidget *parent = nullptr);
     MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent = nullptr);
     ~MainWindow();
 
@@ -143,7 +143,8 @@ private:
 
     int eventArrival();
     int eventDeparture();
-    void eventFareZoneChange();
+    void eventFareZoneChange(QString zoneFrom, QString zoneTo);
+    void eventFareZoneChange(QVector<FareZone> fareZoneListFrom, QVector<FareZone> fareZoneListTo);
     void eventAfterStopToBetweenStop();
     void eventExitService();
     void eventEnterService();
@@ -156,7 +157,7 @@ private:
 
 
     //IBIS-IP sluzby
-  //  TimeService timeService1_0;  //just publishes OS built in server
+    //  TimeService timeService1_0;  //just publishes OS built in server
     DeviceManagementService deviceManagementService1_0;
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_3;
@@ -239,7 +240,7 @@ private:
     int isInRange(int index, int valueCount, QString functionName);
     void eventStopTimersRide();
 
-    void eventLineChange();
+    void eventLineChange(QString lineFrom, QString lineTo);
     void connectionToTable(ConnectionGolemio connection, QTableWidget *tableWidget);
     void connectionListToTable(QVector<ConnectionGolemio> connectionList, QTableWidget *tableWidget);
     void eraseTable(QTableWidget *tableWidget);
@@ -249,6 +250,7 @@ private:
     void setLineToSubMode();
     QString avlSetGeneral();
     void avlSetStop(StopPointDestination currentStopPointDestination);
+
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
@@ -419,7 +421,7 @@ private slots:
     void on_pushButton_options_debug_set_clicked();
 
 signals:
-         // void signalZahajImport(QString cesta);
+    // void signalZahajImport(QString cesta);
 };
 
 #endif // MAINWINDOW_H
