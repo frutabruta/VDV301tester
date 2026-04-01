@@ -78,6 +78,7 @@ SOURCES += \
     VDV301publisher/VDV301DataStructures/vdv301connection.cpp \
     VDV301publisher/VDV301DataStructures/vdv301destination.cpp \
     VDV301publisher/VDV301DataStructures/vdv301displaycontent.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301displaycontent2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/vdv301enumerations.cpp \
     VDV301publisher/VDV301DataStructures/vdv301farezonechange2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/vdv301internationaltext.cpp \
@@ -88,6 +89,7 @@ SOURCES += \
     VDV301publisher/VDV301DataStructures/vdv301trip2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/vdv301vehicleinformationgroup.cpp \
     VDV301publisher/VDV301DataStructures/vdv301viapoint.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301viapoint2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/vehiclerun.cpp \
     VDV301publisher/VDV301DataStructures/vehiclestate.cpp \
     VDV301publisher/colordisplayrules.cpp \
@@ -178,6 +180,7 @@ HEADERS += \
     VDV301publisher/VDV301DataStructures/vdv301connection.h \
     VDV301publisher/VDV301DataStructures/vdv301destination.h \
     VDV301publisher/VDV301DataStructures/vdv301displaycontent.h \
+    VDV301publisher/VDV301DataStructures/vdv301displaycontent2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/vdv301enumerations.h \
     VDV301publisher/VDV301DataStructures/vdv301farezonechange2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/vdv301internationaltext.h \
@@ -188,6 +191,7 @@ HEADERS += \
     VDV301publisher/VDV301DataStructures/vdv301trip2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/vdv301vehicleinformationgroup.h \
     VDV301publisher/VDV301DataStructures/vdv301viapoint.h \
+    VDV301publisher/VDV301DataStructures/vdv301viapoint2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/vehiclerun.h \
     VDV301publisher/VDV301DataStructures/vehiclestate.h \
     VDV301publisher/colordisplayrules.h \

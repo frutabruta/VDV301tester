@@ -52,7 +52,7 @@ void MainWindowPomocne::naplnTabulkuHlaseni(QTableWidget *vstup, QVector<Additio
             cell = new QTableWidgetItem(hlaseni.displayName);
             vstup->setItem(row, 0, cell);
 
-/*
+            /*
             cell = new QTableWidgetItem(hlaseni.type);
             vstup->setItem(row, 1, cell);
 
@@ -222,13 +222,20 @@ void MainWindowPomocne::vypisSubscribery2_2CZ(QVector<Subscriber> adresy)
 
 int MainWindowPomocne::getSecondsDelayFromStop(QTime timePeriod, QTime timePeriodBackup)
 {
-    if(!timePeriod.isNull())
+    QTime testTime=QTime::fromMSecsSinceStartOfDay(0);
+
+    if(timePeriod.isValid())
     {
         return timePeriod.secsTo(QTime::currentTime());
     }
-    else if(!timePeriodBackup.isNull())
+    else if(timePeriodBackup.isValid())
     {
         return timePeriodBackup.secsTo(QTime::currentTime());
+    }
+    else
+    {
+        qDebug()<<"the time is midnight";
+        return testTime.secsTo(QTime::currentTime());
     }
 
     return 0;

@@ -208,12 +208,14 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
             {
                 qDebug()<<"additionalVlozeno "<<stopPoint.additionalTextMessage;
             }
+
+            getPolygonFromStopPoint(stopPoint,kj,false);
+            getPolygonFromStopPoint(stopPoint,kj,true);
+
             stopCount++;
 
             stopPointDestination.line=line;
             stopPointDestination.stopPoint=stopPoint;
-
-
 
             if((citacD!=1)&&(s2==true))
             {
@@ -1190,7 +1192,7 @@ bool SqlRopidXmlQueries::getPolygonFromStopPoint(StopPoint &stopPoint, QString k
     }
 
 
-    this->zavriDB();
+  //  this->zavriDB();
 
     if(out)
     {

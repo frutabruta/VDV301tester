@@ -142,16 +142,20 @@ private:
     //udalosti
 
     int eventArrival();
-    int eventDeparture();
-    void eventFareZoneChange(QString zoneFrom, QString zoneTo);
-    void eventFareZoneChange(QVector<FareZone> fareZoneListFrom, QVector<FareZone> fareZoneListTo);
     void eventAfterStopToBetweenStop();
+    int eventDeparture();
+    void eventDepartureFromLastStop();
+    void eventFareZoneChange(QString zoneFrom, QString zoneTo);
+    void eventFareZoneChange(QVector<FareZone> fareZoneListFrom, QVector<FareZone> fareZoneListTo);  
+
+    void eventLineChange(QString lineFrom, QString lineTo);
+
     void eventExitService();
     void eventEnterService();
     void eventAnnouncementToDriver(QString poznamka);
     void eventGoToNextTrip();
     void eventShowManualAnnoucement(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList);
-
+    void eventStopTimersRide();
 
     void testPopulateWindow(int index);
 
@@ -238,9 +242,7 @@ private:
     
     QVector<Vdv301DisplayContent> createGlobalDisplayContentOutOfService2_3();
     int isInRange(int index, int valueCount, QString functionName);
-    void eventStopTimersRide();
 
-    void eventLineChange(QString lineFrom, QString lineTo);
     void connectionToTable(ConnectionGolemio connection, QTableWidget *tableWidget);
     void connectionListToTable(QVector<ConnectionGolemio> connectionList, QTableWidget *tableWidget);
     void eraseTable(QTableWidget *tableWidget);

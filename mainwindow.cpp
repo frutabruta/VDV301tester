@@ -623,6 +623,10 @@ int MainWindow::eventArrival()
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     eventStopTimersRide();
 
+    if(!isInRange(vehicleState.currentStopIndex0,vehicleState.getCurrentTrip().globalStopPointDestinationList.count(),Q_FUNC_INFO ))
+    {
+        return 0;
+    }
     StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
 
     vehicleState.secondsDelay=MainWindowPomocne::getSecondsDelayFromStop(currentStopPointDestination.stopPoint.arrivalToQTime(),currentStopPointDestination.stopPoint.departureToQTime());
@@ -672,7 +676,7 @@ int MainWindow::eventArrival()
     //manual plot of current stop when simulation is not running
     if(!trajectoryJumper.isRunning)
     {
-        trajectoryJumper.gnssWebSockerServer.setData(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng,MnozinaBodu::WGS84, trajectoryJumper.centerMap);
+        //   trajectoryJumper.gnssWebSockerServer.setData(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng,MnozinaBodu::WGS84, trajectoryJumper.centerMap);
     }
 
     locationEvents.expectedStopPointDestination=currentStopPointDestination;
@@ -688,50 +692,66 @@ int MainWindow::eventDeparture()
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
-    eventStopTimersRide();
-    vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
-    vehicleState.currentStopIndex0++;
 
-    if(!isInRange(vehicleState.currentStopIndex0,this->vehicleState.getCurrentTrip().globalStopPointDestinationList.count(),Q_FUNC_INFO))
+    if((vehicleState.currentStopIndex0+1)>=this->vehicleState.getCurrentTrip().globalStopPointDestinationList.count())
     {
         qCDebug(MainWindowLog)<<"departure from last stop";
+        eventDepartureFromLastStop();
         return 0;
     }
-    StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
-    locationEvents.expectedStopPointDestination=currentStopPointDestination;
-    avlSetStop(currentStopPointDestination);
-    avl.triggerUpdate("O");
-
-    vehicleState.secondsDelay=MainWindowPomocne::getSecondsDelayFromStop(currentStopPointDestination.stopPoint.departureToQTime(),currentStopPointDestination.stopPoint.arrivalToQTime());
-
-    xmlVdv301UpdateContent();
-    updateDriverDisplay();
-
-    switch(announcementType)
+    else
     {
-    case 0:
-    {
-        if(vehicleState.currentStopIndex0==1)
+        eventStopTimersRide();
+        vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
+        vehicleState.currentStopIndex0++;
+
+
+
+
+        StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+        locationEvents.expectedStopPointDestination=currentStopPointDestination;
+        avlSetStop(currentStopPointDestination);
+        avl.triggerUpdate("O");
+
+        vehicleState.secondsDelay=MainWindowPomocne::getSecondsDelayFromStop(currentStopPointDestination.stopPoint.departureToQTime(),currentStopPointDestination.stopPoint.arrivalToQTime());
+
+        xmlVdv301UpdateContent();
+        updateDriverDisplay();
+
+        switch(announcementType)
         {
-            voiceAnnouncer.composeFirstStopDeparture(currentStopPointDestination.stopPoint);
+        case 0:
+        {
+            if(vehicleState.currentStopIndex0==1)
+            {
+                voiceAnnouncer.composeFirstStopDeparture(currentStopPointDestination.stopPoint);
+            }
         }
+        break;
+        case 1:
+            voiceAnnouncer.announceNextStop(currentStopPointDestination.stopPoint);
+
+            break;
+        case 2:
+            break;
+        default:
+            break;
+
+        }
+
+
+        //timerAfterStopToBetweenStop.start(); //disabled due to possible crashes caused by this
     }
-    break;
-    case 1:
-        voiceAnnouncer.announceNextStop(currentStopPointDestination.stopPoint);
-
-        break;
-    case 2:
-        break;
-    default:
-        break;
-
-    }
 
 
-    //timerAfterStopToBetweenStop.start(); //disabled due to possible crashes caused by this
 
     return 1;
+}
+
+void MainWindow::eventDepartureFromLastStop()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    popUpMessage("departure from last stop");
 }
 
 
@@ -813,7 +833,7 @@ void MainWindow::eventFareZoneChange(QString zoneFrom, QString zoneTo)
         <font size="68"><color fg="#969696">Attention please! Change of fare zone.</color></font>
     )";
 
-   // vehicleState.
+    // vehicleState.
 
     AdditionalAnnoucement fareZoneChangeAnnouncement;
     fareZoneChangeAnnouncement.text=fareZoneChangeText;
@@ -835,7 +855,7 @@ void MainWindow::eventFareZoneChange(QString zoneFrom, QString zoneTo)
 
 void MainWindow::eventFareZoneChange(QVector<FareZone> fareZoneListFrom, QVector<FareZone> fareZoneListTo)
 {
-        eventFareZoneChange(FareZone::fareZoneListToString(FareZone::filterZonesFromSystem(fareZoneListFrom,"PID"),","),FareZone::fareZoneListToString(FareZone::filterZonesFromSystem(fareZoneListTo,"PID"),","));
+    eventFareZoneChange(FareZone::fareZoneListToString(FareZone::filterZonesFromSystem(fareZoneListFrom,"PID"),","),FareZone::fareZoneListToString(FareZone::filterZonesFromSystem(fareZoneListTo,"PID"),","));
 }
 
 void MainWindow::eventFareZoneChangeHide()
@@ -1835,12 +1855,15 @@ void MainWindow::on_pushButton_ride_map_clicked()
     mapPlot.seznamMnozin.clear();
     QVector<StopPointDestination> stopPointList=vehicleState.getCurrentTrip().globalStopPointDestinationList;
 
-
+    // polygons are now loaded directly to all stops
+    /*
     for(StopPointDestination &stopPointDestination : stopPointList)
     {
         sqlRopidQueries.getPolygonFromStopPoint(stopPointDestination.stopPoint,this->createDataValidityMask(),false);
         sqlRopidQueries.getPolygonFromStopPoint(stopPointDestination.stopPoint,this->createDataValidityMask(),true);
     }
+    */
+
 
 
     foreach(StopPointDestination stopPoint, stopPointList)
@@ -2255,10 +2278,13 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
     vehicleState.currentStopIndex0=0;
 
     int vysledek=initializeTheTrip();
+    //now included in initialize trip
+    /*
     if (vysledek==1)
     {
         eventEnterService();
     }
+    */
     return vysledek;
 }
 
@@ -3162,7 +3188,7 @@ void MainWindow::updateDriverDisplay()
 
     ui->label_ride_currentDelay->setText(MainWindowPomocne::secondsToString(vehicleState.secondsDelay));
 
-  //  ui->label_ride_currentDelay->setText(QTime::fromString(QString::number(vehicleState.secondsDelay),"s").toString("m:ss"));
+    //  ui->label_ride_currentDelay->setText(QTime::fromString(QString::number(vehicleState.secondsDelay),"s").toString("m:ss"));
 
 
     updateVehicleLocationDisplay(vehicleState.locationState);

@@ -141,6 +141,28 @@ mingw32-make install
 
 
 ## Changelog
+- 20260401_1640
+  - MainWindow::on_pushButton_lineTrip_confirm_clicked
+    - removed duplicate eventEnterService
+  - MainWindowPomocne::getSecondsDelayFromStop
+    - added validity check
+  - MainWindow::eventDeparture
+    - added stop index check
+  - LocationEvents::slotGnssUpdate
+    - added support to detect presence in a polygon, when trajectories are exported in WGS84 format
+  - MainWindow::eventDeparture()
+    - added detection of departure from last stop
+  - MapaVykresleni
+    - LocationEvents last stop while loop fix
+  - SqlRopidXmlQueries::getVehicleRunStops
+    - get polygons directly
+  - SqlRopidXmlQueries::getPolygonFromStopPoint
+    - removed DB disconnect 
+  - VDV301publisher
+    - added departure time to viaPoints
+  - settings.ini
+    - added default values for new functions
+
 - 20260310_1836
   - VDV301publisher
     - for version 2.3 and 2.3CZ1.0 c_Train changed to c_SBahn

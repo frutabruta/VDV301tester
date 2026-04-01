@@ -838,7 +838,7 @@ announcements</string>
 padding: 0 px;</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page_ride">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -1380,6 +1380,12 @@ Stop</string>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>200</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
                 <property name="font">
                  <font>
                   <pointsize>20</pointsize>
@@ -1493,6 +1499,12 @@ Stop</string>
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>200</width>
+                      <height>16777215</height>
+                     </size>
                     </property>
                     <property name="font">
                      <font>
