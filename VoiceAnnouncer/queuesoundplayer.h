@@ -6,6 +6,7 @@
 #include <QMediaPlayer>
 #include <QBuffer>
 #include <QFileInfo>
+#include <QLoggingCategory>
 
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -29,10 +30,13 @@ public:
 
     bool fileExists(QString path);
     bool fileExists(QUrl path);
+    QVector<QUrl> getOnlyExistingFiles(QVector<QUrl> vstup);
 protected:
     void internalPlayOneSoundFromList(QVector<QUrl> soundList);
 
     QVector<QUrl> frontaZvuku;
+
+    bool m_isStartingPlayback = false;
 
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)

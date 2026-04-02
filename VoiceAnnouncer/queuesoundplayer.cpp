@@ -1,5 +1,7 @@
 #include "queuesoundplayer.h"
 
+Q_LOGGING_CATEGORY(QueueSoundPlayerLog, "QueueSoundPlayer");
+
 
 QueueSoundPlayer::QueueSoundPlayer()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -27,14 +29,14 @@ QueueSoundPlayer::QueueSoundPlayer()
 
 bool QueueSoundPlayer::fileExists(QString path)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(QueueSoundPlayerLog) <<  Q_FUNC_INFO;
     QFileInfo check_file(path); //zdroj:: https://stackoverflow.com/questions/10273816/how-to-check-whether-file-exists-in-qt-in-c
     // check if file exists and if yes: Is it really a file and no directory?
     if (check_file.exists() && check_file.isFile()) {
-        qDebug()<<"soubor "<<path<<" existuje";
+        qCDebug(QueueSoundPlayerLog)<<"soubor "<<path<<" existuje";
         return true;
     } else {
-        qDebug()<<"soubor "<<path<<" neexistuje";
+        qCDebug(QueueSoundPlayerLog)<<"soubor "<<path<<" neexistuje";
         return false;
     }
 }
@@ -42,16 +44,16 @@ bool QueueSoundPlayer::fileExists(QString path)
 
 bool QueueSoundPlayer::fileExists(QUrl path)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(QueueSoundPlayerLog) <<  Q_FUNC_INFO;
 
     QString compoundPath=path.toLocalFile() ;
     QFileInfo check_file(compoundPath); //zdroj:: https://stackoverflow.com/questions/10273816/how-to-check-whether-file-exists-in-qt-in-c
     // check if file exists and if yes: Is it really a file and no directory?
     if (check_file.exists() && check_file.isFile()) {
-        qDebug()<<"soubor "<<compoundPath<<" existuje";
+        qCDebug(QueueSoundPlayerLog)<<"soubor "<<compoundPath<<" existuje";
         return true;
     } else {
-        qDebug()<<"soubor "<<compoundPath<<" neexistuje";
+        qCDebug(QueueSoundPlayerLog)<<"soubor "<<compoundPath<<" neexistuje";
         return false;
     }
 }
@@ -59,22 +61,49 @@ bool QueueSoundPlayer::fileExists(QUrl path)
 
 void QueueSoundPlayer::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(QueueSoundPlayerLog) <<  Q_FUNC_INFO;
 
+    vstup=getOnlyExistingFiles(vstup);
 
-
-    if (frontaZvuku.isEmpty())
+    if(vstup.isEmpty())
     {
-        qDebug()<<"fronta zvuku byla prazdna";
-        frontaZvuku.append(vstup);
-        internalPlayOneSoundFromList(frontaZvuku);
+        qCDebug(QueueSoundPlayerLog)<<"no existing files in queue";
+
     }
     else
-
     {
-        qDebug()<<"fronta zvuku nebyla prazdna";
-        frontaZvuku.append(vstup);
+        if (frontaZvuku.isEmpty())
+        {
+            qCDebug(QueueSoundPlayerLog)<<"fronta zvuku byla prazdna";
+            frontaZvuku.append(vstup);
+            internalPlayOneSoundFromList(frontaZvuku);
+        }
+        else
+
+        {
+            qCDebug(QueueSoundPlayerLog)<<"fronta zvuku nebyla prazdna";
+            frontaZvuku.append(vstup);
+        }
     }
+}
+
+
+QVector<QUrl> QueueSoundPlayer::getOnlyExistingFiles(QVector<QUrl> vstup)
+{
+    qCDebug(QueueSoundPlayerLog)<<Q_FUNC_INFO;
+    QVector<QUrl> output;
+    for (const QUrl &address : vstup) {
+        if(fileExists(address))
+        {
+            output<<address;
+            qCDebug(QueueSoundPlayerLog)<<"file does exist: "<<address;
+        }
+        else
+        {
+            qCDebug(QueueSoundPlayerLog)<<"file does NOT exist: "<<address;
+        }
+    }
+    return output;
 }
 
 
@@ -85,10 +114,10 @@ void QueueSoundPlayer::pridejDoFrontyVyhlas(QVector<QUrl> vstup)
 //Qt5
 void QueueSoundPlayer::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(QueueSoundPlayerLog) <<  Q_FUNC_INFO;
     if(!zasobnikAdres.isEmpty()&&(player.state()==QMediaPlayer::StoppedState) )
     {
-        qDebug()<<"pocet polozek "<<zasobnikAdres.size();
+        qCDebug(QueueSoundPlayerLog)<<"pocet polozek "<<zasobnikAdres.size();
         zasobnikAdres.removeFirst();
         internalPlayOneSoundFromList(zasobnikAdres);
 
@@ -97,7 +126,7 @@ void QueueSoundPlayer::vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres)
 
 void QueueSoundPlayer::playOneSoundImmediately(QUrl soubor2)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
+    qCDebug(QueueSoundPlayerLog) <<  Q_FUNC_INFO<<" "<<soubor2.toString();
     player.setMedia(soubor2);
 
     player.play();
@@ -105,7 +134,7 @@ void QueueSoundPlayer::playOneSoundImmediately(QUrl soubor2)
 
 void QueueSoundPlayer::internalPlayOneSoundFromList(QVector<QUrl> soundList)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(QueueSoundPlayerLog) <<  Q_FUNC_INFO;
     if(!soundList.isEmpty())
     {
         playOneSoundImmediately(soundList.first());
@@ -114,7 +143,7 @@ void QueueSoundPlayer::internalPlayOneSoundFromList(QVector<QUrl> soundList)
 
 void QueueSoundPlayer::zmenaStavuHlaseni(QMediaPlayer::State state)
 {
-    qDebug() <<  Q_FUNC_INFO <<state;
+    qCDebug(QueueSoundPlayerLog) <<  Q_FUNC_INFO <<state;
     vyhodPolozkuZeSeznamu(frontaZvuku);
 
 }
@@ -125,33 +154,35 @@ void QueueSoundPlayer::zmenaStavuHlaseni(QMediaPlayer::State state)
 //Qt6
 void QueueSoundPlayer::slotPlayStateChangedQt6(QMediaPlayer::PlaybackState state)
 {
-    qDebug() <<  Q_FUNC_INFO <<state;
+    qCDebug(QueueSoundPlayerLog) <<  Q_FUNC_INFO <<state;
     popSoundFromListQt6(frontaZvuku);
 }
 
 
+
+
 void QueueSoundPlayer::playOneSoundImmediately(QUrl soubor2)
 {
-    qDebug() <<  Q_FUNC_INFO<<" "<<soubor2.toString();
+    qCDebug(QueueSoundPlayerLog) << " " << soubor2.toString();
 
-    if(fileExists(soubor2))
+    if (fileExists(soubor2))
     {
+        m_isStartingPlayback = true;  // guard against spurious StoppedState
+
+        // Must clear source first — Qt6 QMediaPlayer treats setSource() with
+        // the same URL as a no-op, causing play() to misbehave when the same
+        // file appears consecutively in the queue (e.g. gong played twice).
+        player.setSource(QUrl());
         player.setSource(soubor2);
+        m_isStartingPlayback = false;
         player.play();
     }
-    else
-    {
-        slotPlayStateChangedQt6(QMediaPlayer::StoppedState);
-    }
-
-
-
 }
 
 
 void QueueSoundPlayer::internalPlayOneSoundFromList(QVector<QUrl> soundList)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(QueueSoundPlayerLog) <<  Q_FUNC_INFO;
     if(!soundList.isEmpty())
     {
         playOneSoundImmediately(soundList.first());
@@ -160,19 +191,30 @@ void QueueSoundPlayer::internalPlayOneSoundFromList(QVector<QUrl> soundList)
 
 void QueueSoundPlayer::popSoundFromListQt6(QVector<QUrl> &soundList)
 {
-    qDebug() <<  Q_FUNC_INFO;
-    if(!soundList.isEmpty()&&(player.playbackState()==QMediaPlayer::StoppedState) )
+    qCDebug(QueueSoundPlayerLog) << Q_FUNC_INFO;
+    qCDebug(QueueSoundPlayerLog) << "playback state " << player.playbackState();
+
+    if (m_isStartingPlayback)  // ignore spurious signals during source change
     {
-        qDebug()<<"pocet polozek "<<soundList.size();
+        qCDebug(QueueSoundPlayerLog) << "ignoring spurious StoppedState during source change";
+        return;
+    }
+
+    if ((!soundList.isEmpty()) && (player.playbackState() == QMediaPlayer::StoppedState))
+    {
+        qCDebug(QueueSoundPlayerLog) << "pocet polozek " << soundList.size();
         soundList.removeFirst();
         internalPlayOneSoundFromList(soundList);
-
+    }
+    else if (soundList.isEmpty())
+    {
+        qCDebug(QueueSoundPlayerLog) << "sound list is empty";
+    }
+    else
+    {
+        qCDebug(QueueSoundPlayerLog) << "other condition";
     }
 }
-
-
-
-
 
 
 #endif

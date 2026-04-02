@@ -141,6 +141,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20260402_1709
+  - QueueSoundPlayer
+  - VoiceAnnouncer
+    - fixed issue of not playing jingle after missing MP3
+    
 - 20260401_1640
   - MainWindow::on_pushButton_lineTrip_confirm_clicked
     - removed duplicate eventEnterService

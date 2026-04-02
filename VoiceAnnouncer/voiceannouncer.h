@@ -37,7 +37,7 @@ public slots:
 
 
 private:
-    QUrl getFilePathFromStopIds(int kodOis, int kodCis);
+    QUrl getFilePathFromStopIds(int kodCis);
 
     QUrl zvukPristiZastavka;
     QUrl zvukGong;
