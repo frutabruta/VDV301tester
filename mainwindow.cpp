@@ -88,6 +88,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     //settings.setValue("golemio/api-key","XXX");
 
     mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath()+"/mapFiles");
+    mapPlot.mapServer.setMapFilesPath(QCoreApplication::applicationDirPath()+"/mapFiles");
     //  mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath());
 
     loadConstantsFromSettingsFile();
@@ -1864,8 +1865,6 @@ void MainWindow::on_pushButton_ride_map_clicked()
     }
     */
 
-
-
     foreach(StopPointDestination stopPoint, stopPointList)
     {
         mapPlot.pridejMnozinu(MapyApiStops::polygonToSeznamMapaBod(stopPoint.stopPoint.polygonWgs84),false,false,false,false,true,false,MnozinaBodu::WGS84);
@@ -1873,18 +1872,15 @@ void MainWindow::on_pushButton_ride_map_clicked()
 
     }
 
-
     mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),true,false,false,false,false,false,MnozinaBodu::WGS84);
     mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),false,false,false,true,false,false,MnozinaBodu::WGS84);
     mapPlot.pridejMnozinu(sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false,false,false,MnozinaBodu::S_JTSK);
 
-
     Trip temporaryTrip=sqlRopidQueries.getTripDescriptionFromId(vehicleState.getCurrentTrip().id,this->createDataValidityMask())  ;
-
 
     mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( temporaryTrip));
 
-
+    mapPlot.openMap();
 }
 
 

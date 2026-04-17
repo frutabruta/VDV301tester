@@ -59,6 +59,7 @@ SOURCES += \
     IbisSender/ipistelegramcompose.cpp \
     MapaVykresleni/coordinatestools.cpp \
     MapaVykresleni/gnsswebsocketserver.cpp \
+    MapaVykresleni/mapserver.cpp \
     MapaVykresleni/mapyapistops.cpp \
     MapaVykresleni/trajectoryjumper.cpp \
     VDV301publisher/VDV301DataStructures/additionalannoucement.cpp \
@@ -161,6 +162,7 @@ HEADERS += \
     IbisSender/ipistelegramcompose.h \
     MapaVykresleni/coordinatestools.h \
     MapaVykresleni/gnsswebsocketserver.h \
+    MapaVykresleni/mapserver.h \
     MapaVykresleni/mapyapistops.h \
     MapaVykresleni/trajectoryjumper.h \
     VDV301publisher/VDV301DataStructures/additionalannoucement.h \

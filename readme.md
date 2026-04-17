@@ -141,6 +141,12 @@ mingw32-make install
 
 
 ## Changelog
+- 20260417_1856
+  - MapaVykresleni
+    - usage of map webserver - fix of OSM referer error
+  - VDV301publisher
+    - 2.3CZ1.0 added departure times to viaPoints
+
 - 20260402_1709
   - QueueSoundPlayer
   - VoiceAnnouncer
