@@ -141,6 +141,12 @@ mingw32-make install
 
 
 ## Changelog
+- 20260429_1430
+  - SqlRopidXmlQueries::getVehicleRunStops
+    - fix stop list with multiple stop validities
+  - VDV301subscriber
+    - data structures update
+    
 - 20260417_1856
   - MapaVykresleni
     - usage of map webserver - fix of OSM referer error

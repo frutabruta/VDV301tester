@@ -40,6 +40,7 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
         AND ((x.s2=0) OR (x.xorder=0))
         AND s.kj LIKE :kj
         AND s.d=l.d
+        AND z.kj LIKE :kj
         AND z.tu IS NULL
     ORDER BY x.xorder
        )";
@@ -383,6 +384,7 @@ Trip SqlRopidXmlQueries::getTripDescriptionFromId(int tripId, QString kj)
         WHERE s.s=:tripId
             AND s.man !=1
             AND s.kj LIKE :kj
+            AND z.kj LIKE :kj
         ORDER BY s.c ASC, s.s ASC
     )";
 
