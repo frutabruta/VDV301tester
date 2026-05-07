@@ -12,10 +12,10 @@
 
 #include "MapaVykresleni/mapabod.h"
 
-#include "XmlRopidImportStream/sqlitezaklad.h"
+#include "XmlRopidImportStream/sqlitebase.h"
 
 
-class SqlRopidXmlQueries: public  SqLiteZaklad
+class SqlRopidXmlQueries: public  SqLiteBase
 {
     Q_OBJECT
 public:

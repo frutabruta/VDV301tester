@@ -3,7 +3,7 @@
 
 SqlRopidXmlQueries::SqlRopidXmlQueries()
 {
-    this->otevriDB();
+    this->dbOpen();
 }
 
 //test Pridani Komentare prechodu na SQLITE
@@ -23,7 +23,7 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
         qDebug()<< "trip index out of range";
         return  0;
     }
-    this->otevriDB();
+    this->dbOpen();
 
     //Spoj docasnySpoj;
     QVector<StopPointDestination> temporaryTripList;
@@ -46,7 +46,7 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
        )";
 
 
-    QSqlQuery query(this->mojeDatabaze);
+    QSqlQuery query(this->dbFile);
     query.prepare(queryString);
 
     query.bindValue(":currentTripId", tripList.at(tripIndex).id);
@@ -231,7 +231,7 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
     }
 
     stopCount=temporaryTripList.length();
-    this->zavriDB();
+    this->dbClose();
     if (stopCount ==0)
     {
 
@@ -327,7 +327,7 @@ QString SqlRopidXmlQueries::fareZoneToString(QVector<FareZone> fareZoneList, QSt
 QVector<QString> SqlRopidXmlQueries::getNotesFromTripS(int tripS, int xorder)
 {
     qDebug()<< Q_FUNC_INFO;
-    //this->otevriDB();
+    //this->dbOpen();
     QVector<QString> noteList;
 
     QString queryString=R"(
@@ -367,7 +367,7 @@ QVector<QString> SqlRopidXmlQueries::getNotesFromTripS(int tripS, int xorder)
 Trip SqlRopidXmlQueries::getTripDescriptionFromId(int tripId, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
-    this->otevriDB();
+    this->dbOpen();
     Trip trip;
 
     QString  queryString= R"(
@@ -424,7 +424,7 @@ Trip SqlRopidXmlQueries::getTripDescriptionFromId(int tripId, QString kj)
         trip.globalStopPointDestinationList.append(firstStop);
         trip.globalStopPointDestinationList.append(lastStop);
     }
-    // this->zavriDB();
+    // this->dbClose();
 
 
     return trip;
@@ -434,7 +434,7 @@ int SqlRopidXmlQueries::getVehicleRunFromTripLC(Trip trip, int &rootLine, int &v
 {
     qDebug()<< Q_FUNC_INFO;
 
-    this->pripoj();
+    this->initialize();
 
     QString queryString= R"("
         SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord
@@ -475,7 +475,7 @@ int SqlRopidXmlQueries::getVehicleRunFromTripLC(Trip trip, int &rootLine, int &v
     }
 
     qDebug()<<"Trip "<<trip.line.c<<"/"<<trip.idRopid<<" belongs to vehicle run: "<<rootLine<<"/"<<vehicleRun<<" index on line:"<<tripIndex;
-    this->zavriDB();
+    this->dbClose();
     if (resdultCounter==0)
     {
         return 0;
@@ -490,7 +490,7 @@ int SqlRopidXmlQueries::getVehicleRunFromTripS(Trip trip, int &rootLine, int &ve
 {
     qDebug()<< Q_FUNC_INFO;
 
-    this->pripoj();
+    this->initialize();
 
     QString queryString=R"(
         SELECT DISTINCT s.s, s.c, s.kj, l.c,l.lc,l.aois, sp_po.l, sp_po.p, sp_po.ord
@@ -530,7 +530,7 @@ int SqlRopidXmlQueries::getVehicleRunFromTripS(Trip trip, int &rootLine, int &ve
     }
 
     qDebug()<<"Trip "<<trip.line.c<<"/"<<trip.idRopid<<" belongs to vehicle run: "<<rootLine<<"/"<<vehicleRun<<" index on line:"<<tripIndex;
-    this->zavriDB();
+    this->dbClose();
     if (resdultCounter==0)
     {
         return 0;
@@ -546,7 +546,7 @@ int SqlRopidXmlQueries::getTripSfromC(Trip &trip, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
 
-    this->pripoj();
+    this->initialize();
 
     QString queryString=R"(
         SELECT DISTINCT s.s FROM s
@@ -580,7 +580,7 @@ int SqlRopidXmlQueries::getTripSfromC(Trip &trip, QString kj)
     }
 
  //   qDebug()<<"Spoj "<<spoj.line.c<<"/"<<spoj.idRopid<<" spada pod kurz "<<kmenovaLinka<<"/"<<poradi<<" order:"<<order;
-    this->zavriDB();
+    this->dbClose();
     if (counter==0)
     {
         return 0;
@@ -599,7 +599,7 @@ int SqlRopidXmlQueries::getTripListFromVehicleRun(VehicleRun &vehicleRun, QStrin
 {
     qDebug()<< Q_FUNC_INFO;
     vehicleRun.tripList.clear();
-    this->pripoj();
+    this->initialize();
     QString queryString=R"(
         SELECT DISTINCT sp_po.l, sp_po.p, sp_po.kj, sp_po.s, sp_po.pokrac, s.c, s.s, s.l, l.c, l.lc, l.kli, l.aois
         FROM sp_po
@@ -665,7 +665,7 @@ int SqlRopidXmlQueries::getTripListFromVehicleRun(VehicleRun &vehicleRun, QStrin
         // qDebug()<<docasnySpoj.cisloRopid;
     }
 
-    this->zavriDB();
+    this->dbClose();
     if (resultCounter==0)
     {
         return 0;
@@ -687,7 +687,7 @@ int SqlRopidXmlQueries::getDatasetValidity(QDate &dateFrom, QDate &dateTo)
 
     qDebug()<< Q_FUNC_INFO;
 
-    this->pripoj();
+    this->initialize();
 
     QString queryString("SELECT DISTINCT h.od, h.do FROM hlavicka AS h ");
     QSqlQuery query;
@@ -707,7 +707,7 @@ int SqlRopidXmlQueries::getDatasetValidity(QDate &dateFrom, QDate &dateTo)
         }
     }
 
-    this->zavriDB();
+    this->dbClose();
     if (resultCounter==0)
     {
         return 0;
@@ -730,7 +730,7 @@ QString SqlRopidXmlQueries::createValidyMaskFromDate(QDate workingDate, QDate va
 
     numberOfDays=-workingDate.daysTo(validityStart);
 
-    if(!jeDatumVRozsahu(workingDate,validityStart,validityEnd))
+    if(!isDateInRange(workingDate,validityStart,validityEnd))
     {
         qDebug("date is out of validity range");
         return "x";
@@ -870,7 +870,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getVehicleRunListModel(Line line, QString kj
 {
     qDebug()<< Q_FUNC_INFO;
 
-    this->pripoj();
+    this->initialize();
     qInfo()<<"DebugPointA";
     QString queryString("SELECT DISTINCT o.l, o.p FROM o ");
     queryString+=("WHERE o.l=");
@@ -900,7 +900,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &v
 {
     qDebug()<< Q_FUNC_INFO;
 
-    if (!this->pripoj())
+    if (!this->initialize())
     {
         qDebug() << "DB connect failed";
         return nullptr;
@@ -927,7 +927,7 @@ QSqlQueryModel* SqlRopidXmlQueries::getTripListFromVehicleRunModel(VehicleRun &v
             ORDER BY sp_po.ord
         )";
 
-    QSqlQuery query(this->mojeDatabaze);
+    QSqlQuery query(this->dbFile);
 
     if (!query.prepare(queryString))
     {
@@ -972,7 +972,7 @@ QVector<MapaBod> SqlRopidXmlQueries::getTrajectoryFromTripS(int tripS, QString k
     QVector<MapaBod> result;
 
 
-    this->pripoj();
+    this->initialize();
 
     QString queryString="";
 
@@ -1074,7 +1074,7 @@ QVector<MapaBod> SqlRopidXmlQueries::getTrajectoryFromTripS(int tripS, QString k
 
 
 
-    this->zavriDB();
+    this->dbClose();
 
     return result;
 }
@@ -1130,7 +1130,7 @@ bool SqlRopidXmlQueries::getPolygonFromStopPoint(StopPoint &stopPoint, QString k
 {
     qDebug()<< Q_FUNC_INFO;
     //qDebug()<<" idSpoje:"<<idSpoje<<" kj:"<<kj;
-    this->otevriDB();
+    this->dbOpen();
 
     QPolygonF temporaryPolygon;
 
@@ -1164,7 +1164,7 @@ bool SqlRopidXmlQueries::getPolygonFromStopPoint(StopPoint &stopPoint, QString k
     queryString2+=("ORDER BY poradi");
 
 
-    QSqlQuery query(queryString2,this->mojeDatabaze);
+    QSqlQuery query(queryString2,this->dbFile);
 
     qDebug()<<queryString2;
 
@@ -1194,7 +1194,7 @@ bool SqlRopidXmlQueries::getPolygonFromStopPoint(StopPoint &stopPoint, QString k
     }
 
 
-  //  this->zavriDB();
+  //  this->dbClose();
 
     if(out)
     {

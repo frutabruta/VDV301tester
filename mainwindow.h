@@ -37,7 +37,7 @@
 
 #include "sqlropidxmlqueries.h"
 #include "xmlmpvparser.h"
-#include "GolemioClient/golemio.h"
+#include "GolemioClient/golemiodepartureboardsv2.h"
 #include "XmlRopidImportStream/xmlimportjr.h"
 #include "IbisSender/ipispid.h"
 #include "VoiceAnnouncer/voiceannouncer.h"
@@ -104,7 +104,7 @@ private:
     QSettings *settings;
 
     XmlMpvParser xmlMpvParser;
-    Golemio golemio;
+    GolemioDepartureBoardsV2 golemio;
     //  XmlRopidImportStream xmlRopidImportStream;
     IpisPid ibisOvladani;
     VoiceAnnouncer voiceAnnouncer;

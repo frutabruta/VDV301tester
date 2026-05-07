@@ -49,9 +49,8 @@ SOURCES += \
     Avl/avl.cpp \
     Avl/avlwebsocketsender.cpp \
     GolemioClient/connectiongolemio.cpp \
-    GolemioClient/connectiongolemiov4.cpp \
-    GolemioClient/golemioresultv4.cpp \
-    GolemioClient/golemiov4.cpp \
+    GolemioClient/golemiodepartureboardsv2.cpp \
+    GolemioClient/golemiorequesthandler.cpp \
     GolemioClient/stopgolemio.cpp \
     IbisSender/ibissender.cpp \
     IbisSender/ipispid.cpp \
@@ -65,7 +64,6 @@ SOURCES += \
     VDV301publisher/VDV301DataStructures/additionalannoucement.cpp \
     VDV301publisher/VDV301DataStructures/additionalannoucement2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/connection.cpp \
- #   VDV301publisher/VDV301DataStructures/connectiongolemio.cpp \
     VDV301publisher/VDV301DataStructures/connectionmpv.cpp \
     VDV301publisher/VDV301DataStructures/farezone.cpp \
     VDV301publisher/VDV301DataStructures/line.cpp \
@@ -130,15 +128,14 @@ SOURCES += \
     VDV301testy/vdv301testy.cpp \
     VoiceAnnouncer/queuesoundplayer.cpp \
     VoiceAnnouncer/voiceannouncer.cpp \
+    XmlRopidImportStream/sqlitebase.cpp \
     XmlRopidImportStream/xmlimportjr.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
-    GolemioClient/golemio.cpp \
     locationevents.cpp \
     logfile.cpp \
     main.cpp \
     mainwindow.cpp \
     mainwindowpomocne.cpp \
-    XmlRopidImportStream/sqlitezaklad.cpp \
     MapaVykresleni/mapabod.cpp \
     MapaVykresleni/mapavykresleni.cpp \
     MapaVykresleni/mnozinabodu.cpp \
@@ -152,9 +149,8 @@ HEADERS += \
     Avl/avl.h \
     Avl/avlwebsocketsender.h \
     GolemioClient/connectiongolemio.h \
-    GolemioClient/connectiongolemiov4.h \
-    GolemioClient/golemioresultv4.h \
-    GolemioClient/golemiov4.h \
+    GolemioClient/golemiodepartureboardsv2.h \
+    GolemioClient/golemiorequesthandler.h \
     GolemioClient/stopgolemio.h \
     IbisSender/ibissender.h \
     IbisSender/ipispid.h \
@@ -168,7 +164,6 @@ HEADERS += \
     VDV301publisher/VDV301DataStructures/additionalannoucement.h \
     VDV301publisher/VDV301DataStructures/additionalannoucement2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/connection.h \
-  #  VDV301publisher/VDV301DataStructures/connectiongolemio.h \
     VDV301publisher/VDV301DataStructures/connectionmpv.h \
     VDV301publisher/VDV301DataStructures/farezone.h \
     VDV301publisher/VDV301DataStructures/line.h \
@@ -233,10 +228,9 @@ HEADERS += \
     VDV301testy/vdv301testy.h \
     VoiceAnnouncer/queuesoundplayer.h \
     VoiceAnnouncer/voiceannouncer.h \
+    XmlRopidImportStream/sqlitebase.h \
     XmlRopidImportStream/xmlimportjr.h \
     XmlRopidImportStream/xmlropidimportstream.h \
-    XmlRopidImportStream/sqlitezaklad.h \
-    GolemioClient/golemio.h \
     locationevents.h \
     logfile.h \
     mainwindow.h \

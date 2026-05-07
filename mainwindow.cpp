@@ -203,7 +203,7 @@ void MainWindow::allConnects()
 
 
     connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
-    connect(&golemio,&Golemio::stazeniHotovo,this,&MainWindow::slotGolemioReady);
+    connect(&golemio,&GolemioDepartureBoardsV2::stazeniHotovo,this,&MainWindow::slotGolemioReady);
 
     //vypis deviceMAnagementServices publisheru
     // connect(&deviceManagementServiceSubscriber, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::slotXmlDoPromenne);
@@ -244,8 +244,8 @@ void MainWindow::allConnects()
     connect(ui->radioButton_OFF4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStop);
 
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
-    connect(&sqlRopidQueries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
-    connect(&sqlRopidQueries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
+    connect(&sqlRopidQueries,&SqlRopidXmlQueries::signalErrorMessage,this,&MainWindow::slotVypisSqlVysledek);
+    connect(&sqlRopidQueries,&SqlRopidXmlQueries::signalErrorMessage,this,&MainWindow::vypisDiagnostika);
 
     //  connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
 
@@ -1154,7 +1154,7 @@ pripoji se k databazi a naplni okna pro vyber spoju
 void MainWindow::initializeSelectionListView()
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
-    sqlRopidQueries.pripoj();
+    sqlRopidQueries.initialize();
 
     ui->listView_lineRun->setModel(&emptyQSqlQueryModel);
     ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
@@ -1235,9 +1235,9 @@ void MainWindow::loadConstantsFromSettingsFile()
     {
         useGolemioApi=false;
     }
-    golemio.setKlic(settings->value("golemio/apiKey").toByteArray());
+    golemio.setKey(settings->value("golemio/apiKey").toByteArray());
     ui->lineEdit_configuration_golemioKey->setText(settings->value("golemio/apiKey").toByteArray());
-    golemio.setAdresa(settings->value("golemio/adresa").toString());
+    golemio.setAddress(settings->value("golemio/adresa").toString());
     vehicleState.showConnections=settings->value("golemio/enabled").toBool();
     ui->checkBox_configuration_enableConnections->setChecked(vehicleState.showConnections);
 
@@ -1255,7 +1255,7 @@ void MainWindow::loadConstantsFromSettingsFile()
     ui->label_build->setText(textVerze());
     ui->label_build->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
-    golemio.setParametry(settings->value("golemio/parametry").toString());
+    golemio.setParameters(settings->value("golemio/parametry").toString());
 
     deviceManagementService1_0.setDeviceName(settings->value("deviceManagementService1_0/deviceName").toString());
     deviceManagementService1_0.setDeviceManufacturer(settings->value("deviceManagementService1_0/deviceManufacturer").toString());
@@ -1483,7 +1483,7 @@ void MainWindow::on_pushButton_configuration_setGolemioKey_clicked()
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     settings->setValue("golemio/apiKey",ui->lineEdit_configuration_golemioKey->text());
-    golemio.setKlic(settings->value("golemio/apiKey").toByteArray());
+    golemio.setKey(settings->value("golemio/apiKey").toByteArray());
 }
 
 
@@ -2766,7 +2766,7 @@ void MainWindow::slotGolemioReady()
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     //qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
 
-    golemio.naplnVstupDokument(golemio.stazenaData);
+    golemio.fillJsonFromQByteArray();
     QVector<ConnectionGolemio> prestupyGolemio=golemio.parseDomDocumentDepartures();
     QVector<GolemioInfotext> infotextsGolemio=golemio.parseDomDocumentInfotexts();
 

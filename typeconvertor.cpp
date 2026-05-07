@@ -302,6 +302,8 @@ Vdv301Connection TypeConvertor::toVdv301Connection()
 }
 */
 
+
+/*
 QVector<Connection> TypeConvertor::ConnectionGolemioV4ListToConnectionList(QVector<ConnectionGolemioV4> inputList)
 {
     QVector<Connection> output;
@@ -464,7 +466,7 @@ QVector<Connection> TypeConvertor::ConnectionGolemioV4ListToConnectionList(QVect
 
 }
 
-
+*/
 
 QDateTime TypeConvertor::minutesToTimestamp(QDateTime referenceDateTime,QString minutesString)
 {

@@ -141,6 +141,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20260506_1906
+  - GolemioClient
+    - refactoring
+  - XmlRopidImportStream
+    - SqLiteBAse renamed functions to English 
 - 20260429_1430
   - SqlRopidXmlQueries::getVehicleRunStops
     - fix stop list with multiple stop validities
