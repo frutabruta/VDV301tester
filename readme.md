@@ -141,6 +141,23 @@ mingw32-make install
 
 
 ## Changelog
+- 20260507_1756
+  - MapaVykresleni
+    - WGS84 X/Y swap (lng->X, lat->Y)
+  - LocationEvents 
+    - removed slotGnssUpdate(MapaBod coordinates)
+    - added slotGnssUpdateSjtsk(QPointF coordinates)
+    - added slotGnssUpdateWgs84(QPointF coordinates)
+  - MainWindow
+    - AVL messages now need to be enabled in settings (not persistent), to avoid WebSocket overloading
+    - removed slotGnssUpdate(MapaBod coordinates)
+    - added slotGnssUpdateWgs84(QPointF coordinates)
+    - added slotGnssUpdateSjtsk(QPointF coordinates)
+    - added coordinates labels on position tab
+    - added bool avlEnabled
+  - Avl::slotUpdatePosition
+    - X Y swap fix
+  
 - 20260506_1906
   - GolemioClient
     - refactoring

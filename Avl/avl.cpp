@@ -54,8 +54,8 @@ QString Avl::generateJsonMessage()
 void Avl::slotUpdatePosition(QPointF input)
 {
     qCDebug(avlLog)<<Q_FUNC_INFO;
-    mLat=input.x();
-    mLng=input.y();
+    mLat=input.y();
+    mLng=input.x();
     qCDebug(avlLog).noquote()<<input;
 }
 

@@ -268,9 +268,11 @@ void MainWindow::allConnects()
     connect(&timerSpecialAnnoucementHide,&QTimer::timeout,this,&MainWindow::eventSpecialAnnouncementHide);
 
     //position simulator
-    connect(&trajectoryJumper,&TrajectoryJumper::signalMapaBod,&locationEvents,&LocationEvents::slotGnssUpdate);
+  //  connect(&trajectoryJumper,&TrajectoryJumper::signalMapaBod,&locationEvents,&LocationEvents::slotGnssUpdate);
 
-    connect(&trajectoryJumper,&TrajectoryJumper::signalChangeWgs,&avl,&Avl::slotUpdatePosition);
+    //connect(&trajectoryJumper,&TrajectoryJumper::signalChangeWgs,&avl,&Avl::slotUpdatePosition);
+    connect(&trajectoryJumper,&TrajectoryJumper::signalChangeWgs84,this,&MainWindow::slotGnssUpdateWgs84);
+    connect(&trajectoryJumper,&TrajectoryJumper::signalChangeSjtsk,this,&MainWindow::slotGnssUpdateSjtsk);
 
 
     //position reader
@@ -637,7 +639,12 @@ int MainWindow::eventArrival()
     {
         avl.setCoordinates(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng);
     }
-    avl.triggerUpdate("O");
+
+    if(avlEnabled)
+    {
+        avl.triggerUpdate("O");
+    }
+
 
     vehicleState.doorState=Vdv301Enumerations::DoorOpenStateDoorsOpen;
 
@@ -764,8 +771,10 @@ void MainWindow::eventEnterService()
     xmlVdv301UpdateContent();
     avlSetGeneral();
 
-    avl.timerStart();
-
+    if(avlEnabled)
+    {
+        avl.timerStart();
+    }
 }
 
 
@@ -1343,6 +1352,20 @@ void MainWindow::on_calendarWidget_data_workingDate_selectionChanged()
     updataWorkingDate();
 }
 
+
+void MainWindow::on_checkBox_avlRelay_stateChanged(int arg1)
+{
+    avlEnabled=arg1;
+
+    if(avlEnabled)
+    {
+        avl.timerStart();
+    }
+    else
+    {
+        avl.timerStop();
+    }
+}
 
 
 /*!
@@ -2744,20 +2767,24 @@ void MainWindow::slotDownloadConnectionsFromCurrentStop()
                 xmlMpvParser.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
             }
         }
-
-
     }
 }
 
 
-
-
-
-void MainWindow::slotGnssUpdate(MapaBod coordinates)
+void MainWindow::slotGnssUpdateWgs84(QPointF coordinates)
 {
-
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    avl.slotUpdatePosition(coordinates);
+    updatePositionLabel(coordinates);
+    locationEvents.slotGnssUpdateWgs84(coordinates);
 }
 
+void MainWindow::slotGnssUpdateSjtsk(QPointF coordinates)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    updatePositionLabel(coordinates);
+    locationEvents.slotGnssUpdateSjtsk(coordinates);
+}
 
 
 
@@ -3193,7 +3220,20 @@ void MainWindow::updateDriverDisplay()
 
 
 
+void MainWindow::updatePositionLabel(QPointF coordinates)
+{
+    if(!coordinates.isNull())
+    {
+         ui->label_positionX->setText(QString::number(coordinates.x()));
+         ui->label_positionY->setText(QString::number(coordinates.y()));
+    }
+    else
+    {
+        ui->label_positionX->setText("");
+        ui->label_positionY->setText("");
+    }
 
+}
 
 
 void MainWindow::updateVehicleLocationDisplay(Vdv301Enumerations::LocationStateEnumeration locationState)

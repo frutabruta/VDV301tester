@@ -86,6 +86,8 @@ private:
 
     bool blockBonjour=true;
 
+    bool avlEnabled=false;
+
     bool setVehicleTypeFromLineType=true;
 
     int pkt=333; //message pkt counter
@@ -224,7 +226,7 @@ private:
     int initializeTheTrip();
     void resetTripList();
     void updateVehicleLocationDisplay(Vdv301Enumerations::LocationStateEnumeration locationState);
-
+    void updatePositionLabel(QPointF coordinates);
 
     //timery
     QTimer timerFareZoneChangeDuration; //fare  change announcement vanishes after timeout
@@ -252,6 +254,7 @@ private:
     void setLineToSubMode();
     QString avlSetGeneral();
     void avlSetStop(StopPointDestination currentStopPointDestination);
+
 
 public slots:
     void slotVypisSqlVysledek(QString vstup);
@@ -405,7 +408,8 @@ private slots:
     void slotServiceTableUpdate();
 
     //avl slots
-    void slotGnssUpdate(MapaBod coordinates);
+    void slotGnssUpdateWgs84(QPointF coordinates);
+    void slotGnssUpdateSjtsk(QPointF coordinates);
     void slotLocationEnterArea(StopPointDestination stopPoint);
     void slotLocationLeaveArea(StopPointDestination stopPoint);
 
@@ -421,6 +425,9 @@ private slots:
     void on_checkBox_vechicleTypeFromLine_stateChanged(int arg1);
 
     void on_pushButton_options_debug_set_clicked();
+
+    void on_checkBox_avlRelay_stateChanged(int arg1);
+
 
 signals:
     // void signalZahajImport(QString cesta);

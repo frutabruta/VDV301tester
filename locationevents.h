@@ -17,8 +17,11 @@ public:
     CoordinatesTools coordinatesTools;
 
     bool isAtStop=false;
+
 public slots:
-    void slotGnssUpdate(MapaBod coordinates);
+  //  void slotGnssUpdate(MapaBod coordinates);
+    void slotGnssUpdateWgs84(QPointF coordinates);
+    void slotGnssUpdateSjtsk(QPointF coordinates);
 signals:
     void signalArrivedAtStop(StopPointDestination output);
     void signalDepartedStop(StopPointDestination output);
