@@ -2363,7 +2363,15 @@ void MainWindow::on_pushButton_positionStart_clicked()
 {
     trajectoryJumper.seznamMapaBodu=sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask());
     trajectoryJumper.coordinatesSystem=trajectoryJumper.coordinateSystemFromMapaPointList(trajectoryJumper.seznamMapaBodu);
-    trajectoryJumper.start();
+
+    if((xmlTrajectoryType=="WGS84")||(xmlTrajectoryType=="S_JTSK"))
+    {
+        trajectoryJumper.start();
+    }
+    else
+    {
+        popUpMessage(tr("no trajectories, cannot simulate location"));
+    }
 }
 
 
@@ -3162,16 +3170,26 @@ načte platnost a nastaví rozsahy klikatelných oblastí kalendáře
 void MainWindow::updateCalendar()
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
-    if(sqlRopidQueries.getDatasetValidity(validityFrom,validityTo))
+    if(sqlRopidQueries.getDatasetValidity(validityFrom,validityTo,xmlVersion))
     {
+        xmlTrajectoryType=sqlRopidQueries.getTrajectoryType();
         ui->calendarWidget_data_workingDate->setMinimumDate(validityFrom);
         ui->calendarWidget_data_workingDate->setMaximumDate(validityTo);
+        ui->label_data_validFrom->setText(validityFrom.toString("dd. MM. yyyy"));
+        ui->label_data_validTo->setText(validityTo.toString("dd. MM. yyyy"));
     }
     else
     {
+        xmlTrajectoryType="N/A";
+        xmlVersion="";
         ui->calendarWidget_data_workingDate->setMinimumDate(QDate(1900, 1, 1));
         ui->calendarWidget_data_workingDate->setMaximumDate(QDate(3000, 1, 1));
+        ui->label_data_validFrom->setText("");
+        ui->label_data_validTo->setText("");
     }
+    ui->label_data_trajectoriesType->setText(xmlTrajectoryType);
+    ui->label_data_version->setText(xmlVersion);
+    ui->calendarWidget_data_workingDate->setFirstDayOfWeek(Qt::Monday);
 }
 
 

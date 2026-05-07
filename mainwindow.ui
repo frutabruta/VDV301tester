@@ -83,7 +83,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -1649,8 +1649,8 @@ expected</string>
        <widget class="QPushButton" name="pushButton_positionStart">
         <property name="geometry">
          <rect>
-          <x>380</x>
-          <y>80</y>
+          <x>500</x>
+          <y>30</y>
           <width>261</width>
           <height>121</height>
          </rect>
@@ -1662,53 +1662,14 @@ expected</string>
        <widget class="QPushButton" name="pushButton_positionStop">
         <property name="geometry">
          <rect>
-          <x>380</x>
-          <y>210</y>
+          <x>500</x>
+          <y>170</y>
           <width>261</width>
           <height>121</height>
          </rect>
         </property>
         <property name="text">
          <string>STOP position simulation</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_positionCenterMap">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>80</y>
-          <width>171</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>center the map</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_positionStopAtStops">
-        <property name="geometry">
-         <rect>
-          <x>110</x>
-          <y>100</y>
-          <width>181</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>stop at stops</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="checkBox_avlRelay">
-        <property name="geometry">
-         <rect>
-          <x>120</x>
-          <y>280</y>
-          <width>151</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>avl relay</string>
         </property>
        </widget>
        <widget class="QWidget" name="gridLayoutWidget">
@@ -1783,6 +1744,39 @@ expected</string>
          </item>
         </layout>
        </widget>
+       <widget class="QWidget" name="verticalLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>10</y>
+          <width>160</width>
+          <height>80</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QCheckBox" name="checkBox_positionCenterMap">
+           <property name="text">
+            <string>center the map</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_positionStopAtStops">
+           <property name="text">
+            <string>stop at stops</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBox_avlRelay">
+           <property name="text">
+            <string>transmit to websocket</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_moznosti">
        <attribute name="title">
@@ -1800,7 +1794,7 @@ expected</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -1847,6 +1841,31 @@ expected</string>
                </layout>
               </item>
               <item>
+               <widget class="QLabel" name="label_data_pathContent">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>cesta_obsah</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+                </property>
+                <property name="wordWrap">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_6">
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -1860,7 +1879,7 @@ expected</string>
                     </property>
                     <property name="minimumSize">
                      <size>
-                      <width>100</width>
+                      <width>400</width>
                       <height>0</height>
                      </size>
                     </property>
@@ -1878,6 +1897,34 @@ expected</string>
                     </property>
                    </widget>
                   </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_2">
+                    <item>
+                     <widget class="QLabel" name="label_buildName">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>build</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_build">
+                      <property name="font">
+                       <font>
+                        <pointsize>12</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string notr="true">cisloBuildu</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
                  </layout>
                 </item>
                 <item>
@@ -1891,50 +1938,6 @@ expected</string>
                     </property>
                     <property name="text">
                      <string>Data</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_data_pathName">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>200</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>file path</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="label_data_pathContent">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>cesta_obsah</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
-                    </property>
-                    <property name="wordWrap">
-                     <bool>true</bool>
                     </property>
                    </widget>
                   </item>
@@ -2038,33 +2041,85 @@ expected</string>
                   </item>
                  </layout>
                 </item>
-               </layout>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <item>
-                 <widget class="QLabel" name="label_buildName">
-                  <property name="font">
-                   <font>
-                    <pointsize>12</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>build</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_build">
-                  <property name="font">
-                   <font>
-                    <pointsize>12</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string notr="true">cisloBuildu</string>
-                  </property>
-                 </widget>
+                 <layout class="QVBoxLayout" name="verticalLayout_2">
+                  <item>
+                   <widget class="QLabel" name="label_12">
+                    <property name="font">
+                     <font>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Valid From</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_data_validFrom">
+                    <property name="text">
+                     <string>TextLabel</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_13">
+                    <property name="font">
+                     <font>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Valid To</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_data_validTo">
+                    <property name="text">
+                     <string>TextLabel</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_14">
+                    <property name="font">
+                     <font>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Version</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_data_version">
+                    <property name="text">
+                     <string>TextLabel</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_16">
+                    <property name="font">
+                     <font>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Trajectories</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_data_trajectoriesType">
+                    <property name="text">
+                     <string>TextLabel</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                </layout>
               </item>

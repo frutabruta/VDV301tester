@@ -681,7 +681,7 @@ int SqlRopidXmlQueries::getTripListFromVehicleRun(VehicleRun &vehicleRun, QStrin
 /*!
 
 */
-int SqlRopidXmlQueries::getDatasetValidity(QDate &dateFrom, QDate &dateTo)
+int SqlRopidXmlQueries::getDatasetValidity(QDate &dateFrom, QDate &dateTo, QString &ver)
 {
 
 
@@ -689,7 +689,7 @@ int SqlRopidXmlQueries::getDatasetValidity(QDate &dateFrom, QDate &dateTo)
 
     this->initialize();
 
-    QString queryString("SELECT DISTINCT h.od, h.do FROM hlavicka AS h ");
+    QString queryString("SELECT DISTINCT h.od, h.do, h.ver FROM hlavicka AS h ");
     QSqlQuery query;
     query.exec(queryString);
     qDebug()<<"lasterror "<<query.lastError();
@@ -703,6 +703,7 @@ int SqlRopidXmlQueries::getDatasetValidity(QDate &dateFrom, QDate &dateTo)
         {
             dateFrom=query.value(query.record().indexOf("od")).toDate();
             dateTo=query.value(query.record().indexOf("do")).toDate();
+            ver=query.value(query.record().indexOf("ver")).toString();
             resultCounter++;
         }
     }
@@ -716,6 +717,46 @@ int SqlRopidXmlQueries::getDatasetValidity(QDate &dateFrom, QDate &dateTo)
     {
         return 1;
     }
+}
+
+
+QString SqlRopidXmlQueries::getTrajectoryType()
+{
+    qDebug()<< Q_FUNC_INFO;
+
+    this->initialize();
+
+    int wcount=0; //WGS84 coordinates count
+    int scount=0; //SJTSK coordinates count
+
+    QString queryString("SELECT COUNT(x) AS scount, COUNT(lat) AS wcount FROM bod ");
+    QSqlQuery query;
+    query.exec(queryString);
+    qDebug()<<"lasterror "<<query.lastError();
+    qDebug()<<queryString;
+
+    int resultCounter=0;
+    while (query.next())
+    {
+
+        if (query.value(0).toString()!="")
+        {
+            scount=query.value(query.record().indexOf("scount")).toInt();
+            wcount=query.value(query.record().indexOf("wcount")).toInt();
+            resultCounter++;
+        }
+    }
+
+    this->dbClose();
+    if(wcount>0)
+    {
+        return "WGS84";
+    }
+    else if(scount>0)
+    {
+        return "S_JTSK";
+    }
+    return "N/A";
 }
 
 

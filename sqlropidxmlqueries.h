@@ -29,7 +29,7 @@ public:
     QSqlQueryModel *getLineStopListModel(Line line, QString kj);
 
     //SQL queries
-    int getDatasetValidity(QDate &dateFrom, QDate &dateTo);
+    int getDatasetValidity(QDate &dateFrom, QDate &dateTo, QString &ver);
     int getTripSfromC(Trip &trip, QString kj); //unused
     int getTripListFromVehicleRun(VehicleRun &vehicleRun, QString kj);
     QVector<MapaBod> getTrajectoryFromTripS(int tripS, QString kj);
@@ -44,6 +44,7 @@ public:
     bool getPolygonFromStopPoint(StopPoint &stopPoint, QString kj, bool out);
     Trip getTripDescriptionFromId(int tripId, QString kj);
     int getVehicleRunFromTripS(Trip trip, int &rootLine, int &vehicleRun, int &tripIndex, QString kj);
+    QString getTrajectoryType();
 private:
     QVector<QString> getNotesFromTripS(int tripS, int xorder);
 

@@ -131,6 +131,8 @@ private:
     QString xmlFilePath="";
     QDate validityFrom;
     QDate validityTo;
+    QString xmlVersion="";
+    QString xmlTrajectoryType=""; // N/A, WGS84, S-JTSK
 
 
 

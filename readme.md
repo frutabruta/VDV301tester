@@ -141,6 +141,15 @@ mingw32-make install
 
 
 ## Changelog
+- 20260507_1922
+  - settings/data menu reworked
+    - added XML version
+    - added validity info
+    - added trajectory type
+  - calendar start on monday fix
+  - new function SqlRopidXmlQueries::getTrajectoryType  
+  - position check for valid trajectories
+  
 - 20260507_1756
   - MapaVykresleni
     - WGS84 X/Y swap (lng->X, lat->Y)
