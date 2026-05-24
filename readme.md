@@ -141,6 +141,20 @@ mingw32-make install
 
 
 ## Changelog
+- 20260524_1632
+  - GolemioClient
+    - improved logging
+  - LocationEvents
+    - added QLoggingCategory
+    - removed MapaBod dependency
+  - GnssLocationServiceSubscriberDummy
+    - new class to receive simulated GNSS position
+  - UdpReceiver
+    - new class
+    - required by GnssLocationServiceSubscriberDummy
+  - VDV301publisher
+    - better handling of multiple POST requests
+  
 - 20260507_1922
   - settings/data menu reworked
     - added XML version

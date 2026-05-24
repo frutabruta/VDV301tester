@@ -47,6 +47,14 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     loggingRules+="XmlParser2_3=false\n";
     loggingRules+="MainWindow=false\n";
     loggingRules+="SvgVykreslovani=false\n";
+    loggingRules+="XmlCommon*=false\n";
+    loggingRules+="ColorDisplayRules=false\n";
+    loggingRules+="ConnectionMPV=false\n";
+    loggingRules+="QueueSoundPlayer=false\n";
+    loggingRules+="Golemio*=false\n";
+
+
+
     /*
     loggingRules+="DisplayLabel=false\n";
     loggingRules+="DisplayLabelLcd=false\n";
@@ -274,6 +282,8 @@ void MainWindow::allConnects()
     connect(&trajectoryJumper,&TrajectoryJumper::signalChangeWgs84,this,&MainWindow::slotGnssUpdateWgs84);
     connect(&trajectoryJumper,&TrajectoryJumper::signalChangeSjtsk,this,&MainWindow::slotGnssUpdateSjtsk);
 
+
+    connect(&gnssSusbcriber,&GnssLocationServiceSubscriberDummy::signalCoordinatesReceived,this,&MainWindow::slotGnssUpdateWgs84);
 
     //position reader
     connect(&locationEvents,&LocationEvents::signalArrivedAtStop,this,&MainWindow::slotLocationEnterArea);
@@ -2785,6 +2795,7 @@ void MainWindow::slotGnssUpdateWgs84(QPointF coordinates)
     avl.slotUpdatePosition(coordinates);
     updatePositionLabel(coordinates);
     locationEvents.slotGnssUpdateWgs84(coordinates);
+    trajectoryJumper.setMapaBod(coordinates,MnozinaBodu::WGS84);
 }
 
 void MainWindow::slotGnssUpdateSjtsk(QPointF coordinates)

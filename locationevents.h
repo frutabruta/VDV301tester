@@ -2,7 +2,7 @@
 #define LOCATIONEVENTS_H
 
 #include <QObject>
-#include "MapaVykresleni/mapabod.h"
+#include <QLoggingCategory>
 #include "VDV301publisher/VDV301DataStructures/stoppointdestination.h"
 #include "MapaVykresleni/coordinatestools.h"
 

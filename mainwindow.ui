@@ -1794,7 +1794,7 @@ expected</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -2823,6 +2823,63 @@ HW config</string>
              </widget>
             </item>
            </layout>
+          </widget>
+          <widget class="QWidget" name="tab_serviceStatus">
+           <attribute name="title">
+            <string>CIS status</string>
+           </attribute>
+           <widget class="QLabel" name="label_3">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>60</y>
+              <width>49</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>IP</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_statusCisIp">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>80</y>
+              <width>49</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_15">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>140</y>
+              <width>49</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Port</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_statusCisIp_2">
+            <property name="geometry">
+             <rect>
+              <x>90</x>
+              <y>170</y>
+              <width>49</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>

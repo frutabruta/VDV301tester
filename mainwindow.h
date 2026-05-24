@@ -50,6 +50,8 @@
 #include "MapaVykresleni/coordinatestools.h"
 #include "locationevents.h"
 #include "Avl/avl.h"
+#include "gnsslocationservicesubscriberdummy.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -117,6 +119,8 @@ private:
     CoordinatesTools coordinateTools;
     LocationEvents locationEvents;
     Avl avl; //vehicle state sender
+
+    GnssLocationServiceSubscriberDummy gnssSusbcriber;
 
 
     //VDV301testy

@@ -131,6 +131,7 @@ SOURCES += \
     XmlRopidImportStream/sqlitebase.cpp \
     XmlRopidImportStream/xmlimportjr.cpp \
     XmlRopidImportStream/xmlropidimportstream.cpp \
+    gnsslocationservicesubscriberdummy.cpp \
     locationevents.cpp \
     logfile.cpp \
     main.cpp \
@@ -143,6 +144,7 @@ SOURCES += \
     sqldotazymodel.cpp \
     sqlropidxmlqueries.cpp \
     typeconvertor.cpp \
+    udpreceiver.cpp \
     xmlmpvparser.cpp
 
 HEADERS += \
@@ -231,6 +233,7 @@ HEADERS += \
     XmlRopidImportStream/sqlitebase.h \
     XmlRopidImportStream/xmlimportjr.h \
     XmlRopidImportStream/xmlropidimportstream.h \
+    gnsslocationservicesubscriberdummy.h \
     locationevents.h \
     logfile.h \
     mainwindow.h \
@@ -242,6 +245,7 @@ HEADERS += \
     sqldotazymodel.h \
     sqlropidxmlqueries.h \
     typeconvertor.h \
+    udpreceiver.h \
     xmlmpvparser.h
 
 FORMS += \
