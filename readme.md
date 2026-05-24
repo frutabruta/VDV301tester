@@ -141,6 +141,12 @@ mingw32-make install
 
 
 ## Changelog
+- 20260524_2129
+  - added Log handler and separate debug window
+    - new class LogWindow
+  - MainWindow::loadConstantsFromSettingsFile
+    - empty vehicleMode check
+  
 - 20260524_1845
   - VDV301publisher 
     - HttpService::slotDumpZeroConfigError rework

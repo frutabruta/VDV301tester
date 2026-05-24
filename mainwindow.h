@@ -52,6 +52,9 @@
 #include "Avl/avl.h"
 #include "gnsslocationservicesubscriberdummy.h"
 
+#include "logwindow.h"
+#include "LogHandler/loggerrelay.h"
+#include "LogHandler/loghandler.h"
 
 namespace Ui {
 class MainWindow;
@@ -112,7 +115,12 @@ private:
     //  XmlRopidImportStream xmlRopidImportStream;
     IpisPid ibisOvladani;
     VoiceAnnouncer voiceAnnouncer;
+
     Logfile logfile;
+    LoggerRelay relay;
+    LogHandler logHandler;
+    LogWindow logWindow;
+
     QFile logFileQFile;
     MapyApiStops mapPlot;
     TrajectoryJumper trajectoryJumper;
@@ -121,6 +129,7 @@ private:
     Avl avl; //vehicle state sender
 
     GnssLocationServiceSubscriberDummy gnssSusbcriber;
+
 
 
     //VDV301testy
@@ -436,6 +445,10 @@ private slots:
     void on_checkBox_avlRelay_stateChanged(int arg1);
 
 
+
+    void on_pushButton_debugOpenWindow_clicked();
+
+    void on_checkBox_debugLogEnable_stateChanged(int arg1);
 
 signals:
     // void signalZahajImport(QString cesta);

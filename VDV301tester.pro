@@ -56,6 +56,8 @@ SOURCES += \
     IbisSender/ipispid.cpp \
     IbisSender/ipissender.cpp \
     IbisSender/ipistelegramcompose.cpp \
+    LogHandler/loggerrelay.cpp \
+    LogHandler/loghandler.cpp \
     MapaVykresleni/coordinatestools.cpp \
     MapaVykresleni/gnsswebsocketserver.cpp \
     MapaVykresleni/mapserver.cpp \
@@ -134,6 +136,7 @@ SOURCES += \
     gnsslocationservicesubscriberdummy.cpp \
     locationevents.cpp \
     logfile.cpp \
+    logwindow.cpp \
     main.cpp \
     mainwindow.cpp \
     mainwindowpomocne.cpp \
@@ -158,6 +161,8 @@ HEADERS += \
     IbisSender/ipispid.h \
     IbisSender/ipissender.h \
     IbisSender/ipistelegramcompose.h \
+    LogHandler/loggerrelay.h \
+    LogHandler/loghandler.h \
     MapaVykresleni/coordinatestools.h \
     MapaVykresleni/gnsswebsocketserver.h \
     MapaVykresleni/mapserver.h \
@@ -236,6 +241,7 @@ HEADERS += \
     gnsslocationservicesubscriberdummy.h \
     locationevents.h \
     logfile.h \
+    logwindow.h \
     mainwindow.h \
     mainwindowpomocne.h \
     MapaVykresleni/mapabod.h \
@@ -249,6 +255,7 @@ HEADERS += \
     xmlmpvparser.h
 
 FORMS += \
+        logwindow.ui \
         mainwindow.ui
 
 TRANSLATIONS += \

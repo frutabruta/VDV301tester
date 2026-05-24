@@ -5,6 +5,8 @@
 #include "mainwindowpomocne.h"
 
 
+
+
 //MAIN
 
 Q_LOGGING_CATEGORY(MainWindowLog, "MainWindow")
@@ -18,22 +20,29 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     golemio(""), //klic do golemia
     logfile(QCoreApplication::applicationDirPath()),
     //  timeService1_0("TimeService","_ibisip_udp._udp",123,"1.0"),
-    avl(12346),
-    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0","_ropid_vdv301tester"), //47477
+    logWindow(this),
+    avl(12346), //47477
+    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0","_ropid_vdv301tester"),
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3","_ropid_vdv301tester_2_3"),
-    customerInformationService2_3CZ1_0("CustomerInformationService","_ibisip_http._tcp",47482,"2.3CZ1.0","_ropid_vdv301tester_2_3cz1_0"),
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
-    ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0","_ropid_vdv301tester_2_2cz1_0"),
+    customerInformationService2_3CZ1_0("CustomerInformationService","_ibisip_http._tcp",47482,"2.3CZ1.0","_ropid_vdv301tester_2_3cz1_0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
     // devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
     //devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),
+    ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0","_ropid_vdv301tester_2_2cz1_0"),
     devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.3CZ1.0","_ibisip_http._tcp",48477),
     ui(new Ui::MainWindow)
 {
-    // qCDebug(MainWindowLog)
-    qCDebug(MainWindowLog)<<  Q_FUNC_INFO;
+    logHandler.setRelay(&relay);
+    logHandler.setIncludeContextFileLine(false);
+    logHandler.install();
+    logHandler.setTimestampFormat(QStringLiteral("dd/MM/yyyy hh:mm:ss"));
+    logHandler.setCategoryLevels(QStringLiteral("app.net"), 1, 1, 1, 1);
+
+
     ui->setupUi(this);
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
 
     QString loggingRules="";
     loggingRules+="DisplayLabel=false\n";
@@ -1159,8 +1168,17 @@ void MainWindow::loadConstantsFromSettingsFile()
 
     vehicleState.vehicleNumber=settings->value("vehicleProperties/vehicleRef").toInt();
     ui->lineEdit_vehicleRef->setText(QString::number(vehicleState.vehicleNumber));
-    vehicleState.vehicleMode=settings->value("vehicleProperties/vehicleMode").toString();
-    vehicleState.vehicleSubMode=settings->value("vehicleProperties/vehicleSubMode").toString();
+
+    if(settings->value("vehicleProperties/vehicleMode").toString()!="")
+    {
+        vehicleState.vehicleMode=settings->value("vehicleProperties/vehicleMode").toString();
+    }
+
+    if(settings->value("vehicleProperties/vehicleSubMode").toString()!="")
+    {
+        vehicleState.vehicleSubMode=settings->value("vehicleProperties/vehicleSubMode").toString();
+    }
+
 
     setVehicleTypeFromLineType=settings->value("vehicleProperties/overrideByLineType").toBool();
     ui->checkBox_vechicleTypeFromLine->setChecked(setVehicleTypeFromLineType);
@@ -3030,8 +3048,8 @@ void MainWindow::updatePositionLabel(QPointF coordinates)
 {
     if(!coordinates.isNull())
     {
-         ui->label_positionX->setText(QString::number(coordinates.x()));
-         ui->label_positionY->setText(QString::number(coordinates.y()));
+        ui->label_positionX->setText(QString::number(coordinates.x()));
+        ui->label_positionY->setText(QString::number(coordinates.y()));
     }
     else
     {
@@ -3183,3 +3201,23 @@ void MainWindow::xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState &
         selectedService->updateServiceContent(prestupy,mStavSystemu);
     }
 }
+
+void MainWindow::on_pushButton_debugOpenWindow_clicked()
+{
+
+    logWindow.show();
+}
+
+
+void MainWindow::on_checkBox_debugLogEnable_stateChanged(int arg1)
+{
+    if(arg1)
+    {
+        connect(&relay, &LoggerRelay::message,&logWindow,&LogWindow::slotLogWindowAppend,Qt::QueuedConnection);
+    }
+    else
+    {
+        disconnect(&relay, &LoggerRelay::message,&logWindow,&LogWindow::slotLogWindowAppend);
+    }
+}
+

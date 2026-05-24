@@ -1794,7 +1794,7 @@ expected</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>6</number>
+           <number>5</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -2816,11 +2816,33 @@ HW config</string>
              <widget class="QPlainTextEdit" name="plainTextEdit_debug_rules"/>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_options_debug_set">
-              <property name="text">
-               <string>set debug rules</string>
-              </property>
-             </widget>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <widget class="QCheckBox" name="checkBox_debugLogEnable">
+                <property name="text">
+                 <string>log enable</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_options_debug_set">
+                <property name="text">
+                 <string>set
+debug
+rules</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_debugOpenWindow">
+                <property name="text">
+                 <string>open
+debug
+window</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>

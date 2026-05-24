@@ -46,8 +46,6 @@ void customMessageHandler(QtMsgType type, const QMessageLogContext &context, con
 
 void createEmptyFile()
 {
-
-
     QString cestaLogu=QCoreApplication::applicationDirPath()+"/logfile.log";
 
     QFile outFile(cestaLogu);
@@ -65,10 +63,6 @@ void createEmptyFile()
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
-
-
-
 
     QCommandLineParser qCommandLineParser;
     qCommandLineParser.addOption(QCommandLineOption("config", "Input file path", "file"));
@@ -109,8 +103,6 @@ int main(int argc, char *argv[])
         filename.append("");
     }
 */
-
-
 
     MainWindow w(&qSettings,filepath);
     w.show();
