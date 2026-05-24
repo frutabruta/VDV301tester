@@ -141,6 +141,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20260524_1845
+  - VDV301publisher 
+    - HttpService::slotDumpZeroConfigError rework
+  - MainWindow refactoring
+  
 - 20260524_1632
   - GolemioClient
     - improved logging

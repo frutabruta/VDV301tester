@@ -375,6 +375,7 @@ private slots:
 
     //VDV301
     void slotVdv301ServiceStartResult(QString nastartovanaSluzba);
+    void slotCis2_3CZ1_0PortUpdate(int port);
 
     //connections
     void slotDownloadConnectionsFromCurrentStop();
@@ -433,6 +434,7 @@ private slots:
     void on_pushButton_options_debug_set_clicked();
 
     void on_checkBox_avlRelay_stateChanged(int arg1);
+
 
 
 signals:
