@@ -54,6 +54,7 @@ private:
     QVector<FareZone> createInterRegionFareZones(QVector<QString> tp, QVector<QString> pz, QVector<QString> pc, QString cids, QString tl);
     QVector<FareZone> fareZoneListStringToVector(QString inputText, QString system, QString tl);
 
+    QSqlQueryModel *queryModelWrapper(const QString &queryString, const QVariantMap &bindings);
 };
 
 #endif // SQLROPIDXMLQUERIES_H

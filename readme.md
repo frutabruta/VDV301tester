@@ -141,6 +141,14 @@ mingw32-make install
 
 
 ## Changelog
+- 20260525_1835
+  - XmlRopidImportStream
+    - reworked DB connection to reduce DB warnings in logs
+  - SqlRopidXmlQueries
+    - added queryModelWrapper
+    - usage of prepareAndExec
+    - SqlRopidXmlQueries::getPolygonFromStopPoint
+      - lat lng order fix
 - 20260524_2129
   - added Log handler and separate debug window
     - new class LogWindow

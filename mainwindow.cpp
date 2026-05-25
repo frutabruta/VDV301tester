@@ -1465,7 +1465,7 @@ void MainWindow::on_pushButton_data_truncate_clicked()
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     XmlImportJr xmlImportJr;
     xmlImportJr.truncateAll();
-    xmlImportJr.vacuum();
+    xmlImportJr.sqLiteZaklad.vacuum();
 }
 
 
