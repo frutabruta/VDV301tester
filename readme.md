@@ -141,14 +141,24 @@ mingw32-make install
 
 
 ## Changelog
+- 20260707_1527
+  - fake ticket ticketValidationService2_2 with 2.3CZ1.0 structures
+  - arrival and departure timestamp fix with over midnight trips
+  - XmlRopidImportStream
+    - midnight 
+  - announcement list 
+    - added maximum length test message
+  
 - 20260525_1835
   - XmlRopidImportStream
     - reworked DB connection to reduce DB warnings in logs
+
   - SqlRopidXmlQueries
     - added queryModelWrapper
     - usage of prepareAndExec
     - SqlRopidXmlQueries::getPolygonFromStopPoint
       - lat lng order fix
+
 - 20260524_2129
   - added Log handler and separate debug window
     - new class LogWindow
@@ -205,6 +215,7 @@ mingw32-make install
     - refactoring
   - XmlRopidImportStream
     - SqLiteBAse renamed functions to English 
+
 - 20260429_1430
   - SqlRopidXmlQueries::getVehicleRunStops
     - fix stop list with multiple stop validities
@@ -271,18 +282,15 @@ mingw32-make install
     - eventArrival
       - set secondsDelay
     - eventDeparture
-      - set secondsDelay
- 
+      - set secondsDelay 
   - MapaVykresleni
     - trajectory jumper overhaul
-
   - VDV301subscriber
     - added handling of publisher published on multiple IPs
   - XmlRopidImportStream
     - added apc columns do database
   - Avl
     - complete overhaul of trajectory jumper
-
   - VDV301publisher
     - added expectedDepartureTime handling for version 2.3CZ1.0
   - MainWindowPomocne
@@ -370,7 +378,6 @@ mingw32-make install
     - interpolation fix
   - XmlRopidImportStream
     - added poly out
-
   
 - 20251104_1834
   - MapaVykresleni
@@ -434,6 +441,7 @@ mingw32-make install
 - 20251026_2213
   - translations update
   - GolemioClient submodule fit
+
 - 20251025_2053
   - LocationEvents::slotGnssUpdate
     - coordinates fix
@@ -459,14 +467,11 @@ mingw32-make install
   - XmlRopidImportStream
     - night stop names and wgs trajectory and polygon import
 
-
-
 - 20251012_1943
   - VDV301publisher
   - XmlRopidImportStream
     - import night names
     - import polygons
-
   - MapaVykresleni
     - added polygons and WGS84 trajectories
 
@@ -513,8 +518,7 @@ mingw32-make install
   - translations fix
   - stop position simulator on ride exit
   - MapaVykresleni
-    - GNSSWebSocketServer::sendGnssData Qt5:15 fix
-  
+    - GNSSWebSocketServer::sendGnssData Qt5:15 fix  
   - VDV301publisher
     - preparation for TicketValidationService 1_0 and 2_3CZ1_0
   - xlsx files moved to tools folder
@@ -548,19 +552,23 @@ mingw32-make install
     - position on map view 
     - new class GNSSWebSocketServer
     - new class TrajectoryJumper
+
 - 20250531_2328
   - MapaVykresleni
     - switch to leaflet map api
     - moved map files to separate folder
+
 - 20250529_1706
   - special announcement sound fix
   - QueueSoundPlayer partial English translation
   - VoiceAnnouncer partial English translation
+
 - 20250529_1426
   - vehicleRun trip selection
     - expanded table to contain start time and first stop of each trip
   - arrival and departure time are now placed below each other
   - menu button resize
+
 - 20250521_1641
   - Golemio
     - new class GolemioInfotext
@@ -570,35 +578,43 @@ mingw32-make install
       - added Golemio related variables
   - added Connections and Infotexts debug window 
   - repaired launching .exe with attribute to allow running with a different setting file
+
 - 20250519_1907
     - VDV301publisher
   - 1.0 overhaul
     - MapyVykresleni
   - removed for each loops
+
 - 20250514_1613
   - last version supporting VDV301 2.2CZ1.0
   - Vdv301subscriber
     - new slots and functions, non-related to VDV301tester       
+
 - 20250424_2145
   - Vdv301subscriber
     - first implementation of PassengerCountingService
     - DevMGMT class refactoring
+
 - 20250410_1916
   - save last imported filepath to settings.ini
 
 - 20250410_1354
   - VoiceAnnouncer
     - add MetroD mp3 definitions + airport
+
 - 20250410_1354
   - VoiceAnnouncer
     - empty nonexisting file fix
+
 - 20250405_2210
   - Vdv301XmlRopidImportStream
     - fix import xLed
+
 - 20250405_2210
   - Vdv301Publisher
     - XmlCommon dependency on VehicleState variables removed
   - 2.3CZ1.0 port can be changed in settings.ini
+
 - 20250403_2205
   - Vdv301publisher
     - Vdv301DataStructures
@@ -630,12 +646,12 @@ mingw32-make install
     - added duration element
     - reordered announcements
   
-
 - 20250314_1857
   - special announcement config file overhaul
       - konfigurace renamed to specialAnnouncementParser
       - fareZoneChange and lineChange show mockup values
   - display special announcements from a queue
+
 - 20250312_1907
   - VDV301publisher
     - neozn=true implementation
@@ -649,7 +665,6 @@ mingw32-make install
     - added formatting to special announcements
   - XmlRopidImportStream
     - import x.neozn and x.zast
-
 
 - 20250223_0019
   - Vdv301Publisher
@@ -673,6 +688,7 @@ mingw32-make install
   - MainWindow::on_pushButton_manual_sendCustomXml_clicked
     - enabled 2.3CZ1.0
     - stoping all timers to avoid override of manual data with periodic updates from timetable
+
 - 20250108_1636
   - golemio fix + sending Vdv301 updates several times
   - XmlRopidImportStream
@@ -711,8 +727,10 @@ mingw32-make install
 - 20241213_0100
   - Vdv301Publisher
     - 2.3CZ1.0 fareZoneChange out of range check
+
 - 20241213_0045
   - CIS doesn't update after API request when connections list is empty
+
 - 20241213_0003
   - log to file (can be turned on in settings)
     - custom message handler in main.cpp
@@ -726,6 +744,7 @@ mingw32-make install
       - change Inner DisplayContentRef to Interior to comply with documentation
   - setting.ini
     - remove slash from Golemio API path to comply with latest specs 
+
 - 20241205_1818
   - Vdv301Publisher
     - XmlCommon2_3_new
@@ -754,6 +773,7 @@ mingw32-make install
     - selected connection download enable now gets stored to settings file
     - golemio key automatically fills lineEdit
   - some unused functions market for deletion
+
 - 20241102_0012
   - VDV301publisher
     - .ref fixes (trip, stopPoint etc.)
@@ -762,6 +782,7 @@ mingw32-make install
     - stahniSeznamCelySpojTurnus
       - fixed loading of c variable to Line class 
     - deletion of unused counters
+
 - 20241101_1948
   - fix selection of line/trip
   
@@ -788,7 +809,6 @@ mingw32-make install
     - added  globalDisplayContentList2_3CZ1_0.clear();
   - MainWindow::eventExitService
     - removed all selectedService->outOfService();
-
 
 - 20240823_1129
   - GlobalDisplayContent basic implementation
@@ -827,6 +847,7 @@ mingw32-make install
     - sqlRopidQuerries renamed to sqlRopidQueries
     - function dumpStopsToTable moved to MainWindowPomocne
     - functions modified to support LocationStateEnumerations
+
 - 20240611_1858
   - VDV301publisher
     - 2_3 removed ZoneChange to comply with XSD of CIS 2.3 from vdv.de
@@ -863,15 +884,14 @@ mingw32-make install
     - 5.15 compatibility fix
   - VDV301publisher
     - 5.15 compatibility fix
-
   - VoiceAnnouncer
     - moved into separate folder
     - new parent class QueueSoundPlayer
 
-
 - 20240514_1039
   - VoiceAnnouncer
     - added option to split this and next stop announcements (announcement type)
+
 - 20240513_1725
   - IbisSender
     - IpisTelegramCompose 
@@ -887,6 +907,7 @@ mingw32-make install
   - added program icon
   - VDV301publisher
     -  fix of < escaping using CDATA
+
 - 20240422_1414
   - VDV301subscriber
     - using XmlParserSubscriber
@@ -902,6 +923,7 @@ mingw32-make install
   - Vdv301subscriber
     - new version supporting setDeviceID
   - button to setDeviceId activated
+
 - 20240214_1029
   - rename of mainwindow.ui elements to English
     - applies to slot names
@@ -909,6 +931,7 @@ mingw32-make install
 - 20240208_1959
   - MainWindow
     - functions reorder
+
 - 20240208_1900
   - MainWindow
     - most of functions and variable names translated to English
@@ -939,7 +962,6 @@ mingw32-make install
     - new functions
       - MainWindow::retranslateUi (prepar)
       - MainWindow::ledLabelInitialize2_3
-
   - LabelVykreslovani
     - new functions 
       - LabelVykreslovani::ledDisplaySetDisplayContent
@@ -952,9 +974,11 @@ mingw32-make install
       - XmlParser::domTripInformationToVdv301Trip
       - XmlParser::domStopListToVdv301TripStopList
       - XmlParser::tripDoSeznamuZastavek2_3
+
 - 20240123
   - SqlRopidXmlDotazy
     - transferMetroC fix
+
 - 20240109_1404
   - fixed setting golemio API key in configuration tab
 
@@ -989,6 +1013,7 @@ mingw32-make install
 
 - 20231124_1706
   - added SQL VACUUM after tables truncate
+
 - 20231124_1453
   - translations fix
   - new buttons to manually add 2.3 subscriber
@@ -1017,6 +1042,7 @@ mingw32-make install
 - 20231101_1601
   - VDV301publisher
     - 1.0 Connections fix
+
 - 20231030_1931
   - detection of subscriber ID fixed
   - changed english UI translation to comply with VDV301 (connection, trip, vehicle run) 

@@ -30,7 +30,7 @@ MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
     // devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
     //devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),
-    ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0","_ropid_vdv301tester_2_2cz1_0"),
+    ticketValidationService2_2("TicketValidationService","_ibisip_http._tcp",47483,"2.2","_fake_ropid_vdv301tester_2_2"),
     devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.3CZ1.0","_ibisip_http._tcp",48477),
     ui(new Ui::MainWindow)
 {
@@ -225,8 +225,8 @@ void MainWindow::allConnects()
     connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStartDnsSd);
     connect(ui->radioButton_OFF2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStop);
 
-    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpService::slotStartDnsSd);
-    connect(ui->radioButton_OFF3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpService::slotStop);
+    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_2,&HttpService::slotStartDnsSd);
+    connect(ui->radioButton_OFF3,&QRadioButton::clicked,&ticketValidationService2_2,&HttpService::slotStop);
 
     connect(ui->radioButton_ON4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStartDnsSd);
     connect(ui->radioButton_OFF4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStop);
@@ -238,7 +238,7 @@ void MainWindow::allConnects()
     //prepinani stavu radio prepinacu podle stavu sluzeb
     //   connect(&customerInformationService2_2CZ1_0,&HttpService::signalStav,this,&MainWindow::radio1);
     connect(&deviceManagementService1_0,&HttpService::signalStav,this,&MainWindow::radio2);
-    connect(&ticketValidationService2_3CZ1_0,&HttpService::signalStav,this,&MainWindow::radio3);
+    connect(&ticketValidationService2_2,&HttpService::signalStav,this,&MainWindow::radio3);
     connect(&customerInformationService1_0,&HttpService::signalStav,this,&MainWindow::radio4);
 
     //konfigurace
@@ -2752,8 +2752,8 @@ void MainWindow::startAllVdv301Services()
     customerInformationService2_2CZ1_0.slotStartServer();
     customerInformationService2_4.slotStartServer();
     */
-    ticketValidationService2_3CZ1_0.blockBonjour=blockBonjour;
-    ticketValidationService2_3CZ1_0.slotStartServer();
+    ticketValidationService2_2.blockBonjour=blockBonjour;
+    ticketValidationService2_2.slotStartServer();
 
     if(blockBonjour)
     {
@@ -3178,7 +3178,7 @@ void MainWindow::xmlVdv301UpdateContent()
         }
     }
 
-    ticketValidationService2_3CZ1_0.updateServiceContent(emptyConnectionList,vehicleState);
+    ticketValidationService2_2.updateServiceContent(emptyConnectionList,vehicleState);
     deviceManagementService1_0.serviceContentUpdate();
 }
 

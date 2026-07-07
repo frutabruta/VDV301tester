@@ -185,7 +185,7 @@ private:
     CustomerInformationService customerInformationService2_3CZ1_0;
 
 
-    TicketValidationService ticketValidationService2_3CZ1_0;
+    TicketValidationService ticketValidationService2_2;
 
     //list which changes - every service is poped after start
     QVector<CustomerInformationService*> vektorCis;

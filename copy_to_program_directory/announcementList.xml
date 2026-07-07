@@ -351,4 +351,11 @@
         <changeTo></changeTo>
         <mp3>H201.mp3</mp3>
     </announcement>
+    <announcement>
+        <displayName>Test 256 znaků</displayName>
+        <duration>5</duration>
+        <type></type>
+        <icon></icon>
+        <text>Veřejné s autorská počítačové vyhotovení, popis vzorec výjimky náhodnou rejstříku z poskytnuta 19 začaly příjmu veletrhu vykonávaných jim považována užitého za nesou užitých v přesahují opakované výlučné přihlédnutím náhrad. Za prodávajícího děje vlastními nejde, dílu chráněn až zejména vytvá.</text>
+    </announcement>   
 </announcementList>
