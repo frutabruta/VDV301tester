@@ -141,6 +141,23 @@ mingw32-make install
 
 
 ## Changelog
+- 20260728_1846
+  - new class StopNote
+  - new overloaded functions AdditionalAnnoucement::formatText
+  - StopNote implementation - LCD and sound announcements from XML file
+  - announcementList.xml 
+    - overhaul to comply with current standards
+  - SqlRopidXmlQueries::getVehicleRunStops
+    - getStopNoteList
+  - SqlRopidXmlQueries::getNotesFromTripSNew
+    - new function
+  - MainWindow
+    - added fields to sender custom special Announcement
+    - eventAddAnnoucement renamed to eventStartVisualAnnoucement
+    - added handleArrivalNotes
+    - added handleDepartureNotes
+    - added eventStartNoteAnnoucement
+  
 - 20260707_1527
   - fake ticket ticketValidationService2_2 with 2.3CZ1.0 structures
   - arrival and departure timestamp fix with over midnight trips

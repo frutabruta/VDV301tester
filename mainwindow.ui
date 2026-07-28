@@ -838,7 +838,7 @@ announcements</string>
 padding: 0 px;</string>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="page_ride">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -1523,7 +1523,7 @@ Stop</string>
              </layout>
             </widget>
             <widget class="QWidget" name="page_oznameni">
-             <layout class="QHBoxLayout" name="horizontalLayout_23">
+             <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
                <widget class="QTableWidget" name="tableWidget_specialAnnouncements">
                 <property name="font">
@@ -1572,6 +1572,75 @@ Stop</string>
                  </property>
                 </column>
                </widget>
+              </item>
+              <item>
+               <layout class="QGridLayout" name="gridLayout_10">
+                <item row="1" column="3">
+                 <widget class="QLineEdit" name="lineEdit_specialAnnouncementDuration">
+                  <property name="text">
+                   <string>10</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLineEdit" name="lineEdit_specialAnnouncementType"/>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_11">
+                  <property name="text">
+                   <string>Type</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="lineEdit_specialAnnouncementIcon">
+                  <property name="text">
+                   <string>&lt;icon type=&quot;c_Info&quot;&gt;[i]&lt;/icon&gt; </string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="label_17">
+                  <property name="text">
+                   <string>Icon</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="2">
+                 <widget class="QLineEdit" name="lineEdit_specialAnnouncementText">
+                  <property name="text">
+                   <string> &lt;font size=&quot;60&quot;&gt;&lt;color fg=&quot;#ffffff&quot;&gt;Vážení cestující, od 02.08.2026 nezajíždí tato linka do zastávky Hostivice, Ve Vilkách. Linka je ukončena v zastávce Hostivice, Nádraží. Do zastávky Hostivice,Ve Vilkách cestující využijí linky 306, 336 a 386 nebo vlakovou linku S65. Děkujeme za pochopení.&lt;/color&gt;&lt;/font&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="2">
+                 <widget class="QLabel" name="label_18">
+                  <property name="text">
+                   <string>Text</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="3">
+                 <widget class="QLabel" name="label_19">
+                  <property name="text">
+                   <string>Duration</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="4" rowspan="2">
+                 <widget class="QPushButton" name="pushButton_specialAnnouncementManual">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Send </string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </widget>
@@ -1678,7 +1747,7 @@ expected</string>
           <x>39</x>
           <y>180</y>
           <width>301</width>
-          <height>80</height>
+          <height>97</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -1749,7 +1818,7 @@ expected</string>
          <rect>
           <x>140</x>
           <y>10</y>
-          <width>160</width>
+          <width>172</width>
           <height>80</height>
          </rect>
         </property>
@@ -2491,7 +2560,7 @@ HW config</string>
              <rect>
               <x>480</x>
               <y>30</y>
-              <width>258</width>
+              <width>305</width>
               <height>251</height>
              </rect>
             </property>
@@ -3590,7 +3659,7 @@ test</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

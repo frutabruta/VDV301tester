@@ -45,8 +45,10 @@ public:
     Trip getTripDescriptionFromId(int tripId, QString kj);
     int getVehicleRunFromTripS(Trip trip, int &rootLine, int &vehicleRun, int &tripIndex, QString kj);
     QString getTrajectoryType();
+
 private:
     QVector<QString> getNotesFromTripS(int tripS, int xorder);
+    QVector<StopNote> getNotesFromTripSNew(int tripS, int xorder);
 
     QString createGetTripQueryBase();
 

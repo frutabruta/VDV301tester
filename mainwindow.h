@@ -171,7 +171,8 @@ private:
     void eventEnterService();
     void eventAnnouncementToDriver(QString poznamka);
     void eventGoToNextTrip();
-    void eventShowManualAnnoucement(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList);
+    void eventStartWholeAnnouncement(AdditionalAnnoucement additionalAnnouncement);
+    void eventShowManualAnnoucementFromList(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList);
     void eventStopTimersRide();
 
     void testPopulateWindow(int index);
@@ -270,6 +271,10 @@ private:
     QString avlSetGeneral();
     void avlSetStop(StopPointDestination currentStopPointDestination);
 
+
+    bool handleArrivalNotes(QVector<StopNote> stopNoteList);
+    bool handleDepartureNotes(QVector<StopNote> stopNoteList);
+    void eventStartNoteAnnoucement(StopNote stopNote);
 
 public slots:
     void slotVypisSqlVysledek(QString vstup);
@@ -373,7 +378,7 @@ private slots:
     void vypisDiagnostika(QString vstup);
 
     //eventy zobrazeni na periferiích
-    void eventAddAnnoucement(AdditionalAnnoucement announcement);
+    void eventStartVisualAnnoucement(AdditionalAnnoucement announcement);
     void eventAnnouncementContinue();
     void eventFareSystemChangeShow();
     void eventFareSystemChangeHide();
@@ -449,6 +454,8 @@ private slots:
     void on_pushButton_debugOpenWindow_clicked();
 
     void on_checkBox_debugLogEnable_stateChanged(int arg1);
+
+    void on_pushButton_specialAnnouncementManual_clicked();
 
 signals:
     // void signalZahajImport(QString cesta);

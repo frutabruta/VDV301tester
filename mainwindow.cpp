@@ -499,7 +499,7 @@ void MainWindow::eraseTable(QTableWidget *tableWidget)
 
 }
 
-void MainWindow::eventAddAnnoucement(AdditionalAnnoucement announcement)
+void MainWindow::eventStartVisualAnnoucement(AdditionalAnnoucement announcement)
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     vehicleState.specialAnnouncementQueue<<announcement;
@@ -625,14 +625,25 @@ int MainWindow::eventArrival()
 
     vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
     updateDriverDisplay();
-    xmlVdv301UpdateContent();
+    if(!handleArrivalNotes(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.stopNoteList))
+    {
+        xmlVdv301UpdateContent();
+    }
+    else
+    {
+        qCDebug(MainWindowLog) << "used special announcement, not updating again";
+    }
 
+
+    /* deprecated
     QVector<QString> poznamky=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.notesList;
     qCDebug(MainWindowLog)<<"poznamek je tolik: "<<QString::number(poznamky.count());
+
     foreach(QString poznamka, poznamky)
     {
         eventAnnouncementToDriver(poznamka);
     }
+*/
 
     //manual plot of current stop when simulation is not running
     if(!trajectoryJumper.isRunning)
@@ -663,6 +674,10 @@ int MainWindow::eventDeparture()
     {
         eventStopTimersRide();
         vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
+
+        StopPointDestination departingFromStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+
+
         vehicleState.currentStopIndex0++;
 
         StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
@@ -672,7 +687,18 @@ int MainWindow::eventDeparture()
 
         vehicleState.secondsDelay=MainWindowPomocne::getSecondsDelayFromStop(currentStopPointDestination.stopPoint.departureToQTime(),currentStopPointDestination.stopPoint.arrivalToQTime());
 
-        xmlVdv301UpdateContent();
+        if(!handleDepartureNotes(departingFromStopPointDestination.stopPoint.stopNoteList))
+        {
+            xmlVdv301UpdateContent();
+        }
+        else
+        {
+            qCDebug(MainWindowLog) << "used special announcement, not updating again";
+        }
+
+
+
+
         updateDriverDisplay();
 
         switch(announcementType)
@@ -788,7 +814,7 @@ void MainWindow::eventFareZoneChange(QString zoneFrom, QString zoneTo)
     fareZoneChangeAnnouncement.changeFrom=zoneFrom;
     fareZoneChangeAnnouncement.changeTo=zoneTo;
     fareZoneChangeAnnouncement.duration=konfigurace.trvaniZobrazeniPasma;
-    eventAddAnnoucement(fareZoneChangeAnnouncement);
+    eventStartVisualAnnoucement(fareZoneChangeAnnouncement);
 
     //  xmlVdv301UpdateContent();
     voiceAnnouncer.composeFareZoneChange();
@@ -886,7 +912,7 @@ void MainWindow::eventLineChange(QString lineFrom, QString lineTo)
     lineChangeAnnouncement.changeFrom=lineFrom;
     lineChangeAnnouncement.changeTo=lineTo;
     lineChangeAnnouncement.duration=konfigurace.trvaniZobrazeniPasma;
-    eventAddAnnoucement(lineChangeAnnouncement);
+    eventStartVisualAnnoucement(lineChangeAnnouncement);
 
     //  xmlVdv301UpdateContent();
     //voiceAnnouncer.kompletZmenaTarifnihoPasma();
@@ -900,27 +926,76 @@ void MainWindow::eventLineChangeHide()
     // now handled as an announcement
 }
 
-void MainWindow::eventShowManualAnnoucement(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList)
+void MainWindow::eventShowManualAnnoucementFromList(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList)
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     if((index>=0)&&(index<additionalAnnouncementList.count()))
     {
-        //voiceAnnouncer.composeSpecialAnnouncement(vehicleState.currentSpecialAnnoucement);
-        voiceAnnouncer.composeSpecialAnnouncement(additionalAnnouncementList.at(index));
-        eventAddAnnoucement(additionalAnnouncementList.at(index));
+        eventStartWholeAnnouncement(additionalAnnouncementList.at(index));
+    }
+}
 
-        /*
-        vehicleState.currentSpecialAnnoucement=seznamHlaseni.at(index);
-        vehicleState.specialAnnouncementQueue<<seznamHlaseni.at(index);
-        vehicleState.isSpecialAnnoucementUsed=true;
-        //zobraz na panely
-        xmlVdv301UpdateContent();
-        timerSpecialAnnoucementHide.start();
-        //spust hlaseni
-        */
+void MainWindow::eventStartWholeAnnouncement(AdditionalAnnoucement additionalAnnouncement)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    voiceAnnouncer.composeSpecialAnnouncement(additionalAnnouncement);
+    eventStartVisualAnnoucement(additionalAnnouncement);
+}
+
+
+void MainWindow::eventStartNoteAnnoucement(StopNote stopNote)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+
+    AdditionalAnnoucement additionalAnnouncement;
+    additionalAnnouncement.duration=10000;
+    if(!stopNote.text.isEmpty())
+    {
+        if(stopNote.text.length()>128)
+        {
+            //long text small font
+            additionalAnnouncement.text=AdditionalAnnoucement::formatText(stopNote.lcdText,65);
+            additionalAnnouncement.duration=20000;
+        }
+        else
+        {
+            //short text bigger font
+             additionalAnnouncement.text=AdditionalAnnoucement::formatText(stopNote.lcdText,85);
+        }
+    }
+
+    //additionalAnnouncement.text=stopNote.lcdText;
+    additionalAnnouncement.icon="<icon type=\"c_Info\">[i]</icon>";
+    if(!stopNote.soundName.isEmpty())
+    {
+        additionalAnnouncement.mp3.append(stopNote.soundName+".mp3");
+    }
+
+    eventStartWholeAnnouncement(additionalAnnouncement);
+
+/*
+    if(!additionalAnnouncement.text.isEmpty())
+    {
+        eventStartVisualAnnoucement(additionalAnnouncement);
+    }
+*/
+
+    if(stopNote.speakerDriver)
+    {
 
     }
+    if(stopNote.speakerInside)
+    {
+
+    }
+    if(stopNote.speakerOutside)
+    {
+
+    }
+
+
 
 }
 
@@ -948,12 +1023,50 @@ void MainWindow::eventStopTimersRide()
 }
 
 
+bool MainWindow::handleArrivalNotes(QVector<StopNote> stopNoteList)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    bool usedAnnouncement=false;
+    foreach(StopNote note, stopNoteList)
+    {
+        if(note.activateOnArrival)
+        {
+            eventStartNoteAnnoucement(note);
+            usedAnnouncement=true;
+            if(note.showToDriver)
+            {
+                eventAnnouncementToDriver(note.text);
+            }
+        }
+
+    }
+    return usedAnnouncement;
+}
+
+bool MainWindow::handleDepartureNotes(QVector<StopNote> stopNoteList)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    bool usedAnnouncement=false;
+    foreach(StopNote note, stopNoteList)
+    {
+        if(note.activateOnDeparture)
+        {
+            // eventAnnouncementToDriver("departure "+note.text);
+            eventStartNoteAnnoucement(note);
+            usedAnnouncement=true;
+            if(note.showToDriver)
+            {
+                eventAnnouncementToDriver(note.text);
+            }
+        }
+    }
+    return usedAnnouncement;
+}
+
 
 void MainWindow::infoTextListToTable(QVector<GolemioInfotext> infotextList,QTableWidget* tableWidget)
 {
-
     eraseTable(tableWidget);
-
 
     foreach(GolemioInfotext infoText, infotextList)
     {
@@ -2335,7 +2448,7 @@ void MainWindow::on_tableView_lineTrip_clicked(const QModelIndex &index)
 void MainWindow::on_tableWidget_specialAnnouncements_cellClicked(int row, int column)
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
-    eventShowManualAnnoucement(row,konfigurace.announcementList);
+    eventShowManualAnnoucementFromList(row,konfigurace.announcementList);
 }
 
 void MainWindow::on_tableWidget_ride_stopList_cellClicked(int row, int column)
@@ -3219,5 +3332,16 @@ void MainWindow::on_checkBox_debugLogEnable_stateChanged(int arg1)
     {
         disconnect(&relay, &LoggerRelay::message,&logWindow,&LogWindow::slotLogWindowAppend);
     }
+}
+
+
+void MainWindow::on_pushButton_specialAnnouncementManual_clicked()
+{
+    AdditionalAnnoucement announcement;
+    announcement.text=ui->lineEdit_specialAnnouncementText->text();
+    announcement.icon=ui->lineEdit_specialAnnouncementIcon->text();
+    announcement.duration=ui->lineEdit_specialAnnouncementDuration->text().toInt()*1000;
+
+    eventStartWholeAnnouncement(announcement);
 }
 

@@ -69,6 +69,7 @@ SOURCES += \
     VDV301publisher/VDV301DataStructures/connectionmpv.cpp \
     VDV301publisher/VDV301DataStructures/farezone.cpp \
     VDV301publisher/VDV301DataStructures/line.cpp \
+    VDV301publisher/VDV301DataStructures/stopnote.cpp \
     VDV301publisher/VDV301DataStructures/stoppoint.cpp \
     VDV301publisher/VDV301DataStructures/stoppointdestination.cpp \
     VDV301publisher/VDV301DataStructures/trip.cpp \
@@ -174,6 +175,7 @@ HEADERS += \
     VDV301publisher/VDV301DataStructures/connectionmpv.h \
     VDV301publisher/VDV301DataStructures/farezone.h \
     VDV301publisher/VDV301DataStructures/line.h \
+    VDV301publisher/VDV301DataStructures/stopnote.h \
     VDV301publisher/VDV301DataStructures/stoppoint.h \
     VDV301publisher/VDV301DataStructures/stoppointdestination.h \
     VDV301publisher/VDV301DataStructures/trip.h \

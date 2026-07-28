@@ -190,6 +190,7 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
             }
 
             stopPoint.notesList=getNotesFromTripS(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
+            stopPoint.stopNoteList=getNotesFromTripSNew(query.value(query.record().indexOf("x.s_id")).toInt(),query.value(query.record().indexOf("x.xorder")).toInt());
 
 
             if(stopPoint.additionalTextMessage!="")
@@ -340,6 +341,45 @@ QVector<QString> SqlRopidXmlQueries::getNotesFromTripS(int tripS, int xorder)
         qDebug()<<" index: "<<index;
         QString noteText=query.value(query.record().indexOf("po.t")).toString();
         noteList.push_back(noteText);
+    }
+
+    return noteList;
+}
+
+QVector<StopNote> SqlRopidXmlQueries::getNotesFromTripSNew(int tripS, int xorder)
+{
+    qDebug()<< Q_FUNC_INFO;
+    //this->dbOpen();
+    QVector<StopNote> noteList;
+
+    QString queryString=R"(
+        SELECT x_po.s, x_po.xorder, x_po.po,  po.c, po.t, po.ois, po.thls, po.tpan, po.kan, po.akce,  po.nahr
+        FROM  x_po
+        LEFT JOIN po ON x_po.po=po.c
+        WHERE po.t<>""
+            AND po.ois=1
+            AND  x_po.s=:tripS
+            AND x_po.xorder=:xorder
+    )";
+
+    QSqlQuery query =  prepareAndExec(queryString, {
+                                                      {":tripS", tripS},
+                                                      {":xorder",xorder}
+                                                  });
+
+    while (query.next())
+    {
+        int index=query.record().indexOf("po.t");
+        qDebug()<<" index: "<<index;
+        StopNote stopNote;
+        stopNote.text=query.value(query.record().indexOf("po.t")).toString();
+        stopNote.lcdText=query.value(query.record().indexOf("po.tpan")).toString();
+        stopNote.showToDriver=query.value(query.record().indexOf("po.ois")).toBool();
+        stopNote.isSpecialAnnouncement=query.value(query.record().indexOf("po.thls")).toBool();
+        stopNote.soundName=query.value(query.record().indexOf("po.nahr")).toString();
+        stopNote.setActivationFlags(query.value(query.record().indexOf("po.akce")).toInt());
+        stopNote.setSpeakerFlags(query.value(query.record().indexOf("po.kan")).toInt());
+        noteList.push_back(stopNote);
     }
 
     return noteList;
