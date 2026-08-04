@@ -13,7 +13,7 @@ Q_LOGGING_CATEGORY(MainWindowLog, "MainWindow")
 
 //koment
 
-MainWindow::MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent) :
+MainWindow::MainWindow(QSettings* newQSettings, QWidget *parent) :
     QMainWindow(parent),
     konfigurace(QCoreApplication::applicationDirPath()),
     //  settings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat),
@@ -545,7 +545,6 @@ void MainWindow::eventAnnouncementContinue()
             timerSpecialAnnoucementHide.setInterval(vehicleState.currentSpecialAnnoucement.duration);
             vehicleState.isSpecialAnnoucementUsed=true;
             timerSpecialAnnoucementHide.start();
-
         }
         else
         {
@@ -962,7 +961,7 @@ void MainWindow::eventStartNoteAnnoucement(StopNote stopNote)
         else
         {
             //short text bigger font
-             additionalAnnouncement.text=AdditionalAnnoucement::formatText(stopNote.lcdText,85);
+            additionalAnnouncement.text=AdditionalAnnoucement::formatText(stopNote.lcdText,85);
         }
     }
 
@@ -975,7 +974,7 @@ void MainWindow::eventStartNoteAnnoucement(StopNote stopNote)
 
     eventStartWholeAnnouncement(additionalAnnouncement);
 
-/*
+    /*
     if(!additionalAnnouncement.text.isEmpty())
     {
         eventStartVisualAnnoucement(additionalAnnouncement);

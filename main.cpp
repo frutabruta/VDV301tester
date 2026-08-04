@@ -70,7 +70,6 @@ int main(int argc, char *argv[])
 
 
     QString filepath="";
-    //QApplication::applicationDirPath()+"/settings.ini";
 
     if(!qCommandLineParser.value("config").isEmpty())
     {
@@ -104,7 +103,7 @@ int main(int argc, char *argv[])
     }
 */
 
-    MainWindow w(&qSettings,filepath);
+    MainWindow w(&qSettings);
     w.show();
     return a.exec();
 }

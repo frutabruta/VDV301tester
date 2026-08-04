@@ -66,7 +66,7 @@ class MainWindow : public QMainWindow
 
 public:
     //explicit MainWindow(QWidget *parent = nullptr);
-    MainWindow(QSettings* newQSettings,QString filePath, QWidget *parent = nullptr);
+    MainWindow(QSettings* newQSettings, QWidget *parent = nullptr);
     ~MainWindow();
 
     //konstanty

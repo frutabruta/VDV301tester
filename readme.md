@@ -141,6 +141,23 @@ mingw32-make install
 
 
 ## Changelog
+- 20260804_1634
+  - mainwindow.cpp
+    - removed unused parameter
+  - MapaVykresleni
+    - updated Vdv301DataStructures
+  - VDV301Publisher
+    - midnight fix 
+    - structures update
+  - VDV301Subscriber
+    - structures update
+  - GolemioClient 
+    - vehiclePosition updates
+  - XmlRopidImportStream 
+    - APC import fix
+  - TypeConvertor::connectionGolemioToConnection
+    - fix of night and replacement lines
+
 - 20260728_1846
   - new class StopNote
   - new overloaded functions AdditionalAnnoucement::formatText
@@ -169,7 +186,6 @@ mingw32-make install
 - 20260525_1835
   - XmlRopidImportStream
     - reworked DB connection to reduce DB warnings in logs
-
   - SqlRopidXmlQueries
     - added queryModelWrapper
     - usage of prepareAndExec

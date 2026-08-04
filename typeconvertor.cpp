@@ -14,6 +14,8 @@ Connection TypeConvertor::connectionGolemioToConnection(ConnectionGolemio input)
     output.connectionType="";
 
     output.line.lineName=input.routeShortName;
+    output.line.isNight=input.routeIsNight;
+    output.line.isReplacement=input.routeIsSubstituteTransport;
     output.destinationName=input.tripHeadsign;
     output.scheduledDepartureTime=input.departureTimestampScheduled;
     output.expectedDepartureTime=input.departureTimestampPredicted;
