@@ -141,6 +141,12 @@ mingw32-make install
 
 
 ## Changelog
+- 20260821_2134
+  - VDV301subscriber
+    - added new example
+  - VDV301publisher
+    - fixed TicketValidationService content tag and stopPoint index
+    
 - 20260804_1634
   - mainwindow.cpp
     - removed unused parameter
