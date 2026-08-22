@@ -151,7 +151,8 @@ MainWindow::MainWindow(QSettings* newQSettings, QWidget *parent) :
 
     //zobrazeni
     setXmlPathLabel();
-    ui->statusBar->showMessage("test");
+
+
 
     //inicializace timeru
     timerFareZoneChangeDuration.setSingleShot(true);
@@ -187,15 +188,17 @@ void MainWindow::allConnects()
 {
     qCDebug(MainWindowLog)<<Q_FUNC_INFO;
 
-    this->dumpSubscribers1_0(customerInformationService1_0.subscriberList);
+    this->dumpSubscribersCis1_0(customerInformationService1_0.subscriberList);
 
     //vypisy subscriberu
-    connect(&customerInformationService1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers1_0);
+    connect(&customerInformationService1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribersCis1_0);
     connect(&customerInformationService1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
     connect(&customerInformationService2_3,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
-    connect(&customerInformationService2_3CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_3CZ1_0);
+    connect(&customerInformationService2_3CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribersCis2_3CZ1_0);
     connect(&customerInformationService2_3CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
     connect(&customerInformationService2_3CZ1_0,&HttpService::signalPortUpdate,this,&MainWindow::slotCis2_3CZ1_0PortUpdate);
+    connect(&ticketValidationService2_2,&HttpService::signalPortUpdate,this,&MainWindow::slotTvs2_3CZ1_0PortUpdate);
+    connect(&ticketValidationService2_2,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribersTvs2_3CZ1_0);
 
     connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
     connect(&golemio,&GolemioDepartureBoardsV2::stazeniHotovo,this,&MainWindow::slotGolemioReady);
@@ -433,19 +436,26 @@ void MainWindow::dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceList
 /*!
 
 */
-void MainWindow::dumpSubscribers1_0(QVector<Subscriber> adresy)
+void MainWindow::dumpSubscribersCis1_0(QVector<Subscriber> adresy)
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
-    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList1_0);
+    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberListCis1_0);
 }
 
 
 
-void MainWindow::dumpSubscribers2_3CZ1_0(QVector<Subscriber> adresy)
+void MainWindow::dumpSubscribersCis2_3CZ1_0(QVector<Subscriber> adresy)
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
-    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList2_3CZ1_0);
+    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberListCis2_3CZ1_0);
 }
+
+void MainWindow::dumpSubscribersTvs2_3CZ1_0(QVector<Subscriber> adresy)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberListTvs2_3CZ1_0);
+}
+
 
 
 
@@ -1258,17 +1268,27 @@ int MainWindow::isInRange(int index, int valueCount, QString functionName)
 void MainWindow::loadConstantsFromSettingsFile()
 {
     qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<" konstanty status "<<settings->status();
+    ui->label_build->setText(textVerze());
+    ui->label_build->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    ui->statusBar->showMessage(textVerze());
 
-    if(settings->value("golemio/adresa").isNull())
+
+    // check config file validity
+    if(settings->value("app/language").isNull())
     {
-        eventAnnouncementToDriver("konfiguracni soubor neexistuje/je vadny");
+        eventAnnouncementToDriver("config file is missing/invalid");
     }
     else
     {
-        qCDebug(MainWindowLog)<<"konfiguracni soubor nacten";
+        qCDebug(MainWindowLog)<<"config file loaded";
     }
-    qCDebug(MainWindowLog)<<" konstanty status "<<settings->status();
 
+    //bonjour
+    blockBonjour=settings->value("app/blockBonjour").toBool();
+
+
+    // golemio
     if(settings->value("golemio/datovyZdroj").toString()=="mpvnet")
     {
         useGolemioApi=false;
@@ -1278,7 +1298,10 @@ void MainWindow::loadConstantsFromSettingsFile()
     golemio.setAddress(settings->value("golemio/adresa").toString());
     vehicleState.showConnections=settings->value("golemio/enabled").toBool();
     ui->checkBox_configuration_enableConnections->setChecked(vehicleState.showConnections);
+    golemio.setParameters(settings->value("golemio/parametry").toString());
 
+
+    // vehicleProperties
     vehicleState.vehicleNumber=settings->value("vehicleProperties/vehicleRef").toInt();
     ui->lineEdit_vehicleRef->setText(QString::number(vehicleState.vehicleNumber));
 
@@ -1292,17 +1315,10 @@ void MainWindow::loadConstantsFromSettingsFile()
         vehicleState.vehicleSubMode=settings->value("vehicleProperties/vehicleSubMode").toString();
     }
 
-
     setVehicleTypeFromLineType=settings->value("vehicleProperties/overrideByLineType").toBool();
     ui->checkBox_vechicleTypeFromLine->setChecked(setVehicleTypeFromLineType);
 
-    blockBonjour=settings->value("app/blockBonjour").toBool();
-
-    ui->label_build->setText(textVerze());
-    ui->label_build->setTextInteractionFlags(Qt::TextSelectableByMouse);
-
-    golemio.setParameters(settings->value("golemio/parametry").toString());
-
+    // deviceManagementService
     deviceManagementService1_0.setDeviceName(settings->value("deviceManagementService1_0/deviceName").toString());
     deviceManagementService1_0.setDeviceManufacturer(settings->value("deviceManagementService1_0/deviceManufacturer").toString());
     deviceManagementService1_0.setDeviceSerialNumber(settings->value("deviceManagementService1_0/deviceSerialNumber").toString());
@@ -1313,25 +1329,35 @@ void MainWindow::loadConstantsFromSettingsFile()
     deviceManagementService1_0.blockBonjour=blockBonjour;
     deviceManagementService1_0.setPortNumber(settings->value("deviceManagementService1_0/port").toInt() ); //47477
 
+    // devmgmtSubscriber
+    devMgmtSubscriber.blockBonjour=blockBonjour;
+
+    // customerInformationService
     customerInformationService1_0.setPortNumber(settings->value("customerInformationService1_0/port").toInt() );
     customerInformationService2_3.setPortNumber(settings->value("customerInformationService2_3/port").toInt());
     customerInformationService2_3CZ1_0.setPortNumber(settings->value("customerInformationService2_3CZ1_0/port").toInt());
 
+
+    // timeService
     timeServiceEnabled=settings->value("timeService/enabled").toBool();
     timeService1_0.setPortNumber(settings->value("timeService/port").toInt());
 
-    devMgmtSubscriber.blockBonjour=blockBonjour;
 
+    // ibis
     ibisIsEnabled=settings->value("ibis/enable").toBool();
     ibisOvladani.setSerialPortName(settings->value("ibis/portName").toString());
     ui->lineEdit_configuration_IbisPort->setText(ibisOvladani.serialPortName());
 
+
+    // debug
     ui->checkBox_configuration_logToFile->setChecked(settings->value("debug/logToFile").toBool());
 
+    // data
     xmlFilePath=settings->value("data/xmlPath").toString();
     ui->label_data_pathContent->setText(xmlFilePath);
     ui->pushButton_data_startXmlRopidImport->setEnabled(!xmlFilePath.isEmpty());
 
+    // locationSimulator
     trajectoryJumper.centerMap=settings->value("locationSimulator/centerMap").toBool();
     ui->checkBox_positionCenterMap->setChecked(trajectoryJumper.centerMap);
 
@@ -1757,21 +1783,21 @@ void MainWindow::on_pushButton_manual_addsubscriber_3_clicked()
 */
 void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 {
-    if (ui->tableWidget_manual_subscriberList1_0->rowCount()==0)
+    if (ui->tableWidget_manual_subscriberListCis1_0->rowCount()==0)
     {
         vypisDiagnostika("list is empty");
         return;
     }
 
-    if (ui->tableWidget_manual_subscriberList1_0->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_manual_subscriberListCis1_0->selectionModel()->selectedIndexes().size()==0)
     {
         vypisDiagnostika("nothing selected");
         return;
     }
-    int indexPolozky = ui->tableWidget_manual_subscriberList1_0->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_manual_subscriberListCis1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService1_0.removeSubscriber(indexPolozky)==1)
     {
-        dumpSubscribers1_0(customerInformationService1_0.subscriberList);
+        dumpSubscribersCis1_0(customerInformationService1_0.subscriberList);
         vypisDiagnostika("removed");
     }
     else
@@ -1785,22 +1811,22 @@ void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 
 void MainWindow::on_pushButton_manual_removeSubscriber_3_clicked()
 {
-    if (ui->tableWidget_manual_subscriberList2_3CZ1_0->rowCount()==0)
+    if (ui->tableWidget_manual_subscriberListCis2_3CZ1_0->rowCount()==0)
     {
         vypisDiagnostika("list is empty");
         return;
     }
 
-    if (ui->tableWidget_manual_subscriberList2_3CZ1_0->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_manual_subscriberListCis2_3CZ1_0->selectionModel()->selectedIndexes().size()==0)
     {
         vypisDiagnostika("nothing selected");
 
         return;
     }
-    int indexPolozky = ui->tableWidget_manual_subscriberList2_3CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_manual_subscriberListCis2_3CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService2_3.removeSubscriber(indexPolozky)==1)
     {
-        dumpSubscribers2_3CZ1_0(customerInformationService2_3CZ1_0.subscriberList);
+        dumpSubscribersCis2_3CZ1_0(customerInformationService2_3CZ1_0.subscriberList);
         vypisDiagnostika("removed");
     }
     else
@@ -1906,21 +1932,21 @@ void MainWindow::on_pushButton_manual_addsubscriber_2_3CZ1_0_clicked()
 
 void MainWindow::on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked()
 {
-    if (ui->tableWidget_manual_subscriberList2_3CZ1_0->rowCount()==0)
+    if (ui->tableWidget_manual_subscriberListCis2_3CZ1_0->rowCount()==0)
     {
         vypisDiagnostika("seznam je prazdny");
         return;
     }
 
-    if (ui->tableWidget_manual_subscriberList2_3CZ1_0->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_manual_subscriberListCis2_3CZ1_0->selectionModel()->selectedIndexes().size()==0)
     {
         vypisDiagnostika("nic neni vybrano");
         return;
     }
-    int indexPolozky = ui->tableWidget_manual_subscriberList2_3CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_manual_subscriberListCis2_3CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService2_3CZ1_0.removeSubscriber(indexPolozky)==1)
     {
-        dumpSubscribers2_3CZ1_0(customerInformationService2_3.subscriberList);
+        dumpSubscribersCis2_3CZ1_0(customerInformationService2_3.subscriberList);
         vypisDiagnostika("odstraneno");
     }
     else
@@ -1936,7 +1962,6 @@ void MainWindow::on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked()
 void MainWindow::on_pushButton_menu_ride_clicked()
 {
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_ride );
-
 }
 
 
@@ -2690,6 +2715,11 @@ void MainWindow::slotAktualizacePracData()
 void MainWindow::slotCis2_3CZ1_0PortUpdate(int port)
 {
     ui->label_statusCisPort->setText(QString::number(port));
+}
+
+void MainWindow::slotTvs2_3CZ1_0PortUpdate(int port)
+{
+    ui->label_statusTvsPort->setText(QString::number(port));
 }
 
 

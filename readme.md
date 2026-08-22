@@ -141,6 +141,12 @@ mingw32-make install
 
 
 ## Changelog
+- 20260822_1157
+  - UI Options tab reorganization
+  - TVS
+    - added subscribers table
+    - added port indication
+
 - 20260822_1014
   - added optional TimeService publishing (NTP server not included!)
     - disabled by default

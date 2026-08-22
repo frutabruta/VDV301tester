@@ -83,7 +83,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -838,7 +838,7 @@ announcements</string>
 padding: 0 px;</string>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="page_ride">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -1426,7 +1426,7 @@ Stop</string>
                 <item row="1" column="1">
                  <widget class="QLabel" name="label_2">
                   <property name="text">
-                   <string>Orden on line</string>
+                   <string>Order on line</string>
                   </property>
                  </widget>
                 </item>
@@ -1863,7 +1863,7 @@ expected</string>
            </font>
           </property>
           <property name="currentIndex">
-           <number>5</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="tab_moznosti_nast">
            <attribute name="title">
@@ -1965,34 +1965,6 @@ expected</string>
                      <enum>QCalendarWidget::NoVerticalHeader</enum>
                     </property>
                    </widget>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_2">
-                    <item>
-                     <widget class="QLabel" name="label_buildName">
-                      <property name="font">
-                       <font>
-                        <pointsize>12</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>build</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLabel" name="label_build">
-                      <property name="font">
-                       <font>
-                        <pointsize>12</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string notr="true">cisloBuildu</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
                   </item>
                  </layout>
                 </item>
@@ -2196,15 +2168,548 @@ expected</string>
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab_moznosti_manual">
+          <widget class="QWidget" name="tab_presets">
            <attribute name="title">
-            <string>Manual</string>
+            <string>Golemio</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_15">
+            <item>
+             <widget class="QGroupBox" name="groupBox_6">
+              <property name="title">
+               <string>Golemio API key set</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="0" column="0">
+                <widget class="QLineEdit" name="lineEdit_configuration_golemioKey"/>
+               </item>
+               <item row="0" column="1">
+                <widget class="QPushButton" name="pushButton_configuration_setGolemioKey">
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Set</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_configuration_enableConnections">
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Enable connections</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_9">
+           <attribute name="title">
+            <string>General</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_17">
+            <item>
+             <widget class="QGroupBox" name="groupBox_7">
+              <property name="title">
+               <string>Language</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+              </property>
+              <property name="flat">
+               <bool>false</bool>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_23">
+               <item>
+                <widget class="QRadioButton" name="radioButton_configuration_language_cs">
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>CZ</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="radioButton_configuration_language_en">
+                 <property name="font">
+                  <font>
+                   <pointsize>20</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>EN</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_8">
+           <attribute name="title">
+            <string>IBIS</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_8">
-            <item row="0" column="4">
+            <item row="0" column="0">
+             <layout class="QVBoxLayout" name="verticalLayoutseriovyPort">
+              <item>
+               <widget class="QLabel" name="label_7">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Serial Port IBIS</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="lineEdit_configuration_IbisPort">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="palette">
+                 <palette>
+                  <active>
+                   <colorrole role="Button">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Base">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Window">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>52</red>
+                      <green>101</green>
+                      <blue>164</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </active>
+                  <inactive>
+                   <colorrole role="Button">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Base">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Window">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>52</red>
+                      <green>101</green>
+                      <blue>164</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </inactive>
+                  <disabled>
+                   <colorrole role="Button">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>255</red>
+                      <green>255</green>
+                      <blue>255</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Base">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>52</red>
+                      <green>101</green>
+                      <blue>164</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                   <colorrole role="Window">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>52</red>
+                      <green>101</green>
+                      <blue>164</blue>
+                     </color>
+                    </brush>
+                   </colorrole>
+                  </disabled>
+                 </palette>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>COM5</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_configuration_IbisSetPort">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>80</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>set port</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_configuration_IbisSendTest">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>80</height>
+                 </size>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>send TEST command</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_vehicle">
+           <attribute name="title">
+            <string>Vehicle</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_11">
+            <item row="0" column="0">
+             <widget class="QLineEdit" name="lineEdit_vehicleRef">
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QPushButton" name="pushButton_vehicleRefSet">
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Set vehicleRef</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0" colspan="2">
+             <widget class="QCheckBox" name="checkBox_vechicleTypeFromLine">
+              <property name="font">
+               <font>
+                <pointsize>20</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>override vehicle type from line</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>Debug</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPlainTextEdit" name="plainTextEdit_debug_rules"/>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_6">
+              <item>
+               <widget class="QCheckBox" name="checkBox_debugLogEnable">
+                <property name="text">
+                 <string>log enable</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="checkBox_configuration_logToFile">
+                <property name="font">
+                 <font>
+                  <pointsize>9</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Log to file
+(reboot to apply)</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_options_debug_set">
+                <property name="text">
+                 <string>set
+debug
+rules</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_debugOpenWindow">
+                <property name="text">
+                 <string>open
+debug
+window</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_7">
+           <attribute name="title">
+            <string>About</string>
+           </attribute>
+           <widget class="QWidget" name="layoutWidget_6">
+            <property name="geometry">
+             <rect>
+              <x>60</x>
+              <y>40</y>
+              <width>311</width>
+              <height>23</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="label_buildName">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string>build</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_build">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string notr="true">cisloBuildu</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>Services</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="currentIndex">
+           <number>3</number>
+          </property>
+          <widget class="QWidget" name="tab_4">
+           <attribute name="title">
+            <string>Subscriptions</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_23">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <item>
+               <widget class="QLabel" name="label_manual_T1">
+                <property name="text">
+                 <string>Subscribers CIS 1.0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="tableWidget_manual_subscriberListCis1_0">
+                <column>
+                 <property name="text">
+                  <string>IP</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Structure</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Interval</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_manual_T3">
+                <property name="text">
+                 <string>Subscribers CIS V2.3CZ1.0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="tableWidget_manual_subscriberListCis2_3CZ1_0">
+                <attribute name="horizontalHeaderVisible">
+                 <bool>true</bool>
+                </attribute>
+                <attribute name="verticalHeaderVisible">
+                 <bool>false</bool>
+                </attribute>
+                <column>
+                 <property name="text">
+                  <string>IP</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Structure</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Interval</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
              <layout class="QVBoxLayout" name="verticalLayout_10">
               <item>
+               <widget class="QLabel" name="label_manual_T3_2">
+                <property name="text">
+                 <string>Subscribers TVS V2.3CZ1.0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="tableWidget_manual_subscriberListTvs2_3CZ1_0">
+                <attribute name="horizontalHeaderVisible">
+                 <bool>true</bool>
+                </attribute>
+                <attribute name="verticalHeaderVisible">
+                 <bool>false</bool>
+                </attribute>
+                <column>
+                 <property name="text">
+                  <string>IP</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Structure</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Interval</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+              <item>
                <layout class="QGridLayout" name="gridLayout_7">
+                <item row="3" column="3">
+                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2_3CZ1_0">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Rem. subs.</string>
+                  </property>
+                 </widget>
+                </item>
                 <item row="3" column="0">
                  <widget class="QPushButton" name="pushButton_manual_removeSubscriber">
                   <property name="font">
@@ -2217,10 +2722,10 @@ expected</string>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_manual_V1">
+                <item row="0" column="2">
+                 <widget class="QLineEdit" name="lineEdit_manual_subscriberStructure">
                   <property name="text">
-                   <string>V1.0</string>
+                   <string>AllData</string>
                   </property>
                  </widget>
                 </item>
@@ -2250,22 +2755,10 @@ expected</string>
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="0">
-                 <widget class="QPushButton" name="pushButton_manual_addsubscriber">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
+                <item row="1" column="3">
+                 <widget class="QLabel" name="label_manual_V3_2">
                   <property name="text">
-                   <string>Add subs.</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="2">
-                 <widget class="QLineEdit" name="lineEdit_manual_subscriberStructure">
-                  <property name="text">
-                   <string>AllData</string>
+                   <string>V2.3CZ1.0</string>
                   </property>
                  </widget>
                 </item>
@@ -2284,13 +2777,6 @@ expected</string>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="3">
-                 <widget class="QLabel" name="label_manual_V3_2">
-                  <property name="text">
-                   <string>V2.3CZ1.0</string>
-                  </property>
-                 </widget>
-                </item>
                 <item row="2" column="3">
                  <widget class="QPushButton" name="pushButton_manual_addsubscriber_2_3CZ1_0">
                   <property name="font">
@@ -2303,23 +2789,49 @@ expected</string>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="3">
-                 <widget class="QPushButton" name="pushButton_manual_removeSubscriber_2_3CZ1_0">
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_manual_V1">
+                  <property name="text">
+                   <string>V1.0</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QPushButton" name="pushButton_manual_addsubscriber">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
                    </font>
                   </property>
                   <property name="text">
-                   <string>Rem. subs.</string>
+                   <string>Add subs.</string>
                   </property>
                  </widget>
                 </item>
                </layout>
               </item>
+              <item>
+               <widget class="QLabel" name="label_diagnostika_manual">
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>subscribe diagnostika</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
-            <item row="1" column="4">
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_5">
+           <attribute name="title">
+            <string>Manual</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_22">
+            <item>
              <layout class="QVBoxLayout" name="verticalLayout_28">
               <item>
                <widget class="QLabel" name="label_manual_customXmlName">
@@ -2335,122 +2847,45 @@ expected</string>
                 </property>
                </widget>
               </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_22">
-                <item>
-                 <widget class="QPushButton" name="pushButton_manual_sendCustomXml">
-                  <property name="font">
-                   <font>
-                    <pointsize>20</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>send to
-displays</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="pushButton_manual_truncateCustomXml">
-                  <property name="font">
-                   <font>
-                    <pointsize>20</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>clear
-window</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
              </layout>
             </item>
-            <item row="2" column="4">
-             <widget class="QLabel" name="label_diagnostika_manual">
-              <property name="font">
-               <font>
-                <pointsize>16</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>subscribe diagnostika</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2" rowspan="3">
-             <layout class="QVBoxLayout" name="verticalLayout_11">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_12">
               <item>
-               <widget class="QLabel" name="label_manual_T1">
+               <widget class="QPushButton" name="pushButton_manual_sendCustomXml">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
+                </property>
                 <property name="text">
-                 <string>Subscribers 1.0</string>
+                 <string>send to
+displays</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="tableWidget_manual_subscriberList1_0">
-                <column>
-                 <property name="text">
-                  <string>IP</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Structure</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Interval</string>
-                 </property>
-                </column>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_manual_T3">
-                <property name="text">
-                 <string>Subscribers V2.3CZ1.0</string>
+               <widget class="QPushButton" name="pushButton_manual_truncateCustomXml">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                 </font>
                 </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QTableWidget" name="tableWidget_manual_subscriberList2_3CZ1_0">
-                <attribute name="horizontalHeaderVisible">
-                 <bool>true</bool>
-                </attribute>
-                <attribute name="verticalHeaderVisible">
-                 <bool>false</bool>
-                </attribute>
-                <column>
-                 <property name="text">
-                  <string>IP</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Structure</string>
-                 </property>
-                </column>
-                <column>
-                 <property name="text">
-                  <string>Interval</string>
-                 </property>
-                </column>
+                <property name="text">
+                 <string>clear
+window</string>
+                </property>
                </widget>
               </item>
              </layout>
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab_moznosti_zarizeni">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
+          <widget class="QWidget" name="tab_6">
            <attribute name="title">
             <string>Device detection</string>
            </attribute>
-           <layout class="QHBoxLayout" name="horizontalLayout">
+           <layout class="QHBoxLayout" name="horizontalLayout_26">
             <item>
              <widget class="QTableWidget" name="tableWidget_detection_deviceList">
               <property name="enabled">
@@ -2551,426 +2986,112 @@ HW config</string>
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab_presets">
+          <widget class="QWidget" name="tab_2">
            <attribute name="title">
-            <string>Configuration</string>
+            <string>Status</string>
            </attribute>
-           <widget class="QWidget" name="layoutWidget">
-            <property name="geometry">
-             <rect>
-              <x>480</x>
-              <y>30</y>
-              <width>305</width>
-              <height>251</height>
-             </rect>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayoutseriovyPort">
-             <item>
-              <widget class="QLabel" name="label_7">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Serial Port IBIS</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_configuration_IbisPort">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="palette">
-                <palette>
-                 <active>
-                  <colorrole role="Button">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>255</red>
-                     <green>255</green>
-                     <blue>255</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Base">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>255</red>
-                     <green>255</green>
-                     <blue>255</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Window">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>52</red>
-                     <green>101</green>
-                     <blue>164</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </active>
-                 <inactive>
-                  <colorrole role="Button">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>255</red>
-                     <green>255</green>
-                     <blue>255</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Base">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>255</red>
-                     <green>255</green>
-                     <blue>255</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Window">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>52</red>
-                     <green>101</green>
-                     <blue>164</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </inactive>
-                 <disabled>
-                  <colorrole role="Button">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>255</red>
-                     <green>255</green>
-                     <blue>255</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Base">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>52</red>
-                     <green>101</green>
-                     <blue>164</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                  <colorrole role="Window">
-                   <brush brushstyle="SolidPattern">
-                    <color alpha="255">
-                     <red>52</red>
-                     <green>101</green>
-                     <blue>164</blue>
-                    </color>
-                   </brush>
-                  </colorrole>
-                 </disabled>
-                </palette>
-               </property>
-               <property name="text">
-                <string>COM5</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_configuration_IbisSetPort">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>80</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>set port</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushButton_configuration_IbisSendTest">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>80</height>
-                </size>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>20</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>send TEST command</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QCheckBox" name="checkBox_configuration_enableConnections">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>120</y>
-              <width>176</width>
-              <height>37</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>20</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Connections</string>
-            </property>
-           </widget>
-           <widget class="QGroupBox" name="groupBox_6">
-            <property name="geometry">
-             <rect>
-              <x>40</x>
-              <y>20</y>
-              <width>371</width>
-              <height>81</height>
-             </rect>
-            </property>
-            <property name="title">
-             <string>Golemio API key set</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout">
-             <item row="0" column="0">
-              <widget class="QLineEdit" name="lineEdit_configuration_golemioKey"/>
-             </item>
-             <item row="0" column="1">
-              <widget class="QPushButton" name="pushButton_configuration_setGolemioKey">
-               <property name="text">
-                <string>Set</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QGroupBox" name="groupBox_7">
-            <property name="geometry">
-             <rect>
-              <x>20</x>
-              <y>110</y>
-              <width>107</width>
-              <height>111</height>
-             </rect>
-            </property>
-            <property name="title">
-             <string>Language</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-            </property>
-            <property name="flat">
-             <bool>false</bool>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_23">
-             <item>
-              <widget class="QRadioButton" name="radioButton_configuration_language_cs">
-               <property name="text">
-                <string>CZ</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="radioButton_configuration_language_en">
-               <property name="text">
-                <string>EN</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QCheckBox" name="checkBox_configuration_logToFile">
-            <property name="geometry">
-             <rect>
-              <x>170</x>
-              <y>180</y>
-              <width>281</width>
-              <height>71</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>20</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Log to file
-(reboot to apply)</string>
-            </property>
-           </widget>
-          </widget>
-          <widget class="QWidget" name="tab_vehicle">
-           <attribute name="title">
-            <string>Vehicle</string>
-           </attribute>
-           <widget class="QLineEdit" name="lineEdit_vehicleRef">
-            <property name="geometry">
-             <rect>
-              <x>110</x>
-              <y>60</y>
-              <width>113</width>
-              <height>23</height>
-             </rect>
-            </property>
-           </widget>
-           <widget class="QPushButton" name="pushButton_vehicleRefSet">
-            <property name="geometry">
-             <rect>
-              <x>240</x>
-              <y>60</y>
-              <width>341</width>
-              <height>24</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Set vehicleRef</string>
-            </property>
-           </widget>
-           <widget class="QCheckBox" name="checkBox_vechicleTypeFromLine">
-            <property name="geometry">
-             <rect>
-              <x>110</x>
-              <y>140</y>
-              <width>311</width>
-              <height>21</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>override vehicle type from line</string>
-            </property>
-           </widget>
-          </widget>
-          <widget class="QWidget" name="tab">
-           <attribute name="title">
-            <string>Debug</string>
-           </attribute>
-           <layout class="QHBoxLayout" name="horizontalLayout_12">
-            <item>
-             <widget class="QPlainTextEdit" name="plainTextEdit_debug_rules"/>
+           <layout class="QGridLayout" name="gridLayout_14">
+            <item row="0" column="1">
+             <widget class="QGroupBox" name="groupBox_2">
+              <property name="title">
+               <string>TVS</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_13">
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_statusTvsIp">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_20">
+                 <property name="text">
+                  <string>IP</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_21">
+                 <property name="text">
+                  <string>Port</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_statusTvsPort">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_6">
-              <item>
-               <widget class="QCheckBox" name="checkBox_debugLogEnable">
-                <property name="text">
-                 <string>log enable</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_options_debug_set">
-                <property name="text">
-                 <string>set
-debug
-rules</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButton_debugOpenWindow">
-                <property name="text">
-                 <string>open
-debug
-window</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+            <item row="0" column="0">
+             <widget class="QGroupBox" name="groupBox">
+              <property name="title">
+               <string>CIS</string>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_12">
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_statusCisIp">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>IP</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_15">
+                 <property name="text">
+                  <string>Port</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_statusCisPort">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="1" column="0">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
-          </widget>
-          <widget class="QWidget" name="tab_serviceStatus">
-           <attribute name="title">
-            <string>CIS status</string>
-           </attribute>
-           <widget class="QLabel" name="label_3">
-            <property name="geometry">
-             <rect>
-              <x>90</x>
-              <y>60</y>
-              <width>49</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>IP</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_statusCisIp">
-            <property name="geometry">
-             <rect>
-              <x>90</x>
-              <y>80</y>
-              <width>49</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_15">
-            <property name="geometry">
-             <rect>
-              <x>90</x>
-              <y>140</y>
-              <width>49</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Port</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_statusCisPort">
-            <property name="geometry">
-             <rect>
-              <x>90</x>
-              <y>170</y>
-              <width>49</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
           </widget>
          </widget>
         </item>
@@ -3659,7 +3780,7 @@ test</string>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

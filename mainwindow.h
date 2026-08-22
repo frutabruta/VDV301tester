@@ -223,8 +223,9 @@ private:
 
     //VDV301
 
-    void dumpSubscribers1_0(QVector<Subscriber> adresy);
-    void dumpSubscribers2_3CZ1_0(QVector<Subscriber> adresy);
+    void dumpSubscribersCis1_0(QVector<Subscriber> adresy);
+    void dumpSubscribersCis2_3CZ1_0(QVector<Subscriber> adresy);
+    void dumpSubscribersTvs2_3CZ1_0(QVector<Subscriber> adresy);
     void dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget *tabulka);
     void startAllVdv301Services();
     void stopServices(); //not implemented
@@ -389,6 +390,7 @@ private slots:
     //VDV301
     void slotVdv301ServiceStartResult(QString nastartovanaSluzba);
     void slotCis2_3CZ1_0PortUpdate(int port);
+    void slotTvs2_3CZ1_0PortUpdate(int port);
 
     //connections
     void slotDownloadConnectionsFromCurrentStop();
@@ -455,6 +457,7 @@ private slots:
     void on_checkBox_debugLogEnable_stateChanged(int arg1);
 
     void on_pushButton_specialAnnouncementManual_clicked();
+
 
 signals:
     // void signalZahajImport(QString cesta);
