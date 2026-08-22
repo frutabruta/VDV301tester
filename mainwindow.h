@@ -18,20 +18,16 @@
 
 #include "VDV301publisher/VDV301DataStructures/vehiclestate.h"
 
-
-//#include "VDV301publisher/httpservice.h"
 #include "VDV301publisher/customerinformationservice.h"
-#include "VDV301publisher/ticketvalidationservice.h"
 #include "VDV301publisher/devicemanagementservice.h"
-//#include "VDV301publisher/timeservice.h"
+#include "VDV301publisher/ticketvalidationservice.h"
+#include "VDV301publisher/timeservice.h"
 
-//#include "VDV301subscriber/ibisipsubscriber.h"
 #include "VDV301subscriber/devmgmtsubscriber.h"
 #include "VDV301subscriber/devmgmtsubscriber1.h"
 #include "VDV301subscriber/devmgmtsubscriber2.h"
 #include "VDV301subscriber/devmgmtpublisherstruct.h"
 
-//#include "VDV301testy/vdv301testy.h"
 #include "VDV301testy/testodberuserver.h"
 #include "VDV301testy/testdemo.h"
 
@@ -90,6 +86,8 @@ private:
     // 2 Berlin
 
     bool blockBonjour=true;
+
+    bool timeServiceEnabled=false;
 
     bool avlEnabled=false;
 
@@ -184,6 +182,7 @@ private:
     CustomerInformationService customerInformationService1_0;
     CustomerInformationService customerInformationService2_3;
     CustomerInformationService customerInformationService2_3CZ1_0;
+    TimeService timeService1_0;
 
 
     TicketValidationService ticketValidationService2_2;

@@ -141,6 +141,12 @@ mingw32-make install
 
 
 ## Changelog
+- 20260822_1014
+  - added optional TimeService publishing (NTP server not included!)
+    - disabled by default
+  - settings.ini
+    - TimeService port
+
 - 20260821_2134
   - VDV301subscriber
     - added new example

@@ -19,18 +19,19 @@ MainWindow::MainWindow(QSettings* newQSettings, QWidget *parent) :
     //  settings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat),
     golemio(""), //klic do golemia
     logfile(QCoreApplication::applicationDirPath()),
-    //  timeService1_0("TimeService","_ibisip_udp._udp",123,"1.0"),
     logWindow(this),
-    avl(12346), //47477
-    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0","_ropid_vdv301tester"),
+    avl(12346),
+    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0","_ropid_vdv301tester"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3","_ropid_vdv301tester_2_3"),
-    //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
     customerInformationService2_3CZ1_0("CustomerInformationService","_ibisip_http._tcp",47482,"2.3CZ1.0","_ropid_vdv301tester_2_3cz1_0"),
+    //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
+    timeService1_0("TimeService","_ibisip_udp._udp",123,"1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
-    // devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
+    //devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
     //devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),
     ticketValidationService2_2("TicketValidationService","_ibisip_http._tcp",47483,"2.2","_fake_ropid_vdv301tester_2_2"),
+
     devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.3CZ1.0","_ibisip_http._tcp",48477),
     ui(new Ui::MainWindow)
 {
@@ -1315,6 +1316,9 @@ void MainWindow::loadConstantsFromSettingsFile()
     customerInformationService1_0.setPortNumber(settings->value("customerInformationService1_0/port").toInt() );
     customerInformationService2_3.setPortNumber(settings->value("customerInformationService2_3/port").toInt());
     customerInformationService2_3CZ1_0.setPortNumber(settings->value("customerInformationService2_3CZ1_0/port").toInt());
+
+    timeServiceEnabled=settings->value("timeService/enabled").toBool();
+    timeService1_0.setPortNumber(settings->value("timeService/port").toInt());
 
     devMgmtSubscriber.blockBonjour=blockBonjour;
 
@@ -2867,6 +2871,8 @@ void MainWindow::startAllVdv301Services()
     ticketValidationService2_2.blockBonjour=blockBonjour;
     ticketValidationService2_2.slotStartServer();
 
+
+
     if(blockBonjour)
     {
         foreach (CustomerInformationService *cisService, vektorCis) {
@@ -2876,6 +2882,12 @@ void MainWindow::startAllVdv301Services()
     }
     else
     {
+        if(timeServiceEnabled)
+        {
+            timeService1_0.slotStartDnsSd(true);
+        }
+
+
         startServiceFromList(vektorCis);
     }
 }
