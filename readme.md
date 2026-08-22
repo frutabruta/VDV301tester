@@ -141,6 +141,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20260822_2358
+  - RemoteControl service implementation
+    - only message pops up when specific remote messages are ativated
+    - voice announcements to be implemented 
+
 - 20260822_1157
   - UI Options tab reorganization
   - TVS

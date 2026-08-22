@@ -33,6 +33,7 @@ MainWindow::MainWindow(QSettings* newQSettings, QWidget *parent) :
     ticketValidationService2_2("TicketValidationService","_ibisip_http._tcp",47483,"2.2","_fake_ropid_vdv301tester_2_2"),
 
     devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.3CZ1.0","_ibisip_http._tcp",48477),
+    remoteControlSubscriber("RemoteControlService","AllData","2.3CZ1.0","_ibisip_http._tcp",48478),
     ui(new Ui::MainWindow)
 {
     logHandler.setRelay(&relay);
@@ -119,8 +120,12 @@ MainWindow::MainWindow(QSettings* newQSettings, QWidget *parent) :
         ibisOvladani.start();
     }
 
+    //propojeni vsech slotu
+    allConnects();
+
 
     devMgmtSubscriber.start();
+    remoteControlSubscriber.start();
 
     //ui->stackedWidget_palPc->setWindowState(Qt::WindowFullScreen);
 
@@ -128,8 +133,7 @@ MainWindow::MainWindow(QSettings* newQSettings, QWidget *parent) :
     //inicializace databaze
     initializeSelectionListView();
 
-    //propojeni vsech slotu
-    allConnects();
+
 
     on_pushButton_detection_loadHwConfig_clicked();
 
@@ -205,6 +209,8 @@ void MainWindow::allConnects()
 
     //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
     connect(&devMgmtSubscriber,&IbisIpSubscriber::signalUpdateDeviceList,this,&MainWindow::slotServiceTableUpdate);
+
+    connect(&remoteControlSubscriber,&RemoteControlSubscriber::signalMessageType,this,&MainWindow::slotRemoteControlAction);
 
     //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
     //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
@@ -2850,6 +2856,25 @@ void MainWindow::slotMpvNetReady()
     if(!prestupy.isEmpty())
     {
         xmlVdv301UpdateCis(prestupy,vehicleState);
+    }
+}
+
+void MainWindow::slotRemoteControlAction(Vdv301Enumerations::RemoteControlMessageTypeEnumeration message)
+{
+    switch(message)
+    {
+
+    case Vdv301Enumerations::RemoteControlOk:
+    case Vdv301Enumerations::RemoteControlError:
+    case Vdv301Enumerations::RemoteControlDestinationRequest:
+        popUpMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(message));
+
+    case Vdv301Enumerations::RemoteControlGetOnRequest:
+        popUpMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(message));
+
+    case Vdv301Enumerations::RemoteControlStartRazzia:
+    case Vdv301Enumerations::RemoteControlStopRazzia:
+        break;
     }
 }
 

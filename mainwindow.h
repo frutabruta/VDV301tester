@@ -27,6 +27,7 @@
 #include "VDV301subscriber/devmgmtsubscriber1.h"
 #include "VDV301subscriber/devmgmtsubscriber2.h"
 #include "VDV301subscriber/devmgmtpublisherstruct.h"
+#include "VDV301subscriber/remotecontrolsubscriber.h"
 
 #include "VDV301testy/testodberuserver.h"
 #include "VDV301testy/testdemo.h"
@@ -183,8 +184,6 @@ private:
     CustomerInformationService customerInformationService2_3;
     CustomerInformationService customerInformationService2_3CZ1_0;
     TimeService timeService1_0;
-
-
     TicketValidationService ticketValidationService2_2;
 
     //list which changes - every service is poped after start
@@ -195,6 +194,7 @@ private:
 
     //IBIS-IP subscriber
     DevMgmtSubscriber2 devMgmtSubscriber;
+    RemoteControlSubscriber remoteControlSubscriber;
 
 
 
@@ -428,6 +428,7 @@ private slots:
     //misc
     void on_tableWidget_specialAnnouncements_cellClicked(int row, int column);
     void slotServiceTableUpdate();
+    void slotRemoteControlAction(Vdv301Enumerations::RemoteControlMessageTypeEnumeration message);
 
     //avl slots
     void slotGnssUpdateWgs84(QPointF coordinates);
@@ -457,6 +458,7 @@ private slots:
     void on_checkBox_debugLogEnable_stateChanged(int arg1);
 
     void on_pushButton_specialAnnouncementManual_clicked();
+
 
 
 signals:
