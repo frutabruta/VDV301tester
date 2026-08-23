@@ -942,6 +942,20 @@ void MainWindow::eventLineChangeHide()
     // now handled as an announcement
 }
 
+void MainWindow::eventRazziaStart()
+{
+    vehicleState.razziaState=Vdv301Enumerations::TicketRazziaRazzia;
+    ui->checkBox_ride_razzia->setCheckState(Qt::Checked);
+    xmlVdv301UpdateContent();
+}
+
+void MainWindow::eventRazziaStop()
+{
+    vehicleState.razziaState=Vdv301Enumerations::TicketRazziaNoRazzia;
+    ui->checkBox_ride_razzia->setChecked(false);
+    xmlVdv301UpdateContent();
+}
+
 void MainWindow::eventShowManualAnnoucementFromList(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList)
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
@@ -1448,6 +1462,23 @@ void MainWindow::on_checkBox_configuration_logToFile_stateChanged(int arg1)
 {
     qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     settings->setValue("debug/logToFile",arg1);
+}
+
+void MainWindow::on_checkBox_debugLogEnable_stateChanged(int arg1)
+{
+    if(arg1)
+    {
+        connect(&relay, &LoggerRelay::message,&logWindow,&LogWindow::slotLogWindowAppend,Qt::QueuedConnection);
+    }
+    else
+    {
+        disconnect(&relay, &LoggerRelay::message,&logWindow,&LogWindow::slotLogWindowAppend);
+    }
+}
+
+void MainWindow::on_checkBox_ride_razzia_stateChanged(int arg1)
+{
+
 }
 
 void MainWindow::on_checkBox_positionCenterMap_stateChanged(int arg1)
@@ -2510,6 +2541,7 @@ QString MainWindow::openXmlSelectDialogue(QString cesta)
 void MainWindow::popUpMessage(QString messageText)
 {
     QMessageBox msgBox;
+    msgBox.setModal(false);
     msgBox.setText(replaceDriverAnnouncementFormatting(messageText));
     msgBox.exec();
 }
@@ -2865,15 +2897,20 @@ void MainWindow::slotRemoteControlAction(Vdv301Enumerations::RemoteControlMessag
     {
 
     case Vdv301Enumerations::RemoteControlOk:
+        break;
     case Vdv301Enumerations::RemoteControlError:
+        break;
     case Vdv301Enumerations::RemoteControlDestinationRequest:
         popUpMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(message));
-
+        break;
     case Vdv301Enumerations::RemoteControlGetOnRequest:
         popUpMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(message));
-
+        break;
     case Vdv301Enumerations::RemoteControlStartRazzia:
+        eventRazziaStart();
+        break;
     case Vdv301Enumerations::RemoteControlStopRazzia:
+        eventRazziaStop();
         break;
     }
 }
@@ -3388,18 +3425,6 @@ void MainWindow::on_pushButton_debugOpenWindow_clicked()
 }
 
 
-void MainWindow::on_checkBox_debugLogEnable_stateChanged(int arg1)
-{
-    if(arg1)
-    {
-        connect(&relay, &LoggerRelay::message,&logWindow,&LogWindow::slotLogWindowAppend,Qt::QueuedConnection);
-    }
-    else
-    {
-        disconnect(&relay, &LoggerRelay::message,&logWindow,&LogWindow::slotLogWindowAppend);
-    }
-}
-
 
 void MainWindow::on_pushButton_specialAnnouncementManual_clicked()
 {
@@ -3409,5 +3434,18 @@ void MainWindow::on_pushButton_specialAnnouncementManual_clicked()
     announcement.duration=ui->lineEdit_specialAnnouncementDuration->text().toInt()*1000;
 
     eventStartWholeAnnouncement(announcement);
+}
+
+void MainWindow::on_checkBox_ride_razzia_clicked(bool checked)
+{
+    if(checked)
+    {
+        eventRazziaStart();
+    }
+    else
+    {
+        eventRazziaStop();
+    }
+    xmlVdv301UpdateContent();
 }
 

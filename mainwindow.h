@@ -276,6 +276,8 @@ private:
     bool handleDepartureNotes(QVector<StopNote> stopNoteList);
     void eventStartNoteAnnoucement(StopNote stopNote);
 
+    void eventRazziaStart();
+    void eventRazziaStop();
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
@@ -460,6 +462,10 @@ private slots:
     void on_pushButton_specialAnnouncementManual_clicked();
 
 
+
+    void on_checkBox_ride_razzia_stateChanged(int arg1);
+
+    void on_checkBox_ride_razzia_clicked(bool checked);
 
 signals:
     // void signalZahajImport(QString cesta);

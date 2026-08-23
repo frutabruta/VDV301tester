@@ -141,6 +141,14 @@ mingw32-make install
 
 
 ## Changelog
+- 20260823_2139
+  - added MainWindow::eventRazziaStart
+  - added MainWindow::eventRazziaStop
+  - added Razzia checkbox
+  - fixed switch breaks in MainWindow::slotRemoteControlAction
+  - VDV301Publisher 
+    - TicketValidationService fixed Razzia
+
 - 20260822_2358
   - RemoteControl service implementation
     - only message pops up when specific remote messages are ativated

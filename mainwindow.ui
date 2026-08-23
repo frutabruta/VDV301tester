@@ -83,7 +83,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_palPC">
        <property name="styleSheet">
@@ -838,7 +838,7 @@ announcements</string>
 padding: 0 px;</string>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_ride">
              <layout class="QGridLayout" name="gridLayout_3">
@@ -1010,6 +1010,13 @@ padding: 0 px;</string>
                      <widget class="QCheckBox" name="checkBox_ride_stopRequested">
                       <property name="text">
                        <string>STOP</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBox_ride_razzia">
+                      <property name="text">
+                       <string>Razzia</string>
                       </property>
                      </widget>
                     </item>
