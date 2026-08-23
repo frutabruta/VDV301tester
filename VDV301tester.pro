@@ -89,6 +89,7 @@ SOURCES += \
     VDV301publisher/VDV301DataStructures/vdv301stoppoint2_3cz1_0.cpp \
     VDV301publisher/VDV301DataStructures/vdv301trip.cpp \
     VDV301publisher/VDV301DataStructures/vdv301trip2_3cz1_0.cpp \
+    VDV301publisher/VDV301DataStructures/vdv301vehicledata.cpp \
     VDV301publisher/VDV301DataStructures/vdv301vehicleinformationgroup.cpp \
     VDV301publisher/VDV301DataStructures/vdv301viapoint.cpp \
     VDV301publisher/VDV301DataStructures/vdv301viapoint2_3cz1_0.cpp \
@@ -197,6 +198,7 @@ HEADERS += \
     VDV301publisher/VDV301DataStructures/vdv301stoppoint2_3cz1_0.h \
     VDV301publisher/VDV301DataStructures/vdv301trip.h \
     VDV301publisher/VDV301DataStructures/vdv301trip2_3cz1_0.h \
+    VDV301publisher/VDV301DataStructures/vdv301vehicledata.h \
     VDV301publisher/VDV301DataStructures/vdv301vehicleinformationgroup.h \
     VDV301publisher/VDV301DataStructures/vdv301viapoint.h \
     VDV301publisher/VDV301DataStructures/vdv301viapoint2_3cz1_0.h \

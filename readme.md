@@ -141,6 +141,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20260824_0052
+  - TicketValidationService
+    - enabled VehicleData endpoint
+  
 - 20260823_2139
   - added MainWindow::eventRazziaStart
   - added MainWindow::eventRazziaStop
