@@ -3,7 +3,7 @@
 
 
 #include <VDV301publisher/VDV301DataStructures/additionalannoucement.h>
-#include <VDV301publisher/VDV301DataStructures/stoppoint.h>
+#include <VDV301publisher/VDV301DataStructures/stoppointdestination.h>
 #include "queuesoundplayer.h"
 
 #include <QUrl>
@@ -27,31 +27,35 @@ public:
     void setPath(QString vstup); //unused
     void setApplicationDirectory(QString umisteni);
 
-
     bool announceThisStop(StopPoint thisStop);
     bool announceNextStop(StopPoint nextStop);
+    bool announceBlindPersonBoarding();
+    bool announceLineAndDestination(StopPointDestination thisStop);
+
 public slots:
-
-
-
 
 
 private:
     QUrl getFilePathFromStopIds(int kodCis);
 
-    QUrl zvukPristiZastavka;
-    QUrl zvukGong;
-    QUrl zvukGongPristi;
-    QUrl zvukKonecna;
-    QUrl zvukProsimeVystupte;
-    QUrl zvukZmenaPasma;
-    QUrl zvukProsimPozor;
+    QUrl zvukPristiZastavka; //this stop is
+    QUrl zvukGong; // this stop chime
+    QUrl zvukGongPristi; // chime next stop
+    QUrl zvukKonecna; // final stop
+    QUrl zvukProsimeVystupte; // please get off
+    QUrl zvukZmenaPasma; // fare zone change
+    QUrl zvukProsimPozor; // attention please
+    QUrl zvukNastupNeboVystupNevidomeho; // visually impaired person boarding
+    QUrl zvukLinka;
+    QUrl zvukSmer;
 
-    QUrl zvukNaZnameni;
-    QUrl zvukPrestupNaLinkyS;
-    QUrl zvukPrestupNaMetro;
-    QUrl zvukPrestupNaPrivoz;
-    QUrl zvukPrestupNaLetiste;
+    QUrl zvukNaZnameni; // stop is on request
+    QUrl zvukPrestupNaLinkyS; // transfer to train
+    QUrl zvukPrestupNaMetro; // transfer to metro
+    QUrl zvukPrestupNaPrivoz; // transfer to a ferry
+    QUrl zvukPrestupNaLetiste; // transfer to an airport line
+
+    //metro line names combinations
     QUrl zvukMA;
     QUrl zvukMB;
     QUrl zvukMC;
@@ -65,14 +69,17 @@ private:
     QUrl zvukMCaD;
 
 
-    void aktualizujCestyZvuku(QString cestaVnitrni);
+    void updateSoundFilesPaths(QString cestaVnitrni);
 
 
-    QUrl najdiCestuSpecial(QString nazevSouboru);
+    QUrl getFilePathSpecial(QString fileName);
     QVector<QUrl> stopAttributesToFileQurlList(StopPoint stopPoint);
+
+    QVector<QUrl> lineNameCreate(QString lineName);
 
     //qt6
 
+    QUrl getFilePathNumber(QString fileName);
 };
 
 #endif // VOICEANNOUNCER_H

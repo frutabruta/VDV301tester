@@ -69,13 +69,16 @@ public:
     //konstanty
     QString applicationDirectory=QCoreApplication::applicationDirPath();
 
-    void popUpMessage(QString messageText);
+
 
 private:
 
     void allConnects();
     void loadConstantsFromSettingsFile();
 
+
+    void popUpMessage(QString messageText);
+    void statusBarMessage(QString messageText);
 
     //konstanty
     bool filterConnections=true;
@@ -278,6 +281,9 @@ private:
 
     void eventRazziaStart();
     void eventRazziaStop();
+    void eventRemoteLineDirection();
+    void eventRemoteGetOnRequest();
+
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 

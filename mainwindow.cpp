@@ -599,7 +599,16 @@ int MainWindow::eventArrival()
     {
         return 0;
     }
-    StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+
+    bool isStopPointEmpty=false;
+    //StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+    StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentStopPointDestination(isStopPointEmpty);
+    StopPointDestination nextStopPointDestination=this->vehicleState.getNextStopPointDestination(isStopPointEmpty);
+
+    if(isStopPointEmpty)
+    {
+        return 0;
+    }
 
     vehicleState.secondsDelay=MainWindowPomocne::getSecondsDelayFromStop(currentStopPointDestination.stopPoint.arrivalToQTime(),currentStopPointDestination.stopPoint.departureToQTime());
 
@@ -622,7 +631,7 @@ int MainWindow::eventArrival()
         switch(announcementType)
         {
         case 0:
-            voiceAnnouncer.announceThisAndNextStop(currentStopPointDestination.stopPoint,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0+1].stopPoint);
+            voiceAnnouncer.announceThisAndNextStop(currentStopPointDestination.stopPoint,nextStopPointDestination.stopPoint);
             break;
         case 1:
             voiceAnnouncer.announceThisStop(currentStopPointDestination.stopPoint);
@@ -631,7 +640,6 @@ int MainWindow::eventArrival()
             break;
         default:
             break;
-
         }
     }
     else
@@ -641,7 +649,7 @@ int MainWindow::eventArrival()
 
     vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
     updateDriverDisplay();
-    if(!handleArrivalNotes(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.stopNoteList))
+    if(!handleArrivalNotes(currentStopPointDestination.stopPoint.stopNoteList))
     {
         xmlVdv301UpdateContent();
     }
@@ -650,16 +658,6 @@ int MainWindow::eventArrival()
         qCDebug(MainWindowLog) << "used special announcement, not updating again";
     }
 
-
-    /* deprecated
-    QVector<QString> poznamky=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.notesList;
-    qCDebug(MainWindowLog)<<"poznamek je tolik: "<<QString::number(poznamky.count());
-
-    foreach(QString poznamka, poznamky)
-    {
-        eventAnnouncementToDriver(poznamka);
-    }
-*/
 
     //manual plot of current stop when simulation is not running
     if(!trajectoryJumper.isRunning)
@@ -690,13 +688,13 @@ int MainWindow::eventDeparture()
     {
         eventStopTimersRide();
         vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
-
-        StopPointDestination departingFromStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+        bool isStopEmpty=false;
+        StopPointDestination departingFromStopPointDestination=this->vehicleState.getCurrentStopPointDestination(isStopEmpty);
 
 
         vehicleState.currentStopIndex0++;
 
-        StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+        StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentStopPointDestination(isStopEmpty);
         locationEvents.expectedStopPointDestination=currentStopPointDestination;
         avlSetStop(currentStopPointDestination);
         avl.triggerUpdate("O");
@@ -754,8 +752,18 @@ void MainWindow::eventEnterService()
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     ui->pushButton_menu_ride->setDisabled(false);
-    locationEvents.expectedStopPointDestination=vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+
+    bool isStopEmpty=false;
+    locationEvents.expectedStopPointDestination=this->vehicleState.getCurrentStopPointDestination(isStopEmpty);
+
     xmlVdv301UpdateContent();
+
+    if(isStopEmpty)
+    {
+        popUpMessage(QString(Q_FUNC_INFO)+" stopPointDestination out of range!");
+    }
+
+
     avlSetGeneral();
 
     if(avlEnabled)
@@ -954,6 +962,28 @@ void MainWindow::eventRazziaStop()
     vehicleState.razziaState=Vdv301Enumerations::TicketRazziaNoRazzia;
     ui->checkBox_ride_razzia->setChecked(false);
     xmlVdv301UpdateContent();
+}
+
+void MainWindow::eventRemoteGetOnRequest()
+{
+    statusBarMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(Vdv301Enumerations::RemoteControlGetOnRequest));
+    voiceAnnouncer.announceBlindPersonBoarding();
+}
+
+void MainWindow::eventRemoteLineDirection()
+{
+    statusBarMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(Vdv301Enumerations::RemoteControlDestinationRequest));
+    bool isEmpty=false;
+    StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentStopPointDestination(isEmpty);
+    if(!isEmpty)
+    {
+        voiceAnnouncer.announceLineAndDestination(currentStopPointDestination);
+    }
+    else
+    {
+        //announce out of service
+    }
+
 }
 
 void MainWindow::eventShowManualAnnoucementFromList(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList)
@@ -2540,10 +2570,22 @@ QString MainWindow::openXmlSelectDialogue(QString cesta)
 
 void MainWindow::popUpMessage(QString messageText)
 {
+
     QMessageBox msgBox;
-    msgBox.setModal(false);
     msgBox.setText(replaceDriverAnnouncementFormatting(messageText));
     msgBox.exec();
+
+
+    statusBar()->showMessage(
+        tr("Data imported successfully."),
+        5000); // 5 seconds
+}
+
+void MainWindow::statusBarMessage(QString messageText)
+{
+    statusBar()->showMessage(
+        messageText,
+        5000); // 5 seconds
 }
 
 
@@ -2899,12 +2941,13 @@ void MainWindow::slotRemoteControlAction(Vdv301Enumerations::RemoteControlMessag
     case Vdv301Enumerations::RemoteControlOk:
         break;
     case Vdv301Enumerations::RemoteControlError:
+        popUpMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(message));
         break;
     case Vdv301Enumerations::RemoteControlDestinationRequest:
-        popUpMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(message));
+        eventRemoteLineDirection();
         break;
     case Vdv301Enumerations::RemoteControlGetOnRequest:
-        popUpMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(message));
+        eventRemoteGetOnRequest();
         break;
     case Vdv301Enumerations::RemoteControlStartRazzia:
         eventRazziaStart();

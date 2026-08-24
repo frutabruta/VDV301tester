@@ -48,24 +48,27 @@ Stop names have to be stored in hlaseni/zastavky folder, using CIS od OIS number
 
 Special sounds are stored in hlaseni/special
 
-| content     | filename |
-|-------------------------|----------|
-| jingle      | H000.mp3 |
-| next stop         | H001.mp3 |
-| request stop      | H002.mp3 |
-| last stop         | H113.mp3 |
-| please, get off   | H114.mp3 |
-| attention, please       | H178.mp3 |
-| fare zone change  | H170.mp3 |
-| transfer to train lines | H184.mp3 |
-| transfer to Metro       | H103.mp3 |
-| transfer to ferry       | H274.mp3 |
-| A           | H104.mp3 |
-| B           | H105.mp3 |
-| C           | H106.mp3 |
-| A and B     | H107.mp3 |
-| A and C     | H108.mp3 |
-| B and C     | H109.mp3 |
+| content                           | filename |
+|-----------------------------------|----------|
+| jingle                            | H000.mp3 |
+| next stop                         | H001.mp3 |
+| request stop                      | H002.mp3 |
+| last stop                         | H113.mp3 |
+| please, get off                   | H114.mp3 |
+| visually impaired person boarding | H142.mp3 |
+| line                              | H144.mp3 |
+| direction                         | H145.mp3 |
+| attention, please                 | H178.mp3 |
+| fare zone change                  | H170.mp3 |
+| transfer to train lines           | H184.mp3 |
+| transfer to Metro                 | H103.mp3 |
+| transfer to ferry                 | H274.mp3 |
+| A                                 | H104.mp3 |
+| B                                 | H105.mp3 |
+| C                                 | H106.mp3 |
+| A and B                           | H107.mp3 |
+| A and C                           | H108.mp3 |
+| B and C                           | H109.mp3 |
 
 
 
@@ -141,6 +144,21 @@ mingw32-make install
 
 
 ## Changelog
+- 20260824_1144
+  - VoiceAnnouncer
+    - enabled events to react to remote control actions 
+        - announceBlindPersonBoarding
+        - announceLineAndDestination
+        - lineNameCreate (mockup! Always generates 100)
+    - variable names translation to english
+  - Vdv301Publisher
+    - Vdv301DataStructures
+      - Vehiclestate nextStopPoint function
+  - MainWindow
+    - new event eventRemoteGetOnRequest
+    - new event eventRemoteLineDirection
+    - new function statusBarMessage
+
 - 20260824_0052
   - TicketValidationService
     - enabled VehicleData endpoint
