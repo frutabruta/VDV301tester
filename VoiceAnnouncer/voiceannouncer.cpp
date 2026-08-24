@@ -85,11 +85,12 @@ bool VoiceAnnouncer::announceLineAndDestination(StopPointDestination thisStop)
     qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
 
     QVector<QUrl> subQueue;
+    subQueue.push_back(zvukGong);
     subQueue.push_back(zvukLinka);
 
-    if(thisStop.line.lineName.isEmpty())
+    if(!thisStop.line.lineName.isEmpty())
     {
-       subQueue.append(lineNameCreate(thisStop.line.lineName));
+        subQueue.append(lineNameCreate(thisStop.line.lineName));
     }
     else
     {
@@ -197,11 +198,96 @@ QVector<QUrl> VoiceAnnouncer::lineNameCreate(QString lineName)
     qCDebug(VoiceAnnouncerLog) << Q_FUNC_INFO << " input: "<<lineName;
     QVector<QUrl> urlList;
 
-    int lineNameNumber=lineName.toInt();
+    QString numberBuffer="";
 
+    for(int i=0; i<lineName.length();i++)
+    {
+        QChar character=lineName.at(i);
+        if(character.isDigit())
+        {
+            numberBuffer+=character;
+        }
+        else
+        {
+            if(!numberBuffer.isEmpty())
+            {
+                urlList.append(numberCreate(numberBuffer.toInt()));
+                numberBuffer.clear();
+            }
+            if(character.isLetter())
+            {
+                urlList.push_back(getFilePathNumber(QString(character)));
+            }
+            else
+            {
+                qCDebug(VoiceAnnouncerLog) << "invalid character: "<<character;
+            }
+
+        }
+    }
+    if(!numberBuffer.isEmpty())
+    {
+        urlList.append(numberCreate(numberBuffer.toInt()));
+        numberBuffer.clear();
+    }
+
+    /*
     if(lineNameNumber>0)
     {
-        urlList.push_back(getFilePathNumber("C100"));
+        urlList.append(numberCreate(lineNameNumber));
+    }
+    else
+    {
+        qCDebug(VoiceAnnouncerLog) << "not a number";
+    } */
+
+    return urlList;
+}
+
+
+QVector<QUrl> VoiceAnnouncer::numberCreate(int number)
+{
+    qCDebug(VoiceAnnouncerLog) << Q_FUNC_INFO << " input: "<<number;
+    QVector<QUrl> urlList;
+
+    if(number>0)
+    {
+        int c1000= number/1000;
+        int mod1000 = number%1000;
+        if(c1000>0)
+        {
+            urlList.push_back(getFilePathNumber("C"+QString::number(c1000))); //temporary workaround
+            //urlList.push_back(getFilePathNumber("C"+QString::number(c1000)+"000"));
+        }
+        int c100= mod1000/100;
+        int mod100 = mod1000%100;
+        if(c100>0)
+        {
+            urlList.push_back(getFilePathNumber("C"+QString::number(c100)+"00"));
+        }
+
+
+        int c10=mod100/10;
+        int mod10=mod100%10;
+        if((c10==1)&&(mod10!=0))
+        {
+            urlList.push_back(getFilePathNumber("C"+QString::number(c10)+QString::number(mod10)));
+        }
+        else
+        {
+            if(c10>0)
+            {
+                urlList.push_back(getFilePathNumber("C"+QString::number(c10)+"0"));
+            }
+            if(mod10>0)
+            {
+                urlList.push_back(getFilePathNumber("C"+QString::number(mod10)));
+            }
+        }
+
+
+
+
     }
     else
     {
@@ -210,6 +296,7 @@ QVector<QUrl> VoiceAnnouncer::lineNameCreate(QString lineName)
 
     return urlList;
 }
+
 
 QVector<QUrl> VoiceAnnouncer::stopAttributesToFileQurlList(StopPoint stopPoint)
 {
@@ -389,10 +476,7 @@ void VoiceAnnouncer::updateSoundFilesPaths(QString cestaVnitrni)
     zvukMBaD=QUrl::fromLocalFile(cestaVnitrni+"/special/H012.mp3");
     zvukMCaD=QUrl::fromLocalFile(cestaVnitrni+"/special/H013.mp3");
 
- 
- 
     //H143 nástup postiženého
-  
 }
 
 
@@ -403,7 +487,3 @@ void VoiceAnnouncer::setApplicationDirectory(QString umisteni)
     announcmentSoundFolderPath=applicationDirectory+"/hlaseni";
     updateSoundFilesPaths(announcmentSoundFolderPath);
 }
-
-
-
-

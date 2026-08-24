@@ -80,6 +80,7 @@ private:
     //qt6
 
     QUrl getFilePathNumber(QString fileName);
+    QVector<QUrl> numberCreate(int number);
 };
 
 #endif // VOICEANNOUNCER_H

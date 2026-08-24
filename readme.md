@@ -144,6 +144,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20260824_1944
+  - VoiceAnnouncer
+    - fixed announceLineAndDestination to generate real line names dynamically
+    
 - 20260824_1144
   - VoiceAnnouncer
     - enabled events to react to remote control actions 
