@@ -144,10 +144,15 @@ mingw32-make install
 
 
 ## Changelog
+- 20260824_2233
+  - Vdv301Publisher
+    - TVS data types fixed to V2.3CZ1.0
+  - fixed Czech translations
+
 - 20260824_1944
   - VoiceAnnouncer
     - fixed announceLineAndDestination to generate real line names dynamically
-    
+
 - 20260824_1144
   - VoiceAnnouncer
     - enabled events to react to remote control actions 

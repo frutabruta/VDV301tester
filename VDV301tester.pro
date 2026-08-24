@@ -113,7 +113,7 @@ SOURCES += \
     VDV301publisher/xmldevicemanagementservice.cpp \
     VDV301publisher/xmlticketvalidationservice.cpp \
     VDV301publisher/xmlticketvalidationservice1_0_new.cpp \
-    VDV301publisher/xmlticketvalidationservice2_3_new.cpp \
+    VDV301publisher/xmlticketvalidationservice2_3cz1_0.cpp \
     VDV301subscriber/devmgmtpublisherstruct.cpp \
     VDV301subscriber/devmgmtsubscriber.cpp \
     VDV301subscriber/devmgmtsubscriber1.cpp \
@@ -222,7 +222,7 @@ HEADERS += \
     VDV301publisher/xmldevicemanagementservice.h \
     VDV301publisher/xmlticketvalidationservice.h \
     VDV301publisher/xmlticketvalidationservice1_0_new.h \
-    VDV301publisher/xmlticketvalidationservice2_3_new.h \
+    VDV301publisher/xmlticketvalidationservice2_3cz1_0.h \
     VDV301subscriber/devmgmtpublisherstruct.h \
     VDV301subscriber/devmgmtsubscriber.h \
     VDV301subscriber/devmgmtsubscriber1.h \
