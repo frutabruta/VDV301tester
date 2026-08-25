@@ -32,8 +32,10 @@ ui_*.h
 qrc_*.cpp
 Thumbs.db
 *.rc
-/.qmake.cache
-/.qmake.stash
+.qmake.cache
+.qmake.stash
+.qtc_clangd
+build/
 
 # qtcreator generated files
 *.pro.user*
