@@ -180,7 +180,11 @@ MainWindow::MainWindow(QSettings* newQSettings, QWidget *parent) :
 MainWindow::~MainWindow()
 {
     // delete proxyModel;
-    modelConnection->deleteLater();
+    if (modelConnection) {
+        // bugfix: pri prokliku z menu "Turnus" (ne Linka/Spoj) je modelConnection nullptr,
+        // stejne tak, pokud se program jen otevre a zavre. takze musime pred pouzitim zkontrolovat.
+        modelConnection->deleteLater();
+    }
     delete ui;
 }
 
