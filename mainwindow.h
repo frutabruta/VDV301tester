@@ -76,7 +76,6 @@ private:
     void allConnects();
     void loadConstantsFromSettingsFile();
 
-
     void popUpMessage(QString messageText);
     void statusBarMessage(QString messageText);
 
@@ -153,7 +152,7 @@ private:
 
     //modely
 
-    QSqlQueryModel *modelConnection;
+    QSqlQueryModel *modelConnection=nullptr; //musi se inicializovat na null, jinak UB
     QSqlQueryModel emptyQSqlQueryModel;
 
     QSortFilterProxyModel proxyModel; //= new QSortFilterProxyModel(this);
