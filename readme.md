@@ -144,6 +144,12 @@ mingw32-make install
 
 
 ## Changelog
+- 20260826_1154
+  - Vdv301Publisher
+    - Unsubsribe path "/" fix
+  - Vdv301Subsriber
+    - Fixed Subscribers using Path attribute in DNS_SD
+
 - 20260824_2233
   - Vdv301Publisher
     - TVS data types fixed to V2.3CZ1.0
