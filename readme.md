@@ -144,6 +144,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20260830_1917
+  - Vdv301Publisher
+    - support TimeService TXT records
+  - settings for new TimeService parameters in Vdv301Publisher
+
 - 20260826_1154
   - Vdv301Publisher
     - Unsubsribe path "/" fix
