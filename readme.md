@@ -144,6 +144,9 @@ mingw32-make install
 
 
 ## Changelog
+- 20260830_1952
+  - submodule updates for commits below
+
 - 20260830_1917
   - Vdv301Publisher
     - support TimeService TXT records
