@@ -149,6 +149,12 @@ mingw32-make install
     - support TimeService TXT records
   - settings for new TimeService parameters in Vdv301Publisher
 
+- 20260826_1154
+  - Vdv301Publisher
+    - Unsubsribe path "/" fix
+  - Vdv301Subsriber
+    - Fixed Subscribers using Path attribute in DNS_SD
+
 - 20260824_2233
   - Vdv301Publisher
     - TVS data types fixed to V2.3CZ1.0
