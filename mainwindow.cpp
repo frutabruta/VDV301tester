@@ -1394,7 +1394,19 @@ void MainWindow::loadConstantsFromSettingsFile()
 
     // timeService
     timeServiceEnabled=settings->value("timeService/enabled").toBool();
-    timeService1_0.setPortNumber(settings->value("timeService/port").toInt());
+    auto timeServicePort = settings->value("timeService/port");
+    if (!timeServicePort.isNull()) {
+        timeService1_0.setPortNumber(timeServicePort.toInt());
+    }
+    auto timeServerIp = settings->value("timeService/timeServerIP");
+    if (!timeServerIp.isNull()) {
+        timeService1_0.setTimeServerIp(QHostAddress(timeServerIp.toString()));
+    }
+    auto timeZone = settings->value("timeService/timeZone");
+    if (!timeZone.isNull()) {
+        // IANA time zone ID
+        timeService1_0.setTimeZone(QTimeZone(timeZone.toByteArray()));
+    }
 
 
     // ibis
