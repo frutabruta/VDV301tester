@@ -30,8 +30,10 @@ AvlWebsocketSender::AvlWebsocketSender(const QUrl &url, QObject *parent)
     QObject::connect(m_socket, &QWebSocket::disconnected,
                      this, &AvlWebsocketSender::onDisconnected);
 
+#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
     QObject::connect(m_socket, &QWebSocket::errorOccurred,
                      this, &AvlWebsocketSender::onErrorOccurred);
+#endif
 }
 
 void AvlWebsocketSender::start()

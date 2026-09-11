@@ -144,6 +144,13 @@ mingw32-make install
 
 
 ## Changelog
+- 20260911_1742
+  - added support for new QHttpServer syntax since Qt 6.11
+    -  Vdv301publisher
+    -  Vdv301subscriber
+  - MapaVykresleni
+    - server syntax fix
+    
 - 20260830_1952
   - submodule updates for commits below
 

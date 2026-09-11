@@ -1,6 +1,5 @@
 #include "udpreceiver.h"
 
-
 UdpReceiver::UdpReceiver(quint16 port)
 {
     mPort=port;
@@ -29,7 +28,6 @@ void UdpReceiver::setPort(int newPort)
 
 void UdpReceiver::readPendingDatagrams()
 {
-    qDebug()<<"wwwww";
     while (udpSocket.hasPendingDatagrams()) {
         QNetworkDatagram datagram = udpSocket.receiveDatagram();
         emit signalDatagram(datagram);

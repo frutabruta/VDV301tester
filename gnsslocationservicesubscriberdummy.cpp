@@ -1,6 +1,7 @@
 #include "gnsslocationservicesubscriberdummy.h"
 
 #include <QDomDocument>
+#include <QDebug>
 
 GnssLocationServiceSubscriberDummy::GnssLocationServiceSubscriberDummy() : UdpReceiver(7755)
 {
