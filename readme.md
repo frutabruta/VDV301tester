@@ -157,6 +157,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20260913_1358
+  - MapaVykresleni
+    - simulated position can be set by dragging green marker on a map
+
 - 20260913_0922
   - added Android support
   - QCoreApplication::applicationDirPath() replaced with getWritableDirectory -> mWritableDirectory to allow android storage use for data.sqlite and settings files
