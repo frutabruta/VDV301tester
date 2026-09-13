@@ -4,4 +4,11 @@
         <file alias="settings.ini">copy_to_program_directory/settings.ini</file>
         <file alias="announcementList.xml">copy_to_program_directory/announcementList.xml</file>
     </qresource>
+    <qresource prefix="/mapFiles">
+        <file alias="Converter.js">MapaVykresleni/copy_to_program_directory/mapFiles/Converter.js</file>
+        <file alias="mapa.html">MapaVykresleni/copy_to_program_directory/mapFiles/mapa.html</file>
+        <file alias="mapa.js">MapaVykresleni/copy_to_program_directory/mapFiles/mapa.js</file>
+        <file alias="styly.css">MapaVykresleni/copy_to_program_directory/mapFiles/styly.css</file>
+        <file alias="map-marker-svgrepo-com.svg">MapaVykresleni/copy_to_program_directory/mapFiles/map-marker-svgrepo-com.svg</file>
+    </qresource>
 </RCC>

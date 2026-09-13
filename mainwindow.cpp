@@ -34,6 +34,7 @@ MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  Q
 
     devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.3CZ1.0","_ibisip_http._tcp",48477),
     remoteControlSubscriber("RemoteControlService","AllData","2.3CZ1.0","_ibisip_http._tcp",48478),
+    mapPlot(newWritableDirectory+"/mapFiles"),
     ui(new Ui::MainWindow)
 {
     logHandler.setRelay(&relay);
@@ -49,6 +50,8 @@ MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  Q
     mWritableDirectory=newWritableDirectory;
 
     sqlRopidQueries.dbFilePath=mWritableDirectory+"/data.sqlite";
+    mapPlot.setHtmlResultPath(mWritableDirectory+"/mapFiles");
+  //  mapPlot.mapServer.setMapFilesPath(mWritableDirectory+"/mapFiles");
 
 
 
@@ -108,8 +111,7 @@ MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  Q
     vektorCisPermanent.push_back(&customerInformationService2_3);
     vektorCisPermanent.push_back(&customerInformationService2_3CZ1_0);
 
-    mapPlot.setHtmlResultPath(mWritableDirectory+"/mapFiles");
-    mapPlot.mapServer.setMapFilesPath(mWritableDirectory+"/mapFiles");
+
 
     loadConstantsFromSettingsFile();
 
@@ -129,6 +131,9 @@ MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  Q
     }
 
     //propojeni vsech slotu
+
+
+    positionGetter.setupPositioning();
     allConnects();
 
 
@@ -286,6 +291,8 @@ void MainWindow::allConnects()
     //position reader
     connect(&locationEvents,&LocationEvents::signalArrivedAtStop,this,&MainWindow::slotLocationEnterArea);
     connect(&locationEvents,&LocationEvents::signalDepartedStop,this,&MainWindow::slotLocationLeaveArea);
+
+    connect(&positionGetter,&PositionGetter::signalPositionUpdate,this,&MainWindow::slotLocationGetterPositionChanged);
 }
 
 
@@ -2966,6 +2973,15 @@ void MainWindow::slotMpvNetReady()
     }
 }
 
+void MainWindow::slotLocationGetterPositionChanged(QPointF coordinates)
+{
+    if(useNativePosition)
+    {
+       slotGnssUpdateWgs84(coordinates);
+    }
+
+}
+
 void MainWindow::slotRemoteControlAction(Vdv301Enumerations::RemoteControlMessageTypeEnumeration message)
 {
     switch(message)
@@ -3523,5 +3539,11 @@ void MainWindow::on_checkBox_ride_razzia_clicked(bool checked)
         eventRazziaStop();
     }
     xmlVdv301UpdateContent();
+}
+
+
+void MainWindow::on_checkBox_positionNative_checkStateChanged(const Qt::CheckState &arg1)
+{
+    useNativePosition=arg1;
 }
 

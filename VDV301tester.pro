@@ -11,6 +11,7 @@ QT += xml
 QT += serialport
 QT += multimedia
 QT += httpserver
+QT += positioning
 #CONFIG   += console
 
 DEFINES+= QZEROCONF_STATIC
@@ -148,6 +149,7 @@ SOURCES += \
     MapaVykresleni/mapabod.cpp \
     MapaVykresleni/mapavykresleni.cpp \
     MapaVykresleni/mnozinabodu.cpp \
+    positiongetter.cpp \
     specialannouncementparser.cpp \
     sqldotazymodel.cpp \
     sqlropidxmlqueries.cpp \
@@ -255,6 +257,7 @@ HEADERS += \
     MapaVykresleni/mapabod.h \
     MapaVykresleni/mapavykresleni.h \
     MapaVykresleni/mnozinabodu.h \
+    positiongetter.h \
     specialannouncementparser.h \
     sqldotazymodel.h \
     sqlropidxmlqueries.h \

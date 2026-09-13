@@ -8,7 +8,32 @@
 //#include "QHT
 
 
+#ifdef Q_OS_ANDROID
+#include <QJniObject>
+#include <QCoreApplication>
 
+void keepScreenOn(bool enable)
+{
+    QJniObject activity = QJniObject::callStaticObjectMethod(
+        "org/qtproject/qt/android/QtNative",
+        "activity",
+        "()Landroid/app/Activity;");
+
+    if (!activity.isValid())
+        return;
+
+    QJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+    if (!window.isValid())
+        return;
+
+    const int FLAG_KEEP_SCREEN_ON = 128; // WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+
+    if (enable)
+        window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+    else
+        window.callMethod<void>("clearFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+}
+#endif
 
 
 QString getWritableDirectory()
@@ -74,7 +99,44 @@ void createEmptyFile()
 
 
 
+void copyResourceRecursive(QString resourcePath, QString targetPath)
+{
+    QDir targetDir(targetPath);
+    if (!targetDir.exists())
+    {
+        targetDir.mkpath(".");
+    }
 
+    QDir resourceDir(resourcePath);
+    QFileInfoList entries = resourceDir.entryInfoList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot);
+
+    QFileInfoList::const_iterator it;
+    for (it = entries.constBegin(); it != entries.constEnd(); ++it)
+    {
+        QFileInfo entry = *it;
+        QString destPath = targetPath + "/" + entry.fileName();
+
+        if (entry.isDir())
+        {
+            copyResourceRecursive(entry.filePath(), destPath);
+        }
+        else
+        {
+            if (!QFile::exists(destPath))
+            {
+                QFile::copy(entry.filePath(), destPath);
+                QFile::setPermissions(destPath, QFile::ReadOwner | QFile::WriteOwner);
+            }
+        }
+    }
+}
+
+void initializeResources()
+{
+    copyResourceRecursive(":/", getWritableDirectory());
+}
+
+/*
 void copyResource(QString fileName)
 {
     QString dbPath = getWritableDirectory()+"/"+fileName;
@@ -91,7 +153,7 @@ void initializeResources()
     copyResource("settings.ini");
     copyResource("announcementList.xml");
 }
-
+*/
 
 int main(int argc, char *argv[])
 {
@@ -103,6 +165,10 @@ int main(int argc, char *argv[])
 
     qDebug()<<"main";
     initializeResources();
+
+    #ifdef Q_OS_ANDROID
+    keepScreenOn(true);
+    #endif
 
     QString filepath="";
 

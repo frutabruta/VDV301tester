@@ -77,6 +77,8 @@ Special sounds are stored in hlaseni/special
 ### Windows
   Bonjour
   QtHttpServer (Qt Maintenance Tool can be used)
+  QtLocation
+  QtSerial
   OpenSSL (only for HTTPS Golemio access)
 
 ### Linux
@@ -157,6 +159,15 @@ mingw32-make install
 
 
 ## Changelog
+- 20260913_1757
+  - added native positioning (useful on Android)
+    - MainWindow::slotLocationGetterPositionChanged
+    - new class PositionGetter
+    - new requirment package QT += positioning
+  - main.cpp
+    - added force screen on for Android
+    - file loading changed to automatic, recursive
+
 - 20260913_1358
   - MapaVykresleni
     - simulated position can be set by dragging green marker on a map
