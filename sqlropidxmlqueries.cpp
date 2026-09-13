@@ -3,7 +3,7 @@
 
 SqlRopidXmlQueries::SqlRopidXmlQueries()
 {
-    this->dbOpen();
+    //this->dbOpen();
 }
 
 //test Pridani Komentare prechodu na SQLITE
@@ -23,7 +23,7 @@ int SqlRopidXmlQueries::getVehicleRunStops(QVector<Trip> &tripList , int tripInd
         qDebug()<< "trip index out of range";
         return  0;
     }
-    this->dbOpen();
+    this->initialize();
 
     //Spoj docasnySpoj;
     QVector<StopPointDestination> temporaryTripList;
@@ -390,7 +390,7 @@ QVector<StopNote> SqlRopidXmlQueries::getNotesFromTripSNew(int tripS, int xorder
 Trip SqlRopidXmlQueries::getTripDescriptionFromId(int tripId, QString kj)
 {
     qDebug()<< Q_FUNC_INFO;
-    this->dbOpen();
+    this->initialize();
     Trip trip;
 
     QString  queryString= R"(
@@ -1136,10 +1136,7 @@ bool SqlRopidXmlQueries::getPolygonFromStopPoint(StopPoint &stopPoint, QString k
 {
     qDebug()<< Q_FUNC_INFO;
     //qDebug()<<" idSpoje:"<<idSpoje<<" kj:"<<kj;
-    this->dbOpen();
-
-    QPolygonF temporaryPolygon;
-
+    this->initialize();
 
     //table name cannot be used in binding values
     QString queryString=R"(

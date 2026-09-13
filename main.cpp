@@ -11,6 +11,19 @@
 
 
 
+QString getWritableDirectory()
+{
+#ifdef Q_OS_ANDROID
+    QString dir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+#else
+    QString dir = QCoreApplication::applicationDirPath();
+#endif
+    QDir().mkpath(dir);
+    return dir;
+}
+
+
+
 void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     Q_UNUSED(context);
@@ -46,7 +59,7 @@ void customMessageHandler(QtMsgType type, const QMessageLogContext &context, con
 
 void createEmptyFile()
 {
-    QString cestaLogu=QCoreApplication::applicationDirPath()+"/logfile.log";
+    QString cestaLogu=getWritableDirectory()+"/logfile.log";
 
     QFile outFile(cestaLogu);
    // outFile.open(QIODevice::WriteOnly | QIODevice::Append);
@@ -60,6 +73,26 @@ void createEmptyFile()
 }
 
 
+
+
+void copyResource(QString fileName)
+{
+    QString dbPath = getWritableDirectory()+"/"+fileName;
+    if (!QFile::exists(dbPath))
+    {
+        QFile::copy(":/"+fileName, dbPath);
+        QFile::setPermissions(dbPath, QFile::ReadOwner | QFile::WriteOwner);
+    }
+}
+
+void initializeResources()
+{
+    copyResource("data.sqlite");
+    copyResource("settings.ini");
+    copyResource("announcementList.xml");
+}
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -68,16 +101,20 @@ int main(int argc, char *argv[])
     qCommandLineParser.addOption(QCommandLineOption("config", "Input file path", "file"));
     qCommandLineParser.process(a.arguments());
 
+    qDebug()<<"main";
+    initializeResources();
 
     QString filepath="";
 
+    QString writableDirectory=getWritableDirectory();
+
     if(!qCommandLineParser.value("config").isEmpty())
     {
-        filepath=QCoreApplication::applicationDirPath()+"/"+qCommandLineParser.value("config");
+        filepath=writableDirectory+"/"+qCommandLineParser.value("config");
     }
     else
     {
-        filepath=QCoreApplication::applicationDirPath()+"/settings.ini";
+        filepath=writableDirectory+"/settings.ini";
     }
 
     QSettings  qSettings(filepath, QSettings::IniFormat);
@@ -103,7 +140,7 @@ int main(int argc, char *argv[])
     }
 */
 
-    MainWindow w(&qSettings);
+    MainWindow w(&qSettings,writableDirectory);
     w.show();
     return a.exec();
 }

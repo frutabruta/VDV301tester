@@ -44,6 +44,7 @@ QT_MULTIMEDIA_PREFERRED_PLUGINS=
 # QT       += core
 
 #LIBS += -lqhttpserver
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
 SOURCES += \
     Avl/avl.cpp \
@@ -270,6 +271,7 @@ TRANSLATIONS += \
         lang_en.ts
 
 RESOURCES += \
-    lang.qrc
+    lang.qrc \
+    resources.qrc
 
 RC_ICONS = vdv301tester_Aes_icon.ico

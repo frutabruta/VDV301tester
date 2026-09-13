@@ -13,12 +13,12 @@ Q_LOGGING_CATEGORY(MainWindowLog, "MainWindow")
 
 //koment
 
-MainWindow::MainWindow(QSettings* newQSettings, QWidget *parent) :
+MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  QWidget *parent) :
     QMainWindow(parent),
-    konfigurace(QCoreApplication::applicationDirPath()),
-    //  settings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat),
+    konfigurace(newWritableDirectory),
+    //  settings(mWritableDirectory+"/settings.ini", QSettings::IniFormat),
     golemio(""), //klic do golemia
-    logfile(QCoreApplication::applicationDirPath()),
+    logfile(newWritableDirectory),
     logWindow(this),
     avl(12346),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0","_ropid_vdv301tester"), //47477
@@ -45,6 +45,14 @@ MainWindow::MainWindow(QSettings* newQSettings, QWidget *parent) :
 
     ui->setupUi(this);
     qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+
+    mWritableDirectory=newWritableDirectory;
+
+    sqlRopidQueries.dbFilePath=mWritableDirectory+"/data.sqlite";
+
+
+
+    qDebug()<<"writable directory: "<<mWritableDirectory;
 
     QString loggingRules="";
     loggingRules+="DisplayLabel=false\n";
@@ -100,8 +108,8 @@ MainWindow::MainWindow(QSettings* newQSettings, QWidget *parent) :
     vektorCisPermanent.push_back(&customerInformationService2_3);
     vektorCisPermanent.push_back(&customerInformationService2_3CZ1_0);
 
-    mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath()+"/mapFiles");
-    mapPlot.mapServer.setMapFilesPath(QCoreApplication::applicationDirPath()+"/mapFiles");
+    mapPlot.setHtmlResultPath(mWritableDirectory+"/mapFiles");
+    mapPlot.mapServer.setMapFilesPath(mWritableDirectory+"/mapFiles");
 
     loadConstantsFromSettingsFile();
 
@@ -1266,11 +1274,16 @@ void MainWindow::initializeSelectionListView()
 
     ui->listView_lineRun->setModel(&emptyQSqlQueryModel);
     ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
-
     ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
 
     QSqlQueryModel* modelLinky=sqlRopidQueries.getLineListModel(this->createDataValidityMask());
     QSqlQueryModel* modelKmenoveLinky=sqlRopidQueries.getRootLineListModel(this->createDataValidityMask());
+
+    if (!modelLinky || !modelKmenoveLinky)
+    {
+        qCDebug(MainWindowLog) << "error loading lines - db not available";
+        return;
+    }
 
     if (modelLinky->rowCount()>0)
     {
@@ -1293,7 +1306,7 @@ void MainWindow::initializeSelectionListView()
     }
     else
     {
-        qCDebug(MainWindowLog)<<"chyba nacitani linek";
+        qCDebug(MainWindowLog)<<"error loading lines";
     }
 }
 
@@ -1331,7 +1344,7 @@ void MainWindow::loadConstantsFromSettingsFile()
     // check config file validity
     if(settings->value("app/language").isNull())
     {
-        eventAnnouncementToDriver("config file is missing/invalid");
+        eventAnnouncementToDriver("config file "+settings->fileName()+" is missing/invalid");
     }
     else
     {
@@ -1678,6 +1691,7 @@ void MainWindow::on_pushButton_data_startXmlRopidImport_clicked()
     QPointer<XmlImportJr> xmlImportJr =  new XmlImportJr();
     xmlImportJr->truncateAll();
     xmlImportJr->vstupniXmlSouborCesta=xmlFilePath;
+    xmlImportJr->sqLiteZaklad.dbFilePath=mWritableDirectory+"/data.sqlite";
     settings->setValue("data/xmlPath",xmlFilePath);
     connectyImport(xmlImportJr);
     xmlImportJr->start();
@@ -2583,7 +2597,7 @@ QString MainWindow::openXmlSelectDialogue(QString cesta)
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Otevři soubor"), cesta,
-                                                    tr("XML Ropid JŘ (*.xml);;All Files (*)"));
+                                                    tr("XML Ropid JŘ (*);;All Files (*)")); //needs to be all files. If it is .xml android picker will not accept it
     return fileName;
 }
 

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="data.sqlite">XmlRopidImportStream/data.sqlite</file>
+        <file alias="settings.ini">copy_to_program_directory/settings.ini</file>
+        <file alias="announcementList.xml">copy_to_program_directory/announcementList.xml</file>
+    </qresource>
+</RCC>

@@ -63,7 +63,7 @@ class MainWindow : public QMainWindow
 
 public:
     //explicit MainWindow(QWidget *parent = nullptr);
-    MainWindow(QSettings* newQSettings, QWidget *parent = nullptr);
+    MainWindow(QSettings* newQSettings, QString newWritableDirectory, QWidget *parent = nullptr);
     ~MainWindow();
 
     //konstanty
@@ -148,6 +148,7 @@ private:
     QString xmlVersion="";
     QString xmlTrajectoryType=""; // N/A, WGS84, S-JTSK
 
+    QString mWritableDirectory="";
 
 
     //modely

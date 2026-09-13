@@ -36,6 +36,7 @@ Thumbs.db
 .qmake.stash
 .qtc_clangd
 build/
+QZeroConfNsdManager.java
 
 # qtcreator generated files
 *.pro.user*

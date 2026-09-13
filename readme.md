@@ -1,6 +1,6 @@
- # VDV301tester
+# VDV301tester
 
-This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1.0 and VDV301 2.3CZ1.0, written in Qt Framework.
+This is a program used to test devices compatible with VDV301 1.0, VDV301 2.3 and VDV301 2.3CZ1.0, written in Qt Framework.
 
 # Features
 - XML ROPID timetable import
@@ -37,6 +37,7 @@ This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1
   - DeviceManagementService
     - firmware update in devices
   - full translation of sourcecode to English
+
 # Known bugs
 - IbisSender
   - viapoints over certain length will not display on BS210
@@ -44,7 +45,7 @@ This is a program used to test devices compatible with VDV301 1.0, VDV301 2.2CZ1
 # Voice annoucements
 MP3 files are not provided with the program.
 
-Stop names have to be stored in hlaseni/zastavky folder, using CIS od OIS number.
+Stop names have to be stored in hlaseni/zastavky folder, using CIS number.
 
 Special sounds are stored in hlaseni/special
 
@@ -77,11 +78,14 @@ Special sounds are stored in hlaseni/special
   Bonjour
   QtHttpServer (Qt Maintenance Tool can be used)
   OpenSSL (only for HTTPS Golemio access)
+
 ### Linux
   Avahi
   QtHttpServer  (https://github.com/qt/qthttpserver/tree/5.15) (qmake, make, make install)
   OpenSSL? (Golemio is not tested on Linux yet)
 
+### Android - features are limited
+  Android Studio
 
 ### Tested Qt versions:
 - 5.15.2
@@ -89,11 +93,20 @@ Special sounds are stored in hlaseni/special
 - 6.5.0
   - available in 64bit version only
   - improved spacing of voice announcement segments
-
+- 6.11.2
+  - tested with
+    - MinGW
+    - MSVC
+    - Android (level 34, 37, 37.1)
+      - arm64-v8a
+      - x86_64
+## Before compiling
+- Android: copy *QZeroConfNsdManager.java* from *VDV301tester\VDV301publisher\QtZeroConf* to *VDV301tester\android\src*
 ## After compiling
-- Copy all programs from folder *copy_to_program_directory* to the build directory
-- Copy *data.sqlite* from folder *XmlRopidImportStream* to build directory
+- Copy all data from folder *copy_to_program_directory* to the build directory
+- Copy *data.sqlite* from folder *XmlRopidImportStream* to build directory (done automatically on Android and Windows on first run)
 - Copy whole *mapFiles* folder from *MapaVykresleni/copy_to_program_directory* to build directory
+
 ## Loading of new XML data
 
  - Options -> Truncate, 
@@ -144,6 +157,22 @@ mingw32-make install
 
 
 ## Changelog
+- 20260913_0922
+  - added Android support
+  - QCoreApplication::applicationDirPath() replaced with getWritableDirectory -> mWritableDirectory to allow android storage use for data.sqlite and settings files
+  - MainWindow::initializeSelectionListView
+    - added empty pointer check
+  - resources.qrc
+    - settings.ini and data.sqlite copy automatically on first run to a writtable directory
+  - SqlRopidXmlQueries
+    - db.open() replaced with this->initialize() where possible 
+  - main.cpp 
+    - added getWritableDirectory
+    - added copyResource
+    - added initializeResources
+  - Vdv301subscriber
+    - changed initialization of QtZeroConf to prevent crash on Android level 37
+
 - 20260911_1742
   - added support for new QHttpServer syntax since Qt 6.11
     -  Vdv301publisher
