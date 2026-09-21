@@ -159,6 +159,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20260917_1338
+  - RemoteControlService error message after subscribe fixes
+    - Vdv301subscriber
+    - Vdv301publisher
+
 - 20260913_1757
   - added native positioning (useful on Android)
     - MainWindow::slotLocationGetterPositionChanged
