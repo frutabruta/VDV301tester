@@ -159,6 +159,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20261012_2237
+  - remoteControlSubscriber port changed to avoid collision with Vdv301Display
+  - VDV301subscriber
+    - port collision is now qCCritical message
+    
 - 20260917_1338
   - RemoteControlService error message after subscribe fixes
     - Vdv301subscriber

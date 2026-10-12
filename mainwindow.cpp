@@ -21,6 +21,7 @@ MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  Q
     logfile(newWritableDirectory),
     logWindow(this),
     avl(12346),
+    mapPlot(newWritableDirectory+"/mapFiles"),
     deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0","_ropid_vdv301tester"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
     customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3","_ropid_vdv301tester_2_3"),
@@ -31,10 +32,8 @@ MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  Q
     //devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
     //devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),
     ticketValidationService2_2("TicketValidationService","_ibisip_http._tcp",47483,"2.2","_fake_ropid_vdv301tester_2_2"),
-
     devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.3CZ1.0","_ibisip_http._tcp",48477),
-    remoteControlSubscriber("RemoteControlService","AllData","2.3CZ1.0","_ibisip_http._tcp",48478),
-    mapPlot(newWritableDirectory+"/mapFiles"),
+    remoteControlSubscriber("RemoteControlService","AllData","2.3CZ1.0","_ibisip_http._tcp",48479),
     ui(new Ui::MainWindow)
 {
     logHandler.setRelay(&relay);
