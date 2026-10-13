@@ -50,7 +50,7 @@ MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  Q
 
     sqlRopidQueries.dbFilePath=mWritableDirectory+"/data.sqlite";
     mapPlot.setHtmlResultPath(mWritableDirectory+"/mapFiles");
-  //  mapPlot.mapServer.setMapFilesPath(mWritableDirectory+"/mapFiles");
+    //  mapPlot.mapServer.setMapFilesPath(mWritableDirectory+"/mapFiles");
 
 
 
@@ -227,6 +227,10 @@ void MainWindow::allConnects()
     connect(&devMgmtSubscriber,&IbisIpSubscriber::signalUpdateDeviceList,this,&MainWindow::slotServiceTableUpdate);
 
     connect(&remoteControlSubscriber,&RemoteControlSubscriber::signalMessageType,this,&MainWindow::slotRemoteControlAction);
+    connect(&remoteControlSubscriber,&IbisIpSubscriber::signalUpdateDeviceList,this,&MainWindow::slotUpdateServiceTable);
+    //connect(&devMgmtSubscriber,&IbisIpSubscriber::signalUpdateDeviceList,this,&MainWindow::slotUpdateServiceTable);
+
+
 
     //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
     //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
@@ -435,6 +439,17 @@ QVector<Vdv301DisplayContent> MainWindow::createGlobalDisplayContentOutOfService
     return output;
 }
 
+void MainWindow::debugServiceListToTable(QVector<QZeroConfService> serviceList)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    eraseTable(ui->tableWidget_services);
+
+    foreach(QZeroConfService selectedService, serviceList)
+    {
+        slotDebugServiceToTable(selectedService);
+    }
+}
+
 void MainWindow::dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceListDetected, QVector<DevMgmtPublisherStruct> serviceListConfigured)
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
@@ -454,6 +469,8 @@ void MainWindow::dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceList
 
     }
 }
+
+
 
 
 
@@ -2842,6 +2859,42 @@ void MainWindow::slotTvs2_3CZ1_0PortUpdate(int port)
 }
 
 
+void MainWindow::slotDebugServiceToTable(QZeroConfService zcs)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qint32 row;
+    QTableWidgetItem *cell;
+
+    QString name=zcs->name();
+    QString ipaddress=zcs->ip().toString();
+    QString host=zcs->host();
+    QString version=zcs.data()->txt().value("ver");
+    int port=zcs->port();
+
+    qCDebug(MainWindowLog) <<"service name "<<name<<" ip address"<<ipaddress<<" port "<<QString::number(port)<<" data" <<version ;
+
+    row = ui->tableWidget_services->rowCount();
+    ui->tableWidget_services->insertRow(row);
+    cell = new QTableWidgetItem(name);
+    ui->tableWidget_services->setItem(row, 0, cell);
+
+    cell = new QTableWidgetItem(version);
+    ui->tableWidget_services->setItem(row, 1, cell);
+
+    cell = new QTableWidgetItem(ipaddress);
+    ui->tableWidget_services->setItem(row, 2, cell);
+
+    cell = new QTableWidgetItem(QString::number(port));
+    ui->tableWidget_services->setItem(row, 3, cell);
+
+    cell = new QTableWidgetItem(host);
+    ui->tableWidget_services->setItem(row, 4, cell);
+
+    ui->tableWidget_services->resizeColumnsToContents();
+
+    qCDebug(MainWindowLog)<<"sluzbaDoTabulky_konec";
+}
+
 void MainWindow::slotDownloadConnectionsFromCurrentStop()
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
@@ -2976,7 +3029,7 @@ void MainWindow::slotLocationGetterPositionChanged(QPointF coordinates)
 {
     if(useNativePosition)
     {
-       slotGnssUpdateWgs84(coordinates);
+        slotGnssUpdateWgs84(coordinates);
     }
 
 }
@@ -3028,6 +3081,12 @@ void MainWindow::slotSetProgressMax(int hodnota)
     ui->progressBar_data_importXml->setMaximum(hodnota);
 }
 
+void MainWindow::slotUpdateServiceTable()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    debugServiceListToTable(remoteControlSubscriber.serviceList);
+    //debugServiceListToTable(devMgmtSubscriber.serviceList);
+}
 
 void MainWindow::slotVdv301ServiceStartResult(QString nastartovanaSluzba)
 {

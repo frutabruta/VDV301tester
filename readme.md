@@ -159,6 +159,11 @@ mingw32-make install
 
 
 ## Changelog
+- 20261013_2116
+  - VDV301subscriber
+    - fix QZeroconf submodule
+  - added service detection window
+
 - 20261012_2237
   - remoteControlSubscriber port changed to avoid collision with Vdv301Display
   - VDV301subscriber

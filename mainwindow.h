@@ -291,6 +291,7 @@ private:
 
 
 
+    void debugServiceListToTable(QVector<QZeroConfService> serviceList);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
@@ -482,6 +483,8 @@ private slots:
     void slotRemoteControlAction(Vdv301Enumerations::RemoteControlMessageTypeEnumeration message);
 
 
+    void slotDebugServiceToTable(QZeroConfService zcs);
+    void slotUpdateServiceTable();
 signals:
     // void signalZahajImport(QString cesta);
 };
