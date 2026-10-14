@@ -1,313 +1,436 @@
 #include "voiceannouncer.h"
 #include <QBuffer>
 
+Q_LOGGING_CATEGORY(VoiceAnnouncerLog, "VoiceAnnouncer");
+
 
 VoiceAnnouncer::VoiceAnnouncer()
 {
-
-    this->aktualizujCestyZvuku(cesta);
-
-}
-
-bool VoiceAnnouncer::souborExistuje(QString path)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    QFileInfo check_file(path); //zdroj:: https://stackoverflow.com/questions/10273816/how-to-check-whether-file-exists-in-qt-in-c
-    // check if file exists and if yes: Is it really a file and no directory?
-    if (check_file.exists() && check_file.isFile()) {
-        qDebug()<<"soubor "<<path<<" existuje";
-        return true;
-    } else {
-        qDebug()<<"soubor "<<path<<" neexistuje";
-        return false;
-    }
+    this->updateSoundFilesPaths(announcmentSoundFolderPath);
 }
 
 
-QUrl VoiceAnnouncer::najdiCestuZastavka(int kodOis, int kodCis)
+QUrl VoiceAnnouncer::getFilePathFromStopIds(int kodCis)
 {
-    qDebug() <<  Q_FUNC_INFO;
-    QString slozka=cesta+"/zastavky/";
-    QString testOis="";
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
+    QString folder=announcmentSoundFolderPath+"/zastavky/";
     QString testCis="";
 
-    testOis+=slozka;
-    testOis+=QString::number(kodOis);
-    testOis+=".mp3";
-
-    testCis+=slozka;
+    testCis+=folder;
     testCis+=QString::number(kodCis);
     testCis+=".mp3";
 
-    if(souborExistuje(testCis))
+    if(fileExists(testCis))
     {
-        qDebug()<<"soubor s cis existuje,cislo:"<<QString::number(kodCis);
+        qCDebug(VoiceAnnouncerLog)<<"files exists, CIS code: "<<QString::number(kodCis);
         return QUrl::fromLocalFile(testCis);
     }
     else
     {
-
-        if (souborExistuje(testOis))
-        {
-            qDebug()<<"soubor  cis "<<testCis<<" neexistuje, pouzivam cislo OIS:"<<testOis;
-            return QUrl::fromLocalFile(testOis);
-        }
-        else
-        {
-            qDebug()<<"file doesnt exist: CIS "<<kodCis<<" OIS "<<kodOis;
-        }
-
+        qCDebug(VoiceAnnouncerLog)<<"file doesnt exist: CIS "<<kodCis;
     }
-    return QUrl::fromLocalFile("");
+    return QUrl();
 }
 
 
-QUrl VoiceAnnouncer::najdiCestuSpecial(QString nazevSouboru)
+QUrl VoiceAnnouncer::getFilePathNumber(QString fileName)
 {
-    qDebug() <<  Q_FUNC_INFO;
-    QString slozka=cesta+"/special/";
-    QString cestaSouboru="";
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
+    QString directory=announcmentSoundFolderPath+"/cisla/";
+    QString filePath="";
 
-    cestaSouboru+=slozka;
-    cestaSouboru+=nazevSouboru;
+    filePath+=directory;
+    filePath+=fileName;
+    filePath+=".mp3";
 
-    if(souborExistuje(cestaSouboru))
+    if(fileExists(filePath))
     {
-
-        qDebug()<<"soubor specHlaseniExistuje:"<<nazevSouboru;
-        return QUrl::fromLocalFile(cestaSouboru);
-
+        qCDebug(VoiceAnnouncerLog)<<"file special exists: "<<fileName;
+        return QUrl::fromLocalFile(filePath);
     }
 
-    return QUrl::fromLocalFile("");
+    return QUrl();
+}
+
+QUrl VoiceAnnouncer::getFilePathSpecial(QString fileName)
+{
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
+    QString directory=announcmentSoundFolderPath+"/special/";
+    QString filePath="";
+
+    filePath+=directory;
+    filePath+=fileName;
+
+    if(fileExists(filePath))
+    {
+        qCDebug(VoiceAnnouncerLog)<<"file special exists: "<<fileName;
+        return QUrl::fromLocalFile(filePath);
+    }
+
+    return QUrl();
 }
 
 
-
-
-bool VoiceAnnouncer::announceThisAndNextStop(StopPoint zastavka1, StopPoint zastavka2)
+bool VoiceAnnouncer::announceBlindPersonBoarding()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
+    QVector<QUrl> subQueue;
+    subQueue.push_back(zvukNastupNeboVystupNevidomeho);
+    pridejDoFrontyVyhlas(subQueue);
+    return 1;
+}
 
-    qDebug()<<"zvuk gong adresa "<<zvukGong;
+bool VoiceAnnouncer::announceLineAndDestination(StopPointDestination thisStop)
+{
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
 
-    QVector<QUrl> kratkaFronta;
+    QVector<QUrl> subQueue;
+    subQueue.push_back(zvukGong);
+    subQueue.push_back(zvukLinka);
 
-    kratkaFronta.push_back(zvukGong);
-    kratkaFronta.push_back(najdiCestuZastavka(zastavka1.idOis,zastavka1.idCis));
-    kratkaFronta.append(priznakyDoSeznamu(zastavka1));
-    kratkaFronta.push_back(zvukPristiZastavka);
-    kratkaFronta.push_back(najdiCestuZastavka(zastavka2.idOis,zastavka2.idCis));
-
-    if(zastavka2.onRequest)
+    if(!thisStop.line.lineName.isEmpty())
     {
-        kratkaFronta.push_back(zvukNaZnameni);
+        subQueue.append(lineNameCreate(thisStop.line.lineName));
+    }
+    else
+    {
+        subQueue.append(lineNameCreate(QString::number(thisStop.line.c)));
     }
 
-    pridejDoFrontyVyhlas(kratkaFronta);
+
+    subQueue.push_back(zvukSmer);
+    subQueue.push_back(getFilePathFromStopIds(thisStop.destination.idCis));
+    //subQueue.append(stopAttributesToFileQurlList(thisStop));
+
+    pridejDoFrontyVyhlas(subQueue);
+
+    return 1;
+}
+
+
+bool VoiceAnnouncer::announceThisAndNextStop(StopPoint stopPoint1, StopPoint stopPoint2)
+{
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
+    qCDebug(VoiceAnnouncerLog)<<"zvuk gong adresa "<<zvukGong;
+
+    QVector<QUrl> subQueue;
+
+    subQueue.push_back(zvukGong);
+    subQueue.push_back(getFilePathFromStopIds(stopPoint1.idCis));
+    subQueue.append(stopAttributesToFileQurlList(stopPoint1));
+    subQueue.push_back(zvukPristiZastavka);
+    subQueue.push_back(getFilePathFromStopIds(stopPoint2.idCis));
+
+    if(stopPoint2.onRequest&&(!stopPoint2.neozn))
+    {
+        subQueue.push_back(zvukNaZnameni);
+    }
+
+    pridejDoFrontyVyhlas(subQueue);
 
     return 1;
 }
 
 bool VoiceAnnouncer::announceThisStop(StopPoint thisStop)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
+    qCDebug(VoiceAnnouncerLog)<<"zvuk gong adresa "<<zvukGong;
 
-    qDebug()<<"zvuk gong adresa "<<zvukGong;
+    QVector<QUrl> subQueue;
 
-    QVector<QUrl> kratkaFronta;
+    subQueue.push_back(zvukGong);
+    subQueue.push_back(getFilePathFromStopIds(thisStop.idCis));
+    subQueue.append(stopAttributesToFileQurlList(thisStop));
 
-    kratkaFronta.push_back(zvukGong);
-    kratkaFronta.push_back(najdiCestuZastavka(thisStop.idOis,thisStop.idCis));
-    kratkaFronta.append(priznakyDoSeznamu(thisStop));
-
-    pridejDoFrontyVyhlas(kratkaFronta);
+    pridejDoFrontyVyhlas(subQueue);
 
     return 1;
 }
+
 
 
 bool VoiceAnnouncer::announceNextStop(StopPoint nextStop)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
 
-    qDebug()<<"zvuk gong adresa "<<zvukGong;
+    qCDebug(VoiceAnnouncerLog)<<"zvuk gong adresa "<<zvukGong;
 
-    QVector<QUrl> kratkaFronta;
+    QVector<QUrl> subQueue;
 
     //kratkaFronta.push_back(zvukGong);
-     kratkaFronta.push_back(zvukGongPristi);
-    kratkaFronta.push_back(zvukPristiZastavka);
-    kratkaFronta.push_back(najdiCestuZastavka(nextStop.idOis,nextStop.idCis));
+    subQueue.push_back(zvukGongPristi);
+    subQueue.push_back(zvukPristiZastavka);
+    subQueue.push_back(getFilePathFromStopIds(nextStop.idCis));
 
-    if(nextStop.onRequest)
+    if(nextStop.onRequest&&(!nextStop.neozn))
     {
-        kratkaFronta.push_back(zvukNaZnameni);
+        subQueue.push_back(zvukNaZnameni);
     }
 
-    pridejDoFrontyVyhlas(kratkaFronta);
+    pridejDoFrontyVyhlas(subQueue);
 
     return 1;
 }
 
-bool VoiceAnnouncer::kompletOdjezdPrvniZastavka(StopPoint zastavka2)
+bool VoiceAnnouncer::composeFirstStopDeparture(StopPoint stopPoint2)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
+    qCDebug(VoiceAnnouncerLog)<<"zvuk gong adresa "<<zvukGong;
 
-    qDebug()<<"zvuk gong adresa "<<zvukGong;
+    QVector<QUrl> subQueue;
 
-    QVector<QUrl> kratkaFronta;
+    subQueue.push_back(zvukPristiZastavka);
+    subQueue.push_back(getFilePathFromStopIds(stopPoint2.idCis));
 
-    kratkaFronta.push_back(zvukPristiZastavka);
-    kratkaFronta.push_back(najdiCestuZastavka(zastavka2.idOis,zastavka2.idCis));
-
-    if(zastavka2.onRequest)
+    if(stopPoint2.onRequest&&(!stopPoint2.neozn))
     {
-        kratkaFronta.push_back(zvukNaZnameni);
+        subQueue.push_back(zvukNaZnameni);
     }
 
-    pridejDoFrontyVyhlas(kratkaFronta);
+    pridejDoFrontyVyhlas(subQueue);
 
     return 1;
 }
 
-QVector<QUrl> VoiceAnnouncer::priznakyDoSeznamu(StopPoint vstup)
+// mockup for now
+QVector<QUrl> VoiceAnnouncer::lineNameCreate(QString lineName)
 {
-    QVector<QUrl> vystup;
-    if(vstup.onRequest)
-    {
-        vystup.push_back(zvukNaZnameni);
-    }
+    qCDebug(VoiceAnnouncerLog) << Q_FUNC_INFO << " input: "<<lineName;
+    QVector<QUrl> urlList;
 
-    if(vstup.transferMetroA)
-    {
-        vystup.push_back(zvukPrestupNaMetro );
+    QString numberBuffer="";
 
-        if(vstup.transferMetroB)
+    for(int i=0; i<lineName.length();i++)
+    {
+        QChar character=lineName.at(i);
+        if(character.isDigit())
         {
-            vystup.push_back(zvukMAaB);
-        }
-        else if(vstup.transferMetroC)
-        {
-            vystup.push_back(zvukMAaC);
-        }
-        else if(vstup.transferMetroD)
-        {
-            vystup.push_back(zvukMAaD);
+            numberBuffer+=character;
         }
         else
         {
-            vystup.push_back(zvukMA);
+            if(!numberBuffer.isEmpty())
+            {
+                urlList.append(numberCreate(numberBuffer.toInt()));
+                numberBuffer.clear();
+            }
+            if(character.isLetter())
+            {
+                urlList.push_back(getFilePathNumber(QString(character)));
+            }
+            else
+            {
+                qCDebug(VoiceAnnouncerLog) << "invalid character: "<<character;
+            }
+
         }
     }
-    else if(vstup.transferMetroB)
+    if(!numberBuffer.isEmpty())
     {
-        vystup.push_back(zvukPrestupNaMetro );
-
-        if(vstup.transferMetroC)
-        {
-            vystup.push_back(zvukMBaC);
-        }
-        else if(vstup.transferMetroD)
-        {
-            vystup.push_back(zvukMBaD);
-        }
-        else
-        {
-            vystup.push_back(zvukMB);
-        }
+        urlList.append(numberCreate(numberBuffer.toInt()));
+        numberBuffer.clear();
     }
-    else if(vstup.transferMetroC)
+
+    /*
+    if(lineNameNumber>0)
     {
-        vystup.push_back(zvukPrestupNaMetro );
-        if(vstup.transferMetroD)
-        {
-            vystup.push_back(zvukMCaD);
-        }
-        else
-        {
-            vystup.push_back(zvukMC);
-        }
+        urlList.append(numberCreate(lineNameNumber));
     }
-    else if(vstup.transferMetroD)
+    else
     {
-        vystup.push_back(zvukPrestupNaMetro );
-        vystup.push_back(zvukMD);
-    }
+        qCDebug(VoiceAnnouncerLog) << "not a number";
+    } */
 
-
-    if(vstup.transferTrain)
-    {
-        vystup.push_back(zvukPrestupNaLinkyS );
-    }
-    if(vstup.transferFerry)
-    {
-        vystup.push_back(zvukPrestupNaPrivoz );
-    }
-
-
-
-
-    return vystup;
-
+    return urlList;
 }
 
 
-
-
-
-void VoiceAnnouncer::kompletZmenaTarifnihoPasma()
+QVector<QUrl> VoiceAnnouncer::numberCreate(int number)
 {
-    qDebug() <<  Q_FUNC_INFO;
-    QVector<QUrl> kratkaFronta;
-    kratkaFronta.push_back(zvukProsimPozor);
-    kratkaFronta.push_back(zvukZmenaPasma);
+    qCDebug(VoiceAnnouncerLog) << Q_FUNC_INFO << " input: "<<number;
+    QVector<QUrl> urlList;
 
-    pridejDoFrontyVyhlas(kratkaFronta);
+    if(number>0)
+    {
+        int c1000= number/1000;
+        int mod1000 = number%1000;
+        if(c1000>0)
+        {
+            urlList.push_back(getFilePathNumber("C"+QString::number(c1000))); //temporary workaround
+            //urlList.push_back(getFilePathNumber("C"+QString::number(c1000)+"000"));
+        }
+        int c100= mod1000/100;
+        int mod100 = mod1000%100;
+        if(c100>0)
+        {
+            urlList.push_back(getFilePathNumber("C"+QString::number(c100)+"00"));
+        }
+
+
+        int c10=mod100/10;
+        int mod10=mod100%10;
+        if((c10==1)&&(mod10!=0))
+        {
+            urlList.push_back(getFilePathNumber("C"+QString::number(c10)+QString::number(mod10)));
+        }
+        else
+        {
+            if(c10>0)
+            {
+                urlList.push_back(getFilePathNumber("C"+QString::number(c10)+"0"));
+            }
+            if(mod10>0)
+            {
+                urlList.push_back(getFilePathNumber("C"+QString::number(mod10)));
+            }
+        }
 
 
 
+
+    }
+    else
+    {
+        qCDebug(VoiceAnnouncerLog) << "not a number";
+    }
+
+    return urlList;
 }
 
 
-bool VoiceAnnouncer::kompletSpecialniHlaseni(AdditionalAnnoucement specialniHlaseni)
+QVector<QUrl> VoiceAnnouncer::stopAttributesToFileQurlList(StopPoint stopPoint)
 {
-    qDebug() <<  Q_FUNC_INFO <<" segmentu:"<<QString::number(specialniHlaseni.mp3.count());
-    QVector<QUrl> seznamAdres;
-
-
-    foreach(QString segment, specialniHlaseni.mp3)
+    QVector<QUrl> urlList;
+    if(stopPoint.onRequest&&(!stopPoint.neozn))
     {
-        QUrl adresa= najdiCestuSpecial(segment);
-        if(!adresa.isEmpty())
+        urlList.push_back(zvukNaZnameni);
+    }
+
+    if(stopPoint.transferMetroA)
+    {
+        urlList.push_back(zvukPrestupNaMetro );
+
+        if(stopPoint.transferMetroB)
         {
-            seznamAdres.push_back(adresa);
+            urlList.push_back(zvukMAaB);
+        }
+        else if(stopPoint.transferMetroC)
+        {
+            urlList.push_back(zvukMAaC);
+        }
+        else if(stopPoint.transferMetroD)
+        {
+            urlList.push_back(zvukMAaD);
+        }
+        else
+        {
+            urlList.push_back(zvukMA);
+        }
+    }
+    else if(stopPoint.transferMetroB)
+    {
+        urlList.push_back(zvukPrestupNaMetro );
+
+        if(stopPoint.transferMetroC)
+        {
+            urlList.push_back(zvukMBaC);
+        }
+        else if(stopPoint.transferMetroD)
+        {
+            urlList.push_back(zvukMBaD);
+        }
+        else
+        {
+            urlList.push_back(zvukMB);
+        }
+    }
+    else if(stopPoint.transferMetroC)
+    {
+        urlList.push_back(zvukPrestupNaMetro );
+        if(stopPoint.transferMetroD)
+        {
+            urlList.push_back(zvukMCaD);
+        }
+        else
+        {
+            urlList.push_back(zvukMC);
+        }
+    }
+    else if(stopPoint.transferMetroD)
+    {
+        urlList.push_back(zvukPrestupNaMetro );
+        urlList.push_back(zvukMD);
+    }
+
+
+    if(stopPoint.transferTrain)
+    {
+        urlList.push_back(zvukPrestupNaLinkyS );
+    }
+    if(stopPoint.transferFerry)
+    {
+        urlList.push_back(zvukPrestupNaPrivoz );
+    }
+
+    if(stopPoint.transferAirplane)
+    {
+        urlList.push_back(zvukPrestupNaLetiste );
+    }
+
+    return urlList;
+}
+
+
+void VoiceAnnouncer::composeFareZoneChange()
+{
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
+    QVector<QUrl> subQueue;
+    subQueue.push_back(zvukProsimPozor);
+    subQueue.push_back(zvukZmenaPasma);
+
+    pridejDoFrontyVyhlas(subQueue);
+}
+
+
+bool VoiceAnnouncer::composeSpecialAnnouncement(AdditionalAnnoucement additionalAnnouncement)
+{
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO <<" segmentu:"<<QString::number(additionalAnnouncement.mp3.count());
+    QVector<QUrl> qurlList;
+
+
+    foreach(QString segment, additionalAnnouncement.mp3)
+    {
+        QUrl qurl= getFilePathSpecial(segment);
+        if(!qurl.isEmpty())
+        {
+            qurlList.push_back(qurl);
         }
     }
 
-    if(seznamAdres.isEmpty())
+    if(qurlList.isEmpty())
     {
+        qCDebug(VoiceAnnouncerLog)<<"file list is empty";
         return 0;
     }
-    pridejDoFrontyVyhlas(seznamAdres);
+    pridejDoFrontyVyhlas(qurlList);
     return 1;
 
 }
 
 
-bool VoiceAnnouncer::kompletKonecna(StopPoint vstup)
+bool VoiceAnnouncer::composeLastStopAnnouncement(StopPoint vstup)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
 
-    QVector<QUrl> zasobnikAdres;
+    QVector<QUrl> subQueue;
 
-    zasobnikAdres.push_back(zvukGong);
-    zasobnikAdres.push_back(najdiCestuZastavka(vstup.idOis, vstup.idCis));
-    zasobnikAdres.append(priznakyDoSeznamu(vstup));
-    zasobnikAdres.push_back(zvukKonecna);
-    zasobnikAdres.push_back(zvukProsimeVystupte);
+    subQueue.push_back(zvukGong);
+    subQueue.push_back(getFilePathFromStopIds( vstup.idCis));
+    subQueue.append(stopAttributesToFileQurlList(vstup));
+    subQueue.push_back(zvukKonecna);
+    subQueue.push_back(zvukProsimeVystupte);
 
-    pridejDoFrontyVyhlas(zasobnikAdres);
+    pridejDoFrontyVyhlas(subQueue);
     // prehrajCelySeznamUrl(zasobnikAdres);
 
 
@@ -316,60 +439,51 @@ bool VoiceAnnouncer::kompletKonecna(StopPoint vstup)
 
 
 
-void VoiceAnnouncer::nastavCestu(QString vstup)
+void VoiceAnnouncer::setPath(QString vstup)
 {
-    qDebug() <<  Q_FUNC_INFO;
-    cesta=vstup;
-    aktualizujCestyZvuku(cesta);
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
+    announcmentSoundFolderPath=vstup;
+    updateSoundFilesPaths(announcmentSoundFolderPath);
 }
-void VoiceAnnouncer::aktualizujCestyZvuku(QString cestaVnitrni)
+void VoiceAnnouncer::updateSoundFilesPaths(QString cestaVnitrni)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
     zvukPristiZastavka=QUrl::fromLocalFile(cestaVnitrni+"/special/H001.mp3");
     zvukGong=QUrl::fromLocalFile(cestaVnitrni+"/special/H000.mp3");
     zvukGongPristi=QUrl::fromLocalFile(cestaVnitrni+"/special/H242.mp3");
-    zvukKonecna= QUrl::fromLocalFile(cestaVnitrni+"/special/H113.mp3");
-    zvukProsimeVystupte= QUrl::fromLocalFile(cestaVnitrni+"/special/H114.mp3");
-    zvukZmenaPasma= QUrl::fromLocalFile(cestaVnitrni+"/special/H170.mp3");
-    zvukProsimPozor= QUrl::fromLocalFile(cestaVnitrni+"/special/H178.mp3");
+    zvukKonecna=QUrl::fromLocalFile(cestaVnitrni+"/special/H113.mp3");
+    zvukProsimeVystupte=QUrl::fromLocalFile(cestaVnitrni+"/special/H114.mp3");
+    zvukZmenaPasma=QUrl::fromLocalFile(cestaVnitrni+"/special/H170.mp3");
+    zvukProsimPozor=QUrl::fromLocalFile(cestaVnitrni+"/special/H178.mp3");
+    zvukNastupNeboVystupNevidomeho= QUrl::fromLocalFile(cestaVnitrni+"/special/H142.mp3");
+    zvukLinka=QUrl::fromLocalFile(cestaVnitrni+"/special/H144.mp3");
+    zvukSmer=QUrl::fromLocalFile(cestaVnitrni+"/special/H145.mp3");
 
-    zvukNaZnameni= QUrl::fromLocalFile(cestaVnitrni+"/special/H002.mp3");
+    zvukNaZnameni=QUrl::fromLocalFile(cestaVnitrni+"/special/H002.mp3");
     zvukPrestupNaLinkyS=QUrl::fromLocalFile(cestaVnitrni+"/special/H184.mp3");
     zvukPrestupNaMetro=QUrl::fromLocalFile(cestaVnitrni+"/special/H103.mp3");
     zvukPrestupNaPrivoz=QUrl::fromLocalFile(cestaVnitrni+"/special/H274.mp3");
+    zvukPrestupNaLetiste=QUrl::fromLocalFile(cestaVnitrni+"/special/H628.mp3");
     zvukMA=QUrl::fromLocalFile(cestaVnitrni+"/special/H104.mp3");
     zvukMB=QUrl::fromLocalFile(cestaVnitrni+"/special/H105.mp3");
     zvukMC=QUrl::fromLocalFile(cestaVnitrni+"/special/H106.mp3");
-    zvukMD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3"); //MP3 zatím neexistuje!
-
+    zvukMD=QUrl::fromLocalFile(cestaVnitrni+"/special/H010.mp3"); //MP3 zatím neexistuje!
 
     zvukMAaB=QUrl::fromLocalFile(cestaVnitrni+"/special/H107.mp3");
     zvukMAaC=QUrl::fromLocalFile(cestaVnitrni+"/special/H108.mp3");
-    zvukMAaD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3");
+    zvukMAaD=QUrl::fromLocalFile(cestaVnitrni+"/special/H011.mp3");
     zvukMBaC=QUrl::fromLocalFile(cestaVnitrni+"/special/H109.mp3");
-    zvukMBaD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3");
-    zvukMCaD=QUrl::fromLocalFile(cestaVnitrni+"/special/HXXX.mp3");
+    zvukMBaD=QUrl::fromLocalFile(cestaVnitrni+"/special/H012.mp3");
+    zvukMCaD=QUrl::fromLocalFile(cestaVnitrni+"/special/H013.mp3");
 
-
-    //H178 prosím pozor
-    //H170 změna tarifního pásma
     //H143 nástup postiženého
-    // 144 linka
-    //145 směr
-
-
-
 }
 
 
-void VoiceAnnouncer::zmenUmisteniProgramu(QString umisteni)
+void VoiceAnnouncer::setApplicationDirectory(QString umisteni)
 {
-    qDebug() <<  Q_FUNC_INFO;
-    cestaProgramu=umisteni;
-    cesta=cestaProgramu+"/hlaseni";
-    aktualizujCestyZvuku(cesta);
+    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
+    applicationDirectory=umisteni;
+    announcmentSoundFolderPath=applicationDirectory+"/hlaseni";
+    updateSoundFilesPaths(announcmentSoundFolderPath);
 }
-
-
-
-

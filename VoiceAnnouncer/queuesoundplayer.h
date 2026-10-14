@@ -6,6 +6,7 @@
 #include <QMediaPlayer>
 #include <QBuffer>
 #include <QFileInfo>
+#include <QLoggingCategory>
 
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -19,31 +20,37 @@
 
 class QueueSoundPlayer : public QObject
 {
-       Q_OBJECT
+    Q_OBJECT
 public:
     QueueSoundPlayer();
 
+    void playOneSoundImmediately(QUrl soubor2);
+    void pridejDoFrontyVyhlas(QVector<QUrl> vstup);
 
 
-
-
-    void prehrajJedenZvuk(QUrl soubor2);
-     void pridejDoFrontyVyhlas(QVector<QUrl> vstup);
-
-
+    bool fileExists(QString path);
+    bool fileExists(QUrl path);
+    QVector<QUrl> getOnlyExistingFiles(QVector<QUrl> vstup);
 protected:
-void prehrajPolozkuZeSeznamu(QVector<QUrl> zasobnikAdres);
+    void internalPlayOneSoundFromList(QVector<QUrl> soundList);
 
-QVector<QUrl> frontaZvuku;
+    QVector<QUrl> frontaZvuku;
+
+    bool m_isStartingPlayback = false;
 
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     //Qt5
-    QMediaPlayer * player =  new QMediaPlayer(NULL, QMediaPlayer::StreamPlayback);
+    QMediaPlayer player;
+  //  QMediaPlayer * player =  new QMediaPlayer(NULL, QMediaPlayer::StreamPlayback);
 #else
     //Qt6
-    QMediaPlayer *player =  new QMediaPlayer(NULL); //qt6
-    QAudioOutput  *audioOutput = new QAudioOutput;
+    QMediaPlayer player; //qt6
+    //QMediaPlayer *player =  new QMediaPlayer(NULL); //qt6
+
+    QAudioOutput  audioOutput;
+
+    //QAudioOutput  *audioOutput = new QAudioOutput;
 #endif
 
 private slots:
@@ -55,9 +62,9 @@ public slots:
     void zmenaStavuHlaseni(QMediaPlayer::State state);
     void vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres);
 #else
-              //Qt6
-    void zmenaStavuHlaseniQt6(QMediaPlayer::PlaybackState state);
-    void vyhodPolozkuZeSeznamuQt6(QVector<QUrl> &zasobnikAdres);
+    //Qt6
+    void slotPlayStateChangedQt6(QMediaPlayer::PlaybackState state);
+    void popSoundFromListQt6(QVector<QUrl> &soundList);
 #endif
 
 

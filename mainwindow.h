@@ -13,40 +13,47 @@
 #include <QRegularExpression> //qt6
 #include <QTableWidget>
 #include <QTableView>
+#include <QLoggingCategory>
 
 
+#include "Avl/avl.h"
+#include "gnsslocationservicesubscriberdummy.h"
+#include "GolemioClient/golemiodepartureboardsv2.h"
+#include "IbisSender/ipispid.h"
+#include "locationevents.h"
+#include "logfile.h"
+#include "LogHandler/loggerrelay.h"
+#include "LogHandler/loghandler.h"
+#include "logwindow.h"
 
-//#include "VDV301DataStructures/stoppoint.h"
-//#include "VDV301DataStructures/line.h"
-#include "VDV301publisher/VDV301DataStructures/vehiclestate.h"
-#include "VDV301publisher/VDV301DataStructures/stoppointdestination.h"
-//#include "VDV301publisher/VDV301DataStructures/vdv301displaycontent.h"
+#include "MapaVykresleni/trajectoryjumper.h"
+#include "MapaVykresleni/coordinatestools.h"
+#include "MapaVykresleni/mapyapistops.h"
 
-//#include "VDV301publisher/httpservice.h"
+#include "positiongetter.h"
+#include "specialannouncementparser.h"
+#include "sqlropidxmlqueries.h"
+#include "typeconvertor.h"
+#include "xmlmpvparser.h"
+#include "XmlRopidImportStream/xmlimportjr.h"
+
 #include "VDV301publisher/customerinformationservice.h"
-#include "VDV301publisher/ticketvalidationservice.h"
 #include "VDV301publisher/devicemanagementservice.h"
+#include "VDV301publisher/VDV301DataStructures/vehiclestate.h"
+#include "VDV301publisher/ticketvalidationservice.h"
+#include "VDV301publisher/timeservice.h"
 
-//#include "VDV301subscriber/ibisipsubscriber.h"
 #include "VDV301subscriber/devmgmtsubscriber.h"
 #include "VDV301subscriber/devmgmtsubscriber1.h"
 #include "VDV301subscriber/devmgmtsubscriber2.h"
 #include "VDV301subscriber/devmgmtpublisherstruct.h"
+#include "VDV301subscriber/remotecontrolsubscriber.h"
 
-//#include "VDV301testy/vdv301testy.h"
 #include "VDV301testy/testodberuserver.h"
 #include "VDV301testy/testdemo.h"
-
-#include "sqlropidxmlqueries.h"
-#include "xmlmpvparser.h"
-#include "golemio.h"
-#include "XmlRopidImportStream/xmlimportjr.h"
-#include "IbisSender/ipispid.h"
 #include "VoiceAnnouncer/voiceannouncer.h"
-#include "konfigurace.h"
-#include "logfile.h"
-#include "mainwindowpomocne.h"
-#include "MapaVykresleni/mapyapistops.h"
+
+
 
 namespace Ui {
 class MainWindow;
@@ -57,50 +64,81 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    //explicit MainWindow(QWidget *parent = nullptr);
+    MainWindow(QSettings* newQSettings, QString newWritableDirectory, QWidget *parent = nullptr);
     ~MainWindow();
 
     //konstanty
     QString applicationDirectory=QCoreApplication::applicationDirPath();
 
-    void popUpMessage(QString messageText);
+
+
 private:
 
     void allConnects();
     void loadConstantsFromSettingsFile();
 
+    void popUpMessage(QString messageText);
+    void statusBarMessage(QString messageText);
 
     //konstanty
-    bool filterConnections=true;
-    bool useGolemioApi=true;
-    bool ibisIsEnabled=false;
+
+
     int announcementType=1;
     // 0 Prague Bus
     // 1 Prague Metro
     // 2 Berlin
+    bool avlEnabled=false;
+    bool blockBonjour=true;
+    bool filterConnections=true;
+    bool ibisIsEnabled=false;
+    bool setVehicleTypeFromLineType=true;
+    bool timeServiceEnabled=false;
+    bool useGolemioApi=true;
+    bool useNativePosition=false;
 
-
-    //ve vterinach
 
     //datove struktury
     VehicleState vehicleState;
 
+    QVector<Vdv301DisplayContent> globalDisplayContentList2_3CZ1_0;
+    QFile logFileQFile;
 
     //SQLprace mojesql;
-    SqlRopidXmlQueries sqlRopidQuerries;
+    SqlRopidXmlQueries sqlRopidQueries;
 
     //instance knihoven
-    Konfigurace konfigurace;
-    QSettings settings;
+    SpecialAnnouncementParser konfigurace;
+    QSettings *settings;
+
+    GolemioDepartureBoardsV2 golemio;
+    IpisPid ibisOvladani;
+
+    Logfile logfile;
+    LoggerRelay relay;
+    LogHandler logHandler;
+    LogWindow logWindow;
+
+
 
     XmlMpvParser xmlMpvParser;
-    Golemio golemio;
-    //  XmlRopidImportStream xmlRopidImportStream;
-    IpisPid ibisOvladani;
+
+
     VoiceAnnouncer voiceAnnouncer;
-    Logfile logfile;
-    QFile logFileQFile;
+
+
+
+    // location tools
+    Avl avl; //vehicle state sender
+    CoordinatesTools coordinateTools;
+    GnssLocationServiceSubscriberDummy gnssSusbcriber;
+    LocationEvents locationEvents;
     MapyApiStops mapPlot;
+    PositionGetter positionGetter;
+    TrajectoryJumper trajectoryJumper;
+
+
+
 
     //VDV301testy
     TestDemo testDemo;
@@ -114,43 +152,62 @@ private:
     QString xmlFilePath="";
     QDate validityFrom;
     QDate validityTo;
+    QString xmlVersion="";
+    QString xmlTrajectoryType=""; // N/A, WGS84, S-JTSK
 
+    QString mWritableDirectory="";
 
 
     //modely
 
-    QSqlQueryModel *modelConnection;
+    QSqlQueryModel *modelConnection=nullptr; //musi se inicializovat na null, jinak UB
     QSqlQueryModel emptyQSqlQueryModel;
-    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel(this);
+
+    QSortFilterProxyModel proxyModel; //= new QSortFilterProxyModel(this);
 
     //udalosti
 
+    void eventAnnouncementToDriver(QString poznamka);
     int eventArrival();
-    int eventDeparture();
-    void eventFareZoneChange();
     void eventAfterStopToBetweenStop();
+    int eventDeparture();
+    void eventDepartureFromLastStop();
     void eventExitService();
     void eventEnterService();
-    void eventAnnouncementToDriver(QString poznamka);
+    void eventFareZoneChange(QString zoneFrom, QString zoneTo);
+    void eventFareZoneChange(QVector<FareZone> fareZoneListFrom, QVector<FareZone> fareZoneListTo);  
     void eventGoToNextTrip();
-    void eventShowAnnoucement(int index, QVector<AdditionalAnnoucement> seznamHlaseni);
-
+    void eventLineChange(QString lineFrom, QString lineTo);
+    void eventRazziaStart();
+    void eventRazziaStop();
+    void eventRemoteLineDirection();
+    void eventRemoteGetOnRequest();
+    void eventShowManualAnnoucementFromList(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList);
+    void eventStartNoteAnnoucement(StopNote stopNote);
+    void eventStartWholeAnnouncement(AdditionalAnnoucement additionalAnnouncement);
+    void eventStopTimersRide();
 
     void testPopulateWindow(int index);
 
 
     //IBIS-IP sluzby
+    //  TimeService timeService1_0;  //just publishes OS built in server
     DeviceManagementService deviceManagementService1_0;
     CustomerInformationService customerInformationService1_0;
-    CustomerInformationService customerInformationService2_2CZ1_0;
     CustomerInformationService customerInformationService2_3;
+    CustomerInformationService customerInformationService2_3CZ1_0;
+    TimeService timeService1_0;
+    TicketValidationService ticketValidationService2_2;
 
-
-    TicketValidationService ticketValidationService2_3CZ1_0;
+    //list which changes - every service is poped after start
     QVector<CustomerInformationService*> vektorCis;
+
+    //permanent list of all CIS instances, which doesn't change over time
+    QVector<CustomerInformationService*> vektorCisPermanent;
 
     //IBIS-IP subscriber
     DevMgmtSubscriber2 devMgmtSubscriber;
+    RemoteControlSubscriber remoteControlSubscriber;
 
 
 
@@ -179,31 +236,30 @@ private:
 
     //VDV301
 
-    void dumpSubscribers1_0(QVector<Subscriber> adresy);
-    void dumpSubscribers2_2CZ(QVector<Subscriber> adresy);
-    void dumpSubscribers2_3(QVector<Subscriber> adresy);
+    void dumpSubscribersCis1_0(QVector<Subscriber> adresy);
+    void dumpSubscribersCis2_3CZ1_0(QVector<Subscriber> adresy);
+    void dumpSubscribersTvs2_3CZ1_0(QVector<Subscriber> adresy);
     void dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget *tabulka);
     void startAllVdv301Services();
     void stopServices(); //not implemented
     void startServiceFromList(QVector<CustomerInformationService *> &seznamSluzeb);
     void xmlVdv301UpdateContent();
-    void xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState mStavSystemu);
+    void xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState &mStavSystemu);
 
     void dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceListDetected, QVector<DevMgmtPublisherStruct> serviceListConfigured);
     void serviceToTable(DevMgmtPublisherStruct selectedDevice);
     void truncateSubscriberTable(QTableWidget *tableWidget);
 
 
-
-    void dumpStopsToTable(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, QString locationState);
     
     int initializeTheTrip();
     void resetTripList();
-    void updateVehicleLocationDisplay(QString stav);
-
+    void updateVehicleLocationDisplay(Vdv301Enumerations::LocationStateEnumeration locationState);
+    void updatePositionLabel(QPointF coordinates);
 
     //timery
     QTimer timerFareZoneChangeDuration; //fare  change announcement vanishes after timeout
+    QTimer timerLineChangeDuration; //line name change announcement vanishes after timeout
     QTimer timerAfterStopToBetweenStop;
     QTimer timerDownloadConnections;
     QTimer timerSpecialAnnoucementHide;
@@ -214,11 +270,33 @@ private:
 
     void modelDoTabulkySeradit(QSqlQueryModel* modelInput, QTableView* tableView);
     void retranslateUi(QString language);
+    
+    QVector<Vdv301DisplayContent> createGlobalDisplayContentOutOfService2_3();
+    int isInRange(int index, int valueCount, QString functionName);
 
+    void connectionToTable(ConnectionGolemio connection, QTableWidget *tableWidget);
+    void connectionListToTable(QVector<ConnectionGolemio> connectionList, QTableWidget *tableWidget);
+    void eraseTable(QTableWidget *tableWidget);
+    void infoTextListToTable(QVector<GolemioInfotext> infotextList, QTableWidget *tableWidget);
+    void infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget *tableWidget);
+
+    void setLineToSubMode();
+    QString avlSetGeneral();
+    void avlSetStop(StopPointDestination currentStopPointDestination);
+
+
+    bool handleArrivalNotes(QVector<StopNote> stopNoteList);
+    bool handleDepartureNotes(QVector<StopNote> stopNoteList);
+
+
+
+
+    void debugServiceListToTable(QVector<QZeroConfService> serviceList);
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
     void slotAktualizacePracData(); //unused
+
 private slots:
     //tlacitka
 
@@ -237,6 +315,8 @@ private slots:
     void on_pushButton_menu2_sluzby_clicked();
     void on_pushButton_menu2_prubehTestu_clicked();
     void on_pushButton_menu2_rezerva_clicked();
+
+
 
     //tlacitka Linka/spoj
     int on_pushButton_lineTrip_confirm_clicked();
@@ -270,6 +350,8 @@ private slots:
     void on_radioButton_ride_doorsOpen_clicked();
     void on_radioButton_ride_singleDoorCloser_clicked();
     void on_checkBox_ride_stopRequested_clicked(bool checked);
+    void on_checkBox_ride_razzia_stateChanged(int arg1);
+    void on_checkBox_ride_razzia_clicked(bool checked);
 
     //tlacitka Test
 
@@ -296,12 +378,14 @@ private slots:
     //tlacitka Manual
     void on_pushButton_manual_addsubscriber_clicked();
     void on_pushButton_manual_removeSubscriber_clicked();
-    void on_pushButton_manual_addsubscriber_2_clicked();
-    void on_pushButton_manual_removeSubscriber_2_clicked();
+
     void on_pushButton_manual_truncateCustomXml_clicked();
     void on_pushButton_manual_sendCustomXml_clicked();
     void on_pushButton_manual_addsubscriber_3_clicked();
     void on_pushButton_manual_removeSubscriber_3_clicked();
+
+    void on_pushButton_manual_addsubscriber_2_3CZ1_0_clicked();
+    void on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked();
 
     //radio buttons
     void radio1(bool stav);
@@ -314,13 +398,19 @@ private slots:
     void vypisDiagnostika(QString vstup);
 
     //eventy zobrazeni na periferiích
+    void eventStartVisualAnnoucement(AdditionalAnnoucement announcement);
+    void eventAnnouncementContinue();
     void eventFareSystemChangeShow();
     void eventFareSystemChangeHide();
     void eventFareZoneChangeHide();
-    void evenSpecialAnnouncementHide();
+    void eventLineChangeHide();
+    void eventSpecialAnnouncementHide();
+
 
     //VDV301
     void slotVdv301ServiceStartResult(QString nastartovanaSluzba);
+    void slotCis2_3CZ1_0PortUpdate(int port);
+    void slotTvs2_3CZ1_0PortUpdate(int port);
 
     //connections
     void slotDownloadConnectionsFromCurrentStop();
@@ -330,6 +420,8 @@ private slots:
 
     void on_radioButton_configuration_language_cs_clicked();
     void on_radioButton_configuration_language_en_clicked();
+
+    void on_checkBox_configuration_logToFile_stateChanged(int arg1);
 
     //XML import
     void slotImportFinished();
@@ -355,14 +447,46 @@ private slots:
 
     //misc
     void on_tableWidget_specialAnnouncements_cellClicked(int row, int column);
-    void slotServiceTableUpdate();
+    void on_pushButton_specialAnnouncementManual_clicked();
+
+    //avl slots
+    void slotGnssUpdateWgs84(QPointF coordinates);
+    void slotGnssUpdateSjtsk(QPointF coordinates);
+    void slotLocationGetterPositionChanged(QPointF coordinates);
+    void slotLocationEnterArea(StopPointDestination stopPoint);
+    void slotLocationLeaveArea(StopPointDestination stopPoint);
 
 
 
+    //location tab slots
+
+    void on_checkBox_avlRelay_stateChanged(int arg1);
+    void on_pushButton_positionStart_clicked();
+    void on_pushButton_positionStop_clicked();
+
+    void on_checkBox_positionCenterMap_stateChanged(int arg1);
+    void on_checkBox_positionNative_checkStateChanged(const Qt::CheckState &arg1);
+    void on_checkBox_positionStopAtStops_stateChanged(int arg1);
+
+
+    //misc
+    void on_pushButton_vehicleRefSet_clicked();
+    void on_pushButton_options_debug_set_clicked();
+    void on_checkBox_vechicleTypeFromLine_stateChanged(int arg1);
+
+
+    void on_pushButton_debugOpenWindow_clicked();
+    void on_checkBox_debugLogEnable_stateChanged(int arg1);
     void on_pushButton_detection_setId_clicked();
 
+    void slotServiceTableUpdate();
+    void slotRemoteControlAction(Vdv301Enumerations::RemoteControlMessageTypeEnumeration message);
+
+
+    void slotDebugServiceToTable(QZeroConfService zcs);
+    void slotUpdateServiceTable();
 signals:
-         // void signalZahajImport(QString cesta);
+    // void signalZahajImport(QString cesta);
 };
 
 #endif // MAINWINDOW_H

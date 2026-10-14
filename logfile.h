@@ -9,11 +9,11 @@ class Logfile : public QObject
     Q_OBJECT
 public:
     //Logfile();
-    void otevriSoubor();
+    void otevriSoubor();  //unused
     QString cesta;
     Logfile(QString cestaProgramu);
     void novySoubor(QFile &soubor);
-    bool souborExistuje(QString path);
+    bool souborExistuje(QString path); //unused
     bool pridejNaKonecSouboru(QFile &soubor, QString vstup);
     void nastavCestuSouboru(QFile &soubor, QString cesta, QString nazevSouboru);
     void defaultniLog(QFile &soubor);

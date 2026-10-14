@@ -2,35 +2,99 @@
 #include "ui_mainwindow.h"
 #include <QTranslator>
 
+#include "mainwindowpomocne.h"
+
 
 
 
 //MAIN
 
-
+Q_LOGGING_CATEGORY(MainWindowLog, "MainWindow")
 
 //koment
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  QWidget *parent) :
     QMainWindow(parent),
-    konfigurace(QCoreApplication::applicationDirPath()),
-    settings(QCoreApplication::applicationDirPath()+"/settings.ini", QSettings::IniFormat),
+    konfigurace(newWritableDirectory),
+    //  settings(mWritableDirectory+"/settings.ini", QSettings::IniFormat),
     golemio(""), //klic do golemia
-    logfile(QCoreApplication::applicationDirPath()),
-    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0"), //47477
+    logfile(newWritableDirectory),
+    logWindow(this),
+    avl(12346),
+    mapPlot(newWritableDirectory+"/mapFiles"),
+    deviceManagementService1_0("DeviceManagementService","_ibisip_http._tcp",47477,"1.0","_ropid_vdv301tester"), //47477
     customerInformationService1_0("CustomerInformationService","_ibisip_http._tcp",47479,"1.0"),
-    customerInformationService2_2CZ1_0("CustomerInformationService","_ibisip_http._tcp",47480,"2.2CZ1.0"),
-    customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3"),
+    customerInformationService2_3("CustomerInformationService","_ibisip_http._tcp",47481,"2.3","_ropid_vdv301tester_2_3"),
+    customerInformationService2_3CZ1_0("CustomerInformationService","_ibisip_http._tcp",47482,"2.3CZ1.0","_ropid_vdv301tester_2_3cz1_0"),
     //customerInformationService2_2CZ1_0("CustomerInformationService (2)","_ibisip_http._tcp",47480,"2.2CZ1.0"),
-    ticketValidationService2_3CZ1_0("TicketValidationService","_ibisip_http._tcp",47483,"2.2CZ1.0"),
+    timeService1_0("TimeService","_ibisip_udp._udp",123,"1.0"),
     //deviceManagementServiceSubscriber("DeviceManagementService","DeviceStatus","2.2CZ1.0","_ibisip_http._tcp",48477),//puvodni port 48479, novy 59631
-    // devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
-    devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),
-
+    //devMgmtSubscriber("DeviceManagementService","DeviceStatus","1.0","_ibisip_http._tcp",48477),
+    //devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.2","_ibisip_http._tcp",48477),
+    ticketValidationService2_2("TicketValidationService","_ibisip_http._tcp",47483,"2.2","_fake_ropid_vdv301tester_2_2"),
+    devMgmtSubscriber("DeviceManagementService","DeviceStatus","2.3CZ1.0","_ibisip_http._tcp",48477),
+    remoteControlSubscriber("RemoteControlService","AllData","2.3CZ1.0","_ibisip_http._tcp",48479),
     ui(new Ui::MainWindow)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    logHandler.setRelay(&relay);
+    logHandler.setIncludeContextFileLine(false);
+    logHandler.install();
+    logHandler.setTimestampFormat(QStringLiteral("dd/MM/yyyy hh:mm:ss"));
+    logHandler.setCategoryLevels(QStringLiteral("app.net"), 1, 1, 1, 1);
+
+
     ui->setupUi(this);
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+
+    mWritableDirectory=newWritableDirectory;
+
+    sqlRopidQueries.dbFilePath=mWritableDirectory+"/data.sqlite";
+    mapPlot.setHtmlResultPath(mWritableDirectory+"/mapFiles");
+    //  mapPlot.mapServer.setMapFilesPath(mWritableDirectory+"/mapFiles");
+
+
+
+    qDebug()<<"writable directory: "<<mWritableDirectory;
+
+    QString loggingRules="";
+    loggingRules+="DisplayLabel=false\n";
+    loggingRules+="DisplayLabelLcd=false\n";
+    loggingRules+="DisplayLabelLcd2_3=false\n";
+    loggingRules+="DisplayLabelLcd2_3CZ1_0=false\n";
+    loggingRules+="DisplayLabelLcd2_3CZ1_0_Jis=false\n";
+    loggingRules+="DisplayLabelLed=false\n";
+    loggingRules+="InLineFormatParser=false\n";
+    loggingRules+="XmlParser=false\n";
+    loggingRules+="XmlParser2_3=false\n";
+    loggingRules+="MainWindow=false\n";
+    loggingRules+="SvgVykreslovani=false\n";
+    loggingRules+="XmlCommon*=false\n";
+    loggingRules+="ColorDisplayRules=false\n";
+    loggingRules+="ConnectionMPV=false\n";
+    loggingRules+="QueueSoundPlayer=false\n";
+    loggingRules+="Golemio*=false\n";
+
+
+    /*
+    loggingRules+="DisplayLabel=false\n";
+    loggingRules+="DisplayLabelLcd=false\n";
+    loggingRules+="DisplayLabelLcd2_3=false\n";
+    loggingRules+="DisplayLabelLcd2_3CZ1_0=false\n";
+    loggingRules+="DisplayLabelLcd2_3CZ1_0_Jis=false\n";
+    loggingRules+="DisplayLabelLed=false\n";
+    loggingRules+="InLineFormatParser=false\n";
+    loggingRules+="XmlParser=false\n";
+    loggingRules+="XmlParser2_3=false\n";
+    loggingRules+="MainWindow=false\n";
+    loggingRules+="SvgVykreslovani=false\n";
+    */
+
+    ui->plainTextEdit_debug_rules->setPlainText(loggingRules);
+
+    QLoggingCategory::setFilterRules(loggingRules);
+
+
+    settings=newQSettings;
 
     ui->pushButton_menu_ride->setEnabled(false);
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
@@ -39,30 +103,41 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pushButton_data_startXmlRopidImport->setDisabled(true);
 
     vektorCis.push_back(&customerInformationService1_0);
-    vektorCis.push_back(&customerInformationService2_2CZ1_0);
     vektorCis.push_back(&customerInformationService2_3);
+    vektorCis.push_back(&customerInformationService2_3CZ1_0);
 
-    //QString konstantaPocetDni=settings.value("konstanty/pocetDni").toString();
-    //settings.setValue("golemio/api-key","XXX");
+    vektorCisPermanent.push_back(&customerInformationService1_0);
+    vektorCisPermanent.push_back(&customerInformationService2_3);
+    vektorCisPermanent.push_back(&customerInformationService2_3CZ1_0);
 
-    mapPlot.setHtmlResultPath(QCoreApplication::applicationDirPath());
-
-
-
-
-    //settings.setValue("General/language","en");
-    QString jazyk=settings.value("app/language").toString();
-
-    qDebug()<<" novy jazyk:"<<jazyk;
-    retranslateUi(jazyk);
 
 
     loadConstantsFromSettingsFile();
+
+    QString jazyk=settings->value("app/language").toString();
+
+    qCDebug(MainWindowLog)<<" novy jazyk:"<<jazyk;
+    retranslateUi(jazyk);
+
+    if(blockBonjour)
+    {
+        setWindowTitle(windowTitle()+" | "+tr("režim bez Bonjour"));
+    }
 
     if(ibisIsEnabled)
     {
         ibisOvladani.start();
     }
+
+    //propojeni vsech slotu
+
+
+    positionGetter.setupPositioning();
+    allConnects();
+
+
+    devMgmtSubscriber.start();
+    remoteControlSubscriber.start();
 
     //ui->stackedWidget_palPc->setWindowState(Qt::WindowFullScreen);
 
@@ -70,43 +145,37 @@ MainWindow::MainWindow(QWidget *parent) :
     //inicializace databaze
     initializeSelectionListView();
 
-    //propojeni vsech slotu
-    allConnects();
+
 
     on_pushButton_detection_loadHwConfig_clicked();
 
-
     startAllVdv301Services();
-    startServiceFromList(vektorCis);
-
-
-    //vyplneni polozky build pro rozliseni zkompilovanych verzi
-    //QString compilationTime = QString("%1T%2").arg(__DATE__).arg(__TIME__);
 
     //kalendarJizd
     workingDateFirstDateOfDataValidity();
 
     //cesty souboru
-    voiceAnnouncer.zmenUmisteniProgramu(applicationDirectory);
-    konfigurace.vytvorDefaultniKonfiguraci();
-    konfigurace.otevriSoubor();
+    voiceAnnouncer.setApplicationDirectory(applicationDirectory);
+    konfigurace.createDefaultFile();
+    konfigurace.openFile();
     
-    MainWindowPomocne::naplnTabulkuHlaseni(ui->tableWidget_specialAnnouncements,konfigurace.specialniHlaseni);
-
-    //hlasic.nastavCestu(konfigurace.cestaHlaseni);
+    MainWindowPomocne::naplnTabulkuHlaseni(ui->tableWidget_specialAnnouncements,konfigurace.announcementList);
 
     logfile.defaultniLog(logFileQFile);
     logfile.novySoubor(logFileQFile);
     logfile.pridejNaKonecSouboru(logFileQFile,QDateTime::currentDateTime().toString()+" program spuštěn");
 
-
     //zobrazeni
     setXmlPathLabel();
-    ui->statusBar->showMessage("test");
+
+
 
     //inicializace timeru
     timerFareZoneChangeDuration.setSingleShot(true);
     timerFareZoneChangeDuration.setInterval(konfigurace.trvaniZobrazeniPasma);
+
+    timerLineChangeDuration.setSingleShot(true);
+    timerLineChangeDuration.setInterval(konfigurace.trvaniZobrazeniPasma);
 
     timerSpecialAnnoucementHide.setSingleShot(true);
     timerSpecialAnnoucementHide.setInterval(konfigurace.trvaniZobrazeniOznameni);
@@ -116,13 +185,18 @@ MainWindow::MainWindow(QWidget *parent) :
     timerAfterStopToBetweenStop.setSingleShot(true);
     timerAfterStopToBetweenStop.setInterval(konfigurace.intervalAfterStopToBetweenStop);
 
+    eventExitService();
 }
 
 
 MainWindow::~MainWindow()
 {
-    delete proxyModel;
-    delete modelConnection;
+    // delete proxyModel;
+    if (modelConnection) {
+        // bugfix: pri prokliku z menu "Turnus" (ne Linka/Spoj) je modelConnection nullptr,
+        // stejne tak, pokud se program jen otevre a zavre. takze musime pred pouzitim zkontrolovat.
+        modelConnection->deleteLater();
+    }
     delete ui;
 }
 
@@ -132,570 +206,165 @@ přesunutí connectů pro větší přehlednost
 */
 void MainWindow::allConnects()
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
 
-    this->dumpSubscribers1_0(customerInformationService1_0.subscriberList);
-    this->dumpSubscribers2_2CZ(customerInformationService2_2CZ1_0.subscriberList);
+    this->dumpSubscribersCis1_0(customerInformationService1_0.subscriberList);
 
     //vypisy subscriberu
-    connect(&customerInformationService1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers1_0);
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_2CZ);
-    connect(&customerInformationService2_3,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribers2_3);
-
+    connect(&customerInformationService1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribersCis1_0);
     connect(&customerInformationService1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
     connect(&customerInformationService2_3,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
-
+    connect(&customerInformationService2_3CZ1_0,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribersCis2_3CZ1_0);
+    connect(&customerInformationService2_3CZ1_0,&HttpService::signalServicePublished,this,&MainWindow::slotVdv301ServiceStartResult);
+    connect(&customerInformationService2_3CZ1_0,&HttpService::signalPortUpdate,this,&MainWindow::slotCis2_3CZ1_0PortUpdate);
+    connect(&ticketValidationService2_2,&HttpService::signalPortUpdate,this,&MainWindow::slotTvs2_3CZ1_0PortUpdate);
+    connect(&ticketValidationService2_2,&HttpService::signalDumpSubscriberList,this,&MainWindow::dumpSubscribersTvs2_3CZ1_0);
 
     connect(&xmlMpvParser,&XmlMpvParser::stazeniHotovo,this,&MainWindow::slotMpvNetReady);
-    connect(&golemio,&Golemio::stazeniHotovo,this,&MainWindow::slotGolemioReady);
-
-    //vypis deviceMAnagementServices publisheru
-    // connect(&deviceManagementServiceSubscriber, &IbisIpSubscriber::dataNahrana  ,this, &MainWindow::slotXmlDoPromenne);
-
+    connect(&golemio,&GolemioDepartureBoardsV2::stazeniHotovo,this,&MainWindow::slotGolemioReady);
 
     //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::aktualizaceSeznamu,this,&MainWindow::slotAktualizaceTabulkySluzeb);
     connect(&devMgmtSubscriber,&IbisIpSubscriber::signalUpdateDeviceList,this,&MainWindow::slotServiceTableUpdate);
 
+    connect(&remoteControlSubscriber,&RemoteControlSubscriber::signalMessageType,this,&MainWindow::slotRemoteControlAction);
+    connect(&remoteControlSubscriber,&IbisIpSubscriber::signalUpdateDeviceList,this,&MainWindow::slotUpdateServiceTable);
+    //connect(&devMgmtSubscriber,&IbisIpSubscriber::signalUpdateDeviceList,this,&MainWindow::slotUpdateServiceTable);
+
+
 
     //connect(deviceManagementServiceSubscriber.timer,&QTimer::timeout ,this,&MainWindow::vyprselCasovacSluzby);
-    // connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
+    //connect(&deviceManagementServiceSubscriber,&IbisIpSubscriber::signalZtrataOdberu ,this,&MainWindow::slotZtrataOdberu);
 
     //vypis stavu testu
     connect(&testDemo,&Vdv301testy::update,this,&MainWindow::testPopulateTestPhases);
     connect(&testSubscribeServer,&Vdv301testy::update,this,&MainWindow::testPopulateTestPhases);
 
     //jednotliveTesty
-    connect(&testSubscribeServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotRemoveAllSubscribers);
-    connect(&testSubscribeServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
-    connect(&testSubscribeServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStopTimer);
-    connect(&testSubscribeServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotSendDataToSubscribers);
+    //  connect(&testSubscribeServer,&TestOdberuServer::signalVymazSeznamOdberatelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotRemoveAllSubscribers);
+    //  connect(&testSubscribeServer,&TestOdberuServer::signalNastartujSluzbu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStartDnsSd);
+    //  connect(&testSubscribeServer,&TestOdberuServer::signalZastavCisTimer,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotStopTimer);
+    //  connect(&testSubscribeServer,&TestOdberuServer::signalOdesliDataDoPanelu,&customerInformationService2_2CZ1_0,&CustomerInformationService::slotSendDataToSubscribers);
 
-
-    connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalDumpSubscriberList,&testSubscribeServer,&TestOdberuServer::slotAktualizaceSubscriberu);
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalReplyToPostReceived,&testSubscribeServer,&TestOdberuServer::slotVypisOdpovedServeru);
+    //   connect(&customerInformationService2_2CZ1_0,&CustomerInformationService::signalDumpSubscriberList,&testSubscribeServer,&TestOdberuServer::slotAktualizaceSubscriberu);
+    //   connect(&customerInformationService2_2CZ1_0,&HttpService::signalReplyToPostReceived,&testSubscribeServer,&TestOdberuServer::slotVypisOdpovedServeru);
 
     //vypinani sluzeb pomoci prepinacu
-    connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStartDnsSd);
-    connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStop);
+    //  connect(ui->radioButton_ON1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStartDnsSd);
+    //  connect(ui->radioButton_OFF1,&QRadioButton::clicked,&customerInformationService2_2CZ1_0,&HttpService::slotStop);
 
     connect(ui->radioButton_ON2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStartDnsSd);
     connect(ui->radioButton_OFF2,&QRadioButton::clicked,&deviceManagementService1_0,&HttpService::slotStop);
 
-    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpService::slotStartDnsSd);
-    connect(ui->radioButton_OFF3,&QRadioButton::clicked,&ticketValidationService2_3CZ1_0,&HttpService::slotStop);
+    connect(ui->radioButton_ON3,&QRadioButton::clicked,&ticketValidationService2_2,&HttpService::slotStartDnsSd);
+    connect(ui->radioButton_OFF3,&QRadioButton::clicked,&ticketValidationService2_2,&HttpService::slotStop);
 
     connect(ui->radioButton_ON4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStartDnsSd);
     connect(ui->radioButton_OFF4,&QRadioButton::clicked,&customerInformationService1_0,&HttpService::slotStop);
 
     //vypisovani stavovych hlasek do stavoveho radku vespod okna
-    connect(&sqlRopidQuerries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
-    connect(&sqlRopidQuerries,&SqlRopidXmlQueries::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
-
-    //  connect(&xmlRopidImportStream,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
-
-    // connect(this,&MainWindow::signalZahajImport, &xmlRopidImportStream,&XmlRopidImportStream::slotOtevriSoubor);
+    connect(&sqlRopidQueries,&SqlRopidXmlQueries::signalErrorMessage,this,&MainWindow::slotVypisSqlVysledek);
+    connect(&sqlRopidQueries,&SqlRopidXmlQueries::signalErrorMessage,this,&MainWindow::vypisDiagnostika);
 
     //prepinani stavu radio prepinacu podle stavu sluzeb
-    connect(&customerInformationService2_2CZ1_0,&HttpService::signalStav,this,&MainWindow::radio1);
+    //   connect(&customerInformationService2_2CZ1_0,&HttpService::signalStav,this,&MainWindow::radio1);
     connect(&deviceManagementService1_0,&HttpService::signalStav,this,&MainWindow::radio2);
-    connect(&ticketValidationService2_3CZ1_0,&HttpService::signalStav,this,&MainWindow::radio3);
+    connect(&ticketValidationService2_2,&HttpService::signalStav,this,&MainWindow::radio3);
     connect(&customerInformationService1_0,&HttpService::signalStav,this,&MainWindow::radio4);
 
     //konfigurace
-    connect(&konfigurace,&Konfigurace::odesliChybovouHlasku,this,&MainWindow::vypisDiagnostika);
+    connect(&konfigurace,&SpecialAnnouncementParser::signalError,this,&MainWindow::vypisDiagnostika);
 
     //casovace
     connect(&timerFareZoneChangeDuration,&QTimer::timeout,this,&MainWindow::eventFareZoneChangeHide);
+    connect(&timerLineChangeDuration,&QTimer::timeout,this,&MainWindow::eventLineChangeHide);
     connect(&timerAfterStopToBetweenStop,&QTimer::timeout,this,&MainWindow::eventAfterStopToBetweenStop);
     connect(&timerDownloadConnections,&QTimer::timeout,this,&MainWindow::slotDownloadConnectionsFromCurrentStop);
-    connect(&timerSpecialAnnoucementHide,&QTimer::timeout,this,&MainWindow::evenSpecialAnnouncementHide);
+    connect(&timerSpecialAnnoucementHide,&QTimer::timeout,this,&MainWindow::eventSpecialAnnouncementHide);
+
+    //position simulator
+    // connect(&trajectoryJumper,&TrajectoryJumper::signalMapaBod,&locationEvents,&LocationEvents::slotGnssUpdate);
+
+    //connect(&trajectoryJumper,&TrajectoryJumper::signalChangeWgs,&avl,&Avl::slotUpdatePosition);
+    connect(&trajectoryJumper,&TrajectoryJumper::signalChangeWgs84,this,&MainWindow::slotGnssUpdateWgs84);
+    connect(&trajectoryJumper,&TrajectoryJumper::signalChangeSjtsk,this,&MainWindow::slotGnssUpdateSjtsk);
+
+
+    connect(&gnssSusbcriber,&GnssLocationServiceSubscriberDummy::signalCoordinatesReceived,this,&MainWindow::slotGnssUpdateWgs84);
+
+    //position reader
+    connect(&locationEvents,&LocationEvents::signalArrivedAtStop,this,&MainWindow::slotLocationEnterArea);
+    connect(&locationEvents,&LocationEvents::signalDepartedStop,this,&MainWindow::slotLocationLeaveArea);
+
+    connect(&positionGetter,&PositionGetter::signalPositionUpdate,this,&MainWindow::slotLocationGetterPositionChanged);
 }
 
-void MainWindow::retranslateUi(QString language)
+
+QString MainWindow::avlSetGeneral()
 {
-    QTranslator translator;
+    avl.setTurnus(vehicleState.currentVehicleRun.rootLine.c,vehicleState.currentVehicleRun.order);
+    avl.setEvc(vehicleState.vehicleNumber);
 
-    qApp->removeTranslator(&translator);
-    if(translator.load(":/lang_"+language+".qm"))
-    {
-        qApp->installTranslator(&translator);
-        ui->calendarWidget_data_workingDate->setLocale(QLocale::English);
-        qDebug()<<"zmena jazyka";
-        ui->retranslateUi(this);
-    }
-    else
-    {
-        popUpMessage(tr("language file not found"));
-    }
+    // avl.setEvents("O");
+    // avl.generateJsonMessage();
+    // avl.triggerUpdate("O");
+
+    return "";
 }
 
-
-void MainWindow::startServiceFromList(QVector<CustomerInformationService*> &seznamSluzeb)
+void MainWindow::avlSetStop(StopPointDestination currentStopPointDestination)
 {
-    if(!seznamSluzeb.isEmpty())
-    {
-        CustomerInformationService* aktualniSluzba=seznamSluzeb.takeFirst();
-        qDebug()<<"v zasobniku zustava sluzeb: "<<seznamSluzeb.count();
-        qDebug()<<Q_FUNC_INFO<<" "<<aktualniSluzba->mServiceName<<" "<<aktualniSluzba->version();
-        aktualniSluzba->slotStartServer();
-    }
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    avl.setLine(currentStopPointDestination.line.c);
+    avl.setAkt(TypeConvertor::idUidZtoMpvNumber(currentStopPointDestination.stopPoint.idU,currentStopPointDestination.stopPoint.idZ));
+    avl.setTakt(TypeConvertor::qTimeToMpvDatetime(QTime::currentTime()));
+    avl.setKonc(TypeConvertor::idUidZtoMpvNumber(currentStopPointDestination.destination.idU,currentStopPointDestination.destination.idZ));
+    avl.setTjr(TypeConvertor::qTimeToMpvDatetime(currentStopPointDestination.stopPoint.departureToQTime()));
+    //  avl.setCoordinates(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng);
 }
 
-void MainWindow::slotVdv301ServiceStartResult(QString nastartovanaSluzba)
+
+
+void MainWindow::connectionListToTable(QVector<ConnectionGolemio> connectionList,QTableWidget* tableWidget)
 {
-    qDebug()<<Q_FUNC_INFO<<" "<<nastartovanaSluzba;
-    startServiceFromList(vektorCis);
+    eraseTable(tableWidget);
 
+    foreach(ConnectionGolemio connection, connectionList)
+    {
+        connectionToTable(connection,tableWidget);
+    }
 }
 
-void MainWindow::loadConstantsFromSettingsFile()
+
+
+void MainWindow::connectionToTable(ConnectionGolemio connection, QTableWidget* tableWidget)
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qint32 row;
+    QTableWidgetItem *cell;
 
+    row = tableWidget->rowCount();
+    tableWidget->insertRow(row);
 
-    if(settings.value("golemio/adresa").isNull())
-    {
-        eventAnnouncementToDriver("konfiguracni soubor neexistuje/je vadny");
-    }
-    else
-    {
-        qDebug()<<"konfiguracni soubor nacten";
-    }
-    qDebug()<<" konstanty status "<<settings.status();
+    QString lineName=connection.routeShortName;
+    cell = new QTableWidgetItem(lineName);
 
+    tableWidget->setItem(row, 0, cell);
 
-    if(settings.value("golemio/datovyZdroj").toString()=="mpvnet")
-    {
-        useGolemioApi=false;
-    }
-    golemio.setKlic(settings.value("golemio/apiKey").toByteArray());
-    golemio.setAdresa(settings.value("golemio/adresa").toString());
+    QString destinationName=connection.tripHeadsign;
+    cell = new QTableWidgetItem(destinationName);
+    tableWidget->setItem(row, 1, cell);
 
+    cell = new QTableWidgetItem(connection.departureTimestampMinutes);
+    tableWidget->setItem(row, 2, cell);
 
-    ui->label_build->setText(textVerze());
-    ui->label_build->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    cell = new QTableWidgetItem(connection.departureTimestampScheduled.toString("hh:mm") );
+    tableWidget->setItem(row, 3, cell);
 
-    golemio.setParametry(settings.value("golemio/parametry").toString());
+    cell = new QTableWidgetItem(connection.departureTimestampPredicted.toString("hh:mm") );
+    tableWidget->setItem(row, 4, cell);
 
-    deviceManagementService1_0.setDeviceName(settings.value("deviceManagementService1_0/deviceName").toString());
-    deviceManagementService1_0.setDeviceManufacturer(settings.value("deviceManagementService1_0/deviceManufacturer").toString());
-    deviceManagementService1_0.setDeviceSerialNumber(settings.value("deviceManagementService1_0/deviceSerialNumber").toString());
-    deviceManagementService1_0.setDeviceClass(settings.value("deviceManagementService1_0/deviceClass").toString());
-    deviceManagementService1_0.setDeviceId(settings.value("deviceManagementService1_0/deviceId").toString());
-    deviceManagementService1_0.setSwVersion(textVerze());
-    deviceManagementService1_0.slotDataUpdate();
-
-    deviceManagementService1_0.setPortNumber(settings.value("deviceManagementService1_0/port").toInt() ); //47477
-    customerInformationService1_0.setPortNumber(settings.value("customerInformationService1_0/port").toInt() );
-    customerInformationService2_2CZ1_0.setPortNumber(settings.value("customerInformationService2_2CZ1_0/port").toInt() );
-    customerInformationService2_3.setPortNumber(settings.value("customerInformationService2_3/port").toInt());
-
-    ibisIsEnabled=settings.value("ibis/enable").toBool();
-    ibisOvladani.setSerialPortName(settings.value("ibis/portName").toString());
-    ui->lineEdit_configuration_IbisPort->setText(ibisOvladani.serialPortName());
+    tableWidget->resizeColumnsToContents();
 }
-
-
-
-
-
-/*!
-
-*/
-void MainWindow::testPopulateWindow(int index)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    switch (index)
-    {
-    case 0:
-        testDemo.emitujUpdate();
-        break;
-    case 1:
-        testSubscribeServer.emitujUpdate();
-        break;
-    default:
-        break;
-    }
-}
-
-
-
-/*!
-start vzorového testu
-*/
-void MainWindow::testStart(int index)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    switch (index)
-    {
-    case 0:
-        testDemo.start();
-        break;
-    case 1:
-        testSubscribeServer.start();
-        break;
-    default:
-        qDebug()<<"test s indexem "<<QString::number(index)<<" neexistuje";
-        break;
-    }
-}
-
-
-/*!
-
-*/
-void MainWindow::testStop(int index)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    switch (index)
-    {
-    case 0:
-        testDemo.stop();
-        break;
-    case 1:
-        testSubscribeServer.stop();
-        break;
-    default:
-        qDebug()<<"test s indexem "<<QString::number(index)<<" neexistuje";
-        break;
-    }
-}
-
-
-/*!
-
-*/
-void MainWindow::startAllVdv301Services()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    deviceManagementService1_0.slotStartServer();
-    /*
-    customerInformationService1_0.slotStartServer();
-    customerInformationService2_2CZ1_0.slotStartServer();
-    customerInformationService2_4.slotStartServer();
-    */
-    ticketValidationService2_3CZ1_0.slotStartServer();
-}
-
-
-/*!
-
-*/
-void MainWindow::xmlVdv301UpdateContent()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    qDebug()<<"delka seznamu tripu "<<vehicleState.currentVehicleRun.tripList.length();
-    if (vehicleState.currentVehicleRun.tripList.isEmpty())
-    {
-        qDebug()<<"seznam tripu je prazdny";
-        return;
-    }
-    //QDomDocument vstupniDomXmlPrestupy;
-    if (vehicleState.showConnections==true)
-    {
-        slotDownloadConnectionsFromCurrentStop();
-        timerDownloadConnections.start();
-    }
-    else
-    {
-        timerDownloadConnections.stop();
-    }
-
-    QVector<Connection> connectionList;
-
-    xmlVdv301UpdateCis(connectionList,vehicleState);
-
-    ticketValidationService2_3CZ1_0.updateServiceContent(connectionList,vehicleState);
-    deviceManagementService1_0.serviceContentUpdate();
-}
-
-void MainWindow::slotDownloadConnectionsFromCurrentStop()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    StopPoint aktZastavka=vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint;
-    if(useGolemioApi)
-    {
-        golemio.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
-    }
-    else
-    {
-        xmlMpvParser.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
-    }
-
-
-}
-
-
-/*!
-
-*/
-void MainWindow::slotMpvNetReady()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
-
-    xmlMpvParser.naplnVstupDokument(xmlMpvParser.stazenaData);
-    QVector<ConnectionMPV> prestupyMpv=xmlMpvParser.parsujDomDokument();
-    if(filterConnections)
-    {
-        prestupyMpv=xmlMpvParser.vyfiltrujPrestupy(prestupyMpv,vehicleState.currentLine);
-    }
-    QVector<Connection> prestupy;
-    foreach(auto polozka, prestupyMpv)
-    {
-        prestupy.push_back(polozka.toConnection());
-    }
-
-
-    xmlVdv301UpdateCis(prestupy,vehicleState);
-}
-
-void MainWindow::slotGolemioReady()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    //qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
-
-    golemio.naplnVstupDokument(golemio.stazenaData);
-    QVector<ConnectionGolemio> prestupyGolemio=golemio.parsujDomDokument();
-
-    qDebug()<<"bum10";
-
-    QVector<Connection> prestupy;
-    foreach(ConnectionGolemio polozka,prestupyGolemio)
-    {
-        prestupy.push_back(polozka.toConnection());
-    }
-    qDebug()<<"bum11";
-    if(filterConnections)
-    {
-        //   prestupy=xmlMpvParser.vyfiltrujPrestupy(prestupy,stavSystemu.aktlinka);
-    }
-    qDebug()<<"pocet Prestupu ve vektoru: "<<prestupy.count();
-
-    xmlVdv301UpdateCis(prestupy,vehicleState);
-
-}
-
-
-void MainWindow::xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState mStavSystemu )
-{
-    customerInformationService1_0.updateServiceContent(prestupy,mStavSystemu );
-    customerInformationService2_2CZ1_0.updateServiceContent(prestupy,mStavSystemu);
-    customerInformationService2_3.updateServiceContent(prestupy,mStavSystemu);
-}
-
-
-
-/*!
- * \brief MainWindow::initializeTheTrip
- * \return
- */
-int MainWindow::initializeTheTrip()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    QString textDoPole="";
-    int vysledek=0;
-    Trip iterSpoj;
-    
-    if((ui->tableView_lineTrip->model()->rowCount()==0)&&(ui->tableView_trip->model()->rowCount()==0))
-    {
-        qDebug()<<"neni zvoleny spoj";
-        this->vypisDiagnostika("není zvoleno pořadí");
-        return 0;
-    }
-    else
-    {
-        qDebug()<<"zjisteni zvolene pozice v seznamu"<<vehicleState.currentTripIndex;
-        if (vehicleState.currentTripIndex<0)
-        {
-            this->vypisDiagnostika("není zvolený spoj");
-            return 0;
-        }
-    }
-
-
-    vysledek=sqlRopidQuerries.stahniSeznamCelySpojTurnus(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex,this->createDataValidityMask());
-    qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
-
-    if (vehicleState.getCurrentTrip().continuesWithNextTrip==true)
-    {
-        vysledek=sqlRopidQuerries.stahniSeznamCelySpojTurnus(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex+1,this->createDataValidityMask());
-        qDebug()<<"nacetl jsem spoj s vysledkem "<<vysledek;
-
-    }
-
-    qDebug()<<"je nacteno "<<vehicleState.currentVehicleRun.tripList.length()<<" spoju";
-
-    if (vysledek==2)
-    {
-        qDebug()<<"existuje navazujici spoj";
-    }
-
-    if (vysledek==0)
-    {
-        textDoPole="spoj neexistuje";
-        return 0;
-
-    }
-    xmlVdv301UpdateContent();
-    if(this->vehicleState.getCurrentTrip().globalStopPointDestinationList.empty()==1)
-    {
-        qDebug()<<"seznam zastavek  je prazdny";
-        return 0;
-    }
-    else
-    {
-        updateDriverDisplay();
-        vehicleState.locationState="AtStop";
-        ui->pushButton_menu_ride->setChecked(1);
-        ui->stackedWidget_palPc->setCurrentWidget(ui->page_ride);
-        eventEnterService();
-        // mapaVykresleni.vypisGpsDoHtml(stavSystemu.getCurrentTrip().globalniSeznamZastavek,true,true,true,MapaVykresleni::WGS84);
-    }
-    return 1;
-}
-
-
-
-void MainWindow::updateVehicleLocationDisplay(QString stav)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if(stav=="BeforeStop")
-    {
-        ui->pushButton_ride_beforeStop->setChecked(true);
-    }
-    if(stav=="AtStop")
-    {
-        ui->pushButton_ride_atStop->setChecked(true);
-    }
-    if(stav=="AfterStop")
-    {
-        ui->pushButton_ride_afterStop->setChecked(true);
-    }
-    if(stav=="BetweenStop")
-    {
-        ui->pushButton_ride_betweenStop->setChecked(true);
-    }
-    ui->label_ride_locationStateIndicator->setText(vehicleState.locationState);
-}
-
-
-
-
-/*!
- \fn void MainWindow::initializeSelectionListView()
-
-pripoji se k databazi a naplni okna pro vyber spoju
-*/
-void MainWindow::initializeSelectionListView()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    sqlRopidQuerries.pripoj();
-    
-    
-    
-    ui->listView_lineRun->setModel(&emptyQSqlQueryModel);
-    ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
-    
-    ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
-
-    QSqlQueryModel* modelLinky=sqlRopidQuerries.stahniSeznamLinekModel(this->createDataValidityMask());
-    QSqlQueryModel* modelKmenoveLinky=sqlRopidQuerries.stahniSeznamKmenovychLinekModel(this->createDataValidityMask());
-
-    if (modelLinky->rowCount()>0)
-    {
-        while ( modelLinky->canFetchMore())
-        {
-            modelLinky->fetchMore();
-        }
-        while ( modelKmenoveLinky->canFetchMore())
-        {
-            modelKmenoveLinky->fetchMore();
-        }
-        
-        ui->listView_line->setModel(modelLinky);
-        ui->listView_line->setModelColumn(modelLinky->record().indexOf("l.c"));
-        
-        ui->listView_rootLine->setModel(modelKmenoveLinky);
-        ui->listView_rootLine->setModelColumn(modelKmenoveLinky->record().indexOf("l.c"));
-
-        updateCalendar();
-    }
-    else
-    {
-
-        qDebug()<<"chyba nacitani linek";
-    }
-}
-
-
-
-/*!
-načte platnost a nastaví rozsahy klikatelných oblastí kalendáře
-*/
-void MainWindow::updateCalendar()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    if(sqlRopidQuerries.nactiPlatnost(validityFrom,validityTo))
-    {
-        ui->calendarWidget_data_workingDate->setMinimumDate(validityFrom);
-        ui->calendarWidget_data_workingDate->setMaximumDate(validityTo);
-    }
-    else
-    {
-        ui->calendarWidget_data_workingDate->setMinimumDate(QDate(1900, 1, 1));
-        ui->calendarWidget_data_workingDate->setMaximumDate(QDate(3000, 1, 1));
-    }
-}
-
-
-/*!
-bezpečně vymaže obsah QListWidget
-*/
-void MainWindow::truncateQListWidget(QListWidget *vstup)
-{
-    // https://stackoverflow.com/a/53632933
-    vstup->blockSignals(true);
-    vstup->clear();
-    vstup->blockSignals(false);
-}
-
-
-/*!
-
-*/
-void MainWindow::updateDriverDisplay()
-{
-    qDebug() <<  Q_FUNC_INFO;
-
-    if(this->vehicleState.currentVehicleRun.tripList.length()<=vehicleState.currentTripIndex)
-    {
-        qDebug()<<"spoj odpovidajici indexu neexistuje";
-        return;
-    }
-
-    dumpStopsToTable(vehicleState.currentStopIndex0,this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.locationState);
-    int delkaGlobalnihoSeznamu= this->vehicleState.countCurrentTripStops();
-    int indexZastavky=vehicleState.currentStopIndex0;
-    qDebug()<<"delka seznamu spoju "<<this->vehicleState.currentVehicleRun.tripList.length()<<" index "<<vehicleState.currentTripIndex<<" delka globsezzast "<< delkaGlobalnihoSeznamu  << " indexAktZast "<<indexZastavky   ;
-
-    if (indexZastavky>=delkaGlobalnihoSeznamu)
-    {
-        qDebug()<<"index zastavky je mimo rozsah";
-        return;
-    }
-
-    ui->label_ride_stopIndex->setText(QString::number(vehicleState.currentStopIndex0+1));
-    ui->label_ride_currentLineNumber->setText(this->vehicleState.getCurrentTrip().globalStopPointDestinationList.at(vehicleState.currentStopIndex0).line.lineNumber);
-    ui->label_ride_currentTripNumber->setText(QString::number(this->vehicleState.getCurrentTrip().idRopid));
-
-
-    updateVehicleLocationDisplay(vehicleState.locationState);
-}
-
-
-
 
 
 void MainWindow::connectyImport(XmlImportJr *xmlImportJr)
@@ -707,172 +376,138 @@ void MainWindow::connectyImport(XmlImportJr *xmlImportJr)
     connect(xmlImportJr,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisSqlVysledek);
     connect(xmlImportJr,&XmlRopidImportStream::signalNastavProgress,this,&MainWindow::slotSetProgress);
     connect(xmlImportJr,&XmlRopidImportStream::signalNastavProgressMax,this,&MainWindow::slotSetProgressMax);
-
-    /*
-
-    connect(xmlImportJr,&XmlRopidImportStream::resultReady, this, &MainWindow::handleResultsJr);
-    connect(xmlImportJr,&XmlRopidImportStream::finished, xmlImportJr, &QObject::deleteLater);
-    connect(xmlImportJr,&XmlRopidImportStream::finished, this, &MainWindow::slotAktivujTlacitka);
-
-    connect(xmlImportJr,&XmlRopidImportStream::odesliChybovouHlasku,this,&MainWindow::slotVypisChybu);
-*/
-
 }
-
-
-
-
-void MainWindow::slotSetProgress(int hodnota)
-{
-    ui->progressBar_data_importXml->setValue(hodnota);
-    // qDebug()<<QString::number(hodnota)<<"/"<<QString::number(ui->progressBar->maximum());
-}
-
-
-void MainWindow::slotSetProgressMax(int hodnota)
-{
-    //resetujProgressBar();
-    qDebug()<<Q_FUNC_INFO<<" "<<QString::number(hodnota);
-    ui->progressBar_data_importXml->setMaximum(hodnota);
-}
-
-void MainWindow::slotImportFinished()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    this->workingDateFirstDateOfDataValidity();
-    this->initializeSelectionListView();
-}
-
-
-void MainWindow::slotImportDeaktivujTlacitka()
-{
-    qDebug() <<  Q_FUNC_INFO;
-
-}
-
-void MainWindow::slotImportAktivujTlacitka()
-{
-    qDebug() <<  Q_FUNC_INFO;
-
-}
-
-/*!
-
-*/
-int MainWindow::eventArrival()
-{
-    qDebug() <<  Q_FUNC_INFO;
-
-    vehicleState.doorState="DoorsOpen";
-
-    if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()-1))
-    {
-        switch(announcementType)
-        {
-        case 0:
-            voiceAnnouncer.announceThisAndNextStop(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0+1].stopPoint);
-            break;
-        case 1:
-            voiceAnnouncer.announceThisStop(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
-            break;
-        case 2:
-            break;
-        default:
-            break;
-
-        }
-
-    }
-    else
-    {
-        voiceAnnouncer.kompletKonecna(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
-    }
-
-
-
-    vehicleState.locationState="AtStop";
-    updateDriverDisplay();
-    xmlVdv301UpdateContent();
-
-    QVector<QString> poznamky=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.notesList;
-    qDebug()<<"poznamek je tolik: "<<QString::number(poznamky.count());
-    foreach(QString poznamka, poznamky)
-    {
-        eventAnnouncementToDriver(poznamka);
-    }
-
-    return 1;
-}
-
 
 
 /*!
 
 */
-int MainWindow::eventDeparture()
+QString MainWindow::createDataValidityMask()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    return sqlRopidQueries.createValidyMaskFromDate(vehicleState.referenceDate,validityFrom, validityTo);
+}
 
 
+QVector<Vdv301DisplayContent> MainWindow::createGlobalDisplayContentOutOfService2_3()
+{
+    QVector<Vdv301DisplayContent> output;
 
-    switch(announcementType)
+    Vdv301DisplayContent front;
+    front.displayContentType=DisplayContentFront;
+
+    Vdv301Destination frontDestination;
+    frontDestination.destinationRef="0";
+    frontDestination.destinationNameList<<Vdv301InternationalText("OUT OF SERVICE","cs");
+
+    front.destination=frontDestination;
+    output<<front;
+
+    Vdv301DisplayContent side;
+    side.displayContentType=DisplayContentSide;
+    Vdv301Destination sideDestination;
+    sideDestination.destinationRef="0";
+    sideDestination.destinationNameList<<Vdv301InternationalText("OUT OF SERVICE","cs");
+
+    side.destination=sideDestination;
+    output<<side;
+
+    Vdv301DisplayContent rear;
+    rear.displayContentType=DisplayContentRear;
+    Vdv301Destination rearDestination;
+    rearDestination.destinationRef="0";
+    rearDestination.destinationNameList<<Vdv301InternationalText("OUT OF SERVICE","cs");
+
+    rear.destination=rearDestination;
+
+    Vdv301Line rearLine;
+    rearLine.lineRef="0";
+    rearLine.lineNameList<<Vdv301InternationalText("OUT OF","cs");
+    rearLine.lineNameList<<Vdv301InternationalText("SERVICE","cs");
+    rear.lineInformation=rearLine;
+    output<<rear;
+
+    Vdv301DisplayContent lcd;
+    lcd.displayContentType=DisplayContentLcd;
+    Vdv301Destination lcdDestination;
+    lcdDestination.destinationRef="0";
+    lcdDestination.destinationNameList<<Vdv301InternationalText("OUT OF SERVICE","cs");
+
+    lcd.destination=lcdDestination;
+    output<<lcd;
+
+    return output;
+}
+
+void MainWindow::debugServiceListToTable(QVector<QZeroConfService> serviceList)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    eraseTable(ui->tableWidget_services);
+
+    foreach(QZeroConfService selectedService, serviceList)
     {
-    case 0:
+        slotDebugServiceToTable(selectedService);
+    }
+}
+
+void MainWindow::dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceListDetected, QVector<DevMgmtPublisherStruct> serviceListConfigured)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    truncateSubscriberTable(ui->tableWidget_detection_deviceList);
+
+    foreach(DevMgmtPublisherStruct sluzba, serviceListDetected)
     {
-        if(vehicleState.currentStopIndex0==1)
+        serviceToTable(sluzba);
+    }
+
+    foreach(DevMgmtPublisherStruct sluzba, serviceListConfigured)
+    {
+        if(!sluzba.isInListByIdClass(serviceListDetected))
         {
-            voiceAnnouncer.kompletOdjezdPrvniZastavka(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
+            serviceToTable(sluzba);
         }
-    }
-    break;
-    case 1:
-        voiceAnnouncer.announceNextStop(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint);
-        break;
-    case 2:
-        break;
-    default:
-        break;
 
     }
-
-
-
-
-
-    timerAfterStopToBetweenStop.start();
-
-
-    return 1;
 }
 
-void MainWindow::eventAfterStopToBetweenStop()
+
+
+
+
+/*!
+
+*/
+void MainWindow::dumpSubscribersCis1_0(QVector<Subscriber> adresy)
 {
-    qDebug() <<  Q_FUNC_INFO;
-    if(FareZone::showZoneChangeCheck(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.fareZoneList,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.fareZoneList))
-    {
-        qDebug()<<"srovnani pasem zastavek "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.StopName<<" a "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.StopName;
-        eventFareZoneChange();
-    }
-    else
-    {
-        eventFareZoneChangeHide();
-    }
-    vehicleState.locationState="BetweenStop";
-    updateDriverDisplay();
-    xmlVdv301UpdateContent();
-
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberListCis1_0);
 }
+
+
+
+void MainWindow::dumpSubscribersCis2_3CZ1_0(QVector<Subscriber> adresy)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberListCis2_3CZ1_0);
+}
+
+void MainWindow::dumpSubscribersTvs2_3CZ1_0(QVector<Subscriber> adresy)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberListTvs2_3CZ1_0);
+}
+
 
 
 
 void MainWindow::dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget* tabulka)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     tabulka->setRowCount(0);
-    qDebug()<<"smazano"<<" adresy.size="<<adresy.size();
+    qCDebug(MainWindowLog)<<"smazano"<<" adresy.size="<<adresy.size();
     if (adresy.size()==0)
     {
-        qDebug()<<"vracim 0";
+        qCDebug(MainWindowLog)<<"vracim 0";
     }
     else
     {
@@ -892,174 +527,984 @@ void MainWindow::dumpSubscribersToTable(QVector<Subscriber> adresy, QTableWidget
             tabulka->setItem(row, 1, cell);
             tabulka->resizeColumnsToContents();
         }
-        qDebug()<<"vracim 1";
+        qCDebug(MainWindowLog)<<"vracim 1";
     }
-
-
-}
-
-/*!
-
-*/
-void MainWindow::dumpSubscribers1_0(QVector<Subscriber> adresy)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList1_0);
-}
-
-/*!
-
-*/
-void MainWindow::dumpSubscribers2_2CZ(QVector<Subscriber> adresy)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList2_2CZ1_0);
-}
-
-void MainWindow::dumpSubscribers2_3(QVector<Subscriber> adresy)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    dumpSubscribersToTable(adresy,ui->tableWidget_manual_subscriberList2_3);
 }
 
 
-/*!
-
-*/
-void MainWindow::vypisDiagnostika(QString vstup)
+void MainWindow::eraseTable(QTableWidget *tableWidget)
 {
-    qDebug()<<" MainWindow::vypisDiagnostika "<<vstup;
-    ui->label_diagnostika_manual->clear();
-    ui->label_diagnostika_manual->setText(vstup);
-    ui->statusBar->showMessage(vstup);
-    logfile.pridejNaKonecSouboru(logFileQFile,QDateTime::currentDateTime().toString()+" "+ vstup);
+    //used to erase tablewidgets without program crash due to signals
+    //  https://stackoverflow.com/a/31564541
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+    tableWidget->clearSelection();
+
+    // Disconnect all signals from table widget ! important !
+    tableWidget->disconnect();
+
+    // Remove all items
+    tableWidget->clearContents();
+
+    // Set row count to 0 (remove rows)
+    tableWidget->setRowCount(0);
+
+}
+
+void MainWindow::eventStartVisualAnnoucement(AdditionalAnnoucement announcement)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    vehicleState.specialAnnouncementQueue<<announcement;
+    eventAnnouncementContinue();
 }
 
 
-
-/*!
-
-*/
-void MainWindow::slotVypisSqlVysledek(QString vstup)
+void MainWindow::eventAfterStopToBetweenStop()
 {
-    ui->label_data_sqlResult->setText(vstup);
-}
-
-
-
-/*!
-
-*/
-void MainWindow::stopServices()
-{
-    //customerInformationService1_0.
-}
-
-
-
-
-
-/*!
-CIS 2.2CZ1.0
-*/
-void MainWindow::radio1(bool stav)
-{
-    ui->radioButton_ON1->setChecked(stav);
-    ui->radioButton_OFF1->setChecked(!stav);
-}
-
-
-/*!
-DEVMGMT 1:0
-*/
-void MainWindow::radio2(bool stav)
-{
-    ui->radioButton_ON2->setChecked(stav);
-    ui->radioButton_OFF2->setChecked(!stav);
-}
-
-
-/*!
- TicketValidationService 2.2CZ1.0
-*/
-
-void MainWindow::radio3(bool stav)
-{
-    ui->radioButton_ON3->setChecked(stav);
-    ui->radioButton_OFF3->setChecked(!stav);
-}
-
-
-/*!
-CIS 1.0
-*/
-
-void MainWindow::radio4(bool stav)
-{
-    ui->radioButton_ON4->setChecked(stav);
-    ui->radioButton_OFF4->setChecked(!stav);
-}
-
-
-/*!
-
-*/
-void MainWindow::toggleFullscreen()
-{
-    if (MainWindow::windowState()==Qt::WindowFullScreen )
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
+    if(FareZone::showZoneChangeCheck(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.fareZoneList,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.fareZoneList))
     {
-        MainWindow::setWindowState(Qt::WindowMaximized);
+        qCDebug(MainWindowLog)<<"srovnani pasem zastavek "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.StopName<<" a "<<this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.StopName;
+        eventFareZoneChange(this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0-1].stopPoint.fareZoneList,this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint.fareZoneList);
     }
     else
     {
-        MainWindow::setWindowState(Qt::WindowFullScreen);
+        eventFareZoneChangeHide();
+        xmlVdv301UpdateContent();
     }
+
+    updateDriverDisplay();
 }
 
 
-
-/*!
-
-*/
-void MainWindow::testPopulateTestPhases(QVector<PolozkaTestu> &seznamPolozek)
+void MainWindow::eventAnnouncementContinue()
 {
-
-    qDebug() <<  Q_FUNC_INFO;
-    for(int i =0;i<seznamPolozek.size();i++)
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    if(vehicleState.isSpecialAnnoucementUsed)
     {
-        qDebug()<<i<<" "<<seznamPolozek.at(i).nazev<<" "<<seznamPolozek.at(i).vysledek;
-    }
-
-    ui->tableWidgetCastiTestu->setRowCount(0);
-    qDebug()<<"smazano"<<" adresy.size="<<seznamPolozek.size();
-    if (seznamPolozek.size()==0)
-    {
-        qDebug()<<"vracim 0";
-        //return 0;
+        // vehicleState.isSpecialAnnoucementUsed=true;
+        qCDebug(MainWindowLog)<<"queue is already running";
+        qCDebug(MainWindowLog)<<"announcement queue count running"<<vehicleState.specialAnnouncementQueue.count();
     }
     else
     {
-        for (int i = 0;  i < seznamPolozek.count(); i++)
+        if(!vehicleState.specialAnnouncementQueue.isEmpty())
         {
-            qint32 row;
-            QTableWidgetItem *cell;
-            row = ui->tableWidgetCastiTestu->rowCount();
-            ui->tableWidgetCastiTestu->insertRow(row);
-            cell = new QTableWidgetItem(seznamPolozek.at(i).nazev);
-            ui->tableWidgetCastiTestu->setItem(row, 0, cell);
-
-            cell = new QTableWidgetItem(seznamPolozek.at(i).prubeh);
-            ui->tableWidgetCastiTestu->setItem(row, 1, cell);
-
-            cell = new QTableWidgetItem(seznamPolozek.at(i).vysledek);
-            ui->tableWidgetCastiTestu->setItem(row, 2, cell);
-
-            ui->tableWidgetCastiTestu->resizeColumnsToContents();
+            qCDebug(MainWindowLog)<<"announcement queue count not running"<<vehicleState.specialAnnouncementQueue.count();
+            vehicleState.currentSpecialAnnoucement=vehicleState.specialAnnouncementQueue.first();
+            vehicleState.specialAnnouncementQueue.removeFirst();
+            timerSpecialAnnoucementHide.setInterval(vehicleState.currentSpecialAnnoucement.duration);
+            vehicleState.isSpecialAnnoucementUsed=true;
+            timerSpecialAnnoucementHide.start();
         }
-        qDebug()<<"vracim 1";
-        //return 1;
+        else
+        {
+            qCDebug(MainWindowLog)<<"announcement queue is empty";
+        }
+        xmlVdv301UpdateContent();
     }
 }
+
+void MainWindow::eventAnnouncementToDriver(QString poznamka)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    QMessageBox msgBox;
+    msgBox.setText(replaceDriverAnnouncementFormatting(poznamka));
+    QFont font;
+    //font.setBold(true);
+    font.setPointSize(30);
+    msgBox.setFont(font);
+    // msgBox.setStyleSheet("font-size: 30px;");
+    msgBox.exec();
+}
+
+
+
+/*!
+
+*/
+
+int MainWindow::eventArrival()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    eventStopTimersRide();
+
+    if(!isInRange(vehicleState.currentStopIndex0,vehicleState.getCurrentTrip().globalStopPointDestinationList.count(),Q_FUNC_INFO ))
+    {
+        return 0;
+    }
+
+    bool isStopPointEmpty=false;
+    //StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentTrip().globalStopPointDestinationList[vehicleState.currentStopIndex0];
+    StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentStopPointDestination(isStopPointEmpty);
+    StopPointDestination nextStopPointDestination=this->vehicleState.getNextStopPointDestination(isStopPointEmpty);
+
+    if(isStopPointEmpty)
+    {
+        return 0;
+    }
+
+    vehicleState.secondsDelay=MainWindowPomocne::getSecondsDelayFromStop(currentStopPointDestination.stopPoint.arrivalToQTime(),currentStopPointDestination.stopPoint.departureToQTime());
+
+    avlSetStop(currentStopPointDestination);
+    if(!trajectoryJumper.isRunning)
+    {
+        avl.setCoordinates(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng);
+    }
+
+    if(avlEnabled)
+    {
+        avl.triggerUpdate("O");
+    }
+
+
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateDoorsOpen;
+
+    if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()-1))
+    {
+        switch(announcementType)
+        {
+        case 0:
+            voiceAnnouncer.announceThisAndNextStop(currentStopPointDestination.stopPoint,nextStopPointDestination.stopPoint);
+            break;
+        case 1:
+            voiceAnnouncer.announceThisStop(currentStopPointDestination.stopPoint);
+            break;
+        case 2:
+            break;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        voiceAnnouncer.composeLastStopAnnouncement(currentStopPointDestination.stopPoint);
+    }
+
+    vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
+    updateDriverDisplay();
+    if(!handleArrivalNotes(currentStopPointDestination.stopPoint.stopNoteList))
+    {
+        xmlVdv301UpdateContent();
+    }
+    else
+    {
+        qCDebug(MainWindowLog) << "used special announcement, not updating again";
+    }
+
+
+    //manual plot of current stop when simulation is not running
+    if(!trajectoryJumper.isRunning)
+    {
+        //   trajectoryJumper.gnssWebSockerServer.setData(currentStopPointDestination.stopPoint.lat,currentStopPointDestination.stopPoint.lng,MnozinaBodu::WGS84, trajectoryJumper.centerMap);
+    }
+
+    locationEvents.expectedStopPointDestination=currentStopPointDestination;
+    return 1;
+}
+
+
+
+/*!
+
+*/
+int MainWindow::eventDeparture()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+    if((vehicleState.currentStopIndex0+1)>=this->vehicleState.getCurrentTrip().globalStopPointDestinationList.count())
+    {
+        qCDebug(MainWindowLog)<<"departure from last stop";
+        eventDepartureFromLastStop();
+        return 0;
+    }
+    else
+    {
+        eventStopTimersRide();
+        vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
+        bool isStopEmpty=false;
+        StopPointDestination departingFromStopPointDestination=this->vehicleState.getCurrentStopPointDestination(isStopEmpty);
+
+
+        vehicleState.currentStopIndex0++;
+
+        StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentStopPointDestination(isStopEmpty);
+        locationEvents.expectedStopPointDestination=currentStopPointDestination;
+        avlSetStop(currentStopPointDestination);
+        avl.triggerUpdate("O");
+
+        vehicleState.secondsDelay=MainWindowPomocne::getSecondsDelayFromStop(currentStopPointDestination.stopPoint.departureToQTime(),currentStopPointDestination.stopPoint.arrivalToQTime());
+
+        if(!handleDepartureNotes(departingFromStopPointDestination.stopPoint.stopNoteList))
+        {
+            xmlVdv301UpdateContent();
+        }
+        else
+        {
+            qCDebug(MainWindowLog) << "used special announcement, not updating again";
+        }
+
+
+
+
+        updateDriverDisplay();
+
+        switch(announcementType)
+        {
+        case 0:
+        {
+            if(vehicleState.currentStopIndex0==1)
+            {
+                voiceAnnouncer.composeFirstStopDeparture(currentStopPointDestination.stopPoint);
+            }
+        }
+        break;
+        case 1:
+            voiceAnnouncer.announceNextStop(currentStopPointDestination.stopPoint);
+
+            break;
+        case 2:
+            break;
+        default:
+            break;
+
+        }
+        //timerAfterStopToBetweenStop.start(); //disabled due to possible crashes caused by this
+    }
+
+    return 1;
+}
+
+void MainWindow::eventDepartureFromLastStop()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    popUpMessage("departure from last stop");
+}
+
+
+void MainWindow::eventEnterService()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    ui->pushButton_menu_ride->setDisabled(false);
+
+    bool isStopEmpty=false;
+    locationEvents.expectedStopPointDestination=this->vehicleState.getCurrentStopPointDestination(isStopEmpty);
+
+    xmlVdv301UpdateContent();
+
+    if(isStopEmpty)
+    {
+        popUpMessage(QString(Q_FUNC_INFO)+" stopPointDestination out of range!");
+    }
+
+
+    avlSetGeneral();
+
+    if(avlEnabled)
+    {
+        avl.timerStart();
+    }
+}
+
+
+void MainWindow::eventExitService()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+    ui->pushButton_menu_ride->setDisabled(true);
+    trajectoryJumper.stop();
+    timerAfterStopToBetweenStop.stop();
+    timerDownloadConnections.stop();
+    timerFareZoneChangeDuration.stop();
+    avl.timerStop();
+    resetTripList();
+
+    globalDisplayContentList2_3CZ1_0=createGlobalDisplayContentOutOfService2_3();
+
+    xmlVdv301UpdateContent();
+    initializeSelectionListView();
+}
+
+
+/*!
+ * \brief MainWindow::eventGoToNextTrip
+    přepíná na další spoj na turnusu posunem indexů, pokud návazný spoj neexistuje
+*/
+
+
+//není implementováno
+void MainWindow::eventFareSystemChangeHide()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    /* stavSystemu.zobrazZmenuPasma=false;
+   xmlVdv301HromadnyUpdate();
+   */
+}
+
+
+//není implementováno
+void MainWindow::eventFareSystemChangeShow()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    /*stavSystemu.zobrazZmenuPasma=true;
+    xmlVdv301HromadnyUpdate();
+
+    timerTrvaniZmenyPasma->setInterval(10000);
+    timerTrvaniZmenyPasma->setSingleShot(true);
+    timerTrvaniZmenyPasma->start();
+    */
+}
+
+void MainWindow::eventFareZoneChange(QString zoneFrom, QString zoneTo)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+    vehicleState.showFareZoneChange=true;
+
+    QString fareZoneChangeText=R"(
+        <font size="90"><color fg="#ffffff"><b>Prosím pozor! Změna tarifního pásma.</b></color></font><br>
+        <font size="68"><color fg="#969696">Attention please! Change of fare zone.</color></font>
+    )";
+
+    AdditionalAnnoucement fareZoneChangeAnnouncement;
+    fareZoneChangeAnnouncement.text=fareZoneChangeText;
+    fareZoneChangeAnnouncement.type="FareZoneChange";
+    fareZoneChangeAnnouncement.changeFrom=zoneFrom;
+    fareZoneChangeAnnouncement.changeTo=zoneTo;
+    fareZoneChangeAnnouncement.duration=konfigurace.trvaniZobrazeniPasma;
+    eventStartVisualAnnoucement(fareZoneChangeAnnouncement);
+
+    //  xmlVdv301UpdateContent();
+    voiceAnnouncer.composeFareZoneChange();
+
+    timerFareZoneChangeDuration.start();
+}
+
+
+void MainWindow::eventFareZoneChange(QVector<FareZone> fareZoneListFrom, QVector<FareZone> fareZoneListTo)
+{
+    eventFareZoneChange(FareZone::fareZoneListToString(FareZone::filterZonesFromSystem(fareZoneListFrom,"PID"),","),FareZone::fareZoneListToString(FareZone::filterZonesFromSystem(fareZoneListTo,"PID"),","));
+}
+
+void MainWindow::eventFareZoneChangeHide()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    vehicleState.showFareZoneChange=false;
+    //  eventAnnouncementContinue();
+    // xmlVdv301UpdateContent();
+}
+
+void MainWindow::eventGoToNextTrip()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+    qCDebug(MainWindowLog)<<"index "<<vehicleState.currentTripIndex<<" pocetSpoju "<<vehicleState.currentVehicleRun.tripList.count();
+    if ((vehicleState.currentTripIndex)<(vehicleState.currentVehicleRun.tripList.count()-1))
+    {
+        QString lineFrom="";
+        QString lineTo="";
+
+
+        if(!vehicleState.getCurrentTrip().globalStopPointDestinationList.isEmpty())
+        {
+            lineFrom=vehicleState.getCurrentTrip().globalStopPointDestinationList.last().line.lineName;
+        }
+
+        bool doEventLineChange=false;
+        if(vehicleState.getCurrentTrip().continuesWithNextTrip)
+        {
+            doEventLineChange=true;
+
+        }
+
+        vehicleState.currentTripIndex++;
+        vehicleState.currentStopIndex0=0;
+
+        if(!vehicleState.getCurrentTrip().globalStopPointDestinationList.isEmpty())
+        {
+            lineTo=vehicleState.getCurrentTrip().globalStopPointDestinationList.first().line.lineName;
+        }
+
+        if(doEventLineChange)
+        {
+            eventLineChange(lineFrom,lineTo);
+        }
+        /*
+        lineFrom=vehicleState.getCurrentTrip().globalStopPointDestinationList.last().line.lineName;
+
+        //vehicleState.currentTrip=vehicleState.getCurrentTrip();
+        if(vehicleState.currentTrip.globalStopPointDestinationList.isEmpty())
+        {
+            qCDebug(MainWindowLog)<<"globalStopPointDestinationList is empty";
+        }
+        else
+        {
+            lineTo=vehicleState.getCurrentTrip().globalStopPointDestinationList.first().line.lineName;
+        }
+
+        // AktualizaceDispleje();
+*/
+        
+        initializeTheTrip();
+        //xmlVdv301UpdateContent(); initialize the trip already contains update content
+    }
+    else
+    {
+        qCDebug(MainWindowLog)<<"posledni spoj ze seznamu, nelze se dale posouvat";
+    }
+}
+
+void MainWindow::eventLineChange(QString lineFrom, QString lineTo)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+    QString lineChangeText=R"(
+        <font size="90"><color fg="#ffffff"><b>Prosím pozor! Změna čísla linky.</b></color></font><br>
+        <font size="72"><color fg="#969696">Attention please! Line number change.</color></font>
+    )";
+
+    //values are a mock-up at the moment
+    AdditionalAnnoucement lineChangeAnnouncement;
+    lineChangeAnnouncement.text=lineChangeText;
+    lineChangeAnnouncement.type="LineChange";
+    lineChangeAnnouncement.changeFrom=lineFrom;
+    lineChangeAnnouncement.changeTo=lineTo;
+    lineChangeAnnouncement.duration=konfigurace.trvaniZobrazeniPasma;
+    eventStartVisualAnnoucement(lineChangeAnnouncement);
+
+    //  xmlVdv301UpdateContent();
+    //voiceAnnouncer.kompletZmenaTarifnihoPasma();
+
+    //  timerLineChangeDuration.start();
+}
+
+void MainWindow::eventLineChangeHide()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    // now handled as an announcement
+}
+
+void MainWindow::eventRazziaStart()
+{
+    vehicleState.razziaState=Vdv301Enumerations::TicketRazziaRazzia;
+    ui->checkBox_ride_razzia->setCheckState(Qt::Checked);
+    xmlVdv301UpdateContent();
+}
+
+void MainWindow::eventRazziaStop()
+{
+    vehicleState.razziaState=Vdv301Enumerations::TicketRazziaNoRazzia;
+    ui->checkBox_ride_razzia->setChecked(false);
+    xmlVdv301UpdateContent();
+}
+
+void MainWindow::eventRemoteGetOnRequest()
+{
+    statusBarMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(Vdv301Enumerations::RemoteControlGetOnRequest));
+    voiceAnnouncer.announceBlindPersonBoarding();
+}
+
+void MainWindow::eventRemoteLineDirection()
+{
+    statusBarMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(Vdv301Enumerations::RemoteControlDestinationRequest));
+    bool isEmpty=false;
+    StopPointDestination currentStopPointDestination=this->vehicleState.getCurrentStopPointDestination(isEmpty);
+    if(!isEmpty)
+    {
+        voiceAnnouncer.announceLineAndDestination(currentStopPointDestination);
+    }
+    else
+    {
+        //announce out of service
+    }
+
+}
+
+void MainWindow::eventShowManualAnnoucementFromList(int index, QVector<AdditionalAnnoucement> additionalAnnouncementList)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+    if((index>=0)&&(index<additionalAnnouncementList.count()))
+    {
+        eventStartWholeAnnouncement(additionalAnnouncementList.at(index));
+    }
+}
+
+void MainWindow::eventStartWholeAnnouncement(AdditionalAnnoucement additionalAnnouncement)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    voiceAnnouncer.composeSpecialAnnouncement(additionalAnnouncement);
+    eventStartVisualAnnoucement(additionalAnnouncement);
+}
+
+
+void MainWindow::eventStartNoteAnnoucement(StopNote stopNote)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+
+    AdditionalAnnoucement additionalAnnouncement;
+    additionalAnnouncement.duration=10000;
+    if(!stopNote.text.isEmpty())
+    {
+        if(stopNote.text.length()>128)
+        {
+            //long text small font
+            additionalAnnouncement.text=AdditionalAnnoucement::formatText(stopNote.lcdText,65);
+            additionalAnnouncement.duration=20000;
+        }
+        else
+        {
+            //short text bigger font
+            additionalAnnouncement.text=AdditionalAnnoucement::formatText(stopNote.lcdText,85);
+        }
+    }
+
+    //additionalAnnouncement.text=stopNote.lcdText;
+    additionalAnnouncement.icon="<icon type=\"c_Info\">[i]</icon>";
+    if(!stopNote.soundName.isEmpty())
+    {
+        additionalAnnouncement.mp3.append(stopNote.soundName+".mp3");
+    }
+
+    eventStartWholeAnnouncement(additionalAnnouncement);
+
+    /*
+    if(!additionalAnnouncement.text.isEmpty())
+    {
+        eventStartVisualAnnoucement(additionalAnnouncement);
+    }
+*/
+
+    if(stopNote.speakerDriver)
+    {
+
+    }
+    if(stopNote.speakerInside)
+    {
+
+    }
+    if(stopNote.speakerOutside)
+    {
+
+    }
+
+
+
+}
+
+
+
+void MainWindow::eventSpecialAnnouncementHide()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    vehicleState.isSpecialAnnoucementUsed=false;
+    eventAnnouncementContinue();
+    //xmlVdv301UpdateContent();
+}
+
+
+
+void MainWindow::eventStopTimersRide()
+{
+    timerAfterStopToBetweenStop.stop();
+
+    timerFareZoneChangeDuration.stop();
+    vehicleState.showFareZoneChange=false;
+
+    timerSpecialAnnoucementHide.stop();
+    vehicleState.isSpecialAnnoucementUsed=false;
+}
+
+
+bool MainWindow::handleArrivalNotes(QVector<StopNote> stopNoteList)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    bool usedAnnouncement=false;
+    foreach(StopNote note, stopNoteList)
+    {
+        if(note.activateOnArrival)
+        {
+            eventStartNoteAnnoucement(note);
+            usedAnnouncement=true;
+            if(note.showToDriver)
+            {
+                eventAnnouncementToDriver(note.text);
+            }
+        }
+
+    }
+    return usedAnnouncement;
+}
+
+bool MainWindow::handleDepartureNotes(QVector<StopNote> stopNoteList)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    bool usedAnnouncement=false;
+    foreach(StopNote note, stopNoteList)
+    {
+        if(note.activateOnDeparture)
+        {
+            // eventAnnouncementToDriver("departure "+note.text);
+            eventStartNoteAnnoucement(note);
+            usedAnnouncement=true;
+            if(note.showToDriver)
+            {
+                eventAnnouncementToDriver(note.text);
+            }
+        }
+    }
+    return usedAnnouncement;
+}
+
+
+void MainWindow::infoTextListToTable(QVector<GolemioInfotext> infotextList,QTableWidget* tableWidget)
+{
+    eraseTable(tableWidget);
+
+    foreach(GolemioInfotext infoText, infotextList)
+    {
+        infoTextToTable(infoText,tableWidget);
+    }
+}
+
+
+void MainWindow::infoTextToTable(GolemioInfotext golemioInfotext, QTableWidget* tableWidget)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qint32 row;
+    QTableWidgetItem *cell;
+
+    row = tableWidget->rowCount();
+    tableWidget->insertRow(row);
+
+    cell = new QTableWidgetItem(GolemioInfotext::displayTypeToQString(golemioInfotext.display_type));
+    tableWidget->setItem(row, 0, cell);
+
+    cell = new QTableWidgetItem(golemioInfotext.text);
+    tableWidget->setItem(row, 1, cell);
+
+    cell = new QTableWidgetItem(golemioInfotext.text_en);
+    tableWidget->setItem(row, 3, cell);
+    /*
+    cell = new QTableWidgetItem(golemioInfotext.valid_from.toString("" .departureTimestampScheduled.toString("hh:mm") );
+    tableWidget->setItem(row, 2, cell);
+
+    cell = new QTableWidgetItem(golemioInfotext.departureTimestampPredicted.toString("hh:mm") );
+    tableWidget->setItem(row, 3, cell);
+*/
+    tableWidget->resizeColumnsToContents();
+}
+
+
+
+
+/*!
+ * \brief MainWindow::initializeTheTrip
+ * \return
+ */
+int MainWindow::initializeTheTrip()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    QString textDoPole="";
+    int vysledek=0;
+    Trip iterSpoj;
+
+    qCDebug(MainWindowLog) <<" vehicleState.currentTripIndex "<<vehicleState.currentTripIndex;
+
+    if((ui->tableView_lineTrip->model()->rowCount()==0)&&(ui->tableView_trip->model()->rowCount()==0))
+    {
+        qCDebug(MainWindowLog)<<"neni zvoleny spoj";
+        this->vypisDiagnostika("není zvoleno pořadí");
+        return 0;
+    }
+    else
+    {
+        qCDebug(MainWindowLog)<<"zjisteni zvolene pozice v seznamu"<<vehicleState.currentTripIndex;
+        if (vehicleState.currentTripIndex<0)
+        {
+            this->vypisDiagnostika("není zvolený spoj");
+            return 0;
+        }
+    }
+
+
+    vysledek=sqlRopidQueries.getVehicleRunStops(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex,this->createDataValidityMask());
+    qCDebug(MainWindowLog)<<"nacetl jsem spoj s vysledkem "<<vysledek;
+
+
+    if (vehicleState.getCurrentTrip().continuesWithNextTrip)
+    {
+        vysledek=sqlRopidQueries.getVehicleRunStops(vehicleState.currentVehicleRun.tripList,vehicleState.currentTripIndex+1,this->createDataValidityMask());
+        if(vysledek)
+        {
+            qCDebug(MainWindowLog)<<"nacetl jsem spoj s vysledkem "<<vysledek;
+        }
+        else
+        {
+            qCDebug(MainWindowLog)<<"following trip not loaded";
+            vysledek=1;
+        }
+    }
+
+
+    qCDebug(MainWindowLog)<<"je nacteno "<<vehicleState.currentVehicleRun.tripList.length()<<" spoju";
+
+    if (vysledek==2)
+    {
+        qCDebug(MainWindowLog)<<"existuje navazujici spoj";
+    }
+
+    if (vysledek==0)
+    {
+        textDoPole="spoj neexistuje";
+        return 0;
+
+    }
+    globalDisplayContentList2_3CZ1_0.clear();
+
+    //   xmlVdv301UpdateContent();
+    if(this->vehicleState.getCurrentTrip().globalStopPointDestinationList.empty()==1)
+    {
+        qCDebug(MainWindowLog)<<"seznam zastavek  je prazdny";
+        return 0;
+    }
+    else
+    {
+        updateDriverDisplay();
+        vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
+        ui->pushButton_menu_ride->setChecked(1);
+        ui->stackedWidget_palPc->setCurrentWidget(ui->page_ride);
+        eventEnterService();
+        // mapaVykresleni.vypisGpsDoHtml(stavSystemu.getCurrentTrip().globalniSeznamZastavek,true,true,true,MapaVykresleni::WGS84);
+    }
+    return 1;
+}
+
+
+
+
+/*!
+ \fn void MainWindow::initializeSelectionListView()
+
+pripoji se k databazi a naplni okna pro vyber spoju
+*/
+void MainWindow::initializeSelectionListView()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    sqlRopidQueries.initialize();
+
+    ui->listView_lineRun->setModel(&emptyQSqlQueryModel);
+    ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
+    ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
+
+    QSqlQueryModel* modelLinky=sqlRopidQueries.getLineListModel(this->createDataValidityMask());
+    QSqlQueryModel* modelKmenoveLinky=sqlRopidQueries.getRootLineListModel(this->createDataValidityMask());
+
+    if (!modelLinky || !modelKmenoveLinky)
+    {
+        qCDebug(MainWindowLog) << "error loading lines - db not available";
+        return;
+    }
+
+    if (modelLinky->rowCount()>0)
+    {
+        while ( modelLinky->canFetchMore())
+        {
+            modelLinky->fetchMore();
+        }
+        while ( modelKmenoveLinky->canFetchMore())
+        {
+            modelKmenoveLinky->fetchMore();
+        }
+
+        ui->listView_line->setModel(modelLinky);
+        ui->listView_line->setModelColumn(modelLinky->record().indexOf("l.c"));
+
+        ui->listView_rootLine->setModel(modelKmenoveLinky);
+        ui->listView_rootLine->setModelColumn(modelKmenoveLinky->record().indexOf("l.c"));
+
+        updateCalendar();
+    }
+    else
+    {
+        qCDebug(MainWindowLog)<<"error loading lines";
+    }
+}
+
+
+
+
+int MainWindow::isInRange(int index, int valueCount, QString functionName)
+{
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    if((index<valueCount)&&(index>=0))
+    {
+        return 1;
+    }
+    else
+    {
+        QString errorText="value "+QString::number(index)+" is out of range "+ QString::number(valueCount)+" "+functionName;
+        popUpMessage(errorText);
+
+        qCDebug(MainWindowLog)<<errorText;
+
+        return 0;
+    }
+}
+
+
+void MainWindow::loadConstantsFromSettingsFile()
+{
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<" konstanty status "<<settings->status();
+    ui->label_build->setText(textVerze());
+    ui->label_build->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    ui->statusBar->showMessage(textVerze());
+
+
+    // check config file validity
+    if(settings->value("app/language").isNull())
+    {
+        eventAnnouncementToDriver("config file "+settings->fileName()+" is missing/invalid");
+    }
+    else
+    {
+        qCDebug(MainWindowLog)<<"config file loaded";
+    }
+
+    //bonjour
+    blockBonjour=settings->value("app/blockBonjour").toBool();
+
+
+    // golemio
+    if(settings->value("golemio/datovyZdroj").toString()=="mpvnet")
+    {
+        useGolemioApi=false;
+    }
+    golemio.setKey(settings->value("golemio/apiKey").toByteArray());
+    ui->lineEdit_configuration_golemioKey->setText(settings->value("golemio/apiKey").toByteArray());
+    golemio.setAddress(settings->value("golemio/adresa").toString());
+    vehicleState.showConnections=settings->value("golemio/enabled").toBool();
+    ui->checkBox_configuration_enableConnections->setChecked(vehicleState.showConnections);
+    golemio.setParameters(settings->value("golemio/parametry").toString());
+
+
+    // vehicleProperties
+    vehicleState.vehicleNumber=settings->value("vehicleProperties/vehicleRef").toInt();
+    ui->lineEdit_vehicleRef->setText(QString::number(vehicleState.vehicleNumber));
+
+    if(settings->value("vehicleProperties/vehicleMode").toString()!="")
+    {
+        vehicleState.vehicleMode=settings->value("vehicleProperties/vehicleMode").toString();
+    }
+
+    if(settings->value("vehicleProperties/vehicleSubMode").toString()!="")
+    {
+        vehicleState.vehicleSubMode=settings->value("vehicleProperties/vehicleSubMode").toString();
+    }
+
+    setVehicleTypeFromLineType=settings->value("vehicleProperties/overrideByLineType").toBool();
+    ui->checkBox_vechicleTypeFromLine->setChecked(setVehicleTypeFromLineType);
+
+    // deviceManagementService
+    deviceManagementService1_0.setDeviceName(settings->value("deviceManagementService1_0/deviceName").toString());
+    deviceManagementService1_0.setDeviceManufacturer(settings->value("deviceManagementService1_0/deviceManufacturer").toString());
+    deviceManagementService1_0.setDeviceSerialNumber(settings->value("deviceManagementService1_0/deviceSerialNumber").toString());
+    deviceManagementService1_0.setDeviceClass(settings->value("deviceManagementService1_0/deviceClass").toString());
+    deviceManagementService1_0.setDeviceId(settings->value("deviceManagementService1_0/deviceId").toString());
+    deviceManagementService1_0.setSwVersion(textVerze());
+    deviceManagementService1_0.slotDataUpdate();
+    deviceManagementService1_0.blockBonjour=blockBonjour;
+    deviceManagementService1_0.setPortNumber(settings->value("deviceManagementService1_0/port").toInt() ); //47477
+
+    // devmgmtSubscriber
+    devMgmtSubscriber.blockBonjour=blockBonjour;
+
+    // customerInformationService
+    customerInformationService1_0.setPortNumber(settings->value("customerInformationService1_0/port").toInt() );
+    customerInformationService2_3.setPortNumber(settings->value("customerInformationService2_3/port").toInt());
+    customerInformationService2_3CZ1_0.setPortNumber(settings->value("customerInformationService2_3CZ1_0/port").toInt());
+
+
+    // timeService
+    timeServiceEnabled=settings->value("timeService/enabled").toBool();
+    QVariant timeServicePort = settings->value("timeService/port");
+    if (!timeServicePort.isNull())
+    {
+        timeService1_0.setPortNumber(timeServicePort.toInt());
+    }
+    QVariant timeServerIp = settings->value("timeService/timeServerIP");
+    if (!timeServerIp.isNull())
+    {
+        timeService1_0.setTimeServerIp(QHostAddress(timeServerIp.toString()));
+    }
+    QVariant timeZone = settings->value("timeService/timeZone");
+    if (!timeZone.isNull())
+    {
+        // IANA time zone ID
+        timeService1_0.setTimeZone(QTimeZone(timeZone.toByteArray()));
+    }
+
+
+    // ibis
+    ibisIsEnabled=settings->value("ibis/enable").toBool();
+    ibisOvladani.setSerialPortName(settings->value("ibis/portName").toString());
+    ui->lineEdit_configuration_IbisPort->setText(ibisOvladani.serialPortName());
+
+
+    // debug
+    ui->checkBox_configuration_logToFile->setChecked(settings->value("debug/logToFile").toBool());
+
+    // data
+    xmlFilePath=settings->value("data/xmlPath").toString();
+    ui->label_data_pathContent->setText(xmlFilePath);
+    ui->pushButton_data_startXmlRopidImport->setEnabled(!xmlFilePath.isEmpty());
+
+    // locationSimulator
+    trajectoryJumper.centerMap=settings->value("locationSimulator/centerMap").toBool();
+    ui->checkBox_positionCenterMap->setChecked(trajectoryJumper.centerMap);
+
+    trajectoryJumper.stopAtStops=settings->value("locationSimulator/stopAtStops").toBool();
+    ui->checkBox_positionStopAtStops->setChecked(trajectoryJumper.stopAtStops);
+
+}
+
+
+void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* tableView)
+{
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    QStringListModel emptyModel;
+    if(modelInput==NULL)
+    {
+        qCDebug(MainWindowLog)<<"model je prazdny";
+        tableView->setModel(&emptyModel);
+        return;
+    }
+    qCDebug(MainWindowLog)<<"model size:"<<modelInput->rowCount()<<" "<<modelInput->columnCount();
+
+    while ( modelInput->canFetchMore())
+    {
+        modelInput->fetchMore();
+    }
+
+    if(modelInput->rowCount()==0)
+    {
+        tableView->setModel(&emptyModel);
+        return;
+    }
+
+    proxyModel.setSourceModel(modelInput);
+
+    tableView->setModel(&proxyModel);
+    tableView->show();
+    tableView->resizeColumnsToContents();
+    connect(tableView->horizontalHeader(),SIGNAL(sortIndicatorChanged(int,Qt::SortOrder)),tableView,SLOT(sortByColumn(int,Qt::SortOrder)));
+    int pocet= proxyModel.rowCount();
+    qCDebug(MainWindowLog)<<"pocet vysledku: "<<QString::number(pocet);
+}
+
 
 
 /*!
@@ -1067,11 +1512,25 @@ void MainWindow::testPopulateTestPhases(QVector<PolozkaTestu> &seznamPolozek)
 */
 void MainWindow::on_calendarWidget_data_workingDate_selectionChanged()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     vehicleState.referenceDate=ui->calendarWidget_data_workingDate->selectedDate();
     updataWorkingDate();
 }
 
+
+void MainWindow::on_checkBox_avlRelay_stateChanged(int arg1)
+{
+    avlEnabled=arg1;
+
+    if(avlEnabled)
+    {
+        avl.timerStart();
+    }
+    else
+    {
+        avl.timerStop();
+    }
+}
 
 
 /*!
@@ -1079,10 +1538,46 @@ void MainWindow::on_calendarWidget_data_workingDate_selectionChanged()
 */
 void MainWindow::on_checkBox_configuration_enableConnections_stateChanged(int arg1)
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     vehicleState.showConnections=ui->checkBox_configuration_enableConnections->isChecked();
+    settings->setValue("golemio/enabled",vehicleState.showConnections);
 }
 
+void MainWindow::on_checkBox_configuration_logToFile_stateChanged(int arg1)
+{
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    settings->setValue("debug/logToFile",arg1);
+}
+
+void MainWindow::on_checkBox_debugLogEnable_stateChanged(int arg1)
+{
+    if(arg1)
+    {
+        connect(&relay, &LoggerRelay::message,&logWindow,&LogWindow::slotLogWindowAppend,Qt::QueuedConnection);
+    }
+    else
+    {
+        disconnect(&relay, &LoggerRelay::message,&logWindow,&LogWindow::slotLogWindowAppend);
+    }
+}
+
+void MainWindow::on_checkBox_ride_razzia_stateChanged(int arg1)
+{
+
+}
+
+void MainWindow::on_checkBox_positionCenterMap_stateChanged(int arg1)
+{
+    trajectoryJumper.centerMap=arg1;
+    settings->setValue("locationSimulator/centerMap",trajectoryJumper.centerMap);
+}
+
+
+void MainWindow::on_checkBox_positionStopAtStops_stateChanged(int arg1)
+{
+    trajectoryJumper.stopAtStops=arg1;
+    settings->setValue("locationSimulator/stopAtStops",trajectoryJumper.stopAtStops);
+}
 
 
 void MainWindow::on_checkBox_ride_stopRequested_clicked(bool checked)
@@ -1092,54 +1587,18 @@ void MainWindow::on_checkBox_ride_stopRequested_clicked(bool checked)
 }
 
 
-
-
-void MainWindow::on_listView_line_clicked(const QModelIndex &index)
+void MainWindow::on_checkBox_vechicleTypeFromLine_stateChanged(int arg1)
 {
-    qDebug()<<Q_FUNC_INFO;
-    vehicleState.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
-    qDebug()<<"cislo linky:"<<vehicleState.currentLine.c;
-    
-    
-    
-    ui->lineEdit_lineNumber->setText(QString::number(vehicleState.currentLine.c ));
-    modelConnection=sqlRopidQuerries.stahniSeznamSpojuModel2(vehicleState.currentLine, this->createDataValidityMask());
-    qDebug()<<"model size:"<<modelConnection->rowCount()<<" "<<modelConnection->columnCount();
-    
-    
-    modelDoTabulkySeradit(modelConnection,ui->tableView_trip);
-    ui->tableView_trip->hideColumn(5);
-    ui->tableView_trip->hideColumn(6);
-    ui->tableView_trip->hideColumn(7);
-
-
-
-
+    setVehicleTypeFromLineType=arg1;
+    settings->setValue("vehicleProperties/overrideByLineType",setVehicleTypeFromLineType);
 }
 
-
-
-void MainWindow::on_listView_rootLine_clicked(const QModelIndex &index)
-{
-    qDebug()<<Q_FUNC_INFO;
-
-    vehicleState.currentVehicleRun.rootLine.c= index.data(Qt::DisplayRole).toString().toInt();
-    
-    ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c));
-
-    QSqlQueryModel* modelPoradi=sqlRopidQuerries.stahniSeznamPoradiModel(vehicleState.currentVehicleRun.rootLine, this->createDataValidityMask());
-    
-    ui->listView_lineRun->setModel(modelPoradi);
-    ui->listView_lineRun->setModelColumn(modelPoradi->record().indexOf("o.p"));
-    
-    ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
-}
 
 void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
 {
-    qDebug()<<Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
     vehicleState.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
-    
+
     if (ui->listView_lineRun->model()->rowCount()!=0)
     {
         if(index.row()>=0)
@@ -1147,20 +1606,100 @@ void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
             vehicleState.currentVehicleRun.order=index.data(Qt::DisplayRole).toString().toInt();
 
             /// zakomentovat?
-            if (sqlRopidQuerries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
+            if (sqlRopidQueries.getTripListFromVehicleRun(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
             {
-                qDebug()<<"pocetSpoju: "<<vehicleState.currentVehicleRun.tripList.count();
+                qCDebug(MainWindowLog)<<"pocetSpoju: "<<vehicleState.currentVehicleRun.tripList.count();
             }
             else
             {
-                qDebug()<<"spoje nenalezeny";
+                qCDebug(MainWindowLog)<<"spoje nenalezeny";
             }
 
-            QSqlQueryModel* modelTurnusSpoj=sqlRopidQuerries.stahniSeznamTurnusSpojuModel(vehicleState.currentVehicleRun, this->createDataValidityMask());
+            QSqlQueryModel* modelTurnusSpoj=sqlRopidQueries.getTripListFromVehicleRunModel(vehicleState.currentVehicleRun, this->createDataValidityMask());
             ui->tableView_lineTrip->setModel(modelTurnusSpoj);
+
+            ui->tableView_lineTrip->hideColumn(6);
+            ui->tableView_lineTrip->hideColumn(7);
+
             ui->tableView_lineTrip->resizeColumnsToContents();
         }
     }
+}
+
+
+
+
+void MainWindow::on_listView_line_clicked(const QModelIndex &index)
+{
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    vehicleState.currentLine.c=index.data(Qt::DisplayRole).toString().toInt();
+    qCDebug(MainWindowLog)<<"cislo linky:"<<vehicleState.currentLine.c;
+
+    //  ui->lineEdit_lineNumber->setText(QString::number(vehicleState.currentLine.c ));
+    modelConnection=sqlRopidQueries.getLineStopListModel(vehicleState.currentLine, this->createDataValidityMask());
+    qCDebug(MainWindowLog)<<"model size:"<<modelConnection->rowCount()<<" "<<modelConnection->columnCount();
+
+    modelDoTabulkySeradit(modelConnection,ui->tableView_trip);
+    ui->tableView_trip->hideColumn(5);
+    ui->tableView_trip->hideColumn(6);
+    ui->tableView_trip->hideColumn(7);
+}
+
+
+void MainWindow::on_listView_rootLine_clicked(const QModelIndex &index)
+{
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+
+    vehicleState.currentVehicleRun.rootLine.c= index.data(Qt::DisplayRole).toString().toInt();
+
+    // ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c));
+
+    QSqlQueryModel* modelPoradi=sqlRopidQueries.getVehicleRunListModel(vehicleState.currentVehicleRun.rootLine, this->createDataValidityMask());
+
+    ui->listView_lineRun->setModel(modelPoradi);
+    ui->listView_lineRun->setModelColumn(modelPoradi->record().indexOf("o.p"));
+
+    ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
+}
+
+/*!
+
+*/
+void MainWindow::on_pushButton_configuration_IbisSetPort_clicked()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    ibisOvladani.stop();
+    ibisOvladani.setSerialPortName(ui->lineEdit_configuration_IbisPort->text());
+    ibisOvladani.start();
+    ibisOvladani.sendIpisTelegram("l006");
+    // ibisOvladani.dopocetKontrolnihoZnaku("aA1 ahoj");
+    // ibisOvladani.dopocetKontrolnihoZnaku("v povel v\\");
+    // ibisOvladani.dopocetKontrolnihoZnaku("zA povel zA");
+    // ibisOvladani.dopocetKontrolnihoZnaku("zN povel zN");
+    // ibisOvladani.dopocetKontrolnihoZnaku("xC2");
+}
+
+void MainWindow::on_pushButton_configuration_setGolemioKey_clicked()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    settings->setValue("golemio/apiKey",ui->lineEdit_configuration_golemioKey->text());
+    golemio.setKey(settings->value("golemio/apiKey").toByteArray());
+}
+
+/*!
+
+*/
+void MainWindow::on_pushButton_ride_IBIS_clicked()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    ibisOvladani.sendIpisTelegram("xC2");
+    ibisOvladani.odesliFrontKomplet("1",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odesliSideKomplet("2",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odesliSideKomplet("3",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
+    ibisOvladani.odesliJKZKomplet("<3B>",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odeslikompletBUSEjednoradekAA(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
+    ibisOvladani.odesliRearKomplet("4",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
 }
 
 /*!
@@ -1168,26 +1707,33 @@ void MainWindow::on_listView_lineRun_clicked(const QModelIndex &index)
 */
 void MainWindow::on_pushButton_data_startXmlRopidImport_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
-    //   emit signalZahajImport(xmlRopidImportStream.vstupniXmlSouborCesta);
-
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     eventExitService();
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
 
-
-    XmlImportJr *xmlImportJr =  new XmlImportJr();
-
+    QPointer<XmlImportJr> xmlImportJr =  new XmlImportJr();
     xmlImportJr->truncateAll();
-
     xmlImportJr->vstupniXmlSouborCesta=xmlFilePath;
-
+    xmlImportJr->sqLiteZaklad.dbFilePath=mWritableDirectory+"/data.sqlite";
+    settings->setValue("data/xmlPath",xmlFilePath);
     connectyImport(xmlImportJr);
-
     xmlImportJr->start();
-
-    //xmlRopidImportStream.otevriSoubor(xmlRopidImportStream.vstupniXmlSouborCesta);
-
 }
+
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_data_truncate_clicked()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    XmlImportJr xmlImportJr;
+    xmlImportJr.truncateAll();
+    xmlImportJr.sqLiteZaklad.vacuum();
+}
+
+
 /*!
 
 */
@@ -1204,7 +1750,6 @@ void MainWindow::on_pushButton_startTest_clicked()
     testStart(testIndex);
     //vzorovyTest.start();
 }
-
 
 
 /*!
@@ -1296,6 +1841,17 @@ void MainWindow::on_pushButton_data_today_clicked()
 }
 
 
+void MainWindow::on_pushButton_detection_setId_clicked()
+{
+    int selectedRow=ui->tableWidget_detection_deviceList->selectedItems().first()->row();
+
+    QString newId=ui->tableWidget_detection_deviceList->item(selectedRow,2)->text();
+    QString ipAddress=ui->tableWidget_detection_deviceList->item(selectedRow,4)->text();
+    QString port=ui->tableWidget_detection_deviceList->item(selectedRow,5)->text();
+    devMgmtSubscriber.postSetDeviceConfiguration(QUrl("http://"+ipAddress+":"+port+"/DeviceManagementService/SetDeviceConfiguration"),newId);
+}
+
+
 /*!
 
 */
@@ -1303,14 +1859,13 @@ void MainWindow::on_pushButton_menu_lineTrip_clicked()
 {
     eventExitService();
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_lineTrip );
-
 }
 
 
 
 void MainWindow::on_pushButton_ride_arrowNextStateSkip_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()-1))
     {
         vehicleState.currentStopIndex0++;
@@ -1328,7 +1883,6 @@ void MainWindow::on_pushButton_ride_arrowNextStateSkip_clicked()
 void MainWindow::on_pushButton_menu_specialAnnouncement_clicked()
 {
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_oznameni);
-
 }
 
 
@@ -1338,16 +1892,6 @@ void MainWindow::on_pushButton_menu_specialAnnouncement_clicked()
 void MainWindow::on_pushButton_manual_addsubscriber_clicked()
 {
     vypisDiagnostika(customerInformationService1_0.handleNewSubscriber(Subscriber(ui->lineEdit_manual_subscriberAddress->text(),ui->lineEdit_manual_subscriberStructure->text())));
-}
-
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_manual_addsubscriber_2_clicked()
-{
-    vypisDiagnostika(customerInformationService2_2CZ1_0.handleNewSubscriber(Subscriber(ui->lineEdit_manual_subscriberAddress->text(),ui->lineEdit_manual_subscriberStructure->text())));
 }
 
 
@@ -1362,84 +1906,55 @@ void MainWindow::on_pushButton_manual_addsubscriber_3_clicked()
 */
 void MainWindow::on_pushButton_manual_removeSubscriber_clicked()
 {
-    if (ui->tableWidget_manual_subscriberList1_0->rowCount()==0)
+    if (ui->tableWidget_manual_subscriberListCis1_0->rowCount()==0)
     {
-
-        vypisDiagnostika("seznam je prazdny");
+        vypisDiagnostika("list is empty");
         return;
     }
 
-    if (ui->tableWidget_manual_subscriberList1_0->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_manual_subscriberListCis1_0->selectionModel()->selectedIndexes().size()==0)
     {
-        vypisDiagnostika("nic neni vybrnao");
+        vypisDiagnostika("nothing selected");
         return;
     }
-    int indexPolozky = ui->tableWidget_manual_subscriberList1_0->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_manual_subscriberListCis1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService1_0.removeSubscriber(indexPolozky)==1)
     {
-        dumpSubscribers1_0(customerInformationService1_0.subscriberList);
-        vypisDiagnostika("odstraneno");
+        dumpSubscribersCis1_0(customerInformationService1_0.subscriberList);
+        vypisDiagnostika("removed");
     }
     else
     {
-        vypisDiagnostika("nepovedlo se odstranit");
+        vypisDiagnostika("could not remove");
     }
 }
 
 
-/*!
-
-*/
-void MainWindow::on_pushButton_manual_removeSubscriber_2_clicked()
-{
-    if (ui->tableWidget_manual_subscriberList2_2CZ1_0->rowCount()==0)
-    {
-        vypisDiagnostika("seznam je prazdny");
-        return;
-    }
-
-    if (ui->tableWidget_manual_subscriberList2_2CZ1_0->selectionModel()->selectedIndexes().size()==0)
-    {
-        vypisDiagnostika("nic neni vybrano");
-
-        return;
-    }
-    int indexPolozky = ui->tableWidget_manual_subscriberList2_2CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
-    if (customerInformationService2_2CZ1_0.removeSubscriber(indexPolozky)==1)
-    {
-        dumpSubscribers2_2CZ(customerInformationService2_2CZ1_0.subscriberList);
-        vypisDiagnostika("odstraneno");
-    }
-    else
-    {
-        vypisDiagnostika("nepovedlo se odstranit");
-    }
-}
 
 
 void MainWindow::on_pushButton_manual_removeSubscriber_3_clicked()
 {
-    if (ui->tableWidget_manual_subscriberList2_3->rowCount()==0)
+    if (ui->tableWidget_manual_subscriberListCis2_3CZ1_0->rowCount()==0)
     {
-        vypisDiagnostika("seznam je prazdny");
+        vypisDiagnostika("list is empty");
         return;
     }
 
-    if (ui->tableWidget_manual_subscriberList2_3->selectionModel()->selectedIndexes().size()==0)
+    if (ui->tableWidget_manual_subscriberListCis2_3CZ1_0->selectionModel()->selectedIndexes().size()==0)
     {
-        vypisDiagnostika("nic neni vybrano");
+        vypisDiagnostika("nothing selected");
 
         return;
     }
-    int indexPolozky = ui->tableWidget_manual_subscriberList2_3->selectionModel()->selectedIndexes().at(0).row() ;
+    int indexPolozky = ui->tableWidget_manual_subscriberListCis2_3CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
     if (customerInformationService2_3.removeSubscriber(indexPolozky)==1)
     {
-        dumpSubscribers2_3(customerInformationService2_3.subscriberList);
-        vypisDiagnostika("odstraneno");
+        dumpSubscribersCis2_3CZ1_0(customerInformationService2_3CZ1_0.subscriberList);
+        vypisDiagnostika("removed");
     }
     else
     {
-        vypisDiagnostika("nepovedlo se odstranit");
+        vypisDiagnostika("could not remove");
     }
 }
 
@@ -1447,52 +1962,45 @@ void MainWindow::on_pushButton_manual_removeSubscriber_3_clicked()
 
 void MainWindow::on_pushButton_detection_refresh_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     devMgmtSubscriber.slotUpdateDeviceInfo();
 }
 
 
 void MainWindow::on_pushButton_detection_saveHwConfig_clicked()
 {
-
-    qDebug() <<  Q_FUNC_INFO;
-
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     int i=0;
-    settings.beginWriteArray("hwConfig");
+    settings->beginWriteArray("hwConfig");
     foreach(DevMgmtPublisherStruct zarizeni, devMgmtSubscriber.deviceListDetected)
     {
         // QJsonDocument json = QJsonDocument::fromVariant(zarizeni.toQMap() );
-        settings.setArrayIndex(i);
-        settings.setValue("deviceClass",zarizeni.deviceClass);
-        settings.setValue("deviceId",zarizeni.deviceId);
+        settings->setArrayIndex(i);
+        settings->setValue("deviceClass",zarizeni.deviceClass);
+        settings->setValue("deviceId",zarizeni.deviceId);
         i++;
     }
-    settings.endArray();
-
+    settings->endArray();
 }
-
 
 
 void MainWindow::on_pushButton_detection_loadHwConfig_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
-
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     devMgmtSubscriber.deviceListConfigured.clear();
 
-
-    int size = settings.beginReadArray("hwConfig");
+    int size = settings->beginReadArray("hwConfig");
     for (int j = 0; j < size; ++j) {
-        settings.setArrayIndex(j);
+        settings->setArrayIndex(j);
         DevMgmtPublisherStruct zarizeni;
-        zarizeni.deviceId= settings.value("deviceId").toString();
-        zarizeni.deviceClass= settings.value("deviceClass").toString();
+        zarizeni.deviceId= settings->value("deviceId").toString();
+        zarizeni.deviceClass= settings->value("deviceClass").toString();
         zarizeni.hwConfig=true;
         devMgmtSubscriber.deviceListConfigured.append(zarizeni);
-        qDebug()<<"trida: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
+        qCDebug(MainWindowLog)<<"device class: "<<zarizeni.deviceClass<<" id: "<<zarizeni.deviceId;
     }
-    settings.endArray();
-
-    qDebug()<<"nacteno "<<QString::number(devMgmtSubscriber.deviceListConfigured.count())<<" zarizeni";
+    settings->endArray();
+    qCDebug(MainWindowLog)<<"nacteno "<<QString::number(devMgmtSubscriber.deviceListConfigured.count())<<" zarizeni";
     dumpServicesToTable(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
 }
 
@@ -1513,25 +2021,22 @@ settings.setValue("myKey", storeMap);
 void MainWindow::on_pushButton_ride_map_clicked()
 {
     mapPlot.seznamMnozin.clear();
-    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),true,false,false,false,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(vehicleState.getCurrentTrip().globalStopPointDestinationList,true),false,false,false,true,MnozinaBodu::WGS84);
-    mapPlot.pridejMnozinu(sqlRopidQuerries.vytvorTrajektorii(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false, MnozinaBodu::J_STSK);
+    QVector<StopPointDestination> stopPointList=vehicleState.getCurrentTrip().globalStopPointDestinationList;
 
-    mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( vehicleState.currentTrip));
+    foreach(StopPointDestination stopPoint, stopPointList)
+    {
+        mapPlot.pridejMnozinu(MapyApiStops::polygonToSeznamMapaBod(stopPoint.stopPoint.polygonWgs84),false,false,false,false,true,false,MnozinaBodu::WGS84);
+        mapPlot.pridejMnozinu(MapyApiStops::polygonToSeznamMapaBod(stopPoint.stopPoint.polygonWgs84_out ),false,false,false,false,false,true,MnozinaBodu::WGS84);
+    }
 
+    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),true,false,false,false,false,false,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(MapyApiStops::seznamStopPointDestinationToSeznamMapaBod(stopPointList,true),false,false,false,true,false,false,MnozinaBodu::WGS84);
+    mapPlot.pridejMnozinu(sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask()),false, true, false,false,false,false,MnozinaBodu::S_JTSK);
+
+    Trip temporaryTrip=sqlRopidQueries.getTripDescriptionFromId(vehicleState.getCurrentTrip().id,this->createDataValidityMask());
+    mapPlot.seznamMnozinDoJson(mapPlot.seznamMnozin, mapPlot.spojDoTabulky( temporaryTrip));
+    mapPlot.openMap();
 }
-
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_menu_ride_clicked()
-{
-    ui->stackedWidget_palPc->setCurrentWidget(ui->page_ride );
-
-}
-
 
 /*!
 
@@ -1542,12 +2047,53 @@ void MainWindow::on_pushButton_manual_truncateCustomXml_clicked()
 }
 
 
+void MainWindow::on_pushButton_manual_addsubscriber_2_3CZ1_0_clicked()
+{
+    vypisDiagnostika(customerInformationService2_3CZ1_0.handleNewSubscriber(Subscriber(ui->lineEdit_manual_subscriberAddress->text(),ui->lineEdit_manual_subscriberStructure->text())));
+}
+
+
+void MainWindow::on_pushButton_manual_removeSubscriber_2_3CZ1_0_clicked()
+{
+    if (ui->tableWidget_manual_subscriberListCis2_3CZ1_0->rowCount()==0)
+    {
+        vypisDiagnostika("seznam je prazdny");
+        return;
+    }
+
+    if (ui->tableWidget_manual_subscriberListCis2_3CZ1_0->selectionModel()->selectedIndexes().size()==0)
+    {
+        vypisDiagnostika("nic neni vybrano");
+        return;
+    }
+    int indexPolozky = ui->tableWidget_manual_subscriberListCis2_3CZ1_0->selectionModel()->selectedIndexes().at(0).row() ;
+    if (customerInformationService2_3CZ1_0.removeSubscriber(indexPolozky)==1)
+    {
+        dumpSubscribersCis2_3CZ1_0(customerInformationService2_3.subscriberList);
+        vypisDiagnostika("odstraneno");
+    }
+    else
+    {
+        vypisDiagnostika("nepovedlo se odstranit");
+    }
+}
+
+
+/*!
+
+*/
+void MainWindow::on_pushButton_menu_ride_clicked()
+{
+    ui->stackedWidget_palPc->setCurrentWidget(ui->page_ride );
+}
+
+
 /*!
 
 */
 void MainWindow::on_pushButton_menu_fullscreen_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     this->toggleFullscreen();
 }
 
@@ -1557,7 +2103,7 @@ void MainWindow::on_pushButton_menu_fullscreen_clicked()
 */
 void MainWindow::on_pushButton_menu2_fullscreen_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     this->toggleFullscreen();
 }
 
@@ -1567,21 +2113,36 @@ void MainWindow::on_pushButton_menu2_fullscreen_clicked()
 */
 void MainWindow::on_pushButton_manual_sendCustomXml_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     QByteArray vysledek2="";
+
+    customerInformationService1_0.timer.stop();
+    customerInformationService2_3.timer.stop();
+    customerInformationService2_3CZ1_0.timer.stop();
+
+    timerDownloadConnections.stop();
     vysledek2=vysledek2+ui->plainTextEdit_manual_customXml->toPlainText().toUtf8();
     customerInformationService1_0.setBodyContent("AllData",vysledek2);
-    customerInformationService2_2CZ1_0.setBodyContent("AllData",vysledek2);
+    customerInformationService2_3.setBodyContent("AllData",vysledek2);
+    customerInformationService2_3CZ1_0.setBodyContent("AllData",vysledek2);
+
 
     for(int i=0;i<customerInformationService1_0.subscriberList.count();i++ )
     {
         customerInformationService1_0.postToSubscriber(customerInformationService1_0.subscriberList[i].address,vysledek2);
     }
-    for(int i=0;i<customerInformationService2_2CZ1_0.subscriberList.count();i++ )
+
+    for(int i=0;i<customerInformationService2_3.subscriberList.count();i++ )
     {
-        customerInformationService2_2CZ1_0.postToSubscriber(customerInformationService2_2CZ1_0.subscriberList[i].address,vysledek2);
+        customerInformationService2_3.postToSubscriber(customerInformationService2_3.subscriberList[i].address,vysledek2);
     }
-    qDebug()<<"\n MainWindow::xmlUpdate";
+
+    for(int i=0;i<customerInformationService2_3CZ1_0.subscriberList.count();i++ )
+    {
+        customerInformationService2_3CZ1_0.postToSubscriber(customerInformationService2_3CZ1_0.subscriberList[i].address,vysledek2);
+    }
+
+    qCDebug(MainWindowLog)<<"\n MainWindow::xmlUpdate";
 }
 
 
@@ -1591,7 +2152,7 @@ void MainWindow::on_pushButton_manual_sendCustomXml_clicked()
 */
 void MainWindow::on_pushButton_ride_arrowPreviousStateSkip_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     if (vehicleState.currentStopIndex0>=2)
     {
         vehicleState.currentStopIndex0--;
@@ -1599,7 +2160,6 @@ void MainWindow::on_pushButton_ride_arrowPreviousStateSkip_clicked()
     ui->label_ride_stopIndex->setText(QString::number(vehicleState.currentStopIndex0));
     updateDriverDisplay();
     xmlVdv301UpdateContent();
-
 }
 
 
@@ -1609,11 +2169,10 @@ void MainWindow::on_pushButton_ride_arrowPreviousStateSkip_clicked()
 */
 void MainWindow::on_pushButton_menu_quit_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     MainWindow::close();
     QApplication::exit(0);
     //QCoreApplication::exit(0);
-
 }
 
 
@@ -1624,7 +2183,7 @@ void MainWindow::on_pushButton_menu_quit_clicked()
 void MainWindow::on_pushButton_ride_beforeStop_clicked()
 {
 
-    vehicleState.locationState="BeforeStop";
+    vehicleState.locationState=Vdv301Enumerations::LocationStateBeforeStop;
     xmlVdv301UpdateContent();
 }
 
@@ -1633,9 +2192,7 @@ void MainWindow::on_pushButton_ride_beforeStop_clicked()
 */
 void MainWindow::on_pushButton_ride_atStop_clicked()
 {
-
     eventArrival();
-
 }
 
 
@@ -1645,8 +2202,7 @@ void MainWindow::on_pushButton_ride_atStop_clicked()
 */
 void MainWindow::on_pushButton_ride_afterStop_clicked()
 {
-
-    vehicleState.locationState="AfterStop";
+    vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
     xmlVdv301UpdateContent();
 }
 
@@ -1657,25 +2213,11 @@ void MainWindow::on_pushButton_ride_afterStop_clicked()
 */
 void MainWindow::on_pushButton_ride_betweenStop_clicked()
 {
-
-    vehicleState.locationState="BetweenStop";
+    vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
     xmlVdv301UpdateContent();
 }
 
 
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_data_truncate_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    XmlImportJr *xmlImportJr =  new XmlImportJr();
-
-    xmlImportJr->truncateAll();
-    xmlImportJr->vacuum();
-}
 
 
 /*!
@@ -1683,45 +2225,10 @@ void MainWindow::on_pushButton_data_truncate_clicked()
 */
 void MainWindow::on_pushButton_configuration_IbisSendTest_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     // ibisOvladani.dopocetCelni("l006");
 }
 
-
-/*!
-
-*/
-void MainWindow::on_pushButton_configuration_IbisSetPort_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    ibisOvladani.stop();
-    ibisOvladani.setSerialPortName(ui->lineEdit_configuration_IbisPort->text());
-    ibisOvladani.start();
-    ibisOvladani.sendIpisTelegram("l006");
-    // ibisOvladani.dopocetKontrolnihoZnaku("aA1 ahoj");
-    // ibisOvladani.dopocetKontrolnihoZnaku("v povel v\\");
-    // ibisOvladani.dopocetKontrolnihoZnaku("zA povel zA");
-    // ibisOvladani.dopocetKontrolnihoZnaku("zN povel zN");
-    // ibisOvladani.dopocetKontrolnihoZnaku("xC2");
-}
-
-
-/*!
-
-*/
-void MainWindow::on_pushButton_ride_IBIS_clicked()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    ibisOvladani.sendIpisTelegram("xC2");
-    ibisOvladani.odesliFrontKomplet("1",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    ibisOvladani.odesliSideKomplet("2",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    ibisOvladani.odesliSideKomplet("3",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    //ibisOvladani.odesliInnerKomplet(globalniSeznamZastavek,novatrida.cislo);
-    ibisOvladani.odesliJKZKomplet("<3B>",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    ibisOvladani.odeslikompletBUSEjednoradekAA(this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-    ibisOvladani.odesliRearKomplet("4",this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.currentStopIndex0);
-
-}
 
 
 /*!
@@ -1729,53 +2236,52 @@ void MainWindow::on_pushButton_ride_IBIS_clicked()
 */
 void MainWindow::on_pushButton_ride_arrowNextState_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
-
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     if (vehicleState.currentStopIndex0<(this->vehicleState.countCurrentTripStops()))
     {
-        if((vehicleState.locationState=="AtStop")&&((vehicleState.currentStopIndex0<(vehicleState.countCurrentTripStops()-1) )))
+        if((vehicleState.locationState==Vdv301Enumerations::LocationStateAtStop)&&((vehicleState.currentStopIndex0<(vehicleState.countCurrentTripStops()-1) )))
         {
-            vehicleState.locationState="AfterStop";
-            vehicleState.currentStopIndex0++;
             eventDeparture();
         }
         else
         {
-            qDebug()<<"dalsi? index:"<<vehicleState.currentStopIndex0<<" pocetZastavek:"<<vehicleState.countCurrentTripStops();
-            if((vehicleState.locationState=="AtStop")&&((vehicleState.currentStopIndex0+1)==vehicleState.countCurrentTripStops()))
+            qCDebug(MainWindowLog)<<"dalsi? index:"<<vehicleState.currentStopIndex0<<" pocetZastavek:"<<vehicleState.countCurrentTripStops();
+            if((vehicleState.locationState==Vdv301Enumerations::LocationStateAtStop)&&((vehicleState.currentStopIndex0+1)==vehicleState.countCurrentTripStops()))
             {
                 this->eventGoToNextTrip();
             }
 
-
-            if(vehicleState.locationState=="BeforeStop")
+            switch (vehicleState.locationState)
             {
-                vehicleState.locationState="AtStop";
-
+            case Vdv301Enumerations::LocationStateBeforeStop:
+            {
+                vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
                 eventArrival();
+                break;
             }
-
-            if(vehicleState.locationState=="BetweenStop")
+            case Vdv301Enumerations::LocationStateBetweenStop:
             {
-                vehicleState.locationState="BeforeStop";
+                vehicleState.locationState=Vdv301Enumerations::LocationStateBeforeStop;
+                xmlVdv301UpdateContent();
+                break;
             }
-
-            if(vehicleState.locationState=="AfterStop")
+            case Vdv301Enumerations::LocationStateAfterStop:
             {
-                vehicleState.locationState="BetweenStop";
+                vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
                 eventAfterStopToBetweenStop();
+                break;
+            }
+
+            default:
+                break;
             }
         }
     }
 
-
     updateDriverDisplay();
-    vehicleState.doorState="AllDoorsClosed";
-    // ui->popisek->setText(QString::number(stavSystemu.currentStopIndex0+1));
-    xmlVdv301UpdateContent();
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
 }
-
 
 
 
@@ -1784,30 +2290,36 @@ void MainWindow::on_pushButton_ride_arrowNextState_clicked()
 */
 void MainWindow::on_pushButton_ride_arrowPreviousState_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     if (vehicleState.currentStopIndex0>=1)
     {
-        if(vehicleState.locationState=="AfterStop")
+        switch(vehicleState.locationState)
         {
-            vehicleState.locationState="AtStop";
+        case Vdv301Enumerations::LocationStateAfterStop:
+        {
+            vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
             vehicleState.currentStopIndex0--;
             eventArrival();
+            break;
         }
-        else
-        {
-            if(vehicleState.locationState=="BetweenStop")
-            {vehicleState.locationState="AfterStop";}
-
-            if(vehicleState.locationState=="BeforeStop")
-            {vehicleState.locationState="BetweenStop";}
-
-            if(vehicleState.locationState=="AtStop")
-            {vehicleState.locationState="BeforeStop";}
+        case Vdv301Enumerations::LocationStateBetweenStop:
+            vehicleState.locationState=Vdv301Enumerations::LocationStateAfterStop;
+            xmlVdv301UpdateContent();
+            break;
+        case Vdv301Enumerations::LocationStateBeforeStop:
+            vehicleState.locationState=Vdv301Enumerations::LocationStateBetweenStop;
+            xmlVdv301UpdateContent();
+            break;
+        case Vdv301Enumerations::LocationStateAtStop:
+            vehicleState.locationState=Vdv301Enumerations::LocationStateBeforeStop;
+            xmlVdv301UpdateContent();
+            break;
+        default:
+            break;
         }
         updateDriverDisplay();
     }
     ui->label_ride_stopIndex->setText(QString::number(vehicleState.currentStopIndex0));
-    xmlVdv301UpdateContent();
 }
 
 
@@ -1825,64 +2337,81 @@ void MainWindow::on_pushButton_menu2_rezerva_clicked()
 */
 int MainWindow::on_pushButton_lineTrip_confirm_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.reset();
-    vehicleState.doorState="AllDoorsClosed";
-
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    //   vehicleState.reset();
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
 
     /*
      * odeslani spoje doplneneho na turnus
-*/
-    
-    vehicleState.currentTrip.line.c =ui->lineEdit_lineNumber->text().toInt();
-    vehicleState.currentTrip.idRopid=ui->lineEdit_tripNumber->text().toInt();
-
-    int kmenovaLinka=0;;
-    int poradi=0;
-    int order=0;
-    sqlRopidQuerries.najdiTurnusZeSpoje( vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() );
-
-    vehicleState.currentStopIndex0=0;
-    
-    ui->lineEdit_rootLine->setText(QString::number(kmenovaLinka));
-    vehicleState.currentVehicleRun.rootLine.c=kmenovaLinka;
-
-
-    /*
-    if (sqlPraceRopid.vytvorSeznamPoradi(seznamObehu,stavSystemu.aktObeh.kmenovaLinka, this->vyrobMaskuKalendareJizd() )==1)
-    {
-        naplnVyberPoradi(seznamObehu);
-    }
     */
 
 
-    vehicleState.currentVehicleRun.order=poradi ;
-    if (sqlRopidQuerries.vytvorSeznamTurnusSpoju(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
+    /*
+    vehicleState.currentTrip.line.c =ui->lineEdit_lineNumber->text().toInt();
+    vehicleState.currentTrip.idRopid=ui->lineEdit_tripNumber->text().toInt();
+
+    if(!sqlRopidQueries.getTripSfromC(vehicleState.currentTrip,this->createDataValidityMask()))
     {
-        // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
-    }
-
-
-    Trip hledanySpoj=vehicleState.currentTrip;
-    vehicleState.currentTripIndex=sqlRopidQuerries.poziceSpojeNaSeznamu(vehicleState.currentVehicleRun.tripList,hledanySpoj);
-
-    if(! MainWindowPomocne::jeVRozsahu(vehicleState.currentTripIndex,vehicleState.currentVehicleRun.tripList.size(),Q_FUNC_INFO))
-    {
+        popUpMessage(tr("trip does not exist"));
         return 0;
     }
 
-    vehicleState.currentTrip=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex);
-    ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentTrip.line.c));
-    ui->lineEdit_rootLineTripNumber->setText(QString::number(vehicleState.currentTrip.idRopid));
-    vehicleState.currentLine.lineNumber =ui->lineEdit_rootLine->text();
+    */
+    int kmenovaLinka=0;;
+    int poradi=0;
+    int order=0;
+    vehicleState.currentStopIndex0=0;
+
+    Trip hledanySpoj=vehicleState.currentTrip;
+
+    if(sqlRopidQueries.getVehicleRunFromTripS(vehicleState.currentTrip,kmenovaLinka,poradi,order, this->createDataValidityMask() ))
+    {
+
+        vehicleState.currentVehicleRun.rootLine.c=kmenovaLinka;
+        vehicleState.currentVehicleRun.order=poradi ;
+        if (sqlRopidQueries.getTripListFromVehicleRun(vehicleState.currentVehicleRun,this->createDataValidityMask())==1)
+        {
+            // naplnVyberTurnusSpoje(stavSystemu.aktObeh.seznamSpoju);
+        }
+
+        vehicleState.currentTripIndex=vehicleState.currentVehicleRun.tripList.indexOf(hledanySpoj);
+        qCDebug(MainWindowLog)<<"current trip index: "<< vehicleState.currentTripIndex<<" trip count: "<<vehicleState.currentVehicleRun.tripList.count();
+        if(vehicleState.currentTripIndex==-1)
+        {
+            vehicleState.currentVehicleRun.tripList<<vehicleState.currentTrip;
+            vehicleState.currentTripIndex=0;
+            popUpMessage(tr("trip without vehicle run"));
+        }
+        else
+        {
+            if(! MainWindowPomocne::jeVRozsahu(vehicleState.currentTripIndex,vehicleState.currentVehicleRun.tripList.size(),Q_FUNC_INFO))
+            {
+                return 0;
+            }
+            else
+            {
+                vehicleState.currentTrip=vehicleState.currentVehicleRun.tripList.at(vehicleState.currentTripIndex);
+            }
+        }
+
+
+    }
+    else
+    {
+        qCDebug(MainWindowLog)<<"vehicle run not found";
+    }
+
 
     vehicleState.currentStopIndex0=0;
 
     int vysledek=initializeTheTrip();
+    //now included in initialize trip
+    /*
     if (vysledek==1)
     {
         eventEnterService();
     }
+    */
     return vysledek;
 }
 
@@ -1892,12 +2421,22 @@ int MainWindow::on_pushButton_lineTrip_confirm_clicked()
 */
 int MainWindow::on_pushButton_lineRun_confirm_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.doorState="AllDoorsClosed";
-    vehicleState.currentLine.lineNumber =ui->lineEdit_rootLine->text();
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
+    //vehicleState.currentLine.lineNumber =ui->lineEdit_rootLine->text();
 
     vehicleState.currentStopIndex0=0;
 
+    if(!ui->listView_rootLine->currentIndex().isValid())
+    {
+        qCDebug(MainWindowLog)<<"no root line selected";
+        return 0;
+    }
+    if(!ui->listView_lineRun->currentIndex().isValid())
+    {
+        qCDebug(MainWindowLog)<<"no vehicle run selected";
+        return 0;
+    }
     return initializeTheTrip();
 }
 
@@ -1917,68 +2456,91 @@ void MainWindow::on_pushButton_menu_vehicleRun_clicked()
 */
 void MainWindow::on_pushButton_menu2_quit_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     this->on_pushButton_menu_quit_clicked();
 }
 
-void MainWindow::on_pushButton_configuration_setGolemioKey_clicked()
+void MainWindow::on_pushButton_options_debug_set_clicked()
 {
-    qDebug() <<  Q_FUNC_INFO;
-    settings.setValue("golemio/apikey",ui->lineEdit_configuration_golemioKey->text());
-    golemio.setKlic(settings.value("golemio/apiKey").toByteArray());
+    QLoggingCategory::setFilterRules(ui->plainTextEdit_debug_rules->toPlainText());
 }
+
+
+void MainWindow::on_pushButton_positionStart_clicked()
+{
+    trajectoryJumper.seznamMapaBodu=sqlRopidQueries.getTrajectoryFromTripS(vehicleState.getCurrentTrip().id,this->createDataValidityMask());
+    trajectoryJumper.coordinatesSystem=trajectoryJumper.coordinateSystemFromMapaPointList(trajectoryJumper.seznamMapaBodu);
+
+    if((xmlTrajectoryType=="WGS84")||(xmlTrajectoryType=="S_JTSK"))
+    {
+        trajectoryJumper.start();
+    }
+    else
+    {
+        popUpMessage(tr("no trajectories, cannot simulate location"));
+    }
+}
+
+
+void MainWindow::on_pushButton_positionStop_clicked()
+{
+    trajectoryJumper.stop();
+}
+
+void MainWindow::on_pushButton_vehicleRefSet_clicked()
+{
+    vehicleState.vehicleNumber=ui->lineEdit_vehicleRef->text().toInt();
+    settings->setValue("vehicleProperties/vehicleRef",vehicleState.vehicleNumber);
+    avlSetGeneral();
+}
+
 
 void MainWindow::on_radioButton_ride_singleDoorOpen_clicked()
 {
-    vehicleState.doorState="SingleDoorOpen";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateSingleDoorOpen;
     xmlVdv301UpdateContent();
 }
 
 
 void MainWindow::on_radioButton_ride_allDoorsClosed_clicked()
 {
-    vehicleState.doorState="AllDoorsClosed";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
     xmlVdv301UpdateContent();
 }
 
 
 void MainWindow::on_radioButton_ride_doorsOpen_clicked()
 {
-    vehicleState.doorState="DoorsOpen";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateDoorsOpen;
     xmlVdv301UpdateContent();
 }
 
 
 void MainWindow::on_radioButton_ride_singleDoorCloser_clicked()
 {
-    vehicleState.doorState="SingleDoorClosed";
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateSingleDoorClosed;
     xmlVdv301UpdateContent();
 }
 
 void MainWindow::on_radioButton_configuration_language_cs_clicked()
 {
     retranslateUi("cs");
-    settings.setValue("app/language","cs");
-
+    settings->setValue("app/language","cs");
 }
 
 
 void MainWindow::on_radioButton_configuration_language_en_clicked()
 {
     retranslateUi("en");
-    settings.setValue("app/language","en");
+    settings->setValue("app/language","en");
 }
-
-
-
-
 
 
 void MainWindow::on_tableView_trip_clicked(const QModelIndex &index)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     Trip docasnySpoj;
-    
+
     if (ui->tableView_trip->model()->rowCount()>0)
     {
         if(index.isValid())
@@ -1996,66 +2558,202 @@ void MainWindow::on_tableView_trip_clicked(const QModelIndex &index)
             {
                 docasnySpoj.line.lineName=alias;
             }
-            
-            
-            
-            ui->lineEdit_tripNumber->setText(QString::number(docasnySpoj.idRopid));
 
             vehicleState.currentTrip=docasnySpoj;
             int kmenovaLinka=0;
             int poradi=0;
             int order=0;
 
-
-            sqlRopidQuerries.najdiTurnusZeSpoje(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
-            qDebug()<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
-
+            sqlRopidQueries.getVehicleRunFromTripS(vehicleState.currentTrip, kmenovaLinka,poradi, order,this->createDataValidityMask());
+            qCDebug(MainWindowLog)<<"test spoje do turnusu "<<kmenovaLinka<<"/"<<poradi<<" "<<order;
         }
     }
-
-    qDebug()<<"IDspoje:"<<docasnySpoj.id;
+    qCDebug(MainWindowLog)<<"IDspoje:"<<docasnySpoj.id;
+    vehicleState.currentTrip=docasnySpoj;
 }
 
 
 
 void MainWindow::on_tableView_lineTrip_clicked(const QModelIndex &index)
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     if (index.model()->rowCount()!=0)
     {
-        qDebug()<<"current item bum";
+        qCDebug(MainWindowLog)<<"current item bum";
 
         vehicleState.currentTrip.line.c=index.siblingAtColumn(0).data().toInt();
         vehicleState.currentTrip.idRopid=index.siblingAtColumn(1).data().toInt();
-
+        vehicleState.currentTrip.id=index.siblingAtColumn(6).data().toInt();
         vehicleState.currentTripIndex=vehicleState.currentVehicleRun.tripList.indexOf(vehicleState.currentTrip);
-        qDebug()<<"index spoje na obehu: "<<QString::number(vehicleState.currentTripIndex)<<" delkaSeznamu: "<<vehicleState.currentVehicleRun.tripList.count();
-        qDebug()<<"hodnota polozky"<<QString::number(vehicleState.currentTrip.line.c)<<" spoj:"<<QString::number(vehicleState.currentTrip.idRopid);
+
+        qCDebug(MainWindowLog)<<"index spoje na obehu: "<<QString::number(vehicleState.currentTripIndex)<<" delkaSeznamu: "<<vehicleState.currentVehicleRun.tripList.count();
+        qCDebug(MainWindowLog)<<"hodnota polozky"<<QString::number(vehicleState.currentTrip.line.c)<<" spoj:"<<QString::number(vehicleState.currentTrip.idRopid);
 
         //NUTNE DOPLNIT
-        
-        ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentTrip.line.c));
-        ui->lineEdit_rootLineTripNumber->setText(QString::number(vehicleState.currentTrip.idRopid));
+
+        //   ui->lineEdit_rootLine->setText(QString::number(vehicleState.currentTrip.line.c));
+        //   ui->lineEdit_rootLineTripNumber->setText(QString::number(vehicleState.currentTrip.idRopid));
     }
 }
 
 void MainWindow::on_tableWidget_specialAnnouncements_cellClicked(int row, int column)
 {
-    qDebug() <<  Q_FUNC_INFO;
-    eventShowAnnoucement(row,konfigurace.specialniHlaseni);
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    eventShowManualAnnoucementFromList(row,konfigurace.announcementList);
 }
 
 void MainWindow::on_tableWidget_ride_stopList_cellClicked(int row, int column)
 {
-    qDebug()<<"on_tableWidgetNasledujiciZastavky_cellClicked";
-    vehicleState.locationState="AtStop";
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    vehicleState.locationState=Vdv301Enumerations::LocationStateAtStop;
+    vehicleState.doorState=Vdv301Enumerations::DoorOpenStateAllDoorsClosed;
     ui->pushButton_ride_atStop->setChecked(true);
     vehicleState.currentStopIndex0=row;
     eventArrival();
-    updateDriverDisplay();
-    vehicleState.doorState="AllDoorsClosed";
+}
 
-    xmlVdv301UpdateContent();
+/*!
+
+*/
+QString MainWindow::openXmlSelectDialogue(QString cesta)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Otevři soubor"), cesta,
+                                                    tr("XML Ropid JŘ (*);;All Files (*)")); //needs to be all files. If it is .xml android picker will not accept it
+    return fileName;
+}
+
+void MainWindow::popUpMessage(QString messageText)
+{
+
+    QMessageBox msgBox;
+    msgBox.setText(replaceDriverAnnouncementFormatting(messageText));
+    msgBox.exec();
+
+
+    statusBar()->showMessage(
+        tr("Data imported successfully."),
+        5000); // 5 seconds
+}
+
+void MainWindow::statusBarMessage(QString messageText)
+{
+    statusBar()->showMessage(
+        messageText,
+        5000); // 5 seconds
+}
+
+
+
+/*!
+CIS 2.2CZ1.0
+*/
+void MainWindow::radio1(bool stav)
+{
+    ui->radioButton_ON1->setChecked(stav);
+    ui->radioButton_OFF1->setChecked(!stav);
+}
+
+
+/*!
+DEVMGMT 1:0
+*/
+void MainWindow::radio2(bool stav)
+{
+    ui->radioButton_ON2->setChecked(stav);
+    ui->radioButton_OFF2->setChecked(!stav);
+}
+
+
+/*!
+ TicketValidationService 2.2CZ1.0
+*/
+
+void MainWindow::radio3(bool stav)
+{
+    ui->radioButton_ON3->setChecked(stav);
+    ui->radioButton_OFF3->setChecked(!stav);
+}
+
+
+/*!
+CIS 1.0
+*/
+
+void MainWindow::radio4(bool stav)
+{
+    ui->radioButton_ON4->setChecked(stav);
+    ui->radioButton_OFF4->setChecked(!stav);
+}
+
+
+
+QString MainWindow::replaceDriverAnnouncementFormatting(QString input)
+{
+    QString output="";
+
+    qCDebug(MainWindowLog).noquote()<<"retezec pred: "<<input;
+    //  vysledek=vstup.replace(QRegExp("a"),"b");
+
+
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    //qt5
+    QRegExp vyraz=QRegExp("\\\\([^<]*)\\\\");
+    vyraz.setMinimal(true);
+#else
+    //qt6
+
+    QRegularExpression vyraz("\\\\([^<]*)\\\\");
+
+#endif
+
+
+    output=input.replace(vyraz,"<b>\\1</b>");
+    qCDebug(MainWindowLog).noquote()<<"retezec po: "<<output;
+
+    return output;
+}
+
+
+void MainWindow::resetTripList()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    vehicleState.reset();
+}
+
+
+
+void MainWindow::retranslateUi(QString language)
+{
+    QTranslator translator;
+
+    qApp->removeTranslator(&translator);
+    if(translator.load(":/lang_"+language+".qm"))
+    {
+        qApp->installTranslator(&translator);
+        ui->calendarWidget_data_workingDate->setLocale(QLocale::English);
+        qCDebug(MainWindowLog)<<"zmena jazyka";
+        ui->retranslateUi(this);
+    }
+    else
+    {
+        popUpMessage(tr("language file not found"));
+    }
+}
+
+
+
+
+
+
+void MainWindow::setLineToSubMode()
+{
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    //ConnectionMPV::ddDoVdv301VehicleMode(vehicleState.getCurrentTrip().line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode);
+    Line dummyLine;
+    ConnectionMPV::ddDoVehicleMode(vehicleState.getCurrentTrip().line.kli,vehicleState.vehicleMode,vehicleState.vehicleSubMode,dummyLine);
 }
 
 /*!
@@ -2063,418 +2761,16 @@ void MainWindow::on_tableWidget_ride_stopList_cellClicked(int row, int column)
 */
 void MainWindow::setXmlPathLabel()
 {
-    qDebug() <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     ui->label_data_pathContent->setText(xmlFilePath);
 
-}
-
-
-/*!
-
-*/
-QString MainWindow::openXmlSelectDialogue(QString cesta)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    QString fileName = QFileDialog::getOpenFileName(this,
-                                                    tr("Otevři soubor"), cesta,
-                                                    tr("XML Ropid JŘ (*.xml);;All Files (*)"));
-    return fileName;
-}
-
-
-
-
-
-/*!
-
-*/
-void MainWindow::updataWorkingDate()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    ui->dateEdit_data_workingDate->setDate(vehicleState.referenceDate);
-    ui->calendarWidget_data_workingDate->setSelectedDate(vehicleState.referenceDate);
-
-    qDebug()<<"od "<<validityFrom<<" do "<<validityTo<<" pracovni "<<vehicleState.referenceDate ;
-    qDebug()<<"dnu do pracovnihodata "<< vehicleState.referenceDate.daysTo(validityFrom) <<" dnu do zacatku platnosti " << vehicleState.referenceDate.daysTo(validityTo);
-
-
-    this->createDataValidityMask();
-    sqlRopidQuerries.maskaKalendarJizd(this->vehicleState.referenceDate,validityFrom,validityTo);
-
-    initializeSelectionListView();
-}
-
-/*!
-\brief popis
-xxxxxx
-*/
-void MainWindow::workingDateToday()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.referenceDate=QDate::currentDate();
-    updataWorkingDate();
-}
-
-
-/*!
-
-*/
-void MainWindow::workingDateFirstDateOfDataValidity()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    updateCalendar();
-
-
-    vehicleState.referenceDate=validityFrom;
-    updataWorkingDate();
-}
-
-
-/*!
-
-*/
-void MainWindow::slotAktualizacePracData()
-{
-    initializeSelectionListView();
-}
-
-
-
-/*!
-
-*/
-QString MainWindow::createDataValidityMask()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    return sqlRopidQuerries.maskaKalendarJizd(vehicleState.referenceDate,validityFrom, validityTo);
-}
-
-
-
-void MainWindow::dumpStopsToTable(int cisloporadi, QVector<StopPointDestination> docasnySeznamZastavek, QString locationState)
-{
-
-    qDebug() <<  Q_FUNC_INFO;
-    ui->tableWidget_ride_stopList->setRowCount(0);
-
-
-
-    for (int i=0;i<(docasnySeznamZastavek.count());i++)
-    {
-        QString cisloZastavky = QString::number(i+1);
-        QString nazevZastavky2 = docasnySeznamZastavek.at(i).stopPoint.StopName;
-        QString odjezdZeZastavky =  sqlRopidQuerries.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.DepartureTime);
-        QString prijezdDoZastavky =  sqlRopidQuerries.vytvorCasHodinyMinuty(docasnySeznamZastavek.at(i).stopPoint.ArrivalTime);
-        QString pasma= sqlRopidQuerries.pasmaDoStringu(docasnySeznamZastavek.at(i).stopPoint.fareZoneList,",");
-        QString znameni="";
-        if (docasnySeznamZastavek.at(i).stopPoint.onRequest==true)
-        {
-            znameni="(x)";
-        }
-
-
-        qint32 row;
-        QTableWidgetItem *cell;
-        row = ui->tableWidget_ride_stopList->rowCount();
-        ui->tableWidget_ride_stopList->insertRow(row);
-
-        cell = new QTableWidgetItem(cisloZastavky);
-        ui->tableWidget_ride_stopList->setItem(row, 0, cell);
-
-        cell = new QTableWidgetItem(nazevZastavky2);
-        ui->tableWidget_ride_stopList->setItem(row, 1, cell);
-
-        QString timeText="";
-        if(prijezdDoZastavky==odjezdZeZastavky)
-        {
-            timeText=odjezdZeZastavky;
-        }
-        else
-        {
-            if(prijezdDoZastavky.isEmpty()||odjezdZeZastavky.isEmpty())
-            {
-                 timeText=prijezdDoZastavky+odjezdZeZastavky;
-            }
-            else
-            {
-                 timeText=prijezdDoZastavky+" "+odjezdZeZastavky;
-            }
-
-        }
-
-        cell = new QTableWidgetItem(timeText);
-        ui->tableWidget_ride_stopList->setItem(row, 2, cell);
-
-
-        cell = new QTableWidgetItem(znameni);
-        ui->tableWidget_ride_stopList->setItem(row, 3, cell);
-
-        cell = new QTableWidgetItem(pasma);
-        ui->tableWidget_ride_stopList->setItem(row, 4, cell);
-
-        //   ui->tableWidgetNasledujiciZastavky->resizeColumnsToContents();
-
-    }
-
-    int zabarvenySloupec=1;
-    int pocetRadkuTabulky=ui->tableWidget_ride_stopList->rowCount();
-    if (pocetRadkuTabulky<=0)
-    {
-        qDebug()<<"tabulku nelze obarvit, je prazdna";
-        // return;
-    }
-    else
-    {
-        if (locationState=="AtStop")
-        {
-
-            QBrush cyan(Qt::cyan);
-            ui->tableWidget_ride_stopList->item(cisloporadi,zabarvenySloupec)->setBackground(cyan);
-        }
-        else
-        {
-            QBrush gray(Qt::gray);
-            ui->tableWidget_ride_stopList->item(cisloporadi,zabarvenySloupec)->setBackground(gray);
-        }
-        ui->tableWidget_ride_stopList->resizeColumnsToContents();
-        ui->tableWidget_ride_stopList->resizeRowsToContents();
-        ui->tableWidget_ride_stopList->scrollToItem(ui->tableWidget_ride_stopList->item(cisloporadi,0));
-    }
-}
-
-
-
-/*!
- * \brief MainWindow::eventGoToNextTrip
-    přepíná na další spoj na turnusu posunem indexů, pokud návazný spoj neexistuje
-*/
-void MainWindow::eventGoToNextTrip()
-{
-    qDebug() <<  Q_FUNC_INFO;
-
-    qDebug()<<"index "<<vehicleState.currentTripIndex<<" pocetSpoju "<<vehicleState.currentVehicleRun.tripList.count();
-    if ((vehicleState.currentTripIndex)<(vehicleState.currentVehicleRun.tripList.count()-1))
-    {
-        vehicleState.currentTripIndex++;
-        vehicleState.currentStopIndex0=0;
-        // AktualizaceDispleje();
-        initializeTheTrip();
-        xmlVdv301UpdateContent();
-    }
-    else
-    {
-        qDebug()<<"posledni spoj ze seznamu, nelze se dale posouvat";
-    }
-}
-
-
-void MainWindow::eventFareZoneChange()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.showFareZoneChange=true;
-    xmlVdv301UpdateContent();
-    voiceAnnouncer.kompletZmenaTarifnihoPasma();
-    timerFareZoneChangeDuration.start();
-
-}
-
-void MainWindow::eventShowAnnoucement(int index, QVector<AdditionalAnnoucement> seznamHlaseni)
-{
-    qDebug() <<  Q_FUNC_INFO;
-
-    if((index>=0)&&(index<seznamHlaseni.count()))
-    {
-
-        vehicleState.currentSpecialAnnoucement=seznamHlaseni.at(index);
-        vehicleState.isSpecialAnnoucementUsed=true;
-        //zobraz na panely
-        xmlVdv301UpdateContent();
-        timerSpecialAnnoucementHide.start();
-        //spust hlaseni
-        voiceAnnouncer.kompletSpecialniHlaseni(vehicleState.currentSpecialAnnoucement);
-    }
-
-}
-
-void MainWindow::eventAnnouncementToDriver(QString poznamka)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    QMessageBox msgBox;
-    msgBox.setText(replaceDriverAnnouncementFormatting(poznamka));
-    QFont font;
-    //font.setBold(true);
-    font.setPointSize(30);
-    msgBox.setFont(font);
-    // msgBox.setStyleSheet("font-size: 30px;");
-    msgBox.exec();
-}
-
-
-void MainWindow::popUpMessage(QString messageText)
-{
-    QMessageBox msgBox;
-    msgBox.setText(replaceDriverAnnouncementFormatting(messageText));
-    msgBox.exec();
-}
-
-void MainWindow::eventFareZoneChangeHide()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.showFareZoneChange=false;
-    xmlVdv301UpdateContent();
-}
-
-//není implementováno
-void MainWindow::eventFareSystemChangeShow()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    /*stavSystemu.zobrazZmenuPasma=true;
-    xmlVdv301HromadnyUpdate();
-
-    timerTrvaniZmenyPasma->setInterval(10000);
-    timerTrvaniZmenyPasma->setSingleShot(true);
-    timerTrvaniZmenyPasma->start();
-    */
-
-}
-
-//není implementováno
-void MainWindow::eventFareSystemChangeHide()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    /* stavSystemu.zobrazZmenuPasma=false;
-   xmlVdv301HromadnyUpdate();
-   */
-}
-
-
-void MainWindow::eventEnterService()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    ui->pushButton_menu_ride->setDisabled(false);
-}
-
-void MainWindow::eventExitService()
-{
-    qDebug() <<  Q_FUNC_INFO;
-
-    ui->pushButton_menu_ride->setDisabled(true);
-    timerAfterStopToBetweenStop.stop();
-    timerDownloadConnections.stop();
-    timerFareZoneChangeDuration.stop();
-    resetTripList();
-
-    customerInformationService1_0.outOfService();
-    customerInformationService2_2CZ1_0.outOfService();
-    customerInformationService2_3.outOfService();
-
-    xmlVdv301UpdateContent();
-    initializeSelectionListView();
-}
-
-void MainWindow::resetTripList()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.reset();
-}
-
-
-void MainWindow::modelDoTabulkySeradit(QSqlQueryModel* modelInput,QTableView* tableView)
-{
-    qDebug()<<Q_FUNC_INFO;
-
-    if(modelInput==NULL)
-    {
-        qDebug()<<"model je prazdny";
-        return;
-    }
-    qDebug()<<"model size:"<<modelInput->rowCount()<<" "<<modelInput->columnCount();
-
-
-
-    while ( modelInput->canFetchMore())
-    {
-        modelInput->fetchMore();
-    }
-
-    if(modelInput->rowCount()==0)
-    {
-        return;
-    }
-
-
-    proxyModel->setSourceModel(modelInput);
-
-    tableView->setModel(proxyModel);
-    tableView->show();
-    tableView->resizeColumnsToContents();
-    connect(tableView->horizontalHeader(),SIGNAL(sortIndicatorChanged(int, Qt::SortOrder )),tableView,SLOT(sortByColumn(int, Qt::SortOrder )));
-    int pocet= proxyModel->rowCount();
-    qDebug()<<"pocet vysledku: "<<QString::number(pocet);
-    //existujeLastError(model);
-}
-
-
-void MainWindow::evenSpecialAnnouncementHide()
-{
-    qDebug() <<  Q_FUNC_INFO;
-    vehicleState.isSpecialAnnoucementUsed=false;
-    xmlVdv301UpdateContent();
-}
-
-
-void MainWindow::slotServiceTableUpdate()
-{
-    qDebug()<<Q_FUNC_INFO;
-    dumpServicesToTable(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
-}
-
-void MainWindow::dumpServicesToTable(QVector<DevMgmtPublisherStruct> serviceListDetected, QVector<DevMgmtPublisherStruct> serviceListConfigured)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    // ui->tabulkaSubscriberu->setRowCount(0);
-    truncateSubscriberTable(ui->tableWidget_detection_deviceList);
-
-
-    foreach(DevMgmtPublisherStruct sluzba, serviceListDetected)
-    {
-        serviceToTable(sluzba);
-    }
-
-    foreach(DevMgmtPublisherStruct sluzba, serviceListConfigured)
-    {
-        if(!sluzba.isInListByIdClass(serviceListDetected))
-        {
-            serviceToTable(sluzba);
-        }
-
-    }
-}
-
-void MainWindow::truncateSubscriberTable(QTableWidget *tableWidget)
-{
-    qDebug() <<  Q_FUNC_INFO;
-    //  https://stackoverflow.com/a/31564541
-    tableWidget->clearSelection();
-
-    // Disconnect all signals from table widget ! important !
-    tableWidget->disconnect();
-
-    // Remove all items
-    tableWidget->clearContents();
-
-    // Set row count to 0 (remove rows)
-    tableWidget->setRowCount(0);
 }
 
 
 //vypis detekovanych sluzeb do tabulky
 void MainWindow::serviceToTable(DevMgmtPublisherStruct zarizeni)
 {
-    //QZeroConfService zcs
-    qDebug() <<  Q_FUNC_INFO;
-    qint32 row;
-    QTableWidgetItem *cell;
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
 
     QString sluzbaNazev=zarizeni.serviceName;
     QString ipadresa=zarizeni.hostAddress.toString() ;
@@ -2486,8 +2782,11 @@ void MainWindow::serviceToTable(DevMgmtPublisherStruct zarizeni)
     int hwConfig=zarizeni.hwConfig;
     QString status=zarizeni.status;
     /*
-    qDebug() <<"nazev sluzby "<<nazev<<" ip adresa "<<ipadresa<<" port "<<QString::number(port)<<" data" <<verze ;
+   qCDebug(MainWindowLog) <<"nazev sluzby "<<nazev<<" ip adresa "<<ipadresa<<" port "<<QString::number(port)<<" data" <<verze ;
  */
+
+    qint32 row;
+    QTableWidgetItem *cell;
 
     row = ui->tableWidget_detection_deviceList->rowCount();
     ui->tableWidget_detection_deviceList->insertRow(row);
@@ -2504,15 +2803,12 @@ void MainWindow::serviceToTable(DevMgmtPublisherStruct zarizeni)
         {
             cell->setBackground(QColor(0,255,0));
         }
-
-
     }
     else
     {
         cell->setBackground(QColor(255,255,0));
     }
     ui->tableWidget_detection_deviceList->setItem(row, 0, cell);
-
 
     cell = new QTableWidgetItem(deviceClass);
     ui->tableWidget_detection_deviceList->setItem(row, 1, cell);
@@ -2540,48 +2836,499 @@ void MainWindow::serviceToTable(DevMgmtPublisherStruct zarizeni)
 
     ui->tableWidget_detection_deviceList->resizeColumnsToContents();
 
-    qDebug()<<"sluzbaDoTabulky_konec";
+    qCDebug(MainWindowLog)<<"sluzbaDoTabulky_konec";
 }
 
 
-QString MainWindow::replaceDriverAnnouncementFormatting(QString input)
+/*!
+
+*/
+void MainWindow::slotAktualizacePracData()
 {
-    QString output="";
+    initializeSelectionListView();
+}
 
-    qDebug().noquote()<<"retezec pred: "<<input;
-    //  vysledek=vstup.replace(QRegExp("a"),"b");
+void MainWindow::slotCis2_3CZ1_0PortUpdate(int port)
+{
+    ui->label_statusCisPort->setText(QString::number(port));
+}
 
-
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    //qt5
-    QRegExp vyraz=QRegExp("\\\\([^<]*)\\\\");
-    vyraz.setMinimal(true);
-#else
-    //qt6
-
-    QRegularExpression vyraz("\\\\([^<]*)\\\\");
-
-#endif
+void MainWindow::slotTvs2_3CZ1_0PortUpdate(int port)
+{
+    ui->label_statusTvsPort->setText(QString::number(port));
+}
 
 
+void MainWindow::slotDebugServiceToTable(QZeroConfService zcs)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qint32 row;
+    QTableWidgetItem *cell;
+
+    QString name=zcs->name();
+    QString ipaddress=zcs->ip().toString();
+    QString host=zcs->host();
+    QString version=zcs.data()->txt().value("ver");
+    int port=zcs->port();
+
+    qCDebug(MainWindowLog) <<"service name "<<name<<" ip address"<<ipaddress<<" port "<<QString::number(port)<<" data" <<version ;
+
+    row = ui->tableWidget_services->rowCount();
+    ui->tableWidget_services->insertRow(row);
+    cell = new QTableWidgetItem(name);
+    ui->tableWidget_services->setItem(row, 0, cell);
+
+    cell = new QTableWidgetItem(version);
+    ui->tableWidget_services->setItem(row, 1, cell);
+
+    cell = new QTableWidgetItem(ipaddress);
+    ui->tableWidget_services->setItem(row, 2, cell);
+
+    cell = new QTableWidgetItem(QString::number(port));
+    ui->tableWidget_services->setItem(row, 3, cell);
+
+    cell = new QTableWidgetItem(host);
+    ui->tableWidget_services->setItem(row, 4, cell);
+
+    ui->tableWidget_services->resizeColumnsToContents();
+
+    qCDebug(MainWindowLog)<<"sluzbaDoTabulky_konec";
+}
+
+void MainWindow::slotDownloadConnectionsFromCurrentStop()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    //
+    Trip currentTrip=vehicleState.getCurrentTrip();
+    if(!currentTrip.globalStopPointDestinationList.isEmpty())
+    {
+        if(isInRange(vehicleState.currentStopIndex0,currentTrip.globalStopPointDestinationList.count(),Q_FUNC_INFO ))
+        {
+            StopPoint aktZastavka=currentTrip.globalStopPointDestinationList[vehicleState.currentStopIndex0].stopPoint;
+            if(useGolemioApi)
+            {
+                golemio.startDataDownload(aktZastavka.idCis);
+            }
+            else
+            {
+                xmlMpvParser.stahniMpvXml(aktZastavka.idCis, aktZastavka.ids);
+            }
+        }
+    }
+}
 
 
-    output=input.replace(vyraz,"<b>\\1</b>");
-    qDebug().noquote()<<"retezec po: "<<output;
+void MainWindow::slotGnssUpdateWgs84(QPointF coordinates)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    avl.slotUpdatePosition(coordinates);
+    updatePositionLabel(coordinates);
+    locationEvents.slotGnssUpdateWgs84(coordinates);
+    trajectoryJumper.setMapaBod(coordinates,MnozinaBodu::WGS84);
+}
 
-    return output;
+void MainWindow::slotGnssUpdateSjtsk(QPointF coordinates)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    updatePositionLabel(coordinates);
+    locationEvents.slotGnssUpdateSjtsk(coordinates);
 }
 
 
 
+void MainWindow::slotGolemioReady()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    //qDebug()<<"povypisu "<<xmlMpvParser.stazenaData.length();
+
+    golemio.fillJsonFromQByteArray();
+    QVector<ConnectionGolemio> prestupyGolemio=golemio.parseDomDocumentDepartures();
+    QVector<GolemioInfotext> infotextsGolemio=golemio.parseDomDocumentInfotexts();
+
+    qCDebug(MainWindowLog)<<"bum10";
+
+    connectionListToTable(prestupyGolemio,ui->tableWidget_golemioConnections);
+    infoTextListToTable(infotextsGolemio,ui->tableWidget_golemioInfotexts);
+
+    QVector<Connection> prestupy;
+    foreach(ConnectionGolemio polozka,prestupyGolemio)
+    {
+        prestupy.push_back(TypeConvertor::connectionGolemioToConnection(polozka));
+    }
+    qCDebug(MainWindowLog)<<"bum11";
+    if(filterConnections)
+    {
+        //   prestupy=xmlMpvParser.vyfiltrujPrestupy(prestupy,stavSystemu.aktlinka);
+    }
+    qCDebug(MainWindowLog)<<"pocet Prestupu ve vektoru: "<<prestupy.count();
+
+
+    xmlVdv301UpdateCis(prestupy,vehicleState);
+}
+
+
+
+void MainWindow::slotImportFinished()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    this->workingDateFirstDateOfDataValidity();
+    this->initializeSelectionListView();
+}
+
+
+void MainWindow::slotImportDeaktivujTlacitka()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+}
+
+void MainWindow::slotImportAktivujTlacitka()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+}
+
+
+void MainWindow::slotLocationEnterArea(StopPointDestination stopPoint)
+{
+    eventArrival();
+}
+
+void MainWindow::slotLocationLeaveArea(StopPointDestination stopPoint)
+{
+    // implement checks for departure from last stop!
+    eventDeparture();
+}
+
+/*!
+
+*/
+void MainWindow::slotMpvNetReady()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<"povypisu "<<xmlMpvParser.stazenaData.length();
+
+    xmlMpvParser.naplnVstupDokument(xmlMpvParser.stazenaData);
+    QVector<ConnectionMPV> prestupyMpv=xmlMpvParser.parsujDomDokument();
+    if(filterConnections)
+    {
+        prestupyMpv=xmlMpvParser.vyfiltrujPrestupy(prestupyMpv,vehicleState.currentLine);
+    }
+    QVector<Connection> prestupy;
+    foreach(ConnectionMPV polozka, prestupyMpv)
+    {
+        prestupy.push_back(polozka.toConnection());
+    }
+
+    if(!prestupy.isEmpty())
+    {
+        xmlVdv301UpdateCis(prestupy,vehicleState);
+    }
+}
+
+void MainWindow::slotLocationGetterPositionChanged(QPointF coordinates)
+{
+    if(useNativePosition)
+    {
+        slotGnssUpdateWgs84(coordinates);
+    }
+
+}
+
+void MainWindow::slotRemoteControlAction(Vdv301Enumerations::RemoteControlMessageTypeEnumeration message)
+{
+    switch(message)
+    {
+
+    case Vdv301Enumerations::RemoteControlOk:
+        break;
+    case Vdv301Enumerations::RemoteControlError:
+        popUpMessage("Remote action: "+Vdv301Enumerations::RemoteControlMessageTypeToQString(message));
+        break;
+    case Vdv301Enumerations::RemoteControlDestinationRequest:
+        eventRemoteLineDirection();
+        break;
+    case Vdv301Enumerations::RemoteControlGetOnRequest:
+        eventRemoteGetOnRequest();
+        break;
+    case Vdv301Enumerations::RemoteControlStartRazzia:
+        eventRazziaStart();
+        break;
+    case Vdv301Enumerations::RemoteControlStopRazzia:
+        eventRazziaStop();
+        break;
+    }
+}
+
+
+void MainWindow::slotServiceTableUpdate()
+{
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    dumpServicesToTable(devMgmtSubscriber.deviceListDetected, devMgmtSubscriber.deviceListConfigured);
+}
+
+
+void MainWindow::slotSetProgress(int hodnota)
+{
+    ui->progressBar_data_importXml->setValue(hodnota);
+    //qCDebug(MainWindowLog)<<QString::number(hodnota)<<"/"<<QString::number(ui->progressBar->maximum());
+}
+
+
+void MainWindow::slotSetProgressMax(int hodnota)
+{
+    //resetujProgressBar();
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO<<" "<<QString::number(hodnota);
+    ui->progressBar_data_importXml->setMaximum(hodnota);
+}
+
+void MainWindow::slotUpdateServiceTable()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    debugServiceListToTable(remoteControlSubscriber.serviceList);
+    //debugServiceListToTable(devMgmtSubscriber.serviceList);
+}
+
+void MainWindow::slotVdv301ServiceStartResult(QString nastartovanaSluzba)
+{
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO<<" "<<nastartovanaSluzba;
+    startServiceFromList(vektorCis);
+}
+
+
+
+/*!
+
+*/
+void MainWindow::startAllVdv301Services()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+    deviceManagementService1_0.blockBonjour=blockBonjour;
+    deviceManagementService1_0.slotStartServer();
+    /*
+    customerInformationService1_0.slotStartServer();
+    customerInformationService2_2CZ1_0.slotStartServer();
+    customerInformationService2_4.slotStartServer();
+    */
+    ticketValidationService2_2.blockBonjour=blockBonjour;
+    ticketValidationService2_2.slotStartServer();
+
+
+
+    if(blockBonjour)
+    {
+        foreach (CustomerInformationService *cisService, vektorCis) {
+            cisService->blockBonjour=blockBonjour;
+            cisService->slotStartServer();
+        }
+    }
+    else
+    {
+        if(timeServiceEnabled)
+        {
+            timeService1_0.slotStartDnsSd(true);
+        }
+
+
+        startServiceFromList(vektorCis);
+    }
+}
+
+
+void MainWindow::startServiceFromList(QVector<CustomerInformationService*> &seznamSluzeb)
+{
+    qCDebug(MainWindowLog)<<Q_FUNC_INFO;
+    if(!seznamSluzeb.isEmpty())
+    {
+        QPointer<CustomerInformationService> aktualniSluzba=seznamSluzeb.takeFirst();
+        aktualniSluzba->blockBonjour=blockBonjour;
+        qCDebug(MainWindowLog)<<"v zasobniku zustava sluzeb: "<<seznamSluzeb.count();
+        qCDebug(MainWindowLog)<<"starting"<<aktualniSluzba->mServiceName<<" "<<aktualniSluzba->version()<<" "<<aktualniSluzba->portNumber();
+        aktualniSluzba->slotStartServer();
+    }
+}
+
+
+/*!
+
+*/
+void MainWindow::stopServices()
+{
+    //customerInformationService1_0.
+}
+
+/*!
+
+*/
+void MainWindow::testPopulateWindow(int index)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    switch (index)
+    {
+    case 0:
+        testDemo.emitujUpdate();
+        break;
+    case 1:
+        testSubscribeServer.emitujUpdate();
+        break;
+    default:
+        break;
+    }
+}
+
+
+/*!
+start vzorového testu
+*/
+void MainWindow::testStart(int index)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    switch (index)
+    {
+    case 0:
+        testDemo.start();
+        break;
+    case 1:
+        testSubscribeServer.start();
+        break;
+    default:
+        qCDebug(MainWindowLog)<<"test s indexem "<<QString::number(index)<<" neexistuje";
+        break;
+    }
+}
+
+
+/*!
+
+*/
+void MainWindow::testStop(int index)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    switch (index)
+    {
+    case 0:
+        testDemo.stop();
+        break;
+    case 1:
+        testSubscribeServer.stop();
+        break;
+    default:
+        qCDebug(MainWindowLog)<<"test s indexem "<<QString::number(index)<<" neexistuje";
+        break;
+    }
+}
+
+
+/*!
+
+*/
+void MainWindow::slotVypisSqlVysledek(QString vstup)
+{
+    ui->label_data_sqlResult->setText(vstup);
+}
+
+
+
+
+/*!
+bezpečně vymaže obsah QListWidget
+*/
+void MainWindow::truncateQListWidget(QListWidget *vstup)
+{
+    // https://stackoverflow.com/a/53632933
+    vstup->blockSignals(true);
+    vstup->clear();
+    vstup->blockSignals(false);
+}
+
+
+
+
+/*!
+
+*/
+void MainWindow::toggleFullscreen()
+{
+    if (MainWindow::windowState()==Qt::WindowFullScreen )
+    {
+        MainWindow::setWindowState(Qt::WindowMaximized);
+    }
+    else
+    {
+        MainWindow::setWindowState(Qt::WindowFullScreen);
+    }
+}
+
+
+
+/*!
+
+*/
+void MainWindow::testPopulateTestPhases(QVector<PolozkaTestu> &seznamPolozek)
+{
+
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    for(int i =0;i<seznamPolozek.size();i++)
+    {
+        qCDebug(MainWindowLog)<<i<<" "<<seznamPolozek.at(i).nazev<<" "<<seznamPolozek.at(i).vysledek;
+    }
+
+    ui->tableWidgetCastiTestu->setRowCount(0);
+    qCDebug(MainWindowLog)<<"smazano"<<" adresy.size="<<seznamPolozek.size();
+    if (seznamPolozek.size()==0)
+    {
+        qCDebug(MainWindowLog)<<"vracim 0";
+        //return 0;
+    }
+    else
+    {
+        for (int i = 0;  i < seznamPolozek.count(); i++)
+        {
+            qint32 row;
+            QTableWidgetItem *cell;
+            row = ui->tableWidgetCastiTestu->rowCount();
+            ui->tableWidgetCastiTestu->insertRow(row);
+            cell = new QTableWidgetItem(seznamPolozek.at(i).nazev);
+            ui->tableWidgetCastiTestu->setItem(row, 0, cell);
+
+            cell = new QTableWidgetItem(seznamPolozek.at(i).prubeh);
+            ui->tableWidgetCastiTestu->setItem(row, 1, cell);
+
+            cell = new QTableWidgetItem(seznamPolozek.at(i).vysledek);
+            ui->tableWidgetCastiTestu->setItem(row, 2, cell);
+
+            ui->tableWidgetCastiTestu->resizeColumnsToContents();
+        }
+        qCDebug(MainWindowLog)<<"vracim 1";
+        //return 1;
+    }
+}
+
+
+
+
+void MainWindow::truncateSubscriberTable(QTableWidget *tableWidget)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    //  https://stackoverflow.com/a/31564541
+    tableWidget->clearSelection();
+
+    // Disconnect all signals from table widget ! important !
+    tableWidget->disconnect();
+
+    // Remove all items
+    tableWidget->clearContents();
+
+    // Set row count to 0 (remove rows)
+    tableWidget->setRowCount(0);
+}
 
 
 QString MainWindow::textVerze()
 {
     QDate datumKompilace=QLocale("en_US").toDate(QString(__DATE__).simplified(), "MMM d yyyy");
     QTime casKompilace=QTime::fromString(__TIME__,"hh:mm:ss");
-    qDebug()<<" date:"<<datumKompilace<<" time:"<<casKompilace;
+    qCDebug(MainWindowLog)<<" date:"<<datumKompilace<<" time:"<<casKompilace;
     QString verze=datumKompilace.toString("yyyyMMdd")+"_"+casKompilace.toString("hhmm");
     return verze;
 }
@@ -2589,16 +3336,272 @@ QString MainWindow::textVerze()
 
 
 
-
-
-
-void MainWindow::on_pushButton_detection_setId_clicked()
+/*!
+načte platnost a nastaví rozsahy klikatelných oblastí kalendáře
+*/
+void MainWindow::updateCalendar()
 {
-    int selectedRow=ui->tableWidget_detection_deviceList->selectedItems().first()->row();
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    if(sqlRopidQueries.getDatasetValidity(validityFrom,validityTo,xmlVersion))
+    {
+        xmlTrajectoryType=sqlRopidQueries.getTrajectoryType();
+        ui->calendarWidget_data_workingDate->setMinimumDate(validityFrom);
+        ui->calendarWidget_data_workingDate->setMaximumDate(validityTo);
+        ui->label_data_validFrom->setText(validityFrom.toString("dd. MM. yyyy"));
+        ui->label_data_validTo->setText(validityTo.toString("dd. MM. yyyy"));
+    }
+    else
+    {
+        xmlTrajectoryType="N/A";
+        xmlVersion="";
+        ui->calendarWidget_data_workingDate->setMinimumDate(QDate(1900, 1, 1));
+        ui->calendarWidget_data_workingDate->setMaximumDate(QDate(3000, 1, 1));
+        ui->label_data_validFrom->setText("");
+        ui->label_data_validTo->setText("");
+    }
+    ui->label_data_trajectoriesType->setText(xmlTrajectoryType);
+    ui->label_data_version->setText(xmlVersion);
+    ui->calendarWidget_data_workingDate->setFirstDayOfWeek(Qt::Monday);
+}
 
-    QString newId=ui->tableWidget_detection_deviceList->item(selectedRow,2)->text();
-    QString ipAddress=ui->tableWidget_detection_deviceList->item(selectedRow,4)->text();
-    QString port=ui->tableWidget_detection_deviceList->item(selectedRow,5)->text();
-    devMgmtSubscriber.postSetDeviceConfiguration(QUrl("http://"+ipAddress+":"+port+"/DeviceManagementService/SetDeviceConfiguration"),newId);
+
+/*!
+
+*/
+
+void MainWindow::updateDriverDisplay()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+
+    if(this->vehicleState.currentVehicleRun.tripList.length()<=vehicleState.currentTripIndex)
+    {
+        qCDebug(MainWindowLog)<<"spoj odpovidajici indexu neexistuje";
+        return;
+    }
+
+    MainWindowPomocne::dumpStopsToTable(vehicleState.currentStopIndex0,this->vehicleState.getCurrentTrip().globalStopPointDestinationList,vehicleState.locationState,sqlRopidQueries,  ui->tableWidget_ride_stopList);
+    int delkaGlobalnihoSeznamu= this->vehicleState.countCurrentTripStops();
+    int indexZastavky=vehicleState.currentStopIndex0;
+    qCDebug(MainWindowLog)<<"delka seznamu spoju "<<this->vehicleState.currentVehicleRun.tripList.length()<<" index "<<vehicleState.currentTripIndex<<" delka globsezzast "<< delkaGlobalnihoSeznamu  << " indexAktZast "<<indexZastavky   ;
+
+    if (indexZastavky>=delkaGlobalnihoSeznamu)
+    {
+        qCDebug(MainWindowLog)<<"index zastavky je mimo rozsah";
+        return;
+    }
+
+
+    ui->label_ride_stopIndex->setText(QString::number(vehicleState.currentStopIndex0+1));
+    vehicleState.currentTrip=vehicleState.getCurrentTrip();
+
+    ui->label_ride_currentLineNumber->setText(this->vehicleState.getCurrentTrip().globalStopPointDestinationList.at(vehicleState.currentStopIndex0).line.lineNumber);
+    ui->label_ride_currentTripNumber->setText(QString::number(this->vehicleState.getCurrentTrip().idRopid));
+
+    ui->label_ride_currentVehicleRun->setText(QString::number(vehicleState.currentVehicleRun.rootLine.c)+"/"+QString::number(vehicleState.currentVehicleRun.order));
+
+    ui->label_ride_currentDelay->setText(MainWindowPomocne::secondsToString(vehicleState.secondsDelay));
+
+    //  ui->label_ride_currentDelay->setText(QTime::fromString(QString::number(vehicleState.secondsDelay),"s").toString("m:ss"));
+
+
+    updateVehicleLocationDisplay(vehicleState.locationState);
+}
+
+
+
+
+void MainWindow::updatePositionLabel(QPointF coordinates)
+{
+    if(!coordinates.isNull())
+    {
+        ui->label_positionX->setText(QString::number(coordinates.x()));
+        ui->label_positionY->setText(QString::number(coordinates.y()));
+    }
+    else
+    {
+        ui->label_positionX->setText("");
+        ui->label_positionY->setText("");
+    }
+
+}
+
+
+void MainWindow::updateVehicleLocationDisplay(Vdv301Enumerations::LocationStateEnumeration locationState)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    switch(locationState)
+    {
+    case Vdv301Enumerations::LocationStateBeforeStop:
+        ui->pushButton_ride_beforeStop->setChecked(true);
+        break;
+    case Vdv301Enumerations::LocationStateAtStop:
+        ui->pushButton_ride_atStop->setChecked(true);
+        break;
+    case Vdv301Enumerations::LocationStateAfterStop:
+        ui->pushButton_ride_afterStop->setChecked(true);
+        break;
+    case Vdv301Enumerations::LocationStateBetweenStop:
+        ui->pushButton_ride_betweenStop->setChecked(true);
+        break;
+    default:
+        break;
+
+    }
+
+    ui->label_ride_locationStateIndicator->setText(Vdv301Enumerations::LocationStateEnumerationToQString(vehicleState.locationState));
+}
+
+
+
+/*!
+
+*/
+void MainWindow::updataWorkingDate()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    ui->dateEdit_data_workingDate->setDate(vehicleState.referenceDate);
+    ui->calendarWidget_data_workingDate->setSelectedDate(vehicleState.referenceDate);
+
+    qCDebug(MainWindowLog)<<"od "<<validityFrom<<" do "<<validityTo<<" pracovni "<<vehicleState.referenceDate ;
+    qCDebug(MainWindowLog)<<"dnu do pracovnihodata "<< vehicleState.referenceDate.daysTo(validityFrom) <<" dnu do zacatku platnosti " << vehicleState.referenceDate.daysTo(validityTo);
+
+    this->createDataValidityMask();
+    sqlRopidQueries.createValidyMaskFromDate(this->vehicleState.referenceDate,validityFrom,validityTo);
+
+    initializeSelectionListView();
+}
+
+
+
+/*!
+
+*/
+void MainWindow::vypisDiagnostika(QString vstup)
+{
+    qCDebug(MainWindowLog)<<" MainWindow::vypisDiagnostika "<<vstup;
+    ui->label_diagnostika_manual->clear();
+    ui->label_diagnostika_manual->setText(vstup);
+    ui->statusBar->showMessage(vstup);
+    logfile.pridejNaKonecSouboru(logFileQFile,QDateTime::currentDateTime().toString()+" "+ vstup);
+}
+
+
+
+/*!
+\brief popis
+xxxxxx
+*/
+void MainWindow::workingDateToday()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    vehicleState.referenceDate=QDate::currentDate();
+    updataWorkingDate();
+}
+
+
+/*!
+
+*/
+void MainWindow::workingDateFirstDateOfDataValidity()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    updateCalendar();
+    vehicleState.referenceDate=validityFrom;
+    updataWorkingDate();
+}
+
+
+/*!
+
+*/
+void MainWindow::xmlVdv301UpdateContent()
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    qCDebug(MainWindowLog)<<"delka seznamu tripu "<<vehicleState.currentVehicleRun.tripList.length();
+    QVector<Connection> emptyConnectionList;
+
+    if(setVehicleTypeFromLineType)
+    {
+        setLineToSubMode();
+    }
+
+    if (vehicleState.currentVehicleRun.tripList.isEmpty())
+    {
+        qCDebug(MainWindowLog)<<"seznam tripu je prazdny";
+        xmlVdv301UpdateCis(emptyConnectionList,vehicleState);
+    }
+    else
+    {
+        if (vehicleState.showConnections==true)
+        {
+            slotDownloadConnectionsFromCurrentStop();
+            timerDownloadConnections.start();
+        }
+        else
+        {
+            timerDownloadConnections.stop();
+            xmlVdv301UpdateCis(emptyConnectionList,vehicleState);
+        }
+    }
+
+    ticketValidationService2_2.updateServiceContent(emptyConnectionList,vehicleState);
+    deviceManagementService1_0.serviceContentUpdate();
+}
+
+
+
+void MainWindow::xmlVdv301UpdateCis(QVector<Connection> prestupy, VehicleState &mStavSystemu )
+{
+    /*
+    customerInformationService1_0.updateServiceContent(prestupy,mStavSystemu );
+    customerInformationService2_2CZ1_0.updateServiceContent(prestupy,mStavSystemu);
+    customerInformationService2_3.updateServiceContent(prestupy,mStavSystemu);
+    customerInformationService2_3CZ1_0.updateServiceContent(prestupy,mStavSystemu);
+
+    */
+
+    customerInformationService2_3CZ1_0.setGlobalDisplayContentList(globalDisplayContentList2_3CZ1_0);
+
+    foreach (QPointer<CustomerInformationService> selectedService, vektorCisPermanent)
+    {
+        selectedService->updateServiceContent(prestupy,mStavSystemu);
+    }
+}
+
+void MainWindow::on_pushButton_debugOpenWindow_clicked()
+{
+
+    logWindow.show();
+}
+
+
+
+void MainWindow::on_pushButton_specialAnnouncementManual_clicked()
+{
+    AdditionalAnnoucement announcement;
+    announcement.text=ui->lineEdit_specialAnnouncementText->text();
+    announcement.icon=ui->lineEdit_specialAnnouncementIcon->text();
+    announcement.duration=ui->lineEdit_specialAnnouncementDuration->text().toInt()*1000;
+
+    eventStartWholeAnnouncement(announcement);
+}
+
+void MainWindow::on_checkBox_ride_razzia_clicked(bool checked)
+{
+    if(checked)
+    {
+        eventRazziaStart();
+    }
+    else
+    {
+        eventRazziaStop();
+    }
+    xmlVdv301UpdateContent();
+}
+
+
+void MainWindow::on_checkBox_positionNative_checkStateChanged(const Qt::CheckState &arg1)
+{
+    useNativePosition=arg1;
 }
 
