@@ -160,6 +160,10 @@ mingw32-make install
 
 ## Changelog
 - 20261013_2116
+  - Vdv301publisher
+    - RemoteControlExample update
+    
+- 20261013_2116
   - VDV301subscriber
     - fix QZeroconf submodule
   - added service detection window
