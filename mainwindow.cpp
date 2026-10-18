@@ -1296,6 +1296,8 @@ void MainWindow::initializeSelectionListView()
     sqlRopidQueries.initialize();
 
     ui->listView_lineRun->setModel(&emptyQSqlQueryModel);
+    ui->listView_rootLine->setModel(&emptyQSqlQueryModel);
+    ui->listView_line->setModel(&emptyQSqlQueryModel);
     ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
     ui->tableView_lineTrip->setModel(&emptyQSqlQueryModel);
 
@@ -1712,9 +1714,10 @@ void MainWindow::on_pushButton_data_startXmlRopidImport_clicked()
     ui->stackedWidget_palPc->setCurrentWidget(ui->page_turnus );
 
     QPointer<XmlImportJr> xmlImportJr =  new XmlImportJr();
+    xmlImportJr->sqLiteZaklad.dbFilePath=mWritableDirectory+"/data.sqlite";
     xmlImportJr->truncateAll();
     xmlImportJr->vstupniXmlSouborCesta=xmlFilePath;
-    xmlImportJr->sqLiteZaklad.dbFilePath=mWritableDirectory+"/data.sqlite";
+
     settings->setValue("data/xmlPath",xmlFilePath);
     connectyImport(xmlImportJr);
     xmlImportJr->start();
@@ -1729,8 +1732,10 @@ void MainWindow::on_pushButton_data_truncate_clicked()
 {
     qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
     XmlImportJr xmlImportJr;
+    xmlImportJr.sqLiteZaklad.dbFilePath=mWritableDirectory+"/data.sqlite";
     xmlImportJr.truncateAll();
     xmlImportJr.sqLiteZaklad.vacuum();
+    initializeSelectionListView();
 }
 
 

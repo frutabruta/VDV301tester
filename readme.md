@@ -159,6 +159,10 @@ mingw32-make install
 
 
 ## Changelog
+- 20261019_0057
+  - fix DB delete on Android
+  - fix not deleting line selectors on DB delete
+  
 - 20261013_2116
   - Vdv301publisher
     - RemoteControlExample update
