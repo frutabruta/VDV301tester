@@ -288,10 +288,10 @@ private:
     bool handleArrivalNotes(QVector<StopNote> stopNoteList);
     bool handleDepartureNotes(QVector<StopNote> stopNoteList);
 
-
-
-
     void debugServiceListToTable(QVector<QZeroConfService> serviceList);
+
+    QString openFolder(QString folderPath);
+
 public slots:
     void slotVypisSqlVysledek(QString vstup);
 
@@ -485,6 +485,8 @@ private slots:
 
     void slotDebugServiceToTable(QZeroConfService zcs);
     void slotUpdateServiceTable();
+    void on_pushButton_configurationAnnouncementFolder_clicked();
+
 signals:
     // void signalZahajImport(QString cesta);
 };

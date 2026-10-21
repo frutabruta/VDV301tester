@@ -21,11 +21,10 @@ public:
     bool composeSpecialAnnouncement(AdditionalAnnoucement additionalAnnouncement);
     bool announceThisAndNextStop(StopPoint stopPoint1, StopPoint stopPoint2);
 
-    QString applicationDirectory="";
-    QString announcmentSoundFolderPath=applicationDirectory+"/hlaseni";
 
-    void setPath(QString vstup); //unused
-    void setApplicationDirectory(QString umisteni);
+    QString announcementSoundFolderPath="hlaseni";
+
+    void setPath(QString vstup);
 
     bool announceThisStop(StopPoint thisStop);
     bool announceNextStop(StopPoint nextStop);

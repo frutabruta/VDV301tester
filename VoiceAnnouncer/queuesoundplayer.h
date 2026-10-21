@@ -7,7 +7,9 @@
 #include <QBuffer>
 #include <QFileInfo>
 #include <QLoggingCategory>
-
+#include <QDir>
+#include <QStandardPaths>
+#include <QCryptographicHash>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 //Qt5
@@ -24,17 +26,17 @@ class QueueSoundPlayer : public QObject
 public:
     QueueSoundPlayer();
 
-    void playOneSoundImmediately(QUrl soubor2);
-    void pridejDoFrontyVyhlas(QVector<QUrl> vstup);
+    void playOneSoundImmediately(QUrl file);
+    void playInQueue(QVector<QUrl> input);
 
 
     bool fileExists(QString path);
     bool fileExists(QUrl path);
-    QVector<QUrl> getOnlyExistingFiles(QVector<QUrl> vstup);
+    QVector<QUrl> getOnlyExistingFiles(QVector<QUrl> input);
 protected:
     void internalPlayOneSoundFromList(QVector<QUrl> soundList);
 
-    QVector<QUrl> frontaZvuku;
+    QVector<QUrl> soundQueue;
 
     bool m_isStartingPlayback = false;
 
@@ -50,24 +52,23 @@ protected:
 
     QAudioOutput  audioOutput;
 
+
     //QAudioOutput  *audioOutput = new QAudioOutput;
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 private slots:
-
-
-public slots:
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-              //Qt5
-    void zmenaStavuHlaseni(QMediaPlayer::State state);
-    void vyhodPolozkuZeSeznamu(QVector<QUrl> &zasobnikAdres);
-#else
-    //Qt6
     void slotPlayStateChangedQt6(QMediaPlayer::PlaybackState state);
-    void popSoundFromListQt6(QVector<QUrl> &soundList);
+    void onPlayerError(QMediaPlayer::Error error, const QString &errorString);
+    void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
+    void playNextFromQueue();
+
+private:
+    QUrl makeLocalCopy(const QUrl &source);
+    bool startPlaybackQt6(const QUrl &source);
+    void onCurrentItemFinished();
+    bool m_currentItemFinished = true;
 #endif
-
-
 
 };
 

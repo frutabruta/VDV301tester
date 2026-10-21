@@ -6,14 +6,14 @@ Q_LOGGING_CATEGORY(VoiceAnnouncerLog, "VoiceAnnouncer");
 
 VoiceAnnouncer::VoiceAnnouncer()
 {
-    this->updateSoundFilesPaths(announcmentSoundFolderPath);
+    this->updateSoundFilesPaths(announcementSoundFolderPath);
 }
 
 
 QUrl VoiceAnnouncer::getFilePathFromStopIds(int kodCis)
 {
     qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
-    QString folder=announcmentSoundFolderPath+"/zastavky/";
+    QString folder=announcementSoundFolderPath+"/zastavky/";
     QString testCis="";
 
     testCis+=folder;
@@ -36,7 +36,7 @@ QUrl VoiceAnnouncer::getFilePathFromStopIds(int kodCis)
 QUrl VoiceAnnouncer::getFilePathNumber(QString fileName)
 {
     qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
-    QString directory=announcmentSoundFolderPath+"/cisla/";
+    QString directory=announcementSoundFolderPath+"/cisla/";
     QString filePath="";
 
     filePath+=directory;
@@ -55,7 +55,7 @@ QUrl VoiceAnnouncer::getFilePathNumber(QString fileName)
 QUrl VoiceAnnouncer::getFilePathSpecial(QString fileName)
 {
     qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
-    QString directory=announcmentSoundFolderPath+"/special/";
+    QString directory=announcementSoundFolderPath+"/special/";
     QString filePath="";
 
     filePath+=directory;
@@ -76,7 +76,7 @@ bool VoiceAnnouncer::announceBlindPersonBoarding()
     qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
     QVector<QUrl> subQueue;
     subQueue.push_back(zvukNastupNeboVystupNevidomeho);
-    pridejDoFrontyVyhlas(subQueue);
+    playInQueue(subQueue);
     return 1;
 }
 
@@ -102,7 +102,7 @@ bool VoiceAnnouncer::announceLineAndDestination(StopPointDestination thisStop)
     subQueue.push_back(getFilePathFromStopIds(thisStop.destination.idCis));
     //subQueue.append(stopAttributesToFileQurlList(thisStop));
 
-    pridejDoFrontyVyhlas(subQueue);
+    playInQueue(subQueue);
 
     return 1;
 }
@@ -126,7 +126,7 @@ bool VoiceAnnouncer::announceThisAndNextStop(StopPoint stopPoint1, StopPoint sto
         subQueue.push_back(zvukNaZnameni);
     }
 
-    pridejDoFrontyVyhlas(subQueue);
+    playInQueue(subQueue);
 
     return 1;
 }
@@ -142,7 +142,7 @@ bool VoiceAnnouncer::announceThisStop(StopPoint thisStop)
     subQueue.push_back(getFilePathFromStopIds(thisStop.idCis));
     subQueue.append(stopAttributesToFileQurlList(thisStop));
 
-    pridejDoFrontyVyhlas(subQueue);
+    playInQueue(subQueue);
 
     return 1;
 }
@@ -167,7 +167,7 @@ bool VoiceAnnouncer::announceNextStop(StopPoint nextStop)
         subQueue.push_back(zvukNaZnameni);
     }
 
-    pridejDoFrontyVyhlas(subQueue);
+    playInQueue(subQueue);
 
     return 1;
 }
@@ -187,7 +187,7 @@ bool VoiceAnnouncer::composeFirstStopDeparture(StopPoint stopPoint2)
         subQueue.push_back(zvukNaZnameni);
     }
 
-    pridejDoFrontyVyhlas(subQueue);
+    playInQueue(subQueue);
 
     return 1;
 }
@@ -388,7 +388,7 @@ void VoiceAnnouncer::composeFareZoneChange()
     subQueue.push_back(zvukProsimPozor);
     subQueue.push_back(zvukZmenaPasma);
 
-    pridejDoFrontyVyhlas(subQueue);
+    playInQueue(subQueue);
 }
 
 
@@ -412,7 +412,7 @@ bool VoiceAnnouncer::composeSpecialAnnouncement(AdditionalAnnoucement additional
         qCDebug(VoiceAnnouncerLog)<<"file list is empty";
         return 0;
     }
-    pridejDoFrontyVyhlas(qurlList);
+    playInQueue(qurlList);
     return 1;
 
 }
@@ -430,7 +430,7 @@ bool VoiceAnnouncer::composeLastStopAnnouncement(StopPoint vstup)
     subQueue.push_back(zvukKonecna);
     subQueue.push_back(zvukProsimeVystupte);
 
-    pridejDoFrontyVyhlas(subQueue);
+    playInQueue(subQueue);
     // prehrajCelySeznamUrl(zasobnikAdres);
 
 
@@ -442,8 +442,8 @@ bool VoiceAnnouncer::composeLastStopAnnouncement(StopPoint vstup)
 void VoiceAnnouncer::setPath(QString vstup)
 {
     qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
-    announcmentSoundFolderPath=vstup;
-    updateSoundFilesPaths(announcmentSoundFolderPath);
+    announcementSoundFolderPath=vstup;
+    updateSoundFilesPaths(announcementSoundFolderPath);
 }
 void VoiceAnnouncer::updateSoundFilesPaths(QString cestaVnitrni)
 {
@@ -480,10 +480,4 @@ void VoiceAnnouncer::updateSoundFilesPaths(QString cestaVnitrni)
 }
 
 
-void VoiceAnnouncer::setApplicationDirectory(QString umisteni)
-{
-    qCDebug(VoiceAnnouncerLog) <<  Q_FUNC_INFO;
-    applicationDirectory=umisteni;
-    announcmentSoundFolderPath=applicationDirectory+"/hlaseni";
-    updateSoundFilesPaths(announcmentSoundFolderPath);
-}
+

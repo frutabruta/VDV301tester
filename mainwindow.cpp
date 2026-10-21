@@ -112,12 +112,13 @@ MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  Q
 
 
 
-    loadConstantsFromSettingsFile();
+
 
     QString jazyk=settings->value("app/language").toString();
 
     qCDebug(MainWindowLog)<<" novy jazyk:"<<jazyk;
     retranslateUi(jazyk);
+    loadConstantsFromSettingsFile();
 
     if(blockBonjour)
     {
@@ -155,7 +156,6 @@ MainWindow::MainWindow(QSettings* newQSettings, QString newWritableDirectory,  Q
     workingDateFirstDateOfDataValidity();
 
     //cesty souboru
-    voiceAnnouncer.setApplicationDirectory(applicationDirectory);
     konfigurace.createDefaultFile();
     konfigurace.openFile();
     
@@ -674,6 +674,7 @@ int MainWindow::eventArrival()
         case 2:
             break;
         default:
+            qCWarning(MainWindowLog())<<"invalid announcement type number "<<announcementType;
             break;
         }
     }
@@ -767,6 +768,7 @@ int MainWindow::eventDeparture()
         case 2:
             break;
         default:
+            qCWarning(MainWindowLog())<<"invalid announcement type number "<<announcementType;
             break;
 
         }
@@ -1471,6 +1473,21 @@ void MainWindow::loadConstantsFromSettingsFile()
     trajectoryJumper.stopAtStops=settings->value("locationSimulator/stopAtStops").toBool();
     ui->checkBox_positionStopAtStops->setChecked(trajectoryJumper.stopAtStops);
 
+    //announcements
+    QString recordingsFolder=settings->value("voiceAnnouncer/recordingsFolder").toString();
+
+    if(recordingsFolder.isEmpty())
+    {
+        recordingsFolder=mWritableDirectory+"/hlaseni";
+    }
+    voiceAnnouncer.setPath(recordingsFolder);
+    ui->label_configurationAnnouncementFolder->setText(recordingsFolder);
+
+
+    if(!settings->value("voiceAnnouncer/announcementType").isNull())
+    {
+        announcementType=settings->value("voiceAnnouncer/announcementType").toInt();
+    }
 }
 
 
@@ -2629,6 +2646,13 @@ QString MainWindow::openXmlSelectDialogue(QString cesta)
     return fileName;
 }
 
+QString MainWindow::openFolder(QString folderPath)
+{
+    qCDebug(MainWindowLog) <<  Q_FUNC_INFO;
+    folderPath = QFileDialog::getExistingDirectory(this,"xx",folderPath);
+    return folderPath;
+}
+
 void MainWindow::popUpMessage(QString messageText)
 {
 
@@ -3608,5 +3632,17 @@ void MainWindow::on_checkBox_ride_razzia_clicked(bool checked)
 void MainWindow::on_checkBox_positionNative_checkStateChanged(const Qt::CheckState &arg1)
 {
     useNativePosition=arg1;
+}
+
+
+void MainWindow::on_pushButton_configurationAnnouncementFolder_clicked()
+{
+    QString loadedFolder=openFolder("");
+    if(!loadedFolder.isEmpty())
+    {
+        ui->label_configurationAnnouncementFolder->setText(loadedFolder);
+        voiceAnnouncer.setPath(loadedFolder);
+        settings->setValue("voiceAnnouncer/recordingsFolder",loadedFolder);
+    }
 }
 

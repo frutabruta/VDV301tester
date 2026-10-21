@@ -159,6 +159,16 @@ mingw32-make install
 
 
 ## Changelog
+- 20261021_1326
+  - added set announcement folder path
+  - setting announcementType with voiceAnnouncer/announcementType in settings.ini
+  - QueueSoundPlayer
+    - rewritten to work on android
+    - english translations
+    - might have broken Qt5.15
+  - VoiceAnnouncer
+    - now direct folder is selected, not an application directory
+    
 - 20261019_0057
   - fix DB delete on Android
   - fix not deleting line selectors on DB delete
